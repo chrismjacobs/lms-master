@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+
+{% if current_user.is_authenticated %}
+<div class="content-section">
+    <h3> ChatBox </h3>
+    <h2>Student: {{ name }}</h2>
+    <form method="POST" action=""> 
+            {{ form.hidden_tag () }}        
+        <fieldset class="form-group">
+        <div style="display:none">
+              
+            <div class="form-group"> 
+                {{ form.name.label (class="form-control-label")}}</br>                    
+                {{ form.name(class="form-control form-control-lg", id="name")}}                 
+            </div>            
+            <div class="form-group"> 
+                {{ form.chat.label (class="form-control-label")}}</br>
+                {{ form.chat(class="form-control form-control-lg")}}                     
+            </div>
+        </div>
+</div>  
+
+<div class="content-section">           
+            {% for dialogue in dialogues %}            
+                
+            {% if dialogue.chat == "" %}
+                </p>
+                {% else %}            
+                <img class="rounded-circle chat-img" src="{{image_file}}"> {{ name }}: {{dialogue.chat}}
+                </p>
+            {% endif %}
+        
+            {% if dialogue.response == "" %}
+            </p>
+            {% else %}
+            <img class="rounded-circle chat-img" src="{{image_chris}}"> Chris: {{dialogue.response}}
+            </p>
+            {% endif %} 
+                  
+            {% endfor %}
+</div>        
+            
+        <div class="content-section"> 
+            <div class="form-group">                           
+                {{ form.response(class="form-control form-control-lg")}}                   
+            </div> 
+        </fieldset> 
+        <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info")}}
+        </div>
+    </div> 
+    </form>
+</div> 
+
+{% else %}
+{% endif %}
+
+
+
+{% endblock content %}

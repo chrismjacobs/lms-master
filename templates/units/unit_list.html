@@ -1,0 +1,85 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="content-section">
+<h3 style="display: inline-block"> Class Participation</h3>
+<button id=color type="button" class="btn btn-dark" style="float:right;" disabled value={{color}}>Performance: {{pointCounter}}/{{total}}</button>	
+<div >
+  <h5> Join a team in class to do the work or complete by yourself before the deadline</h5> 
+  <h5> (30% of final grade)</h5>  
+</div>
+</div>
+
+<div class="content-section">
+    <legend class="border-bottom mb-4">{{ legend }}</legend>
+    
+    <div style="overflow-x:auto;">
+    <table class="table table-sm">
+      <thead>
+          <tr >
+            <th scope="col" style="width: 3px;">Link</th>
+            <th scope="col" style="width: 3px;">Unit</th>            
+            <th scope="col" style="width: 10px;">Title</th>
+            <th scope="col" style="width: 3px;">Class</th>
+            <th scope="col" style="width: 3px;">Due</th>
+            <th scope="col" style="width: 20px;">Score</th>      
+            <th scope="col" style="width: 20px;"></th>                       
+          </tr>
+      </thead>
+
+      
+           
+      {% for unit in unitList %}
+      
+      {% if unit.openSet == 1 %}
+      <tbody >
+          <tr style="height:50px;">
+              <th scope="row" ><a href="{{href}}/{{unit.unit}}/{{unit.part}}/{{unit.form}}/{{unit.qnum}}">Open</a></th>
+      {% elif unit.openSet == 2 %}
+      <tbody style="color:rgb(221, 150, 35)">
+          <tr>
+              <th scope="row" >Closed during class</a></th>
+      {% else %}
+      <tbody style="color:rgb(195, 4, 116)">
+          <tr>
+              <th scope="row" >Not open yet</a></th>
+      {% endif %}
+          
+            <td> {{unit.unit}}-{{unit.part}}</td>                      
+            <td> {{unit.title}} ({{unit.qnum}})</td>
+            <td> {{unit.classdate.strftime('%B %d')}}</td>  
+            <td> {{unit.duedate.strftime('%B %d')}}</td>              
+            <td> {{scoreDict[unit.unit + unit.part][0]}}/2</td>
+            <td> {{scoreDict[unit.unit + unit.part][1]}}</td>
+          </tr>       
+      </tbody>
+      
+      {% endfor %}
+      </table>
+      </div>      
+
+{% endblock content %}
+
+{% block script %}         
+
+<script type="text/javascript">
+
+let color = document.getElementById('color').value
+
+if (color < .4) {
+  document.getElementById('color').style.background='#E74C3C'; 
+} else if (color < .6 ) {
+  document.getElementById('color').style.background='#E59866'; 
+} else if (color < .8 ) {
+  document.getElementById('color').style.background='#BB8FCE'; 
+} else if (color < 1) {
+  document.getElementById('color').style.background='#17A589'; 
+} else {
+  document.getElementById('color').style.background='#229954'; 
+}
+
+</script>
+
+  
+{% endblock %} 

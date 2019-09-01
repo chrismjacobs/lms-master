@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+
+<div class="container">
+
+	<h2> Microphone Test</h2>
+
+<div>
+
+
+{% endblock content %}
+
+{% block script %}
+<script>
+
+navigator.mediaDevices.getUserMedia({ audio: true })
+      .then(function(stream) {
+        console.log('You let me use your mic!')
+      })
+      .catch(function(err) {
+        console.log('No mic for you!')
+	  });
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<!--Header of page____________________________________-->
+<div class="content-section">    
+	<h1 > {{source.title}} (Q:{{source.qnum}})</h1>
+</div>
+
+<!--Materials_________________________________________-->
+
+<div class="content-section">
+		<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#notes">Notes</button>
+		 <br>
+		 <div class="collapse" id="notes">
+		 	<div class="embed-responsive embed-responsive-4by3">
+		  		<iframe src="{{source.notes}}" 
+		  			allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
+		  		</iframe>
+			</div>
+	  	 </div>	   
+</div>
+
+<!--Form of the page_________________________________-->
+<form method="POST" action="" enctype="multipart/form-data">
+	{{ form.hidden_tag() }}	
+
+	<fieldset class="form-group"> 
+
+{% for i in range(1,qNumber) %}
+		{% if fieldsList[i] != "" %}
+		<section class="content-section">
+			
+			<h3 style="display: inline-block"> Question {{i}} </h3>
+			<button type="button" class="btn btn-outline-info btn-sm" data-toggle="collapse" data-target="#table{{i}}" style="float:right">Answers</button>
+			
+			<div id="table{{i}}" class="collapse">			
+			<table class="table table-sm" >
+			<tbody>				
+				{% for j in range(dictCount) %}
+				<tr>
+				<th>{{ ansDict[j][0] }}</th>
+				<th>{{ ansDict[j][i] }}</th>
+				</tr>
+				{% endfor %}
+			</tbody>
+			</table>	
+			</div>
+		{% endif %}	
+			
+		</section>					
+		{% endfor %}
+
+
+<!--Questions the page_________________________________-->
+<div class="content-section">
+	  <button type="button" class="btn btn-primary" style="background-color:pink" data-toggle="collapse" data-target="#question">Questions</button>
+	   <br>
+	   <div class="collapse" id="question">
+			<div class="embed-responsive embed-responsive-4by3">
+				 <iframe src="{{source.questions}}" 
+					 allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
+				 </iframe>
+		   </div>
+		</div> 
+</div>
+
+		{% for i in range(1,qNumber) %}
+
+		{% if i == ansSum+1 %}		
+		<section class="content-section">
+			<h3 style="display: inline-block"> Question {{i}} </h3>
+			<button type="button" class="btn btn-sm" onclick="sendAnswer()" style="float:right">Submit</button>			
+		<div class="form-group" style="display:visible">
+		{% else %}
+		<div class="form-group" style="display:none">
+		{% endif %}
+
+				{% if formList[i].errors %}
+					{{ formList[i] (class="form-control form-control-lg is-invalid")}}  <!-- is invalid is the class-->
+					<div class="invalid-feedback">
+						{% for error in formList[i].errors %}
+							<span>Error Occurred</span>
+						{% endfor %}
+					</div>                          
+						{% else %}
+							{{ formList[i](class="form-control form-control-lg")}}
+						{% endif %}                           
+				
+		</div>
+					
+			
+		</section>					
+		{% endfor %}
+
+		<section class="content-section" style="display:none">
+		<div class="form-group">
+			{{ form.submit(class="btn btn-info", id="submit")}}
+		</div>
+		</section>
+	</fieldset>  
+</form>
+
+
+
+{% endblock content %}
+
+
+{% block script %}
+<script>
+
+function sendAnswer(){
+    $("#submit").click();    
+}
+
+function reloadIFrame() {
+	document.getElementById("questions_embed").src = document.getElementById("questions_embed").src	
+}
+
+
+</script>
+
+{% endblock %}

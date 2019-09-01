@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="content-section">    
+    <h1> Dashboard </h1>
+    <audio controls autoplay id="instructorPlayer"></audio>      
+</div> 
+
+<div class="content-section">
+<div class="btn-toolbar btn-group-toggle ">        
+        
+        {% for item in ansDict %}
+        <button class="btn  btn-xs mr-2" type="button" data-toggle="collapse" data-target="#{{item}}" 
+        aria-expanded="false" aria-controls="collapseExample">
+            Ass{{i}}: {{ansDict[item][2]}}
+        </button>
+        {% endfor %}
+       
+</div> 
+</div>
+
+<div class="content-section">  
+
+    <div style="overflow-x:auto;">
+    <table class="table table-sm">
+        <thead>
+            <tr>
+              <th scope="col">User</th>              
+              <th scope="col">A1</th>            
+              <th scope="col">A2</th>
+              <th scope="col">Notes</th> 
+              <th scope="col">TextOne</th>
+              <th scope="col">TextTwo</th>
+              <th scope="col">Grade</th> 
+              <th scope="col">Comments</th>
+              <th scope="col">Edit</th>                
+            </tr>
+        </thead>         
+        
+        
+        {% for item in ansDict %}     
+        <tbody class="collapse" id="{{item}}"> 
+            <tr> 
+                <th> <h4>A{{item}}</h4> </th>
+            </tr> 
+                {%for answer in ansDict[item][1] %}
+            <tr>              
+              <th scope="row" style="width: 20px;"> <a href="">{{answer.username}} </a></th>              
+              <td style="width: 20px;"><button class="btn btn-outline-dark btn-xs" onclick='playAudio(this)' value="{{answer.AudioDataOne}}">{{answer.LengthOne}}</button></td>
+              <td style="width: 20px;"><button class="btn btn-outline-dark btn-xs" onclick='playAudio(this)' value="{{answer.AudioDataTwo}}">{{answer.LengthTwo}}</button></td>
+              <td style="width: 250px;">{{answer.Notes}}</td>
+              <td style="width: 30px;">{{answer.TextOne}}</td>
+              <td style="width: 250px;">{{answer.TextTwo}}</td>
+              <td style="width: 20px;">{{answer.Grade}}</td>
+              <td style="width: 150px;">{{answer.Comment}}</td>
+              <td style="width: 20px;"><a href="../admin/ass{{item}}/edit/?id={{answer.id}}" target="_blank">Edit</a></td>
+            </tr>                    
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+        
+    </table>
+    </div>
+        
+        
+</div>
+
+
+{% endblock %}   
+
+{% block script %}
+<script>
+
+let InstructorListen = document.getElementById('instructorPlayer')
+
+function playAudio(current) {
+    InstructorListen.src = current.value    
+}
+
+</script>
+{% endblock %}
