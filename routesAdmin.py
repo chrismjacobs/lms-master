@@ -5,8 +5,8 @@ from PIL import Image  # first pip install Pillow
 from flask import render_template, url_for, flash, redirect, request, abort, jsonify  
 from app import app, db, bcrypt, mail
 from flask_login import login_user, current_user, logout_user, login_required
-from forms import *   
-from models import *
+from forms import ForgotForm, PasswordResetForm, RegistrationForm, LoginForm, UpdateAccountForm 
+from models import User, Grades, ChatBox, Info
 from flask_mail import Message
 try:
     from aws import Settings    
@@ -37,12 +37,33 @@ configDict = configDictList[int(COLOR_SCHEMA)]
 def inject_user():     
     return dict(titleColor=configDict['titleColor']  , bodyColor=configDict['bodyColor'], headTitle=configDict['headTitle'])
 
+@app.errorhandler(404)
+def error_404(error):
+    return render_template('/instructor/errors.html', error = 404 )
+
+@app.errorhandler(403)
+def error_403(error):
+    return render_template('/instructor/errors.html', error = 403 )
+
+@app.errorhandler(500)
+def error_500(error):
+    return render_template('/instructor/errors.html', error = 500 )
 
 
-@app.route("/admin", methods = ['GET', 'POST'])
-@login_required
-def admin():       
-    return render_template('instructor/admin.html')
+@app.route("/admin_menu", methods = ['GET', 'POST'])
+#@login_required
+def admin(): 
+    
+    mainList = ['user', 'sources', 'chatbox', 'attendance', 'attendlog', 'grades', 'u555', 'u001', 'ass01']
+    
+    unitsDict = Info.modDictUnits
+    unitsKeys = list(unitsDict.keys())
+
+    assDict = Info.modDictAss
+    assKeys = list(assDict.keys())
+
+           
+    return render_template('instructor/admin_menu.html', assKeys=assKeys, mainList=mainList, unitsKeys=unitsKeys )
 
 
 

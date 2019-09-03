@@ -174,6 +174,16 @@ class U022U(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)  
 modDictUnits['02'].append(U022U) 
 
+class U023U(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True) 
+modDictUnits['02'].append(U023U)
+
+class U024U(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True)
+modDictUnits['02'].append(U024U)
+####  SL  #####
+modListSL.append(U024U)
+
 ##########################################
 
 class U031U(BaseUnits):
@@ -185,6 +195,15 @@ class U032U(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)  
 modDictUnits['03'].append(U032U) 
 
+class U033U(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True) 
+modDictUnits['03'].append(U033U)
+
+class U034U(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True)
+modDictUnits['03'].append(U034U)
+####  SL  #####
+modListSL.append(U034U)
 ##########################################
 
 class U041U(BaseUnits):
@@ -195,6 +214,16 @@ modDictUnits['04'].append(U041U)
 class U042U(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)  
 modDictUnits['04'].append(U042U) 
+
+class U043U(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True) 
+modDictUnits['04'].append(U043U)
+
+class U044U(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True)
+modDictUnits['04'].append(U044U)
+####  SL  #####
+modListSL.append(U044U)
 
 ##########################################
 
@@ -207,6 +236,16 @@ class U052U(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)  
 modDictUnits['05'].append(U052U) 
 
+class U053U(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True) 
+modDictUnits['05'].append(U053U)
+
+class U054U(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True)
+modDictUnits['05'].append(U054U)
+####  SL  #####
+modListSL.append(U054U)
+
 ##########################################
 
 class U061U(BaseUnits):
@@ -217,6 +256,16 @@ modDictUnits['06'].append(U061U)
 class U062U(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)  
 modDictUnits['06'].append(U062U) 
+
+class U063U(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True) 
+modDictUnits['06'].append(U063U)
+
+class U064U(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True)
+modDictUnits['06'].append(U064U)
+####  SL  #####
+modListSL.append(U064U)
 
 ##########################################
 
@@ -229,6 +278,16 @@ class U072U(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)  
 modDictUnits['07'].append(U072U) 
 
+class U073U(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True) 
+modDictUnits['07'].append(U073U)
+
+class U074U(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True)
+modDictUnits['07'].append(U074U)
+####  SL  #####
+modListSL.append(U074U)
+
 ##########################################
 
 class U081U(BaseUnits):
@@ -239,6 +298,16 @@ modDictUnits['08'].append(U081U)
 class U082U(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)  
 modDictUnits['08'].append(U082U) 
+
+class U083U(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True) 
+modDictUnits['08'].append(U083U)
+
+class U084U(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True)
+modDictUnits['08'].append(U084U)
+####  SL  #####
+modListSL.append(U084U)
 
 ##########################################
 
@@ -251,6 +320,16 @@ class U092U(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)  
 modDictUnits['09'].append(U092U) 
 
+class U093U(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True) 
+modDictUnits['09'].append(U093U)
+
+class U094U(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True)
+modDictUnits['09'].append(U094U)
+####  SL  #####
+modListSL.append(U094U)
+
 ##########################################
 
 class U101U(BaseUnits):
@@ -261,6 +340,16 @@ modDictUnits['10'].append(U101U)
 class U102U(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)  
 modDictUnits['10'].append(U102U) 
+
+class U103U(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True) 
+modDictUnits['10'].append(U103U)
+
+class U104U(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True)
+modDictUnits['10'].append(U104U)
+####  SL  #####
+modListSL.append(U104U)
 
 ##########################################
 
@@ -273,6 +362,16 @@ class U112U(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)  
 modDictUnits['11'].append(U112U) 
 
+class U113U(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True) 
+modDictUnits['11'].append(U113U)
+
+class U114U(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True)
+modDictUnits['11'].append(U114U)
+####  SL  #####
+modListSL.append(U114U)
+
 ##########################################
 
 class U121U(BaseUnits):
@@ -284,9 +383,16 @@ class U122U(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)  
 modDictUnits['12'].append(U122U) 
 
+class U123U(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True) 
+modDictUnits['12'].append(U123U)
 
+class U124U(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True)
+modDictUnits['12'].append(U124U)
+####  SL  #####
+modListSL.append(U124U)
 
-  
 
 
 ############### ASSIGNMENT MODELS ###################################
@@ -344,6 +450,22 @@ modDictAss['07'] = Ass07
 class Ass08 (BaseAss):
     id = db.Column(db.Integer, primary_key=True)
 modDictAss['08'] = Ass08
+
+class Ass09 (BaseAss):
+    id = db.Column(db.Integer, primary_key=True)
+modDictAss['09'] = Ass09
+
+class Ass10 (BaseAss):
+    id = db.Column(db.Integer, primary_key=True)
+modDictAss['10'] = Ass10
+
+class Ass11 (BaseAss):
+    id = db.Column(db.Integer, primary_key=True)
+modDictAss['11'] = Ass11
+
+class Ass12 (BaseAss):
+    id = db.Column(db.Integer, primary_key=True)
+modDictAss['12'] = Ass12
 
 ##############################################
 

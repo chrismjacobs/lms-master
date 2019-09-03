@@ -286,11 +286,7 @@ def unit_audio(audio, unit, team, rec):
     _ , f_ext = os.path.splitext(audio.filename) # _  replaces f_name which we don't need #f_ext  file extension 
     s3_folder = 'unit_audio/'
     audio_filename =  s3_folder + unit + 'Team' + team + '_' + rec + f_ext 
-    s3_filename =  S3_LOCATION + audio_filename 
-    s3_resource = boto3.resource('s3',
-         aws_access_key_id=AWS_ACCESS_KEY_ID,
-         aws_secret_access_key= AWS_SECRET_ACCESS_KEY)  
-    #s3_resource = boto3.resource('s3')
+    s3_filename =  S3_LOCATION + audio_filename     
     s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=audio_filename, Body=audio) 
       
     return s3_filename    
@@ -354,7 +350,6 @@ def unit_sl(unit_num):
         return redirect(url_for('unit_slup', unit_num=unit_num, team_num=teamnumber, nameRange=nameRange)) 
     else:
         pass
-
     
     try:
         while True:

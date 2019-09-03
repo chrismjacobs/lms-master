@@ -357,8 +357,7 @@ def audioUpload():
     if title and base64:         
         audio = base64.b64decode(audio_string)
         newTitle = S3_LOCATION + current_user.username + title + '.mp3'
-        filename = current_user.username + title + '.mp3'
-        s3_resource = boto3.resource('s3')
+        filename = current_user.username + title + '.mp3'        
         print(S3_BUCKET_NAME)
         s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=audio)
         return jsonify({'title' : newTitle})

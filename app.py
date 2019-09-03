@@ -7,8 +7,9 @@ from flask_mail import Mail
 import os
 try: 
     from aws import Settings
+    print(Settings)
     PASSWORD = Settings.MAIL_PASSWORD
-except:
+except:    
     PASSWORD = os.environ['MAIL_PASSWORD']
 
 

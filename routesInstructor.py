@@ -57,12 +57,8 @@ def teams():
 
 
 @app.route ("/s3console")
-def s3console():
-        
-    s3_resource = boto3.resource('s3',
-         aws_access_key_id=AWS_ACCESS_KEY_ID,
-         aws_secret_access_key= AWS_SECRET_ACCESS_KEY)
-    #s3_resource = boto3.resource('s3')
+def s3console():        
+    
     my_bucket = s3_resource.Bucket(S3_BUCKET_NAME)
     files = my_bucket.objects.all()        
 
@@ -73,10 +69,7 @@ def s3console():
 def upload(assignment):
     file = request.files['file']
     fn = file.filename
-    file_name = current_user.username + '_' + fn + '_' + assignment + '.mp3'    
-    s3_resource = boto3.resource('s3',
-        aws_access_key_id=AWS_ACCESS_KEY_ID,
-         aws_secret_access_key= AWS_SECRET_ACCESS_KEY)
+    file_name = current_user.username + '_' + fn + '_' + assignment + '.mp3'   
     my_bucket = s3_resource.Bucket(S3_BUCKET_NAME)
     my_bucket.Object(file_name).put(Body=file)
 

@@ -19,7 +19,7 @@ class BaseConfig:
         SQLALCHEMY_DATABASE_URI = DATABASE
         MAIL_USERNAME = 'chrisflask0212@gmail.com'
         MAIL_PASSWORD = 'flask0212'
-        DEBUG = True 
+        DEBUG = True
         
           
 
