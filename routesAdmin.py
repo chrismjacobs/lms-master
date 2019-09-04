@@ -153,7 +153,7 @@ def login():
             flash (f'Login Successful - entering instructor mode', 'danger')
             return redirect (url_for('assignments'))
         else: 
-            flash (f'Login Unsuccessful. Please check {form.studentID.data} and {form.password.data}.', 'danger')          
+            flash (f'Login Unsuccessful. Please check {form.studentID.data} and your password.', 'danger')          
     return render_template('user/login.html', title='Login', form=form)
 
 

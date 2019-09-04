@@ -22,13 +22,16 @@ def webrtc3():
 
 
 @app.route ("/about")
-def about():    
-    return render_template('instructor/about.html')
+@login_required 
+def about(): 
+    about = None   
+    return render_template('instructor/about.html', about=about)
 
 @app.route ("/teams")
+@login_required 
 def teams():  
     if current_user.id != 1:
-        return redirect(url_for('home')) 
+        return abort(403)       
 
     try:
         teamcount = Attendance.query.filter_by(username='Chris').first().teamcount
@@ -55,9 +58,11 @@ def teams():
     return render_template('instructor/teams.html', attDict=attDict, teamcount=teamcount)  
 
 
-
 @app.route ("/s3console")
-def s3console():        
+@login_required 
+def s3console():   
+    if current_user.id != 1:
+        return abort(403)     
     
     my_bucket = s3_resource.Bucket(S3_BUCKET_NAME)
     files = my_bucket.objects.all()        
@@ -77,8 +82,10 @@ def upload(assignment):
     
 
 @app.route ("/instructor")
+@login_required 
 def instructor():  
-    
+    if current_user.id != 1:
+        return abort(403)
     ### replace this with modDictAss
     ansDict = Info.ansDict
 
@@ -100,7 +107,10 @@ def instructor():
         return render_template('instructor/instructor.html', ansDict=ansDict, ansRange=ansRange)  
 
 @app.route ("/students")
-def students():  
+@login_required 
+def students():
+    if current_user.id != 1:
+        return abort(403)  
     
     students = User.query.order_by(asc(User.studentID)).all()
 
@@ -148,22 +158,24 @@ def students():
 
 
 @app.route ("/inchat/<string:user_name>", methods = ['GET', 'POST'])
+@login_required 
 def inchat(user_name):
+    if current_user.id != 1:
+        return abort(403)
     form = Chat()     
     dialogues = ChatBox.query.filter_by(username=user_name).all()
-    if current_user.id == 1:    
-        if form.validate_on_submit():
-                chat = ChatBox(username = user_name, response=form.response.data, chat=form.chat.data)      
-                db.session.add(chat)
-                db.session.commit()  
-                return redirect(url_for('inchat', user_name=user_name))
-        else:
-            form.name.data = current_user.username
-            form.response.data = ""
-            form.chat.data = ""
-            image_file = S3_LOCATION + User.query.filter_by(username=user_name).first().image_file            
+     
+    if form.validate_on_submit():
+        chat = ChatBox(username = user_name, response=form.response.data, chat=form.chat.data)      
+        db.session.add(chat)
+        db.session.commit()  
+        return redirect(url_for('inchat', user_name=user_name))
     else:
-        return redirect(url_for('home'))    
+        form.name.data = current_user.username
+        form.response.data = ""
+        form.chat.data = ""
+        image_file = S3_LOCATION + User.query.filter_by(username=user_name).first().image_file            
+      
       
     image_chris = S3_LOCATION + User.query.filter_by(id=1).first().image_file
 
