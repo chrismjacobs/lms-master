@@ -27,6 +27,18 @@ def about():
     about = None   
     return render_template('instructor/about.html', about=about)
 
+@app.route("/course", methods = ['GET', 'POST'])
+@login_required
+def course():
+    course = Course.query.order_by(asc(Course.date)).all()   
+    return render_template('instructor/course.html', course=course)
+
+@app.route("/sources", methods = ['GET', 'POST'])
+@login_required
+def sources():
+    sources = Sources.query.order_by(asc(Sources.unit)).order_by(asc(Sources.part)).all()   
+    return render_template('instructor/sources.html', sources=sources)
+
 @app.route ("/teams")
 @login_required 
 def teams():  
@@ -150,11 +162,12 @@ def students():
             lastChats[name][3] = fieldsGrade.assignments/maxAss
         except:
             lastChats[name][3] = 0     
-
-    if current_user.id != 1:
-        return render_template('instructor/home.html')
-    else:
-        return render_template('instructor/students.html', students=students, LOCATION=S3_LOCATION, lastChats=lastChats)  
+        
+    
+    formFill=None
+    
+    return render_template('instructor/students.html', students=students, LOCATION=S3_LOCATION, 
+    lastChats=lastChats, formFill=formFill)  
 
 
 @app.route ("/inchat/<string:user_name>", methods = ['GET', 'POST'])

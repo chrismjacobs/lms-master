@@ -50,11 +50,13 @@ def error_500(error):
     return render_template('/instructor/errors.html', error = 500 )
 
 
+
+
 @app.route("/admin_menu", methods = ['GET', 'POST'])
 #@login_required
 def admin(): 
     
-    mainList = ['user', 'sources', 'chatbox', 'attendance', 'attendlog', 'grades', 'u555', 'u001', 'ass01']
+    mainList = ['user', 'sources', 'chatbox', 'attendance', 'course', 'grades', 'u555', 'u001', 'ass00']
     
     unitsDict = Info.modDictUnits
     unitsKeys = list(unitsDict.keys())

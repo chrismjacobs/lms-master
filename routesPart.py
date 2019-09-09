@@ -24,6 +24,7 @@ def unit_list():
     unitList = Sources.query.order_by(asc(Sources.unit)).order_by(asc(Sources.part)).all()  # also remember .limit(3).all()     
     href = url_for('class_part')    
     
+    
     #temporarily close old units
     # check today's unit
     unitCheck = Attendance.query.filter_by(username='Chris').first()
@@ -56,6 +57,7 @@ def unit_list():
     #list of models, used later to create a points dictionary
     modList = Info.modListUnits
     
+    
 
     #create a dictionary of scores and comments
     modCount = 0
@@ -71,6 +73,8 @@ def unit_list():
         modCount += 1
         if modCount == len(unitList): # going to break the for loop once all sources have been checked 
             break
+    
+    print('scoreDict: ', scoreDict)
 
     
     # count points based on grade for all models and update Grades    

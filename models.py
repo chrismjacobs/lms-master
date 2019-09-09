@@ -56,7 +56,10 @@ class User(db.Model, UserMixin): #import the model
     email = db.Column(db.String(120), unique=True, nullable=False)
     image_file = db.Column(db.String(), nullable=False, default='profiles/default.PNG') #images will be hashed to 20 and images could be the same
     password = db.Column(db.String(60), nullable=False)    
-    device = db.Column (db.String(), nullable=False)      
+    device = db.Column (db.String(), nullable=False)
+    #hometown = db.Column (db.String()) 
+    #fName = db.Column (db.String())
+
 
     def get_reset_token(self, expires_sec=1800):
         expires_sec = 1800        
@@ -106,6 +109,23 @@ class Sources(db.Model):
     extra1 = db.Column(db.String)
     extra2 = db.Column(db.String)
 
+class Course(db.Model):
+    id = db.Column(db.Integer, primary_key=True)  
+    week = db.Column(db.Integer)
+    unit = db.Column(db.String) 
+    date = db.Column(db.DateTime)    
+    topic = db.Column(db.String)
+    goalOne = db.Column(db.String)
+    goalTwo = db.Column(db.String)
+    activity = db.Column(db.String)
+    linkOne = db.Column(db.String)
+    linkTwo = db.Column(db.String)    
+    embed = db.Column(db.String)
+    openSet = db.Column(db.Integer)    
+    extraStr = db.Column(db.String)
+    extraInt = db.Column(db.Integer)   
+
+    
 ############### UNIT MODELS ###################################
 
 class U555(db.Model):
@@ -512,6 +532,7 @@ admin = Admin(app)
 
 admin.add_view(MyModelView(User, db.session))
 admin.add_view(MyModelView(Sources, db.session))
+admin.add_view(MyModelView(Course, db.session))
 admin.add_view(MyModelView(ChatBox, db.session))
 admin.add_view(MyModelView(Attendance, db.session))
 admin.add_view(MyModelView(AttendLog, db.session))

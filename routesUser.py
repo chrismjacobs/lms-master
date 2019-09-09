@@ -303,6 +303,7 @@ def att_team():
 @login_required
 def assignment_list():     
     assList = Sources.query.order_by(asc(Sources.id)).all()  # also remember .limit(3).all()  
+    assList2 = Sources.query.filter_by(part='1').order_by(asc(Sources.unit)).all()
     href = url_for('assign')
 
     # models update
@@ -310,20 +311,20 @@ def assignment_list():
     modDict = Info.modDictAss
    
     
+    
     # create dictionary of assignment sources with integers for scoreDict calling
     srcDict = {}   # 0 : ass , grade, comment
     srcCount = 0 
-    for ass in assList:        
-        if ass.part == '1':            
-            modFields = modDict[ass.unit].query.filter_by(username=current_user.username).first()
-            if modFields != None:     
-                srcDict[srcCount] = [ass , modFields.Grade, modFields.Comment]
-            else:
-                srcDict[srcCount] = [ass , 0, 'Not started yet']
-        srcCount += 1
-    srcLen = len(srcDict)
+    for ass in assList2:         
+        modFields = modDict[ass.unit].query.filter_by(username=current_user.username).first()
+        if modFields:     
+            srcDict[srcCount] = [ass , modFields.Grade, modFields.Comment]
+        else:
+            srcDict[srcCount] = [ass , 0, 'Not started yet']
+        srcCount += 1   
+    srcDictList = list(srcDict.keys())
 
-
+    
     # count points for assignments and record student grades 
     pointCounter = 0 
     for src in srcDict:
@@ -334,12 +335,17 @@ def assignment_list():
         pass
     else:
         fieldsGrade.assignments = pointCounter
-        db.session.commit()     
-    total = (srcLen)*2 # number of avaiable points per assignment
-    color = pointCounter/(total) 
+        db.session.commit() 
+
+    total = (len(srcDictList))*2 # number of avaiable points per assignment
+    
+    try:
+        color = pointCounter/(total) 
+    except:
+        color = 0
 
     return render_template('units/assignment_list.html', legend='Assignments Dashboard', 
-    href=href, assList=assList, srcDict=srcDict, srcLen=srcLen,
+    href=href, assList=assList, srcDict=srcDict, srcDictList=srcDictList,
     pointCounter=pointCounter, total=total, color=color)
 
 
