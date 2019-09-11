@@ -10,10 +10,10 @@
 {% for source in sources %}    
 
 <div class="content-section">
-<legend class="border-bottom mb-4">Unit {{ source.unit }}</legend>
-		<button type="button" class="btn btn-secondary" data-toggle="collapse" data-target="#{{source.unit}}">Notes</button>
+<legend class="border-bottom mb-4">{{source.unit}}-P{{ source.part }}</legend>
+		<button type="button" class="btn btn-secondary" data-toggle="collapse" data-target="#notes{{ source.unit }}{{ source.part }}">Notes</button>
 		 <br>
-		 <div class="collapse" id="{{source.unit}}">
+		 <div class="collapse" id="notes{{ source.unit }}{{ source.part }}">
 		 	<div class="embed-responsive embed-responsive-4by3">
 		  		<iframe src="{{source.notes}}" 
 		  			allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
@@ -21,9 +21,19 @@
 			</div>
 	  	 </div>	   
 
+<br>
+         <button type="button" class="btn btn-secondary" data-toggle="collapse" data-target="#part{{ source.unit }}{{ source.part }}">Part</button>
+		 <br>
+		 <div class="collapse" id="part{{ source.unit }}{{ source.part }}">
+		 	<div class="embed-responsive embed-responsive-4by3">
+		  		<iframe src="{{source.questions}}" 
+		  			allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
+		  		</iframe>
+			</div>
+	  	 </div>	
+
 {% if source.part == '1' %} 
 <br>
-<legend class="border-bottom mb-4">Assignment</legend>
 		<button type="button" class="btn btn-secondary" data-toggle="collapse" data-target="#ass{{source.unit}}">Ass</button>
 		 <br>
 		 <div class="collapse" id="ass{{source.unit}}">
@@ -34,20 +44,7 @@
 			</div>
 	  	 </div>	   
 
-{% endif %} 
-
-
-<br>
-<legend class="border-bottom mb-4">Part {{ source.part }}</legend>
-         <button type="button" class="btn btn-secondary" data-toggle="collapse" data-target="#{{ source.unit }}{{ source.part }}">Part</button>
-		 <br>
-		 <div class="collapse" id="{{ source.unit }}{{ source.part }}">
-		 	<div class="embed-responsive embed-responsive-4by3">
-		  		<iframe src="{{source.questions}}" 
-		  			allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
-		  		</iframe>
-			</div>
-	  	 </div>	  
+{% endif %}   
 
 
 </div>

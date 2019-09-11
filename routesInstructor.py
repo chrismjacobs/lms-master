@@ -10,11 +10,13 @@ try:
     from aws import Settings    
     s3_resource = Settings.s3_resource  
     S3_LOCATION = Settings.S3_LOCATION
-    S3_BUCKET_NAME = Settings.S3_BUCKET_NAME   
+    S3_BUCKET_NAME = Settings.S3_BUCKET_NAME  
+    COLOR_SCHEMA = Settings.COLOR_SCHEMA
 except:
     s3_resource = boto3.resource('s3')
     S3_LOCATION = os.environ['S3_LOCATION'] 
-    S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']  
+    S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME'] 
+    COLOR_SCHEMA = os.environ['COLOR_SCHEMA'] 
 
 @app.route("/webrtc3", methods = ['GET', 'POST'])
 def webrtc3():       
@@ -162,12 +164,43 @@ def students():
             lastChats[name][3] = fieldsGrade.assignments/maxAss
         except:
             lastChats[name][3] = 0     
+
+    ## FormFill Task
+    attDict = {}
+    for student in students:        
+
+        attendance = Attendance.query.filter_by(studentID=student.studentID).first()
+                                
+        if attendance == None:
+            attDict[student.studentID] = ['true', 'true', 'Absent', 0, 0]
+        elif attendance.attend == 'Late':
+            attDict[student.studentID] = ['true', 'false', 'Late', attendance.unit, attendance.id]
+        elif attendance.attend == '2nd Class':
+            attDict[student.studentID] = ['true', 'false', '2nd Class', attendance.unit, attendance.id]
+        elif attendance.attend == 'On time':         
+            attDict[student.studentID] = ['false', 'false', 'On time', attendance.unit, attendance.id]        
+        else:
+            attDict[student.studentID] = ['false', 'false', 'On time', 0, attendance.id]
+    
+    
+    timeDict = {
+        0 : ['_6','_7'],
+        1 : ['_8','_9'], 
+        2 : ['_6','_7'],
+        3 : ['_3','_4'],
+        4 : ["document.getElementById('DDList", "_1').checked=true;"]
+        }
+
+    formFill = []
+    for key in attDict:  
+        if attDict[key][0] == 'true':  
+            formFill.append(timeDict[4][0] + key + timeDict[int(COLOR_SCHEMA)][0] + timeDict[4][1])
+        if attDict[key][1] == 'true':
+            formFill.append(timeDict[4][0] + key + timeDict[int(COLOR_SCHEMA)][1] + timeDict[4][1] )
         
     
-    formFill=None
-    
     return render_template('instructor/students.html', students=students, LOCATION=S3_LOCATION, 
-    lastChats=lastChats, formFill=formFill)  
+    lastChats=lastChats, formFill=formFill, attDict=attDict)  
 
 
 @app.route ("/inchat/<string:user_name>", methods = ['GET', 'POST'])

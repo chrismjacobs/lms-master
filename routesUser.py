@@ -119,82 +119,46 @@ def home():
     return render_template('user/home.html', form=form, dialogues=dialogues, name=name, 
     image_chris=image_chris, image_file=image_file, chat=chat, fieldsGrade=fieldsGrade,
     color1=color1, color2=color2, color3=color3, attendOpen=attendOpen, attLog=attLog )
-    
+   
 ######## Attendance //////////////////////////////////////////////
-@app.route("/attend_solo", methods = ['GET', 'POST'])
-@login_required
-def att_solo():
-    form = Attend()        
-
-
-    # set up page data
-    notice = Attendance.query.filter_by(username='Chris').first().attend    
-    count = Attendance.query.filter_by(username=current_user.username).count()
-    fields = Attendance.query.filter_by(username=current_user.username).first() 
-    legend = 'Attendance: ' + time.strftime('%A %B, %d %Y %H:%M')
-
-    if count == 0:        
-        if form.validate_on_submit():
-
-            attendance = Attendance(username = form.name.data, 
-            attend=form.attend.data, teamnumber=form.teamnumber.data, 
-            teamcount=form.teamcount.data, studentID=form.studentID.data)      
-            db.session.add(attendance)            
-            # long term log
-            attendLog = AttendLog(username = form.name.data, 
-            attend=form.attend.data,teamnumber=form.teamnumber.data, 
-            studentID=form.studentID.data, attScore=3)
-            db.session.add(attendLog)
-            # commit both
-            db.session.commit()
-            flash('Your attendance has been recorded', 'info')
-            return redirect(url_for('att_solo'))
-        else:
-            form.name.data = current_user.username
-            form.studentID.data = current_user.studentID
-            form.teamcount.data = 0
-            form.teamnumber.data = 0  
-     
-
-    return render_template('user/attSolo.html', legend=legend, count=count, fields=fields, 
-   form=form, notice=notice) 
-
-
 @app.route("/attend_team", methods = ['GET', 'POST'])
 @login_required
 def att_team():
-    form = Attend()    
-     
-    # check if teamcount has been set
-    try:
-        ## cannot filter by id because even if table is clear first will not be id ==1 
-        teamcount = Attendance.query.filter_by(username='Chris').first().teamcount
-        teamsize = Attendance.query.filter_by(username='Chris').first().teamsize
-        print ('teamcount: ', teamcount, 'teamsize: ', teamsize)  
-    except:    
-        flash('Attendance is not open yet, please try later', 'danger')
-        return redirect(url_for('home'))    
 
-    # set teamcount to 100 to clear the table
-    if teamcount == 100:        
+    legend = 'Attendance: ' + time.strftime('%A %B, %d %Y %H:%M')
+
+    # check if attendance is open 
+    openData = Attendance.query.filter_by(username='Chris').first()
+    openCheck = openData.teamnumber
+    if openCheck == 98:  # open in normal state
+        form = Attend()  
+    elif openCheck == 99:  # switch to late form
+        form = AttendLate() 
+    elif openCheck == 100:   # delete all rows
         db.session.query(Attendance).delete()
         db.session.commit()
         flash('Attendance is not open yet, please try later', 'danger')
         return redirect(url_for('home')) 
+    else: # openData has return None
+        flash('Attendance is not open yet, please try later', 'danger')
+        return redirect(url_for('home'))  
     
-    # set teamnumber to be zero by default (or not for solo classes)
+    # set up page data 
+    teamcount = openData.teamcount
+    teamsize = openData.teamsize  
+    notice = openData.attend     
+
+    # set up student data   
+    count = Attendance.query.filter_by(username=current_user.username).count()
+    fields = Attendance.query.filter_by(username=current_user.username).first()     
+    
+    # set teamnumber to be zero by default (or not Zero in the case of solo classes)
     if teamsize == 0:
         teamNumSet = current_user.id + 100
     else:
         teamNumSet = 0 
 
-    # set up page data
-    
-    notice = Attendance.query.filter_by(username='Chris').first().attend    
-    count = Attendance.query.filter_by(username=current_user.username).count()
-    fields = Attendance.query.filter_by(username=current_user.username).first() 
-    legend = 'Attendance: ' + time.strftime('%A %B, %d %Y %H:%M')
-
+    # set up team info 
     users = {}
     if count == 1: 
         teammates = Attendance.query.filter_by(teamnumber=fields.teamnumber).all()        
@@ -202,25 +166,28 @@ def att_team():
             image = User.query.filter_by(username=teammate.username).first().image_file
             users[teammate.username] = [teammate.username, S3_LOCATION + image]
     else:        
-        users = None   
-    
+        users = None     
 
-    #instructor teamnumber will not be updated from zero    
-    if current_user.id == 1:
-        return render_template('user/attTeam.html', legend=legend, count=count, fields=fields, 
-    teamcount=teamcount, form=form, users=users, notice=notice) 
-
+    # prepare initial form
     if count == 0:               
-        if form.validate_on_submit():
+        if form.validate_on_submit():            
+            # check last id for AttendLog 
+            lastID = AttendLog.query.order_by(desc(AttendLog.id)).first().id   
             # team maker
             attendance = Attendance(username = form.name.data, 
             attend=form.attend.data, teamnumber=form.teamnumber.data, 
-            teamcount=form.teamcount.data, studentID=form.studentID.data)      
+            teamcount=form.teamcount.data, studentID=form.studentID.data, unit=lastID+1)      
             db.session.add(attendance)
-            # long term log
+            # long term log 
+            if form.attend.data == 'On time':
+                attScore = 3
+            elif form.attend.data == 'Late': 
+                attScore = 2
+            else:
+                attScore = 1          
             attendLog = AttendLog(username = form.name.data, 
             attend=form.attend.data,teamnumber=form.teamnumber.data, 
-            studentID=form.studentID.data, attScore=3)
+            studentID=form.studentID.data, attScore=attScore)
             db.session.add(attendLog)
             # commit both
             db.session.commit()
@@ -232,70 +199,43 @@ def att_team():
             form.teamnumber.data = teamNumSet  
     
     #after attendance is complete teamnumber 0 is reassigned to a team  
-    elif fields.teamnumber == 0:
-
-        teamList = list(range(1,teamcount+1))   
-        print(teamList) 
-        ## [1,2,3,4,5,6.........]
-
-        #list counter determines average team distribution
-        listCounter = []
-        for i in teamList:            
+    elif fields.teamnumber == 0: 
+        # { 1 : 1,  2 : 1  ,  3 :  0 }
+        teamDict = {}  
+        for i in range (1,teamcount+1):
             count = Attendance.query.filter_by(teamnumber=i).count()
-            listCounter.append(count)        
-        listAve = sum(listCounter)/len(listCounter)
-        moduloTest = listAve%1
-        print(listCounter)
-        print(listAve) 
-        
-        if listAve == teamsize:
+            if count: 
+                teamDict[i] = count
+            else:   
+                teamDict[i] = 0
+        print (teamDict)
+
+        # all teams are full so make a new team
+        if teamDict[teamcount] == teamsize:
             countField = Attendance.query.filter_by(username='Chris').first()
-            countField.teamcount = teamcount +1
-            db.session.commit()
+            countField.teamcount = teamcount +1            
+            db.session.commit() 
             return redirect(url_for('att_team'))
-        elif moduloTest == 0:
-            listCounter.reverse()                        
-            posCounter = teamcount            
-            for i in listCounter:
-                if i < listAve:
-                    # ex [2,2,2,2,2]  no i is less than ave:2 --> so skip through from end to find gaps 
-                    # ex [2,1,1,0] zero is less than average --> fill the gap                   
-                    fields.teamnumber = posCounter
-                    db.session.commit()
-                    return redirect(url_for('att_team'))  
-                elif posCounter == 1:
-                    ## no gaps to fill --> new row 
-                    fields.teamnumber = 1
-                    db.session.commit()
-                    return redirect(url_for('att_team')) 
-                else:
-                    posCounter = posCounter - 1        
+        # all teams have the same number (first and last) of students so start from beginning
+        elif teamDict[1] == teamDict[teamcount]:
+            fields.teamnumber = 1
+            db.session.commit()
+            flash('Your attendance has been recorded', 'info')
+            return redirect(url_for('att_team'))
         else:
-            while True: 
-                for i in teamList:             
-                    if listCounter[i-1] > listCounter[i]:
-                        try:
-                            #[3,3,3,2,2] --> TN = 4
-                            if listCounter[i] == listCounter[i+1]:
-                                fields.teamnumber = i + 1
-                                db.session.commit()
-                            else: 
-                            #[3,3,3,2,0]  --> TN = 5
-                                fields.teamnumber = i + 2
-                                db.session.commit()
-                        except: 
-                            #[3,3,3,3,2] --> TN = 5
-                            fields.teamnumber = i + 1
-                            db.session.commit()
-                        return redirect(url_for('att_team'))
-                        break
-                    else:
-                        pass    
+            for key in teamDict:
+                # search each group until one needs to be filled
+                if teamDict[key] > teamDict[key+1]:
+                    fields.teamnumber = key+1
+                    db.session.commit()
+                    flash('Your attendance has been recorded', 'info')
+                    return redirect(url_for('att_team'))                 
+                else: 
+                    pass
     
-    flash('Your attendance has been recorded', 'info')
-    return render_template('user/attTeam.html', legend=legend, count=count, fields=fields, 
-    teamcount=teamcount, form=form, notice=notice, users=users) 
-    
+    return render_template('student/attTeam.html', legend=legend, count=count, fields=fields, 
+    teamcount=teamcount, form=form, notice=notice, users=users)  
+     
 
 ######## Assignments //////////////////////////////////////////////
 
