@@ -26,7 +26,7 @@ def webrtc3():
 @app.route ("/about")
 @login_required 
 def about(): 
-    about = None   
+    about = Sources.query.filter_by(unit='00').filter_by(part='1').first().notes
     return render_template('instructor/about.html', about=about)
 
 @app.route("/course", methods = ['GET', 'POST'])

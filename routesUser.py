@@ -238,7 +238,7 @@ def att_team():
                 else: 
                     pass
     
-    return render_template('student/attTeam.html', legend=legend, count=count, fields=fields, 
+    return render_template('user/attTeam.html', legend=legend, count=count, fields=fields, 
     teamcount=teamcount, form=form, notice=notice, users=users)  
      
 
