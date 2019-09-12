@@ -57,7 +57,11 @@ class RegistrationForm(FlaskForm):
         if user:  
             raise ValidationError('That email has an account already, did you forget your password?') 
 
-    def validate_studentID(self, studentID):  
+    def validate_studentID(self, studentID): 
+        try:
+            int(studentID.data)
+        except:
+            raise ValidationError('9 numbers; no S') 
         user = User.query.filter_by(studentID=studentID.data).first()  
         if user:           
             raise ValidationError('That student ID already has an account, did you forget your password?')  

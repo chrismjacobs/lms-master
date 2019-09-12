@@ -7,7 +7,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 modDictUnits = {}
 modDictAss = {}
-modListSL = [0]
+modListSL = []
 
 
 #login manager
@@ -161,6 +161,12 @@ class U001U(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
 modDictUnits['00']=[None]
 modDictUnits['00'].append(U001U)
+
+class U004U(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True)
+modDictUnits['00'].append(U004U)
+####  SL  #####
+modListSL.append(U004U)
 
 ########################################
 
