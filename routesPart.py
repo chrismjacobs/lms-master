@@ -9,13 +9,13 @@ try:
     from aws import Settings    
     s3_resource = Settings.s3_resource  
     S3_LOCATION = Settings.S3_LOCATION
-    S3_BUCKET_NAME = Settings.S3_BUCKET_NAME   
+    S3_BUCKET_NAME = Settings.S3_BUCKET_NAME
+    COLOR_SCHEMA = Settings.COLOR_SCHEMA
 except:
     s3_resource = boto3.resource('s3')
     S3_LOCATION = os.environ['S3_LOCATION'] 
-    S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']  
-
-
+    S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME'] 
+    COLOR_SCHEMA = os.environ['COLOR_SCHEMA'] 
 
 @app.route ("/units", methods=['GET','POST'])
 @login_required
@@ -355,13 +355,18 @@ def unit_sl(unit_num):
     else:
         pass
     
-    try:
-        while True:
-            randField = U555.query.filter_by(unit=unit_num).order_by(func.random()).first()
-            if randField.teamnumber != teamnumber:
-                break 
-    except: 
-        return render_template('units/sl_layout.html', source=source, randField=None)
+    SLcount = U555.query.filter_by(unit=unit_num).count()
+    if SLcount > 1:    
+        try:        
+            while True:
+                randField = U555.query.filter_by(unit=unit_num).order_by(func.random()).first()
+                if randField.teamnumber != teamnumber:
+                    break 
+        except:            
+            return render_template('units/unit_list.html', source=source, randField=None)
+    else:
+        flash('Your are the first team to finish! Please wait a moment for another team to finish' , 'secondary')
+        return redirect(url_for('unit_list')) 
     
     print ('RandField', randField)
     modFields = model.query.all()
