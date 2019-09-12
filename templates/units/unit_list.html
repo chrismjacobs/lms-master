@@ -48,8 +48,8 @@
           
             <td> {{unit.unit}}-{{unit.part}}</td>                      
             <td> {{unit.title}} ({{unit.qnum}})</td>
-            <td> {{unit.classdate.strftime('%B %d')}}</td>  
-            <td> {{unit.duedate.strftime('%B %d')}}</td>              
+            <td> {{unit.classdate.strftime('%b %d')}}</td>  
+            <td> {{unit.duedate.strftime('%b %d')}}</td>              
             <td> {{scoreDict[unit.unit + unit.part][0]}}/2</td>
             <td> {{scoreDict[unit.unit + unit.part][1]}}</td>
           </tr>       
