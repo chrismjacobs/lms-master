@@ -7,7 +7,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 
 modDictUnits = {}
 modDictAss = {}
-modListSL = []
+modListSL = [0]
 
 
 #login manager
