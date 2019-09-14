@@ -115,8 +115,11 @@ def home():
         color3 = 0       
 
 
-    if Attendance.query.filter_by(username='Chris').first().teamnumber > 97:  
-        attendOpen = 1
+    if Attendance.query.filter_by(username='Chris').first():
+        if Attendance.query.filter_by(username='Chris').first().teamnumber > 97:    
+            attendOpen = 1
+        else:
+            attendOpen = 0
     else:
         attendOpen = 0
      
