@@ -114,7 +114,12 @@ def home():
     except:
         color3 = 0       
 
-    attendOpen = Attendance.query.filter_by(username='Chris').count()    
+
+    if Attendance.query.filter_by(username='Chris').first().teamnumber > 97:  
+        attendOpen = 1
+    else:
+        attendOpen = 0
+     
 
     return render_template('user/home.html', form=form, dialogues=dialogues, name=name, 
     image_chris=image_chris, image_file=image_file, chat=chat, fieldsGrade=fieldsGrade,

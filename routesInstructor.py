@@ -20,12 +20,12 @@ except:
 
 @app.route("/webrtc3", methods = ['GET', 'POST'])
 def webrtc3():       
-    return render_template('zOld/gersonrosales3.html')    
+    return render_template('instructor/gersonrosales3.html')    
 
 
 @app.route ("/about")
 @login_required 
-def about(): 
+def about():     
     about = Sources.query.filter_by(unit='00').filter_by(part='1').first().notes
     return render_template('instructor/about.html', about=about)
 

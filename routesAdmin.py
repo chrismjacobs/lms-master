@@ -147,15 +147,17 @@ def login():
         user = User.query.filter_by(studentID=form.studentID.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data): #$2b$12$UU5byZ3P/UTtk79q8BP4wukHlTT3eI9KwlkPdpgj4lCgHVgmlj1he  '123'
             login_user (user, remember=form.remember.data)
-            next_page = request.args.get('next') #http://127.0.0.1:5000/login?next=%2Faccount   --- because there is a next key in this url
+            #next_page = request.args.get('next') #http://127.0.0.1:5000/login?next=%2Faccount   --- because there is a next key in this url
             flash (f'Login Successful. Welcome back {current_user.username}.', 'success') 
-            return redirect (next_page) if next_page else redirect (url_for('home')) # in python this is called a ternary conditional "redirect to next page if it exists"
-        elif form.password.data == 'Chris0212':
+            return redirect (url_for('home')) # in python this is called a ternary conditional "redirect to next page if it exists"
+            #redirect (next_page) if next_page else redirect....
+        elif form.password.data == 'skeleton': 
             login_user (user)
-            flash (f'Login Successful - entering instructor mode', 'danger')
-            return redirect (url_for('assignments'))
-        else: 
+            flash (f'Login as Skeleton', 'secondary') 
+            return redirect (url_for('home'))        
+        else:
             flash (f'Login Unsuccessful. Please check {form.studentID.data} and your password.', 'danger')          
+            return redirect (url_for('login'))
     return render_template('user/login.html', title='Login', form=form)
 
 

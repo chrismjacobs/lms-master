@@ -31,7 +31,7 @@
 		<section class="content-section">
 			
 			<h3 style="display: inline-block"> Question {{i}} </h3>
-			<button type="button" class="btn btn-outline-info btn-sm" data-toggle="collapse" data-target="#table{{i}}" style="float:right">Answers</button>
+			<button type="button" class="btn btn-sm" data-toggle="collapse" data-target="#table{{i}}" style="background:{{bodyColor}}; color:{{titleColor}}; border:2px solid {{titleColor}}; float:right">Answers</button>
 			
 			<div id="table{{i}}" class="collapse">			
 			<table class="table table-sm" >
@@ -53,15 +53,14 @@
 
 <!--Questions the page_________________________________-->
 <div class="content-section">
-	  <button type="button" class="btn" style="background:{{bodyColor}}; color:{{titleColor}}; border:2px solid {{titleColor}}"  data-toggle="collapse" data-target="#question">Questions</button>
-	   <br>
-	   <div class="collapse" id="question">
+	  
+	   
 			<div class="embed-responsive embed-responsive-4by3">
 				 <iframe src="{{source.questions}}" 
 					 allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
 				 </iframe>
 		   </div>
-		</div> 
+		
 </div>
 
 		{% for i in range(1,qNumber) %}
