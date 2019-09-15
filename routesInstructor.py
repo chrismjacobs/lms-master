@@ -27,7 +27,7 @@ def webrtc3():
 @login_required 
 def about():     
     about = Sources.query.filter_by(unit='00').filter_by(part='1').first().notes
-    return render_template('instructor/about.html', about=about)
+    return render_template('instructor/about.html', about=about, siteName=S3_BUCKET_NAME)
 
 @app.route("/course", methods = ['GET', 'POST'])
 @login_required
