@@ -1,4 +1,5 @@
 from flask import Flask, render_template   #app = Flask(__name__)
+from flask_sslify import SSLify
 #from flask_debugtoolbar import DebugToolbarExtension
 from flask_sqlalchemy import SQLAlchemy  #needed for app initialization (see below - db)
 from flask_bcrypt import Bcrypt  #needed for password storage
@@ -16,6 +17,7 @@ except:
 
 
 app = Flask(__name__)
+sslify = SSLify(app)
 app.config.from_object('config.BaseConfig')
 db = SQLAlchemy(app)
 bcrypt = Bcrypt()
