@@ -425,6 +425,6 @@ def ass(unit):
         speechModel = None
     
     return render_template('units/assignment_layout.html', 
-         form=form, count=count, fields=fields, unit=unit, source=source, speechModel=speechModel)
+         form=form, count=count, fields=fields, unit=unit, source=source, speechModel=speechModel, siteName=S3_BUCKET_NAME)
 
 
