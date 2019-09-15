@@ -386,7 +386,7 @@ def ass(unit):
     if count == 1:         
         if form.validate_on_submit():             
              # set Grade...................
-            if form.LengthOne.data == "" or form.LengthTwo.data == "" or form.TextOne.data == "" or form.TextTwo.data == "":
+            if form.AudioDataOne.data == "" or form.AudioDataTwo.data == "" or form.TextOne.data == "" or form.TextTwo.data == "":
                 fields.Grade = 0
                 fields.Comment = 'In progress...' #in progress 
             else:
