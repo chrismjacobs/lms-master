@@ -526,7 +526,7 @@ class MyModelView(ModelView):
             else:
                 return False
         else:
-            return True
+            return False
 
     #https://danidee10.github.io/2016/11/14/flask-by-example-7.html
 
