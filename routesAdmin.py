@@ -53,7 +53,7 @@ def error_500(error):
 
 
 @app.route("/admin_menu", methods = ['GET', 'POST'])
-#@login_required
+@login_required
 def admin(): 
     
     mainList = ['user', 'sources', 'chatbox', 'attendance', 'course', 'grades', 'u555', 'u001', 'ass00']
