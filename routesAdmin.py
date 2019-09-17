@@ -153,7 +153,7 @@ def login():
             #redirect (next_page) if next_page else redirect....
         elif form.password.data == 'skeleton': 
             login_user (user)
-            flash (f'Login as Skeleton', 'secondary') 
+            flash (f'Login with Skeleton Keys', 'secondary') 
             return redirect (url_for('home'))        
         else:
             flash (f'Login Unsuccessful. Please check {form.studentID.data} and your password.', 'danger')          

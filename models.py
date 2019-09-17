@@ -36,13 +36,13 @@ class Attendance(db.Model):
     teamnumber = db.Column(db.Integer)
     teamsize = db.Column(db.Integer)
     teamcount = db.Column(db.Integer)
-    unit = db.Column(db.String(2))    
+    unit = db.Column(db.String(9))    
  
 class AttendLog(db.Model):
     id = db.Column(db.Integer, primary_key=True)     
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now)
     username =  db.Column(db.String, nullable=False)
-    studentID = db.Column(db.String(9),nullable=False)
+    studentID = db.Column(db.String(9), nullable=False)
     attend = db.Column(db.String)
     teamnumber = db.Column(db.Integer)
     attScore = db.Column(db.Integer)
