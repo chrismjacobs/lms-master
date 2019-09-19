@@ -131,7 +131,7 @@ function AnRecord(task){
 function saveLink(task){    
     var link = document.getElementById('linkInput' + task).value
     document.getElementById('audioData0'+ task).value = link
-    document.getElementById('audioLen0' + task).value = 1
+    document.getElementById('audioLen0' + task).value = 888
     console.log( 'link stored for task ' + task) 
     setTimeout(func, 1000)
     function func(){ $("#submit").click() }          

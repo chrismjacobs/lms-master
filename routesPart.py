@@ -21,43 +21,40 @@ except:
 @login_required
 def unit_list():
     
-    unitList = Sources.query.order_by(asc(Sources.unit)).order_by(asc(Sources.part)).all()  # also remember .limit(3).all()     
-    href = url_for('class_part')    
-    
+    sourceList = Sources.query.order_by(asc(Sources.unit)).order_by(asc(Sources.part)).all()  # also remember .limit(3).all()     
+    href = url_for('class_part') 
     
     #temporarily close old units
     # check today's unit
-    unitCheck = Attendance.query.filter_by(username='Chris').first()
-    
-    if unitCheck:
-        print ('unitcheck', unitCheck.unit)
-        for unit in unitList:
-            print('a', unit.unit , 'b', unitCheck.unit)
-            if unit.unit == unitCheck.unit:
-                
-                if unit.openSet != 1:                  
-                    unit.openSet = 1
-                    db.session.commit()
-            else:
-                if unit.openSet == 0:
-                    pass
-                elif unit.openSet == 1:
-                    # temporarily close old units during teamwork time
-                    unit.openSet = 2
-                    db.session.commit()
-    else:
-        # reset old open status when attendance has been closed
-        for unit in unitList:            
-            if unit.openSet == 2:
-                unit.openSet = 1
-                db.session.commit()
-    
+    attendance = Attendance.query.filter_by(username='Chris').first()
+    if attendance:
+        todaysUnit = attendance.unit
+        attStatus = attendance.teamnumber
+        print (attStatus)
+    else: 
+        todaysUnit = 0
+        attStatus = 0
 
+    if attStatus > 97:     
+        print ('todaysUnit', todaysUnit)
+        for sourceLine in sourceList:
+            print('a', sourceLine.unit , 'b', todaysUnit)
+            if sourceLine.openSet == 1:
+                if sourceLine.unit != todaysUnit:
+                    sourceLine.openReset = 100
+                    sourceLine.openSet = 2
+                    db.session.commit()  
+    else:
+        #return to normal state after attendence closed
+        for sourceLine in sourceList:
+            if sourceLine.openReset == 100:
+                sourceLine.openReset = 0
+                sourceLine.openSet = 1
+                db.session.commit() 
+      
     # models update
     #list of models, used later to create a points dictionary
-    modList = Info.modListUnits
-    
-    
+    modList = Info.modListUnits  
 
     #create a dictionary of scores and comments
     modCount = 0
@@ -71,7 +68,7 @@ def unit_list():
             if current_user.username in row.username:                           
                 scoreDict[unitCode] = [row.Grade , row.Comment] 
         modCount += 1
-        if modCount == len(unitList): # going to break the for loop once all sources have been checked 
+        if modCount == len(sourceList): # going to break the for loop once all sources have been checked 
             break
     
     print('scoreDict: ', scoreDict)
@@ -100,7 +97,7 @@ def unit_list():
         color = 0   
 
     return render_template('units/unit_list.html', legend='Units Dashboard', 
-    unitList=unitList, href=href, scoreDict=scoreDict, 
+    sourceList=sourceList, href=href, scoreDict=scoreDict, 
     pointCounter=pointCounter, total=maxUni, color=color)
 
 

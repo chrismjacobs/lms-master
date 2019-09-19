@@ -1,0 +1,8 @@
+
+Instructor attendance page
+
+split JS files
+
+phone friendly assignments page - switch layout 
+
+remove or fix redo record function

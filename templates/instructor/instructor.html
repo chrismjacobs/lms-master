@@ -44,11 +44,15 @@
             <tr> 
                 <th> <h4>A{{item}}</h4> </th>
             </tr> 
-                {%for answer in ansDict[item][1] %}
+                {% for answer in ansDict[item][1] %}
             <tr>              
-              <th scope="row" style="width: 20px;"> <a href="">{{answer.username}} </a></th>              
-              <td style="width: 20px;"><button class="btn btn-outline-dark btn-xs" onclick='playAudio(this)' value="{{answer.AudioDataOne}}">{{answer.LengthOne}}</button></td>
-              <td style="width: 20px;"><button class="btn btn-outline-dark btn-xs" onclick='playAudio(this)' value="{{answer.AudioDataTwo}}">{{answer.LengthTwo}}</button></td>
+              <th scope="row" style="width: 20px;"> <a href="">{{answer.username}} </a></th> 
+              {% if answer.LengthOne == 888 %}  <td style="width: 20px;"><a href="{{answer.AudioDataOne}}" target="_blank">Link</a></td>              
+              {% else %} <td style="width: 20px;"><button class="btn btn-outline-dark btn-xs" onclick='playAudio(this)' value="{{answer.AudioDataOne}}">{{answer.LengthOne}}</button></td>
+              {% endif %} 
+              {% if answer.LengthTwo == 888 %}  <td style="width: 20px;"><a href="{{answer.AudioDataTwo}}" target="_blank">Link</a></td>              
+              {% else %} <td style="width: 20px;"><button class="btn btn-outline-dark btn-xs" onclick='playAudio(this)' value="{{answer.AudioDataTwo}}">{{answer.LengthTwo}}</button></td>
+              {% endif %}          
               <td style="width: 250px;">{{answer.Notes}}</td>
               <td style="width: 30px;">{{answer.TextOne}}</td>
               <td style="width: 250px;">{{answer.TextTwo}}</td>
