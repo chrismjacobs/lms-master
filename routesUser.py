@@ -158,7 +158,8 @@ def att_team():
         
     # set up page data 
     teamcount = openData.teamcount
-    teamsize = openData.teamsize  
+    teamsize = openData.teamsize 
+    print('teamsizexxxxxxxx', teamsize) 
     notice = openData.attend     
 
     # set up student data   
@@ -166,7 +167,7 @@ def att_team():
     fields = Attendance.query.filter_by(username=current_user.username).first()     
     
     # set teamnumber to be zero by default (or not Zero in the case of solo classes)
-    if teamsize == 0 or 1:
+    if teamsize == 0:
         teamNumSet = current_user.id + 100
     else:
         teamNumSet = 0 
