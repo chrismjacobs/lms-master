@@ -24,6 +24,17 @@ class AttendLate(FlaskForm):
     teamcount = IntegerField ('Team Count')                                                  
     submit = SubmitField('Join')
 
+class AttendInst(FlaskForm):
+    attend = IntegerField ('Notice')   
+    username =  StringField ('Name in English', validators=[DataRequired(), Length(min=2, max=20)])
+    studentID = StringField ('Student ID', validators=[DataRequired(), Length(9)])                  
+    teamnumber = RadioField('Status', choices = [(97, 'disabled'), (98, 'open'), (99, 'late'), (100, 'clear')])
+    teamcount = IntegerField ('Team Count')   
+    teamsize = RadioField('Size', choices = [(0, '0'), (2, '2'), (3, '3'), (4, '4')]) 
+    unit = StringField ('unit eg 01', validators=[DataRequired(), Length(min=2, max=20)])                                         
+    submit = SubmitField('Join')
+
+
 class Chat(FlaskForm):
     name =  StringField ('Name in English', validators=[DataRequired(), Length(min=2, max=20)])                  
     chat = StringField ('chat')

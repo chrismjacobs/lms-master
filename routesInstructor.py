@@ -226,3 +226,32 @@ def inchat(user_name):
     image_chris = S3_LOCATION + User.query.filter_by(id=1).first().image_file
 
     return render_template('instructor/inchat.html', form=form, dialogues=dialogues, name=user_name, image_chris=image_chris, image_file=image_file)
+
+
+@app.route("/attend_int", methods = ['GET', 'POST'])
+@login_required
+def att_int():
+    form = AttendInst()
+
+    openData = Attendance.query.filter_by(username='Chris').first()
+    
+    if form.validate_on_submit():
+        attendance = Attendance(username = 'Chris', 
+        attend=form.attend.data, teamnumber=form.teamnumber.data, 
+        teamcount=form.teamcount.data, studentID='100000000', unit=form.unit.data)      
+        db.session.add(attendance)
+        db.session.commit()   
+        return redirect(url_for('att_int'))
+    else:
+        form.username.data = 'Chris'
+        form.studentID.data = '100000000'
+        try:
+            form.attend.data = openData.attend
+            form.teamnumber.data = openData.teamnumber
+            form.teamsize.data = openData.teamsize
+            form.teamcount.data = openData.teamcount
+            form.unit.data = openData.unit
+        except: 
+            pass 
+
+    return render_template('user/attInst.html', form=form)  
