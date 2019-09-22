@@ -35,6 +35,18 @@ def course():
     course = Course.query.order_by(asc(Course.date)).all()   
     return render_template('instructor/course.html', course=course)
 
+
+@app.route("/openSet/<string:unit>/<string:part>", methods = ['POST'])
+def openSet(unit,part):
+    status = request.form['status' + unit + part]
+    openSetModel = Sources.query.filter_by(unit=unit).filter_by(part=part).first()
+
+    openSetModel.openSet = status
+    db.session.commit()        
+
+    return redirect(url_for('sources')) 
+
+
 @app.route("/sources", methods = ['GET', 'POST'])
 @login_required
 def sources():
@@ -93,18 +105,30 @@ def upload(assignment):
     my_bucket.Object(file_name).put(Body=file)
 
     return redirect(request.referrer)
-    
 
-@app.route ("/instructor")
+
+@app.route("/commentSet/<string:unit>/<string:name>", methods = ['POST'])
+def commentSet(unit,name):
+    newComment = request.form['comment' + unit + name]
+    mods = Info.modDictAss
+    studentAns = mods[unit].query.filter_by(username=name).first()
+
+    studentAns.Comment = newComment
+    db.session.commit()   
+
+    return jsonify({'new' : newComment})
+
+@app.route ("/dashboard")
 @login_required 
-def instructor():  
+def dashboard():  
     if current_user.id != 1:
         return abort(403)
     ### replace this with modDictAss
     ansDict = Info.ansDict
-
+    
     for item in ansDict:
-        answers = ansDict[item][0].query.all() # find that item model and query it
+        model = ansDict[item][0]
+        answers = model.query.order_by(desc(model.Grade)).all() # find that item model and query it
         count = len(answers)
         ansDict[item].append(answers)
         ansDict[item].append(count)
@@ -112,13 +136,10 @@ def instructor():
         #ansDict[item][2] = count
         # dictionary set to model, answer, number of answers
 
-    ansRange = len(ansDict)
-      
+    print (ansDict)
+    ansRange = len(ansDict)       
     
-    if current_user.id != 1:
-        return render_template('instructor/home.html')
-    else:
-        return render_template('instructor/instructor.html', ansDict=ansDict, ansRange=ansRange)  
+    return render_template('instructor/dashboard.html', ansDict=ansDict, ansRange=ansRange)  
 
 @app.route ("/students")
 @login_required 
@@ -231,27 +252,40 @@ def inchat(user_name):
 @app.route("/attend_int", methods = ['GET', 'POST'])
 @login_required
 def att_int():
+    if current_user.id != 1:
+        return abort(403)
     form = AttendInst()
 
     openData = Attendance.query.filter_by(username='Chris').first()
-    
-    if form.validate_on_submit():
-        attendance = Attendance(username = 'Chris', 
-        attend=form.attend.data, teamnumber=form.teamnumber.data, 
-        teamcount=form.teamcount.data, studentID='100000000', unit=form.unit.data)      
-        db.session.add(attendance)
-        db.session.commit()   
-        return redirect(url_for('att_int'))
-    else:
-        form.username.data = 'Chris'
-        form.studentID.data = '100000000'
-        try:
-            form.attend.data = openData.attend
-            form.teamnumber.data = openData.teamnumber
-            form.teamsize.data = openData.teamsize
-            form.teamcount.data = openData.teamcount
-            form.unit.data = openData.unit
-        except: 
-            pass 
 
-    return render_template('user/attInst.html', form=form)  
+    if openData:    
+        if form.validate_on_submit():
+            openData.attend = form.attend.data 
+            openData.teamnumber = form.teamnumber.data 
+            openData.teamsize = form.teamsize.data 
+            openData.teamcount = form.teamcount.data 
+            openData.unit =  form.unit.data        
+            db.session.commit()  
+              
+            db.session.commit()
+            flash('Attendance has been updated', 'secondary') 
+            return redirect(url_for('att_team')) 
+        else:
+            form.username.data = 'Chris'
+            form.studentID.data = '100000000'
+            try:
+                form.attend.data = openData.attend
+                form.teamnumber.data = openData.teamnumber
+                form.teamsize.data = openData.teamsize
+                form.teamcount.data = openData.teamcount
+                form.unit.data = openData.unit
+                
+            except: 
+                pass 
+    else:
+        flash('Attendance not started', 'secondary') 
+        return redirect(request.referrer)  
+
+
+    formList = [form.username, form.studentID, form.attend, form.teamnumber, form.teamsize, form.teamcount, form.unit.data]
+    return render_template('user/attInst.html', form=form, status=openData.teamnumber, formList=formList)  

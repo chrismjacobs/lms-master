@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<!--Header of page____________________________________-->
+<div class="content-section">    
+	<h1 > {{source.title}} (Q:{{source.qnum}})</h1>
+</div>
+
+<!--Materials_________________________________________-->
+
+<div class="content-section">
+		<button type="button" class="btn" style="background:{{titleColor}}; color:white" data-toggle="collapse" data-target="#notes">Notes</button>
+		 <br>
+		 <div class="collapse" id="notes">
+		 	<div class="embed-responsive embed-responsive-4by3">
+		  		<iframe src="{{source.notes}}" 
+		  			allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
+		  		</iframe>
+			</div>
+	  	 </div>	   
+</div>
+
+<div class="content-section">	  
+	   
+			<div class="embed-responsive embed-responsive-4by3">
+				 <iframe src="{{source.questions}}" 
+					 allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
+				 </iframe>
+		   </div>
+		
+</div>
+
+<div class="content-section">	
+{% for i in range(1,qNumber) %}
+	
+		<section class="content-section">
+
+		<legend class="border-bottom mb-4">Question {{i}}</a></legend>
+    
+												
+			<table class="table table-sm" >
+			<tbody>				
+				{% for j in range(dictCount) %}
+				<tr>
+				<th>{{ ansDict[j][0] }}</th>
+				<th>{{ ansDict[j][i] }}</th>
+				</tr>
+				{% endfor %}
+			</tbody>
+			</table>	
+			
+		</section>					
+{% endfor %}
+
+</div> 
+
+
+
+{% endblock content %}
+
+
+{% block script %}
+
+
+
+{% endblock %}

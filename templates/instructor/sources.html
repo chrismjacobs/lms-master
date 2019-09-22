@@ -6,8 +6,10 @@
     <h1> Sources </h1>
 </div>
 
+   
+      
 
-{% for source in sources %}    
+{% for source in sources %} 
 
 <div class="content-section">
 <legend class="border-bottom mb-4">{{source.unit}}-P{{ source.part }}</legend>
@@ -45,14 +47,32 @@
 	  	 </div>	   
 
 {% endif %}   
+<br>
 
+<form class="form-openSet" method="post" action="/openSet/{{source.unit}}/{{source.part}}">  
 
+	<div class="form-group">
+		<label for="inputName" class="sr-only">OpenSet</label>
+    	<input type="text" id="input{{source.unit}}-P{{source.part}}" name="status{{source.unit}}{{source.part}}" class="form-control" placeholder="{{source.openSet}}" required>
+	</div>
+	{% if source.openSet == 0 %}        
+        <button class="btn btn-sm btn-danger" type="submit">Set</button>
+	{% elif source.openSet == 1 %}        
+        <button class="btn btn-sm btn-success" type="submit">Set</button>
+	{% endif %}        
+        
+
+</form>
+<br>
+<a href="../admin/sources/edit/?id={{source.id}}" target="_blank"> Edit {{source.unit}}-{{ source.part }}</a>
 </div>
+
+
 
 
 {% endfor %}
       
-      
+     
 
 
 {% endblock %}

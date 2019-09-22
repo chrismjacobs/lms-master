@@ -127,6 +127,49 @@ def team_details ():
     return [teamnumber, nameRange]
 
 
+@app.route ("/answers/<string:unit_num>/<string:part_num>/<string:qs>", methods=['GET','POST'])
+@login_required
+def unit_instructor(unit_num,part_num,qs):  
+    if current_user.id != 1:
+        return abort(403)      
+    # models update
+    modDict = Info.modDictUnits
+    model = modDict[unit_num][int(part_num)] 
+    questionNum = int(qs)+1 # +1 because count starts at zero        
+    source = Sources.query.filter_by(unit=unit_num).filter_by(part=part_num).first()            
+         
+    answers = model.query.all()  
+    ansDict = {}
+    counter = 0 
+    for answer in answers:        
+        ansDict[counter] = [
+        answer.teamnumber,
+        answer.Ans01, 
+        answer.Ans02, 
+        answer.Ans03,
+        answer.Ans04,
+        answer.Ans05,
+        answer.Ans06,
+        answer.Ans07,
+        answer.Ans08
+        ]
+        counter = counter+1     
+
+    dictCount = len(ansDict)
+    print(ansDict) 
+
+    context = { 
+        'ansDict' : ansDict,         
+        'qNumber' : questionNum, 
+        'source' : source,
+        'dictCount' : dictCount
+    }
+
+    return render_template('units/unit_instructor.html', **context)
+
+
+
+
 @app.route ("/unit/<string:unit_num>/<string:part_num>/<string:fm>/<string:qs>", methods=['GET','POST'])
 @login_required
 def unit(unit_num,part_num,fm,qs):

@@ -6,6 +6,13 @@
 	<h1 > {{source.title}} (Q:{{source.qnum}})</h1>
 </div>
 
+<!-- -->
+{% if current_user.username == 'Chris' %}
+<div class="content-section">    
+	<h3 > <a href="/answers/{{source.unit}}/{{source.part}}/{{source.qnum}}">Instructor Mode</a> </h3>
+</div>
+{% endif %}
+
 <!--Materials_________________________________________-->
 
 <div class="content-section">

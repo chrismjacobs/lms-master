@@ -47,14 +47,7 @@
                     {% if fields.LengthOne > 1 %}                                                 
                     <div class="">                              
                         <audio id="audioTask1" controls src="{{fields.AudioDataOne}}"></audio> 
-                    </div>                    
-                    <div class="box-section">
-                        {% if 20 > form.LengthOne.data %}  
-                        <h4 style="color:red"> Just {{form.LengthOne.data}} secs <p>(please check)</p>  </h4>
-                        {% else %}
-                        <h4 style="color:orange"> {{form.LengthOne.data}} secs </h4>
-                        {% endif %}
-                    </div>
+                    </div>     
                     {% else %}
                     <div class="">                              
                         <audio id="audioTask1" src=""></audio> 

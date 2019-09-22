@@ -4,10 +4,10 @@
 
 <div class="content-section"> 
     <legend class="border-bottom mb-4">Attendance Set Up</legend>       
-</div>
+
+<a href="../admin/attendance">Attendance</a>
 
 
-<div class="content-section">
     <form method="POST" action=""> 
             {{ form.hidden_tag () }}        
         <fieldset class="form-group">
@@ -29,24 +29,18 @@
                 {{ form.attend(class="form-control form-control-lg")}}                     
             </div> 
 
+            Current Status: {{status}}
+
             <div class="form-group"> 
-                {% for subfield in form.teamnumber %}
-                    <tr >
-                    <td>{{ subfield }}</td>
-                    <td><strong style="font-size: 20px;">{{ subfield.label }}</strong></td>
-                    </tr></br>
-                {% endfor %}
-            </div>              
+                {{ form.teamnumber.label (class="form-control-label")}}</br>
+                {{ form.teamnumber(class="form-control form-control-lg")}}                     
+            </div>               
 
             
             <div class="form-group"> 
-                {% for subfield in form.teamsize %}
-                    <tr >
-                    <td>{{ subfield }}</td>
-                    <td><strong style="font-size: 20px;">{{ subfield.label }}</strong></td>
-                    </tr></br>
-                {% endfor %}
-            </div>   
+                {{ form.teamsize.label (class="form-control-label")}}</br>
+                {{ form.teamsize(class="form-control form-control-lg")}}                     
+            </div>  
 
             <div class="form-group"> 
                 {{ form.teamcount.label (class="form-control-label")}}</br>

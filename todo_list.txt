@@ -1,8 +1,27 @@
 
 Instructor attendance page
 
+phone friendly assignments page - switch layout 
 split JS files
 
-phone friendly assignments page - switch layout 
+quick access to assignments
+ can edit commens from dashboard page
 
-remove or fix redo record function
+attendences changer 
+
+admin background
+
+s3 console issue
+
+units color coded 
+
+team maker for LNC
+
+new chat on instructor homepage 
+
+###########   links for sources to open up
+
+###########    essay access to instructor answers
+
+update answers with ajax
+

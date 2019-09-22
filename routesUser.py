@@ -146,6 +146,10 @@ def att_team():
         elif openCheck == 100:   # delete all rows
             db.session.query(Attendance).delete()
             db.session.commit()
+            attendance = Attendance(username = 'Chris', 
+            attend='Notice', teamnumber=97, studentID='100000000')      
+            db.session.add(attendance)
+            db.session.commit()
             flash('Attendance is not open yet, please try later', 'danger')
             return redirect(url_for('home')) 
         else: # openData has return None
