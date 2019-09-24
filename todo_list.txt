@@ -4,10 +4,10 @@ Instructor attendance page
 phone friendly assignments page - switch layout 
 split JS files
 
-quick access to assignments
- can edit commens from dashboard page
+###### quick access to assignments
+###### can edit commens from dashboard page
 
-attendences changer 
+######  attendences changer 
 
 admin background
 
@@ -18,6 +18,8 @@ units color coded
 team maker for LNC
 
 new chat on instructor homepage 
+
+###########   participation counter
 
 ###########   links for sources to open up
 

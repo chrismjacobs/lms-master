@@ -158,11 +158,29 @@ def unit_instructor(unit_num,part_num,qs):
     dictCount = len(ansDict)
     print(ansDict) 
 
+    teams = 0
+    score = 0
+    for ans in ansDict:
+        if ansDict[ans][0] < 50: # therefore only counting teams
+            teams += 1
+            for i in range (questionNum-1):                
+                if ansDict[ans][i+1] == "":                    
+                    pass                 
+                else:
+                    score += 1
+        else:
+            print('no')
+    
+    
+    percent = (score / (teams * (questionNum-1)) )*100
+
     context = { 
         'ansDict' : ansDict,         
         'qNumber' : questionNum, 
         'source' : source,
-        'dictCount' : dictCount
+        'dictCount' : dictCount,
+        'score' : score,
+        'percent' : percent
     }
 
     return render_template('units/unit_instructor.html', **context)
