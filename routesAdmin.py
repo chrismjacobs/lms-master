@@ -26,16 +26,16 @@ except:
 # set the color schema ## https://htmlcolorcodes.com/color-names/
 configDictList = [
         {'titleColor':'#db0b77', 'bodyColor':'SEASHELL', 'headTitle':'Travel English Course'},
-        {'titleColor':'MEDIUMSEAGREEN', 'bodyColor':'MINTCREAM', 'headTitle':'Freshman Reading'},
-        {'titleColor':'CORAL', 'bodyColor':'FLORALWHITE', 'headTitle':'Workplace English'},
-        {'titleColor':'DARKTURQUOISE', 'bodyColor':'AZURE', 'headTitle':'ICC Course'},
+        {'titleColor':'MEDIUMSEAGREEN', 'bodyColor':'MINTCREAM', 'headTitle':'Freshman Reading', 'headLogo': 'http://www.dacoromania.org/upload/o/2/21604_hexagon-png.png'},
+        {'titleColor':'CORAL', 'bodyColor':'FLORALWHITE', 'headTitle':'Workplace English', 'headLogo': 'http://www.clker.com/cliparts/W/i/K/w/1/D/glossy-orange-circle-icon-md.png'},
+        {'titleColor':'DARKTURQUOISE', 'bodyColor':'AZURE', 'headTitle':'ICC Course', 'headLogo': 'https://pngimage.net/wp-content/uploads/2018/05/blue-square-png-1.png'},
         {'titleColor':'DARKSLATEGRAY', 'bodyColor':'WHITESMOKE', 'headTitle':'LMS TEST'}
     ]
 
 configDict = configDictList[int(COLOR_SCHEMA)]
 @app.context_processor
 def inject_user():     
-    return dict(titleColor=configDict['titleColor']  , bodyColor=configDict['bodyColor'], headTitle=configDict['headTitle'])
+    return dict(titleColor=configDict['titleColor']  , bodyColor=configDict['bodyColor'], headTitle=configDict['headTitle'], headLogo=configDict['headLogo'] )
 
 @app.errorhandler(404)
 def error_404(error):

@@ -47,20 +47,20 @@
                 {% for answer in ansDict[item][1] %}
             <tr>              
               <th scope="row" style="width: 20px;"> <a href="../admin/ass{{item}}/edit/?id={{answer.id}}",  target="_blank">{{answer.username}} </a></th> 
-              {% if answer.LengthOne == 888 %}  <td style="width: 20px;"><a href="{{answer.AudioDataOne}}" target="_blank">Link</a></td>              
+              {% if answer.LengthOne == 888 %}  <td style="width: 20px;"><a href="{{answer.AudioDataOne}}", target="_blank">Link</a></td>              
               {% else %} <td style="width: 20px;"><button class="btn btn-outline-dark btn-xs" onclick='playAudio(this)' value="{{answer.AudioDataOne}}">{{answer.LengthOne}}</button></td>
               {% endif %} 
               {% if answer.LengthTwo == 888 %}  <td style="width: 20px;"><a href="{{answer.AudioDataTwo}}" target="_blank">Link</a></td>              
               {% else %} <td style="width: 20px;"><button class="btn btn-outline-dark btn-xs" onclick='playAudio(this)' value="{{answer.AudioDataTwo}}">{{answer.LengthTwo}}</button></td>
               {% endif %}          
               <td style="width: 175px;">{{answer.Notes}}</td>
-              <td style="width: 30px;">{{answer.TextOne}}</td>
-              <td style="width: 250px;">{{answer.TextTwo}}</td>
+              <td style="width: 150px;">{{answer.TextOne}}</td>
+              <td style="width: 150px;">{{answer.TextTwo}}</td>
               <td style="width: 20px;">{{answer.Grade}}</td>
               
     <td style="width: 200px;">
 
-    <form class="form-openSet" method="post" action="/commentSet/{{item}}/{{answer.username}}">  
+    <form class="form-openSet" method="post" target="_blank" action="/commentSet/{{item}}/{{answer.username}}">  
 
 	<div class="form-group">
         <input type="text" id="input{{answer.username}}" name="comment{{item}}{{answer.username}}" class="form-control" placeholder="{{answer.Comment}}" required>        

@@ -25,12 +25,13 @@
       </thead>
 
       <tbody>
-      {% for student in students %}  
+      {% for student in students %}
+       {% set attend = attDict[student.studentID][2] %}  
           <tr>              
           <td><img class="rounded-circle chat-img" src="{{LOCATION}}{{student.image_file}}"></td>
-          <td><a href="/inchat/{{student.username}}"> {{student.username}}</a> </td>
+          <td style="width: 100px;"><a href="/inchat/{{student.username}}"> {{student.username}}</a> </td>
           <td>{{student.studentID}}</td>   
-          <td><a href="../admin/attendance/edit/?id={{attDict[student.studentID][4]}}", target="_blank">{{attDict[student.studentID][2]}}</a> <a href="../admin/attendlog/edit/?id={{attDict[student.studentID][3]}}", target="_blank">___</a></td>         
+          {% if attend == 'Absent' %} <td style="background:pink">{% elif attend == 'On time' %} <td style="background:mediumaquamarine">{% else %} <td style="background:gainsboro">{% endif %} <a href="../admin/attendance/edit/?id={{attDict[student.studentID][4]}}", target="_blank">{{attend}}</a> <a href="../admin/attendlog/edit/?id={{attDict[student.studentID][3]}}", target="_blank">___</a></td>          
           <td><a href="{{student.email}}">Email</a></td>
           <td>{{student.device}}</td>
           {% for i in range (1,4) %}

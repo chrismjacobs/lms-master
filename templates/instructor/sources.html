@@ -55,10 +55,10 @@
 		<label for="inputName" class="sr-only">OpenSet</label>
     	<input type="text" id="input{{source.unit}}-P{{source.part}}" name="status{{source.unit}}{{source.part}}" class="form-control" placeholder="{{source.openSet}}" required>
 	</div>
-	{% if source.openSet == 0 %}        
-        <button class="btn btn-sm btn-danger" type="submit">Set</button>
-	{% elif source.openSet == 1 %}        
+	{% if source.openSet == 1 %}        
         <button class="btn btn-sm btn-success" type="submit">Set</button>
+	{% else  %}        
+        <button class="btn btn-sm btn-danger" type="submit">Set</button>
 	{% endif %}        
         
 

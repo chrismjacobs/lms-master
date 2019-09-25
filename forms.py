@@ -33,7 +33,7 @@ class AttendInst(FlaskForm):
     teamcount = IntegerField ('Team Count')   
     teamsize = IntegerField ('Team Size (0 for no teams)')  
     #RadioField('Size', choices = [(0, '0'), (2, '2'), (3, '3'), (4, '4')]) 
-    unit = StringField ('unit eg 01', validators=[DataRequired(), Length(min=2, max=20)])                                         
+    unit = StringField ('unit(2) eg 01 or MT', validators=[DataRequired(), Length(min=2, max=20)])                                         
     submit = SubmitField('Join')
 
 

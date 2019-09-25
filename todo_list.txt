@@ -1,29 +1,38 @@
 
 Instructor attendance page
 
-phone friendly assignments page - switch layout 
-split JS files
-
-###### quick access to assignments
-###### can edit commens from dashboard page
-
-######  attendences changer 
-
-admin background
-
-s3 console issue
-
-units color coded 
-
-team maker for LNC
-
-new chat on instructor homepage 
-
 ###########   participation counter
 
 ###########   links for sources to open up
 
 ###########    essay access to instructor answers
 
+###### quick access to assignments
+###### can edit commens from dashboard page
+
+######  attendences changer 
+
+#########   s3 console issue
+
+######## tab image
+
+speaking activity for travel eng
+
+question maker for WPE 
+
+units color coded 
+
+admin background
+
+
+
+team maker for LNC
+
+new chat on instructor homepage 
+
 update answers with ajax
+
+phone friendly assignments page - switch layout 
+split JS files
+
 

@@ -286,6 +286,4 @@ def att_int():
         flash('Attendance not started', 'secondary') 
         return redirect(request.referrer)  
 
-
-    formList = [form.username, form.studentID, form.attend, form.teamnumber, form.teamsize, form.teamcount, form.unit.data]
-    return render_template('user/attInst.html', form=form, status=openData.teamnumber, formList=formList)  
+    return render_template('user/attInst.html', form=form, status=openData.teamnumber)  
