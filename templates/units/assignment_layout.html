@@ -44,19 +44,19 @@
             {% else %}
               <div class="">	
                 {% if fields.AudioDataOne != "" %}
-                    {% if fields.LengthOne > 1 %}                                                 
-                    <div class="">                              
-                        <audio id="audioTask1" controls src="{{fields.AudioDataOne}}"></audio> 
-                    </div>     
-                    {% else %}
-                    <div class="">                              
+                    {% if fields.LengthOne == 888 %}  
+                        <div class="">                              
                         <audio id="audioTask1" src=""></audio> 
                     </div>   
                     <div class="">                              
                         <label class="btn btn-lg btn-link" style="margin-left:20px">
                             <a  href="{{fields.AudioDataOne}}" target="_blank">Shared Link 1</a> 
                         </label>
-                    </div>
+                    </div>                       
+                    {% else %}
+                    <div class="">                              
+                        <audio id="audioTask1" controls src="{{fields.AudioDataOne}}"></audio> 
+                    </div>                      
                     {% endif %}
                 {% endif %}
             </div>                                       
@@ -171,7 +171,16 @@
                 {% else %}
                   <div class="">	
                     {% if fields.AudioDataTwo != "" %}
-                        {% if fields.LengthTwo > 1 %}                                                 
+                        {% if fields.LengthTwo == 888 %}                                                 
+                        <div class="">                              
+                            <audio id="audioTask2" src=""></audio> 
+                        </div>  
+                        <div class="">                              
+                            <label class="btn btn-lg btn-link" style="margin-left:20px">
+                                <a  href="{{fields.AudioDataTwo}}" target="_blank">Shared Link 2</a> 
+                            </label>
+                        </div>
+                        {% else %}
                         <div class="">                              
                             <audio id="audioTask2" controls src="{{fields.AudioDataTwo}}"></audio> 
                         </div>                    
@@ -181,16 +190,7 @@
                             {% else %}
                             <h4 style="color:orange"> {{form.LengthTwo.data}} secs </h4>
                             {% endif %}
-                        </div>
-                        {% else %}
-                        <div class="">                              
-                            <audio id="audioTask2" src=""></audio> 
-                        </div>  
-                        <div class="">                              
-                            <label class="btn btn-lg btn-link" style="margin-left:20px">
-                                <a  href="{{fields.AudioDataTwo}}" target="_blank">Shared Link 2</a> 
-                            </label>
-                        </div>
+                        </div>                        
                         {% endif %}
                     {% endif %}
                 </div>                                       
