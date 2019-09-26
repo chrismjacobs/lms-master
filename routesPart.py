@@ -172,8 +172,9 @@ def unit_instructor(unit_num,part_num,qs):
             print('no')
     
     
-    percent = (score / (teams * (questionNum-1)) )*100
-
+    percentFloat = (score / (teams * (questionNum-1)) )*100
+    percent = round (percentFloat, 1) 
+    
     context = { 
         'ansDict' : ansDict,         
         'qNumber' : questionNum, 

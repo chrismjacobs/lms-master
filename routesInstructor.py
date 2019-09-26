@@ -44,7 +44,7 @@ def openSet(unit,part):
     openSetModel.openSet = status
     db.session.commit()        
 
-    return redirect(url_for('sources')) 
+    return redirect(url_for('unit_list')) 
 
 
 @app.route("/sources", methods = ['GET', 'POST'])
