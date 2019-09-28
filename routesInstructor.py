@@ -44,7 +44,7 @@ def openSet(unit,part):
     openSetModel.openSet = status
     db.session.commit()        
 
-    return redirect(url_for('unit_list')) 
+    return redirect(url_for('unit_list'))    
 
 
 @app.route("/sources", methods = ['GET', 'POST'])
@@ -123,6 +123,7 @@ def commentSet(unit,name):
 def dashboard():  
     if current_user.id != 1:
         return abort(403)
+
     ### replace this with modDictAss
     ansDict = Info.ansDict
     
@@ -137,7 +138,9 @@ def dashboard():
         # dictionary set to model, answer, number of answers
 
     print (ansDict)
-    ansRange = len(ansDict)       
+    ansRange = len(ansDict)      
+    
+     
     
     return render_template('instructor/dashboard.html', ansDict=ansDict, ansRange=ansRange)  
 

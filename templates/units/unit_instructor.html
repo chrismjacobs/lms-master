@@ -7,8 +7,19 @@
 </div>
 
 
-<div class="content-section">    
-	<h1 > Pecent Complete: {{percent}}%</h1>
+<div class="content-section">  
+	<div style="display:none">
+       <input id="ansDict" value="{{ansDict}}" >   
+	   <input id="qNum" value="{{qNumber}}" > 
+    </div>
+
+	<h1 id="percent"></h1>
+	<br>
+	<h5><pre id="scores"></pre></h5>
+	
+	 
+	
+
 </div>
 <!--Materials_________________________________________-->
 
@@ -65,6 +76,27 @@
 
 {% block script %}
 
+<script>        
 
+    var myVar = setInterval(partCheck, 10000);
+    
+    function partCheck() {
+		
+		$.ajax({
+			data : {
+				ansDict : $('#ansDict').val(),  qNum : $('#qNum').val()
+			},
+			type : 'POST',
+            url : '/partCheck', 
+           
+		})
+		.done(function(data) {            
+                           
+            document.getElementById('percent').innerHTML =  'Percent Complete: ' + data.percent + ' %'            
+			document.getElementById('scores').innerHTML =  data.scores
+		});
+    }
+
+</script>
 
 {% endblock %}

@@ -28,7 +28,7 @@ configDictList = [
         {'titleColor':'#db0b77', 'bodyColor':'SEASHELL', 'headTitle':'Travel English Course'},
         {'titleColor':'MEDIUMSEAGREEN', 'bodyColor':'MINTCREAM', 'headTitle':'Freshman Reading', 'headLogo': 'https://reading-lms.s3-ap-northeast-1.amazonaws.com/profiles/favicon.png'},
         {'titleColor':'CORAL', 'bodyColor':'FLORALWHITE', 'headTitle':'Workplace English', 'headLogo': 'https://www.clker.com/cliparts/W/i/K/w/1/D/glossy-orange-circle-icon-md.png'},
-        {'titleColor':'DARKTURQUOISE', 'bodyColor':'AZURE', 'headTitle':'ICC Course', 'headLogo': 'https://pngimage.net/wp-content/uploads/2018/05/blue-square-png-1.png'},
+        {'titleColor':'DARKTURQUOISE', 'bodyColor':'DODGERBLUE', 'headTitle':'ICC Course', 'headLogo': 'https://pngimage.net/wp-content/uploads/2018/05/blue-square-png-1.png'},
         {'titleColor':'DARKSLATEGRAY', 'bodyColor':'WHITESMOKE', 'headTitle':'LMS TEST'}
     ]
 

@@ -126,6 +126,44 @@ def team_details ():
         print ('Teamnumber: ', teamnumber)
     return [teamnumber, nameRange]
 
+@app.route('/partCheck', methods=['POST'])
+def scoreCheck():  
+    string = request.form ['ansDict']
+    qNum = request.form ['qNum']
+    
+    # EVAL may cause vulnerabilities in the code depending on the string    
+    ansDict = eval(string)        
+    qNum = int(qNum) -1 
+        
+    teamscores = {}
+    for ans in ansDict:
+        teamNum = ansDict[ans][0]
+        if teamNum <20:
+            teamscores[teamNum] = 0
+            for i in range (qNum):
+                if ansDict[ans][i+1] == "":
+                    pass
+                else: 
+                    teamscores[ansDict[ans][0]] += 1 
+        else:
+            pass
+    
+    maxScore = len(teamscores) * qNum-1
+    actScore = sum(teamscores.values())
+    print ('xxxx', maxScore, actScore)
+        
+    percentFloat = (actScore / maxScore )*100
+    percent = round (percentFloat, 1) 
+        
+    string1 = str(teamscores)
+    print(string1)
+    string2 = string1.replace('{', '')
+    string3 = string2.replace('}', '')
+    string4 = string3.replace(',', '  ')
+    string5 = string4.replace(': ', '-')
+
+    return jsonify({'percent' : percent, 'scores' : string5 })  
+
 
 @app.route ("/answers/<string:unit_num>/<string:part_num>/<string:qs>", methods=['GET','POST'])
 @login_required
@@ -155,8 +193,21 @@ def unit_instructor(unit_num,part_num,qs):
         ]
         counter = counter+1     
 
+    teamscores = {}
+    for ans in ansDict:
+        teamNum = ansDict[ans][0]
+        if teamNum <20:
+            teamscores[teamNum] = 0
+            for i in range (questionNum-1):
+                if ansDict[ans][i+1] == "":
+                    pass
+                else: 
+                    teamscores[ansDict[ans][0]] += 1 
+        else:
+            pass
+
     dictCount = len(ansDict)
-    print(ansDict) 
+    print(teamscores) 
 
     teams = 0
     score = 0
@@ -169,8 +220,7 @@ def unit_instructor(unit_num,part_num,qs):
                 else:
                     score += 1
         else:
-            print('no')
-    
+            pass      
     
     percentFloat = (score / (teams * (questionNum-1)) )*100
     percent = round (percentFloat, 1) 
@@ -181,7 +231,8 @@ def unit_instructor(unit_num,part_num,qs):
         'source' : source,
         'dictCount' : dictCount,
         'score' : score,
-        'percent' : percent
+        'percent' : percent,
+        'teamscores' : teamscores
     }
 
     return render_template('units/unit_instructor.html', **context)
