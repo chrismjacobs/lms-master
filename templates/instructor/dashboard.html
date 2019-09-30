@@ -60,10 +60,10 @@
               
     <td style="width: 200px;">
 
-    <form class="form-openSet" method="post" target="_blank" action="/commentSet/{{item}}/{{answer.username}}">  
+    <form class="form-openSet" method="post" action="javascript:;" onsubmit="commentSet('{{item}}','{{answer.username}}')">  
 
 	<div class="form-group">
-        <input type="text" id="input{{answer.username}}" name="comment{{item}}{{answer.username}}" class="form-control" placeholder="{{answer.Comment}}" required>        
+        <input type="text" id="input{{item}}{{answer.username}}" name="comment{{item}}{{answer.username}}" class="form-control" placeholder="{{answer.Comment}}" required>        
     </div>
 	
 
@@ -71,9 +71,9 @@
 
      <td style="width: 20px;">
      {% if answer.Comment == 'Completed on time - Great!'%}        
-        <button class="btn btn-sm btn-danger" type="submit">Set</button>
+        <button class="btn btn-sm btn-danger" type="submit">{{grades[answer.username]}}</button>
 	{% else %}        
-        <button class="btn btn-sm btn-success" type="submit">Set</button>
+        <button class="btn btn-sm btn-success" type="submit">{{grades[answer.username]}}</button>
 	{% endif %} 
     </form>
      
@@ -98,7 +98,7 @@
 {% endblock %}   
 
 {% block script %}
-<script>
+<script type="text/javascript">
 
 let InstructorListen = document.getElementById('instructorPlayer')
 
@@ -106,5 +106,21 @@ function playAudio(current) {
     InstructorListen.src = current.value    
 }
 
+function commentSet(ass, name) {
+		
+        varURL = '/commentSet/' + ass + '/' + name 
+        
+		$.ajax({
+			data : {
+				comment : $('#input' + ass + name).val()
+			},
+			type : 'POST',
+            url : varURL           
+           
+		})
+		.done(function(data) {           
+            alert(data.comment)   
+		});
+    }
 </script>
 {% endblock %}

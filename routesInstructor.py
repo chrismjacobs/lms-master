@@ -108,15 +108,26 @@ def upload(assignment):
 
 
 @app.route("/commentSet/<string:unit>/<string:name>", methods = ['POST'])
-def commentSet(unit,name):
-    newComment = request.form['comment' + unit + name]
+def commentSet(unit,name):    
+    newComment = request.form['comment']
     mods = Info.modDictAss
     studentAns = mods[unit].query.filter_by(username=name).first()
 
     studentAns.Comment = newComment
     db.session.commit()   
+    
+    grades = Grades.query.filter_by(username=name).first()
+    string = grades.extraStr
+    if string:
+        gradeSet = eval(string)
+        gradeSet.add(int(unit))
+        grades.extraStr = str(gradeSet)
+        db.session.commit()  
+    else:        
+        grades.extraStr = '{' + str(int(unit)) + '}'
+        db.session.commit()  
 
-    return jsonify({'new' : newComment})
+    return jsonify({'comment' : newComment})
 
 @app.route ("/dashboard")
 @login_required 
@@ -137,12 +148,15 @@ def dashboard():
         #ansDict[item][2] = count
         # dictionary set to model, answer, number of answers
 
-    print (ansDict)
-    ansRange = len(ansDict)      
+    gradesDict = {}
+    grades = Grades.query.all()
+    for grade in grades:
+        gradesDict[grade.username] = grade.extraStr
+
     
-     
+    ansRange = len(ansDict)     
     
-    return render_template('instructor/dashboard.html', ansDict=ansDict, ansRange=ansRange)  
+    return render_template('instructor/dashboard.html', ansDict=ansDict, ansRange=ansRange, grades=gradesDict)  
 
 @app.route ("/students")
 @login_required 
