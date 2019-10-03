@@ -35,15 +35,23 @@ def course():
     course = Course.query.order_by(asc(Course.date)).all()   
     return render_template('instructor/course.html', course=course)
 
+@app.route("/exams", methods = ['GET', 'POST'])
+@login_required
+def exams():
+
+    course = Course.query.order_by(asc(Course.date)).all()    
+    review = Course.query.filter_by(unit='E1').first()       
+    reviewList = eval(str(review.linkTwo))
+    bonusList = eval(str(review.embed))       
+
+    return render_template('instructor/exams.html', reviewList=reviewList, bonusList=bonusList)
 
 @app.route("/openSet/<string:unit>/<string:part>", methods = ['POST'])
 def openSet(unit,part):
     status = request.form['status' + unit + part]
     openSetModel = Sources.query.filter_by(unit=unit).filter_by(part=part).first()
-
     openSetModel.openSet = status
-    db.session.commit()        
-
+    db.session.commit() 
     return redirect(url_for('unit_list'))    
 
 

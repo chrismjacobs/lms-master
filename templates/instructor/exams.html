@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="content-section">
+    <h1> Exam Practice </h1>
+</div>
+
+<div class="content-section">
+
+<h4> Exam practice is not graded. </h4>
+<h5> It is your chance to practice vocab and grammar and check your grade </h5>
+
+<br> 
+
+{% for i in range(reviewList|length) %}  
+<h4> <a href="{{reviewList[i]}}" target="__blank">Review {{i+1}}</a></h4>
+<br>
+{% endfor %}
+
+</div>
+
+<div class="content-section">
+
+<h4> Bonus quizzes can improve your final score </h4>
+<br> 
+
+{% for i in range(bonusList|length) %}    
+<div style="">
+<h4> <a href="{{bonusList[i]}}" target="__blank">Bonus {{i+1}}</a></h4>
+<br>
+
+{% endfor %}
+   
+
+</div>
+
+
+      
+
+{% endblock %}
+
+
+{% block script %}   
+  
+{% endblock %} 

@@ -312,8 +312,7 @@ def unit(unit_num,part_num,fm,qs):
         ]
         counter = counter+1 
 
-    dictCount = len(ansDict)
-    print(ansDict) 
+    dictCount = len(ansDict)    
 
     fieldsList = [
         None,
