@@ -18,30 +18,8 @@ function cancel(){
     location.reload();
 }
 
-
-function checkOne(){
-        value = document.getElementById('audioData01').value
-        if (value == 'base64data'){
-            alert('You have not saved your Task 1 recording yet. Please SAVE or CANCEL.')
-        }
-        else{
-            //pass
-        }
-        
-    }
-
-function checkTwo(){
-        value = document.getElementById('audioData02').value
-        if (value == 'base64data'){
-            alert('You have not saved your Task 2 recording yet. Please SAVE or CANCEL.')
-        }
-        else{
-            //pass
-        }
-        
-    }
-function submit(){    
-    $("#submit").click();       
+function submit(){
+    $("#submit").click();    
 }
 
 function Source(task){
@@ -73,8 +51,7 @@ function AnRecord(task){
     startBtn.onclick = function(){
         console.log('pressed'); 
         startBtn.setAttribute('disabled', true);
-        stopBtn.removeAttribute('disabled'); 
-        stopBtn.style.backgroundColor="red";        
+        stopBtn.removeAttribute('disabled');        
         mediaRecorder.start();       
         document.getElementById('audioData0' + task).value = "";
         console.log('status:' + mediaRecorder.state);
@@ -119,7 +96,7 @@ function AnRecord(task){
         reader.readAsDataURL(blob); 
         reader.onloadend = function() {
         base64data = reader.result.split(',')[1]; //remove padding from beginning of string
-        document.getElementById('audioData0' + task).value = 'base64data';
+        document.getElementById('audioData0' + task).value = base64data;
         document.getElementById('android' + task).setAttribute('controls', true)
         document.getElementById('android' + task).src = blobURL
         saveBtn.onclick = function(){

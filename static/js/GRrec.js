@@ -148,7 +148,7 @@
                     reader.onload = function(){ 
                         var base64data = this.result.split(',')[1]  // <-- this.result contains a base64 data URI                              
                         document.getElementById('audioLen01').value = AudioLength;                        
-                        document.getElementById('audioData01').value = base64data
+                        document.getElementById('audioData01').value = 'base64data'
                         
                         saveBtnGR.onclick = function(){
                             $.ajax({
@@ -203,7 +203,7 @@
                     reader.onload = function(){ 
                         var base64data = this.result.split(',')[1]  // <-- this.result contains a base64 data URI                              
                         document.getElementById('audioLen02').value = AudioLength2;                        
-                        document.getElementById('audioData02').value = base64data
+                        document.getElementById('audioData02').value = 'base64data'
                         saveBtnGR2.onclick = function(){
                             $.ajax({
                                 data : {

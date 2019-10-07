@@ -71,7 +71,7 @@
                   <div class="card-header" id="headingOne">
                       <button class="btn btn-success btn-sm" style="width:10rem" type="button" data-toggle="collapse" 
                         data-target="#collapseA1" aria-expanded="flase" aria-controls="collapseA1"
-                        onclick="checkTwo(); AnRecord('1'); Source('1')">
+                        onclick="AnRecord('1'); Source('1')">
                         Android  <!------ANDROID--1---------------------------------------------------------------->
                     </button> 
                   </div>
@@ -85,8 +85,8 @@
                     <div class=row>	
                             <div class="col-sm-6">				
                                 <button class="btn btn-success" id="startAn1">Start</button>
-                                <button class="btn btn-outline-danger" style="color:white" id="stopAn1" disabled>Stop</button>
-                                <button class="btn btn-info" id="saveAn1" disabled>Save</button>
+                                <button class="btn btn-outline-danger" id="stopAn1" disabled>Stop</button>
+                                <button class="btn btn-info" id="saveAn1" onclick="submit()" disabled>Save</button>
                                 <button class="btn btn-secondary-outline" onclick="cancel()">Cancel</button>
                             </div> 
                     </div>
@@ -99,7 +99,7 @@
                   <div class="card-header" id="headingTwo">
                     <button class="btn btn-secondary btn-sm" type="button" style="width:10rem" data-toggle="collapse" 
                         data-target="#collapseA2" aria-expanded="false" aria-controls="collapseA2"
-                        onclick="checkTwo(); Source('1')">
+                        onclick="Source('1')">
                         iPhone  <!-----iPHONE--1-------------------------------------------------------------->
                     </button> 
                   </div>
@@ -210,7 +210,7 @@
                     <div class="card-header">
                         <button class="btn btn-success btn-sm" style="width:10rem" type="button" data-toggle="collapse" 
                           data-target="#collapseB1" aria-expanded="flase" aria-controls="collapseB1"
-                          onclick="checkOne(); AnRecord('2'); Source('2')">
+                          onclick="AnRecord('2'); Source('2')">
                           Android  <!-- ANDROID--2-------------------------------------------------------------- -->
                       </button> 
                     </div>
@@ -225,8 +225,8 @@
                       <div class=row>	
                               <div class="col-sm-6">				
                                   <button class="btn btn-success" id="startAn2">Start</button>
-                                  <button class="btn btn-outline-danger" style="color:white" id="stopAn2" disabled>Stop</button>
-                                  <button class="btn btn-info" id="saveAn2" disabled>Save</button>
+                                  <button class="btn btn-outline-danger" id="stopAn2" disabled>Stop</button>
+                                  <button class="btn btn-info" id="saveAn2" onclick="submit()" disabled>Save</button>
                                   <button class="btn btn-secondary-outline" onclick="cancel()">Cancel</button>
                               </div> 
                       </div>
@@ -239,7 +239,7 @@
                     <div class="card-header" id="headingTwo">
                       <button class="btn btn-secondary btn-sm" type="button" style="width:10rem" data-toggle="collapse" 
                           data-target="#collapseB2" aria-expanded="false" aria-controls="collapseB2"
-                          onclick="checkOne(); Source('2')">
+                          onclick="Source('2')">
                           iPhone <!-----iPHONE--2-------------------------------------------------------------- -->
                       </button> 
                     </div>
@@ -255,7 +255,7 @@
                               <div class="col-sm-6">				
                                   <button class="btn btn-success js-start2">Start</button>
                                   <button class="btn btn-danger js-stop2" id="GRstop2" disabled>Stop</button>
-                                  <button class="btn btn-info js-save2" disabled>Save</button>
+                                  <button class="btn btn-info js-save2" disabled onclick="submit()">Save</button>
                                   <button class="btn js-cancel" onclick="cancel()">Cancel</button>
                               </div>
                           </div>                        
@@ -318,7 +318,7 @@
                                         {{ form.Notes(class="form-control form-control-lg")}}                                      
                                 </div> 
           
-                                      <div style="display:none">
+                                      <div style="">
                                           <div class="form-group"> 
                                               {{ form.AudioDataOne.label (class="form-control-label")}}                            
                                               {{ form.AudioDataOne(class="form-control form-control-lg", id="audioData01")}}                                                       
@@ -352,7 +352,7 @@
                                                   {% endfor %}
                                               </div>                          
                                           {% else %}
-                                              {{ form.TextOne(class="form-control form-control-lg", onkeypress="checkOne(); checkTwo()")}}
+                                              {{ form.TextOne(class="form-control form-control-lg")}}
                                           {% endif %}                           
                                     </div>
                               
@@ -366,7 +366,7 @@
                                                     {% endfor %}
                                                 </div>                          
                                             {% else %}
-                                                {{ form.TextTwo(class="form-control form-control-lg", onkeypress="checkOne(); checkTwo()")}}
+                                                {{ form.TextTwo(class="form-control form-control-lg")}}
                                             {% endif %}                           
                                     </div>
           
@@ -386,8 +386,7 @@
 
     <script type="text/javascript" src="{{url_for('static', filename= 'js/Mp3LameEncoder.js')}}"></script>
     <script type="text/javascript" src="{{url_for('static', filename= 'js/GRrec.js')}}"></script>   
-    <script type="text/javascript" src="{{url_for('static', filename= 'js/RecUp.js')}}"></script>  
-    
+    <script type="text/javascript" src="{{url_for('static', filename= 'js/RecUp.js')}}"></script>     
       
     {% endblock %} 
       

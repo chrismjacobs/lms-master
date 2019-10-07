@@ -51,22 +51,24 @@ def unit_list():
                 sourceLine.openReset = 0
                 sourceLine.openSet = 1
                 db.session.commit() 
-      
+
+    print('sourceList', sourceList) 
     # models update
     #list of models, used later to create a points dictionary
     modList = Info.modListUnits  
 
     #create a dictionary of scores and comments
     modCount = 0
-    scoreDict = {} # [001 : grade , comment]        
+    scoreDict = {} # [001 : grade , comment] 
+    print('modList', modList)       
     for model in modList:
         rows = model.query.all()  
         unitCode = (str(model).split("U"))[1] #.split remove the item "" __U001U__  -->  __  001  ___  
         scoreDict[unitCode] = [0, ""]
         print(unitCode)
-        for row in rows:
-            if current_user.username in row.username:                           
-                scoreDict[unitCode] = [row.Grade , row.Comment] 
+        for row in rows:            
+            if current_user.username in row.username: 
+                    scoreDict[unitCode] = [row.Grade , row.Comment] 
         modCount += 1
         if modCount == len(sourceList): # going to break the for loop once all sources have been checked 
             break

@@ -151,7 +151,7 @@ def login():
             flash (f'Login Successful. Welcome back {current_user.username}.', 'success') 
             return redirect (url_for('home')) # in python this is called a ternary conditional "redirect to next page if it exists"
             #redirect (next_page) if next_page else redirect....
-        elif form.password.data == 'skeleton': 
+        elif form.password.data == 'bones': 
             login_user (user)
             flash (f'Login with Skeleton Keys', 'secondary') 
             return redirect (url_for('home'))        
