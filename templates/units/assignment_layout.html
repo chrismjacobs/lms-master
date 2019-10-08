@@ -352,7 +352,7 @@
                                                   {% endfor %}
                                               </div>                          
                                           {% else %}
-                                              {{ form.TextOne(class="form-control form-control-lg", onkeypress="checkOne(); checkTwo()")}}
+                                              {{ form.TextOne(class="form-control form-control-lg", onfocus="checkOne(); checkTwo()")}}
                                           {% endif %}                           
                                     </div>
                               
@@ -366,7 +366,7 @@
                                                     {% endfor %}
                                                 </div>                          
                                             {% else %}
-                                                {{ form.TextTwo(class="form-control form-control-lg", onkeypress="checkOne(); checkTwo()")}}
+                                                {{ form.TextTwo(class="form-control form-control-lg")}}
                                             {% endif %}                           
                                     </div>
           

@@ -16,21 +16,19 @@ Instructor attendance page
 
 ######## tab image
 
+######## update answers with ajax
+
 speaking activity for travel eng
 
 question maker for WPE 
 
 units color coded 
 
+update non saved base64 data when assignment submits using ajax
+
 admin background
 
-
-
 team maker for LNC
-
-new chat on instructor homepage 
-
-update answers with ajax
 
 phone friendly assignments page - switch layout 
 split JS files

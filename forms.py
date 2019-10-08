@@ -28,7 +28,7 @@ class AttendInst(FlaskForm):
     attend = StringField ('Notice')   
     username =  StringField ('Name in English', validators=[DataRequired(), Length(min=2, max=20)])
     studentID = StringField ('Student ID', validators=[DataRequired(), Length(9)])                  
-    teamnumber = IntegerField ('Status') 
+    teamnumber = IntegerField ('Status (50-review; 97-disabled; 98-open; 99-late; 100-clear)') 
     #RadioField('Status', choices = [(97, 'disabled'), (98, 'open'), (99, 'late'), (100, 'clear')])
     teamcount = IntegerField ('Team Count')   
     teamsize = IntegerField ('Team Size (0 for no teams)')  

@@ -41,7 +41,7 @@
           <tr>
               <th scope="row" >Closed during class</a></th>
       {% else %}
-      <tbody style="color:rgb(195, 4, 116)">
+      <tbody style="display:none">
           <tr>
               <th scope="row" >Not open yet</a></th>
       {% endif %}
@@ -49,8 +49,12 @@
             <td> {{unit.unit}}-{{unit.part}}</td>                      
             <td> {{unit.title}} ({{unit.qnum}})</td>
             <td> {{unit.classdate.strftime('%b %d')}}</td>  
-            <td> {{unit.duedate.strftime('%b %d')}}</td>              
-            <td> {{scoreDict[unit.unit + unit.part][0]}}/2</td>
+            <td> {{unit.duedate.strftime('%b %d')}}</td>
+            {% if scoreDict[unit.unit + unit.part][0] > 0 %}              
+            <td style="background:lightgreen"> {{scoreDict[unit.unit + unit.part][0]}}/2</td>
+            {% else %}
+            <td style="background:lightcoral"> {{scoreDict[unit.unit + unit.part][0]}}/2</td>
+            {% endif %}
             <td> {{scoreDict[unit.unit + unit.part][1]}}</td>
           </tr>       
       </tbody>

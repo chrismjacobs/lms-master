@@ -139,7 +139,7 @@ def att_team():
     openData = Attendance.query.filter_by(username='Chris').first()
     if openData:
         openCheck = openData.teamnumber
-        if openCheck == 98:  # open in normal state
+        if openCheck == 98 or openCheck == 50:  # 98 open in normal state, 50 open in midterm state - all units can be done
             form = Attend()  
         elif openCheck == 99:  # switch to late form
             form = AttendLate() 

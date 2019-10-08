@@ -43,7 +43,9 @@ def unit_list():
                 if sourceLine.unit != todaysUnit:
                     sourceLine.openReset = 100
                     sourceLine.openSet = 2
-                    db.session.commit()  
+                    db.session.commit() 
+    elif attStatus == 50:
+        pass 
     else:
         #return to normal state after attendence closed
         for sourceLine in sourceList:

@@ -12,11 +12,13 @@ try:
     S3_LOCATION = Settings.S3_LOCATION
     S3_BUCKET_NAME = Settings.S3_BUCKET_NAME  
     COLOR_SCHEMA = Settings.COLOR_SCHEMA
+    STUDENTID = Settings.STUDENTID
 except:
     s3_resource = boto3.resource('s3')
     S3_LOCATION = os.environ['S3_LOCATION'] 
     S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME'] 
     COLOR_SCHEMA = os.environ['COLOR_SCHEMA'] 
+    STUDENTID = []
 
 @app.route("/webrtc3", methods = ['GET', 'POST'])
 def webrtc3():       
@@ -34,6 +36,75 @@ def about():
 def course():
     course = Course.query.order_by(asc(Course.date)).all()   
     return render_template('instructor/course.html', course=course)
+
+@app.route("/purge", methods = ['GET', 'POST'])
+@login_required
+def purge():
+    if current_user.id != 1:
+        return abort(403)  
+    
+    newModList = [Info.modListUnits[0]]
+
+    purgeDict = {}
+    for mod in Info.modListUnits:
+        lines = mod.query.filter_by(Grade=0).all()
+        names = []
+        for line in lines:
+            if line.Ans01 == "":  
+                names.append(line.username) 
+            else:
+                purgeDict[line.username] = ['check', mod ] 
+        purgeDict[mod] = names
+    
+    print (purgeDict)
+
+
+
+    return render_template('instructor/purge.html', purgeDict=purgeDict)
+
+
+@app.route ("/att_log")
+@login_required
+def att_log():  
+    if current_user.id != 1:
+        return abort(403)
+
+    ## create a list of all course dates
+    course = Course.query.order_by(asc(Course.date)).all()   
+    dateList = []
+    for c in course:
+        date = c.date
+        dateList.append(date.strftime("%m/%d"))    
+    print('dateList', dateList)   
+    
+    ## log all dates when attendance was complete (and show total att score)
+    attLogDict = {}
+    for number in STUDENTID:        
+        attLogDict[number] = []
+    for attLog in attLogDict:
+        logs = AttendLog.query.filter_by(studentID=str(attLog)).all() 
+        attGrade = 0        
+        if logs:                        
+            for log in logs:
+                d = log.date_posted
+                dStr = d.strftime("%m/%d")                
+                attLogDict[attLog].append(dStr) 
+                attGrade = attGrade + log.attScore
+            attLogDict[attLog].insert(0, attGrade) 
+        
+    print('attLogDict', attLogDict)
+
+    ##get names for all student IDs
+    userDict = {}
+    users = User.query.all()
+    for user in users:
+        userDict[int(user.studentID)] = user.username
+
+    today = datetime.now()
+    todayDate = today.strftime("%m/%d")  
+
+    return render_template('instructor/att_log.html', attLogDict=attLogDict, dateList=dateList, todayDate=todayDate, userDict=userDict)  
+
 
 @app.route("/exams", methods = ['GET', 'POST'])
 @login_required
@@ -290,9 +361,8 @@ def att_int():
             openData.teamsize = form.teamsize.data 
             openData.teamcount = form.teamcount.data 
             openData.unit =  form.unit.data        
-            db.session.commit()  
-              
-            db.session.commit()
+            db.session.commit() 
+            
             flash('Attendance has been updated', 'secondary') 
             return redirect(url_for('att_team')) 
         else:
