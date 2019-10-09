@@ -33,9 +33,11 @@
 
 
         <div class="content-section">   
-              <h2 style="display: inline-block"> Task 1 Pronunciation Practice </h2>              
+              <h2 style="display: inline-block"> Task 1 Pronunciation Practice </h2> 
+            {% if speechModel.AudioDataOne == "" %}  
+            {% else %}           
             <button id="modelBtn1" type="button" class="btn btn-default btn-sm" style="float:right;" value="{{speechModel.AudioDataOne}}" onclick="modelPlay(1)">Instructor <br> Model</button>	
-            
+            {% endif %}
 
             {% if count == 0  %}
             <div class="">                              
@@ -164,8 +166,11 @@
 <!---//////////////////////////////////////////////////////////////////////////////////////////////////////---->  
 
             <div class="content-section">   
-                <h2 style="display: inline-block"> Task 2 Speaking Practice </h2>              
-                <button id="modelBtn2" type="button" class="btn btn-default btn-sm" style="float:right;" value="{{speechModel.AudioDataTwo}}" onclick="modelPlay(2)">Instructor <br> Model</button>	
+                <h2 style="display: inline-block"> Task 2 Speaking Practice </h2>  
+                {% if speechModel.AudioDataTwo == "" %}  
+                {% else %}           
+                    <button id="modelBtn1" type="button" class="btn btn-default btn-sm" style="float:right;" value="{{speechModel.AudioDataTwo}}" onclick="modelPlay(1)">Instructor <br> Model</button>	
+                {% endif %}            
                                 
   
                 {% if count == 0  %}
