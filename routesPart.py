@@ -67,15 +67,19 @@ def unit_list():
         rows = model.query.order_by(asc(model.id)).all()  
         unitCode = (str(model).split("U"))[1] #.split remove the item "" __U001U__  -->  __  001  ___  
         scoreDict[unitCode] = [0, ""]        
-        for row in rows:            
-            if current_user.username in row.username:
-                # this code prevents score being replaced by Zeros but Zeros will be replaced by scores                
+        for row in rows: 
+            # need to stop Chris being found when ChrisHsu is present in a string 
+            if current_user.username + ',' in row.username or current_user.username + '"' in row.username or current_user.username + '}' in row.username:
+                # this code prevents scores being replaced by Zeros but Zeros will be replaced by scores                
                 if scoreDict[unitCode][0] == 2:
                     print ('pass2') 
                     pass 
                 elif scoreDict[unitCode][0] == 1:
-                    print ('pass1') 
-                    pass 
+                    if row.Grade == 2:
+                        scoreDict[unitCode] = [row.Grade , row.Comment] 
+                    else:                         
+                        print ('pass1') 
+                        pass 
                 else:                   
                     scoreDict[unitCode] = [row.Grade , row.Comment] 
         modCount += 1
@@ -122,7 +126,7 @@ def team_details ():
     try:
         teamnumber = Attendance.query.filter_by(username=current_user.username).first().teamnumber
         if teamnumber == 0:
-            namesRange = current_user.username 
+            namesRange = [current_user.username]
         else:
         # confirm names of team
             names = Attendance.query.filter_by(teamnumber=teamnumber).all()   
@@ -133,7 +137,7 @@ def team_details ():
     except: 
         # create a unique teamnumber for solo users
         teamnumber = current_user.id + 100
-        nameRange = current_user.username 
+        nameRange = [current_user.username] 
         print ('Teamnumber: ', teamnumber)
     return [teamnumber, nameRange]
 
