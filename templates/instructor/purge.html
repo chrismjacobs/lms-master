@@ -6,7 +6,12 @@
 
 <legend class="border-bottom mb-4">Purging Unfinished Units</legend>
 
-{{purgeDict}}
+{% for purge in purgeDict %}
+
+{{purge}} : {{purgeDict[purge]}}
+<br>
+
+{% endfor %}
 
 </div>
 

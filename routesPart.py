@@ -64,12 +64,19 @@ def unit_list():
     scoreDict = {} # [001 : grade , comment] 
     print('modList', modList)       
     for model in modList:
-        rows = model.query.all()  
+        rows = model.query.order_by(asc(model.id)).all()  
         unitCode = (str(model).split("U"))[1] #.split remove the item "" __U001U__  -->  __  001  ___  
-        scoreDict[unitCode] = [0, ""]
-        print(unitCode)
+        scoreDict[unitCode] = [0, ""]        
         for row in rows:            
-            if current_user.username in row.username: 
+            if current_user.username in row.username:
+                # this code prevents score being replaced by Zeros but Zeros will be replaced by scores                
+                if scoreDict[unitCode][0] == 2:
+                    print ('pass2') 
+                    pass 
+                elif scoreDict[unitCode][0] == 1:
+                    print ('pass1') 
+                    pass 
+                else:                   
                     scoreDict[unitCode] = [row.Grade , row.Comment] 
         modCount += 1
         if modCount == len(sourceList): # going to break the for loop once all sources have been checked 

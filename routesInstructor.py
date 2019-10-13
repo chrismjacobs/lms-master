@@ -52,6 +52,8 @@ def purge():
         for line in lines:
             if line.Ans01 == "":  
                 names.append(line.username) 
+                mod.query.filter_by(id=line.id).delete()                
+                db.session.commit()
             else:
                 purgeDict[line.username] = ['check', mod ] 
         purgeDict[mod] = names
