@@ -6,6 +6,7 @@ from app import app, db, bcrypt, mail
 from flask_login import login_user, current_user, logout_user, login_required
 from forms import *   
 from models import *
+
 try:
     from aws import Settings    
     s3_resource = Settings.s3_resource  
@@ -60,8 +61,6 @@ def purge():
     
     print (purgeDict)
 
-
-
     return render_template('instructor/purge.html', purgeDict=purgeDict)
 
 
@@ -107,6 +106,26 @@ def att_log():
 
     return render_template('instructor/att_log.html', attLogDict=attLogDict, dateList=dateList, todayDate=todayDate, userDict=userDict)  
 
+def examCheck(): 
+    from spreadsheet import Sheets    
+
+    examDict = {}
+    count = 0
+    for sheet in Sheets.sheets:    
+        sheetName = str(sheet).split("'")[1]
+        examDict[sheetName] = []
+        record_score = sheet.col_values(5)           
+        record_id = sheet.col_values(4)
+        listLen = len(record_score) 
+        for i in range(listLen):
+            if record_id[i] == current_user.studentID:
+                examDict[sheetName].append(record_score[i])
+        # only show first two sheets (not exams)
+        count += 1        
+        if count > 1:
+            break         
+    
+    return examDict
 
 @app.route("/exams", methods = ['GET', 'POST'])
 @login_required
@@ -115,9 +134,12 @@ def exams():
     course = Course.query.order_by(asc(Course.date)).all()    
     review = Course.query.filter_by(unit='E1').first()       
     reviewList = eval(str(review.linkTwo))
-    bonusList = eval(str(review.embed))       
+    bonusList = eval(str(review.embed))
 
-    return render_template('instructor/exams.html', reviewList=reviewList, bonusList=bonusList)
+    examDict = examCheck()
+    print (examDict)
+
+    return render_template('instructor/exams.html', reviewList=reviewList, bonusList=bonusList, examDict=examDict)
 
 @app.route("/openSet/<string:unit>/<string:part>", methods = ['POST'])
 def openSet(unit,part):
