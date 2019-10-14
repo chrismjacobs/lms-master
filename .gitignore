@@ -3,9 +3,9 @@ static/.DS_Store
 
 
 setup.txt
-aws.py 
-Exam.json
+aws.py
 spreadsheet.py
+Exam.json
 .env
 venv
 
