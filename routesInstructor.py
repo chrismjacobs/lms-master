@@ -106,26 +106,7 @@ def att_log():
 
     return render_template('instructor/att_log.html', attLogDict=attLogDict, dateList=dateList, todayDate=todayDate, userDict=userDict)  
 
-def examCheck(): 
-    from spreadsheet import Sheets    
 
-    examDict = {}
-    count = 0
-    for sheet in Sheets.sheets:    
-        sheetName = str(sheet).split("'")[1]
-        examDict[sheetName] = []
-        record_score = sheet.col_values(5)           
-        record_id = sheet.col_values(4)
-        listLen = len(record_score) 
-        for i in range(listLen):
-            if record_id[i] == current_user.studentID:
-                examDict[sheetName].append(record_score[i])
-        # only show first two sheets (not exams)
-        count += 1        
-        if count > 1:
-            break         
-    
-    return examDict
 
 @app.route("/exams", methods = ['GET', 'POST'])
 @login_required
@@ -135,9 +116,6 @@ def exams():
     review = Course.query.filter_by(unit='E1').first()       
     reviewList = eval(str(review.linkTwo))
     bonusList = eval(str(review.embed))
-
-    examDict = examCheck()
-    print (examDict)
 
     return render_template('instructor/exams.html', reviewList=reviewList, bonusList=bonusList, examDict=examDict)
 
