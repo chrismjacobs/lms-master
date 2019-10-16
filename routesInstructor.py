@@ -69,6 +69,11 @@ def purge():
 def att_log():  
     if current_user.id != 1:
         return abort(403)
+    
+    FRDID = [120512208, 120512220, 120512225, 120514112, 120554035, 120554038,120554051,120554054,120554062,120554102,120554125,120654029,120654033,120654042,120770904,120854002,120854003,120854004,120854005,120854006,120854007,120854008,120854009,120854010,120854011,120854012,120854013,120854015,120854016,120854017,120854018,120854019,120854020,120854021,120854022,120854023,120854025,120854026,120854028,120854029,120854030,120854031,120854032,120854033,120854034,120854037,120854040,120854041,120854044,120854045,120854047,120854048,120854049,120854050,120854051,120854052,320612314,320852201,320852202,320852203,320852204,320852205,320852206,320852207,320852208,320852209,320852210,320852212,320852214,320852215,320852216,320852217,320852218,320852219,320852220,320852221] 
+    WPEID = [120454062,120454111,120454115,120454132,120454138,120454142,120454149,120514112,120554009,120554014,120554062,120554102,120554103,120554118,120554125,120654055,120714160,120735608,120754002,120754003,120754004,120754006,120754009,120754011,120754012,120754013,120754015,120754016,120754018,120754019,120754020,120754021,120754023,120754024,120754026,120754029,120754030,120754031,120754034,120754037,120754038,120754040,120754041,120754044,120754045,120754047,120754050,120754051,120754053,120754054,120754055,120754057,120754058,120754059,120754060,120754061,120754062,120754063,120754065,120754066,120754502,120754505,120754509,120754510,120754511,120754514,120754515,320612314] 
+    ICCID = [120433033,120454111,120454138,120536002,120536011,120536019,120614035,120614055,120614102,120614103,120614105,120614116,120614118,120614119,120614125,120614132,120614133,120615233,120654003,120654005,120654006,120654007,120654008,120654009,120654010,120654012,120654013,120654014,120654018,120654019,120654022,120654026,120654028,120654029,120654030,120654031,120654033,120654034,120654039,120654040,120654041,120654042,120654045,120654051,120654052,120654055,120654056,120654064,120654065,120654066,120654067,120654068,120654505,120715231,320451002,320451349]     
+    IDLIST = [0, FRDID, WPEID, ICCID]
 
     ## create a list of all course dates
     course = Course.query.order_by(asc(Course.date)).all()   
@@ -79,8 +84,8 @@ def att_log():
     print('dateList', dateList)   
     
     ## log all dates when attendance was complete (and show total att score)
-    attLogDict = {}
-    for number in STUDENTID:        
+    attLogDict = {}    
+    for number in IDLIST[int(COLOR_SCHEMA)]:        
         attLogDict[number] = []
     for attLog in attLogDict:
         logs = AttendLog.query.filter_by(studentID=str(attLog)).all() 
@@ -106,7 +111,26 @@ def att_log():
 
     return render_template('instructor/att_log.html', attLogDict=attLogDict, dateList=dateList, todayDate=todayDate, userDict=userDict)  
 
+def examCheck(): 
+    from spreadsheet import Sheets    
 
+    examDict = {}
+    count = 0
+    for sheet in Sheets.sheets:    
+        sheetName = str(sheet).split("'")[1]
+        examDict[sheetName] = []
+        record_score = sheet.col_values(5)           
+        record_id = sheet.col_values(4)
+        listLen = len(record_score) 
+        for i in range(listLen):
+            if record_id[i] == current_user.studentID:
+                examDict[sheetName].append(record_score[i])
+        # only show first two sheets (not exams)
+        count += 1        
+        if count > 1:
+            break         
+    
+    return examDict
 
 @app.route("/exams", methods = ['GET', 'POST'])
 @login_required
@@ -117,7 +141,10 @@ def exams():
     reviewList = eval(str(review.linkTwo))
     bonusList = eval(str(review.embed))
 
-    return render_template('instructor/exams.html', reviewList=reviewList, bonusList=bonusList, examDict=examDict)
+    reviewExam = examCheck()
+    print (reviewExam)
+
+    return render_template('instructor/exams.html', reviewList=reviewList, bonusList=bonusList, reviewExam=reviewExam)
 
 @app.route("/openSet/<string:unit>/<string:part>", methods = ['POST'])
 def openSet(unit,part):

@@ -5,6 +5,7 @@ from app import app, db, bcrypt, mail
 from flask_login import login_user, current_user, logout_user, login_required
 from forms import * 
 from models import *
+import ast # eval literal for list str
 try:
     from aws import Settings    
     s3_resource = Settings.s3_resource  
