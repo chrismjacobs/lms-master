@@ -63,15 +63,14 @@ def unit_list():
 
     #create a dictionary of scores and comments
     modCount = 0
-    scoreDict = {} # [001 : grade , comment] 
-    print('modList', modList)       
+    scoreDict = {} # [001 : grade , comment]         
     for model in modList:
         rows = model.query.order_by(asc(model.id)).all()  
         unitCode = (str(model).split("U"))[1] #.split remove the item "" __U001U__  -->  __  001  ___  
         scoreDict[unitCode] = [0, ""]        
-        for row in rows: 
+        for row in rows:
             # need to stop Chris being found when ChrisHsu is present in a string 
-            if current_user.username + ',' in row.username or current_user.username + '"' in row.username or current_user.username + '}' in row.username:
+            if current_user.username + ',' in row.username or current_user.username + '"' in row.username or current_user.username + '}' in row.username or current_user.username == row.username:
                 # this code prevents scores being replaced by Zeros but Zeros will be replaced by scores                
                 if scoreDict[unitCode][0] == 2:
                     print ('pass2') 
@@ -131,18 +130,22 @@ def team_details ():
             namesRange = [current_user.username]
         else:
         # confirm names of team
-            names = Attendance.query.filter_by(teamnumber=teamnumber).all()   
-            nameRange = []
-        for student in names:
-            nameRange.append(student.username)    
+            names = Attendance.query.filter_by(teamnumber=teamnumber).all()
+            nameRange = [student.username for student in names]             
+        #for student in names:
+            #nameRange.append(student.username)    
         print ('NAMES', nameRange)
     except: 
         # create a unique teamnumber for solo users
         teamnumber = current_user.id + 100
         nameRange = [current_user.username] 
         print ('Teamnumber: ', teamnumber)
-    return [teamnumber, nameRange]
+    nnDict = { 'teamnumber' : teamnumber, 
+                    'nameRange' : nameRange}
+    return nnDict
 
+
+# check the score of teams during participation
 @app.route('/partCheck', methods=['POST'])
 def scoreCheck():  
     string = request.form ['ansDict']
@@ -261,9 +264,9 @@ def unit_instructor(unit_num,part_num,qs):
 @login_required
 def unit(unit_num,part_num,fm,qs):
         
-    teamdeets = team_details ()
-    teamnumber = teamdeets[0]
-    nameRange = teamdeets[1]    
+    nnDict = team_details ()
+    teamnumber = nnDict['teamnumber']
+    nameRange = nnDict['nameRange']     
 
     if int(fm) == 2:
         return redirect(url_for('unit_sl', unit_num=unit_num))
@@ -461,9 +464,9 @@ def unit_sl(unit_num):
         flash('This unit is not open at the moment', 'danger')
         return redirect(url_for('unit_list'))    
     
-    teamdeets = team_details()
-    teamnumber = teamdeets[0]
-    nameRange = teamdeets[1]
+    nnDict = team_details ()
+    teamnumber = nnDict['teamnumber']
+    nameRange = nnDict['nameRange']  
     
     lisTasks = U555.query.filter_by(unit=unit_num).all()   
     #lisList = [] 
