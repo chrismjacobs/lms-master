@@ -1,0 +1,25 @@
+{ "U05" :
+    { 
+    "1" : { 
+        "w" : "word",
+        "e" : "", 
+        "d" : "definition", 
+        "i" : "image", 
+        "l" : "link", 
+        "x" : "extraText", 
+        "q" : "question", 
+        "c" : "choices"
+        },
+
+    "2" : { 
+        "w" : "word",
+        "e" : "example", 
+        "d" : "definition", 
+        "i" : "image", 
+        "l" : "link", 
+        "x" : "extraText", 
+        "q" : "question", 
+        "c" : "choices"
+        }
+    }
+}

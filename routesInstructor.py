@@ -1,4 +1,4 @@
-import sys, boto3, random, base64, os, secrets, httplib2
+import sys, boto3, random, base64, os, secrets, httplib2, json
 from sqlalchemy import asc, desc 
 from datetime import datetime, timedelta
 from flask import render_template, url_for, flash, redirect, request, abort, jsonify  
@@ -30,7 +30,13 @@ def webrtc3():
 @login_required 
 def about():     
     about = Sources.query.filter_by(unit='00').filter_by(part='1').first().notes
-    return render_template('instructor/about.html', about=about, siteName=S3_BUCKET_NAME)
+
+    with open ("FRD.json", "r") as f:
+        jload = json.load(f) 
+
+    data = jload["U05"]["1"]
+
+    return render_template('instructor/about.html', about=about, siteName=S3_BUCKET_NAME, data=data)
 
 @app.route("/course", methods = ['GET', 'POST'])
 @login_required
@@ -374,6 +380,7 @@ def inchat(user_name):
     return render_template('instructor/inchat.html', form=form, dialogues=dialogues, name=user_name, image_chris=image_chris, image_file=image_file)
 
 
+# set up the attendence for the day
 @app.route("/attend_int", methods = ['GET', 'POST'])
 @login_required
 def att_int():
