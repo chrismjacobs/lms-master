@@ -50,8 +50,10 @@
             <td> {{unit.title}} ({{unit.qnum}})</td>
             <td> {{unit.classdate.strftime('%b %d')}}</td>  
             <td> {{unit.duedate.strftime('%b %d')}}</td>
-            {% if scoreDict[unit.unit + unit.part][0] > 0 %}              
+            {% if scoreDict[unit.unit + unit.part][0] ==2 %}              
             <td style="background:lightgreen"> {{scoreDict[unit.unit + unit.part][0]}}/2</td>
+            {% elif scoreDict[unit.unit + unit.part][0] ==1 %}              
+            <td style="background:lightblue"> {{scoreDict[unit.unit + unit.part][0]}}/2</td>            
             {% else %}
             <td style="background:lightcoral"> {{scoreDict[unit.unit + unit.part][0]}}/2</td>
             {% endif %}
