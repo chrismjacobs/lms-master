@@ -9,17 +9,16 @@
 
 <div class="content-section">  
 	<div style="display:none">
-       <input id="ansDict" value="{{ansDict}}" >   
-	   <input id="qNum" value="{{qNumber}}" > 
+      
+	   <input id="qNum" value="{{qNumber}}" >
+	   <input id="unit_num" value="{{unit_num}}" > 
+	   <input id="part_num" value="{{part_num}}" >
     </div>
 
 	<h1 id="percent"></h1>
 	<br>
 	<h5><pre id="scores"></pre></h5>
-	
-	 
-	
-
+ 	
 </div>
 <!--Materials_________________________________________-->
 
@@ -46,7 +45,7 @@
 </div>
 
 <div class="content-section">	
-{% for i in range(1,qNumber) %}
+{% for i in range(1,qNumber+1) %}
 	
 		<section class="content-section">
 
@@ -78,23 +77,23 @@
 
 <script>        
 
-    var myVar = setInterval(partCheck, 10000);
+    var myVar = setInterval(partCheck, 5000);
     
-    function partCheck() {
-		
+    function partCheck() {		
 		$.ajax({
 			data : {
-				ansDict : $('#ansDict').val(),  qNum : $('#qNum').val()
+				qNum : $('#qNum').val(), unit_num : $('#unit_num').val(), part_num : $('#part_num').val()
 			},
 			type : 'POST',
             url : '/partCheck', 
            
 		})
 		.done(function(data) {            
-                           
+			
             document.getElementById('percent').innerHTML =  'Percent Complete: ' + data.percent + ' %'            
 			document.getElementById('scores').innerHTML =  data.scores
 		});
+	
     }
 
 </script>

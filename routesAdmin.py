@@ -65,7 +65,7 @@ def admin():
     assKeys = list(assDict.keys())
 
            
-    return render_template('instructor/admin_menu.html', assKeys=assKeys, mainList=mainList, unitsKeys=unitsKeys )
+    return render_template('instructor/admin_menu.html', assKeys=assKeys, mainList=mainList, unitsKeys=unitsKeys, title='admin')
 
 
 

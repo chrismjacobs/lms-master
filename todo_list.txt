@@ -18,13 +18,20 @@ Instructor attendance page
 
 ######## update answers with ajax
 
-speaking activity for travel eng
+###### speaking activity for travel eng
+
+####units color coded
+
 
 question maker for WPE 
 
-units color coded 
+grading update with exam scraper
+
+add tab headers for different pages
+
 
 update non saved base64 data when assignment submits using ajax
+Redo assignments page
 
 admin background
 

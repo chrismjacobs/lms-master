@@ -114,7 +114,7 @@ def unit_list():
 
     return render_template('units/unit_list.html', legend='Units Dashboard', 
     sourceList=sourceList, href=href, scoreDict=scoreDict, 
-    pointCounter=pointCounter, total=maxUni, color=color)
+    pointCounter=pointCounter, total=maxUni, color=color, title='unit_list')
 
 
 @app.route ("/unit")
@@ -148,52 +148,53 @@ def team_details ():
 # check the score of teams during participation
 @app.route('/partCheck', methods=['POST'])
 def scoreCheck():  
-    string = request.form ['ansDict']
     qNum = request.form ['qNum']
+    part_num = request.form ['part_num']
+    unit_num = request.form ['unit_num']
     
-    # EVAL may cause vulnerabilities in the code depending on the string    
-    ansDict = eval(string)        
-    qNum = int(qNum) -1 
-        
-    teamscores = {}
-    for ans in ansDict:
-        teamNum = ansDict[ans][0]
-        if teamNum <20:
-            teamscores[teamNum] = 0
-            for i in range (qNum):
-                if ansDict[ans][i+1] == "":
-                    pass
-                else: 
-                    teamscores[ansDict[ans][0]] += 1 
-        else:
-            pass
+    modDict = Info.modDictUnits
+    model = modDict[unit_num][int(part_num)]            
+    answers = model.query.all()  
+
+    scoreDict = {}
     
-    maxScore = len(teamscores) * qNum-1
-    actScore = sum(teamscores.values())
-    print ('xxxx', maxScore, actScore)
+    teamCount = 0 
+    for answer in answers: 
+        scoreList = [answer.Ans01, answer.Ans02, answer.Ans03, answer.Ans04, 
+        answer.Ans05, answer.Ans06, answer.Ans07, answer.Ans08]
+        if answer.teamnumber <21:
+            scoreDict[answer.teamnumber] = 0
+            for item in scoreList[0:int(qNum)+1]:               
+                if item != "" and item != None:
+                    scoreDict[answer.teamnumber]+=1
+        teamCount +=1
+    
+    print (scoreDict)    
+    
+    maxScore = len(scoreDict) * int(qNum)
+    actScore = sum(scoreDict.values())
+    print ('max', maxScore, 'act', actScore)
         
     percentFloat = (actScore / maxScore )*100
     percent = round (percentFloat, 1) 
-        
-    string1 = str(teamscores)
-    print(string1)
-    string2 = string1.replace('{', '')
-    string3 = string2.replace('}', '')
-    string4 = string3.replace(',', '  ')
-    string5 = string4.replace(': ', '-')
 
-    return jsonify({'percent' : percent, 'scores' : string5 })  
+    scores = ''
+    for key in scoreDict: 
+        scores = scores + str(key) + '-' + str(scoreDict[key]) + '  ' 
+    print (scores)
+    
+    return jsonify({'percent' : percent, 'scores' : scores })  
 
 
 @app.route ("/answers/<string:unit_num>/<string:part_num>/<string:qs>", methods=['GET','POST'])
 @login_required
 def unit_instructor(unit_num,part_num,qs):  
     if current_user.id != 1:
-        return abort(403)      
+        return abort(403)    
+
     # models update
     modDict = Info.modDictUnits
-    model = modDict[unit_num][int(part_num)] 
-    questionNum = int(qs)+1 # +1 because count starts at zero        
+    model = modDict[unit_num][int(part_num)]        
     source = Sources.query.filter_by(unit=unit_num).filter_by(part=part_num).first()            
          
     answers = model.query.all()  
@@ -211,48 +212,18 @@ def unit_instructor(unit_num,part_num,qs):
         answer.Ans07,
         answer.Ans08
         ]
-        counter = counter+1     
-
-    teamscores = {}
-    for ans in ansDict:
-        teamNum = ansDict[ans][0]
-        if teamNum <20:
-            teamscores[teamNum] = 0
-            for i in range (questionNum-1):
-                if ansDict[ans][i+1] == "":
-                    pass
-                else: 
-                    teamscores[ansDict[ans][0]] += 1 
-        else:
-            pass
+        counter = counter+1    
 
     dictCount = len(ansDict)
-    print(teamscores) 
-
-    teams = 0
-    score = 0
-    for ans in ansDict:
-        if ansDict[ans][0] < 50: # therefore only counting teams
-            teams += 1
-            for i in range (questionNum-1):                
-                if ansDict[ans][i+1] == "":                    
-                    pass                 
-                else:
-                    score += 1
-        else:
-            pass      
-    
-    percentFloat = (score / (teams * (questionNum-1)) )*100
-    percent = round (percentFloat, 1) 
-    
+        
     context = { 
-        'ansDict' : ansDict,         
-        'qNumber' : questionNum, 
+        'ansDict' : ansDict, 
+        'part_num' : part_num, 
+        'unit_num' : unit_num,        
+        'qNumber' : int(qs), 
         'source' : source,
-        'dictCount' : dictCount,
-        'score' : score,
-        'percent' : percent,
-        'teamscores' : teamscores
+        'dictCount' : dictCount,        
+        'title' : 'unit_IM'
     }
 
     return render_template('units/unit_instructor.html', **context)
