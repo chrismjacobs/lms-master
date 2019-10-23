@@ -31,15 +31,35 @@
     </table>      
 </div>
 
-{% if attendOpen == 1 %}      
+    
 <div class="content-section">
-<legend class="border-bottom mb-4">Roll Call</legend>
-<div>
-<button  class="btn btn-lg" style="background:pink"><a href= "{{ url_for ('att_team') }}">Attendance Open</a></button>
+<legend class="border-bottom mb-4">Scores (may change over time)</legend>
+
+<table class="table table-sm">
+        <thead>
+            <tr>
+              <th scope="col" style="width: 3px;">Class <br>Participation </th>
+              <th scope="col" style="width: 3px;">Assignment <br> Tasks</th>  
+              <th scope="col" style="width: 3px;">Exam (40%) </th> 
+            </tr>
+        </thead>
+        <tbody>
+            <tr>            
+              <td> <h3> {{(color2 * 30) | int}}/30% </h3></td>   
+              <td>  <h3> {{(color3 * 30) | int}}/30%</h3></td>  
+              <td>  <h3> Tries:{{exam}} </h3></td>             
+            </tr>  
+            <tr>            
+              <td> <a href="{{url_for('unit_list')}}"> Update/Improve </a> </td>   
+              <td> <a href="{{url_for('assignment_list')}}"> Update/Improve </a> </td>  
+              <td> <a href="{{url_for('exams')}}"> Practice Now </a> </td>            
+            </tr>      
+        </tbody>
+</table> 
+
+
 </div>
-    <br>
-</div>
-{% endif %}
+
 
 
 <div class="content-section">
