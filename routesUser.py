@@ -49,8 +49,9 @@ def chatCheck():
 
 @app.route ("/", methods = ['GET', 'POST'])
 @app.route ("/home", methods = ['GET', 'POST'])
-def home():      
+def home():     
     
+
     form = Chat()
     
     if current_user.is_authenticated:
@@ -73,20 +74,10 @@ def home():
             form.chat.data = ""
             image_file = S3_LOCATION + current_user.image_file
             image_chris = S3_LOCATION + User.query.filter_by(id=1).first().image_file  
-    else:
-        dialogues = None
-        name = None    
-        image_file = None
-        image_chris = None
-        chat = None
-        fieldsGrade = None
-        attLog = None
-    
-    
-    if current_user.is_authenticated:        
+
         fieldsGrade = Grades.query.filter_by(username=current_user.username).first() 
         attLog = AttendLog.query.filter_by(username=current_user.username).all()
-        
+        # Update attendance score     
         scoreCounter = 0 
         for score in attLog:            
             scoreCounter += score.attScore
@@ -101,33 +92,49 @@ def home():
         maxAss = Grades.query.order_by(desc(Grades.assignments)).first().assignments
         maxAtt = Grades.query.order_by(desc(Grades.attend)).first().attend
     
-    #set up colors
-    try:
-        color1 = fieldsGrade.attend/maxAtt
-    except:
-        color1 = 0
-    try:
-        color2 = fieldsGrade.units/maxUni
-    except:
-        color2 = 0 
-    try:
-        color3 = fieldsGrade.assignments/maxAss
-    except:
-        color3 = 0       
-
-
-    if Attendance.query.filter_by(username='Chris').first():
-        if Attendance.query.filter_by(username='Chris').first().teamnumber > 97:    
-            attendOpen = 1
-        else:
-            attendOpen = 0
+        #set up colors/scoring
+        colorDict = {
+            'color1' :  [0, fieldsGrade.attend, maxAtt],
+            'color2' :  [0, fieldsGrade.units, maxUni],
+            'color3' :  [0, fieldsGrade.assignments, maxAss]
+        }
+        for key in colorDict:
+            try:
+                colorDict[key][0] = colorDict[key][1] / colorDict[key][2]
+            except:
+                pass
+        context = {
+        'form' : form, 
+        'dialogues' : dialogues, 
+        'name' :name, 
+        'image_chris' : image_chris, 
+        'image_file' :image_file, 
+        'chat' : chat, 
+        'fieldsGrade' : fieldsGrade,
+        'color1' : colorDict['color1'][0], 
+        'color2' : colorDict['color2'][0],
+        'color3' : colorDict['color3'][0],          
+        'attLog' : attLog,
+        'exam' : Grades.query.filter_by(username=current_user.username).first().extraInt
+        }
     else:
-        attendOpen = 0
-     
+        context = {
+        'form' : None, 
+        'dialogues' : None, 
+        'name' :None, 
+        'image_chris' : None, 
+        'image_file' :None, 
+        'chat' : None , 
+        'fieldsGrade' : None,
+        'color1' : 0, 
+        'color2' : 0,
+        'color3' : 0,          
+        'attLog' : None,
+        'exam' : None
+        }
+    
 
-    return render_template('user/home.html', form=form, dialogues=dialogues, name=name, 
-    image_chris=image_chris, image_file=image_file, chat=chat, fieldsGrade=fieldsGrade,
-    color1=color1, color2=color2, color3=color3, attendOpen=attendOpen, attLog=attLog )
+    return render_template('user/home.html', **context )
    
 ######## Attendance //////////////////////////////////////////////
 @app.route("/attend_team", methods = ['GET', 'POST'])

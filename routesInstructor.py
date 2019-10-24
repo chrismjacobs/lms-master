@@ -117,10 +117,11 @@ def att_log():
 
     return render_template('instructor/att_log.html', title='att_log', attLogDict=attLogDict, dateList=dateList, todayDate=todayDate, userDict=userDict)  
 
-def examCheck(): 
+def examCheck(sheetCount): 
     from spreadsheet import Sheets    
 
     examDict = {}
+    attempts = 0 
     count = 0
     for sheet in Sheets.sheets:    
         sheetName = str(sheet).split("'")[1]
@@ -131,11 +132,19 @@ def examCheck():
         for i in range(listLen):
             if record_id[i] == current_user.studentID:
                 examDict[sheetName].append(record_score[i])
+                attempts += 1
         # only show first two sheets (not exams)
         count += 1        
-        if count > 1:
+        if count > sheetCount-1:
             break         
     
+    #Add review attempts to Grade data
+    if Grades.query.filter_by(username=current_user.username).first().extraInt == attempts:
+        pass
+    else: 
+        Grades.query.filter_by(username=current_user.username).first().extraInt = attempts
+        db.session.commit()
+
     return examDict
 
 @app.route("/exams", methods = ['GET', 'POST'])
@@ -147,10 +156,49 @@ def exams():
     reviewList = eval(str(review.linkTwo))
     bonusList = eval(str(review.embed))
 
-    reviewExam = examCheck()
+    reviewExam = examCheck(2)
     print (reviewExam)
 
     return render_template('instructor/exams.html', title='exams', reviewList=reviewList, bonusList=bonusList, reviewExam=reviewExam)
+
+@app.route("/MTGrades", methods = ['GET', 'POST'])
+@login_required
+def MTGrades():
+    midGrades = Grades.query.order_by(asc(Grades.studentID)).all()
+    MT_ass = Info.modListAss[0:4]
+    print (MT_ass)
+
+    exams = examCheck(2)
+
+    maxUniFactor = 30 / Grades.query.order_by(desc(Grades.units)).first().units  
+    maxAssFactor = 30 / Grades.query.order_by(desc(Grades.assignments)).first().assignments
+    
+
+    mtDict = {}
+    for item in midGrades:
+        bonus = 0 
+        ass = round(item.assignments * maxAssFactor , 1 )
+        part = round(item.units * maxUniFactor, 1 )
+        exam = 30 
+        total = int ( ass + part + exam + bonus )
+
+        
+        mtDict[int(item.studentID)] = [ 
+            total, 
+            item.username, 
+            part, 
+            ass, 
+            exam, 
+            exams['MRV1'], 
+            exams['MRV2'], 
+            item.extraInt, 
+            item.attend, 
+            item.bonus                 
+        ]
+
+        
+    return render_template('instructor/midGrades.html', title='MTGrades', midGrades=midGrades, mtDict=mtDict)
+
 
 @app.route("/openSet/<string:unit>/<string:part>", methods = ['POST'])
 def openSet(unit,part):
