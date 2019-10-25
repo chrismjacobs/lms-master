@@ -87,6 +87,7 @@ class Grades(db.Model):
     units = db.Column(db.Integer)  
     attend = db.Column(db.Integer)
     bonus = db.Column(db.Integer)
+    exam = db.Column(db.Integer)    
     extraInt = db.Column(db.Integer)
     extraStr = db.Column(db.String)
 

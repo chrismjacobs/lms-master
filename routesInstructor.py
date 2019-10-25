@@ -117,7 +117,7 @@ def att_log():
 
     return render_template('instructor/att_log.html', title='att_log', attLogDict=attLogDict, dateList=dateList, todayDate=todayDate, userDict=userDict)  
 
-def examCheck(sheetCount): 
+def examPractice(): 
     from spreadsheet import Sheets    
 
     examDict = {}
@@ -135,7 +135,7 @@ def examCheck(sheetCount):
                 attempts += 1
         # only show first two sheets (not exams)
         count += 1        
-        if count > sheetCount-1:
+        if count > 1:
             break         
     
     #Add review attempts to Grade data
@@ -147,6 +147,44 @@ def examCheck(sheetCount):
 
     return examDict
 
+def examResult():
+    from spreadsheet import Sheets
+
+
+    examResDict1 = {}
+    examResDict2 = {}
+    count = -1
+    for sheet in Sheets.sheets: 
+        count += 1 
+        if count < 2 or count > 3:            
+            pass
+        elif count == 2:             
+            record_score = sheet.col_values(5)           
+            record_id = sheet.col_values(4)
+            listLen = len(record_score) 
+            for i in range(listLen):
+                examResDict1[record_id[i]] = record_score[i]
+    
+    print (examResDict1)
+
+    for key in examResDict1:
+        try:
+            print (key)
+            print (examResDict1[key])
+            Grades.query.filter_by(studentID=key).first().exam = 1
+            db.session.commit()
+            print ('DONE')
+        except:
+            print ('PASS')
+            pass
+
+
+    return examResDict1
+            
+
+
+
+
 @app.route("/exams", methods = ['GET', 'POST'])
 @login_required
 def exams():
@@ -156,10 +194,14 @@ def exams():
     reviewList = eval(str(review.linkTwo))
     bonusList = eval(str(review.embed))
 
-    reviewExam = examCheck(2)
+    reviewExam = examPractice()
     print (reviewExam)
 
     return render_template('instructor/exams.html', title='exams', reviewList=reviewList, bonusList=bonusList, reviewExam=reviewExam)
+
+
+
+
 
 @app.route("/MTGrades", methods = ['GET', 'POST'])
 @login_required
@@ -168,7 +210,9 @@ def MTGrades():
     MT_ass = Info.modListAss[0:4]
     print (MT_ass)
 
-    exams = examCheck(2)
+    exams = examResult()
+    print (exams)
+
 
     maxUniFactor = 30 / Grades.query.order_by(desc(Grades.units)).first().units  
     maxAssFactor = 30 / Grades.query.order_by(desc(Grades.assignments)).first().assignments
@@ -189,8 +233,8 @@ def MTGrades():
             part, 
             ass, 
             exam, 
-            exams['MRV1'], 
-            exams['MRV2'], 
+            2,#exams['MRV1'], 
+            3,#exams['MRV2'], 
             item.extraInt, 
             item.attend, 
             item.bonus                 
@@ -202,6 +246,7 @@ def MTGrades():
 
 @app.route("/openSet/<string:unit>/<string:part>", methods = ['POST'])
 def openSet(unit,part):
+    # set unit participation from sources page
     status = request.form['status' + unit + part]
     openSetModel = Sources.query.filter_by(unit=unit).filter_by(part=part).first()
     openSetModel.openSet = status
@@ -243,7 +288,7 @@ def teams():
             else:
                 attDict[user.username] = [user.studentID, 0]
 
-    return render_template('instructor/teams.html', attDict=attDict, teamcount=teamcount)  
+    return render_template('instructor/teams.html', attDict=attDict, teamcount=teamcount, title='teams')  
 
 
 @app.route ("/s3console")
