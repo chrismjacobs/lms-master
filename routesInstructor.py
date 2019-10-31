@@ -169,14 +169,13 @@ def examResult():
     for sheet in Sheets.sheets: 
         count += 1 
         if count == 3:             
-            record_score = sheet.col_values(5) 
-            print(record_score)
+            record_score = sheet.col_values(5)             
             record_id = sheet.col_values(4)
             listLen = len(record_score) 
             for i in range(1, listLen):  
                 if examDict[record_id[i]][2] != record_score[i]:                            
                     examDict[record_id[i]][2] = record_score[i]
-                    examDict[record_id[i]][0] = int(record_score[i].split('/')[0])
+                    examDict[record_id[i]][0] = int(record_score[i].split('/')[0]) / int(record_score[i].split('/')[1])*20
                     userList[record_id[i]] = examDict[record_id[i]]                   
         elif count == 4:             
             record_score = sheet.col_values(5)           
@@ -185,7 +184,7 @@ def examResult():
             for i in range(1, listLen):
                 if examDict[record_id[i]][3] != record_score[i]:                            
                     examDict[record_id[i]][3] = record_score[i]
-                    examDict[record_id[i]][1] = int(record_score[i].split('/')[0])
+                    examDict[record_id[i]][0] = int(record_score[i].split('/')[0]) / int(record_score[i].split('/')[1])*20
                     userList[record_id[i]] = examDict[record_id[i]]
         elif count == 5:
             print (sheet.col_values(2))
@@ -204,9 +203,11 @@ def examResult():
     print (userList)
     dictionary = userList
     for key in dictionary:
-        Grades.query.filter_by(studentID=key).first().examList = str(dictionary[key])
-        db.session.commit()
-        print('commit', key, ':', dictionary[key])                   
+        examNote = Grades.query.filter_by(studentID=key).first().examList
+        if examNote != str(dictionary[key])
+            examNote = str(dictionary[key])
+            db.session.commit()
+            print('commit', key, ':', dictionary[key])                   
 
     return examDict
  
@@ -251,7 +252,7 @@ def MTGrades():
         ass = round(item.assignments * maxAssFactor , 1 )
         part = round(item.units * maxUniFactor, 1 )
         examList = eval(item.examList)
-        exam = round( ((examList[0] + examList[1])*0.8) , 1)
+        exam = round( examList[0] + examList[1] , 1)
         if item.bonus !=None:
             bonus = item.bonus
         else:
@@ -543,4 +544,4 @@ def att_int():
         flash('Attendance not started', 'secondary') 
         return redirect(request.referrer)  
 
-    return render_template('user/attInst.html', form=form, status=openData.teamnumber, title='att')  
+    return render_template('user/attInst.html', form=form, status=openData.teamnumber, title='controls')  
