@@ -1,4 +1,4 @@
-import sys, boto3, random, base64, os, time, datetime
+import sys, boto3, random, base64, os, time, datetime, ast
 from sqlalchemy import asc, desc 
 from flask import render_template, url_for, flash, redirect, request, abort, jsonify  
 from app import app, db, bcrypt, mail
@@ -103,6 +103,9 @@ def home():
                 colorDict[key][0] = colorDict[key][1] / colorDict[key][2]
             except:
                 pass
+        
+        practiceDict = ast.literal_eval(Grades.query.filter_by(username=current_user.username).first().practice)
+        tries = len(practiceDict[1]) + len(practiceDict[2])
         context = {
         'form' : form, 
         'dialogues' : dialogues, 
@@ -115,7 +118,7 @@ def home():
         'color2' : colorDict['color2'][0],
         'color3' : colorDict['color3'][0],          
         'attLog' : attLog,
-        'exam' : Grades.query.filter_by(username=current_user.username).first().extraInt
+        'exam' : tries
         }
     else:
         context = {

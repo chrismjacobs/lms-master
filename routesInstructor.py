@@ -1,4 +1,4 @@
-import sys, boto3, random, base64, os, secrets, httplib2, json
+import sys, boto3, random, base64, os, secrets, httplib2, json, ast
 from sqlalchemy import asc, desc 
 from datetime import datetime, timedelta
 from flask import render_template, url_for, flash, redirect, request, abort, jsonify  
@@ -29,14 +29,9 @@ def webrtc3():
 @app.route ("/about")
 @login_required 
 def about():     
-    about = Sources.query.filter_by(unit='00').filter_by(part='1').first().notes
+    about = Sources.query.filter_by(unit='00').filter_by(part='1').first().notes   
 
-    with open ("FRD.json", "r") as f:
-        jload = json.load(f) 
-
-    data = jload["U05"]["1"]
-
-    return render_template('instructor/about.html', about=about, siteName=S3_BUCKET_NAME, data=data)
+    return render_template('instructor/about.html', about=about, siteName=S3_BUCKET_NAME)
 
 @app.route("/course", methods = ['GET', 'POST'])
 @login_required
@@ -120,86 +115,125 @@ def att_log():
 def examPractice(): 
     from spreadsheet import Sheets    
 
-    examDict = {}
-    attempts = 0 
-    count = 0
-    for sheet in Sheets.sheets:    
-        sheetName = str(sheet).split("'")[1]
-        examDict[sheetName] = []
-        record_score = sheet.col_values(5)           
-        record_id = sheet.col_values(4)
-        listLen = len(record_score) 
-        for i in range(listLen):
-            if record_id[i] == current_user.studentID:
-                examDict[sheetName].append(record_score[i])
-                attempts += 1
-        # only show first two sheets (not exams)
-        count += 1        
-        if count > 1:
-            break         
-    
-    #Add review attempts to Grade data
-    if Grades.query.filter_by(username=current_user.username).first().extraInt == attempts:
-        pass
-    else: 
-        Grades.query.filter_by(username=current_user.username).first().extraInt = attempts
-        db.session.commit()
+    grades = Grades.query.order_by(asc(Grades.studentID)).all()
 
-    return examDict
-
-def examResult():
-    from spreadsheet import Sheets
-
-
-    examResDict1 = {}
-    examResDict2 = {}
-    count = -1
-    for sheet in Sheets.sheets: 
-        count += 1 
-        if count < 2 or count > 3:            
-            pass
-        elif count == 2:             
+    holder = {}
+    practiceDict2 = {}
+    for grade in grades:
+        practiceDict2[grade.studentID] = { 1 : [],  2 : [] }
+        holder[grade.studentID] = ast.literal_eval(grade.practice)
+        
+     
+     
+    count = 1
+    for sheet in Sheets.sheets:         
+        if count < 3:                   
             record_score = sheet.col_values(5)           
             record_id = sheet.col_values(4)
             listLen = len(record_score) 
-            for i in range(listLen):
-                examResDict1[record_id[i]] = record_score[i]
+            for i in range(1, listLen):                
+                try: 
+                    practiceDict2[str(record_id[i])][count].append(record_score[i])
+                except:
+                    print(record_id[i]) 
+        else:
+            pass                    
+        count += 1 
+        
     
-    print (examResDict1)
 
-    for key in examResDict1:
-        try:
-            print (key)
-            print (examResDict1[key])
-            Grades.query.filter_by(studentID=key).first().exam = 1
+    for key in practiceDict2:
+        if str(practiceDict2[key]) != str(holder[key]):
+            Grades.query.filter_by(studentID=key).first().practice = str(practiceDict2[key])
             db.session.commit()
-            print ('DONE')
-        except:
+            print (practiceDict2[key], '==', holder[key])
+        else: 
             print ('PASS')
+
+    return practiceDict2
+
+
+def examResult():
+    from spreadsheet import Sheets
+    users = Grades.query.order_by(asc(Grades.studentID)).all()
+    examDict = {}    
+
+    for user in users:        
+        #examDict[user.studentID] = [0, 0, 'None', 'None']
+        listEval = eval(user.examList)        
+        examDict[user.studentID] = listEval
+             
+    userList = {}
+    count = 0
+    for sheet in Sheets.sheets: 
+        count += 1 
+        if count == 3:             
+            record_score = sheet.col_values(5) 
+            print(record_score)
+            record_id = sheet.col_values(4)
+            listLen = len(record_score) 
+            for i in range(1, listLen):  
+                if examDict[record_id[i]][2] != record_score[i]:                            
+                    examDict[record_id[i]][2] = record_score[i]
+                    examDict[record_id[i]][0] = int(record_score[i].split('/')[0])
+                    userList[record_id[i]] = examDict[record_id[i]]                   
+        elif count == 4:             
+            record_score = sheet.col_values(5)           
+            record_id = sheet.col_values(4)
+            listLen = len(record_score) 
+            for i in range(1, listLen):
+                if examDict[record_id[i]][3] != record_score[i]:                            
+                    examDict[record_id[i]][3] = record_score[i]
+                    examDict[record_id[i]][1] = int(record_score[i].split('/')[0])
+                    userList[record_id[i]] = examDict[record_id[i]]
+        elif count == 5:
+            print (sheet.col_values(2))
+            record_id = sheet.col_values(2)
+            for record in record_id: 
+                grade = Grades.query.filter_by(studentID=str(record)).first()                               
+                if grade == None:
+                    pass
+                elif grade.bonus == None:
+                    grade.bonus = 3 
+                    db.session.commit()
+                    print('commit', record, ' - bonus')     
+        else:
             pass
+    
+    print (userList)
+    dictionary = userList
+    for key in dictionary:
+        Grades.query.filter_by(studentID=key).first().examList = str(dictionary[key])
+        db.session.commit()
+        print('commit', key, ':', dictionary[key])
+                   
 
-
-    return examResDict1
+    return examDict
             
-
-
 
 
 @app.route("/exams", methods = ['GET', 'POST'])
 @login_required
-def exams():
-
+def exams():    
     course = Course.query.order_by(asc(Course.date)).all()    
     review = Course.query.filter_by(unit='E1').first()       
     reviewList = eval(str(review.linkTwo))
     bonusList = eval(str(review.embed))
+    try:
+        practiceDict = examPractice()
+    except:
+        pass
 
-    reviewExam = examPractice()
-    print (reviewExam)
+    grades = Grades.query.filter_by(username=current_user.username).first()
+    displayDict = ast.literal_eval(grades.practice)
+    print(len(displayDict[1]))
 
-    return render_template('instructor/exams.html', title='exams', reviewList=reviewList, bonusList=bonusList, reviewExam=reviewExam)
+    displayDict = {
+        1 : [reviewList[0], displayDict[1]], 
+        2 : [reviewList[1], displayDict[2]]
+    }
 
-
+    return render_template('instructor/exams.html', title='exams', reviewList=reviewList, bonusList=bonusList, displayDict=displayDict)
 
 
 
@@ -207,24 +241,26 @@ def exams():
 @login_required
 def MTGrades():
     midGrades = Grades.query.order_by(asc(Grades.studentID)).all()
-    MT_ass = Info.modListAss[0:4]
-    print (MT_ass)
-
-    exams = examResult()
-    print (exams)
-
-
+    
+    examDict = examResult()
+    practiceDict = examPractice()
+    
     maxUniFactor = 30 / Grades.query.order_by(desc(Grades.units)).first().units  
     maxAssFactor = 30 / Grades.query.order_by(desc(Grades.assignments)).first().assignments
     
-
     mtDict = {}
     for item in midGrades:
-        bonus = 0 
+         
         ass = round(item.assignments * maxAssFactor , 1 )
         part = round(item.units * maxUniFactor, 1 )
-        exam = 30 
+        examList = eval(item.examList)
+        exam = round( ((examList[0] + examList[1])*0.8) , 1)
+        if item.bonus !=None:
+            bonus = item.bonus
+        else:
+            bonus = 0
         total = int ( ass + part + exam + bonus )
+
 
         
         mtDict[int(item.studentID)] = [ 
@@ -233,11 +269,11 @@ def MTGrades():
             part, 
             ass, 
             exam, 
-            2,#exams['MRV1'], 
-            3,#exams['MRV2'], 
+            examList[2], 
+            examList[3], 
             item.extraInt, 
             item.attend, 
-            item.bonus                 
+            bonus                 
         ]
 
         

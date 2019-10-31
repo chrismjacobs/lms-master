@@ -11,23 +11,12 @@
 <h4> Exam practice is not graded. </h4>
 <h5> It is your chance to practice vocab and grammar and check your grade </h5>
 
-<br> 
 
-{% for i in range(reviewList|length) %}  
-<h4> <a href="{{reviewList[i]}}" target="__blank">Review {{i+1}}</a></h4>
+{% for i in range(displayDict|length) %} 
+<br>  
+<h4> <a href="{{displayDict[i+1][0]}}" target="__blank">Review {{i+1}}</a></h4>
+Tries: {{displayDict[i+1][1]}}
 <br>
-{% endfor %}
-
-Review 1 Scores: 
-<br>
-{% for item in reviewExam['MRV1'] %}  
-{{item}}, 
-{% endfor %}
-<br>
-Review 2 Scores: 
-<br>
-{% for item in reviewExam['MRV2'] %}  
-{{item}}, 
 {% endfor %}
 
 </div>

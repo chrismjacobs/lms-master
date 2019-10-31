@@ -1,4 +1,4 @@
-import sys, boto3, random, base64, os, secrets, time, datetime
+import sys, boto3, random, base64, os, secrets, time, datetime, json
 from sqlalchemy import asc, desc, func
 from flask import render_template, url_for, flash, redirect, request, abort, jsonify  
 from app import app, db, bcrypt, mail
@@ -154,41 +154,35 @@ def scoreCheck():
     
     modDict = Info.modDictUnits
     model = modDict[unit_num][int(part_num)]            
-    answers = model.query.all()  
+    answers = model.query.order_by(asc(model.teamnumber)).all()  
 
-    scoreDict = {}
-    
-    teamCount = 0 
+    scoreDict = {}     
     for answer in answers: 
         scoreList = [answer.Ans01, answer.Ans02, answer.Ans03, answer.Ans04, 
         answer.Ans05, answer.Ans06, answer.Ans07, answer.Ans08]
         if answer.teamnumber <21:
-            scoreDict[answer.teamnumber] = 0
+            scoreDict[answer.teamnumber] = []
             for item in scoreList[0:int(qNum)+1]:               
                 if item != "" and item != None:
-                    scoreDict[answer.teamnumber]+=1
-        teamCount +=1
-    
-    print (scoreDict)    
+                    scoreDict[answer.teamnumber].append(1)    
+    #print (scoreDict)    
     
     maxScore = len(scoreDict) * int(qNum)
-    actScore = sum(scoreDict.values())
+    actScore = 0
+    for key in scoreDict:
+        for item in scoreDict[key]:            
+            actScore += item  
     print ('max', maxScore, 'act', actScore)
         
     percentFloat = (actScore / maxScore )*100
-    percent = round (percentFloat, 1) 
-
-    scores = ''
-    for key in scoreDict: 
-        scores = scores + str(key) + '-' + str(scoreDict[key]) + '  ' 
-    print (scores)
+    percent = round (percentFloat, 1)     
     
-    return jsonify({'percent' : percent, 'scores' : scores })  
+    return jsonify({'percent' : percent, 'scoreDict' : scoreDict, 'qNum' : qNum })  
 
 
-@app.route ("/answers/<string:unit_num>/<string:part_num>/<string:qs>", methods=['GET','POST'])
+@app.route ("/answers/<string:unit_num>/<string:part_num>/<string:fm>/<string:qs>", methods=['GET','POST'])
 @login_required
-def unit_instructor(unit_num,part_num,qs):  
+def unit_instructor(unit_num,part_num,fm,qs):  
     if current_user.id != 1:
         return abort(403)    
 
@@ -196,9 +190,9 @@ def unit_instructor(unit_num,part_num,qs):
     modDict = Info.modDictUnits
     model = modDict[unit_num][int(part_num)]        
     source = Sources.query.filter_by(unit=unit_num).filter_by(part=part_num).first()            
-         
-    answers = model.query.all()  
-    ansDict = {}
+      
+    answers = model.query.all()
+    ansDict = {}    
     counter = 0 
     for answer in answers:        
         ansDict[counter] = [
@@ -211,11 +205,13 @@ def unit_instructor(unit_num,part_num,qs):
         answer.Ans06,
         answer.Ans07,
         answer.Ans08
-        ]
+        ]        
         counter = counter+1    
 
     dictCount = len(ansDict)
-        
+
+    teamcounter = Attendance.query.filter_by(username='Chris').first().teamcount
+      
     context = { 
         'ansDict' : ansDict, 
         'part_num' : part_num, 
@@ -223,11 +219,25 @@ def unit_instructor(unit_num,part_num,qs):
         'qNumber' : int(qs), 
         'source' : source,
         'dictCount' : dictCount,        
-        'title' : 'unit_IM'
+        'title' : 'unit_IM',
+        'teamcounter' : teamcounter
     }
 
-    return render_template('units/unit_instructor.html', **context)
+    if int(fm) == 1:
+        jdata = None
+        html = 'units/unit_instructor.html'
+    elif int(fm) == 2:
+        jdata = None
+        html = 'units/unit_instructor.html'
+    elif int(fm) == 3: 
+        jsonList = [ 'blank', "FRD.json", "FRD.json", "FRD.json"]
+        string = jsonList[int(COLOR_SCHEMA)]   
+        with open (string, "r") as f:
+            jload = json.load(f)             
+        jdata = jload[unit_num][part_num]        
+        html = 'units/unit_instructor_json.html'
 
+    return render_template(html, **context, jdata=jdata)
 
 
 
@@ -251,7 +261,8 @@ def unit(unit_num,part_num,fm,qs):
     forms = [
         None,
         UnitF1(),
-        UnitFS()
+        UnitFS(),
+        UnitF1()
         ]        
     form = forms[int(fm)]
     model = modDict[unit_num][int(part_num)] 
@@ -265,26 +276,24 @@ def unit(unit_num,part_num,fm,qs):
         flash('This unit is not open at the moment', 'danger')
         return redirect(url_for('unit_list'))    
         
-    #start unit assignment
-    fieldsCheck = model.query.filter_by(teamnumber=teamnumber).first()  
-    if fieldsCheck == None:
+    #start unit assignment    
+
+    mods = model.query.all()
+    fields = None
+    for row in mods:
+        if current_user.username + ',' in row.username or current_user.username + '"' in row.username or current_user.username + '}' in row.username or current_user.username == row.username:
+            fields = row
+        
+    print(fields)
+    if fields == None: 
         response = model(username=nameRange, teamnumber=teamnumber, 
-        Ans01="", 
-        Ans02="", 
-        Ans03="",
-        Ans04="", 
-        Ans05="",
-        Ans06="",
-        Ans07="",
-        Ans08="",
-        Grade=0,
-        Comment=""  
-        )
+            Ans01="", Ans02="", Ans03="",  Ans04="",  Ans05="",  Ans06="",
+            Ans07="", Ans08="", Grade=0, Comment=""  
+            )
         db.session.add(response)
         db.session.commit()        
         return redirect(request.url)
-    else: 
-        fields = model.query.filter_by(teamnumber=teamnumber).first() 
+    
       
     answers = model.query.all()  
     ansDict = {}
@@ -305,6 +314,8 @@ def unit(unit_num,part_num,fm,qs):
 
     dictCount = len(ansDict)    
 
+
+    fieldsCount = 1
     fieldsList = [
         None,
         fields.Ans01, fields.Ans02, 
@@ -312,6 +323,13 @@ def unit(unit_num,part_num,fm,qs):
         fields.Ans05, fields.Ans06, 
         fields.Ans07, fields.Ans08
         ]  
+
+    print (fieldsList)
+    #fields count will tell the front end which question we are on
+    for i in range(1,8):
+        if fieldsList[i] != "":
+            fieldsCount +=1
+            
         
     #set the grade for the assignment
     zeroCounter = []         
@@ -370,20 +388,39 @@ def unit(unit_num,part_num,fm,qs):
         form.Ans06.data = fields.Ans06
         form.Ans07.data = fields.Ans07
         form.Ans08.data = fields.Ans08
+        
+    
+    if int(fm) == 1:
+        jdata = None
+        html = 'units/unit_layout.html'
+    elif int(fm) == 2:
+        jdata = None
+        html = 'units/unit_layout.html'
+    elif int(fm) == 3: 
+        jsonList = [ 'blank', "FRD.json", "FRD.json", "FRD.json"]
+        string = jsonList[int(COLOR_SCHEMA)]   
+        with open (string, "r") as f:
+            jload = json.load(f)             
+        jdata = jload[unit_num][part_num]
+        html = 'units/unit_layout_json.html'
+
     
     context = {
         'form' : form, 
         'fields' : fields, 
         'ansDict' : ansDict, 
         'dictCount' : dictCount, 
-        'fieldsList' : fieldsList, 
+        'fieldsList' : fieldsList,
+        'fieldsCount' : str(fieldsCount),
         'formList' : [None, form.Ans01, form.Ans02, form.Ans03, form.Ans04, form.Ans05, form.Ans06, form.Ans07, form.Ans08],   
         'qNumber' : questionNum, 
         'source' : source, 
         'ansSum' : ansSum
-    }
+    }    
 
-    return render_template('units/unit_layout.html', **context)
+    return render_template(html, **context, jdata=jdata)
+
+
 
 
 def unit_audio(audio, unit, team, rec):    
