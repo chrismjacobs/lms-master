@@ -42,6 +42,10 @@ def unit_list():
         for sourceLine in sourceList:
             print('a', sourceLine.unit , 'b', todaysUnit)
             if sourceLine.openSet == 1:
+                try:
+                    int(todaysUnit)
+                except:
+                    break                    
                 if sourceLine.unit != todaysUnit:
                     sourceLine.openReset = 100
                     sourceLine.openSet = 2

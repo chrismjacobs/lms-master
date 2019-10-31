@@ -175,7 +175,7 @@ def examResult():
             for i in range(1, listLen):  
                 if examDict[record_id[i]][2] != record_score[i]:                            
                     examDict[record_id[i]][2] = record_score[i]
-                    examDict[record_id[i]][0] = int(record_score[i].split('/')[0]) / int(record_score[i].split('/')[1])*20
+                    examDict[record_id[i]][0] = (int(record_score[i].split('/')[0]) / int(record_score[i].split('/')[1])) *20
                     userList[record_id[i]] = examDict[record_id[i]]                   
         elif count == 4:             
             record_score = sheet.col_values(5)           
@@ -184,7 +184,7 @@ def examResult():
             for i in range(1, listLen):
                 if examDict[record_id[i]][3] != record_score[i]:                            
                     examDict[record_id[i]][3] = record_score[i]
-                    examDict[record_id[i]][0] = int(record_score[i].split('/')[0]) / int(record_score[i].split('/')[1])*20
+                    examDict[record_id[i]][0] = (int(record_score[i].split('/')[0]) / int(record_score[i].split('/')[1]) )*20
                     userList[record_id[i]] = examDict[record_id[i]]
         elif count == 5:
             print (sheet.col_values(2))
@@ -203,11 +203,9 @@ def examResult():
     print (userList)
     dictionary = userList
     for key in dictionary:
-        examNote = Grades.query.filter_by(studentID=key).first().examList
-        if examNote != str(dictionary[key]):
-            examNote = str(dictionary[key])
-            db.session.commit()
-            print('commit', key, ':', dictionary[key])                   
+        Grades.query.filter_by(studentID=key).first().examList = str(dictionary[key])
+        db.session.commit()
+        print('commit', key, ':', dictionary[key])                   
 
     return examDict
  
@@ -252,6 +250,10 @@ def MTGrades():
         ass = round(item.assignments * maxAssFactor , 1 )
         part = round(item.units * maxUniFactor, 1 )
         examList = eval(item.examList)
+        try:
+            print(examList)
+        except:
+            pass
         exam = round( examList[0] + examList[1] , 1)
         if item.bonus !=None:
             bonus = item.bonus
