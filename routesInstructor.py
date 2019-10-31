@@ -144,11 +144,11 @@ def examPractice():
         count += 1        
     
     # update dictionary of tries in database
-    for key in practiceDict2:
+    for key in practiceDict2:        
         if str(practiceDict2[key]) != str(holder[key]):
             Grades.query.filter_by(studentID=key).first().practice = str(practiceDict2[key])
             db.session.commit()
-            print (practiceDict2[key], '==', holder[key])
+            print (practiceDict2[key])
         else: 
             print ('PASS')
 
@@ -164,28 +164,19 @@ def examResult():
         listEval = eval(user.examList)        
         examDict[user.studentID] = listEval
              
-    userList = {}
+    
     count = 0
     for sheet in Sheets.sheets: 
         count += 1 
-        if count == 3:             
+        if count == 3 or count == 4:             
             record_score = sheet.col_values(5)             
             record_id = sheet.col_values(4)
             listLen = len(record_score) 
-            for i in range(1, listLen):  
-                if examDict[record_id[i]][2] != record_score[i]:                            
-                    examDict[record_id[i]][2] = record_score[i]
-                    examDict[record_id[i]][0] = (int(record_score[i].split('/')[0]) / int(record_score[i].split('/')[1])) *20
-                    userList[record_id[i]] = examDict[record_id[i]]                   
-        elif count == 4:             
-            record_score = sheet.col_values(5)           
-            record_id = sheet.col_values(4)
-            listLen = len(record_score) 
-            for i in range(1, listLen):
-                if examDict[record_id[i]][3] != record_score[i]:                            
-                    examDict[record_id[i]][3] = record_score[i]
-                    examDict[record_id[i]][0] = (int(record_score[i].split('/')[0]) / int(record_score[i].split('/')[1]) )*20
-                    userList[record_id[i]] = examDict[record_id[i]]
+            for i in range(1, listLen):                                           
+                examDict[record_id[i]][count-1] = record_score[i] 
+                score = int(record_score[i].split('/')[0]) / int(record_score[i].split('/')[1])
+                print ('score', score)                
+                examDict[record_id[i]][count-3] = round(score * 20 , 1) 
         elif count == 5:
             print (sheet.col_values(2))
             record_id = sheet.col_values(2)
@@ -200,12 +191,13 @@ def examResult():
         else:
             pass
     
-    print (userList)
-    dictionary = userList
-    for key in dictionary:
-        Grades.query.filter_by(studentID=key).first().examList = str(dictionary[key])
-        db.session.commit()
-        print('commit', key, ':', dictionary[key])                   
+        
+    for key in examDict:
+        sample = Grades.query.filter_by(studentID=key).first().examList
+        if sample != str(examDict[key]):     
+            Grades.query.filter_by(studentID=key).first().examList = str(examDict[key])
+            db.session.commit()
+            print('commit', key, ':', examDict[key])                   
 
     return examDict
  

@@ -111,6 +111,7 @@ def home():
             fieldsGrade.tries = tries
             db.session.commit()
         
+        
 
         context = {
         'form' : form, 
