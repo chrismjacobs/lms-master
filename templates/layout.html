@@ -36,12 +36,7 @@
                         <div class="navbar-nav">
                         {% if current_user.id == 1 %}
                         <div class="navbar-nav mr-auto">
-                          <a class="nav-item nav-link" style="color:pink" href="{{ url_for ('att_int') }}", target="_blank">__att</a> 
-                          <a class="nav-item nav-link" style="color:pink" href="{{ url_for ('students') }}", target="_blank">__students</a>   
-                          <a class="nav-item nav-link" style="color:pink" href="{{ url_for ('teams') }}">__teams</a> 
-                          <a class="nav-item nav-link" style="color:pink" href="{{ url_for ('sources') }}", target="_blank">__sources</a>
-                          <a class="nav-item nav-link" style="color:pink" href="{{ url_for ('admin') }}", target="_blank">__admin</a>
-                          <a class="nav-item nav-link" style="color:pink" href="{{ url_for ('dashboard') }}">__dashboard</a>            
+                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('att_int') }}", target="_blank">Controls</a>                                   
                         </div>
                                                                        
                         {% endif %}      

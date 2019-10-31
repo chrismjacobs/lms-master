@@ -104,8 +104,14 @@ def home():
             except:
                 pass
         
-        practiceDict = ast.literal_eval(Grades.query.filter_by(username=current_user.username).first().practice)
+
+        practiceDict = ast.literal_eval(fieldsGrade.practice)
         tries = len(practiceDict[1]) + len(practiceDict[2])
+        if tries != fieldsGrade.tries:
+            fieldsGrade.tries = tries
+            db.session.commit()
+        
+
         context = {
         'form' : form, 
         'dialogues' : dialogues, 

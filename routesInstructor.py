@@ -112,6 +112,10 @@ def att_log():
 
     return render_template('instructor/att_log.html', title='att_log', attLogDict=attLogDict, dateList=dateList, todayDate=todayDate, userDict=userDict)  
 
+
+
+
+
 def examPractice(): 
     from spreadsheet import Sheets    
 
@@ -121,10 +125,9 @@ def examPractice():
     practiceDict2 = {}
     for grade in grades:
         practiceDict2[grade.studentID] = { 1 : [],  2 : [] }
-        holder[grade.studentID] = ast.literal_eval(grade.practice)
-        
+        holder[grade.studentID] = ast.literal_eval(grade.practice)        
      
-     
+    #update dictionaries
     count = 1
     for sheet in Sheets.sheets:         
         if count < 3:                   
@@ -138,10 +141,9 @@ def examPractice():
                     print(record_id[i]) 
         else:
             pass                    
-        count += 1 
-        
+        count += 1        
     
-
+    # update dictionary of tries in database
     for key in practiceDict2:
         if str(practiceDict2[key]) != str(holder[key]):
             Grades.query.filter_by(studentID=key).first().practice = str(practiceDict2[key])
@@ -152,12 +154,11 @@ def examPractice():
 
     return practiceDict2
 
-
 def examResult():
     from spreadsheet import Sheets
+    
     users = Grades.query.order_by(asc(Grades.studentID)).all()
     examDict = {}    
-
     for user in users:        
         #examDict[user.studentID] = [0, 0, 'None', 'None']
         listEval = eval(user.examList)        
@@ -205,13 +206,10 @@ def examResult():
     for key in dictionary:
         Grades.query.filter_by(studentID=key).first().examList = str(dictionary[key])
         db.session.commit()
-        print('commit', key, ':', dictionary[key])
-                   
+        print('commit', key, ':', dictionary[key])                   
 
     return examDict
-            
-
-
+ 
 @app.route("/exams", methods = ['GET', 'POST'])
 @login_required
 def exams():    
@@ -223,7 +221,7 @@ def exams():
         practiceDict = examPractice()
     except:
         pass
-
+    
     grades = Grades.query.filter_by(username=current_user.username).first()
     displayDict = ast.literal_eval(grades.practice)
     print(len(displayDict[1]))
@@ -232,7 +230,6 @@ def exams():
         1 : [reviewList[0], displayDict[1]], 
         2 : [reviewList[1], displayDict[2]]
     }
-
     return render_template('instructor/exams.html', title='exams', reviewList=reviewList, bonusList=bonusList, displayDict=displayDict)
 
 
@@ -271,7 +268,7 @@ def MTGrades():
             exam, 
             examList[2], 
             examList[3], 
-            item.extraInt, 
+            item.tries, 
             item.attend, 
             bonus                 
         ]
