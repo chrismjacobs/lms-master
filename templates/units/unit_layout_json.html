@@ -9,22 +9,46 @@
 <!-- -->
 {% if current_user.username == 'Chris' %}
 <div class="content-section">    
-	<h3 > <a href="/answers/{{source.unit}}/{{source.part}}/{{source.qnum}}">Instructor Mode</a> </h3>
+	<h3 > <a href="/answers/{{source.unit}}/{{source.part}}/{{source.form}}/{{source.qnum}}">Instructor Mode</a> </h3>
 </div>
 {% endif %}
 
-<!--Materials_________________________________________-->
 
 <div class="content-section">
-		 
-		 <div class="collapse" id="notes">
-		 	<div class="embed-responsive embed-responsive-4by3">
-		  		<iframe src="{{source.notes}}" 
-		  			allowfullscreen="allowfullscreen" mozallowfullscreen="true" webkitallowfullscreen="true" frameBorder="0">
-		  		</iframe>
-			</div>
-	  	 </div>	   
+	<button type="button" class="btn" style="background:{{titleColor}}; color:white; width:100%" data-toggle="collapse" data-target="#notes">QUESTIONS</button>
+	<br>
+<div class="collapse" id="notes">
+
+{% for data in jdata %}
+	{% if data | int  < qNumber %}
+<div class="content-section" style="background:whitesmoke"> 
+<h2 style="color:blue" align="center"> {{data}}: {{jdata[data]['w']}} <h2> 
+<h3 style="color:{{titleColor}}" align="center"> {{jdata[data]['e']}} </h3> 
+<h4 style="color:hotpink" align="center"> {{jdata[data]['d']}} </h4> 
+<div align="center">
+<img style="max-width:100%"  src="{{jdata[data]['i']}}"> 
+</div> 
+<h4><a href="{{jdata[data]['l']}}"> {% if jdata[data]['l'] %} Link {% endif %} </a></h4>
+{% if jdata[data]['f'] %}
+<div class="embed-responsive embed-responsive-4by3">
+	<iframe src="{{jdata[data]['f']}}" 
+		allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
+	</iframe>
 </div>
+{% endif %}
+<h4 style=""> {{jdata[data]['x']}} </h4> 
+<h4 style="background:{{titleColor}}; color:{{bodyColor}}"> {{jdata[data]['q']}} </h4> 
+<h4 style=""> {{jdata[data]['c1']}}</h4> 
+<h4 style=""> {{jdata[data]['c2']}}</h4>
+</div> 
+	{% endif %}
+
+{% endfor %}
+
+</div>
+</div>
+
+
 
 <!--Form of the page_________________________________-->
 <form method="POST" action="" enctype="multipart/form-data">
@@ -32,13 +56,19 @@
 
 	<fieldset class="form-group"> 
 
+
 {% for i in range(1,qNumber) %}
 		{% if fieldsList[i] != "" %}
+
+	<div class="content-section" style="background:whitesmoke">
+		<button type="button" class="btn btn-sm" data-toggle="collapse" data-target="#table{{i}}" style="background:{{bodyColor}}; color:{{titleColor}}; border:2px solid {{titleColor}}; float:right">Answers</button>
+		<h2 style="color:blue" style=""> {{i}}: {{jdata[i|string]['w']}} <h2>
+		<h4 style="background:{{titleColor}}; color:{{bodyColor}}"> {{jdata[i|string]['q']}} </h4> 
+		<h4 style=""> {{jdata[i|string]['c1']}} </h4> 
+		<h4 style=""> {{jdata[i|string]['c2']}} </h4> 
+	</div> 
+
 		<section class="content-section">
-			
-			<h3 style="display: inline-block"> Question {{i}} </h3>
-			<button type="button" class="btn btn-sm" data-toggle="collapse" data-target="#table{{i}}" style="background:{{bodyColor}}; color:{{titleColor}}; border:2px solid {{titleColor}}; float:right">Answers</button>
-			
 			<div id="table{{i}}" class="collapse">			
 			<table class="table table-sm" >
 			<tbody>				
@@ -58,24 +88,28 @@
 
 
 <!--Questions the page_________________________________-->
-<div class="content-section">
-	  
-	  <div align="right"> 
-	  <a href="{{source.questions}}" > Open Link</a>
-	  </div>
-	   
-			<div class="embed-responsive embed-responsive-4by3">
-				 <iframe src="{{source.questions}}" 
-					 allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" frameBorder="0">
-				 </iframe>				 
-		   </div>
-		   
-		
-</div>
 
 		{% for i in range(1,qNumber) %}
 
-		{% if i == ansSum+1 %}		
+		{% if i == ansSum+1 %}
+		<div class="content-section" style="background:whitesmoke"> 
+			<h2 style="color:blue" align="center"> {{i}}: {{jdata[i|string]['w']}} <h2> 
+
+			<h3 style="color:{{titleColor}}" align="center"> {{jdata[i|string]['e']}} </h3> 
+
+			<h4 style="color:hotpink" align="center"> {{jdata[i|string]['d']}} </h4> 
+
+			<div align="center">
+				<img style="max-width:100%"  src="{{jdata[i|string]['i']}}"> 
+			</div> 
+
+			<h4><a href="{{jdata[i|string]['l']}}"> {% if jdata[i|string]['l'] %} Link {% endif %} </a></h4>
+
+			<h4 style=""> {{jdata[i|string]['x']}} </h4> 
+			<h4 style="background:{{titleColor}}; color:{{bodyColor}}"> {{jdata[i|string]['q']}} </h4> 
+			<h4 style=""> {{jdata[i|string]['c']}} </h4> 
+		</div> 
+		
 		<section class="content-section">
 			<h3 style="display: inline-block"> Question {{i}} </h3>
 			<button type="button" class="btn btn-sm" onclick="sendAnswer()" style="float:right">Submit</button>			

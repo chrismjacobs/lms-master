@@ -4,9 +4,7 @@
     "1" : {          
         "w" : "Happiness",
         "e" : "", 
-        "d" : "", 
-        "i" : "https://photos.google.com/photo/AF1QipO2HCXa3BMjyoNdxd3BH5wOw_O95g2EYNBZzj7v",        
-        "l" : "https://photos.google.com/photo/AF1QipO2HCXa3BMjyoNdxd3BH5wOw_O95g2EYNBZzj7v", 
+        "d" : "",         
         "x" : "", 
         "q" : "Which activities make you feel happy?", 
         "c" : ""
@@ -42,8 +40,7 @@
             "l" : "", 
             "x" : "", 
             "q" : "Try to unscramble these emotions and states of mind", 
-            "c1" : "1-ohulfpe, 2-oinxasu",
-            "c2" : "3-obred,  4-osaipanset"
+            "c" : "1-ohulfpe, 2-oinxasu,  3-obred,  4-osaipanset"
             },
 
     "5" : { 
