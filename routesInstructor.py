@@ -204,7 +204,7 @@ def examResult():
     dictionary = userList
     for key in dictionary:
         examNote = Grades.query.filter_by(studentID=key).first().examList
-        if examNote != str(dictionary[key])
+        if examNote != str(dictionary[key]):
             examNote = str(dictionary[key])
             db.session.commit()
             print('commit', key, ':', dictionary[key])                   
