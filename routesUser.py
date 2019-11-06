@@ -5,6 +5,7 @@ from app import app, db, bcrypt, mail
 from flask_login import login_user, current_user, logout_user, login_required
 from forms import * 
 from models import *
+from flask_mail import Message
 import ast # eval literal for list str
 try:
     from aws import Settings    
@@ -49,11 +50,9 @@ def chatCheck():
 
 @app.route ("/", methods = ['GET', 'POST'])
 @app.route ("/home", methods = ['GET', 'POST'])
-def home():     
-    
+def home():      
 
-    form = Chat()
-    
+    form = Chat()    
     if current_user.is_authenticated:
         name = current_user.username 
         dialogues = ChatBox.query.filter_by(username=current_user.username).all()
@@ -66,7 +65,14 @@ def home():
                 chat = ChatBox(username = current_user.username, 
                 chat=form.chat.data, response=form.response.data)      
                 db.session.add(chat)
-                db.session.commit()  
+                db.session.commit() 
+                if form.chat.data != "":                     
+                    msg = Message('LMS Message', 
+                    sender='chrisflask0212@gmail.com', 
+                    recipients=['cjx02121981@gmail.com'])
+                    msg.body = f'''Message from {current_user.username} says {form.chat.data}'''
+                    #jinja2 template can be used to make more complex emails
+                    mail.send(msg)
                 return redirect(url_for('home'))
         else:
             form.name.data = current_user.username

@@ -214,7 +214,12 @@ def unit_instructor(unit_num,part_num,fm,qs):
 
     dictCount = len(ansDict)
 
-    teamcounter = Attendance.query.filter_by(username='Chris').first().teamcount
+    
+    if Attendance.query.filter_by(username='Chris').first().teamcount:
+        teamcounter = Attendance.query.filter_by(username='Chris').first().teamcount
+    else: 
+        teamcounter = 10
+
       
     context = { 
         'ansDict' : ansDict, 

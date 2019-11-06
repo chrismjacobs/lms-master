@@ -7,6 +7,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 from forms import *   
 from models import *
 
+
 try:
     from aws import Settings    
     s3_resource = Settings.s3_resource  
@@ -235,6 +236,10 @@ def MTGrades():
     
     maxUniFactor = 30 / Grades.query.order_by(desc(Grades.units)).first().units  
     maxAssFactor = 30 / Grades.query.order_by(desc(Grades.assignments)).first().assignments
+    
+    #if COLOR_SCHEMA == 3:
+        #maxAssFactor = 30/10
+        
     
     mtDict = {}
     for item in midGrades:
@@ -479,15 +484,26 @@ def students():
 @app.route ("/inchat/<string:user_name>", methods = ['GET', 'POST'])
 @login_required 
 def inchat(user_name):
+    from flask_mail import Message
     if current_user.id != 1:
         return abort(403)
-    form = Chat()     
+    form = Chat() 
+    email = User.query.filter_by(username=user_name).first().email    
+    print (email)
     dialogues = ChatBox.query.filter_by(username=user_name).all()
-     
+    websites = ['blank', 'READING', 'WORKPLACE', 'ICC']
+    website = 'https://' + websites[int(COLOR_SCHEMA)] + '-lms.herokuapp.com'
+    messText = 'New message for ' + websites[int(COLOR_SCHEMA)] + ' English class'
     if form.validate_on_submit():
         chat = ChatBox(username = user_name, response=form.response.data, chat=form.chat.data)      
         db.session.add(chat)
         db.session.commit()  
+        msg = Message(messText, 
+                    sender='chrisflask0212@gmail.com', 
+                    recipients=[email ,'cjx02121981@gmail.com'])
+        msg.body = f'''You have a message from waiting for you at {website}. Please follow the link to read and reply. (DO NOT REPLY TO THIS EMAIL)'''
+        #jinja2 template can be used to make more complex emails
+        mail.send(msg)
         return redirect(url_for('inchat', user_name=user_name))
     else:
         form.name.data = current_user.username
