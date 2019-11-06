@@ -1,80 +1,81 @@
 { 
-"05" : { 
+"04" : { 
 "1" : { 
     "1" : {          
-        "w" : "Job Interview",
+        "w" : "Language Trivia",
         "e" : "", 
-        "d" : "",         
+        "d" : "", 
+        "i" : "",        
+        "l" : "", 
         "x" : "", 
-        "q" : "What are three things you should bring to a job interview?", 
+        "q" : "How many languages are there in the world?", 
         "c" : ""
         },
 
     "2" : { 
-        "w" : "Fail/Pass",
+        "w" : "Languages",
         "e" : "", 
         "d" : "", 
         "i" : "", 
         "l" : "", 
         "x" : "", 
-        "q" : "What is a good way to fail a job interview!?", 
-        "c" : ""
+        "q" : "Which continent has the most languages spoken in it?", 
+        "c" : ["North America", "South American", "Europe", "Asia", "Africa"]
         },
 
     "3" : { 
-            "w" : "Team",
+            "w" : "Native Speakers",
+            "e" : "", 
+            "d" : "That language is their mother-tongue or first language", 
+            "i" : "", 
+            "l" : "", 
+            "x" : "", 
+            "q" : "What language has the most NATIVE speakers?",  
+            "c" : ["Chinese", "English", "Spanish ", "Hindi"]
+        },
+
+    "4" : { 
+            "w" : "Spoken",
             "e" : "", 
             "d" : "", 
             "i" : "", 
             "l" : "", 
-            "x" : "",
-            "q" : "How many people on your team have had an interview for a job before?",  
-            "c" : ""
-            },
-
-    "4" : { 
-            "w" : "make an impression",
-            "e" : "Have knowledge of their professional background to make a great impression.",
-            "d" : "an idea, feeling, or opinion about something ", 
-            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/Vocab/U05_impression.PNG", 
-            "l" : "https://www.youtube.com/watch?v=dnGQvoqtP88", 
             "x" : "", 
-            "q" : "How can you make a good impression when going on a first date?", 
-            "c" : ""
-            },
+            "q" : "Which language is spoken in the most countries?", 
+            "c" : ["Arabic", "Chinese", "English", "Spanish"]
+        },
 
     "5" : { 
-            "w" : "competitor",
-            "e" : "Research the company, know its products, services, history, competitors and mission statement.", 
-            "d" : "someone you are in competition with", 
-            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/Vocab/U05_competition.PNG", 
+            "w" : "Translate",
+            "e" : "", 
+            "d" : "One language to another", 
+            "i" : "", 
             "l" : "", 
-            "x" : "eg smartphones: Apple, Samsung, Huawei", 
-            "q" : "Name some other big competitors in an industry.... ", 
-            "c" : ""
+            "x" : "", 
+            "q" : "What book has been translated the most?", 
+            "c" : ["Harry Potter", "The Bible", "The Little Prince"]
             },  
 
     "6" : { 
-            "w" : "Punctual",
-            "e" : "Be punctual. Plan to arrive about 10 to 15 minutes early", 
-            "d" : "", 
-            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/Vocab/U05_punctual.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "If you have trouble being punctual how can you improve?", 
-            "c" : ""
-            },
-
-    "7" : { 
-            "w" : "Phrase Match",
-            "e" : "a) jot down  b) on the safe side  c) make a practice run    d) over answer  e) follow up", 
+            "w" : "",
+            "e" : "", 
             "d" : "", 
             "i" : "", 
             "l" : "", 
             "x" : "", 
-            "q" : "Match the phrases with their meaning", 
-            "c" : ["1) try beforehand", "2) make notes",  "3) careful",    "4) continue after",  "5) say too much"],
-            "a" : ["1) try beforehand", "2) make notes",  "3) careful",    "4) continue after",  "5) say too much"]
+            "q" : "", 
+            "c" : ""
+            },
+
+    "7" : { 
+            "w" : "",
+            "e" : "", 
+            "d" : "", 
+            "i" : "", 
+            "l" : "", 
+            "x" : "", 
+            "q" : "", 
+            "c" : ""
             },
 
     "8" : { 
@@ -86,52 +87,50 @@
             "x" : "", 
             "q" : "", 
             "c" : ""
-            }   
-        
+            }
     },
 "2" : { 
     "1" : {          
-        "w" : "Posture",
-        "e" : "Remember body language and posture: sit upright with your shoulders back. No slouching!", 
-        "d" : "postition of your back and body", 
+        "w" : "",
+        "e" : "", 
+        "d" : "", 
         "i" : "",        
-        "l" : "https://www.youtube.com/channel/UCM3EIYvbhiVZX46_AOokXFw/videos", 
+        "l" : "", 
         "x" : "", 
-        "q" : "How can people improve their bad posture?", 
+        "q" : "", 
         "c" : ""
         },
 
     "2" : { 
-        "w" : "Intelligent",
-        "e" : "Prepare intelligent questions that you want to ask about the job.", 
-        "d" : "smart,  clever", 
+        "w" : "",
+        "e" : "", 
+        "d" : "", 
         "i" : "", 
         "l" : "", 
         "x" : "", 
-        "q" : "Complete these intelligent questions ", 
-        "c" : ["a) How will my p_rf_rm_nc_ be measured?", "b) Does the job offer any tr_ _ n _ng?", "c) What is the biggest ch_ll_ng_ for the company today?"]
-        
+        "q" : "", 
+        "c" : ""
         },
 
     "3" : { 
-            "w" : "Last Minute",
+            "w" : "",
             "e" : "", 
             "d" : "", 
             "i" : "", 
-            "l" : "https://www.youtube.com/watch?v=OFjGMctB2-E", 
+            "l" : "", 
             "x" : "", 
             "q" : "",  
             "c" : ""
             },
 
     "4" : { 
-            "w" : "Inquire",
-            "e" : "Don’t inquire about salary, vacations, bonuses, or other benefits until you've received an offer.", 
-            "d" : "ask for information (also, enquire)", 
+            "w" : "",
+            "e" : "", 
+            "d" : "", 
             "i" : "", 
             "l" : "", 
             "x" : "", 
-            "q" : "What is an intelligent thing to inquire about in a job interview?", 
+            "q" : "", 
             "c" : ""
             },
 

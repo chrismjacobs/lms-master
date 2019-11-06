@@ -1,80 +1,82 @@
 { 
-"05" : { 
+"04" : { 
 "1" : { 
     "1" : {          
-        "w" : "Job Interview",
+        "w" : "Happiness",
         "e" : "", 
-        "d" : "",         
+        "d" : "", 
+        "i" : "https://photos.google.com/photo/AF1QipO2HCXa3BMjyoNdxd3BH5wOw_O95g2EYNBZzj7v",        
+        "l" : "https://photos.google.com/photo/AF1QipO2HCXa3BMjyoNdxd3BH5wOw_O95g2EYNBZzj7v", 
         "x" : "", 
-        "q" : "What are three things you should bring to a job interview?", 
+        "q" : "Which activities make you feel happy?", 
         "c" : ""
         },
 
     "2" : { 
-        "w" : "Fail/Pass",
+        "w" : "Happiness",
         "e" : "", 
         "d" : "", 
         "i" : "", 
         "l" : "", 
-        "x" : "", 
-        "q" : "What is a good way to fail a job interview!?", 
+        "x" : "Pleasurable feeling / Feeling down / Positive outlook / Elevated mood / Feeling blue / Negative emotion / Satisfied / Depressed", 
+        "q" : "What are some synonyms for happiness?", 
         "c" : ""
         },
 
     "3" : { 
-            "w" : "Team",
+            "w" : "Sadness",
             "e" : "", 
             "d" : "", 
             "i" : "", 
             "l" : "", 
-            "x" : "",
-            "q" : "How many people on your team have had an interview for a job before?",  
+            "x" : "Pleasurable feeling / Feeling down / Positive outlook / Elevated mood / Feeling blue / Negative emotion / Satisfied / Depressed", 
+            "q" : "What are some synonyms for sadness?",  
             "c" : ""
             },
 
     "4" : { 
-            "w" : "make an impression",
-            "e" : "Have knowledge of their professional background to make a great impression.",
-            "d" : "an idea, feeling, or opinion about something ", 
-            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/Vocab/U05_impression.PNG", 
-            "l" : "https://www.youtube.com/watch?v=dnGQvoqtP88", 
+            "w" : "Emotion / state of mind",
+            "e" : "Happiness it is not a lasting emotion. It is a state of mind that is sometimes hard to maintain.", 
+            "d" : "Feeling / way of thinking", 
+            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/Vocab/U05/U05_emotion.PNG", 
+            "l" : "", 
             "x" : "", 
-            "q" : "How can you make a good impression when going on a first date?", 
-            "c" : ""
+            "q" : "Try to unscramble these emotions and states of mind", 
+            "c1" : "1-ohulfpe, 2-oinxasu",
+            "c2" : "3-obred,  4-osaipanset"
             },
 
     "5" : { 
-            "w" : "competitor",
-            "e" : "Research the company, know its products, services, history, competitors and mission statement.", 
-            "d" : "someone you are in competition with", 
-            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/Vocab/U05_competition.PNG", 
+            "w" : "maintain",
+            "e" : "With all the pressure in life, it can sometimes be hard to maintain a positive outlook.", 
+            "d" : "Keep in order, don't let it get out of control", 
+            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/Vocab/U05/U05_maintain.PNG", 
             "l" : "", 
-            "x" : "eg smartphones: Apple, Samsung, Huawei", 
-            "q" : "Name some other big competitors in an industry.... ", 
+            "x" : "", 
+            "q" : "What are some things that we should maintain? ", 
             "c" : ""
             },  
 
     "6" : { 
-            "w" : "Punctual",
-            "e" : "Be punctual. Plan to arrive about 10 to 15 minutes early", 
-            "d" : "", 
-            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/Vocab/U05_punctual.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "If you have trouble being punctual how can you improve?", 
-            "c" : ""
-            },
-
-    "7" : { 
-            "w" : "Phrase Match",
-            "e" : "a) jot down  b) on the safe side  c) make a practice run    d) over answer  e) follow up", 
+            "w" : "",
+            "e" : "", 
             "d" : "", 
             "i" : "", 
             "l" : "", 
             "x" : "", 
-            "q" : "Match the phrases with their meaning", 
-            "c" : ["1) try beforehand", "2) make notes",  "3) careful",    "4) continue after",  "5) say too much"],
-            "a" : ["1) try beforehand", "2) make notes",  "3) careful",    "4) continue after",  "5) say too much"]
+            "q" : "", 
+            "c" : ""
+            },
+
+    "7" : { 
+            "w" : "",
+            "e" : "", 
+            "d" : "", 
+            "i" : "", 
+            "l" : "", 
+            "x" : "", 
+            "q" : "", 
+            "c" : ""
             },
 
     "8" : { 
@@ -91,47 +93,46 @@
     },
 "2" : { 
     "1" : {          
-        "w" : "Posture",
-        "e" : "Remember body language and posture: sit upright with your shoulders back. No slouching!", 
-        "d" : "postition of your back and body", 
+        "w" : "",
+        "e" : "", 
+        "d" : "", 
         "i" : "",        
-        "l" : "https://www.youtube.com/channel/UCM3EIYvbhiVZX46_AOokXFw/videos", 
+        "l" : "", 
         "x" : "", 
-        "q" : "How can people improve their bad posture?", 
+        "q" : "", 
         "c" : ""
         },
 
     "2" : { 
-        "w" : "Intelligent",
-        "e" : "Prepare intelligent questions that you want to ask about the job.", 
-        "d" : "smart,  clever", 
+        "w" : "",
+        "e" : "", 
+        "d" : "", 
         "i" : "", 
         "l" : "", 
         "x" : "", 
-        "q" : "Complete these intelligent questions ", 
-        "c" : ["a) How will my p_rf_rm_nc_ be measured?", "b) Does the job offer any tr_ _ n _ng?", "c) What is the biggest ch_ll_ng_ for the company today?"]
-        
+        "q" : "", 
+        "c" : ""
         },
 
     "3" : { 
-            "w" : "Last Minute",
+            "w" : "",
             "e" : "", 
             "d" : "", 
             "i" : "", 
-            "l" : "https://www.youtube.com/watch?v=OFjGMctB2-E", 
+            "l" : "", 
             "x" : "", 
             "q" : "",  
             "c" : ""
             },
 
     "4" : { 
-            "w" : "Inquire",
-            "e" : "Don’t inquire about salary, vacations, bonuses, or other benefits until you've received an offer.", 
-            "d" : "ask for information (also, enquire)", 
+            "w" : "",
+            "e" : "", 
+            "d" : "", 
             "i" : "", 
             "l" : "", 
             "x" : "", 
-            "q" : "What is an intelligent thing to inquire about in a job interview?", 
+            "q" : "", 
             "c" : ""
             },
 
