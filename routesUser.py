@@ -11,11 +11,13 @@ try:
     from aws import Settings    
     s3_resource = Settings.s3_resource  
     S3_LOCATION = Settings.S3_LOCATION
-    S3_BUCKET_NAME = Settings.S3_BUCKET_NAME   
+    S3_BUCKET_NAME = Settings.S3_BUCKET_NAME
+    COLOR_SCHEMA = Settings.COLOR_SCHEMA   
 except:
     s3_resource = boto3.resource('s3')
     S3_LOCATION = os.environ['S3_LOCATION'] 
-    S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']  
+    S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME'] 
+    COLOR_SCHEMA = os.environ['COLOR_SCHEMA'] 
 
 
 @app.route('/chatCheck', methods=['POST'])
@@ -287,7 +289,15 @@ def att_team():
 def assignment_list():     
     assList = Sources.query.order_by(asc(Sources.id)).all()  # also remember .limit(3).all()  
     assList2 = Sources.query.filter_by(part='1').order_by(asc(Sources.unit)).all()
-    href = url_for('assign')
+    
+    urls = [None, 
+        'https://reading-lms.herokuapp.com/ass', 
+        'https://workplace-lms.herokuapp.com/ass', 
+        'https://icc-lms.herokuapp.com/ass'
+    ]  
+
+    href = urls[int(COLOR_SCHEMA)]
+
 
     # models update
     #list of models used to create scrDict
@@ -331,10 +341,6 @@ def assignment_list():
     href=href, assList=assList, srcDict=srcDict, srcDictList=srcDictList,
     pointCounter=pointCounter, total=total, color=color)
 
-
-@app.route ("/ass")
-def assign():    
-    return url_for('assign')
 
 
 @app.route('/audioUpload', methods=['POST', 'GET'])

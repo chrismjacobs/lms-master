@@ -192,13 +192,21 @@ def examResult():
         else:
             pass
     
-        
-    for key in examDict:
-        sample = Grades.query.filter_by(studentID=key).first().examList
-        if sample != str(examDict[key]):     
+    # make a grades dict to compare
+    gradesDict = {}
+    gradeInfo = Grades.query.all()
+    for row in gradeInfo: 
+        gradesDict[row.studentID] = row.examList
+
+    for key in examDict: 
+        if 'None' in str(examDict[key]):
+            print ('None')  
+        elif gradesDict[key] != str(examDict[key]):     
             Grades.query.filter_by(studentID=key).first().examList = str(examDict[key])
             db.session.commit()
-            print('commit', key, ':', examDict[key])                   
+            print('commit', key, ':', examDict[key])
+        else: 
+            print('No Commit')                   
 
     return examDict
  
