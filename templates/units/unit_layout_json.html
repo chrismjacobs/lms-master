@@ -3,24 +3,32 @@
 {% block content %}
 <!--Header of page____________________________________-->
 <div class="content-section">    
-	<h1 > {{source.title}} (Q:{{source.qnum}})</h1>
+	<h1 > {{source.title}} (Q:{{qNumber}})</h1>
 </div>
 
 <!-- -->
 {% if current_user.username == 'Chris' %}
 <div class="content-section">    
-	<h3 > <a href="/answers/{{source.unit}}/{{source.part}}/{{source.form}}/{{source.qnum}}">Instructor Mode</a> </h3>
+	<h3 > <a href="/answers/{{source.unit}}/{{source.part}}/{{source.form}}/{{qNumber}}">Instructor Mode</a> </h3>
 </div>
 {% endif %}
 
+<div class="content-section">    
+        <h5 > Notes </h5>   
+    <div class="embed-responsive embed-responsive-4by3">
+            <iframe id="questions_embed" src="{{source.notes}}"
+            allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
+	        </iframe>
+    </div> 
+</div>
 
-<div class="content-section">
-	<button type="button" class="btn" style="background:{{titleColor}}; color:white; width:100%" data-toggle="collapse" data-target="#notes">QUESTIONS</button>
+
+	<button type="button" class="btn" style="background:grey; color:white; width:100%" data-toggle="collapse" data-target="#notes">See All Questions</button>
 	<br>
 <div class="collapse" id="notes">
 
 {% for data in jdata %}
-	{% if data | int  < qNumber %}
+	{% if data | int  < qNumber+1 %}
 <div class="content-section" style="background:whitesmoke"> 
 <h2 style="color:blue" align="center"> {{data}}: {{jdata[data]['w']}} <h2> 
 <h3 style="color:{{titleColor}}" align="center"> {{jdata[data]['e']}} </h3> 
@@ -38,16 +46,17 @@
 {% endif %}
 <h4 style=""> {{jdata[data]['x']}} </h4> 
 <h4 style="background:{{titleColor}}; color:{{bodyColor}}"> {{jdata[data]['q']}} </h4> 
-<h4 style=""> {{jdata[data]['c1']}}</h4> 
-<h4 style=""> {{jdata[data]['c2']}}</h4>
+{% for choice in jdata[data]['c']%}
+		<h4 style=""> {{choice}} </h4> 	
+{% endfor %}
 </div> 
 	{% endif %}
 
 {% endfor %}
 
 </div>
-</div>
 
+<br>
 
 
 <!--Form of the page_________________________________-->
@@ -57,20 +66,27 @@
 	<fieldset class="form-group"> 
 
 
-{% for i in range(1,qNumber) %}
+	<button type="button" class="btn" style="background:white; color:{{titleColor}}; border:2px solid {{titleColor}}; width:100%" data-toggle="collapse" data-target="#answers">See Answers</button>
+	<br>
+<div class="collapse" id="answers">
+
+{% for i in range(1,qNumber+1) %}
 		{% if fieldsList[i] != "" %}
 
-	<div class="content-section" style="background:whitesmoke">
+	<div class="content-section" style="background:white">
 		<button type="button" class="btn btn-sm" data-toggle="collapse" data-target="#table{{i}}" style="background:{{bodyColor}}; color:{{titleColor}}; border:2px solid {{titleColor}}; float:right">Answers</button>
 		<h2 style="color:blue" style=""> {{i}}: {{jdata[i|string]['w']}} <h2>
+		
+					 
 		<h4 style="background:{{titleColor}}; color:{{bodyColor}}"> {{jdata[i|string]['q']}} </h4> 
-		<h4 style=""> {{jdata[i|string]['c1']}} </h4> 
-		<h4 style=""> {{jdata[i|string]['c2']}} </h4> 
+		{% for choice in jdata[i|string]['c']%}
+		<h4 style=""> {{choice}} </h4> 	
+		{% endfor %}	
 	</div> 
 
-		<section class="content-section">
+		
 			<div id="table{{i}}" class="collapse">			
-			<table class="table table-sm" >
+			<table class="table table-sm" style="background:white" >
 			<tbody>				
 				{% for j in range(dictCount) %}
 				<tr>
@@ -83,16 +99,20 @@
 			</div>
 		{% endif %}	
 			
-		</section>					
+							
 		{% endfor %}
 
+</div>
+
+<br>
+<br>
 
 <!--Questions the page_________________________________-->
 
 		{% for i in range(1,qNumber) %}
 
 		{% if i == ansSum+1 %}
-		<div class="content-section" style="background:whitesmoke"> 
+		<div class="content-section" style="background:lavenderblush"> 
 			<h2 style="color:blue" align="center"> {{i}}: {{jdata[i|string]['w']}} <h2> 
 
 			<h3 style="color:{{titleColor}}" align="center"> {{jdata[i|string]['e']}} </h3> 
@@ -107,7 +127,9 @@
 
 			<h4 style=""> {{jdata[i|string]['x']}} </h4> 
 			<h4 style="background:{{titleColor}}; color:{{bodyColor}}"> {{jdata[i|string]['q']}} </h4> 
-			<h4 style=""> {{jdata[i|string]['c']}} </h4> 
+			{% for choice in jdata[i|string]['c']%}
+			<h4 style=""> {{choice}} </h4> 	
+			{% endfor %} 
 		</div> 
 		
 		<section class="content-section">

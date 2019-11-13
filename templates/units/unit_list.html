@@ -47,7 +47,7 @@
       {% endif %}
           
             <td> {{unit.unit}}-{{unit.part}}</td>                      
-            <td> {{unit.title}} ({{unit.qnum}})</td>
+            <td> {{unit.title}} </td> <!--({{unit.qnum}})--> 
             <td> {{unit.classdate.strftime('%b %d')}}</td>  
             <td> {{unit.duedate.strftime('%b %d')}}</td>
             {% if scoreDict[unit.unit + unit.part][0] ==2 %}              

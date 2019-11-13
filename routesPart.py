@@ -220,18 +220,6 @@ def unit_instructor(unit_num,part_num,fm,qs):
     else: 
         teamcounter = 10
 
-      
-    context = { 
-        'ansDict' : ansDict, 
-        'part_num' : part_num, 
-        'unit_num' : unit_num,        
-        'qNumber' : int(qs), 
-        'source' : source,
-        'dictCount' : dictCount,        
-        'title' : 'unit_IM',
-        'teamcounter' : teamcounter
-    }
-
     if int(fm) == 1:
         jdata = None
         html = 'units/unit_instructor.html'
@@ -239,12 +227,26 @@ def unit_instructor(unit_num,part_num,fm,qs):
         jdata = None
         html = 'units/unit_instructor.html'
     elif int(fm) == 3: 
-        jsonList = [ 'blank', "FRD.json", "FRD.json", "FRD.json"]
+        jsonList = [ 'blank', "FRD.json", "WPE.json", "ICC.json"]
         string = jsonList[int(COLOR_SCHEMA)]   
         with open (string, "r") as f:
             jload = json.load(f)             
         jdata = jload[unit_num][part_num]        
         html = 'units/unit_instructor_json.html'
+        questionNum = len(jdata)
+     
+    context = { 
+        'ansDict' : ansDict, 
+        'part_num' : part_num, 
+        'unit_num' : unit_num,        
+        'qNumber' : questionNum, 
+        'source' : source,
+        'dictCount' : dictCount,        
+        'title' : 'unit_IM',
+        'teamcounter' : teamcounter
+    }
+
+    
 
     return render_template(html, **context, jdata=jdata)
 
@@ -338,7 +340,21 @@ def unit(unit_num,part_num,fm,qs):
     for i in range(1,8):
         if fieldsList[i] != "":
             fieldsCount +=1
-            
+
+    if int(fm) == 1:
+        jdata = None
+        html = 'units/unit_layout.html'
+    elif int(fm) == 2:
+        jdata = None
+        html = 'units/unit_layout.html'
+    elif int(fm) == 3: 
+        jsonList = [ 'blank', "FRD.json", "WPE.json", "ICC.json"]
+        string = jsonList[int(COLOR_SCHEMA)]   
+        with open (string, "r") as f:
+            jload = json.load(f)             
+        jdata = jload[unit_num][part_num]
+        questionNum = len(jdata)
+        html = 'units/unit_layout_json.html'        
         
     #set the grade for the assignment
     zeroCounter = []         
@@ -399,19 +415,7 @@ def unit(unit_num,part_num,fm,qs):
         form.Ans08.data = fields.Ans08
         
     
-    if int(fm) == 1:
-        jdata = None
-        html = 'units/unit_layout.html'
-    elif int(fm) == 2:
-        jdata = None
-        html = 'units/unit_layout.html'
-    elif int(fm) == 3: 
-        jsonList = [ 'blank', "FRD.json", "FRD.json", "FRD.json"]
-        string = jsonList[int(COLOR_SCHEMA)]   
-        with open (string, "r") as f:
-            jload = json.load(f)             
-        jdata = jload[unit_num][part_num]
-        html = 'units/unit_layout_json.html'
+    
 
     
     context = {

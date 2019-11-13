@@ -288,7 +288,7 @@ def att_team():
 @login_required
 def assignment_list():     
     assList = Sources.query.order_by(asc(Sources.id)).all()  # also remember .limit(3).all()  
-    assList2 = Sources.query.filter_by(part='1').order_by(asc(Sources.unit)).all()
+    assList2 = Sources.query.filter_by(part='1').filter_by(openSet='1').order_by(asc(Sources.unit)).all()
     
     urls = [None, 
         'https://reading-lms.herokuapp.com/ass', 
@@ -301,9 +301,7 @@ def assignment_list():
 
     # models update
     #list of models used to create scrDict
-    modDict = Info.modDictAss
-   
-    
+    modDict = Info.modDictAss  
     
     # create dictionary of assignment sources with integers for scoreDict calling
     srcDict = {}   # 0 : ass , grade, comment

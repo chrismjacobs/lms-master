@@ -1,12 +1,12 @@
 { 
-"04" : { 
+"05" : { 
 "1" : { 
     "1" : {          
         "w" : "Happiness",
         "e" : "", 
         "d" : "", 
-        "i" : "https://photos.google.com/photo/AF1QipO2HCXa3BMjyoNdxd3BH5wOw_O95g2EYNBZzj7v",        
-        "l" : "https://photos.google.com/photo/AF1QipO2HCXa3BMjyoNdxd3BH5wOw_O95g2EYNBZzj7v", 
+        "i" : "https://bradaronson.com/wp-content/uploads/2013/10/happy.jpg",        
+        "l" : "", 
         "x" : "", 
         "q" : "Which activities make you feel happy?", 
         "c" : ""
@@ -27,7 +27,7 @@
             "w" : "Sadness",
             "e" : "", 
             "d" : "", 
-            "i" : "", 
+            "i" : "https://steemitimages.com/DQmebFz2V6ircizwcQdfdX27pY2CHURGcyTf7YbtjNYJYur/sad.jpg", 
             "l" : "", 
             "x" : "Pleasurable feeling / Feeling down / Positive outlook / Elevated mood / Feeling blue / Negative emotion / Satisfied / Depressed", 
             "q" : "What are some synonyms for sadness?",  
@@ -38,19 +38,18 @@
             "w" : "Emotion / state of mind",
             "e" : "Happiness it is not a lasting emotion. It is a state of mind that is sometimes hard to maintain.", 
             "d" : "Feeling / way of thinking", 
-            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/Vocab/U05/U05_emotion.PNG", 
+            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_emotion.PNG", 
             "l" : "", 
             "x" : "", 
             "q" : "Try to unscramble these emotions and states of mind", 
-            "c1" : "1-ohulfpe, 2-oinxasu",
-            "c2" : "3-obred,  4-osaipanset"
+            "c" : ["1-ohulfpe", "2-oinxasu", "3-obred",  "4-osaipanset"]
             },
 
     "5" : { 
             "w" : "maintain",
             "e" : "With all the pressure in life, it can sometimes be hard to maintain a positive outlook.", 
             "d" : "Keep in order, don't let it get out of control", 
-            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/Vocab/U05/U05_maintain.PNG", 
+            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_maintain.PNG", 
             "l" : "", 
             "x" : "", 
             "q" : "What are some things that we should maintain? ", 
@@ -58,25 +57,25 @@
             },  
 
     "6" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
+            "w" : "mood",
+            "e" : "It is not surprising that physical health directly affects our mood.", 
+            "d" : "Feeling", 
+            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_mood.PNG", 
             "l" : "", 
             "x" : "", 
-            "q" : "", 
+            "q" : "What is the best color for a classroom to give students a good mood?", 
             "c" : ""
             },
 
     "7" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
+            "w" : "network",
+            "e" : "Just one person for a heart-to-heart is enough, together with a network of other relationships.", 
+            "d" : "A connected group", 
+            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_network.PNG", 
             "l" : "", 
             "x" : "", 
-            "q" : "", 
-            "c" : ""
+            "q" : "A network of.....", 
+            "c" : ["1 - medical centers", "2 sewers", " 3 researchers"]
             },
 
     "8" : { 
@@ -93,7 +92,7 @@
     },
 "2" : { 
     "1" : {          
-        "w" : "",
+        "w" : "reward",
         "e" : "", 
         "d" : "", 
         "i" : "",        
