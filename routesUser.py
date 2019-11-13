@@ -113,11 +113,11 @@ def home():
                 pass
         
 
-        practiceDict = ast.literal_eval(fieldsGrade.practice)
-        tries = len(practiceDict[1]) + len(practiceDict[2])
-        if tries != fieldsGrade.tries:
-            fieldsGrade.tries = tries
-            db.session.commit()
+        #practiceDict = ast.literal_eval(fieldsGrade.practice)
+        #tries = len(practiceDict[1]) + len(practiceDict[2])
+        #if tries != fieldsGrade.tries:
+            #fieldsGrade.tries = tries
+            #db.session.commit()
         
         
 
@@ -133,7 +133,7 @@ def home():
         'color2' : colorDict['color2'][0],
         'color3' : colorDict['color3'][0],          
         'attLog' : attLog,
-        'exam' : tries
+        
         }
     else:
         context = {
@@ -148,7 +148,7 @@ def home():
         'color2' : 0,
         'color3' : 0,          
         'attLog' : None,
-        'exam' : None
+        
         }
     
 
