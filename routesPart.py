@@ -23,8 +23,12 @@ except:
 @login_required
 def unit_list():
     
-    sourceList = Sources.query.order_by(asc(Sources.unit)).order_by(asc(Sources.part)).all()  # also remember .limit(3).all()     
+    sourceList = Sources.query.filter_by(openSet='1').order_by(asc(Sources.unit)).order_by(asc(Sources.part)).all()  # also remember .limit(3).all()     
     href = url_for('class_part') 
+
+    unitsSet = set()
+    for src in sourceList:
+        unitsSet.add(int(src.unit))
     
     #temporarily close old units
     # check today's unit
@@ -65,31 +69,31 @@ def unit_list():
     #list of models, used later to create a points dictionary
     modList = Info.modListUnits  
 
-    #create a dictionary of scores and comments
-    modCount = 0
+    #create a dictionary of scores and comments    
     scoreDict = {} # [001 : grade , comment]         
-    for model in modList:
-        rows = model.query.order_by(asc(model.id)).all()  
+    for model in modList:          
         unitCode = (str(model).split("U"))[1] #.split remove the item "" __U001U__  -->  __  001  ___  
-        scoreDict[unitCode] = [0, ""]        
-        for row in rows:
-            # need to stop Chris being found when ChrisHsu is present in a string 
-            if current_user.username + ',' in row.username or current_user.username + '"' in row.username or current_user.username + '}' in row.username or current_user.username == row.username:
-                # this code prevents scores being replaced by Zeros but Zeros will be replaced by scores                
-                if scoreDict[unitCode][0] == 2:
-                    print ('pass2') 
-                    pass 
-                elif scoreDict[unitCode][0] == 1:
-                    if row.Grade == 2:
-                        scoreDict[unitCode] = [row.Grade , row.Comment] 
-                    else:                         
-                        print ('pass1') 
+        if int(unitCode[:2]) not in unitsSet:           
+            pass
+        else: 
+            rows = model.query.order_by(asc(model.id)).all()
+            scoreDict[unitCode] = [0, ""]        
+            for row in rows:
+                # need to stop Chris being found when ChrisHsu is present in a string 
+                if current_user.username + ',' in row.username or current_user.username + '"' in row.username or current_user.username + '}' in row.username or current_user.username == row.username:
+                    # this code prevents scores being replaced by Zeros but Zeros will be replaced by scores                
+                    if scoreDict[unitCode][0] == 2:
+                        print ('pass2') 
                         pass 
-                else:                   
-                    scoreDict[unitCode] = [row.Grade , row.Comment] 
-        modCount += 1
-        if modCount == len(sourceList): # going to break the for loop once all sources have been checked 
-            break
+                    elif scoreDict[unitCode][0] == 1:
+                        if row.Grade == 2:
+                            scoreDict[unitCode] = [row.Grade , row.Comment] 
+                        else:                         
+                            print ('pass1') 
+                            pass 
+                    else:                   
+                        scoreDict[unitCode] = [row.Grade , row.Comment] 
+        
     
     print('scoreDict: ', scoreDict)
 
@@ -155,13 +159,16 @@ def scoreCheck():
     qNum = request.form ['qNum']
     part_num = request.form ['part_num']
     unit_num = request.form ['unit_num']
-    
+
+    print (type(qNum), part_num, unit_num)
+
     modDict = Info.modDictUnits
     model = modDict[unit_num][int(part_num)]            
     answers = model.query.order_by(asc(model.teamnumber)).all()  
 
     scoreDict = {}     
     for answer in answers: 
+        print (answer)
         scoreList = [answer.Ans01, answer.Ans02, answer.Ans03, answer.Ans04, 
         answer.Ans05, answer.Ans06, answer.Ans07, answer.Ans08]
         if answer.teamnumber <21:
@@ -169,7 +176,7 @@ def scoreCheck():
             for item in scoreList[0:int(qNum)+1]:               
                 if item != "" and item != None:
                     scoreDict[answer.teamnumber].append(1)    
-    #print (scoreDict)    
+    print (scoreDict)    
     
     maxScore = len(scoreDict) * int(qNum)
     actScore = 0

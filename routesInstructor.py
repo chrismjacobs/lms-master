@@ -65,6 +65,27 @@ def purge():
 
     return render_template('instructor/purge.html', purgeDict=purgeDict)
 
+@app.route("/reset4790", methods = ['GET', 'POST'])
+@login_required
+def reset():
+    if current_user.id != 1:
+        return abort(403)  
+    
+    grades = Grades.query.all()
+    
+    for grad in grades: 
+        grad.assignments = 0 
+        grad.units = 0 
+        grad.attend = 0 
+        grad.bonus = 0 
+        grad.extraInt = 0 
+        grad.examList = None
+        grad.tries = 0 
+        grad.practice = None
+        db.session.commit()    
+
+
+    return 'reset complete'
 
 @app.route ("/att_log")
 @login_required

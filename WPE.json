@@ -57,7 +57,7 @@
     "6" : { 
             "w" : "Punctual",
             "e" : "Be punctual. Plan to arrive about 10 to 15 minutes early", 
-            "d" : "", 
+            "d" : "on time", 
             "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_punctual.PNG", 
             "l" : "", 
             "x" : "", 

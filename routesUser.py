@@ -298,8 +298,6 @@ def assignment_list():
 
     href = urls[int(COLOR_SCHEMA)]
 
-
-    # models update
     #list of models used to create scrDict
     modDict = Info.modDictAss  
     

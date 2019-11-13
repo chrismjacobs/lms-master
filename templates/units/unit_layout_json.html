@@ -36,7 +36,7 @@
 <div align="center">
 <img style="max-width:100%"  src="{{jdata[data]['i']}}"> 
 </div> 
-<h4><a href="{{jdata[data]['l']}}"> {% if jdata[data]['l'] %} Link {% endif %} </a></h4>
+<h4 align="center"><a href="{{jdata[data]['l']}}" > {% if jdata[data]['l'] %} Link {% endif %} </a></h4>
 {% if jdata[data]['f'] %}
 <div class="embed-responsive embed-responsive-4by3">
 	<iframe src="{{jdata[data]['f']}}" 
@@ -45,9 +45,9 @@
 </div>
 {% endif %}
 <h4 style=""> {{jdata[data]['x']}} </h4> 
-<h4 style="background:{{titleColor}}; color:{{bodyColor}}"> {{jdata[data]['q']}} </h4> 
+<h4 align="center"> <text style="background:{{titleColor}}; color:{{bodyColor}}"> {{jdata[data]['q']}} </text> </h4> 
 {% for choice in jdata[data]['c']%}
-		<h4 style=""> {{choice}} </h4> 	
+		<h4 style="" align="center"> {{choice}} </h4> 	
 {% endfor %}
 </div> 
 	{% endif %}
@@ -117,16 +117,16 @@
 
 			<h3 style="color:{{titleColor}}" align="center"> {{jdata[i|string]['e']}} </h3> 
 
-			<h4 style="color:hotpink" align="center"> {{jdata[i|string]['d']}} </h4> 
+			<h4 style="color:hotpink; width:50%%" align="center"> {{jdata[i|string]['d']}} </h4> 
 
 			<div align="center">
 				<img style="max-width:100%"  src="{{jdata[i|string]['i']}}"> 
 			</div> 
 
-			<h4><a href="{{jdata[i|string]['l']}}"> {% if jdata[i|string]['l'] %} Link {% endif %} </a></h4>
+			<h4 align="center"><a href="{{jdata[i|string]['l']}}" > {% if jdata[i|string]['l'] %} Link {% endif %} </a></h4>
 
 			<h4 style=""> {{jdata[i|string]['x']}} </h4> 
-			<h4 style="background:{{titleColor}}; color:{{bodyColor}}"> {{jdata[i|string]['q']}} </h4> 
+			<h4 style="background:{{titleColor}}; color:{{bodyColor}}" align="center"> {{jdata[i|string]['q']}} </h4> 
 			{% for choice in jdata[i|string]['c']%}
 			<h4 style=""> {{choice}} </h4> 	
 			{% endfor %} 
