@@ -99,7 +99,7 @@
 
     "3" : { 
             "w" : "Inquire",
-            "e" : "Don’t inquire about salary, vacations, bonuses, or other benefits until you've received an offer.", 
+            "e" : "Don't inquire about salary, vacations, bonuses, or other benefits until you've received an offer.", 
             "d" : "ask for information", 
             "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_inquire.PNG", 
             "l" : "", 
@@ -904,7 +904,7 @@
     "3" : {          
         "w" : "constant",
         "e" : "The workload is constant but I'm able to organize my work into small tasks and stay productive", 
-        "d" : "doesn’t stop", 
+        "d" : "doesn't stop", 
         "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_constant.PNG",        
         "l" : "https://www.youtube.com/watch?v=1KaOrSuWZeM", 
         "x" : "", 
@@ -1008,7 +1008,7 @@
             "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_independent.PNG", 
             "l" : "", 
             "x" : "", 
-            "q" : "What can’t young children do independently?", 
+            "q" : "What can't young children do independently?", 
             "c" : ""
             },
 

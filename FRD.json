@@ -46,7 +46,7 @@
             },
 
     "5" : { 
-            "w" : "maintain",
+            "w" : "Maintain",
             "e" : "With all the pressure in life, it can sometimes be hard to maintain a positive outlook.", 
             "d" : "Keep in order, don't let it get out of control", 
             "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_maintain.PNG", 
@@ -57,7 +57,7 @@
             },  
 
     "6" : { 
-            "w" : "mood",
+            "w" : "Mood",
             "e" : "It is not surprising that physical health directly affects our mood.", 
             "d" : "Feeling", 
             "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_mood.PNG", 
@@ -68,294 +68,239 @@
             },
 
     "7" : { 
-            "w" : "network",
+            "w" : "Network",
             "e" : "Just one person for a heart-to-heart is enough, together with a network of other relationships.", 
             "d" : "A connected group", 
             "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_network.PNG", 
             "l" : "", 
             "x" : "", 
-            "q" : "A network of.....", 
+            "q" : "A network of.....(match the pictures)", 
             "c" : ["1 - medical centers", "2 sewers", " 3 researchers"]
-            },
-
-    "8" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "", 
-            "c" : ""
-            }   
+            }
         
     },
 "2" : { 
-    "1" : {          
-        "w" : "reward",
-        "e" : "", 
-        "d" : "", 
-        "i" : "",        
-        "l" : "", 
-        "x" : "", 
-        "q" : "", 
-        "c" : ""
-        },
+        "1" : {          
+                "w" : "Reward",
+                "e" : "High-flow activities that are enjoyable but also useful and challenging are most rewarding.", 
+                "d" : "Something with an achievable goal", 
+                "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_reward.PNG",        
+                "l" : "", 
+                "x" : "", 
+                "q" : "What rewarding activities do you do that are enjoyable but challenging?", 
+                "c" : ""
+                },
 
     "2" : { 
-        "w" : "",
-        "e" : "", 
-        "d" : "", 
-        "i" : "", 
+        "w" : "Contribute / Long-term",
+        "e" : "High flow activities are satisfying and contribute to long-term happiness", 
+        "d" : "add to / future", 
+        "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_contribute.PNG", 
         "l" : "", 
-        "x" : "", 
-        "q" : "", 
+        "x" : "eg contribute to long-term saving", 
+        "q" : "What can contribute to long-term health problems?", 
         "c" : ""
         },
 
-    "3" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "",  
-            "c" : ""
-            },
+        "3" : { 
+                "w" : "Avoid",
+                "e" : "To avoid negative feelings you could find a personal mantra that is meaningful to you.", 
+                "d" : "stop / stay away from", 
+                "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_avoid.PNG", 
+                "l" : "https://www.youtube.com/watch?v=PAsT-PSQoxI", 
+                "x" : "", 
+                "q" : "What's one way to avoid negative people?",  
+                "c" : ""
+                },
 
     "4" : { 
-            "w" : "",
-            "e" : "", 
+            "w" : "Personal Mantra",
+            "e" : "This is a phrase that motivates you when you are down.", 
             "d" : "", 
-            "i" : "", 
-            "l" : "", 
+            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_reward.PNG", 
+            "l" : "https://www.brainyquote.com/topics/happiness", 
             "x" : "", 
-            "q" : "", 
+            "q" : "If you know another motivation phrase, then please write it here :)", 
             "c" : ""
             },
 
     "5" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
+            "w" : "Alternative",
+            "e" : "Alternatively, recall happy memories or make plans for future events.", 
+            "d" : "Another choice", 
+            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_reward.PNG", 
             "l" : "", 
             "x" : "", 
-            "q" : "", 
+            "q" : "What is an alternative to ____? Line App / Coffee / Rice", 
             "c" : ""
-            },  
-
-    "6" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "", 
-            "c" : ""
-            },
-
-    "7" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "", 
-            "c" : ""
-            },
-
-    "8" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "", 
-            "c" : ""
-            }
+            }      
     },
 "3" : { 
     "1" : {          
-        "w" : "",
+        "w" : "Cause and Effect",
         "e" : "", 
         "d" : "", 
-        "i" : "",        
+        "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_r2.PNG",        
         "l" : "", 
         "x" : "", 
-        "q" : "", 
+        "q" : "Why is physical activity important?", 
         "c" : ""
         },
 
     "2" : { 
-        "w" : "",
+        "w" : "Cause and Effect",
         "e" : "", 
         "d" : "", 
-        "i" : "", 
+        "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_r2.PNG", 
         "l" : "", 
         "x" : "", 
-        "q" : "", 
+        "q" : "Why should we spend more time outdoors when the weather is nice?", 
         "c" : ""
         },
 
     "3" : { 
-            "w" : "",
+            "w" : "Cause and Effect",
             "e" : "", 
             "d" : "", 
-            "i" : "", 
+            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_r3.PNG", 
             "l" : "", 
             "x" : "", 
-            "q" : "",  
+            "q" : "Why do you need at least one close friend?",  
             "c" : ""
             },
 
     "4" : { 
-            "w" : "",
+            "w" : "Cause and Effect",
             "e" : "", 
             "d" : "", 
-            "i" : "", 
+            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_r4.PNG", 
             "l" : "", 
             "x" : "", 
-            "q" : "", 
+            "q" : "Why should activities be active, not passive?", 
             "c" : ""
             },
 
     "5" : { 
-            "w" : "",
+            "w" : "Cause and Effect",
             "e" : "", 
             "d" : "", 
-            "i" : "", 
+            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_r5.PNG", 
             "l" : "", 
             "x" : "", 
-            "q" : "", 
+            "q" : "Why is a personal mantra useful for you?", 
             "c" : ""
             },  
 
     "6" : { 
-            "w" : "",
+            "w" : "Synonyms",
             "e" : "", 
             "d" : "", 
-            "i" : "", 
+            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_SYN.PNG", 
             "l" : "", 
             "x" : "", 
-            "q" : "", 
+            "q" : "Write 3 Answers", 
             "c" : ""
             },
 
     "7" : { 
-            "w" : "",
+            "w" : "Idioms",
             "e" : "", 
             "d" : "", 
-            "i" : "", 
+            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_IDM.PNG", 
             "l" : "", 
             "x" : "", 
-            "q" : "", 
+            "q" : "Write 3 Answers", 
             "c" : ""
             },
 
     "8" : { 
-            "w" : "",
+            "w" : "Extra",
             "e" : "", 
             "d" : "", 
-            "i" : "", 
+            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_SC.PNG", 
             "l" : "", 
             "x" : "", 
-            "q" : "", 
-            "c" : ""
+            "q" : "Match the sentence with the section", 
+            "c" : ["A: Manage your Lifestyle", "B: Build Relationships", "C: Follow your Interests", "D: Stay Positive"]
             }
     },
 "4" : { 
     "1" : {          
-        "w" : "",
+        "w" : "Transitions",
         "e" : "", 
         "d" : "", 
-        "i" : "",        
+        "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_t1.PNG",        
         "l" : "", 
         "x" : "", 
-        "q" : "", 
-        "c" : ""
+        "q" : "Choose the correct transition words 1/2", 
+        "c" : ["Furthermore", "Therefore", "Alternatively", "For example"]
         },
 
     "2" : { 
-        "w" : "",
+        "w" : "Transitions",
         "e" : "", 
         "d" : "", 
-        "i" : "", 
+        "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_t2.PNG", 
         "l" : "", 
         "x" : "", 
-        "q" : "", 
-        "c" : ""
+        "q" : "Choose the correct transition words 3/4", 
+        "c" : ["Besides", "Since"]
         },
 
     "3" : { 
-            "w" : "",
+            "w" : "Transitions",
             "e" : "", 
             "d" : "", 
-            "i" : "", 
+            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_t1.PNG", 
             "l" : "", 
             "x" : "", 
-            "q" : "",  
-            "c" : ""
+            "q" : "Choose the correct transition words 5/6",  
+            "c" : ["Furthermore", "Therefore", "Alternatively", "For example"]
             },
 
     "4" : { 
-            "w" : "",
+            "w" : "Summarize with Lists",
             "e" : "", 
             "d" : "", 
-            "i" : "", 
+            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_r2.PNG", 
             "l" : "", 
             "x" : "", 
-            "q" : "", 
-            "c" : ""
+            "q" : "Manage your lifestyle such as _______, ________, and ________", 
+            "c" : ["diet", "friends", "exercise", "sleep", "work"]
             },
 
     "5" : { 
-            "w" : "",
+            "w" : "Summarize with Lists",
             "e" : "", 
             "d" : "", 
-            "i" : "", 
+            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_r3.PNG", 
             "l" : "", 
             "x" : "", 
-            "q" : "", 
-            "c" : ""
+            "q" : "Build relationships that are _______ and ________", 
+            "c" : ["strong", "negative", "casual", "close"]
             },  
 
     "6" : { 
-            "w" : "",
+            "w" : "Summarize with Lists",
             "e" : "", 
             "d" : "", 
-            "i" : "", 
+            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_r4.PNG", 
             "l" : "", 
             "x" : "", 
-            "q" : "", 
-            "c" : ""
+            "q" : "Follow interests that are _______, ________, and ________", 
+            "c" : ["time-consuming", "useful", "rewarding", "passive", "active"]
             },
 
     "7" : { 
-            "w" : "",
+            "w" : "Summarize with Lists",
             "e" : "", 
             "d" : "", 
-            "i" : "", 
+            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_r5.PNG", 
             "l" : "", 
             "x" : "", 
-            "q" : "", 
-            "c" : ""
-            },
-
-    "8" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "", 
-            "c" : ""
-            }
+            "q" : "Stay positive by _______, ________, and ________", 
+            "c" : ["Finding a personal mantra", "Working hard", "Keeping a journal", "Saving money", "Trying new things"]
+            }    
     }
 }, 
 

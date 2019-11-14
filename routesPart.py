@@ -354,7 +354,12 @@ def unit(unit_num,part_num,fm,qs):
     elif int(fm) == 2:
         jdata = None
         html = 'units/unit_layout.html'
-    elif int(fm) == 3: 
+    elif int(fm) == 3:
+        #jList = [ [], ['reading-lms', "images/FRD.json"], ['workplace-lms', "images/WPE.json"], ['icc-lms', "images/ICC.json"]]
+        #content_object = s3_resource.Object(jsonList[int(COLOR_SCHEMA)][0], jsonList[int(COLOR_SCHEMA)][1])
+        #file_content = content_object.get()['Body'].read().decode('utf-8')
+        #jload = json.loads(file_content)
+        
         jsonList = [ 'blank', "FRD.json", "WPE.json", "ICC.json"]
         string = jsonList[int(COLOR_SCHEMA)]   
         with open (string, "r") as f:

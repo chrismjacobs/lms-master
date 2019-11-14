@@ -44,7 +44,7 @@
 	</iframe>
 </div>
 {% endif %}
-<h4 style=""> {{jdata[data]['x']}} </h4> 
+<h4 style="" align="center"> {{jdata[data]['x']}} </h4> 
 <h4 align="center"> <text style="background:{{titleColor}}; color:{{bodyColor}}"> {{jdata[data]['q']}} </text> </h4> 
 {% for choice in jdata[data]['c']%}
 		<h4 style="" align="center"> {{choice}} </h4> 	
@@ -125,7 +125,7 @@
 
 			<h4 align="center"><a href="{{jdata[i|string]['l']}}" > {% if jdata[i|string]['l'] %} Link {% endif %} </a></h4>
 
-			<h4 style=""> {{jdata[i|string]['x']}} </h4> 
+			<h4 style="" align="center"> {{jdata[i|string]['x']}} </h4> 
 			<h4 style="background:{{titleColor}}; color:{{bodyColor}}" align="center"> {{jdata[i|string]['q']}} </h4> 
 			{% for choice in jdata[i|string]['c']%}
 			<h4 style=""> {{choice}} </h4> 	

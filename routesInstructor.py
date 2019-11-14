@@ -319,7 +319,9 @@ def openSet(unit,part):
 @app.route("/sources", methods = ['GET', 'POST'])
 @login_required
 def sources():
-    sources = Sources.query.order_by(asc(Sources.unit)).order_by(asc(Sources.part)).all()   
+    
+    sources = Sources.query.order_by(asc(Sources.unit)).order_by(asc(Sources.part)).all()    
+
     return render_template('instructor/sources.html', sources=sources, title='sources')
 
 @app.route ("/teams")
