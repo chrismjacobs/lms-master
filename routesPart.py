@@ -370,7 +370,7 @@ def unit(unit_num,part_num,fm,qs):
         
     #set the grade for the assignment
     zeroCounter = []         
-    for j in range(1,questionNum):        
+    for j in range(1,questionNum+1):        
         if fieldsList[j] == "":            
             zeroCounter.append(0)
         else: 

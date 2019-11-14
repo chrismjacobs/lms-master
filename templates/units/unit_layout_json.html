@@ -109,9 +109,9 @@
 
 <!--Questions the page_________________________________-->
 
-		{% for i in range(1,qNumber) %}
+		{% for i in range(1,qNumber+1) %}
 
-		{% if i == ansSum+1 %}
+		{% if i == ansSum +1 %}
 		<div class="content-section" style="background:lavenderblush"> 
 			<h2 style="color:blue" align="center"> {{i}}: {{jdata[i|string]['w']}} <h2> 
 

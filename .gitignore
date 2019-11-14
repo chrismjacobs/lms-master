@@ -5,6 +5,7 @@ static/.DS_Store
 setup.txt
 aws.py
 spreadsheet.py
+data.py
 Exam.json
 .env
 venv
