@@ -138,98 +138,7 @@ def att_log():
 
 
 
-def examPractice(): 
-    from spreadsheet import Sheets    
 
-    grades = Grades.query.order_by(asc(Grades.studentID)).all()
-
-    holder = {}
-    practiceDict2 = {}
-    for grade in grades:
-        practiceDict2[grade.studentID] = { 1 : [],  2 : [] }
-        holder[grade.studentID] = ast.literal_eval(grade.practice)        
-     
-    #update dictionaries
-    count = 1
-    for sheet in Sheets.sheets:         
-        if count < 3:                   
-            record_score = sheet.col_values(5)           
-            record_id = sheet.col_values(4)
-            listLen = len(record_score) 
-            for i in range(1, listLen):                
-                try: 
-                    practiceDict2[str(record_id[i])][count].append(record_score[i])
-                except:
-                    print(record_id[i]) 
-        else:
-            pass                    
-        count += 1        
-    
-    # update dictionary of tries in database
-    for key in practiceDict2:        
-        if str(practiceDict2[key]) != str(holder[key]):
-            Grades.query.filter_by(studentID=key).first().practice = str(practiceDict2[key])
-            db.session.commit()
-            print (practiceDict2[key])
-        else: 
-            print ('PASS')
-
-    return practiceDict2
-
-def examResult():
-    from spreadsheet import Sheets
-    
-    users = Grades.query.order_by(asc(Grades.studentID)).all()
-    examDict = {}    
-    for user in users:        
-        #examDict[user.studentID] = [0, 0, 'None', 'None']
-        listEval = eval(user.examList)        
-        examDict[user.studentID] = listEval
-             
-    
-    count = 0
-    for sheet in Sheets.sheets: 
-        count += 1 
-        if count == 3 or count == 4:             
-            record_score = sheet.col_values(5)             
-            record_id = sheet.col_values(4)
-            listLen = len(record_score) 
-            for i in range(1, listLen):                                           
-                examDict[record_id[i]][count-1] = record_score[i] 
-                score = int(record_score[i].split('/')[0]) / int(record_score[i].split('/')[1])
-                print ('score', score)                
-                examDict[record_id[i]][count-3] = round(score * 20 , 1) 
-        elif count == 5:
-            print (sheet.col_values(2))
-            record_id = sheet.col_values(2)
-            for record in record_id: 
-                grade = Grades.query.filter_by(studentID=str(record)).first()                               
-                if grade == None:
-                    pass
-                elif grade.bonus == None:
-                    grade.bonus = 3 
-                    db.session.commit()
-                    print('commit', record, ' - bonus')     
-        else:
-            pass
-    
-    # make a grades dict to compare
-    gradesDict = {}
-    gradeInfo = Grades.query.all()
-    for row in gradeInfo: 
-        gradesDict[row.studentID] = row.examList
-
-    for key in examDict: 
-        if 'None' in str(examDict[key]):
-            print ('None')  
-        elif gradesDict[key] != str(examDict[key]):     
-            Grades.query.filter_by(studentID=key).first().examList = str(examDict[key])
-            db.session.commit()
-            print('commit', key, ':', examDict[key])
-        else: 
-            print('No Commit')                   
-
-    return examDict
  
 @app.route("/exams", methods = ['GET', 'POST'])
 @login_required
@@ -238,10 +147,6 @@ def exams():
     review = Course.query.filter_by(unit='E1').first()       
     reviewList = eval(str(review.linkTwo))
     bonusList = eval(str(review.embed))
-    try:
-        practiceDict = examPractice()
-    except:
-        pass
     
     grades = Grades.query.filter_by(username=current_user.username).first()
     displayDict = ast.literal_eval(grades.practice)
@@ -260,8 +165,6 @@ def exams():
 def MTGrades():
     midGrades = Grades.query.order_by(asc(Grades.studentID)).all()
     
-    examDict = examResult()
-    practiceDict = examPractice()
     
     maxUniFactor = 30 / Grades.query.order_by(desc(Grades.units)).first().units  
     maxAssFactor = 30 / Grades.query.order_by(desc(Grades.assignments)).first().assignments
