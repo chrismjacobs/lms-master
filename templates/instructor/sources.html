@@ -16,14 +16,16 @@
 {% else %}
 
 
-{% if source.part | int  == 1 %}
+{% if source.part | int  ==  1 %}
 <h1> Unit: {{source.unit}} </h1>
- <button class="btn  btn-xs mr-2" type="button" data-toggle="collapse" data-target="#{{source.unit}}" 
-        aria-expanded="false" aria-controls="collapseExample">
-            Unit: {{source.unit}} 
-        </button>
-{% else %}   
+{% else %}
 {% endif %}
+ <button class="btn  btn-xs mr-2" type="button" data-toggle="collapse" data-target="#{{source.unit}}{{source.part}}" 
+        aria-expanded="false" aria-controls="collapseExample">
+            Unit: {{source.unit}}{{source.part}}
+        </button>
+
+<section class="collapse" id="{{source.unit}}{{source.part}}">
 
 <div class="content-section">
 
@@ -82,6 +84,7 @@
 <a href="../admin/sources/edit/?id={{source.id}}" target="_blank"> Edit {{source.unit}}-{{ source.part }}</a>
 </div>
 
+</section> 
 
 {% endif %}
 
