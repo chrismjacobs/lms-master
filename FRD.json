@@ -307,21 +307,21 @@
 "06" : { 
 "1" : { 
     "1" : {          
-        "w" : "",
+        "w" : "Team",
         "e" : "", 
         "d" : "", 
-        "i" : "",        
+        "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_warmup.PNG",        
         "l" : "", 
         "x" : "", 
-        "q" : "", 
+        "q" : "How many people on your team....", 
         "c" : ""
         },
 
     "2" : { 
-        "w" : "",
+        "w" : "Money phrases",
         "e" : "", 
         "d" : "", 
-        "i" : "", 
+        "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_warmup.PNG", 
         "l" : "", 
         "x" : "", 
         "q" : "", 
@@ -329,10 +329,10 @@
         },
 
     "3" : { 
-            "w" : "",
+            "w" : "Personal",
             "e" : "", 
-            "d" : "", 
-            "i" : "", 
+            "d" : "Anything about you", 
+            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_warmup.PNG", 
             "l" : "", 
             "x" : "", 
             "q" : "",  
@@ -340,21 +340,21 @@
             },
 
     "4" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
+            "w" : "possessions",
+            "e" : "Try maintaining your own possessions by yourself. ", 
+            "d" : "things you own, belongings", 
+            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_warmup.PNG", 
             "l" : "", 
             "x" : "", 
-            "q" : "", 
+            "q" : "What is an expensive possession you have that you hope will last a long time? ",  
             "c" : ""
             },
 
     "5" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
+            "w" : "budget",
+            "e" : "Without a shopping list, we typically end up making impulse buys, so never go window shopping when you're on a budget.", 
+            "d" : "deciding how much to spend on things", 
+            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_warmup.PNG", 
             "l" : "", 
             "x" : "", 
             "q" : "", 
@@ -362,13 +362,13 @@
             },  
 
     "6" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
+            "w" : "purchase",
+            "e" : "Secondly, master the 30-day rule. If you're thinking about a big purchase, wait one month.", 
+            "d" : "purchase (n) = something you buy", 
+            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_warmup.PNG", 
             "l" : "", 
             "x" : "", 
-            "q" : "", 
+            "q" : "What is a purchase that you want (but don’t need)?", 
             "c" : ""
             },
 
@@ -376,7 +376,7 @@
             "w" : "",
             "e" : "", 
             "d" : "", 
-            "i" : "", 
+            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_warmup.PNG", 
             "l" : "", 
             "x" : "", 
             "q" : "", 
@@ -396,32 +396,32 @@
     },
 "2" : { 
     "1" : {          
-        "w" : "",
-        "e" : "", 
-        "d" : "", 
-        "i" : "",        
+        "w" : "appliance",
+        "d" : "A machine that does work at home.", 
+        "e" : "If you're buying an appliance do research for quality brands that last longer. ", 
+        "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_warmup.PNG",        
         "l" : "", 
         "x" : "", 
-        "q" : "", 
+        "q" : "Name 3 of the appliances in the picture ", 
         "c" : ""
         },
 
     "2" : { 
-        "w" : "",
-        "e" : "", 
-        "d" : "", 
-        "i" : "", 
+        "w" : "affordable / inexpensive",
+        "e" : "Many bad habits cost money. Smoking, drinking, sweet snacks or coffee may seem affordable today, but really add up over time.", 
+        "d" : "cheap", 
+        "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_warmup.PNG", 
         "l" : "", 
         "x" : "", 
-        "q" : "", 
+        "q" : "Which parts of New Taipei City are most affordable for housing? ", 
         "c" : ""
         },
 
     "3" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
+            "w" : "cost-efficient ",
+            "e" : "Driving the speed limit is far more cost-efficient and avoids expensive fines and accidents.", 
+            "d" : "cost is down - effect is up ", 
+            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_warmup.PNG", 
             "l" : "", 
             "x" : "", 
             "q" : "",  
@@ -429,13 +429,13 @@
             },
 
     "4" : { 
-            "w" : "",
-            "e" : "", 
+            "w" : "take advantage",
+            "e" : "Get online and take advantage of all the free stuff.", 
             "d" : "", 
-            "i" : "", 
+            "i" : "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_warmup.PNG", 
             "l" : "", 
             "x" : "", 
-            "q" : "", 
+            "q" : "Is there any free stuff at university that you can take advantage of?", 
             "c" : ""
             },
 

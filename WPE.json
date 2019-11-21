@@ -1,1156 +1,1182 @@
-{ 
-"05" : { 
-"1" : { 
-    "1" : {          
-        "w" : "Job Interview",
-        "e" : "", 
-        "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_interview.jpg",         
-        "x" : "", 
-        "q" : "What are three things you should bring to a job interview?", 
-        "c" : ""
-        },
+{
+  "05": {
+    "1": {
+      "1": {
+        "w": "Job Interview",
+        "e": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_interview.jpg",
+        "x": "",
+        "q": "What are three things you should bring to a job interview?",
+        "c": ""
+      },
 
-    "2" : { 
-        "w" : "Fail/Pass",
-        "e" : "", 
-        "d" : "", 
-        "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_fail.jpg", 
-        "l" : "", 
-        "x" : "", 
-        "q" : "What is a good way to fail a job interview!?", 
-        "c" : ""
-        },
+      "2": {
+        "w": "Fail/Pass",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_fail.jpg",
+        "l": "",
+        "x": "",
+        "q": "What is a good way to fail a job interview!?",
+        "c": ""
+      },
 
-    "3" : { 
-            "w" : "Team",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
-            "l" : "", 
-            "x" : "",
-            "q" : "How many people on your team have had an interview for a job before?",  
-            "c" : ""
-            },
+      "3": {
+        "w": "Team",
+        "e": "",
+        "d": "",
+        "i": "",
+        "l": "",
+        "x": "",
+        "q": "How many people on your team have had an interview for a job before?",
+        "c": ""
+      },
 
-    "4" : { 
-            "w" : "make an impression",
-            "e" : "Have knowledge of their professional background to make a great impression.",
-            "d" : "an idea, feeling, or opinion about something ", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_impression.PNG", 
-            "l" : "https://www.youtube.com/watch?v=dnGQvoqtP88", 
-            "x" : "", 
-            "q" : "How can you make a good impression when going on a first date?", 
-            "c" : ""
-            },
+      "4": {
+        "w": "make an impression",
+        "e": "Have knowledge of their professional background to make a great impression.",
+        "d": "an idea, feeling, or opinion about something ",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_impression.PNG",
+        "l": "https://www.youtube.com/watch?v=dnGQvoqtP88",
+        "x": "",
+        "q": "How can you make a good impression when going on a first date?",
+        "c": ""
+      },
 
-    "5" : { 
-            "w" : "Competitor",
-            "e" : "Research the company, know its products, services, history, competitors and mission statement.", 
-            "d" : "someone you are in competition with", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_competitor.PNG", 
-            "l" : "", 
-            "x" : "eg smartphones: Apple, Samsung, Huawei", 
-            "q" : "Name some other big competitors in an industry.... ", 
-            "c" : ""
-            },  
+      "5": {
+        "w": "Competitor",
+        "e": "Research the company, know its products, services, history, competitors and mission statement.",
+        "d": "someone you are in competition with",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_competitor.PNG",
+        "l": "",
+        "x": "eg smartphones: Apple, Samsung, Huawei",
+        "q": "Name some other big competitors in an industry.... ",
+        "c": ""
+      },
 
-    "6" : { 
-            "w" : "Punctual",
-            "e" : "Be punctual. Plan to arrive about 10 to 15 minutes early", 
-            "d" : "on time", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_punctual.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "If you have trouble being punctual how can you improve?", 
-            "c" : ""
-            },
+      "6": {
+        "w": "Punctual",
+        "e": "Be punctual. Plan to arrive about 10 to 15 minutes early",
+        "d": "on time",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_punctual.PNG",
+        "l": "",
+        "x": "",
+        "q": "If you have trouble being punctual how can you improve?",
+        "c": ""
+      },
 
-    "7" : { 
-            "w" : "Phrase Match 1",           
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_phrases1.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "Match the phrases with their meaning", 
-            "c" : ""
-            }
+      "7": {
+        "w": "Phrase Match 1",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_phrases1.PNG",
+        "l": "",
+        "x": "",
+        "q": "Match the phrases with their meaning",
+        "c": ""
+      }
     },
-"2" : { 
-    "1" : {          
-        "w" : "Last Minute",
-        "e" : "Do some last minute prep.", 
-        "d" : "just before something happens", 
-        "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_lastminute.PNG",        
-        "l" : "https://www.youtube.com/watch?v=OFjGMctB2-E", 
-        "x" : "", 
-        "q" : "She's a last minute person who always ______ her prep in the morning", 
-        "c" : ["do", "does", "done"]
-        },
+    "2": {
+      "1": {
+        "w": "Last Minute",
+        "e": "Do some last minute prep.",
+        "d": "just before something happens",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_lastminute.PNG",
+        "l": "https://www.youtube.com/watch?v=OFjGMctB2-E",
+        "x": "",
+        "q": "She's a last minute person who always ______ her prep in the morning",
+        "c": ["do", "does", "done"]
+      },
 
-    "2" : { 
-        "w" : "Intelligent",
-        "e" : "Prepare intelligent questions that you want to ask about the job.", 
-        "d" : "smart,  clever ", 
-        "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_intelligent.PNG", 
-        "l" : "", 
-        "x" : "", 
-        "q" : "Which question is NOT intelligent?", 
-        "c" : ""
-        },
+      "2": {
+        "w": "Intelligent",
+        "e": "Prepare intelligent questions that you want to ask about the job.",
+        "d": "smart,  clever ",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_intelligent.PNG",
+        "l": "",
+        "x": "",
+        "q": "Which question is NOT intelligent?",
+        "c": ""
+      },
 
-    "3" : { 
-            "w" : "Inquire",
-            "e" : "Don't inquire about salary, vacations, bonuses, or other benefits until you've received an offer.", 
-            "d" : "ask for information", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_inquire.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "What is an intelligent thing to inquire about in a job interview?",  
-            "c" : ["Company parking", "Company policies", "Company parties"]
-            },
+      "3": {
+        "w": "Inquire",
+        "e": "Don't inquire about salary, vacations, bonuses, or other benefits until you've received an offer.",
+        "d": "ask for information",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_inquire.PNG",
+        "l": "",
+        "x": "",
+        "q": "What is an intelligent thing to inquire about in a job interview?",
+        "c": ["Company parking", "Company policies", "Company parties"]
+      },
 
-    "4" : { 
-            "w" : "negative",
-            "e" : "DON'T say anything negative about former colleagues, supervisors, or employers.", 
-            "d" : "in bad terms ", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_negative.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "Say some negative things about your old job (not real)", 
-            "c" : ""
-            },
+      "4": {
+        "w": "negative",
+        "e": "DON'T say anything negative about former colleagues, supervisors, or employers.",
+        "d": "in bad terms ",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_negative.PNG",
+        "l": "",
+        "x": "",
+        "q": "Say some negative things about your old job (not real)",
+        "c": ""
+      },
 
-    "5" : { 
-            "w" : "Phrase Match 2",           
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_phrases2.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "Match the phrases with their meaning", 
-            "c" : ""
-            }
+      "5": {
+        "w": "Phrase Match 2",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_phrases2.PNG",
+        "l": "",
+        "x": "",
+        "q": "Match the phrases with their meaning",
+        "c": ""
+      }
     },
-"3" : { 
-    "1" : {          
-        "w" : "Greeting",
-        "e" : "", 
-        "d" : "", 
-        "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_Dos.PNG",        
-        "l" : "", 
-        "x" : "", 
-        "q" : "What are some tips for greeting interviewers?", 
-        "c" : ""
-        },
+    "3": {
+      "1": {
+        "w": "Greeting",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_Dos.PNG",
+        "l": "",
+        "x": "",
+        "q": "What are some tips for greeting interviewers?",
+        "c": ""
+      },
 
-    "2" : { 
-        "w" : "Practice Run",
-        "e" : "", 
-        "d" : "", 
-        "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_Dos.PNG", 
-        "l" : "", 
-        "x" : "", 
-        "q" : "Why do you need to make a practice run?", 
-        "c" : ""
-        },
+      "2": {
+        "w": "Practice Run",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_Dos.PNG",
+        "l": "",
+        "x": "",
+        "q": "Why do you need to make a practice run?",
+        "c": ""
+      },
 
-    "3" : { 
-            "w" : "Arrive",
-            "e" : "", 
-            "d" : "", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_Dos.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "Why should you arrive early?",  
-            "c" : ""
-            },
+      "3": {
+        "w": "Arrive",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_Dos.PNG",
+        "l": "",
+        "x": "",
+        "q": "Why should you arrive early?",
+        "c": ""
+      },
 
-    "4" : { 
-            "w" : "Slouching",
-            "e" : "", 
-            "d" : "", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_Dos.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "What do you think 'slouching' means?", 
-            "c" : ""
-            },
+      "4": {
+        "w": "Slouching",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_Dos.PNG",
+        "l": "",
+        "x": "",
+        "q": "What do you think 'slouching' means?",
+        "c": ""
+      },
 
-    "5" : { 
-            "w" : "Rude",
-            "e" : "", 
-            "d" : "", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_Donts.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "Which action would be very rude?", 
-            "c" : ""
-            },  
+      "5": {
+        "w": "Rude",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_Donts.PNG",
+        "l": "",
+        "x": "",
+        "q": "Which action would be very rude?",
+        "c": ""
+      },
 
-    "6" : { 
-            "w" : "Offer",
-            "e" : "", 
-            "d" : "", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_Donts.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "What can you do after someone offers you the job?", 
-            "c" : ""
-            },
+      "6": {
+        "w": "Offer",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_Donts.PNG",
+        "l": "",
+        "x": "",
+        "q": "What can you do after someone offers you the job?",
+        "c": ""
+      },
 
-    "7" : { 
-            "w" : "Details",
-            "e" : "", 
-            "d" : "", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_Donts.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "Why is it a good idea to give details?", 
-            "c" : ""
-            },
+      "7": {
+        "w": "Details",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_Donts.PNG",
+        "l": "",
+        "x": "",
+        "q": "Why is it a good idea to give details?",
+        "c": ""
+      },
 
-    "8" : { 
-            "w" : "Overanswer",
-            "e" : "", 
-            "d" : "", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_Donts.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "What does overanswer mean?", 
-            "c" : ""
-            }
+      "8": {
+        "w": "Overanswer",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_Donts.PNG",
+        "l": "",
+        "x": "",
+        "q": "What does overanswer mean?",
+        "c": ""
+      }
     },
-"4" : { 
-    "1" : {          
-        "w" : "Imperatives",
-        "e" : "", 
-        "d" : "", 
-        "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_imps.PNG",        
-        "l" : "", 
-        "x" : "", 
-        "q" : "Know any more?", 
-        "c" : ["stand ____", "shut ____", "get ____ "]
-        },
+    "4": {
+      "1": {
+        "w": "Imperatives",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_imps.PNG",
+        "l": "",
+        "x": "",
+        "q": "Know any more?",
+        "c": ["stand ____", "shut ____", "get ____ "]
+      },
 
-    "2" : { 
-        "w" : "Signs",
-        "e" : "", 
-        "d" : "", 
-        "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_Imperatives.PNG", 
-        "l" : "", 
-        "x" : "", 
-        "q" : "CHOOSE 3", 
-        "c" : ""
-        },
+      "2": {
+        "w": "Signs",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_Imperatives.PNG",
+        "l": "",
+        "x": "",
+        "q": "CHOOSE 3",
+        "c": ""
+      },
 
-    "3" : { 
-            "w" : "Find the answer",
-            "e" : "", 
-            "d" : "", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_adjc1.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "Copy the answers from text", 
-            "c" : ""
-            },  
+      "3": {
+        "w": "Find the answer",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_adjc1.PNG",
+        "l": "",
+        "x": "",
+        "q": "Copy the answers from text",
+        "c": ""
+      },
 
-    "4" : { 
-            "w" : "Find the answer",
-            "e" : "", 
-            "d" : "", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_adjc2.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "Copy the answers from text", 
-            "c" : ""
-            },
+      "4": {
+        "w": "Find the answer",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_adjc2.PNG",
+        "l": "",
+        "x": "",
+        "q": "Copy the answers from text",
+        "c": ""
+      },
 
-    "5" : { 
-            "w" : "Make your own",
-            "e" : "", 
-            "d" : "", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_adjc3.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "CHOOSE 1 and complete", 
-            "c" : ""
-            },
+      "5": {
+        "w": "Make your own",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_adjc3.PNG",
+        "l": "",
+        "x": "",
+        "q": "CHOOSE 1 and complete",
+        "c": ""
+      },
 
-    "6" : { 
-            "w" : "Make your own",
-            "e" : "", 
-            "d" : "", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_adjc4.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "CHOOSE 1 and complete", 
-            "c" : ""
-            }
+      "6": {
+        "w": "Make your own",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U05_adjc4.PNG",
+        "l": "",
+        "x": "",
+        "q": "CHOOSE 1 and complete",
+        "c": ""
+      }
     }
-}, 
+  },
 
-"06" : { 
-"1" : { 
-    "1" : {          
-        "w" : "Warm Up: Hard SKills",
-        "e" : "", 
-        "d" : "", 
-        "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_hardsoft.PNG",        
-        "l" : "", 
-        "x" : "", 
-        "q" : "Choose two from the last that are HARD SKILLS", 
-        "c" : ""
-        },
+  "06": {
+    "1": {
+      "1": {
+        "w": "Warm Up: Hard SKills",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_hardsoft.PNG",
+        "l": "",
+        "x": "",
+        "q": "Choose two from the last that are HARD SKILLS",
+        "c": ""
+      },
 
-    "2" : { 
-        "w" : "Warm Up: Soft SKills",
-        "e" : "", 
-        "d" : "", 
-        "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_hardsoft.PNG", 
-        "l" : "", 
-        "x" : "", 
-        "q" : "Choose two from the last that are SOFT SKILLS", 
-        "c" : ""
-        },
+      "2": {
+        "w": "Warm Up: Soft SKills",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_hardsoft.PNG",
+        "l": "",
+        "x": "",
+        "q": "Choose two from the last that are SOFT SKILLS",
+        "c": ""
+      },
 
-    "3" : { 
-            "w" : "Innovative",
-            "e" : "Employers need workers who can imagine innovative ideas and approaches", 
-            "d" : "doing old things in new ways", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_innovative.PNG", 
-            "l" : "https://www.youtube.com/watch?v=bGZH0x5O96U", 
-            "x" : "", 
-            "q" : "What is a product or service that you wish could be better?",  
-            "c" : ""
-            },
+      "3": {
+        "w": "Innovative",
+        "e": "Employers need workers who can imagine innovative ideas and approaches",
+        "d": "doing old things in new ways",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_innovative.PNG",
+        "l": "https://www.youtube.com/watch?v=bGZH0x5O96U",
+        "x": "",
+        "q": "What is a product or service that you wish could be better?",
+        "c": ""
+      },
 
-    "4" : { 
-            "w" : "Priority",
-            "e" : "The ability to organize your time and set priorities is an essential skill employers look for.", 
-            "d" : "make something more important", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_priority.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "Make your list of priorities for today.", 
-            "c" : ["I must ______",        "I should _____",       "I could _____" ]                
-            },
+      "4": {
+        "w": "Priority",
+        "e": "The ability to organize your time and set priorities is an essential skill employers look for.",
+        "d": "make something more important",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_priority.PNG",
+        "l": "",
+        "x": "",
+        "q": "Make your list of priorities for today.",
+        "c": ["I must ______", "I should _____", "I could _____"]
+      },
 
-    "5" : { 
-            "w" : "analyze / evaluate / assess",
-            "e" : "'gather and analyze information''evaluate information and look at the pros and cons' 'assessing possible solutions' ", 
-            "d" : "look at and discuss", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_analayze.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "Fix the spelling", 
-            "c" : ["The scientist is going to analyze some (avla)", "The leader should evaluate the (krsi)",   "The first responder needs to assess the (agenrd)" ]
-            },  
+      "5": {
+        "w": "analyze / evaluate / assess",
+        "e": "'gather and analyze information''evaluate information and look at the pros and cons' 'assessing possible solutions' ",
+        "d": "look at and discuss",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_analayze.PNG",
+        "l": "",
+        "x": "",
+        "q": "Fix the spelling",
+        "c": [
+          "The scientist is going to analyze some (avla)",
+          "The leader should evaluate the (krsi)",
+          "The first responder needs to assess the (agenrd)"
+        ]
+      },
 
-    "6" : { 
-            "w" : "Flexible",
-            "e" : "Furthermore, employees should also be able to multitask and be flexible, when situations change.", 
-            "d" : "adaptable / easy to change ", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_flexible.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "A flexible person can _________ with surprise problems.", 
-            "c" : ["deal", "dealing", " dealt" ],
-            "a" : "can V  (no ing/s/ed..."
-        },
+      "6": {
+        "w": "Flexible",
+        "e": "Furthermore, employees should also be able to multitask and be flexible, when situations change.",
+        "d": "adaptable / easy to change ",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_flexible.PNG",
+        "l": "",
+        "x": "",
+        "q": "A flexible person can _________ with surprise problems.",
+        "c": ["deal", "dealing", " dealt"],
+        "a": "can V  (no ing/s/ed..."
+      },
 
-    "7" : { 
-            "w" : "Phrases",
-            "e" : "", 
-            "d" : "", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_phrases.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "Match the phrases and pictures", 
-            "a" : "1B / 2A / 3C"
-            },
-
-    "8" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "", 
-            "c" : ""
-            }
+      "7": {
+        "w": "Phrases",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_phrases.PNG",
+        "l": "",
+        "x": "",
+        "q": "Match the phrases and pictures",
+        "a": "1B / 2A / 3C"
+      }
     },
-"2" : { 
-    "1" : {          
-        "w" : "Competent",
-        "e" : "This means being competent at assessing possible solutions", 
-        "d" : "Skilled / able / good at", 
-        "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_competent.PNG",        
-        "l" : "https://www.youtube.com/watch?v=v5MOatu5-DE", 
-        "x" : "", 
-        "q" : "What skill would you like to be more competent at? (N/Ving)", 
-        "c" : ""
-        },
+    "2": {
+      "1": {
+        "w": "Competent",
+        "e": "This means being competent at assessing possible solutions",
+        "d": "Skilled / able / good at",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_competent.PNG",
+        "l": "https://www.youtube.com/watch?v=v5MOatu5-DE",
+        "x": "",
+        "q": "What skill would you like to be more competent at? (N/Ving)",
+        "c": ""
+      },
 
-    "2" : { 
-        "w" : "Consequences",
-        "e" : "understanding consequences of decisions", 
-        "d" : "result, reaction", 
-        "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_consequence.PNG", 
-        "l" : "https://www.youtube.com/watch?v=zE7PKRjrid4", 
-        "x" : "", 
-        "q" : "What is the consequence of one of these pictures?", 
-        "c" : ""
-        },
+      "2": {
+        "w": "Consequences",
+        "e": "understanding consequences of decisions",
+        "d": "result, reaction",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_consequence.PNG",
+        "l": "https://www.youtube.com/watch?v=zE7PKRjrid4",
+        "x": "",
+        "q": "What is the consequence of one of these pictures?",
+        "c": ""
+      },
 
-    "3" : { 
-            "w" : "Interpret",
-            "e" : "Employers want people who can listen well and interpret what others are saying.", 
-            "d" : "understand, make sense of", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_interpret.PNG", 
-            "l" : "https://www.youtube.com/watch?v=5xpvEuOxyxE", 
-            "x" : "", 
-            "q" : "Can you interpret these macro photos? What are they?",  
-            "c" : ""
-            },
+      "3": {
+        "w": "Interpret",
+        "e": "Employers want people who can listen well and interpret what others are saying.",
+        "d": "understand, make sense of",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_interpret.PNG",
+        "l": "https://www.youtube.com/watch?v=5xpvEuOxyxE",
+        "x": "",
+        "q": "Can you interpret these macro photos? What are they?",
+        "c": ""
+      },
 
-    "4" : { 
-            "w" : "straight-forward / clarity",
-            "e" : "Moreover, they must be able to explain themselves in a straightforward manner and with clarity.", 
-            "d" : "more direct / clear / simple ", 
-            "i" : "", 
-            "l" : "http://www.youtube.com/watch?v=6CGyASDjE-U", 
-            "x" : "", 
-            "q" : "When is _______ straightforward people mistake his calrity for rudeness", 
-            "c" : ["be", "being", " been" ],
-            "a" : "is Ving  (continuous tense)"
-            }    
+      "4": {
+        "w": "straight-forward / clarity",
+        "e": "Moreover, they must be able to explain themselves in a straightforward manner and with clarity.",
+        "d": "more direct / clear / simple ",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_clarity.PNG",
+        "l": "http://www.youtube.com/watch?v=6CGyASDjE-U",
+        "x": "",
+        "q": "When he is _______ straightforward, people mistake his clarity for rudeness",
+        "c": ["be", "being", " been"],
+        "a": "is Ving  (continuous tense)"
+      },
+      "5": {
+        "w": "Phrases",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_phrases2.PNG",
+        "l": "",
+        "x": "",
+        "q": "Match the phrases and pictures",
+        "a": "1C / 2A / 3B"
+      }
     },
-"3" : { 
-    "1" : {          
-        "w" : "",
-        "e" : "", 
-        "d" : "", 
-        "i" : "",        
-        "l" : "", 
-        "x" : "", 
-        "q" : "", 
-        "c" : ""
-        },
+    "3": {
+      "1": {
+        "w": "Intro",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_text1.PNG",
+        "l": "",
+        "x": "",
+        "q": "How do people develop skills?",
+        "c": ""
+      },
 
-    "2" : { 
-        "w" : "",
-        "e" : "", 
-        "d" : "", 
-        "i" : "", 
-        "l" : "", 
-        "x" : "", 
-        "q" : "", 
-        "c" : ""
-        },
+      "2": {
+        "w": "Creativity",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_text2.PNG",
+        "l": "",
+        "x": "",
+        "q": "Why can't companies keep on making the same products?",
+        "c": ""
+      },
 
-    "3" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "",  
-            "c" : ""
-            },
+      "3": {
+        "w": "Problem Solving",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_text2.PNG",
+        "l": "",
+        "x": "",
+        "q": "Why is it good to see problems before the happen?",
+        "c": ""
+      },
 
-    "4" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "", 
-            "c" : ""
-            },
+      "4": {
+        "w": "Personal Skills",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_text3.PNG",
+        "l": "",
+        "x": "",
+        "q": "Which skill helps with changing plans?",
+        "c": ""
+      },
 
-    "5" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "", 
-            "c" : ""
-            },  
+      "5": {
+        "w": "Personal Skills",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_text3.PNG",
+        "l": "",
+        "x": "",
+        "q": "Which skill helps with challenging situations?",
+        "c": ""
+      },
 
-    "6" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "", 
-            "c" : ""
-            },
+      "6": {
+        "w": "Critical Analysis",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_text4.PNG",
+        "l": "",
+        "x": "",
+        "q": "Which critical analysis skill is not mentioned? ",
+        "c": [
+          "pros and cons",
+          "compare and contrast",
+          "observation and reflection"
+        ]
+      },
 
-    "7" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "", 
-            "c" : ""
-            },
+      "7": {
+        "w": "Decision Making",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_text4.PNG",
+        "l": "",
+        "x": "",
+        "q": "Which decision making factor is not mentioned?",
+        "c": ["risks", "strategy", "solutions", "consequences"]
+      },
 
-    "8" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "", 
-            "c" : ""
-            }
+      "8": {
+        "w": "Communication",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_text5.PNG",
+        "l": "",
+        "x": "",
+        "q": "Name two characteristics of skilled communicator/team player",
+        "c": ""
+      }
     },
-"4" : { 
-    "1" : {          
-        "w" : "",
-        "e" : "", 
-        "d" : "", 
-        "i" : "",        
-        "l" : "", 
-        "x" : "", 
-        "q" : "", 
-        "c" : ""
-        },
+    "4": {
+      "1": {
+        "w": "Adj Clause (who)",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_g1.PNG",
+        "l": "",
+        "x": "check the reading",
+        "q": "",
+        "a": "Employers want someone who can build relationships and bring out the best in others"
+      },
 
-    "2" : { 
-        "w" : "",
-        "e" : "", 
-        "d" : "", 
-        "i" : "", 
-        "l" : "", 
-        "x" : "", 
-        "q" : "", 
-        "c" : ""
-        },
+      "2": {
+        "w": "Adj Clause (who)",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_g2.PNG",
+        "l": "",
+        "x": "check the reading",
+        "q": "",
+        "a": "Employers require workers who are able to gather and analyze information."
+      },
 
-    "3" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "",  
-            "c" : ""
-            },
+      "3": {
+        "w": "Adj Clause (who)",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_g3.PNG",
+        "l": "",
+        "x": "check the reading",
+        "q": "",
+        "a": "Employers need workers who can imagine innovative ideas and approaches."
+      },
 
-    "4" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "", 
-            "c" : ""
-            },
+      "4": {
+        "w": "Adj Clause (who)",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_g4.PNG",
+        "l": "",
+        "x": "check the reading",
+        "q": "",
+        "a": "Employers will value workers who are able to see problems before they happen."
+      },
 
-    "5" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "", 
-            "c" : ""
-            },  
+      "5": {
+        "w": "Suffix -ity",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_s1.PNG",
+        "l": "",
+        "x": "Noun (blue) or Adjective (green)",
+        "q": "",
+        "a": "Good time management is all about giving certain things PRIORITY. / Examining how things are SIMILAR and different leads to good choices."
+      },
 
-    "6" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "", 
-            "c" : ""
-            },
+      "6": {
+        "w": "Suffix -ity",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_s2.PNG",
+        "l": "",
+        "x": "Noun (blue) or Adjective (green)",
+        "q": "",
+        "a": "Critical analysis skills are a NECESSITY in the modern workplace. / Candidates must be ABLE to explain themselves in a straightforward manner."
+      },
 
-    "7" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "", 
-            "c" : ""
-            },
-
-    "8" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "", 
-            "c" : ""
-            }
+      "7": {
+        "w": "Suffix -ity",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U06_s3.PNG",
+        "l": "",
+        "x": "Noun (blue) or Adjective (green)",
+        "q": "",
+        "a": "Speaking with CLARITY is key for good communication. / High-pressure jobs require fast-thinking and FLEXIBILTY."
+      }
     }
-}, 
+  },
 
-"07" : { 
-"1" : { 
-    "1" : {          
-        "w" : "Warm Up",
-        "e" : "", 
-        "d" : "", 
-        "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_warmup.PNG",        
-        "l" : "", 
-        "x" : "", 
-        "q" : "Match up the questions", 
-        "c" : "", 
-        "a2" : ["Where do you see yourself in 5 years?", "Why should we hire you?", "Can you tell us about yourself?", "How did you hear about this job?", "What is your greatest strength?"]
-       },
+  "07": {
+    "1": {
+      "1": {
+        "w": "Warm Up",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_warmup.PNG",
+        "l": "",
+        "x": "",
+        "q": "Match up the questions",
+        "c": "",
+        "a2": [
+          "Where do you see yourself in 5 years?",
+          "Why should we hire you?",
+          "Can you tell us about yourself?",
+          "How did you hear about this job?",
+          "What is your greatest strength?"
+        ]
+      },
 
-    "2" : { 
-        "w" : "Character Traits",
-        "e" : "", 
-        "d" : "", 
-        "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_adjectives.PNG", 
-        "l" : "", 
-        "x" : "", 
-        "q" : "Match the adjectives", 
-        "c" : ""
-        },
+      "2": {
+        "w": "Character Traits",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_adjectives.PNG",
+        "l": "",
+        "x": "",
+        "q": "Match the adjectives",
+        "c": ""
+      },
 
-    "3" : { 
-            "w" : "Valuable",
-            "e" : "I am confident. That's why I know I would make a valuable addition to your team.", 
-            "d" : "worth a lot", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_valuable.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "Which of these valuable things do you think is worth the most?",  
-            "c" : "", 
-            "a2" : ["Gold plated bugatti 10m", "insure.com 16m", "Rheine 11.4m", "Huia bird Feather 10k"]               
-            },
+      "3": {
+        "w": "Valuable",
+        "e": "I am confident. That's why I know I would make a valuable addition to your team.",
+        "d": "worth a lot",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_valuable.PNG",
+        "l": "",
+        "x": "",
+        "q": "Which of these valuable things do you think is worth the most?",
+        "c": "",
+        "a2": [
+          "Gold plated bugatti 10m",
+          "insure.com 16m",
+          "Rheine 11.4m",
+          "Huia bird Feather 10k"
+        ]
+      },
 
-    "4" : { 
-            "w" : "depend on",
-            "e" : "People always say I'm very trustworthy. They can depend on me to get the job done and I will not disappoint them.", 
-            "d" : "rely on / trust something", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_depend.PNG", 
-            "l" : "https://youtu.be/KAOmTMCtGkI?t=2m", 
-            "x" : "", 
-            "q" : "What do students depend on their parents for?", 
-            "c" : ""
-            },
+      "4": {
+        "w": "depend on",
+        "e": "People always say I'm very trustworthy. They can depend on me to get the job done and I will not disappoint them.",
+        "d": "rely on / trust something",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_depend.PNG",
+        "l": "https://youtu.be/KAOmTMCtGkI?t=2m",
+        "x": "",
+        "q": "What do students depend on their parents for?",
+        "c": ""
+      },
 
-    "5" : { 
-            "w" : "specific",
-            "e" : "When it comes time to talk about your strengths, you need to be specific with examples.", 
-            "d" : "general → specific (clear / detailed)", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_specific.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "Be more specific", 
-            "c" : ["I want to visit a COUNTRY --> ______", "I would like a pet ANIMAL --> _____", "I want to drive a CAR --> _____" ]
-            },  
+      "5": {
+        "w": "specific",
+        "e": "When it comes time to talk about your strengths, you need to be specific with examples.",
+        "d": "general → specific (clear / detailed)",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_specific.PNG",
+        "l": "",
+        "x": "",
+        "q": "Be more specific",
+        "c": [
+          "I want to visit a COUNTRY --> ______",
+          "I would like a pet ANIMAL --> _____",
+          "I want to drive a CAR --> _____"
+        ]
+      },
 
-    "6" : { 
-            "w" : "promote",
-            "e" : "For instance, at university I created a website to promote our school performance.", 
-            "d" : "make something known so people will use it", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_promote.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "Correct the spelling", 
-            "c" : ["Buy one get one ______(efre)", "25% _____ (fof)", "Special Christmas ______(leas)"]                
-            }    
+      "6": {
+        "w": "promote",
+        "e": "For instance, at university I created a website to promote our school performance.",
+        "d": "make something known so people will use it",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_promote.PNG",
+        "l": "",
+        "x": "",
+        "q": "Correct the spelling",
+        "c": [
+          "Buy one get one ______(efre)",
+          "25% _____ (fof)",
+          "Special Christmas ______(leas)"
+        ]
+      }
     },
-"2" : { 
-    "1" : {          
-        "w" : "presentation",
-        "e" : "I'm a good communicator. For example, at college I gave a number of presentations in class to share my ideas on different topics.", 
-        "d" : "a speech or talk to explain a new product, idea, or project", 
-        "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_present.PNG",        
-        "l" : "", 
-        "x" : "", 
-        "q" : "Presentation tips", 
-        "c" : ["make eye _______ (tnacotc)", "keep it ______ (pilsem)", "project your ______ (eoivc)"]
-        },
+    "2": {
+      "1": {
+        "w": "presentation",
+        "e": "I'm a good communicator. For example, at college I gave a number of presentations in class to share my ideas on different topics.",
+        "d": "a speech or talk to explain a new product, idea, or project",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_present.PNG",
+        "l": "",
+        "x": "",
+        "q": "Presentation tips",
+        "c": [
+          "make eye _______ (tnacotc)",
+          "keep it ______ (pilsem)",
+          "project your ______ (eoivc)"
+        ]
+      },
 
-    "2" : { 
-        "w" : "demonstrate",
-        "e" : "I have demonstrated that I'm an effective team member. ", 
-        "d" : "shown what something can do", 
-        "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_demonstrate.PNG", 
-        "l" : "https://www.youtube.com/watch?v=KNAgFhh1ji4", 
-        "x" : "", 
-        "q" : "What products need demonstrating before you buy?", 
-        "c" : ""
-        },
+      "2": {
+        "w": "demonstrate",
+        "e": "I have demonstrated that I'm an effective team member. ",
+        "d": "shown what something can do",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_demonstrate.PNG",
+        "l": "https://www.youtube.com/watch?v=KNAgFhh1ji4",
+        "x": "",
+        "q": "What products need demonstrating before you buy?",
+        "c": ""
+      },
 
-    "3" : { 
-            "w" : "effective",
-            "e" : "At college I worked on several group projects and developed effective interpersonal skills.", 
-            "d" : "successful / productive / powerful ", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_effective.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "Which of these exercises is most effective for weight loss?",  
-            "c" : ""
-            },
+      "3": {
+        "w": "effective",
+        "e": "At college I worked on several group projects and developed effective interpersonal skills.",
+        "d": "successful / productive / powerful ",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_effective.PNG",
+        "l": "",
+        "x": "",
+        "q": "Which of these exercises is most effective for weight loss?",
+        "c": ""
+      },
 
-    "4" : { 
-            "w" : "take the initiative",
-            "e" : "I took the initiative to start cold calling companies I was interested in", 
-            "d" : "start things by youself", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_initiative.PNG", 
-            "l" : "https://www.youtube.com/watch?v=FAjHsMCzjBw", 
-            "x" : "", 
-            "q" : "Here are 4 ways to take initiative at work:", 
-            "c" : ["Make _____", "Solve ____", "Lead _____", "Help _____"]
-            },
+      "4": {
+        "w": "take the initiative",
+        "e": "I took the initiative to start cold calling companies I was interested in",
+        "d": "start things by youself",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_initiative.PNG",
+        "l": "https://www.youtube.com/watch?v=FAjHsMCzjBw",
+        "x": "",
+        "q": "Here are 4 ways to take initiative at work:",
+        "c": ["Make _____", "Solve ____", "Lead _____", "Help _____"]
+      },
 
-    "5" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "", 
-            "c" : ""
-            } 
-        },
-"3" : { 
-    "1" : {          
-        "w" : "Answers",
-        "e" : "", 
-        "d" : "", 
-        "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_Text1.PNG",        
-        "l" : "", 
-        "x" : "3 answers A B C", 
-        "q" : "Which answer shows that they a) don't make mistakes? b) are an independent worker? c) like to work in a team", 
-        "c" : ""
-        },
-
-    "2" : { 
-            "w" : "Strengths",
-            "e" : "", 
-            "d" : "", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_Text2.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "What is true about answering this question?", 
-            "c" : ["give a general answer","give some details", "make up some answer" ],
-            "a" : "details"
-            },
-
-    "3" : { 
-            "w" : "Strengths",
-            "e" : "", 
-            "d" : "", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_Text2.PNG", 
-            "l" : "", 
-            "x" : "3 answers A B C", 
-            "q" : "Which candidate is good at A) data analysis? B) being a leader C) thinking outside the box?", 
-            "c" : ""
-            },  
-
-    "4" : { 
-            "w" : "The Position",
-            "e" : "", 
-            "d" : "", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_Text3.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "What is true about answering this question?", 
-            "c" : ["show your initiative", "explain problems", "ask questions"]
-            },
-
-    "5" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_Text3.PNG", 
-            "l" : "", 
-            "x" : "2 answers A & B ", 
-            "q" : "Which candidate A) thinking about the future;  B) likes to meet people;", 
-            "c" : ""
-            }    
+      "5": {
+        "w": "",
+        "e": "",
+        "d": "",
+        "i": "",
+        "l": "",
+        "x": "",
+        "q": "",
+        "c": ""
+      }
     },
-"4" : { 
-    "1" : {          
-        "w" : "Noun Clause 1",
-        "e" : "", 
-        "d" : "", 
-        "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_g1.PNG",        
-        "l" : "", 
-        "x" : "", 
-        "q" : "", 
-        "a" : "I think they would call me ambitious. "
-        },
+    "3": {
+      "1": {
+        "w": "Answers",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_Text1.PNG",
+        "l": "",
+        "x": "3 answers A B C",
+        "q": "Which answer shows that they a) don't make mistakes? b) are an independent worker? c) like to work in a team",
+        "c": ""
+      },
 
-    "2" : { 
-        "w" : "Noun Clause 2",
-        "e" : "", 
-        "d" : "", 
-        "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_g2.PNG", 
-        "l" : "", 
-        "x" : "", 
-        "q" : "", 
-        "a" : "People always say I'm very trustworthy"
-        },
+      "2": {
+        "w": "Strengths",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_Text2.PNG",
+        "l": "",
+        "x": "",
+        "q": "What is true about answering this question?",
+        "c": [
+          "give a general answer",
+          "give some details",
+          "make up some answer"
+        ],
+        "a": "details"
+      },
 
-    "3" : { 
-            "w" : "Noun Clause 3",
-            "e" : "", 
-            "d" : "", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_g3.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "",  
-            "a" : "My main strength is I'm a creative worker who is good at solving problems."
-            },
+      "3": {
+        "w": "Strengths",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_Text2.PNG",
+        "l": "",
+        "x": "3 answers A B C",
+        "q": "Which candidate is good at A) data analysis? B) being a leader C) thinking outside the box?",
+        "c": ""
+      },
 
-    "4" : { 
-            "w" : "Noun Clause 4",
-            "e" : "", 
-            "d" : "", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_g4.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "", 
-            "a" : "That's why I know I would make a valuable addition to your team."
-            },
+      "4": {
+        "w": "The Position",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_Text3.PNG",
+        "l": "",
+        "x": "",
+        "q": "What is true about answering this question?",
+        "c": ["show your initiative", "explain problems", "ask questions"]
+      },
 
-    "5" : { 
-            "w" : "Noun Clause 5",
-            "e" : "", 
-            "d" : "", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_g5.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "", 
-            "a" : "I would say I'm a critical thinker. "
-            },  
+      "5": {
+        "w": "",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_Text3.PNG",
+        "l": "",
+        "x": "2 answers A & B ",
+        "q": "Which candidate A) thinking about the future;  B) likes to meet people;",
+        "c": ""
+      }
+    },
+    "4": {
+      "1": {
+        "w": "Noun Clause 1",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_g1.PNG",
+        "l": "",
+        "x": "",
+        "q": "",
+        "a": "I think they would call me ambitious. "
+      },
 
-    "6" : { 
-            "w" : "Noun Clause 6",
-            "e" : "", 
-            "d" : "", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_g6.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "", 
-            "a" : "I have demonstrated that I'm an effective team member. "
-            },
+      "2": {
+        "w": "Noun Clause 2",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_g2.PNG",
+        "l": "",
+        "x": "",
+        "q": "",
+        "a": "People always say I'm very trustworthy"
+      },
 
-    "7" : { 
-            "w" : "Time Clauses",
-            "e" : "", 
-            "d" : "", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_time.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "", 
-            "a" : "1B / 2D / 3A / 4C"
-            },
+      "3": {
+        "w": "Noun Clause 3",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_g3.PNG",
+        "l": "",
+        "x": "",
+        "q": "",
+        "a": "My main strength is I'm a creative worker who is good at solving problems."
+      },
 
-    "8" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "", 
-            "c" : ""
-            }
+      "4": {
+        "w": "Noun Clause 4",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_g4.PNG",
+        "l": "",
+        "x": "",
+        "q": "",
+        "a": "That's why I know I would make a valuable addition to your team."
+      },
+
+      "5": {
+        "w": "Noun Clause 5",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_g5.PNG",
+        "l": "",
+        "x": "",
+        "q": "",
+        "a": "I would say I'm a critical thinker. "
+      },
+
+      "6": {
+        "w": "Noun Clause 6",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_g6.PNG",
+        "l": "",
+        "x": "",
+        "q": "",
+        "a": "I have demonstrated that I'm an effective team member. "
+      },
+
+      "7": {
+        "w": "Time Clauses",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U07_time.PNG",
+        "l": "",
+        "x": "",
+        "q": "",
+        "a": "1B / 2D / 3A / 4C"
+      },
+
+      "8": {
+        "w": "",
+        "e": "",
+        "d": "",
+        "i": "",
+        "l": "",
+        "x": "",
+        "q": "",
+        "c": ""
+      }
     }
-}, 
+  },
 
-"08" : { 
-"1" : { 
-    "1" : { 
-            "w" : "Brain Teaser",
-            "e" : "", 
-            "d" : "", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_brain.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "Which question would be the hardest to answer in an interview?",  
-            "c" : ""
-            },
+  "08": {
+    "1": {
+      "1": {
+        "w": "Brain Teaser",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_brain.PNG",
+        "l": "",
+        "x": "",
+        "q": "Which question would be the hardest to answer in an interview?",
+        "c": ""
+      },
 
-    "2" : { 
-        "w" : "QNA",
-        "e" : "", 
-        "d" : "", 
-        "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_warmup.PNG", 
-        "l" : "", 
-        "x" : "", 
-        "q" : "Match the QNA", 
-        "c" : ""
-        },
+      "2": {
+        "w": "QNA",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_warmup.PNG",
+        "l": "",
+        "x": "",
+        "q": "Match the QNA",
+        "c": ""
+      },
 
-    "3" : {          
-        "w" : "constant",
-        "e" : "The workload is constant but I'm able to organize my work into small tasks and stay productive", 
-        "d" : "doesn't stop", 
-        "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_constant.PNG",        
-        "l" : "https://www.youtube.com/watch?v=1KaOrSuWZeM", 
-        "x" : "", 
-        "q" : "What things are really annoying when they are constant?", 
-        "c" : ""
-        },
+      "3": {
+        "w": "constant",
+        "e": "The workload is constant but I'm able to organize my work into small tasks and stay productive",
+        "d": "doesn't stop",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_constant.PNG",
+        "l": "https://www.youtube.com/watch?v=1KaOrSuWZeM",
+        "x": "",
+        "q": "What things are really annoying when they are constant?",
+        "c": ""
+      },
 
-    "4" : { 
-            "w" : "Productive",
-            "e" : "The workload is constant but I'm able to organize my work into small tasks and stay productive.", 
-            "d" : "can produce a lot", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_productive.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "What can increase your productivity?", 
-            "c" : ""
-            },
+      "4": {
+        "w": "Productive",
+        "e": "The workload is constant but I'm able to organize my work into small tasks and stay productive.",
+        "d": "can produce a lot",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_productive.PNG",
+        "l": "",
+        "x": "",
+        "q": "What can increase your productivity?",
+        "c": ""
+      },
 
-    "5" : { 
-            "w" : "clients",
-            "e" : "Whenever I work with major clients, there is always pressure to do well.", 
-            "d" : "regular and important customers ", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_client.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "What are some ways to keep your clients happy?", 
-            "c" : ["Always _____(tislne)", "Keep _____ (tncoatc)", "Deliver your _____(tebs)"]
-            },  
+      "5": {
+        "w": "clients",
+        "e": "Whenever I work with major clients, there is always pressure to do well.",
+        "d": "regular and important customers ",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_client.PNG",
+        "l": "",
+        "x": "",
+        "q": "What are some ways to keep your clients happy?",
+        "c": [
+          "Always _____(tislne)",
+          "Keep _____ (tncoatc)",
+          "Deliver your _____(tebs)"
+        ]
+      },
 
-    "6" : { 
-            "w" : "multiple",
-            "e" : "Whenever I have multiple deadlines, I prioritize my responsibilities and put in the extra effort.", 
-            "d" : "having several, a few or more", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_multiple.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "I have multiple ________s", 
-            "c" : ""
-            },
+      "6": {
+        "w": "multiple",
+        "e": "Whenever I have multiple deadlines, I prioritize my responsibilities and put in the extra effort.",
+        "d": "having several, a few or more",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_multiple.PNG",
+        "l": "",
+        "x": "",
+        "q": "I have multiple ________s",
+        "c": ""
+      },
 
-    "7" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "", 
-            "c" : ""
-            },
+      "7": {
+        "w": "",
+        "e": "",
+        "d": "",
+        "i": "",
+        "l": "",
+        "x": "",
+        "q": "",
+        "c": ""
+      },
 
-    "8" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "", 
-            "c" : ""
-            }
+      "8": {
+        "w": "",
+        "e": "",
+        "d": "",
+        "i": "",
+        "l": "",
+        "x": "",
+        "q": "",
+        "c": ""
+      }
     },
-"2" : { 
-    "1" : {          
-        "w" : "struggle with",
-        "e" : "I know I sometimes struggle with multi-tasking because I tend to give my full attention to each task.", 
-        "d" : "have difficulty with Ving", 
-        "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_struggle.PNG",        
-        "l" : "", 
-        "x" : "Kids in Kindergarten struggle with writing. ", 
-        "q" : "What does the picture say?", 
-        "c" : ""
-        },
+    "2": {
+      "1": {
+        "w": "struggle with",
+        "e": "I know I sometimes struggle with multi-tasking because I tend to give my full attention to each task.",
+        "d": "have difficulty with Ving",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_struggle.PNG",
+        "l": "",
+        "x": "Kids in Kindergarten struggle with writing. ",
+        "q": "What does the picture say?",
+        "c": ""
+      },
 
-    "2" : { 
-        "w" : "feedback",
-        "e" : "I'm sometimes too negative with my feedback. Therefore, I've been learning how to give clear constructive feedback.", 
-        "d" : "Your comments about something", 
-        "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_feedback.PNG", 
-        "l" : "", 
-        "x" : "", 
-        "q" : "When do you give feedback to someone?", 
-        "c" : ""
-        },
+      "2": {
+        "w": "feedback",
+        "e": "I'm sometimes too negative with my feedback. Therefore, I've been learning how to give clear constructive feedback.",
+        "d": "Your comments about something",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_feedback.PNG",
+        "l": "",
+        "x": "",
+        "q": "When do you give feedback to someone?",
+        "c": ""
+      },
 
-    "3" : { 
-            "w" : "Public Speaking",
-            "e" : "To improve my confidence, I've been taking a public speaking course.", 
-            "d" : "speaking in front of many other people", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_speaking.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "How many people suffer from speech anxiety? (20 - 40 - 60 - 80 %)",  
-            "c" : ""
-            },
+      "3": {
+        "w": "Public Speaking",
+        "e": "To improve my confidence, I've been taking a public speaking course.",
+        "d": "speaking in front of many other people",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_speaking.PNG",
+        "l": "",
+        "x": "",
+        "q": "How many people suffer from speech anxiety? (20 - 40 - 60 - 80 %)",
+        "c": ""
+      },
 
-    "4" : { 
-            "w" : "independent",
-            "e" : "I like teamwork but I tend to work best independently.", 
-            "d" : "by yourself, without help", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_independent.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "What can't young children do independently?", 
-            "c" : ""
-            },
+      "4": {
+        "w": "independent",
+        "e": "I like teamwork but I tend to work best independently.",
+        "d": "by yourself, without help",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_independent.PNG",
+        "l": "",
+        "x": "",
+        "q": "What can't young children do independently?",
+        "c": ""
+      },
 
-    "5" : { 
-            "w" : "Phrases",
-            "e" : "", 
-            "d" : "", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_phrases.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "Match the phrases and picture", 
-            "c" : "", 
-            "a" : "1B / 2C / 3A / 4D"
-            }    
+      "5": {
+        "w": "Phrases",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_phrases.PNG",
+        "l": "",
+        "x": "",
+        "q": "Match the phrases and picture",
+        "c": "",
+        "a": "1B / 2C / 3A / 4D"
+      }
     },
-"3" : { 
-    "1" : {          
-        "w" : "Pressure",
-        "e" : "", 
-        "d" : "", 
-        "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_Text1.PNG",        
-        "l" : "", 
-        "x" : "", 
-        "q" : "What does 'keep your cool' mean?", 
-        "c" : ""
-        },
+    "3": {
+      "1": {
+        "w": "Pressure",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_Text1.PNG",
+        "l": "",
+        "x": "",
+        "q": "What does 'keep your cool' mean?",
+        "c": ""
+      },
 
-    "2" : { 
-        "w" : "Pressure",
-        "e" : "", 
-        "d" : "", 
-        "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_Text1.PNG", 
-        "l" : "", 
-        "x" : "Two answers  A)  B) ", 
-        "q" : "Which answer shows that they are good A) with customers B) at time-management", 
-        "a" : "A) work with major clients ; B) multiple deadlines / organize my work"
-        },
+      "2": {
+        "w": "Pressure",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_Text1.PNG",
+        "l": "",
+        "x": "Two answers  A)  B) ",
+        "q": "Which answer shows that they are good A) with customers B) at time-management",
+        "a": "A) work with major clients ; B) multiple deadlines / organize my work"
+      },
 
-    "3" : { 
-            "w" : "Weakness",
-            "e" : "", 
-            "d" : "", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_Text2.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "What is true about answering this question?",  
-            "c" : ["be negative", "solve a problem", "make a joke"]
-            },
+      "3": {
+        "w": "Weakness",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_Text2.PNG",
+        "l": "",
+        "x": "",
+        "q": "What is true about answering this question?",
+        "c": ["be negative", "solve a problem", "make a joke"]
+      },
 
-    "4" : { 
-            "w" : "Weakness",
-            "e" : "", 
-            "d" : "", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_Text2.PNG", 
-            "l" : "", 
-            "x" : "3 answers  A) B) C)", 
-            "q" : "Which candidate A) is learning a new skill?; B) works well by themselves?; C) doesn't mention communication?", 
-            "a" : "A - taking a course; B) work best independently; C) multitasking"
-            },
+      "4": {
+        "w": "Weakness",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_Text2.PNG",
+        "l": "",
+        "x": "3 answers  A) B) C)",
+        "q": "Which candidate A) is learning a new skill?; B) works well by themselves?; C) doesn't mention communication?",
+        "a": "A - taking a course; B) work best independently; C) multitasking"
+      },
 
-    "5" : { 
-            "w" : "Any Questions",
-            "e" : "", 
-            "d" : "", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_Text3.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "What is good about answering this question?", 
-            "c" : ["ask many questions", "leave the interview", "make a lasting impression"]
-            },  
+      "5": {
+        "w": "Any Questions",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_Text3.PNG",
+        "l": "",
+        "x": "",
+        "q": "What is good about answering this question?",
+        "c": [
+          "ask many questions",
+          "leave the interview",
+          "make a lasting impression"
+        ]
+      },
 
-    "6" : { 
-            "w" : "Any Questions",
-            "e" : "", 
-            "d" : "", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_Text3.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "Which question asks about A) the company?; B) the interviewer?; C) the position? ", 
-            "a" : ""
-            }
+      "6": {
+        "w": "Any Questions",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_Text3.PNG",
+        "l": "",
+        "x": "",
+        "q": "Which question asks about A) the company?; B) the interviewer?; C) the position? ",
+        "a": ""
+      }
     },
-"4" : { 
-    "1" : {          
-        "w" : "Noun Clause",
-        "e" : "", 
-        "d" : "", 
-        "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_g1.PNG",        
-        "l" : "", 
-        "x" : "(see example in notes)", 
-        "q" : "Which two answer are correct noun clauses? ", 
-        "a" : "2 & 1"
-        },
+    "4": {
+      "1": {
+        "w": "Noun Clause",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_g1.PNG",
+        "l": "",
+        "x": "(see example in notes)",
+        "q": "Which two answer are correct noun clauses? ",
+        "a": "2 & 1"
+      },
 
-    "2" : { 
-        "w" : "Noun Clause",
-        "e" : "", 
-        "d" : "", 
-        "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_g2.PNG", 
-        "l" : "", 
-        "x" : "(see example in notes)", 
-        "q" : "Which two answer are correct noun clauses? ", 
-        "a" : "2 & 3"
-        },
+      "2": {
+        "w": "Noun Clause",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_g2.PNG",
+        "l": "",
+        "x": "(see example in notes)",
+        "q": "Which two answer are correct noun clauses? ",
+        "a": "2 & 3"
+      },
 
-    "3" : { 
-            "w" : "Noun Clause",
-            "e" : "", 
-            "d" : "", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_g3.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "Make a noun clause question for this picture",  
-            "c" : ""
-            },
+      "3": {
+        "w": "Noun Clause",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_g3.PNG",
+        "l": "",
+        "x": "",
+        "q": "Make a noun clause question for this picture",
+        "c": ""
+      },
 
-    "4" : { 
-            "w" : "Noun Clause",
-            "e" : "", 
-            "d" : "", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_g4.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "Make a noun clause question for this picture", 
-            "c" : ""
-            },
+      "4": {
+        "w": "Noun Clause",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_g4.PNG",
+        "l": "",
+        "x": "",
+        "q": "Make a noun clause question for this picture",
+        "c": ""
+      },
 
-    "5" : { 
-            "w" : "",
-            "e" : "", 
-            "d" : "", 
-            "i" : "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_g4.PNG", 
-            "l" : "", 
-            "x" : "", 
-            "q" : "Match the 'whenever' clauses", 
-            "a" : "1B / 2C / 3D / 4A"
-            }
+      "5": {
+        "w": "",
+        "e": "",
+        "d": "",
+        "i": "https://workplace-lms.s3-ap-northeast-1.amazonaws.com/images/U08_g4.PNG",
+        "l": "",
+        "x": "",
+        "q": "Match the 'whenever' clauses",
+        "a": "1B / 2C / 3D / 4A"
+      }
     }
+  }
 }
-
-
-}
-    
-
-

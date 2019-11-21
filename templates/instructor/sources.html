@@ -18,12 +18,15 @@
 
 {% if source.part | int  == 1 %}
 <h1> Unit: {{source.unit}} </h1>
+ <button class="btn  btn-xs mr-2" type="button" data-toggle="collapse" data-target="#{{source.unit}}" 
+        aria-expanded="false" aria-controls="collapseExample">
+            Unit: {{source.unit}} 
+        </button>
 {% else %}   
 {% endif %}
 
-
-	
 <div class="content-section">
+
 <legend class="border-bottom mb-4">{{source.unit}}-P{{ source.part }} ({{source.qnum}})</legend>
 		<button type="button" class="btn btn-secondary" data-toggle="collapse" data-target="#notes{{ source.unit }}{{ source.part }}">Notes</button>
 		 <br>
@@ -83,8 +86,7 @@
 {% endif %}
 
 {% endfor %}
-      
-     
+
 
 
 {% endblock %}

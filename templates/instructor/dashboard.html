@@ -40,6 +40,8 @@
         
         
         {% for item in ansDict %}     
+        {% if item | int < 5 %}
+        {% else %}
         <tbody class="collapse" id="{{item}}"> 
             <tr> 
                 <th> <h4>A{{item}}</h4> </th>
@@ -79,6 +81,7 @@
             
     </tr>  
      {% endfor %}
+     {% endif %}
     {% endfor %}
             
                               
