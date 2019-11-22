@@ -1,12 +1,13 @@
 .DS_Store
 static/.DS_Store
+static/jsonFiles
 
 
 setup.txt
+todo.txt
 aws.py
 spreadsheet.py
-data.py
-Exam.json
+vocabData.py
 .env
 venv
 

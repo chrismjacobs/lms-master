@@ -234,10 +234,15 @@ def unit_instructor(unit_num,part_num,fm,qs):
         jdata = None
         html = 'units/unit_instructor.html'
     elif int(fm) == 3: 
-        jsonList = [ 'blank', "FRD.json", "WPE.json", "ICC.json"]
-        string = jsonList[int(COLOR_SCHEMA)]   
-        with open (string, "r") as f:
-            jload = json.load(f)             
+        jList = [ [], ['reading-lms', "images/FRD.json"], ['workplace-lms', "images/WPE.json"], ['icc-lms', "images/ICC.json"]]
+        content_object = s3_resource.Object(jList[int(COLOR_SCHEMA)][0], jList[int(COLOR_SCHEMA)][1])
+        file_content = content_object.get()['Body'].read().decode('utf-8')
+        jload = json.loads(file_content)
+        
+        #jsonList = [ 'blank', "FRD.json", "WPE.json", "ICC.json"]
+        #string = jsonList[int(COLOR_SCHEMA)]   
+        #with open (string, "r") as f:
+            #jload = json.load(f)       
         jdata = jload[unit_num][part_num]        
         html = 'units/unit_instructor_json.html'
         questionNum = len(jdata)
@@ -288,7 +293,7 @@ def unit(unit_num,part_num,fm,qs):
     source = Sources.query.filter_by(unit=unit_num).filter_by(part=part_num).first()
 
     #check source to see if unit is open yet
-    if source.openSet == 1:    
+    if source.openSet == 1 or current_user.id == 1:    
         pass
     else:
         flash('This unit is not open at the moment', 'danger')
@@ -355,15 +360,15 @@ def unit(unit_num,part_num,fm,qs):
         jdata = None
         html = 'units/unit_layout.html'
     elif int(fm) == 3:
-        #jList = [ [], ['reading-lms', "images/FRD.json"], ['workplace-lms', "images/WPE.json"], ['icc-lms', "images/ICC.json"]]
-        #content_object = s3_resource.Object(jsonList[int(COLOR_SCHEMA)][0], jsonList[int(COLOR_SCHEMA)][1])
-        #file_content = content_object.get()['Body'].read().decode('utf-8')
-        #jload = json.loads(file_content)
+        jList = [ [], ['reading-lms', "images/FRD.json"], ['workplace-lms', "images/WPE.json"], ['icc-lms', "images/ICC.json"]]
+        content_object = s3_resource.Object(jList[int(COLOR_SCHEMA)][0], jList[int(COLOR_SCHEMA)][1])
+        file_content = content_object.get()['Body'].read().decode('utf-8')
+        jload = json.loads(file_content)
         
-        jsonList = [ 'blank', "FRD.json", "WPE.json", "ICC.json"]
-        string = jsonList[int(COLOR_SCHEMA)]   
-        with open (string, "r") as f:
-            jload = json.load(f)             
+        #jsonList = [ 'blank', "FRD.json", "WPE.json", "ICC.json"]
+        #string = jsonList[int(COLOR_SCHEMA)]   
+        #with open (string, "r") as f:
+            #jload = json.load(f)             
         jdata = jload[unit_num][part_num]
         questionNum = len(jdata)
         html = 'units/unit_layout_json.html'        
@@ -425,11 +430,8 @@ def unit(unit_num,part_num,fm,qs):
         form.Ans06.data = fields.Ans06
         form.Ans07.data = fields.Ans07
         form.Ans08.data = fields.Ans08
-        
-    
-    
 
-    
+
     context = {
         'form' : form, 
         'fields' : fields, 
@@ -441,9 +443,16 @@ def unit(unit_num,part_num,fm,qs):
         'qNumber' : questionNum, 
         'source' : source, 
         'ansSum' : ansSum
-    }    
+    }  
 
-    return render_template(html, **context, jdata=jdata)
+    if qs == '00':
+        return render_template('units/unit_preview.html', **context, jdata=jdata)
+    else:
+        return render_template(html, **context, jdata=jdata)
+
+
+
+    
 
 
 
@@ -491,7 +500,7 @@ def unit_sl(unit_num):
     model=modList[int(unit_num)]
      
     #check source to see if unit is open yet
-    if source.openSet == 1:    
+    if source.openSet == 1 or current_user.id == 1:    
         pass
     else:
         flash('This unit is not open at the moment', 'danger')

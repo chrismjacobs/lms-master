@@ -1,0 +1,115 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<!--Header of page____________________________________-->
+<div class="content-section">    
+	<h1 > {{source.title}} (Q:{{qNumber}})</h1>
+</div>
+
+{% if current_user.id == 1 %}
+<div class="content-section" style="display:none">
+{% else %} 
+<div class="content-section"> 
+{% endif %}  
+        <h5 > Notes </h5>   
+    <div class="embed-responsive embed-responsive-4by3">
+            <iframe id="questions_embed" src="{{source.notes}}"
+            allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
+	        </iframe>
+    </div> 
+</div>
+
+<div id="notes">
+
+{% for data in jdata %}
+	{% if data | int  < qNumber+1 %}
+<div class="content-section" style="background:whitesmoke"> 
+<h2 style="color:blue" align="center"> {{data}}: {{jdata[data]['w']}} <h2> 
+<h3 style="color:{{titleColor}}" align="center"> {{jdata[data]['e']}} </h3> 
+<h4 style="color:hotpink" align="center"> {{jdata[data]['d']}} </h4> 
+<div align="center">
+<img style="max-width:100%"  src="{{jdata[data]['i']}}"> 
+</div> 
+<h4 align="center"><a href="{{jdata[data]['l']}}" > {% if jdata[data]['l'] %} Link {% endif %} </a></h4>
+{% if jdata[data]['f'] %}
+<div class="embed-responsive embed-responsive-4by3">
+	<iframe src="{{jdata[data]['f']}}" 
+		allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
+	</iframe>
+</div>
+{% endif %}
+<h4 style="" align="center"> {{jdata[data]['x']}} </h4> 
+<h4 align="center"> <text style="background:{{titleColor}}; color:{{bodyColor}}"> {{jdata[data]['q']}} </text> </h4> 
+{% for choice in jdata[data]['c']%}
+		<h4 style="" align="center"> {{choice}} </h4> 	
+{% endfor %}
+</div> 
+	{% endif %}
+
+{% endfor %}
+
+</div>
+
+<br>
+
+
+
+
+
+
+{% for i in range(1,qNumber+1) %}
+		{% if fieldsList[i] != "" %}
+
+	<div class="content-section" style="background:white">
+		<button type="button" class="btn btn-sm" data-toggle="collapse" data-target="#table{{i}}" style="background:{{bodyColor}}; color:{{titleColor}}; border:2px solid {{titleColor}}; float:right">Answers</button>
+		<h2 style="color:blue" style=""> {{i}}: {{jdata[i|string]['w']}} <h2>
+		
+					 
+		<h4 style="background:{{titleColor}}; color:{{bodyColor}}"> {{jdata[i|string]['q']}} </h4> 
+		{% for choice in jdata[i|string]['c']%}
+		<h4 style=""> {{choice}} </h4> 	
+		{% endfor %}
+		<h4> {{jdata[i|string]['a']}} </h4> 		
+	</div> 
+
+		
+			<div id="table{{i}}" class="collapse">			
+			<table class="table table-sm" style="background:white" >
+			<tbody>				
+				{% for j in range(dictCount) %}
+				<tr>
+				<th>{{ ansDict[j][0] }}</th>
+				<th>{{ ansDict[j][i] }}</th>
+				</tr>
+				{% endfor %}
+			</tbody>
+			</table>	
+			</div>
+		{% endif %}	
+			
+							
+		{% endfor %}
+
+</div>
+
+<br>
+<br>
+
+
+
+
+
+{% endblock content %}
+
+
+{% block script %}
+<script>
+
+
+
+
+
+
+</script>
+
+{% endblock %}
