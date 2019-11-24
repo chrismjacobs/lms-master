@@ -138,6 +138,25 @@ def att_log():
 
 
 
+def loadAWS():
+    jList = [
+        [None, None],
+        ['reading-lms', "profiles/ExamFRD.json"],
+        ['workplace-lms', "profiles/ExamWPE.json"],
+        ['icc-lms', "profiles/ExamICC.json"]
+    ]   
+    content_object = s3_resource.Object(
+        jList[int(COLOR_SCHEMA)][0],
+        jList[int(COLOR_SCHEMA)][1]
+    )
+
+    file_content = content_object.get()['Body'].read().decode('utf-8')
+    jload = json.loads(file_content)
+    print(type(jload))
+
+    return jload
+
+
 
  
 @app.route("/exams", methods = ['GET', 'POST'])
@@ -146,16 +165,25 @@ def exams():
     course = Course.query.order_by(asc(Course.date)).all()    
     review = Course.query.filter_by(unit='E1').first()       
     reviewList = eval(str(review.linkTwo))
-    bonusList = eval(str(review.embed))
-    
-    grades = Grades.query.filter_by(username=current_user.username).first()
-    displayDict = ast.literal_eval(grades.practice)
-    print(len(displayDict[1]))
+    try: 
+        bonusList = eval(str(review.embed))
+    except: 
+        bonusList = []
 
+    jload = loadAWS()
+
+    
+    try:
+        tries = list(jload[current_user.studentID]["P1"].values())
+    except:
+        tries = None
+
+       
+    
     displayDict = {
-        1 : [reviewList[0], displayDict[1]], 
-        2 : [reviewList[1], displayDict[2]]
+        1 : [reviewList[0], tries]        
     }
+
     return render_template('instructor/exams.html', title='exams', reviewList=reviewList, bonusList=bonusList, displayDict=displayDict)
 
 
@@ -227,6 +255,43 @@ def sources():
 
     return render_template('instructor/sources.html', sources=sources, title='sources')
 
+
+@app.route ("/studentRemove/<string:name>", methods = ['GET', 'POST'])
+@login_required 
+def studentRemove(name):
+    if current_user.id != 1:
+        return abort(403)   
+
+    findSt = Attendance.query.filter_by(username=name).first()    
+    
+    #delete the attendances entries using ids
+    Attendance.query.filter_by(id=findSt.id).delete()
+    db.session.commit()
+
+    AttendLog.query.filter_by(id=findSt.unit).delete()
+    db.session.commit()
+    
+    #find the team work today
+    todaysUnit = Attendance.query.filter_by(username='Chris').first().unit   
+    studentTeam = Attendance.query.filter_by(username=name).first().teamnumber
+    
+    idNum = 0 
+    for model in Info.modListUnits:
+        # ie search for u061u
+        if todaysUnit + '1' in str (model):
+            try:
+                idNum = model.query.filter_by(teamnumber=studentTeam).first().id
+            except:
+                pass
+            
+
+    string = [None, 'reading', 'workplace', 'icc']    
+    lms = string[int(COLOR_SCHEMA)]
+
+    return jsonify({'removed' : name, 'unit' : todaysUnit, 'idNum' : idNum, 'lms': lms})
+
+
+
 @app.route ("/teams")
 @login_required 
 def teams():  
@@ -254,7 +319,7 @@ def teams():
                 attDict[user.username] = [user.studentID, attStudent.date_posted]
             else:
                 attDict[user.username] = [user.studentID, 0]
-
+    print(attDict)
     return render_template('instructor/teams.html', attDict=attDict, teamcount=teamcount, title='teams')  
 
 
@@ -462,13 +527,20 @@ def att_int():
     openData = Attendance.query.filter_by(username='Chris').first()
 
     if openData:    
-        if form.validate_on_submit():
+        if form.validate_on_submit():            
             openData.attend = form.attend.data 
             openData.teamnumber = form.teamnumber.data 
             openData.teamsize = form.teamsize.data 
             openData.teamcount = form.teamcount.data 
             openData.unit =  form.unit.data        
             db.session.commit() 
+            if form.teamnumber.data == 100:
+                sourceCheck = Sources.query.filter_by(openSet='2').all()
+                #return to normal state after attendence closed
+                for sourceLine in sourceCheck:
+                    sourceLine.openReset = 0
+                    sourceLine.openSet = 1
+                    db.session.commit() 
             
             flash('Attendance has been updated', 'secondary') 
             return redirect(url_for('att_team')) 
@@ -480,8 +552,7 @@ def att_int():
                 form.teamnumber.data = openData.teamnumber
                 form.teamsize.data = openData.teamsize
                 form.teamcount.data = openData.teamcount
-                form.unit.data = openData.unit
-                
+                form.unit.data = openData.unit                
             except: 
                 pass 
     else:

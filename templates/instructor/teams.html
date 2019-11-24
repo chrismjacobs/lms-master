@@ -1,5 +1,7 @@
 {% extends "layout.html" %}
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 {% block content %}
 
 <div class="content-section">    
@@ -29,13 +31,14 @@
             
             {% for i in range (4) %}
                 {% if attDict[item][i] %}
-                    <td>{{attDict[item][i].username}}</td> 
+                    <td><button class="btn btn-sm btn-secondary" id="{{attDict[item][i].username}}" onclick="studentRemove('{{attDict[item][i].username}}')">{{attDict[item][i].username}}</button></td> 
                 {% endif %}        
             {% endfor %}            
         </tbody>
         {% endfor %}
 
         {% else %}
+        <!--- not sure what this section is for -->
         <tbody> 
             {% for item in attDict %} 
             <tr>
@@ -52,7 +55,7 @@
             {% endfor %}            
         </tbody>
         {% endif %}
-        
+     
         
 </div>
 
@@ -61,6 +64,28 @@
 
 {% block script %}
 <script>
+
+function studentRemove(name) {
+
+    alert(name)
+
+    varURL = '/studentRemove/' + name 
+        
+		$.ajax({
+			data : {
+				name : name
+			},
+			type : 'POST',
+            url : varURL           
+           
+		})
+		.done(function(data) {           
+            alert(data.lms + '-lms.herokuapp.com/admin/u' + data.unit + '1u/edit/?id=' + data.idNum)               
+		});
+    
+}
+
+
 
 
 

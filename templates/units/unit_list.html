@@ -35,7 +35,14 @@
       {% if unit.openSet == 1 %}
       <tbody >
           <tr style="height:50px;">
-              <th scope="row" ><a href="{{href}}/{{unit.unit}}/{{unit.part}}/{{unit.form}}/{{unit.qnum}}">Open</a></th>
+          {% if team == True %}
+              <th scope="row" ><button class="btn btn-info btn-sm" type="button" data-toggle="collapse" data-target="#{{unit.unit}}{{unit.part}}"> 
+              Open</button></th>
+          {% else %}
+              <th scope="row" ><a href="{{href}}/{{unit.unit}}/{{unit.part}}/{{unit.form}}/{{unit.qnum}}"><button class="btn btn-info btn-sm" type="button"> 
+              Open
+              </button></a></th>
+          {% endif %}
       {% elif unit.openSet == 2 %}
       <tbody style="color:rgb(221, 150, 35)">
           <tr>
@@ -58,6 +65,17 @@
             <td style="background:lightcoral"> {{scoreDict[unit.unit + unit.part][0]}}/2</td>
             {% endif %}
             <td> {{scoreDict[unit.unit + unit.part][1]}}</td>
+          </tr>
+          <tr class="collapse" id="{{unit.unit}}{{unit.part}}">
+            <td colspan="7"> Only one person on the team needs to write answers. 
+            <br> 
+            <a href="{{href}}/{{unit.unit}}/{{unit.part}}/{{unit.form}}/{{unit.qnum}}"><button class="btn btn-success" type="button"> Write Answers </button></a> Are you writing answers? 
+            <br>
+            <br>
+            <a href="{{href}}/{{unit.unit}}/{{unit.part}}/{{unit.form}}/{{unit.qnum}}0"><button class="btn btn-warning" type="button"> See Questions </button></a> Or helping?
+            <br>
+            <br>
+            </td> 
           </tr>       
       </tbody>
       

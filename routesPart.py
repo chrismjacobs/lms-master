@@ -1,5 +1,5 @@
 import sys, boto3, random, base64, os, secrets, time, datetime, json
-from sqlalchemy import asc, desc, func
+from sqlalchemy import asc, desc, func, or_
 from flask import render_template, url_for, flash, redirect, request, abort, jsonify  
 from app import app, db, bcrypt, mail
 from flask_login import login_user, current_user, logout_user, login_required
@@ -19,52 +19,58 @@ except:
     S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME'] 
     COLOR_SCHEMA = os.environ['COLOR_SCHEMA'] 
 
+
+def unitPoints(studID):
+    return 'Nothing'
+
+
+
 @app.route ("/units", methods=['GET','POST'])
 @login_required
 def unit_list():
     
-    sourceList = Sources.query.filter_by(openSet='1').order_by(asc(Sources.unit)).order_by(asc(Sources.part)).all()  # also remember .limit(3).all()     
+    sourceList = Sources.query.filter(or_(Sources.openSet=='1', Sources.openSet=='2')).order_by(asc(Sources.unit)).order_by(asc(Sources.part)).all()  # also remember .limit(3).all()     
     href = url_for('class_part') 
 
     unitsSet = set()
     for src in sourceList:
         unitsSet.add(int(src.unit))
-    
+    print (unitsSet)
+
+
     #temporarily close old units
     # check today's unit
     attendance = Attendance.query.filter_by(username='Chris').first()
     if attendance:
         todaysUnit = attendance.unit
         attStatus = attendance.teamnumber
-        print (attStatus)
+        print (todaysUnit, attStatus)
     else: 
         todaysUnit = 0
         attStatus = 0
 
+    team = False
     if attStatus > 97:     
         print ('todaysUnit', todaysUnit)
         for sourceLine in sourceList:
             print('a', sourceLine.unit , 'b', todaysUnit)
             if sourceLine.openSet == 1:
                 try:
-                    int(todaysUnit)
+                    check = int(todaysUnit)
+                    print(check)
                 except:
+                    print('break')
                     break                    
                 if sourceLine.unit != todaysUnit:
                     sourceLine.openReset = 100
                     sourceLine.openSet = 2
                     db.session.commit() 
+        team = True 
     elif attStatus == 50:
         pass 
-    else:
-        #return to normal state after attendence closed
-        for sourceLine in sourceList:
-            if sourceLine.openReset == 100:
-                sourceLine.openReset = 0
-                sourceLine.openSet = 1
-                db.session.commit() 
+    else:        
+        pass
 
-    print('sourceList', sourceList) 
     # models update
     #list of models, used later to create a points dictionary
     modList = Info.modListUnits  
@@ -78,7 +84,7 @@ def unit_list():
         else: 
             rows = model.query.order_by(asc(model.id)).all()
             scoreDict[unitCode] = [0, ""]        
-            for row in rows:
+            for row in rows: 
                 # need to stop Chris being found when ChrisHsu is present in a string 
                 if current_user.username + ',' in row.username or current_user.username + '"' in row.username or current_user.username + '}' in row.username or current_user.username == row.username:
                     # this code prevents scores being replaced by Zeros but Zeros will be replaced by scores                
@@ -93,7 +99,6 @@ def unit_list():
                             pass 
                     else:                   
                         scoreDict[unitCode] = [row.Grade , row.Comment] 
-        
     
     print('scoreDict: ', scoreDict)
 
@@ -118,11 +123,11 @@ def unit_list():
     try:
         color = pointCounter/(maxUni)
     except:
-        color = 0   
+        color = 0       
 
     return render_template('units/unit_list.html', legend='Units Dashboard', 
     sourceList=sourceList, href=href, scoreDict=scoreDict, 
-    pointCounter=pointCounter, total=maxUni, color=color, title='unit_list')
+    pointCounter=pointCounter, total=maxUni, color=color, title='unit_list', team=team)
 
 
 @app.route ("/unit")
@@ -153,7 +158,7 @@ def team_details ():
     return nnDict
 
 
-# check the score of teams during participation
+# check the score of teams during participation for the games panel
 @app.route('/partCheck', methods=['POST'])
 def scoreCheck():  
     qNum = request.form ['qNum']
@@ -257,9 +262,6 @@ def unit_instructor(unit_num,part_num,fm,qs):
         'title' : 'unit_IM',
         'teamcounter' : teamcounter
     }
-
-    
-
     return render_template(html, **context, jdata=jdata)
 
 
@@ -449,10 +451,6 @@ def unit(unit_num,part_num,fm,qs):
         return render_template('units/unit_preview.html', **context, jdata=jdata)
     else:
         return render_template(html, **context, jdata=jdata)
-
-
-
-    
 
 
 
