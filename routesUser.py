@@ -1,5 +1,5 @@
 import sys, boto3, random, base64, os, time, datetime, ast
-from sqlalchemy import asc, desc 
+from sqlalchemy import asc, desc, or_
 from flask import render_template, url_for, flash, redirect, request, abort, jsonify  
 from app import app, db, bcrypt, mail
 from flask_login import login_user, current_user, logout_user, login_required
@@ -288,8 +288,8 @@ def att_team():
 @login_required
 def assignment_list():     
     assList = Sources.query.order_by(asc(Sources.id)).all()  # also remember .limit(3).all()  
-    assList2 = Sources.query.filter_by(part='1').filter_by(openSet='1').order_by(asc(Sources.unit)).all()
-    
+    assList2 = Sources.query.filter_by(part='1').filter(or_(Sources.openSet=='1', Sources.openSet=='2')).order_by(asc(Sources.unit)).order_by(asc(Sources.part)).all()  # also remember .limit(3).all()     
+        
     urls = [None, 
         'https://reading-lms.herokuapp.com/ass', 
         'https://workplace-lms.herokuapp.com/ass', 
@@ -298,7 +298,7 @@ def assignment_list():
 
     href = urls[int(COLOR_SCHEMA)]
 
-    #list of models used to create scrDict
+    #list of models used to create 
     modDict = Info.modDictAss  
     
     # create dictionary of assignment sources with integers for scoreDict calling
