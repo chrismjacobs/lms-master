@@ -8,6 +8,7 @@ todo.txt
 aws.py
 spreadsheet.py
 vocabData.py
+partNames.py
 .env
 venv
 

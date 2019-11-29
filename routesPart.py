@@ -85,20 +85,35 @@ def unit_list():
             rows = model.query.order_by(asc(model.id)).all()
             scoreDict[unitCode] = [0, ""]        
             for row in rows: 
-                # need to stop Chris being found when ChrisHsu is present in a string 
-                if current_user.username + ',' in row.username or current_user.username + '"' in row.username or current_user.username + '}' in row.username or current_user.username == row.username:
-                    # this code prevents scores being replaced by Zeros but Zeros will be replaced by scores                
-                    if scoreDict[unitCode][0] == 2:
-                        print ('pass2') 
-                        pass 
-                    elif scoreDict[unitCode][0] == 1:
-                        if row.Grade == 2:
-                            scoreDict[unitCode] = [row.Grade , row.Comment] 
-                        else:                         
-                            print ('pass1') 
+                try:
+                    if current_user.username in ast.literal_eval(row.username): 
+                        if scoreDict[unitCode][0] == 2:
+                            print ('pass2') 
                             pass 
-                    else:                   
-                        scoreDict[unitCode] = [row.Grade , row.Comment] 
+                        elif scoreDict[unitCode][0] == 1:
+                            if row.Grade == 2:
+                                scoreDict[unitCode] = [row.Grade , row.Comment] 
+                            else:                         
+                                print ('pass1') 
+                                pass 
+                        else:                   
+                            scoreDict[unitCode] = [row.Grade , row.Comment] 
+                    
+                # need to stop Chris being found when ChrisHsu is present in a string 
+                except:
+                    if current_user.username + ',' in row.username or current_user.username + '"' in row.username or current_user.username + '}' in row.username or current_user.username == row.username:
+                        # this code prevents scores being replaced by Zeros but Zeros will be replaced by scores                
+                        if scoreDict[unitCode][0] == 2:
+                            print ('pass2') 
+                            pass 
+                        elif scoreDict[unitCode][0] == 1:
+                            if row.Grade == 2:
+                                scoreDict[unitCode] = [row.Grade , row.Comment] 
+                            else:                         
+                                print ('pass1') 
+                                pass 
+                        else:                   
+                            scoreDict[unitCode] = [row.Grade , row.Comment] 
     
     print('scoreDict: ', scoreDict)
 
@@ -140,7 +155,7 @@ def team_details ():
     try:
         teamnumber = Attendance.query.filter_by(username=current_user.username).first().teamnumber
         if teamnumber == 0:
-            namesRange = [current_user.username]
+            nameRange = [current_user.username]
         else:
         # confirm names of team
             names = Attendance.query.filter_by(teamnumber=teamnumber).all()
@@ -306,12 +321,17 @@ def unit(unit_num,part_num,fm,qs):
     mods = model.query.all()
     fields = None
     for row in mods:
-        if current_user.username + ',' in row.username or current_user.username + '"' in row.username or current_user.username + '}' in row.username or current_user.username == row.username:
-            fields = row
+        try:
+            if current_user.username in ast.literal_eval(row.username): 
+                fields = row
+        except:
+            if current_user.username + ',' in row.username or current_user.username + '"' in row.username or current_user.username + '}' in row.username or current_user.username == row.username:
+                fields = row
+
         
     print(fields)
     if fields == None: 
-        response = model(username=nameRange, teamnumber=teamnumber, 
+        response = model(username=str(nameRange), teamnumber=teamnumber, 
             Ans01="", Ans02="", Ans03="",  Ans04="",  Ans05="",  Ans06="",
             Ans07="", Ans08="", Grade=0, Comment=""  
             )
