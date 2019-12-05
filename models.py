@@ -152,7 +152,7 @@ class BaseUnits(db.Model):
     __abstract__ = True
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now)
     username =  db.Column(db.String)
-    teamnumber = db.Column(db.Integer)
+    teamnumber = db.Column(db.Integer, unique=True)
     Ans01 = db.Column(db.String)
     Ans02 = db.Column(db.String)
     Ans03 = db.Column(db.String)
@@ -515,13 +515,19 @@ modDictAssList = {}
 for item in modDictAss:    
     modDictAssList[item] = ([modDictAss[item]])
 
+assList = []
+for key in modDictAss:
+    assList.append(modDictAss[key])
+
+
 class Info ():
     modDictAss = modDictAss
     modDictUnits = modDictUnits 
     modListUnits = listUnits
-    modListAss = listUnits
+    modListAss = listUnits    
     modListSL = modListSL    
     ansDict = modDictAssList
+    assList = assList
     unitList = modDictAss.keys()  ###['00', '01', .....]
     
 

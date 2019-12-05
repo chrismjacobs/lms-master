@@ -186,55 +186,45 @@ def exams():
 
     return render_template('instructor/exams.html', title='exams', reviewList=reviewList, bonusList=bonusList, displayDict=displayDict, COLOR_SCHEMA=COLOR_SCHEMA)
 
+gradesList = [
+    [None, None],
+    ['reading-lms', "profiles/GradesFRD.json"],
+    ['workplace-lms', "profiles/GradesWPE.json"],
+    ['icc-lms', "profiles/GradesICC.json"]
+]
 
+def loadExam():
+    content_object = s3_resource.Object(
+        gradesList[int(COLOR_SCHEMA)][0],
+        gradesList[int(COLOR_SCHEMA)][1]
+    )
+    file_content = content_object.get()['Body'].read().decode('utf-8')
+    jload = json.loads(file_content)
+    return jload
 
 @app.route("/MTGrades", methods = ['GET', 'POST'])
 @login_required
 def MTGrades():
-    midGrades = Grades.query.order_by(asc(Grades.studentID)).all()
+    finalGrades = loadExam()
+     
+    print(finalGrades)
+    
+    finalDict = {}
     
     
-    maxUniFactor = 30 / Grades.query.order_by(desc(Grades.units)).first().units  
-    maxAssFactor = 30 / Grades.query.order_by(desc(Grades.assignments)).first().assignments
-    
-    #if COLOR_SCHEMA == 3:
-        #maxAssFactor = 30/10
-        
-    
-    mtDict = {}
-    for item in midGrades:
-         
-        ass = round(item.assignments * maxAssFactor , 1 )
-        part = round(item.units * maxUniFactor, 1 )
-        examList = eval(item.examList)
-        try:
-            print(examList)
-        except:
-            pass
-        exam = round( examList[0] + examList[1] , 1)
-        if item.bonus !=None:
-            bonus = item.bonus
-        else:
-            bonus = 0
-        total = int ( ass + part + exam + bonus )
+    for student in finalGrades:
+        NAME = finalGrades[student]['NAME']
+        MT = int(finalGrades[student]['MT'])/2
+        PART = (   int(finalGrades[student]['PART'])    /32    )*15
+        ASSN = (   int(finalGrades[student]['ASSN'])    /8     )*15 
+        EXAM = 10
+        TOTAL = MT + PART + ASSN + EXAM 
 
+        finalDict[int(student)] = [TOTAL, NAME, MT, PART, ASSN, EXAM ]
 
+    print (finalDict)
         
-        mtDict[int(item.studentID)] = [ 
-            total, 
-            item.username, 
-            part, 
-            ass, 
-            exam, 
-            examList[2], 
-            examList[3], 
-            item.tries, 
-            item.attend, 
-            bonus                 
-        ]
-
-        
-    return render_template('instructor/midGrades.html', title='MTGrades', midGrades=midGrades, mtDict=mtDict)
+    return render_template('instructor/midGrades.html', title='MTGrades', midGrades=finalGrades, mtDict=finalDict)
 
 
 @app.route("/openSet/<string:unit>/<string:part>", methods = ['POST'])
