@@ -494,7 +494,7 @@ def unit_slup(unit_num, team_num, nameRange):
     if form.validate_on_submit():        
         record1 = unit_audio(form.Record1.data, unit_num, team_num, '1')        
         record2 = unit_audio(form.Record2.data, unit_num, team_num, '2')
-        data = U555(username=nameRange, teamnumber=team_num, unit=unit_num,
+        data = U555(username=str(nameRange), teamnumber=team_num, unit=unit_num,
         record1=record1, answers1=form.Answers1.data,
         record2=record2, answers2=form.Answers2.data)   
         db.session.add(data)        
@@ -568,7 +568,7 @@ def unit_sl(unit_num):
             pass
 
     if form.validate_on_submit():
-        data = model(username=nameRange, teamnumber=teamnumber,
+        data = model(username=str(nameRange), teamnumber=teamnumber,
         Ans01=form.Ans01.data, Ans02=form.Ans02.data,
         Ans03=randField.record1, Ans04=randField.record2,
         Ans05=randField.answers1, Ans06=randField.answers2,

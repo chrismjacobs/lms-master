@@ -178,13 +178,13 @@ def exams():
     except:
         tries = None
 
-       
+     
     
     displayDict = {
         1 : [reviewList[0], tries]        
     }
 
-    return render_template('instructor/exams.html', title='exams', reviewList=reviewList, bonusList=bonusList, displayDict=displayDict)
+    return render_template('instructor/exams.html', title='exams', reviewList=reviewList, bonusList=bonusList, displayDict=displayDict, COLOR_SCHEMA=COLOR_SCHEMA)
 
 
 

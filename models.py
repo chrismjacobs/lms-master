@@ -15,6 +15,10 @@ modListSL = [0]
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+
+
+
+
 class ChatBox(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now)
