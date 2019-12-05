@@ -421,7 +421,7 @@ def unit(unit_num,part_num,fm,qs):
     
     #deal with the form
     if form.validate_on_submit():          
-        fields.username = nameRange
+        fields.username = str(nameRange)
         fields.teamnumber = teamnumber 
         if fields.Ans01 == "":
             fields.Ans01 = form.Ans01.data
