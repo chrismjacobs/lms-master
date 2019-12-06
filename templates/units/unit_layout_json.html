@@ -123,6 +123,13 @@
 			<div align="center">
 				<img style="max-width:100%"  src="{{jdata[i|string]['i']}}"> 
 			</div> 
+			{% if jdata[i|string]['f'] %}
+				<div class="embed-responsive embed-responsive-4by3">
+								<iframe src="{{jdata[i|string]['f']}}" 
+									allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
+								</iframe>
+				</div>
+			{% endif %}
 
 			<h4 align="center"><a href="{{jdata[i|string]['l']}}" > {% if jdata[i|string]['l'] %} Link {% endif %} </a></h4>
 

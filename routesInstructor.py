@@ -310,6 +310,9 @@ def teams():
             else:
                 attDict[user.username] = [user.studentID, 0]
     print(attDict)
+
+    tablesDict = {}
+    
     return render_template('instructor/teams.html', attDict=attDict, teamcount=teamcount, title='teams')  
 
 
