@@ -438,7 +438,7 @@ def ass(unit):
             fields.TextThr = form.TextThr.data
             
             
-            db.session.commit()
+            db.session.commit()            
             flash('Your assignment has been updated', 'warning') 
             return redirect(request.referrer)
         elif request.method == 'GET':  

@@ -55,9 +55,9 @@
               {% if answer.LengthTwo == 888 %}  <td style="width: 20px;"><a href="{{answer.AudioDataTwo}}" target="_blank">Link</a></td>              
               {% else %} <td style="width: 10px;"><button class="btn btn-outline-dark btn-xs" onclick='playAudio(this)' value="{{answer.AudioDataTwo}}">{{answer.LengthTwo}}</button></td>
               {% endif %}          
-              <td style="width: 50px; word-wrap: break-word">{{answer.Notes}}</td>
-              <td style="width: 50px; word-wrap: break-word">{{answer.TextOne}}</td>
-              <td style="width: 50px; word-wrap: break-word">{{answer.TextTwo}}</td>
+              <td style="width: 50px; word-wrap: break-word">{% if answer.Notes %} <div style="overflow:scroll;width:210px;height:110px">{{answer.Notes}}</div>{% endif %}</td>
+              <td style="width: 50px; word-wrap: break-word"><div style="overflow:scroll;width:210px;height:110px">{{answer.TextOne}}</div></td>
+              <td style="width: 50px; word-wrap: break-word"><div style="overflow:scroll;width:210px;height:110px">{{answer.TextTwo}}</div></td>
               <td style="width: 10px;">{{answer.Grade}}</td>
               
     <td style="width: 200px;">
