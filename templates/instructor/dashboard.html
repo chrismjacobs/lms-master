@@ -32,7 +32,7 @@
               <th scope="col">Notes</th> 
               <th scope="col">TextOne</th>
               <th scope="col">TextTwo</th>
-              <th scope="col">Grade</th> 
+              <th scope="col">Great</th> 
               <th scope="col">Comments</th>
               <th scope="col">Edit</th>                
             </tr>
@@ -58,9 +58,9 @@
               <td style="width: 50px; word-wrap: break-word">{% if answer.Notes %} <div style="overflow:scroll;width:210px;height:110px">{{answer.Notes}}</div>{% endif %}</td>
               <td style="width: 50px; word-wrap: break-word"><div style="overflow:scroll;width:210px;height:110px">{{answer.TextOne}}</div></td>
               <td style="width: 50px; word-wrap: break-word"><div style="overflow:scroll;width:210px;height:110px">{{answer.TextTwo}}</div></td>
-              <td style="width: 10px;">{{answer.Grade}}</td>
+              <td style="width: 6px;">{{answer.Grade}}</td>
               
-    <td style="width: 200px;">
+    <td style="width: 30px;">
         <form class="form-openSet" method="post" action="javascript:;" onsubmit="commentSet('{{item}}','{{answer.username}}')">  
 
 	    <div class="form-group">
