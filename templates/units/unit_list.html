@@ -67,12 +67,11 @@
             <td> {{scoreDict[unit.unit + unit.part][1]}}</td>
           </tr>
           <tr class="collapse" id="{{unit.unit}}{{unit.part}}">
-            <td colspan="7"> Only one person on the team needs to write answers. 
-            <br> 
-            <a href="{{href}}/{{unit.unit}}/{{unit.part}}/{{unit.form}}/{{unit.qnum}}"><button class="btn btn-success" type="button"> Write Answers </button></a> Are you writing answers? 
+            <td colspan="7">              
+            <a href="{{href}}/{{unit.unit}}/{{unit.part}}/{{unit.form}}/{{unit.qnum}}"><button class="btn btn-success" type="button"> Writer (1 student) </button></a>
             <br>
-            <br>
-            <a href="{{href}}/{{unit.unit}}/{{unit.part}}/{{unit.form}}/{{unit.qnum}}0"><button class="btn btn-warning" type="button"> See Questions </button></a> Or helping?
+            <br>            
+            <a href="{{href}}/{{unit.unit}}/{{unit.part}}/{{unit.form}}/{{unit.qnum}}0"><button class="btn btn-warning" type="button"> See Questions (helpers) </button></a>
             <br>
             <br>
             </td> 
