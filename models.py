@@ -56,6 +56,7 @@ class AttendLog(db.Model):
 class User(db.Model, UserMixin): #import the model
     id = db.Column(db.Integer, primary_key=True) #kind of value and the key unique to the user
     username =  db.Column(db.String(20), unique=True, nullable=False) #must be a unique name and cannot be null
+    #date_added = db.Column(db.DateTime, default=datetime.now)
     studentID = db.Column(db.String(9), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     image_file = db.Column(db.String(), nullable=False, default='profiles/default.PNG') #images will be hashed to 20 and images could be the same

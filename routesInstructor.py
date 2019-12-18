@@ -138,6 +138,7 @@ def att_log():
 
 
 
+
 def loadAWS():
     jList = [
         [None, None],
@@ -156,8 +157,6 @@ def loadAWS():
 
     return jload
 
-
-
  
 @app.route("/exams", methods = ['GET', 'POST'])
 @login_required
@@ -170,30 +169,39 @@ def exams():
     except: 
         bonusList = []
 
-    jload = loadAWS()
-
-    
+    jload = loadAWS()    
     try:
-        tries = list(jload[current_user.studentID]["P1"].values())
+        
+        tries = [None, 
+                list(jload[current_user.studentID]["P1"].values()), 
+                list(jload[current_user.studentID]["P2"].values())                
+                ]
+        print ('TRY')   
     except:
-        tries = None
+        tries = [None, [],[]]
+        print ('EXCEPT')
 
-     
+    print (reviewList)
+    displayDict = {}
+    for i in range (1,3):
+        displayDict[i] = [reviewList[i-1], tries[i]]
     
-    displayDict = {
-        1 : [reviewList[0], tries]        
-    }
+   
 
     return render_template('instructor/exams.html', title='exams', reviewList=reviewList, bonusList=bonusList, displayDict=displayDict, COLOR_SCHEMA=COLOR_SCHEMA)
 
-gradesList = [
+
+
+
+
+def loadExam():
+    gradesList = [
     [None, None],
     ['reading-lms', "profiles/GradesFRD.json"],
     ['workplace-lms', "profiles/GradesWPE.json"],
     ['icc-lms', "profiles/GradesICC.json"]
-]
-
-def loadExam():
+    ]
+    
     content_object = s3_resource.Object(
         gradesList[int(COLOR_SCHEMA)][0],
         gradesList[int(COLOR_SCHEMA)][1]
