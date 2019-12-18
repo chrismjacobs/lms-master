@@ -218,17 +218,24 @@ def MTGrades():
     print(finalGrades)
     
     finalDict = {}
+
+    scoringDict = {
+        1 : [32, 8, 0 , 0], 
+        2 : [32, 8, 0 , 0],
+        3 : [36, 10, 0 , 0]
+    }
+    sc = scoringDict[int(COLOR_SCHEMA)]
     
     
     for student in finalGrades:
         NAME = finalGrades[student]['NAME']
         MT = int(finalGrades[student]['MT'])/2
-        PART = (   int(finalGrades[student]['PART'])    /32    )*15
-        ASSN = (   int(finalGrades[student]['ASSN'])    /8     )*15 
+        PART = (   int(finalGrades[student]['PART'])    /sc[0]   )*15
+        ASSN = (   int(finalGrades[student]['ASSN'])    /sc[1]   )*15 
         EXAM = 10
         TOTAL = MT + PART + ASSN + EXAM 
 
-        finalDict[int(student)] = [TOTAL, NAME, MT, PART, ASSN, EXAM ]
+        finalDict[int(student)] = [TOTAL, NAME, MT, PART, ASSN, EXAM]
 
     print (finalDict)
         
