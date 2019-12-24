@@ -142,9 +142,9 @@ def att_log():
 def loadAWS():
     jList = [
         [None, None],
-        ['reading-lms', "profiles/ExamFRD.json"],
-        ['workplace-lms', "profiles/ExamWPE.json"],
-        ['icc-lms', "profiles/ExamICC.json"]
+        ['reading-lms', "profiles/GradesFRD.json"],
+        ['workplace-lms', "profiles/GradesWPE.json"],
+        ['icc-lms', "profiles/GradesICC.json"]
     ]   
     content_object = s3_resource.Object(
         jList[int(COLOR_SCHEMA)][0],
@@ -230,7 +230,8 @@ def MTGrades():
     for student in finalGrades:
         NAME = finalGrades[student]['NAME']
         MT = int(finalGrades[student]['MT'])/2
-        PART = (   int(finalGrades[student]['PART'])    /sc[0]   )*15
+        partRaw = (   int(finalGrades[student]['PART'])    /sc[0]   )*15
+        PART = round(partRaw,1)
         ASSN = (   int(finalGrades[student]['ASSN'])    /sc[1]   )*15 
         E1 = finalGrades[student]['E1']
         E2 = finalGrades[student]['E2']
