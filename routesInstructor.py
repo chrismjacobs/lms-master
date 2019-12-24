@@ -6,7 +6,7 @@ from app import app, db, bcrypt, mail
 from flask_login import login_user, current_user, logout_user, login_required
 from forms import *   
 from models import *
-
+from pprint import pprint
 
 try:
     from aws import Settings    
@@ -215,14 +215,14 @@ def loadExam():
 def MTGrades():
     finalGrades = loadExam()
      
-    print(finalGrades)
+    pprint(finalGrades)
     
     finalDict = {}
 
     scoringDict = {
-        1 : [32, 8, 0 , 0], 
-        2 : [32, 8, 0 , 0],
-        3 : [36, 10, 0 , 0]
+        1 : [32, 8, 1 , 1], 
+        2 : [32, 8, 1 , 1],
+        3 : [36, 10, 1 , 1]
     }
     sc = scoringDict[int(COLOR_SCHEMA)]
     
@@ -232,10 +232,15 @@ def MTGrades():
         MT = int(finalGrades[student]['MT'])/2
         PART = (   int(finalGrades[student]['PART'])    /sc[0]   )*15
         ASSN = (   int(finalGrades[student]['ASSN'])    /sc[1]   )*15 
-        EXAM = 10
+        E1 = finalGrades[student]['E1']
+        E2 = finalGrades[student]['E2']
+        B = finalGrades[student]['B']
+        TRIES = [len(finalGrades[student]['P1']),len(finalGrades[student]['P2'])]
+        ATT = 0     
+        EXAM = (int(E1) / sc[2])*10 + (int(E2) / sc[3])*10 
         TOTAL = MT + PART + ASSN + EXAM 
 
-        finalDict[int(student)] = [TOTAL, NAME, MT, PART, ASSN, EXAM]
+        finalDict[int(student)] = [TOTAL, NAME, MT, PART, ASSN, EXAM, E1, E2, TRIES, ATT, B]
 
     print (finalDict)
         
