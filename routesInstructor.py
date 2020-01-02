@@ -220,7 +220,7 @@ def MTGrades():
     finalDict = {}
 
     scoringDict = {
-        1 : [32, 8, 1 , 1], 
+        1 : [32, 8, 28 , 30], 
         2 : [32, 8, 39 , 35],
         3 : [36, 10, 1 , 1]
     }
@@ -233,9 +233,11 @@ def MTGrades():
         partRaw = (   int(finalGrades[student]['PART'])    /sc[0]   )*15
         PART = round(partRaw,1)
         ASSN = (   int(finalGrades[student]['ASSN'])    /sc[1]   )*15 
-        E1 = str(finalGrades[student]['E1']).split('/')[0]
-      
-        E2 = str(finalGrades[student]['E2']).split('/')[0]
+        E1dec = str(finalGrades[student]['E1']).split('/')[0]
+        E1 = round(int(E1dec), 1)
+        print ('E1', E1)
+        E2dec = str(finalGrades[student]['E2']).split('/')[0]
+        E2 = round(int(E2dec), 1)
         B = finalGrades[student]['B']
         TRIES = [len(finalGrades[student]['P1']),len(finalGrades[student]['P2'])]
         ATT = 0     
