@@ -221,7 +221,7 @@ def MTGrades():
 
     scoringDict = {
         1 : [32, 8, 1 , 1], 
-        2 : [32, 8, 1 , 1],
+        2 : [32, 8, 39 , 35],
         3 : [36, 10, 1 , 1]
     }
     sc = scoringDict[int(COLOR_SCHEMA)]
@@ -233,8 +233,9 @@ def MTGrades():
         partRaw = (   int(finalGrades[student]['PART'])    /sc[0]   )*15
         PART = round(partRaw,1)
         ASSN = (   int(finalGrades[student]['ASSN'])    /sc[1]   )*15 
-        E1 = finalGrades[student]['E1']
-        E2 = finalGrades[student]['E2']
+        E1 = str(finalGrades[student]['E1']).split('/')[0]
+      
+        E2 = str(finalGrades[student]['E2']).split('/')[0]
         B = finalGrades[student]['B']
         TRIES = [len(finalGrades[student]['P1']),len(finalGrades[student]['P2'])]
         ATT = 0     
