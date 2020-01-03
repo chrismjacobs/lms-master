@@ -19,6 +19,7 @@ except:
 app = Flask(__name__)
 sslify = SSLify(app)
 app.config.from_object('config.BaseConfig')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 bcrypt = Bcrypt()
 login_manager = LoginManager(app)

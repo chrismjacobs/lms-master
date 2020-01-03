@@ -222,7 +222,7 @@ def MTGrades():
     scoringDict = {
         1 : [32, 8, 28 , 30], 
         2 : [32, 8, 39 , 35],
-        3 : [36, 10, 1 , 1]
+        3 : [34, 12, 30 , 25]
     }
     sc = scoringDict[int(COLOR_SCHEMA)]
     
@@ -233,16 +233,14 @@ def MTGrades():
         partRaw = (   int(finalGrades[student]['PART'])    /sc[0]   )*15
         PART = round(partRaw,1)
         ASSN = (   int(finalGrades[student]['ASSN'])    /sc[1]   )*15 
-        E1dec = str(finalGrades[student]['E1']).split('/')[0]
-        E1 = round(int(E1dec), 1)
-        print ('E1', E1)
-        E2dec = str(finalGrades[student]['E2']).split('/')[0]
-        E2 = round(int(E2dec), 1)
+        E1 = str(finalGrades[student]['E1']).split('/')[0] 
+        E2 = str(finalGrades[student]['E2']).split('/')[0]       
         B = finalGrades[student]['B']
         TRIES = [len(finalGrades[student]['P1']),len(finalGrades[student]['P2'])]
         ATT = 0     
-        EXAM = (int(E1) / sc[2])*10 + (int(E2) / sc[3])*10 
-        TOTAL = MT + PART + ASSN + EXAM 
+        EXAMdec = (int(E1) / sc[2])*10 + (int(E2) / sc[3])*10 
+        EXAM = round(EXAMdec, 1)
+        TOTAL = MT + PART + ASSN + EXAM + B*2
 
         finalDict[int(student)] = [TOTAL, NAME, MT, PART, ASSN, EXAM, E1, E2, TRIES, ATT, B]
 
