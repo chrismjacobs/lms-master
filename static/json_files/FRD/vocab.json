@@ -1,0 +1,1194 @@
+{
+  "01": {
+    "1": {
+      "1": {
+        "w": "Happiness",
+        "e": "",
+        "d": "",
+        "i": "https://bradaronson.com/wp-content/uploads/2013/10/happy.jpg",
+        "l": "",
+        "x": "",
+        "q": "Which activities make you feel happy?",
+        "c": ""
+      },
+
+      "2": {
+        "w": "Happiness",
+        "e": "",
+        "d": "",
+        "i": "",
+        "l": "",
+        "x": "Pleasurable feeling / Feeling down / Positive outlook / Elevated mood / Feeling blue / Negative emotion / Satisfied / Depressed",
+        "q": "What are some synonyms for happiness?",
+        "c": ""
+      },
+
+      "3": {
+        "w": "Sadness",
+        "e": "",
+        "d": "",
+        "i": "https://steemitimages.com/DQmebFz2V6ircizwcQdfdX27pY2CHURGcyTf7YbtjNYJYur/sad.jpg",
+        "l": "",
+        "x": "Pleasurable feeling / Feeling down / Positive outlook / Elevated mood / Feeling blue / Negative emotion / Satisfied / Depressed",
+        "q": "What are some synonyms for sadness?",
+        "c": ""
+      },
+
+      "4": {
+        "w": "Emotion / state of mind",
+        "e": "Happiness it is not a lasting emotion. It is a state of mind that is sometimes hard to maintain.",
+        "d": "Feeling / way of thinking",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_emotion.PNG",
+        "l": "",
+        "x": "",
+        "q": "Try to unscramble these emotions and states of mind",
+        "c": ["1-ohulfpe", "2-oinxasu", "3-obred", "4-osaipanset"]
+      },
+
+      "5": {
+        "w": "Maintain",
+        "e": "With all the pressure in life, it can sometimes be hard to maintain a positive outlook.",
+        "d": "Keep in order, don't let it get out of control",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_maintain.PNG",
+        "l": "",
+        "x": "",
+        "q": "What are some things that we should maintain? ",
+        "c": ""
+      },
+
+      "6": {
+        "w": "Mood",
+        "e": "It is not surprising that physical health directly affects our mood.",
+        "d": "Feeling",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_mood.PNG",
+        "l": "",
+        "x": "",
+        "q": "What is the best color for a classroom to give students a good mood?",
+        "c": ""
+      },
+
+      "7": {
+        "w": "Network",
+        "e": "Just one person for a heart-to-heart is enough, together with a network of other relationships.",
+        "d": "A connected group",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_network.PNG",
+        "l": "",
+        "x": "",
+        "q": "A network of.....(match the pictures)",
+        "c": ["1 - medical centers", "2 sewers", " 3 researchers"]
+      }
+    },
+    "2": {
+      "1": {
+        "w": "Reward",
+        "e": "High-flow activities that are enjoyable but also useful and challenging are most rewarding.",
+        "d": "Something with an achievable goal",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_reward.PNG",
+        "l": "",
+        "x": "",
+        "q": "What rewarding activities do you do that are enjoyable but challenging?",
+        "c": ""
+      },
+
+      "2": {
+        "w": "Contribute / Long-term",
+        "e": "High flow activities are satisfying and contribute to long-term happiness",
+        "d": "add to / future",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_contribute.PNG",
+        "l": "",
+        "x": "eg contribute to long-term saving",
+        "q": "What can contribute to long-term health problems?",
+        "c": ""
+      },
+
+      "3": {
+        "w": "Avoid",
+        "e": "To avoid negative feelings you could find a personal mantra that is meaningful to you.",
+        "d": "stop / stay away from",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_avoid.PNG",
+        "l": "https://www.youtube.com/watch?v=PAsT-PSQoxI",
+        "x": "",
+        "q": "What's one way to avoid negative people?",
+        "c": ""
+      },
+
+      "4": {
+        "w": "Personal Mantra",
+        "e": "This is a phrase that motivates you when you are down.",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_mantra.PNG",
+        "l": "https://www.brainyquote.com/topics/happiness",
+        "x": "",
+        "q": "If you know another motivation phrase, then please write it here :)",
+        "c": ""
+      },
+
+      "5": {
+        "w": "Alternative",
+        "e": "Alternatively, recall happy memories or make plans for future events.",
+        "d": "Another choice",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_alternative.PNG",
+        "l": "",
+        "x": "",
+        "q": "What is an alternative to ____? Line App / Coffee / Rice",
+        "c": ""
+      }
+    },
+    "3": {
+      "1": {
+        "w": "Cause and Effect",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_r2.PNG",
+        "l": "",
+        "x": "",
+        "q": "Why is physical activity important?",
+        "c": ""
+      },
+
+      "2": {
+        "w": "Cause and Effect",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_r2.PNG",
+        "l": "",
+        "x": "",
+        "q": "Why should we spend more time outdoors when the weather is nice?",
+        "c": ""
+      },
+
+      "3": {
+        "w": "Cause and Effect",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_r3.PNG",
+        "l": "",
+        "x": "",
+        "q": "Why do you need at least one close friend?",
+        "c": ""
+      },
+
+      "4": {
+        "w": "Cause and Effect",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_r4.PNG",
+        "l": "",
+        "x": "",
+        "q": "Why should activities be active, not passive?",
+        "c": ""
+      },
+
+      "5": {
+        "w": "Cause and Effect",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_r5.PNG",
+        "l": "",
+        "x": "",
+        "q": "Why is a personal mantra useful for you?",
+        "c": ""
+      },
+
+      "6": {
+        "w": "Synonyms",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_SYN.PNG",
+        "l": "",
+        "x": "",
+        "q": "Write 3 Answers",
+        "c": ""
+      },
+
+      "7": {
+        "w": "Idioms",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_IDM.PNG",
+        "l": "",
+        "x": "",
+        "q": "Write 3 Answers",
+        "c": ""
+      },
+
+      "8": {
+        "w": "Extra",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_SC.PNG",
+        "l": "",
+        "x": "",
+        "q": "Match the sentence with the section",
+        "c": [
+          "A: Manage your Lifestyle",
+          "B: Build Relationships",
+          "C: Follow your Interests",
+          "D: Stay Positive"
+        ]
+      }
+    },
+    "4": {
+      "1": {
+        "w": "Transitions",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_t1.PNG",
+        "l": "",
+        "x": "",
+        "q": "Choose the correct transition words 1/2",
+        "c": ["Furthermore", "Therefore", "Alternatively", "For example"]
+      },
+
+      "2": {
+        "w": "Transitions",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_t2.PNG",
+        "l": "",
+        "x": "",
+        "q": "Choose the correct transition words 3/4",
+        "c": ["Besides", "Since"]
+      },
+
+      "3": {
+        "w": "Transitions",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_t3.PNG",
+        "l": "",
+        "x": "",
+        "q": "Choose the correct transition words 5/6",
+        "c": ["Furthermore", "Therefore", "Alternatively", "For example"]
+      },
+
+      "4": {
+        "w": "Summarize with Lists",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_r2.PNG",
+        "l": "",
+        "x": "",
+        "q": "Manage your lifestyle such as _______, ________, and ________",
+        "c": ["diet", "friends", "exercise", "sleep", "work"]
+      },
+
+      "5": {
+        "w": "Summarize with Lists",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_r3.PNG",
+        "l": "",
+        "x": "",
+        "q": "Build relationships that are _______ and ________",
+        "c": ["strong", "negative", "casual", "close"]
+      },
+
+      "6": {
+        "w": "Summarize with Lists",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_r4.PNG",
+        "l": "",
+        "x": "",
+        "q": "Follow interests that are _______, ________, and ________",
+        "c": ["time-consuming", "useful", "rewarding", "passive", "active"]
+      },
+
+      "7": {
+        "w": "Summarize with Lists",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U05_r5.PNG",
+        "l": "",
+        "x": "",
+        "q": "Stay positive by _______, ________, and ________",
+        "c": [
+          "Finding a personal mantra",
+          "Working hard",
+          "Keeping a journal",
+          "Saving money",
+          "Trying new things"
+        ]
+      }
+    }
+  },
+
+  "06": {
+    "1": {
+      "1": {
+        "w": "Team",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_warmup.PNG",
+        "l": "",
+        "x": "",
+        "q": "How many people on your team are 'good' at managing money?",
+        "c": ""
+      },
+
+      "2": {
+        "w": "Money phrases",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_moneyphrases.PNG",
+        "l": "",
+        "x": "",
+        "q": "Match the phrases with the pictures",
+        "a": ["A4 - B5 - C2 - D1 - E3"]
+      },
+
+      "3": {
+        "w": "Personal",
+        "e": "",
+        "d": "Anything about you",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_personal.PNG",
+        "l": "",
+        "x": "",
+        "q": "Match the sentences and pictures",
+        "c": ""
+      },
+
+      "4": {
+        "w": "Possessions",
+        "e": "Try maintaining your own possessions by yourself. ",
+        "d": "things you own, belongings",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_possessions.PNG",
+        "l": "",
+        "x": "",
+        "q": "What is an expensive possession you have that you hope will last a long time? ",
+        "c": ""
+      },
+
+      "5": {
+        "w": "Budget",
+        "e": "Without a shopping list, we typically end up making impulse buys, so never go window shopping when you're on a budget.",
+        "d": "deciding how much to spend on things",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_budget.PNG",
+        "l": "",
+        "x": "",
+        "q": "How can this person save money?",
+        "c": ""
+      }
+    },
+    "2": {
+      "1": {
+        "w": "Purchase",
+        "e": "Secondly, master the 30-day rule. If you're thinking about a big purchase, wait one month.",
+        "d": "purchase (n) = something you buy",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_purchase.PNG",
+        "l": "",
+        "x": "",
+        "q": "What is a purchase that you want (but don't need)?",
+        "c": ""
+      },
+
+      "2": {
+        "w": "Appliance",
+        "d": "A machine that does work at home.",
+        "e": "If you're buying an appliance do research for quality brands that last longer. ",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_appliance.PNG",
+        "l": "",
+        "x": "",
+        "q": "Name 3 of the appliances in the picture",
+        "c": ""
+      },
+
+      "3": {
+        "w": "affordable / inexpensive",
+        "e": "Many bad habits cost money. Smoking, drinking, sweet snacks or coffee may seem affordable today, but really add up over time.",
+        "d": "cheap",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_affordable.PNG",
+        "l": "",
+        "x": "",
+        "q": "Which parts of New Taipei City are most affordable for housing? ",
+        "c": ""
+      },
+
+      "4": {
+        "w": "cost-efficient ",
+        "e": "Driving the speed limit is far more cost-efficient and avoids expensive fines and accidents.",
+        "d": "cost is down - effect is up ",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_cost-efficient.PNG",
+        "l": "",
+        "x": "",
+        "q": "He tried to ________ his daily commute more cost-efficient.",
+        "c": ["make", "made", "making"],
+        "a": "to make  (infintive)"
+      },
+
+      "5": {
+        "w": "Take Advantage",
+        "e": "Get online and take advantage of all the free stuff.",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_advantage.PNG",
+        "l": "",
+        "x": "",
+        "q": "Is there any free stuff at university that you can take advantage of?",
+        "c": ""
+      }
+    },
+    "3": {
+      "1": {
+        "w": "DIY Hacks",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_Text2.PNG",
+        "l": "",
+        "x": "",
+        "q": "Why should you maintain your own possessions?",
+        "c": [
+          "Because they can last longer.",
+          "Because you can get free stuff.",
+          "Because something you need might just be something you want."
+        ]
+      },
+
+      "2": {
+        "w": "Use your knowledge",
+        "e": "",
+        "d": "",
+        "i": "",
+        "l": "",
+        "x": "You can make gifts that have a PERSONAL TOUCH quite easily and inexpensively.",
+        "q": "What are some gifts someone could make by themselves?",
+        "c": ""
+      },
+
+      "3": {
+        "w": "Shopping Skills",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_Text3.PNG",
+        "l": "",
+        "x": "",
+        "q": "Why is the 30-day rule important?",
+        "c": ""
+      },
+
+      "4": {
+        "w": "Give Examples",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_impulse.PNG",
+        "l": "",
+        "x": "",
+        "q": "Give an example of impulse buying",
+        "c": [
+          "For example, buy another cool t-shirt that you don't need.",
+          "For example, buy 10 meals and get one free.",
+          "For example, wash your hands regularly"
+        ]
+      },
+      "5": {
+        "w": "Lifestyle Choices",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_Text4.PNG",
+        "l": "",
+        "x": "",
+        "q": "Why is it cheaper to drive the speed-limit?",
+        "c": ""
+      },
+      "6": {
+        "w": "Give Examples",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_hygiene.PNG",
+        "l": "",
+        "x": "",
+        "q": "Give an example of basic hygiene",
+        "c": [
+          "For example, buy another cool t-shirt that you don't need.",
+          "For example, wash your hands regularly.",
+          "For example, buy 10 meals and get one free."
+        ]
+      },
+      "7": {
+        "w": "Take Advantage",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_Text5.PNG",
+        "l": "",
+        "x": "",
+        "q": "Why should you sign-up for loyalty card plans? ",
+        "c": ""
+      },
+
+      "8": {
+        "w": "Give Examples",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_loyalty.PNG",
+        "l": "",
+        "x": "",
+        "q": "Give an example of a loyalty promotion",
+        "c": [
+          "For example, buy another cool t-shirt that you don't need.",
+          "For example, wash your hands regularly.",
+          "For example, buy 10 meals and get one free."
+        ]
+      }
+    },
+
+    "4": {
+      "1": {
+        "w": "Key Words",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_s1.PNG",
+        "l": "",
+        "x": "",
+        "q": "Summarize this paragraph",
+        "a": "creating gifts; repairing clothes; maintaining possessions; reusing junk"
+      },
+
+      "2": {
+        "w": "Key Words",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_s2.PNG",
+        "l": "",
+        "x": "",
+        "q": "Summarize this paragraph",
+        "c": "making lists; wait before buying; researching for quality-brands"
+      },
+
+      "3": {
+        "w": "Key Words",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_s3.PNG",
+        "l": "",
+        "x": "",
+        "q": "Summarize this paragraph",
+        "c": "quit bad habits; keep healthy; driving safe"
+      },
+
+      "4": {
+        "w": "Key Words",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_s4.PNG",
+        "l": "",
+        "x": "",
+        "q": "Summarize this paragraph",
+        "c": "suggest free-entertainment; sign up for loyalty cards; research online"
+      },
+
+      "5": {
+        "w": "Add Info",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U06_addinfo.PNG",
+        "l": "",
+        "x": "",
+        "q": "",
+        "a": [
+          "1: Lifestlye Choices; 2: shopping Skills; 3: Take Advantage; 4: DIY Hacks"
+        ]
+      }
+    }
+  },
+
+  "07": {
+    "1": {
+      "1": {
+        "w": "Warm Up",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U07_warmup.PNG",
+        "l": "",
+        "x": "",
+        "q": "Choose three of these words that are synonyms for smart",
+        "c": ""
+      },
+
+      "2": {
+        "w": "Daily List",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U07_list.PNG",
+        "l": "",
+        "x": "Look at the 24 daily 'smart' habits to boost your intelligence:",
+        "q": "Figure out out three of the hidden words",
+        "c": ["Just 3!"]
+      },
+
+      "3": {
+        "w": "Multiple",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U07_multiple.PNG",
+        "l": "",
+        "x": "",
+        "q": "Which intelligences would your team like to improve?",
+        "c": ["One or more than one"]
+      },
+
+      "4": {
+        "w": "Intelligence",
+        "e": "Reading is often described as the secret to intelligence.",
+        "d": "Having knowledge and skills",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U07_intelligence.PNG",
+        "l": "",
+        "x": "",
+        "q": "Match the sentences and pictures",
+        "c": ""
+      },
+
+      "5": {
+        "w": "Combine",
+        "e": "Combine your motivation to learn with these four methods to increase your intelligence.",
+        "d": "Mix things together, combination ",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U07_combine.PNG",
+        "l": "",
+        "x": "",
+        "q": "Which smoothie combination would you like to try? ",
+        "c": ""
+      },
+
+      "6": {
+        "w": "Creative",
+        "e": "The two main ways to exercise your brain are solving problems or being creative.",
+        "d": "using imagination to create new things",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U07_creative.PNG",
+        "l": "",
+        "x": "",
+        "q": "What are some creative hobbies?",
+        "c": ""
+      },
+
+      "7": {
+        "w": "Strategy",
+        "e": "If you want to train your brain to solve problems, try strategy based games such as chess or even some video games.",
+        "d": "A plan to achieve a goal",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U07_strategy.PNG",
+        "l": "",
+        "x": "",
+        "q": "What strategy based games do you know how to play?",
+        "c": ""
+      }
+    },
+    "2": {
+      "1": {
+        "w": "Educate",
+        "e": "Education is an understanding of the world around you / Educate yourself ",
+        "d": "teach, train, instruct - help someone learn",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U07_educate.PNG",
+        "l": "",
+        "x": "",
+        "q": "How can people educate themselves? (with no teacher)",
+        "c": ""
+      },
+
+      "2": {
+        "w": "Curious",
+        "e": "People who are naturally curious learn by actively searching for answers.",
+        "d": "want to know more",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U07_curious.PNG",
+        "l": "https://www.youtube.com/watch?v=RiVnZM1-BCY",
+        "x": "",
+        "q": "What is a synonym for CURIOUS?",
+        "c": ""
+      },
+
+      "3": {
+        "w": "Aware",
+        "e": "Read books of all genres and follow the newspapers to become more aware of the important things happening around the world.",
+        "d": "know something",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U07_aware.PNG",
+        "l": "",
+        "x": "",
+        "q": "As he woke up, he __________ aware his surroundings",
+        "c": ["become", "became", "becoming"]
+      },
+
+      "4": {
+        "w": "Genre",
+        "e": "",
+        "d": "A kind of book, movies, or video game",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U07_genre.PNG",
+        "l": "",
+        "x": "What kind of genre is popular on your team?",
+        "q": "",
+        "c": ""
+      },
+
+      "5": {
+        "w": "Key",
+        "e": "Keeping an open mind is key to learning new things.",
+        "d": "something important for something else",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U07_key.PNG",
+        "l": "",
+        "x": "",
+        "q": "Find suitable words for 1,2,3",
+        "c": ["1 _______ is the key to happiness", "2 _______ is the key to success", "3 _______ is the key to learning"]
+      }
+     
+    },
+    "3": {
+      "1": {
+        "w": "Key Phrases",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U07_text1.PNG",
+        "l": "",
+        "x": "",
+        "q": "What are the two main ways to exercise your brain? ",
+        "c": ""
+      },
+
+      "2": {
+        "w": "Extra Details",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U07_text1.PNG",
+        "l": "",
+        "x": "",
+        "q": "Besides drawing, painting or playing music, what is another way to be creative?",
+        "c": ""
+      },
+
+      "3": {
+        "w": "Key Phrases",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U07_text2.PNG",
+        "l": "",
+        "x": "",
+        "q": "What educational videos are recommended?",
+        "c": ""
+      },
+
+      "4": {
+        "w": "Extra Details",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U07_text2.PNG",
+        "l": "",
+        "x": "",
+        "q": "Reading is the secret to intelligence. What reading advice is given?",
+        "c": ""
+      },
+
+      "5": {
+        "w": "Key Phrases",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U07_text3.PNG",
+        "l": "",
+        "x": "",
+        "q": "How does making lists help you get smarter?",
+        "c": ""
+      },
+
+      "6": {
+        "w": "Extra Details",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U07_text3.PNG",
+        "l": "",
+        "x": "",
+        "q": "What is one way to be active with your knowledge?",
+        "c": ""
+      },
+
+      "7": {
+        "w": "Key Phrases",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U07_text4.PNG",
+        "l": "",
+        "x": "",
+        "q": "Where can you travel to get new information?",
+        "c": ""
+      },
+
+      "8": {
+        "w": "Extra Details",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U07_text4.PNG",
+        "l": "",
+        "x": "",
+        "q": "How can new people help you get smarter?",
+        "c": ""
+      }
+    },
+    "4": {
+      "1": {
+        "w": "Topic Sentence",
+        "e": "",
+        "d": "Exercise your Brain",
+        "i": "",
+        "l": "",
+        "x": "",
+        "q": "like / is   / brain / a muscle  / Your /  -  / have  /it. / to / You / exercise ",
+        "c": ""
+      },
+
+      "2": {
+        "w": "Topic Sentence",
+        "e": "",
+        "d": "Educate yourself",
+        "i": "",
+        "l": "",
+        "x": "",
+        "q": "of /  is /  Education  / you.  / the world  / around  / an understanding",
+        "c": ""
+      },
+
+      "3": {
+        "w": "Topic Sentence",
+        "e": "",
+        "d": "Develop Good Habits",
+        "i": "",
+        "l": "",
+        "x": "",
+        "q": "develop / people / successful. / daily /  habits /  to be / Smart",
+        "c": ""
+      },
+
+      "4": {
+        "w": "Topic Sentence",
+        "e": "",
+        "d": "Expand your Horizons",
+        "i": "",
+        "l": "",
+        "x": "",
+        "q": " an / mind  / is key  / things. / Keeping /  to learning  / new / open ",
+        "c": ""
+      },
+
+      "5": {
+        "w": "Add Information",
+        "e": "",
+        "d": "",
+        "i": "",
+        "l": "",
+        "x": "Do something that scares you and you will learn a lot from the experience. ",
+        "q": "Which section for this detail?",
+        "c": ["Exercise your Brain", "Educate yourself", "Develop Good Habits", "Expand your Horizons"]     
+      
+      },
+
+      "6": {
+        "w": "Add Information",
+        "e": "",
+        "d": "",
+        "i": "",
+        "l": "",
+        "x": "Spend time with smart people and ask as many questions as possible.",
+        "q": "Which section for this detail?",
+        "c": ["Exercise your Brain", "Educate yourself", "Develop Good Habits", "Expand your Horizons"]
+      },
+
+      "7": {
+        "w": "Add Information",
+        "e": "",
+        "d": "",
+        "i": "",
+        "l": "",
+        "x": "Do math problems which makes your brain work hard and think faster. ",
+        "q": "Which section for this detail?",
+        "c": ["Exercise your Brain", "Educate yourself", "Develop Good Habits", "Expand your Horizons"]
+      },
+
+      "8": {
+        "w": "Add Information",
+        "e": "",
+        "d": "",
+        "i": "",
+        "l": "",
+        "x": "Write a journal everyday with three new facts and three new questions.  ",
+        "q": "Which section for this detail?",
+        "c": ["Exercise your Brain", "Educate yourself", "Develop Good Habits", "Expand your Horizons"]
+      }
+    }
+  },
+
+  "08": {
+    "1": {
+      "1": {
+        "w": "Warm Up",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U08_warmup.PNG",
+        "l": "",
+        "x": "",
+        "q": "Match the words with pictures",
+        "c": ["high season", "tourism pass", "passport", "embassy"]  
+      },
+
+      "2": {
+        "w": "Warm Up",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U08_warmup.PNG",
+        "l": "",
+        "x": "",
+        "q": "Match the words with pictures",
+        "c": ["expenses", "travel light", "travel blog", "visa"] 
+      },
+
+      "3": {
+        "w": "Destination",
+        "e": "If you are like most people, travel to special destination is probably on your bucket list.",
+        "d": "where you are going to",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U08_destination.PNG",
+        "l": "",
+        "x": "",
+        "q": "Which is the most visited destination?",
+        "c": ["New York", "London", "Paris", "Bangkok", "Singapore"]
+      },
+
+      "4": {
+        "w": "Types of Vacation",
+        "e": "Whether it's a short relaxing getaway, or an adventurous backpacking trip, some travel tips will make it a better experience.",
+        "d": "tips --> advice or suggestions",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U08_vacation.PNG",
+        "l": "",
+        "x": "",
+        "q": "",
+        "c": ["relaxing getaway", "backpacking trip", "city tour", "nature vacation"]
+        
+      },
+
+      "5": {
+        "w": "shoulder season / deals",
+        "e": "As an alternative, if you travel during the shoulder season (between high and low), you can get cheap deals and some nice weather too.",
+        "d": "a nice and cheap time to travel",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U08_season.PNG",
+        "l": "",
+        "x": "",
+        "q": "She travels to Thailand during the shoulder season which ______ from April to June.",
+        "c": ["is", "was", "are","will be"], 
+        "a": "travels --> present tense 'is'"
+      },
+
+      "6": {
+        "w": "Essential",
+        "e": "If you want to travel light, find out what essential items you need to bring and start packing early.",
+        "d": "important",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U08_essential.PNG",
+        "l": "",
+        "x": "",
+        "q": "What are some essential items for winter travel / summer travel?",
+        "c": ""
+      }
+    },
+    "2": {
+      "1": {
+        "w": "Accommodation",
+        "e": "Make sure you include all travel expenses such as transport, accommodation, and daily meals.",
+        "d": "places you can stay",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U08_accomodation.PNG",
+        "l": "",
+        "x": "",
+        "q": "",
+        "c": ["rental", "resort", "hostel", "couchsurfing"]
+        
+      },
+
+      "2": {
+        "w": "Splurge",
+        "e": "Be sure you leave yourself some cash to splurge on something special or use in emergencies.",
+        "d": "spending money freely",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U08_splurge.PNG",
+        "l": "",
+        "x": "",
+        "q": "What do people like to splurge on when they travel?",
+        "c": ""
+      },
+
+      "3": {
+        "w": "Attractions",
+        "e": "Also, many cities offer some kind of tourism pass that saves money on visiting tourist attractions like museums, tours, and historical sites.",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U08_attractions.PNG",
+        "l": "https://www.youtube.com/watch?v=SwMuIsNHuWw",
+        "x": "",
+        "q": "Do you know these popular historical attractions?",
+        "c": ["Colosseum", "Tower Bridge", "Taj Mahal", "Machu Picchu"]        
+      },
+
+      "4": {
+        "w": "target",
+        "e": "Last, if you look like a tourist and you're in an unfamiliar place, you can easily become a target.",
+        "d": "someone who criminals will see",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U08_target.PNG",
+        "l": "https://www.youtube.com/watch?v=nftzMoYCdjU",
+        "x": "",
+        "q": "How can you avoid being a target when you are a tourist?",
+        "c": ["https://www.youtube.com/watch?v=dgOsOBjOF1s"]
+      },
+
+      "5": {
+        "w": "emergency",
+        "e": "The first safety tip is to keep a list of emergency contacts such as your embassy, local emergency services.",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U08_emergency.PNG",
+        "l": "",
+        "x": "Emergency ___________",
+        "q": "Match the pictures",
+        "c": ["contact", "services", "funds", "exit"]        
+      }
+    },
+    "3": {
+      "1": {
+        "w": "Key Words",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U08_text2.PNG",
+        "l": "",
+        "x": "",
+        "q": "Read ____________ and ask ______________ to learn about different destinations",
+        "c": ""
+      },
+
+      "2": {
+        "w": "Use your Knoweledge",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U08_text2.PNG",
+        "l": "",
+        "x": "'You can get cheap deals and some nice weather too.'",
+        "q": "What kind of things will be cheaper?",
+        "c": ""
+      },
+
+      "3": {
+        "w": "Use your Knoweledge",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U08_text2.PNG",
+        "l": "",
+        "x": "Remember you can buy most things you need as you travel",
+        "q": "What are some things you might buy as you need them?",
+        "c": ""
+      },
+
+      "4": {
+        "w": "Key Words",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U08_text3.PNG",
+        "l": "",
+        "q": "Be sure you leave yourself some cash to splurge on _____________or use in _______________.",        
+        "c": ""
+      },
+
+      "5": {
+        "w": "Examples",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U08_text3.PNG",
+        "l": "",
+        "x": "",
+        "q": "What are some examples of travel expenses?",
+        "c": ""
+      },
+
+      "6": {
+        "w": "Examples",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U08_text4.PNG",
+        "l": "",
+        "x": "",
+        "q": "What documents should you make copies of?",
+        "c": ""
+      },
+
+      "7": {
+        "w": "Key Words",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U08_text4.PNG",
+        "l": "",
+        "x": "",
+        "q": "Keep details of your accommodation in ___________ and the____________",
+        "c": ""
+      },
+
+      "8": {
+        "w": "Use your Knowledge",
+        "e": "",
+        "d": "",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U08_text4.PNG",
+        "l": "",
+        "x": "Keep an eye on your possessions at all times and avoid non-tourist areas at night.",
+        "q": "What possessions should you always keep an eye on?",
+        "c": ""
+      }
+    },
+    "4": {
+      "1": {
+        "w": "Summarize",
+        "e": "",
+        "d": "Do some Planning",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U08_s1.PNG",
+        "l": "",
+        "x": "",
+        "q": "Add the key word to summarize each section",
+        "c": ""
+      },
+
+      "2": {
+        "w": "Summarize",
+        "e": "",
+        "d": "Create your Budget",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U08_s2.PNG",
+        "l": "",
+        "x": "",
+        "q": "Add the key word to summarize each section",
+        "c": ""
+      },
+
+      "3": {
+        "w": "Summarize",
+        "e": "",
+        "d": "Travel Safe",
+        "i": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/images/U08_s3.PNG",
+        "x": "",
+        "q": "Add the key word to summarize each section",
+        "c": ""
+      },
+
+      "4": {
+        "w": "Add Info",
+        "e": "",
+        "d": "",
+        "i": "",
+        "l": "",
+        "x": "If you want to check out the night life, never leave your drink unattended.",
+        "q": "Which section?",
+        "c": ["Do some Planning",  "Create your Budget",  "Travel Safe"]
+    
+      },
+
+      "5": {
+        "w": "Add Info",
+        "e": "",
+        "d": "",
+        "i": "",
+        "l": "",
+        "x": "If your want to splurge on an unforgettable activity, find ways to eat, sleep or travel cheaper. ",
+        "q": "Which section?",
+        "c": ["Do some Planning",  "Create your Budget",  "Travel Safe"]
+      },
+
+      "6": {
+        "w": "Add Info",
+        "e": "",
+        "d": "",
+        "i": "",
+        "l": "",
+        "x": "If you learn local phrases like hello or thank you, you can meet more people maybe get some extra tips.",
+        "q": "Which section?",
+        "c": ["Do some Planning",  "Create your Budget",  "Travel Safe"]
+      }
+    }
+  }
+}

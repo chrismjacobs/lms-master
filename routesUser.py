@@ -247,7 +247,7 @@ def audioUpload():
     answers = json.loads(ansDict)
     print(answers)
 
-    srcDict = get_sources()   
+    srcDict = get_sources('src')   
     date = srcDict['SOURCES'][unit]['Date']
     dt = srcDict['SOURCES'][unit]['Deadline']
     deadline = datetime.strptime(dt, '%Y-%m-%d') + timedelta(days=1)    
@@ -311,7 +311,7 @@ def audioUpload():
 @login_required
 def ass(unit): 
 
-    srcDict = get_sources()
+    srcDict = get_sources('src')
     source = srcDict['SOURCES'][unit]['Materials']['A']
 
 
