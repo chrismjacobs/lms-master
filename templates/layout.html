@@ -27,27 +27,26 @@
                         <span class="navbar-toggler-icon"></span> <!--makes nav icon appear-->
                       </button>
                       <div class="collapse navbar-collapse" id="navbarToggle" data-toggle="collapse" data-target=".navbar-collapse.show">
+                      <!-- Navbar Right Side -->                        
+                        <div class="navbar-nav">
+                        {% if current_user.id == 1 %}
+                        <div class="navbar-nav mr-auto">
+                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('att_int') }}", target="_blank">Controls</a>                                   
+                        </div>                                                                       
+                        {% endif %} 
+                        
                         <div class="navbar-nav mr-auto">
                           <a class="nav-item nav-link" href= "{{ url_for ('home') }}">Home</a>                        
                           <a class="nav-item nav-link" href= "{{ url_for ('about') }}">About</a>                                             
                         </div>
                       
-                        <!-- Navbar Right Side -->                        
-                        <div class="navbar-nav">
-                        {% if current_user.id == 1 %}
-                        <div class="navbar-nav mr-auto">
-                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('att_int') }}", target="_blank">Controls</a>                                   
-                        </div>
-                                                                       
-                        {% endif %}      
+                             
                         {% if current_user.is_authenticated %}
                         <div class="navbar-nav">
                           <a class="nav-item nav-link" href= "{{ url_for ('att_team') }}">Attendance</a>  
                           <a class="nav-item nav-link" href="{{ url_for ('course') }}">My Course</a>
                           <a class="nav-item nav-link" href="{{ url_for ('unit_list') }}">My Units</a>
-                          <a class="nav-item nav-link" href="{{ url_for ('assignment_list') }}">My Assignments</a> 
-                          <a style="background:plum; color:white" class="nav-item nav-link" href="https://pacific-peak-01747.herokuapp.com/">Vocab Challenge</a>
-                          <a class="nav-item nav-link" href="{{ url_for ('exams') }}">My Exams</a>
+                          <a class="nav-item nav-link" href="{{ url_for ('assignment_list') }}">My Assignments</a>                           
                           <a class="nav-item nav-link" href="{{ url_for ('account') }}">My Account</a>                           
                           <a class="nav-item nav-link" href="{{ url_for ('logout') }}">Logout</a>
                         {% else %}

@@ -6,11 +6,10 @@ static/jsonFiles
 setup.txt
 todo.txt
 aws.py
-spreadsheet.py
-vocabData.py
-partNames.py
-courseData.py
-gradeData.py
+0sheets.py
+0grade.py
+0putS3.py
+0attForm.py
 .env
 venv
 

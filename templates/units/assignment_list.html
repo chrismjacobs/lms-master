@@ -2,92 +2,139 @@
 
 {% block content %}
 
-<div class="content-section">
-<h3 style="display: inline-block"> Assignments</h3>
-<button id=color type="button" class="btn btn-dark" style="float:right;" disabled value={{color}}>Performance: {{pointCounter}}/{{total}}</button>	
-<div >
-  <h5> Complete assignments before the deadline to get maximum points</h5> 
-  <h5> (30% of final grade)</h5>  
-</div>
+<span id="Table" style="display:none">{{Dict}}</span>
+<span id="max" style="display:none">{{max}}</span>
+<span id="Grade" style="display:none">{{Grade}}</span>
+
+<div id="vue-app">
+
+<div class="content-section" :style="headStyle()">
+<h3 style="display: inline-block"> Assignments: {{Grade}}/{{max}} </h3>
+
+  <div>
+    <h5> Complete assignments before the deadline to get maximum points</h5> 
+    <h5> (30% of final grade)</h5>  
+  </div>
 </div>
 
-<div class="content-section">
-    <legend class="border-bottom mb-4">{{ legend }}</legend>
+<div class="content-section">        
     
     <div style="overflow-x:auto;">
-    <table class="table table-sm">
-      <thead>
-          <tr>
-            <th scope="col" style="width: 3px;">Unit</th>                       
-            <th scope="col" style="width: 10px;">Title</th>            
-            <th scope="col" style="width: 3px;">Due</th>
-            <th scope="col" style="width: 20px;">Score</th>      
-            <th scope="col" style="width: 20px;"></th>                       
-          </tr>
-      </thead>
-
-      
-          
-      {% for i in srcDictList %}      
-      <tbody id="body{{i}}">
-          <tr style="height:50px;">
-            <th scope="row" >{{srcDict[i][0].unit}}</th>                                 
-            <td> <a href="{{href}}/{{srcDict[i][0].unit}}">{{srcDict[i][0].title}}</a></td>
-            <td> {{srcDict[i][0].assDate.strftime('%b %d')}}</td>            
-            <td id="score{{i}}"> {{srcDict[i][1]}}</td>
-            <td> {{srcDict[i][2]}}</td>
-          </tr>       
-      </tbody>      
-      
-      {% endfor %}
-      
+      <table class="table table-sm">
+        <thead>
+            <tr>
+              <th scope="col" ></th>  
+              <th scope="col" ></th>
+              <th scope="col" ></th>                       
+            </tr>
+        </thead> 
+        
+        <tbody>
+        <template v-for="(unit, key) in assOBJ"  :key="key" > 
+            <tr :bgcolor="bgStyle(unit.Grade)">
+              <td @click="goTo(key)"> <span class="unit-span" style="background:{{theme}}"> &emsp;&emsp;[[  key  ]]&emsp;&emsp; </span> </td>    
+              <td colspan ="2"> [[  unit.Comment  ]] </td>  
+            </tr>
+            <tr>
+              <td> [[  unit.Title  ]] </td>  
+              <td> [[  unit.Deadline  ]] </td>
+              <td> [[  unit.Grade  ]] </td>                
+            </tr>  
+            </template>     
+            
+        </tbody>   
+   
       </table>
-      </div>
+    </div>
 
-{% endblock content %}
+</div>   
+   
 
-  
-{% block script %}         
+</div> <!-- end of Vue app -->
 
-<script type="text/javascript">
 
-let color = document.getElementById('color').value
-let button = document.getElementById('color')
+{% endblock %}
 
-if (color < .4) {
-  button.style.background='#E74C3C'; 
-} else if (color < .6 ) {
-  button.style.background='#E59866'; 
-} else if (color < .8 ) {
-  button.style.background='#BB8FCE'; 
-} else if (color < 1) {
-  button.style.background='#17A589'; 
-} else {
-  button.style.background='#229954'; 
+{% block script %}   
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+
+<script type="text/javascript" >
+
+var Table = document.getElementById('Table').innerHTML
+var OBJ = JSON.parse(Table)
+console.log('unitOBJ', OBJ);
+var max = parseInt(document.getElementById('max').innerHTML)
+var Grade = parseInt(document.getElementById('Grade').innerHTML)
+
+
+console.log(navigator.userAgent);
+
+if (Grade > 0){
+  var colorFloat = Grade / max
+  console.log('1', colorFloat);
+}
+else{
+  var colorFloat = 0
+  console.log('0', colorFloat);
 }
 
-for (i = 0; i < 12; i++) {
+startVue(OBJ, colorFloat)
 
-try {  
-  var row = document.getElementById('score'+ i)
-  var body = document.getElementById('body'+ i)
-  
-  if (row.innerHTML == 1) {
-    body.style.backgroundColor = "lightblue";
-  }
-  else if (row.innerHTML == 2) {
-    body.style.backgroundColor = "lightgreen";
-  }
-  else {
-    body.style.backgroundColor = "lightcoral";
-  }
+function startVue(assOBJ, colorFloat){ new Vue({   
 
-}
-catch(err) {}
-}//end for 
+    el: '#vue-app',
+    delimiters: ['[[', ']]'],
+
+    data: {
+        assOBJ: assOBJ,              
+        colorFloat: colorFloat                       
+    }, 
+    methods: {
+        headStyle: function(){           
+            if (colorFloat < .4) {
+                var background ='salmon'; 
+              } else if (colorFloat < .6 ) {
+                var background ='lightpink'; 
+              } else if (colorFloat < .8 ) {
+                var background ='peachpuff'; 
+              } else if (colorFloat < 1) {
+                var background ='lemonchiffon'; 
+              } else {
+                var background ='honeydew'; 
+              } 
+            console.log('color', background);            
+            return {background : background }        
+        },
+        bgStyle: function(grade){ 
+          
+            if (grade == 1) {
+                background = "lightblue";
+              }
+              else if (grade == 2) {
+                background = "lightgreen";
+              }
+              else {
+                background = "mistyrose";
+              }
+            console.log(background, grade);         
+            return background         
+        }, 
+        goTo: function(key){
+          let url = (window.location.href).split('assignments')[0] + 'ass/' + key
+          console.log('goTO', url);
+            window.location = url
+            console.log('DONE');
+        }
+                  
+    }         
+})// end NEW VUE
 
 
-</script>
 
-  
+}// endFunction 
+
+</script>  
+
 {% endblock %} 
+

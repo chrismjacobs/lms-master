@@ -2,107 +2,263 @@
 
 {% block content %}
 
-<div class="content-section">
-<h3 style="display: inline-block"> Class Participation</h3>
-<button id=color type="button" class="btn btn-dark" style="float:right;" disabled value={{color}}>Performance: {{pointCounter}}/{{total}}</button>	
-<div >
-  <h5> Join a team in class to do the work or complete by yourself before the deadline</h5> 
-  <h5> (30% of final grade)</h5>  
-</div>
+<span id="Table" style="display:none">{{Dict}}</span>
+<span id="max" style="display:none">{{max}}</span>
+<span id="Grade" style="display:none">{{Grade}}</span>
+
+<div id="vue-app">
+
+<div class="content-section" :style="headStyle()">
+<h3 style="display: inline-block"> Assignments: {{Grade}}/{{max}} </h3>
+
+  <div>
+    <h5> Join a team in class to do the work or complete by yourself before the deadline</h5> 
+    <h5> (30% of final grade)</h5>
+  </div>
 </div>
 
-<div class="content-section">
-    <legend class="border-bottom mb-4">{{ legend }}</legend>
+<div class="content-section">        
     
     <div style="overflow-x:auto;">
-    <table class="table table-sm">
-      <thead>
-          <tr >
-            <th scope="col" style="width: 3px;">Link</th>
-            <th scope="col" style="width: 3px;">Unit</th>            
-            <th scope="col" style="width: 10px;">Title</th>
-            <th scope="col" style="width: 3px;">Class</th>
-            <th scope="col" style="width: 3px;">Due</th>
-            <th scope="col" style="width: 20px;">Score</th>      
-            <th scope="col" style="width: 20px;"></th>                       
-          </tr>
-      </thead>
+      <table class="table table-sm">
+        <thead>
+            <tr>
+              <th scope="col" ></th>  
+              <th scope="col" ></th>
+              <th scope="col" ></th>                       
+            </tr>
+        </thead> 
+        
+        <tbody>
+        <template v-for="(unit, key) in unitOBJ"  :key="key" > 
+            <tr :bgcolor="bgStyle(unit.Grade)">
 
-      
-           
-      {% for unit in sourceList %}
-      
-      {% if unit.openSet == 1 %}
-      <tbody >
-          <tr style="height:50px;">
-          {% if team == True %}
-              <th scope="row" ><button class="btn btn-info btn-sm" type="button" data-toggle="collapse" data-target="#{{unit.unit}}{{unit.part}}"> 
-              Open</button></th>
-          {% else %}
-              <th scope="row" ><a href="{{href}}/{{unit.unit}}/{{unit.part}}/{{unit.form}}/{{unit.qnum}}"><button class="btn btn-info btn-sm" type="button"> 
-              Open
-              </button></a></th>
-          {% endif %}
-      {% elif unit.openSet == 2 %}
-      <tbody style="color:rgb(221, 150, 35)">
-          <tr>
-              <th scope="row" >Closed during class</a></th>
-      {% else %}
-      <tbody style="display:none">
-          <tr>
-              <th scope="row" >Not open yet</a></th>
-      {% endif %}
-          
-            <td> {{unit.unit}}-{{unit.part}}</td>                      
-            <td> {{unit.title}} </td> <!--({{unit.qnum}})--> 
-            <td> {{unit.classdate.strftime('%b %d')}}</td>  
-            <td> {{unit.duedate.strftime('%b %d')}}</td>
-            {% if scoreDict[unit.unit + unit.part][0] ==2 %}              
-            <td style="background:lightgreen"> {{scoreDict[unit.unit + unit.part][0]}}/2</td>
-            {% elif scoreDict[unit.unit + unit.part][0] ==1 %}              
-            <td style="background:lightblue"> {{scoreDict[unit.unit + unit.part][0]}}/2</td>            
-            {% else %}
-            <td style="background:lightcoral"> {{scoreDict[unit.unit + unit.part][0]}}/2</td>
-            {% endif %}
-            <td> {{scoreDict[unit.unit + unit.part][1]}}</td>
-          </tr>
-          <tr class="collapse" id="{{unit.unit}}{{unit.part}}">
-            <td colspan="7">              
-            <a href="{{href}}/{{unit.unit}}/{{unit.part}}/{{unit.form}}/{{unit.qnum}}"><button class="btn btn-success" type="button"> Writer (1 student) </button></a>
-            <br>
-            <br>            
-            <a href="{{href}}/{{unit.unit}}/{{unit.part}}/{{unit.form}}/{{unit.qnum}}0"><button class="btn btn-warning" type="button"> See Questions (helpers) </button></a>
-            <br>
-            <br>
-            </td> 
-          </tr>       
-      </tbody>
-      
-      {% endfor %}
+              <td> 
+                <span v-if="unit.Access == 2" @click="optionsClick(key)" class="unit-span" :style="btnStyle(unit.Grade)"> &emsp;&emsp;[[  key ]]&emsp;&emsp; </span> 
+                <span v-if="unit.Access == 0" style="background:silver;padding:3px"  class="unit-span"> [[  key  ]] disabled </span> 
+                <span v-if="unit.Access == 1"  @click="goTo(key, 'Writer' )"  class="unit-span" style="background:blue"> &emsp;&emsp;[[  key ]]&emsp;&emsp; </span> 
+              </td>
+
+              <td colspan ="2"> 
+              {% if current_user.id == 1 %}
+                <span @click="goTo(key, 'Instructor' )" class="unit-span" style="background:silver;padding:3px; margin-left:5px"> Instructor </span>                             
+                <span @click="openUnit(key)" v-if="opens[key] == false" class="unit-span" style="background:royalblue;padding:3px; margin-left:10px"> Open </span>                                 
+              {% else %}
+                <span style="">[[  unit.Comment  ]] </span>
+              {% endif %}
+              </td>  
+            
+            </tr>
+
+            <tr v-if="options[key]">
+              <td > 
+                <span   @click="goTo(key, 'Writer' )" class="unit-span" style="background:blue; padding:3px; margin-left:10px"> Writer </span> 
+                <span   @click="goTo(key, 'Reader' )" class="unit-span" style="background:goldenrod; padding:3px; margin-left:10px"> Reader </span>  
+              </td>
+              <td colspan='2'>
+                <span style="color:tomato">Choose 1 writer </span>                           
+              </td>                             
+            </tr>
+
+            <tr>
+              <td @click="preview(key)"> [[  unit.Title  ]] </td>
+              <td> [[  unit.Deadline  ]] </td>
+              <td > [[  unit.Grade  ]] </td>                
+            </tr>
+
+            <tr>
+             <td colspan ="3">
+                <div  class="embed-responsive embed-responsive-4by3" v-if="prevs[key]">              
+                    <iframe   :src="unit.Source"
+                        allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
+                    </iframe>  
+                </div> 
+              </td>
+            </tr>
+          </template>     
+            
+        </tbody>   
+   
       </table>
-      </div>      
+    </div>
 
-{% endblock content %}
+</div>   
+   
 
-{% block script %}         
+</div> <!-- end of Vue app -->
 
-<script type="text/javascript">
 
-let color = document.getElementById('color').value
+{% endblock %}
 
-if (color < .4) {
-  document.getElementById('color').style.background='#E74C3C'; 
-} else if (color < .6 ) {
-  document.getElementById('color').style.background='#E59866'; 
-} else if (color < .8 ) {
-  document.getElementById('color').style.background='#BB8FCE'; 
-} else if (color < 1) {
-  document.getElementById('color').style.background='#17A589'; 
-} else {
-  document.getElementById('color').style.background='#229954'; 
+{% block script %}   
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+
+<script type="text/javascript" >
+
+var Table = document.getElementById('Table').innerHTML
+var OBJ = JSON.parse(Table)
+console.log('unitOBJ', OBJ);
+var max = parseInt(document.getElementById('max').innerHTML)
+var Grade = parseInt(document.getElementById('Grade').innerHTML)
+
+
+console.log(navigator.userAgent);
+
+if (Grade > 0){
+  var colorFloat = Grade / max
+  console.log('1', colorFloat);
+}
+else{
+  var colorFloat = 0
+  console.log('0', colorFloat);
 }
 
-</script>
+let prevs = {}
+let options = {}
+let opens = {}
+for (var key in OBJ){
+        prevs[key] = false
+        options[key] = false
+        opens[key] = false        
+      }
 
+
+
+
+
+startVue(OBJ, colorFloat, prevs, options, opens)
+
+function startVue(unitOBJ, colorFloat, prevs, options, opens){ 
   
+  let vue = new Vue({   
+
+    el: '#vue-app',
+    delimiters: ['[[', ']]'],
+    mounted: function(){
+        for (var unit in this.unitOBJ){
+          if (this.unitOBJ[unit]['Access'] > 0) {
+            this.opens[unit] = true
+          }
+        }
+    },
+    data: {
+        unitOBJ: unitOBJ,              
+        colorFloat: colorFloat,
+        show: false,
+        prevs: prevs,  
+        options: options,
+        opens: opens
+         
+    }, 
+    methods: {
+        headStyle: function(){           
+            if (colorFloat < .4) {
+                var background ='salmon'; 
+              } else if (colorFloat < .6 ) {
+                var background ='lightpink'; 
+              } else if (colorFloat < .8 ) {
+                var background ='peachpuff'; 
+              } else if (colorFloat < 1) {
+                var background ='lemonchiffon'; 
+              } else {
+                var background ='honeydew'; 
+              }                   
+            return {background : background }        
+        },
+        bgStyle: function(grade){           
+            if (grade == 1) {
+                background = "lightblue";
+              }
+              else if (grade == 2) {
+                background = "lightgreen";
+              }
+              else {
+                background = "mistyrose";
+              }
+               
+            return background          
+        },
+        btnStyle: function(grade){           
+            if (grade == 1) {
+                background = "blue";
+              }
+              else if (grade == 2) {
+                background = "green";
+              }
+              else {
+                background = "darksalmon";
+              }
+                     
+            return { background : background }         
+        },
+        preview: function(key){
+          console.log('preview', key );
+          if (this.prevs[key] == true){
+            for (var part in this.prevs){
+            this.prevs[part] = false
+            }
+            
+          }
+          else{
+            for (var part in this.prevs){
+            this.prevs[part] = false
+            }
+            this.prevs[key] = true            
+          }  
+          
+        },
+        optionsClick: function(key){
+          console.log('options', key );
+          if (this.options[key] == true){
+            for (var part in this.options){
+            this.options[part] = false
+            }            
+          }
+          else{
+            for (var part in this.options){
+            this.options[part] = false
+            }
+            this.options[key] = true            
+          }        
+        },
+        goTo: function(key, state){
+          let url = (window.location.href).split('unit_list')[0] + 'participation/' + key[0] + key[1] + '/' + key[3] + '/' + state
+
+          console.log('goTO', url);
+          // action 
+          window.location = url           
+        },
+        openUnit: function(key){  
+          console.log(key);
+          $.ajax({
+          data : {
+              key : key,            
+          },
+          type : 'POST',
+          url : '/openUnit'                   
+          })
+          .done(function(data) {
+            console.log(data.key);
+            vue.opens[data.key] = true
+            unitOBJ[data.key]['Access'] = 2
+            console.log(vue.opens);
+          })
+          .fail(function(){
+            alert('Failed, check server')
+          });  
+          
+                  
+        }
+                  
+    }         
+})// end NEW VUE
+
+
+
+}// endFunction 
+
+</script>  
+
 {% endblock %} 
+

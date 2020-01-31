@@ -1,22 +1,22 @@
 from datetime import datetime, timedelta
 from app import app, db, login_manager
-from flask_login import UserMixin, current_user # this imports current user, authentication, get id (all the login attributes)
+from flask_login import UserMixin, current_user 
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
+
+# verify token
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from meta import BaseConfig
 
 modDictUnits = {}
 modDictAss = {}
-modListSL = [0]
+
 
 
 #login manager
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
-
-
 
 
 class ChatBox(db.Model):
@@ -53,18 +53,18 @@ class AttendLog(db.Model):
     extraStr = db.Column(db.String)
     extraInt = db.Column(db.Integer)
    
-class User(db.Model, UserMixin): #import the model
-    id = db.Column(db.Integer, primary_key=True) #kind of value and the key unique to the user
-    username =  db.Column(db.String(20), unique=True, nullable=False) #must be a unique name and cannot be null
-    #date_added = db.Column(db.DateTime, default=datetime.now)
+class User(db.Model, UserMixin): 
+    id = db.Column(db.Integer, primary_key=True) 
+    username =  db.Column(db.String(20), unique=True, nullable=False) 
+    date_added = db.Column(db.DateTime, default=datetime.now)
     studentID = db.Column(db.String(9), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    image_file = db.Column(db.String(), nullable=False, default='profiles/default.PNG') #images will be hashed to 20 and images could be the same
+    image_file = db.Column(db.String(), nullable=False, default='profiles/default.PNG')
     password = db.Column(db.String(60), nullable=False)    
     device = db.Column (db.String(), nullable=False)
-    #hometown = db.Column (db.String()) 
-    #fName = db.Column (db.String())
+    extra = db.Column(db.Integer)
 
+   
 
     def get_reset_token(self, expires_sec=1800):
         expires_sec = 1800        
@@ -84,70 +84,17 @@ class User(db.Model, UserMixin): #import the model
     def __repr__(self):  # double underscore method or dunder method, marks the data, this is how it is printed
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
 
-class Grades(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username =  db.Column(db.String(), unique=True, nullable=False) 
-    studentID = db.Column(db.String(9), unique=True, nullable=False)
-    assignments = db.Column(db.Integer)
-    units = db.Column(db.Integer)  
-    attend = db.Column(db.Integer)
-    bonus = db.Column(db.Integer)
-    examList = db.Column(db.String)  
-    tries = db.Column(db.Integer)
-    practice = db.Column(db.String)
-    extraInt = db.Column(db.Integer)
-    extraStr = db.Column(db.String)
 
-class Sources(db.Model):
-    id = db.Column(db.Integer, primary_key=True)  
-    unit = db.Column(db.String) 
-    part = db.Column(db.String)
-    form = db.Column(db.String)
-    qnum = db.Column(db.String)
-    classdate = db.Column(db.DateTime)
-    duedate = db.Column(db.DateTime)  
-    title = db.Column(db.String)
-    notes = db.Column(db.String)
-    questions = db.Column(db.String)     
-    assSource = db.Column(db.String)
-    assForm = db.Column(db.Integer)
-    assDate = db.Column(db.DateTime)
-    openSet = db.Column(db.Integer)
-    openReset = db.Column(db.Integer)
-    extra1 = db.Column(db.String)
-    extra2 = db.Column(db.String)
-
-class Course(db.Model):
-    id = db.Column(db.Integer, primary_key=True)  
-    week = db.Column(db.Integer)
-    unit = db.Column(db.String) 
-    date = db.Column(db.DateTime)    
-    topic = db.Column(db.String)
-    goalOne = db.Column(db.String)
-    goalTwo = db.Column(db.String)
-    activity = db.Column(db.String)
-    linkOne = db.Column(db.String)
-    linkTwo = db.Column(db.String)    
-    embed = db.Column(db.String)
-    openSet = db.Column(db.Integer)    
-    extraStr = db.Column(db.String)
-    extraInt = db.Column(db.Integer)   
-
-    
-############### UNIT MODELS ###################################
-
-class U555(db.Model):
-    id = db.Column(db.Integer, primary_key=True)     
-    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now)
-    username =  db.Column(db.String)
-    teamnumber = db.Column(db.Integer)
+class Units(db.Model):
+    id = db.Column(db.Integer, primary_key=True) 
     unit = db.Column(db.String)
-    record1 = db.Column(db.String)
-    answers1 = db.Column(db.String)
-    record2 = db.Column(db.String)
-    answers2 = db.Column(db.String)
-    extraStr = db.Column(db.String)
-    extraInt = db.Column(db.Integer)
+    u1 = db.Column(db.Integer)
+    u2 = db.Column(db.Integer)
+    u3 = db.Column(db.Integer)
+    u4 = db.Column(db.Integer)
+    uA = db.Column(db.Integer)    
+
+############### UNIT MODELS ###################################
 
 class BaseUnits(db.Model):
     __abstract__ = True
@@ -168,13 +115,7 @@ class BaseUnits(db.Model):
 class U001U(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
 modDictUnits['00']=[None]
-modDictUnits['00'].append(U001U)
-
-#class U004U(BaseUnits):
-    #id = db.Column(db.Integer, primary_key=True)
-#modDictUnits['00'].append(U004U)
-####  SL  #####
-#modListSL.append(U004U)
+#modDictUnits['00'].append(U001U)
 
 ########################################
 
@@ -194,8 +135,8 @@ modDictUnits['01'].append(U013U)
 class U014U(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
 modDictUnits['01'].append(U014U)
-####  SL  #####
-modListSL.append(U014U)
+
+
 
 ##########################################
 
@@ -215,8 +156,7 @@ modDictUnits['02'].append(U023U)
 class U024U(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
 modDictUnits['02'].append(U024U)
-####  SL  #####
-modListSL.append(U024U)
+
 
 ##########################################
 
@@ -236,8 +176,7 @@ modDictUnits['03'].append(U033U)
 class U034U(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
 modDictUnits['03'].append(U034U)
-####  SL  #####
-modListSL.append(U034U)
+
 ##########################################
 
 class U041U(BaseUnits):
@@ -256,8 +195,7 @@ modDictUnits['04'].append(U043U)
 class U044U(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
 modDictUnits['04'].append(U044U)
-####  SL  #####
-modListSL.append(U044U)
+
 
 ##########################################
 
@@ -277,8 +215,8 @@ modDictUnits['05'].append(U053U)
 class U054U(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
 modDictUnits['05'].append(U054U)
-####  SL  #####
-modListSL.append(U054U)
+
+
 
 ##########################################
 
@@ -298,8 +236,7 @@ modDictUnits['06'].append(U063U)
 class U064U(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
 modDictUnits['06'].append(U064U)
-####  SL  #####
-modListSL.append(U064U)
+
 
 ##########################################
 
@@ -319,8 +256,7 @@ modDictUnits['07'].append(U073U)
 class U074U(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
 modDictUnits['07'].append(U074U)
-####  SL  #####
-modListSL.append(U074U)
+
 
 ##########################################
 
@@ -340,92 +276,7 @@ modDictUnits['08'].append(U083U)
 class U084U(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
 modDictUnits['08'].append(U084U)
-####  SL  #####
-modListSL.append(U084U)
 
-##########################################
-
-class U091U(BaseUnits):
-    id = db.Column(db.Integer, primary_key=True) 
-modDictUnits['09']=[None]
-modDictUnits['09'].append(U091U) 
-
-class U092U(BaseUnits):
-    id = db.Column(db.Integer, primary_key=True)  
-modDictUnits['09'].append(U092U) 
-
-class U093U(BaseUnits):
-    id = db.Column(db.Integer, primary_key=True) 
-modDictUnits['09'].append(U093U)
-
-class U094U(BaseUnits):
-    id = db.Column(db.Integer, primary_key=True)
-modDictUnits['09'].append(U094U)
-####  SL  #####
-modListSL.append(U094U)
-
-##########################################
-
-class U101U(BaseUnits):
-    id = db.Column(db.Integer, primary_key=True) 
-modDictUnits['10']=[None]
-modDictUnits['10'].append(U101U) 
-
-class U102U(BaseUnits):
-    id = db.Column(db.Integer, primary_key=True)  
-modDictUnits['10'].append(U102U) 
-
-class U103U(BaseUnits):
-    id = db.Column(db.Integer, primary_key=True) 
-modDictUnits['10'].append(U103U)
-
-class U104U(BaseUnits):
-    id = db.Column(db.Integer, primary_key=True)
-modDictUnits['10'].append(U104U)
-####  SL  #####
-modListSL.append(U104U)
-
-##########################################
-
-class U111U(BaseUnits):
-    id = db.Column(db.Integer, primary_key=True) 
-modDictUnits['11']=[None]
-modDictUnits['11'].append(U111U) 
-
-class U112U(BaseUnits):
-    id = db.Column(db.Integer, primary_key=True)  
-modDictUnits['11'].append(U112U) 
-
-class U113U(BaseUnits):
-    id = db.Column(db.Integer, primary_key=True) 
-modDictUnits['11'].append(U113U)
-
-class U114U(BaseUnits):
-    id = db.Column(db.Integer, primary_key=True)
-modDictUnits['11'].append(U114U)
-####  SL  #####
-modListSL.append(U114U)
-
-##########################################
-
-class U121U(BaseUnits):
-    id = db.Column(db.Integer, primary_key=True) 
-modDictUnits['12']=[None]
-modDictUnits['12'].append(U121U) 
-
-class U122U(BaseUnits):
-    id = db.Column(db.Integer, primary_key=True)  
-modDictUnits['12'].append(U122U) 
-
-class U123U(BaseUnits):
-    id = db.Column(db.Integer, primary_key=True) 
-modDictUnits['12'].append(U123U)
-
-class U124U(BaseUnits):
-    id = db.Column(db.Integer, primary_key=True)
-modDictUnits['12'].append(U124U)
-####  SL  #####
-modListSL.append(U124U)
 
 
 
@@ -441,100 +292,85 @@ class BaseAss(db.Model):
     LengthTwo = db.Column(db.Integer)
     Notes = db.Column(db.String)
     TextOne = db.Column(db.String)  
-    TextTwo = db.Column(db.String) 
-    TextThr = db.Column(db.String) 
-    TextFor= db.Column(db.String)
+    TextTwo = db.Column(db.String)     
     DateStart= db.Column(db.DateTime)
     Grade = db.Column(db.Integer)
     Comment = db.Column(db.String)  
 
-
-class Ass00 (BaseAss):
+class A00A (BaseAss):
     id = db.Column(db.Integer, primary_key=True)
-modDictAss['00'] = Ass00
 
-class Ass01 (BaseAss):
+class A01A (BaseAss):
     id = db.Column(db.Integer, primary_key=True)
-modDictAss['01'] = Ass01
+modDictAss['01'] = A01A
 
-class Ass02 (BaseAss):
+class A02A (BaseAss):
     id = db.Column(db.Integer, primary_key=True)
-modDictAss['02'] = Ass02
+modDictAss['02'] = A02A
 
-class Ass03 (BaseAss):
+class A03A (BaseAss):
     id = db.Column(db.Integer, primary_key=True)
-modDictAss['03'] = Ass03
+modDictAss['03'] = A03A
 
-class Ass04 (BaseAss):
+class A04A (BaseAss):
     id = db.Column(db.Integer, primary_key=True)
-modDictAss['04'] = Ass04
+modDictAss['04'] = A04A
 
-class Ass05 (BaseAss):
+class A05A (BaseAss):
     id = db.Column(db.Integer, primary_key=True)
-modDictAss['05'] = Ass05
+modDictAss['05'] = A05A
 
-class Ass06 (BaseAss):
+class A06A (BaseAss):
     id = db.Column(db.Integer, primary_key=True)
-modDictAss['06'] = Ass06
+modDictAss['06'] = A06A
 
-class Ass07 (BaseAss):
+class A07A (BaseAss):
     id = db.Column(db.Integer, primary_key=True)
-modDictAss['07'] = Ass07
+modDictAss['07'] = A07A
 
-class Ass08 (BaseAss):
+class A08A (BaseAss):
     id = db.Column(db.Integer, primary_key=True)
-modDictAss['08'] = Ass08
-
-class Ass09 (BaseAss):
-    id = db.Column(db.Integer, primary_key=True)
-modDictAss['09'] = Ass09
-
-class Ass10 (BaseAss):
-    id = db.Column(db.Integer, primary_key=True)
-modDictAss['10'] = Ass10
-
-class Ass11 (BaseAss):
-    id = db.Column(db.Integer, primary_key=True)
-modDictAss['11'] = Ass11
-
-class Ass12 (BaseAss):
-    id = db.Column(db.Integer, primary_key=True)
-modDictAss['12'] = Ass12
+modDictAss['08'] = A08A
 
 ##############################################
 
+''' top of page
 
-listAss = modDictAss.values()
+modDictUnits = {}  dictionary of all unit models   01 : [None, Mod1, Mod2, Mod3, Mod4]
+modDictAss = {}  dictionary of all assignment models  01 : Model 
+
+'''
+
+
+# used for admin rendering
+listAss = []
+for elements in modDictAss.values():
+    listAss.append(elements)
 
 listUnits = []
-for values in modDictUnits.values():
-    for items in values:
-        if items != None:
-            listUnits.append(items)
+for elements in modDictUnits.values():
+    for item in elements:
+        if item != None:
+            listUnits.append(item)
 
-modDictAssList = {}
-for item in modDictAss:    
-    modDictAssList[item] = ([modDictAss[item]])
-
-assList = []
-for key in modDictAss:
-    assList.append(modDictAss[key])
-
+  
 
 class Info ():
-    modDictAss = modDictAss
-    modDictUnits = modDictUnits 
-    modListUnits = listUnits
-    modListAss = listUnits    
-    modListSL = modListSL    
-    ansDict = modDictAssList
-    assList = assList
-    unitList = modDictAss.keys()  ###['00', '01', .....]
+    ass_mods_dict = modDictAss   #{'01': <class 'models.A01A'>, '02': <class 'models.A02A'>, '03': <class 'models.A03A'>,
+    unit_mods_dict = modDictUnits 
     
+    unit_mods_list = listUnits 
+    ass_mods_list = listAss
+    unit_name_list = modDictAss.keys() 
+
+     
+
 
 class MyModelView(ModelView):
     def is_accessible(self):
-        if current_user.is_authenticated:
+        if BaseConfig.DEBUG == True:
+            return True
+        elif current_user.is_authenticated:
             if current_user.id == 1:
                 return True
             else:
@@ -542,25 +378,21 @@ class MyModelView(ModelView):
         else:
             return False
 
-    #https://danidee10.github.io/2016/11/14/flask-by-example-7.html
+#https://danidee10.github.io/2016/11/14/flask-by-example-7.html
 
-    
-#$2b$12$79FM1YLMP/rLWfznq2iHFelcQ9I6svAZtLFN9.2i1RDQXxq1oPvUS
-
+   
 
 admin = Admin(app)
 
 admin.add_view(MyModelView(User, db.session))
-admin.add_view(MyModelView(Sources, db.session))
-admin.add_view(MyModelView(Course, db.session))
 admin.add_view(MyModelView(ChatBox, db.session))
 admin.add_view(MyModelView(Attendance, db.session))
 admin.add_view(MyModelView(AttendLog, db.session))
-admin.add_view(MyModelView(Grades, db.session))
-admin.add_view(MyModelView(U555, db.session))
+admin.add_view(MyModelView(Units, db.session))
 
 for unit in listUnits:
     admin.add_view(MyModelView(unit, db.session))
 
 for ass in listAss:
     admin.add_view(MyModelView(ass, db.session))
+

@@ -1,24 +1,14 @@
 from flask import Flask, render_template   #app = Flask(__name__)
-from flask_sslify import SSLify
-#from flask_debugtoolbar import DebugToolbarExtension
 from flask_sqlalchemy import SQLAlchemy  #needed for app initialization (see below - db)
 from flask_bcrypt import Bcrypt  #needed for password storage
 from flask_login import LoginManager, current_user #needed for login
 from flask_mail import Mail
-import os
-try: 
-    from aws import Settings
-    print(Settings)
-    PASSWORD = Settings.MAIL_PASSWORD
-except:    
-    PASSWORD = os.environ['MAIL_PASSWORD']
-
+from meta import BaseConfig
 
 
 
 app = Flask(__name__)
-sslify = SSLify(app)
-app.config.from_object('config.BaseConfig')
+app.config.from_object('meta.BaseConfig')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 bcrypt = Bcrypt()
@@ -31,22 +21,20 @@ app.config.update(dict(
     MAIL_PORT = 587,
     MAIL_USE_TLS = True,
     MAIL_USE_SSL = False,
-    MAIL_USERNAME = 'chrisflask0212',
-    MAIL_PASSWORD = PASSWORD,    
+    MAIL_USERNAME = BaseConfig.MAIL_USERNAME,
+    MAIL_PASSWORD = BaseConfig.MAIL_PASSWORD,    
     MAIL_SUPPRESS_SEND = False,
     MAIL_DEBUG = True,
     TESTING = False
 ))
 
-
 mail = Mail(app)
 
-
-
-from routesInstructor import *
+from routesInst import *
 from routesUser import *
 from routesAdmin import *
 from routesPart import *
+
 
 if __name__ == '__main__': 
     app.run()

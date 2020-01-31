@@ -53,11 +53,29 @@ body {
     font-weight: 500;
   }
   
-  
+  .unit-span {
+    cursor:pointer;
+    border-radius:5px;
+    border:1px solid grey; 
+    background: rgb(172, 178, 185);
+    color: white
+  }
+
+  .input1 {
+    outline: none !important;    
+    background-color : rgb(95, 104, 116); 
+    border: 0 none white ;
+    color: whitesmoke;
+    font-size: 18px;  
+    border-radius: 15px;
+    padding: 10px;
+    height: 60px !important;
+    width: 70%
+}
 
   .content-section {
     background: #ffffff;
-    padding: 10px 20px;
+    padding: 12px;
     border: 1px solid #dddddd;
     border-radius: 3px;
     margin-bottom: 20px;
@@ -149,7 +167,12 @@ body {
 }
 
 
-
+textarea {
+  border: 0.5px solid grey;
+  border-radius: 3px;
+  padding: 5px;
+  width: 100%;
+}
 
 
 table {
