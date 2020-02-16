@@ -16,13 +16,21 @@ S3_BUCKET_NAME = BaseConfig.S3_BUCKET_NAME
 SCHEMA = BaseConfig.SCHEMA
 DESIGN = BaseConfig.DESIGN
 
+def get_vocab():
+    content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/vocab.json' )
+    file_content = content_object.get()['Body'].read().decode('utf-8')    
+    VOCAB = json.loads(file_content)  # json loads returns a dictionary  
+    SOURCES =  None        
+    EXTRA =  None
+
+    return VOCAB    
 
 @app.route ("/unit_list", methods=['GET','POST'])
 @login_required
 def unit_list():    
     
-    srcDict = get_sources('src')
-    #print(srcDict['SOURCES'])
+    srcDict = get_sources()
+    #print(srcDict)
 
     ''' deal with grades ''' 
     grades = get_grades(False, True) 
@@ -66,11 +74,11 @@ def unit_list():
         unitDict[ unit2c + '-' + part ] = { 
             'Unit' : unit2c, 
             'Part' : part,           
-            'Deadline' : srcDict['SOURCES'][unit2c]['Deadline'],
-            'Title' : srcDict['SOURCES'][unit2c]['Title'],
+            'Deadline' : srcDict[unit2c]['Deadline'],
+            'Title' : srcDict[unit2c]['Title'],
             'Grade' : recs[unit]['Grade'],
             'Comment' : recs[unit]['Comment'],
-            'Source' : srcDict['SOURCES'][unit2c]['Materials'][part],
+            'Source' : srcDict[unit2c]['Materials'][part],
             'Access' : access
         }    
 
@@ -246,9 +254,9 @@ def shareUpload():
     question = request.form ['question']
     qs = request.form ['qs']     
 
-    srcDict = get_sources('src')   
-    date = srcDict['SOURCES'][unit]['Date']
-    dt = srcDict['SOURCES'][unit]['Deadline']
+    srcDict = get_sources()   
+    date = srcDict[unit]['Date']
+    dt = srcDict[unit]['Deadline']
     deadline = datetime.strptime(dt, '%Y-%m-%d') + timedelta(days=1)    
     print ('deadline: ', deadline)
 
@@ -352,12 +360,12 @@ def participation(unit_num,part_num,state):
             return redirect(url_for('unit_list'))  
     
     # get sources
-    srcDict = get_sources('src')['SOURCES']
+    srcDict = get_sources()
     source = srcDict[unit_num]['Materials'][part_num]
     print(srcDict[unit_num]['Materials'])
 
     #vocab
-    vDict = get_sources('vcb')['VOCAB']
+    vDict = get_vocab()
     #questions
     qDict = vDict[unit_num][part_num]    
     qs = len(qDict)

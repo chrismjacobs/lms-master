@@ -18,30 +18,38 @@ SCHEMA = BaseConfig.SCHEMA
 DESIGN = BaseConfig.DESIGN
 
 
-def get_sources(arg):
-    if arg == 'src':
-        content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/sources.json' )
-        file_content = content_object.get()['Body'].read().decode('utf-8')    
-        sDict = json.loads(file_content)  # json loads returns a dictionary 
-        SOURCES =  sDict['sources']
-        SCHEDULE =  sDict['schedule']
-        EXTRA =  sDict['extra']
-        VOCAB = None 
+def get_sources():    
+    content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/sources.json' )
+    file_content = content_object.get()['Body'].read().decode('utf-8')    
+    sDict = json.loads(file_content)  # json loads returns a dictionary 
+    unitDict = {}  
+    for week in sDict:
+        try:      
+            if int(sDict[week]['Unit']) > 0:
+                print('2') 
+                unitNumber = sDict[week]['Unit']
+                unitDict[unitNumber] = {}
+                section = sDict[week]
+                #unitDict[unitNumber] = sDict[week]  
 
-    if arg == 'vcb':
-        content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/vocab.json' )
-        file_content = content_object.get()['Body'].read().decode('utf-8')    
-        VOCAB = json.loads(file_content)  # json loads returns a dictionary  
-        SOURCES =  None
-        SCHEDULE =  None
-        EXTRA =  None
-    
-    return {
-        'SOURCES' : SOURCES, 
-        'SCHEDULE' : SCHEDULE,
-        'EXTRA' : EXTRA, 
-        'VOCAB' : VOCAB        
-    }
+                unitDict[unitNumber]['Title'] = section['Title']
+                unitDict[unitNumber]['Date'] = section['Date']
+                unitDict[unitNumber]['Deadline'] = section['Deadline']
+                unitDict[unitNumber]['Materials'] = {}
+                unitDict[unitNumber]['Materials']['1'] = section['M1']
+                unitDict[unitNumber]['Materials']['2'] = section['M2']
+                unitDict[unitNumber]['Materials']['3'] = section['M3']
+                unitDict[unitNumber]['Materials']['4'] = section['M4']
+                unitDict[unitNumber]['Materials']['A'] = section['MA']   
+        except:
+            print('except', sDict[week]['Unit'])
+            pass
+
+    pprint(unitDict)
+        
+    return unitDict            
+        
+
 
 def get_grades(ass, unt):
 
@@ -205,8 +213,8 @@ def home():
 @login_required
 def assignment_list():    
     
-    srcDict = get_sources('src')
-    print(srcDict['SOURCES'])
+    srcDict = get_sources()
+    print(srcDict)
 
     ''' deal with grades ''' 
     grades = get_grades(True, False) # ass / unit 
@@ -218,8 +226,8 @@ def assignment_list():
     assDict = {}
     for unit in recs:
         assDict[unit] = {            
-            'Deadline' : srcDict['SOURCES'][unit]['Deadline'],
-            'Title' : srcDict['SOURCES'][unit]['Title'],
+            'Deadline' : srcDict[unit]['Deadline'],
+            'Title' : srcDict[unit]['Title'],
             'Grade' : recs[unit]['Grade'],
             'Comment' : recs[unit]['Comment']
         }    
@@ -247,9 +255,9 @@ def audioUpload():
     answers = json.loads(ansDict)
     print(answers)
 
-    srcDict = get_sources('src')   
-    date = srcDict['SOURCES'][unit]['Date']
-    dt = srcDict['SOURCES'][unit]['Deadline']
+    srcDict = get_sources()   
+    date = srcDict[unit]['Date']
+    dt = srcDict[unit]['Deadline']
     deadline = datetime.strptime(dt, '%Y-%m-%d') + timedelta(days=1)    
     print ('deadline: ', deadline)
 
@@ -311,8 +319,8 @@ def audioUpload():
 @login_required
 def ass(unit): 
 
-    srcDict = get_sources('src')
-    source = srcDict['SOURCES'][unit]['Materials']['A']
+    srcDict = get_sources()
+    source = srcDict[unit]['Materials']['A']
 
 
     setting =  Units.query.filter_by(unit=unit).first().uA
@@ -370,8 +378,8 @@ def ass(unit):
         ansDict[2]['model']  = speechModel.AudioDataTwo
     except:
         speechModel = None
-        ansDict[1]['model'] = 0
-        ansDict[2]['model']  = 0         
+        ansDict[1]['model'] = None
+        ansDict[2]['model']  = None         
 
     context = {    
         'count' : count, 

@@ -16,16 +16,13 @@ SCHEMA = BaseConfig.SCHEMA
 DESIGN = BaseConfig.DESIGN
 
 
-def get_sources():
+def get_schedule():
     content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/sources.json' )
     file_content = content_object.get()['Body'].read().decode('utf-8')    
     SOURCES = json.loads(file_content)  # json loads returns a dictionary
-    print(SOURCES)   
-    return {
-        'SOURCES' : SOURCES ['sources'], 
-        'SCHEDULE' : SOURCES['schedule'],
-        'EXTRA' : SOURCES['extra']        
-    }
+    #print(SOURCES)   
+    return (SOURCES)
+    
 
 @app.route ("/about")
 @login_required 
@@ -39,7 +36,7 @@ def about():
 @login_required
 def course():  
     # json dumps returns a string
-    course = json.dumps(get_sources()['SCHEDULE'])   
+    course = json.dumps(get_schedule())   
     color = json.dumps(DESIGN)   
 
     return render_template('instructor/course.html', course=course, color=color)
@@ -53,8 +50,8 @@ def att_log():
     
     IDLIST = BaseConfig.IDLIST
 
-    ## create a list of all course dates
-    course_dates = get_sources()['SCHEDULE']    
+    ## create a list of all course dates    
+    course_dates = get_schedule()
     dateList = []
     for c in course_dates:
         date_string = course_dates[c]['Date']

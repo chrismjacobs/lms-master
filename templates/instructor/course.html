@@ -6,12 +6,15 @@
 <div id="vue-app">
  
 
-<div class="list-section" v-for="(week, key ) in course">
-    <h1> Week [[ key ]] </h1>
+<div class="content-section" v-for="(week, key ) in course">
 
     <template v-for="(val, name) in week">   
-    <div v-bind:style="style(name)">
-       <span style="">  [[ name ]]: [[val]] </span>
+
+    <div v-bind:style="style(name, val)">        
+    
+        <span v-if=" val.length > 30 " style="">  [[ name ]]: <a href="[[ val ]]"> Link </a> </span>
+        <span v-else-if="val != '-'" style="">  [[ name ]]: [[ val ]] </span>
+        
     </div>
     
     </template>   
@@ -22,8 +25,8 @@
 
 </div> <!-- end of Vue app -->
 
-<span id="course" stlye="display:none"> {{course}} </span>
-<span id="color" stlye="display:none"> {{color}} </span>
+<span id="course" style="display:none"> {{course}} </span>
+<span id="color" style="display:none"> {{color}} </span>
 
 {% endblock %}
 
@@ -38,23 +41,41 @@ let colorSTR = document.getElementById('color').innerHTML
 let color =  JSON.parse(colorSTR)
 let courseSTR = document.getElementById('course').innerHTML
 let course =  JSON.parse(courseSTR)
+let date = new Date().toJSON().slice(0,10)
+console.log(typeof(date));
 
 let app =  new Vue({   
 
     el: '#vue-app',
     delimiters: ['[[', ']]'],  
     data: { 
-        course: course,         
+        course: course,
+        https : 'https',
+        date : date        
     }, 
     methods: {
-        style: function(name){
+        style: function(name, val){
+            
             let styles = {
+                Date : this.dateStyle(name, val),
                 G1 : { fontSize : '15px'},
                 G2 : { fontSize : '15px'},
-                Unit : { fontSize : '30px', fontWeight: 'bold'}, 
-                Title : { color : color['titleColor'], fontSize : '20px' }
+                Unit : { fontSize : '20px', fontWeight: 'bold'}, 
+                Week : { fontSize : '30px', fontWeight: 'bold'}, 
+                Title : { color : color['titleColor'], fontSize : '20px' }                
             }
             return styles[name]
+        }, 
+        dateStyle : function(name, val){
+            if (name == 'Date'){
+                if (val == this.date){
+                    return { fontSize : '20px', background : 'lightpink'}
+                }     
+                else {
+                    return { fontSize : '20px'}
+                }         
+            }
+
         }
     }    
 })
