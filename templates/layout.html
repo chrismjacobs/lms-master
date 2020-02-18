@@ -45,8 +45,16 @@
                         <div class="navbar-nav">
                           <a class="nav-item nav-link" href= "{{ url_for ('att_team') }}">Attendance</a>  
                           <a class="nav-item nav-link" href="{{ url_for ('course') }}">My Course</a>
-                          <a class="nav-item nav-link" href="{{ url_for ('unit_list') }}">My Units</a>
-                          <a class="nav-item nav-link" href="{{ url_for ('assignment_list') }}">My Assignments</a>                           
+                                {% if SCHEMA < 3 %}
+                                  <a class="nav-item nav-link" href="{{ url_for ('unit_list') }}">My Units</a>
+                                  <a class="nav-item nav-link" href="{{ url_for ('assignment_list') }}">My Assignments</a>
+                                {% elif SCHEMA == 3 %} 
+                                  <a class="nav-item nav-link" href="">My Mini Projects</a> 
+                                {% elif SCHEMA == 4 %}
+                                  <a class="nav-item nav-link" href="">My Presentations</a>
+                                {% elif SCHEMA > 4 %}
+                                  <a class="nav-item nav-link" href="">My Presentations</a>
+                                {% endif %} 
                           <a class="nav-item nav-link" href="{{ url_for ('account') }}">My Account</a>                           
                           <a class="nav-item nav-link" href="{{ url_for ('logout') }}">Logout</a>
                         {% else %}

@@ -334,6 +334,7 @@ modDictAss['08'] = A08A
 
 ##############################################
 
+
 ''' top of page
 
 modDictUnits = {}  dictionary of all unit models   01 : [None, Mod1, Mod2, Mod3, Mod4]
@@ -356,12 +357,14 @@ for elements in modDictUnits.values():
   
 
 class Info ():
+    ### for reading and workplace
     ass_mods_dict = modDictAss   #{'01': <class 'models.A01A'>, '02': <class 'models.A02A'>, '03': <class 'models.A03A'>,
-    unit_mods_dict = modDictUnits 
-    
+    unit_mods_dict = modDictUnits     
     unit_mods_list = listUnits 
     ass_mods_list = listAss
     unit_name_list = modDictAss.keys() 
+
+    ### for ABC
 
      
 
@@ -390,9 +393,14 @@ admin.add_view(MyModelView(Attendance, db.session))
 admin.add_view(MyModelView(AttendLog, db.session))
 admin.add_view(MyModelView(Units, db.session))
 
-for unit in listUnits:
-    admin.add_view(MyModelView(unit, db.session))
+if BaseConfig.SCHEMA < 3:
+    for unit in listUnits:
+        admin.add_view(MyModelView(unit, db.session))
 
-for ass in listAss:
-    admin.add_view(MyModelView(ass, db.session))
+    for ass in listAss:
+        admin.add_view(MyModelView(ass, db.session))
+
+elif BaseConfig.SCHEMA == 3:
+    pass
+
 

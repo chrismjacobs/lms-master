@@ -16,10 +16,11 @@ S3_LOCATION = BaseConfig.S3_LOCATION
 S3_BUCKET_NAME = BaseConfig.S3_BUCKET_NAME
 META = BaseConfig.META
 DESIGN = BaseConfig.DESIGN
+SCHEMA = BaseConfig.SCHEMA
 
 @app.context_processor
 def inject_user():     
-    return dict(titleColor=DESIGN['titleColor']  , bodyColor=DESIGN['bodyColor'], headTitle=DESIGN['headTitle'], headLogo=DESIGN['headLogo'] )
+    return dict(SCHEMA=SCHEMA, titleColor=DESIGN['titleColor']  , bodyColor=DESIGN['bodyColor'], headTitle=DESIGN['headTitle'], headLogo=DESIGN['headLogo'] )
 
 @app.errorhandler(404)
 def error_404(error):
@@ -105,7 +106,6 @@ def register():
         else:
             ext = 1 
 
-
         user = User(username=form.username.data, studentID = form.studentID.data, email = form.email.data, 
         password = hashed_password, device = form.device.data, extra=ext)
         db.session.add(user)
@@ -117,6 +117,8 @@ def register():
         flash(f'Account created for {form.username.data}!, please login', 'success')
         #'f' is because passing in a variable
         return redirect (url_for('login')) 
+    
+
     return render_template('admin/register.html', title='Join', form=form)
 
 

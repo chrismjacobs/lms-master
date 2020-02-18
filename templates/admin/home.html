@@ -6,7 +6,7 @@
     <h1> Homepage </h1>
 </div>
 
-
+{% if SCHEMA < 3 %}
 <div class="content-section">
     <legend class="border-bottom mb-4">Performance</legend>
     
@@ -28,6 +28,7 @@
       </tbody>
     </table>      
 </div>
+{% endif %}
 
 
 <div class="content-section">

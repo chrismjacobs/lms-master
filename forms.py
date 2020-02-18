@@ -4,6 +4,8 @@ from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, SelectField, HiddenField, validators, IntegerField, RadioField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, InputRequired
 from models import User  
+from meta import BaseConfig
+SCHEMA = BaseConfig.SCHEMA
 
 
 class Attend(FlaskForm):
@@ -47,6 +49,7 @@ class RegistrationForm(FlaskForm):
     username = StringField ('Name in English', validators=[DataRequired(), Length(min=2, max=20)])    
     studentID = StringField ('Student ID (9 numbers)', validators=[DataRequired(), Length(9)])
     email = StringField('Email', validators=[DataRequired(), Email()] )  
+    bookcode = StringField('bookcode')
     device = RadioField('Main Device', choices = [('Apple', 'Apple iphone'), ('Android', 'Android Phone'), ('Win', 'Windows Phone')])                                
     password = PasswordField('Password', validators=[DataRequired()] )
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')] )
@@ -61,7 +64,8 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()  
         if user:  
             raise ValidationError('That email has an account already, did you forget your password?') 
-
+    
+    
     def validate_studentID(self, studentID): 
         try:
             int(studentID.data)
@@ -69,7 +73,18 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('9 numbers; no S') 
         user = User.query.filter_by(studentID=studentID.data).first()  
         if user:           
-            raise ValidationError('That student ID already has an account, did you forget your password?')  
+            raise ValidationError('That student ID already has an account, did you forget your password?') 
+        
+        if SCHEMA < 3: 
+            def validate_bookcode(self, bookcode):             
+                bc1 = studentID.data[0] 
+                bc2 = int(studentID.data[7])*2
+                bc3 = int(studentID.data[8])*3
+                bcFinal = bc1 + str(bc2) + str(bc3)
+                print(bcFinal)            
+
+                if bookcode.data != bcFinal:
+                    raise ValidationError('Incorrect BookCode - please see your instructor')  
 
 class LoginForm(FlaskForm):
     studentID = StringField ('Student ID', validators=[DataRequired(), Length(min=2, max=9)])     

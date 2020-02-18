@@ -1,0 +1,39 @@
+{   
+    "S" : {        
+        "MAIL_PASSWORD" : "fl4sk4pp0212",
+        "MAIL_USERNAME" : "chrisflask0212@gmail.com",
+        "SECRET_KEY" : "145d4a32162599ef6f426668b77f2d9a",
+        "S3_LOCATION" : "https://abc-lms.s3.ap-northeast-1.amazonaws.com/",
+        "S3_BUCKET_NAME" : "abc-lms",
+        "SQLALCHEMY_DATABASE_URI" : "postgres://fekazrbrhvyvfv:b69d70a6c730f2167248e8bfaa4549c9bd08f0076fe99819e5430c36a39e7121@ec2-18-213-176-229.compute-1.amazonaws.com:5432/df1g4mficouqo6"    
+    }, 
+
+    "M" : {
+        "Course" : "American and British Culture", 
+        "SCHEMA" : 3,      
+        "DESIGN" : {
+            "titleColor":"CRIMSON", 
+            "bodyColor":"DEEPSKYBLUE", 
+            "headTitle":"ABC course", 
+            "headLogo": "https://abc-lms.s3-ap-northeast-1.amazonaws.com/profiles/US-UK-blend.png"
+            }
+    },
+
+    "C" : [
+        "120514112",
+        "120554015",
+        "120554054",
+        "120554062",
+        "120554125",
+        "120654029",
+        "120654033",
+        "120654052",
+        "120654065",
+        "120812302",
+        "120812316"
+    ]
+
+}
+
+    
+

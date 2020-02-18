@@ -95,6 +95,22 @@
                         {% endif %} 
                         
                 </div>
+                {% if SCHEMA < 3 %}
+                    <div class="form-group"> 
+                        <h5 style="background:red;color:white"> BookCode (see your instructor to get a book 50NT) </h5>
+                            {% if form.bookcode.errors %}
+                                {{ form.bookcode (class="form-control form-control-lg is-invalid")}}  <!-- is invalid is the class-->
+                                <div class="invalid-feedback">
+                                    {% for error in form.bookcode.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>                          
+                            {% else %}
+                                {{ form.bookcode(class="form-control form-control-lg")}}
+                            {% endif %}                         
+                    </div>
+                {% endif %}
+
             </fieldset>
             <div class="form-group">
                 {{ form.submit(class="btn btn-outline-info")}}

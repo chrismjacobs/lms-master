@@ -5,7 +5,7 @@ from flask_login import LoginManager, current_user #needed for login
 from flask_mail import Mail
 from meta import BaseConfig
 
-
+SCHEMA = BaseConfig.SCHEMA
 
 app = Flask(__name__)
 app.config.from_object('meta.BaseConfig')
@@ -31,9 +31,19 @@ app.config.update(dict(
 mail = Mail(app)
 
 from routesInst import *
-from routesUser import *
 from routesAdmin import *
-from routesPart import *
+
+if SCHEMA < 3: 
+    from routesUser import *
+    from routesPart import *
+if SCHEMA == 3: 
+    from routesABC import *
+if SCHEMA == 4: 
+    from routesPENG import *
+if SCHEMA == 5: 
+    from routesFOOD import *
+
+
 
 
 if __name__ == '__main__': 
