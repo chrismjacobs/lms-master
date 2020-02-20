@@ -12,7 +12,7 @@
 
     <div v-bind:style="style(name, val)">        
     
-        <span v-if=" val.length > 30 " style="">  [[ name ]]: <a href="[[ val ]]"> Link </a> </span>
+        <span v-if=" val.length > 50  " style="">  [[ name ]]: <a href="[[ val ]]"> Link </a> </span>
         <span v-else-if="val != '-'" style="">  [[ name ]]: [[ val ]] </span>
         
     </div>

@@ -1,15 +1,8 @@
-{
-    "S": {
-        "MAIL_PASSWORD": "fl4sk4pp0212",
-        "MAIL_USERNAME": "chrisflask0212@gmail.com",
-        "SECRET_KEY": "145d4a32162599ef6f426668b77f2d9a",
-        "S3_LOCATION": "https://workplace-lms.s3.ap-northeast-1.amazonaws.com/",
-        "S3_BUCKET_NAME": "workplace-lms",
-        "SQLALCHEMY_DATABASE_URI": "postgres://rdbnrzgdvaajgc:670f6088cc4774d0f5d921f66500db1d0e77450ec20f64b4edb335d80366d712@ec2-54-225-242-183.compute-1.amazonaws.com:5432/dc2sur3on884gf"
-    },
+{    
     "M": {
         "Course": "WorkPlace English II",
         "SCHEMA": 2,
+        "S3_BUCKET_NAME": "workplace-lms",
         "DESIGN": {
             "titleColor": "CORAL",
             "bodyColor": "FLORALWHITE",

@@ -1,1 +1,30 @@
-{"S": {"MAIL_PASSWORD": "fl4sk4pp0212", "MAIL_USERNAME": "chrisflask0212@gmail.com", "SECRET_KEY": "145d4a32162599ef6f426668b77f2d9a", "S3_LOCATION": "https://reading-lms.s3.ap-northeast-1.amazonaws.com/", "S3_BUCKET_NAME": "reading-lms", "SQLALCHEMY_DATABASE_URI": "postgres://vwgebadrcjpubh:c6dea98b624593f226b57ba0f6bbefab6ddc2f50905a44011af1766ff6fce2fc@ec2-18-213-176-229.compute-1.amazonaws.com:5432/dasagehjbu5b3g"}, "M": {"Course": "Reading and Vocab II", "SCHEMA": 1, "DESIGN": {"titleColor": "MEDIUMSEAGREEN", "bodyColor": "MINTCREAM", "headTitle": "Freshman Reading", "headLogo": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/profiles/favicon.png"}}, "C": ["120554003", "120554004", "120554005", "120554006", "120554008", "120554010", "120554012", "120554013", "120554014", "120554015", "120554016", "120554017", "120554018", "120554019", "120554020"]}
+{    
+    "M": {
+        "Course": "Reading and Vocab II",
+        "SCHEMA": 1,
+        "S3_BUCKET_NAME": "reading-lms",
+        "DESIGN": {
+            "titleColor": "MEDIUMSEAGREEN",
+            "bodyColor": "MINTCREAM",
+            "headTitle": "Freshman Reading",
+            "headLogo": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/profiles/favicon.png"
+        }
+    },
+    "C": [
+        "120554003",
+        "120554004",
+        "120554005",
+        "120554006",
+        "120554008",
+        "120554010",
+        "120554012",
+        "120554013",
+        "120554014",
+        "120554015",
+        "120554016",
+        "120554017",
+        "120554018",
+        "120554019",
+        "120554020"
+    ]
+}

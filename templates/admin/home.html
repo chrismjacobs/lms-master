@@ -7,6 +7,7 @@
 </div>
 
 {% if SCHEMA < 3 %}
+
 <div class="content-section">
     <legend class="border-bottom mb-4">Performance</legend>
     
@@ -122,7 +123,7 @@
     window.onload = $('#newMessage').hide();
     
 
-    var myVar = setInterval(chatCheck, 60000);
+    //var myVar = setInterval(chatCheck, 60000);
     
     function chatCheck() {
 		$.ajax({
