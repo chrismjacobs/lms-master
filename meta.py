@@ -16,7 +16,7 @@ try:
 except: 
     AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID'] 
     AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY'] 
-    SCHEMA = os.environ['SCHEMA']
+    SCHEMA = int(os.environ['SCHEMA'])
     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
     MAIL_PASSWORD = os.environ['MAIL_PASSWORD']
     SECRET_KEY = os.environ['SECRET_KEY']
@@ -35,7 +35,7 @@ s3_client = boto3.client('s3',
 
 
 def loadJson():
-    content_object = s3_resource.Object(   jList[int(SCHEMA)],    'json_files/meta.json' )    
+    content_object = s3_resource.Object(   jList[SCHEMA],    'json_files/meta.json' )    
     file_content = content_object.get()['Body'].read().decode('utf-8')
     meta = json.loads(file_content)      
     return meta
