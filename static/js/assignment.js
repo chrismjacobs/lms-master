@@ -4,7 +4,7 @@ var ansOBJ = JSON.parse(ansString)
 console.log('ansOBJ', ansOBJ);
 
 var report = navigator.userAgent
-var device = 'A'
+var device = 'I'
 let nav_user = function(report) {
       
 
