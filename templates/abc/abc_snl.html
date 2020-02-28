@@ -3,7 +3,7 @@
 {% block content %}
 
 <span id="ansDict" style="display:none">{{ansDict}}</span>
-<span id="testDict" style="display:none">{{testDict}}</span>
+<span id="username" style="display:none">{{current_user.username}}</span>
 <span id="teamMembers" style="display:none">{{teamMembers}}</span>
 
 <div class="content-section">    
@@ -49,25 +49,39 @@
 
 Image
 <input type="file" id="image" accept="image/*" @change="imageValidation()"> </input> <button class="btn btn-sm"> Upload Image </button>
+<br>
+Ready: <span style="color:red">[[ base64data.fileType  ]] </span>
+<br>
+<br>
 
-<span id="image_alert"> No image </span>
+Speaker:
+<br> 
+<input id="user" type="text" class="textAss" style="margin-left:5px" value="{{current_user.username}}"></input> 
 <br>
-<br>
+
 Word:
 <br> 
-<input id="word'" type="text" class="textAss" style="margin-left:5px" ></input> 
+<input id="word" type="text" class="textAss" style="margin-left:5px" v-on:blur="updateWord()"></input> 
 <br>
+
+
                 
 Sentence:
-<textarea id="sentence" class="textAss"></textarea> 
+<textarea id="sentence" class="textAss" v-on:blur="updateWord()"></textarea> 
 <br>
 
 Rec:
-<span> [[phone]]</span>
-<div>                              
- <audio id="handler" ref="player" controls autoplay></audio> 
+<span> [[notice]]</span>
+<div style="background:papayawhip;width:100px;border:1px sold white; border-radius:5px" @click="showUpload('up')">
+    <span style="padding:5px; font-size:12px" justify="right"> Rec Problems? </span>
 </div> 
 <br>
+<div>                              
+ <audio id="handler" ref="player" controls autoplay></audio> 
+</div>
+<br>
+Ready: <span style="color:red">[[ base64data.audio_file ]] </span>
+
 <template v-if="show[1]">
 
     <div style="display:flex" > 
@@ -80,7 +94,7 @@ Rec:
             <div  v-if="rec1.cancel" flex="0.5">				
                 <button  class="btn btn-secondary" @click="cancel(1)">Cancel/Redo</button>
             </div> 
-            <div  v-if="audio[1] == 3" >     
+            <div  v-if="base64data['audio_b64']" >     
                 <button type="button" class="btn btn-dark" style="margin-left:5px" @click="playAudio('0')">Test Listen</button>	
             </div>
     </div>  
@@ -89,71 +103,52 @@ Rec:
     <div v-if="rec1.timer" :style="rec1.t_style">
         <span class="ml-2" style="color:white" > [[ rec1.count ]] </span>
     </div> 
-    <br>
-
-    <div style="background:lightcoral;width:100px;border:1px sold white; border-radius:5px" @click="showUpload('up')">
-        <span style="padding:5px; font-size:12px" justify="right"> Rec Problems? </span>
-    </div> 
-    <br>
-    <br>
-
-    <div v-if="" >				
-        <button  class="btn btn-info" style="margin-right:5px" @click="save(1)">Add Answer</button>
-    </div> 
-
-
+    <br> 
 </template>
 
-
 <div v-if="upload">
-
-    <div style="background:pink;height:30px" @click="showUpload('rec')">
-            <span style="color:red" > TRY RECORDING -->  </span>
-    </div>
     <div class="content-section">
         <p>If you have an Android phone and you cannot record, please first check your microphone permissions or try a different browser.</p> 
 
         <p>If you are using iOS, recording should work for IOS 11+ on iPhones. Older versions and iPads may not work, please upload or share a link.</p>
+         <div style="background:mediumseagreen;width:100px;border:1px sold white; border-radius:5px" @click="showUpload('rec')">
+                <span style="padding:5px; font-size:12px" justify="right"> Try Recording </span>
+        </div> 
     </div>
-
-     
-
     
-        <div class="content-section">            
-
-            <h6> *Upload files from phone </h6>
+        <div class="content-section">       
+            <h6> Upload files from phone </h6>
                 <div class="">                      
                     <label class="btn btn-secondary btn-info" style="margin-left:10px">
                         <input  type="file" name="options" :id="uploadBTN[1][0]" @change="fileValidation(1)" > Upload File  <!--accept=audio removed-->
                     </label>
                 </div> 
-
-            <h6> *Or share a link to your file</h6>
-                <label class="btn btn-default">
-                    <input name="options" :id="uploadBTN[1][1]"></input>
-                </label>   
-                <label class="btn">
-                    <button class="btn btn-outline-info btn-sm" type="button" @click="saveLink(1)"> Save Link </button>                                            
-                </label>        
         </div> 
-
-
 </div>  <!-- end of upload -->
+
+<div v-if="addReady" >				
+        <button  class="btn btn-info" style="margin-right:5px" @click="addWord(1)">Add Word</button>
+</div> 
 
 </div> 
 
 <div class="content-section">
         <legend class="border-bottom mb-4">Sentences </legend>
+        * refresh to update
     <template v-for="(ans, key) in ansOBJ">
         <h4> Q [[key]] </h4>
-        <img class="rounded img-fluid" id="final_image" alt="No file yet" style="max-width:60%"  src="https://abc-lms.s3.ap-northeast-1.amazonaws.com/profiles/blank.png">
+        <img class="rounded img-fluid" id="final_image" alt="No file yet" style="max-width:60%"  :src="ansOBJ[key]['imageLink']">
         <br><br>
         <h5> Word: [[ans.word]] </h5>
         <h5> Sentence: [[ans.sentence]] </h5>
+        <h5> Speaker: [[ans.user]] </h5>
         <div>                              
-            <audio id="" controls src=""></audio> 
+            <audio id="" controls :src="ansOBJ[key]['audioLink']"></audio> 
         </div>
         <br>
+        <div style="background:lightcoral;width:100px;border:1px sold white; border-radius:5px" @click="delete(key)">
+                <span style="padding:5px; font-size:12px" justify="right"> Delete Word </span>
+        </div> 
         <br>
 
     </template>

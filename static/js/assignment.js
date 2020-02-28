@@ -18,6 +18,10 @@ else if (report.includes('Android')){
     device = 'A'
     notice = 'Recording in Android'
 }
+else if (report.includes('Macintosh')){
+    device = 'A'
+    notice = 'Recording on Mac'
+}
 else if (report.includes('iPad')){
     notice = 'Recording on iPad may not work; please upload file, share a link or use a phone/computer'
     device = 'I'
@@ -350,7 +354,7 @@ function startVue(ansOBJ, device){
             alert('Upload Failed, there has been an error. Reload the page and if it happens again please tell you instructor')
           });           
           console.log(vue.ansOBJ);
-      },
+      },      
       audioCheck : function(){
         if (this.ansOBJ['1']['AudioData'] == null){
           this.audio['1'] = 1

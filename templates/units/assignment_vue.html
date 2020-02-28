@@ -89,14 +89,14 @@
 
 
 <div v-if="upload">
-
-    <div style="background:pink;height:30px" @click="showUpload('rec')">
-            <span style="color:red" > TRY RECORDING -->  </span>
-    </div>
+    
     <div class="content-section">
         <p>If you have an Android phone and you cannot record, please first check your microphone permissions or try a different browser.</p> 
 
         <p>If you are using iOS, recording should work for IOS 11+ on iPhones. Older versions and iPads may not work, please upload or share a link.</p>
+        <div style="background:lightcoral;width:100px;border:1px sold white; border-radius:5px" @click="showUpload('rec')">
+                <span style="padding:5px; font-size:12px" justify="right"> Try Recording </span>
+        </div> 
     </div>
 
      

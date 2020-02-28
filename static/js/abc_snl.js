@@ -11,45 +11,42 @@ var teamOBJ = JSON.parse(teamMembers)
 console.log('teamOBJ', teamOBJ);
 
 var report = navigator.userAgent
-var device = 'A'
-let nav_user = function(report) {
-      
+var device = null
+var notice = null
 
-      if (report.includes('Line')){
-          alert('WARNING: It looks like you are using Line App to view this website. Please switch to Chrome or Safari browser to do assignments')
-          window.location = (window.location.href).split('ass')[0] + 'assignment'   
-      }
-      if (report .includes('FB')){
-          alert('WARNING: It looks like you are using Facebook Chat App to view this website. Please switch to Chrome or Safari browser to do assignments')
-          window.location = (window.location.href).split('ass')[0] + 'assignment' 
-      }
-
-      if (report .includes('Android')){
-          device = 'A'
-      }
-      else if (report .includes('iPhone')){          
-        if (report .includes('iPhone OS 1')){
-            
-                if (report .includes('iPhone OS 10')){
-                  device = 'U'
-                  alert('NOTICE: It looks like you are using an older iOS; recording online works with iOS 11+ ; please upload file or share a link')
-                }  
-                else {
-                  device = 'I'
-                }
-          }
-          else {
-            device = 'U'
-            alert('NOTICE: It looks like you are using an older iOS; recording online works with iOS 11+ ; please upload file or share a link')
-          }
-      }
-      else if (report .includes('iPad')){
-          alert('NOTICE: It looks like you are using an iPad; recording may not work; if so, please upload file or share a link')
-          device = 'I'
-      }
-
-      return device
+if (report.includes('Windows')){
+  device = 'A'
+  notice = 'Recording in Windows'
 }
+else if (report.includes('Android')){
+    device = 'A'
+    notice = 'Recording in Android'
+}
+else if (report.includes('Macintosh')){
+    device = 'A'
+    notice = 'Recording on Mac'
+}
+else if (report.includes('iPad')){
+    notice = 'Recording on iPad may not work; please upload file, share a link or use a phone/computer'
+    device = 'I'
+}
+else if (report.includes('iPhone OS 11')){ 
+    device = 'I'
+    notice = 'Recording in iOS 11'
+}      
+else if (report.includes('iPhone OS 12')){ 
+  device = 'I'
+  notice = 'Recording in iOS 12'
+}
+else if (report.includes('iPhone OS 13')){ 
+  device = 'I'
+  notice = 'Recording in iOS 13'
+}
+else {
+  device = 'U'
+  notice = 'Your iOS may not work; if so try upload a file, share a link, or use a computer'
+}
+console.log('DEVICE', device);
 
 //device = 'U'
 let b64d = 'nothing'
@@ -155,8 +152,7 @@ window.globalFunc = function (action){
                     var reader = new FileReader();
                     reader.readAsDataURL(blob);	
                     reader.onload = function(){ 
-                        var base64data = this.result.split(',')[1]  // <-- this.result contains a base64 data URI 
-                        b64d = base64data                                                                  
+                        b64d = this.result.split(',')[1]  // <-- this.result contains a base64 data URI; set to gloabl variable                                                                  
                     }; //end reader.onload
                 
                 })//end fetch      
@@ -171,39 +167,28 @@ window.globalFunc = function (action){
 
 
 
-startVue(ansOBJ, device)
+startVue(ansOBJ, device, notice)
 
-function startVue(ansOBJ, device){ 
+function startVue(ansOBJ, device, notice){ 
   
   let vue = new Vue({   
 
     el: '#vue-app',
     delimiters: ['[[', ']]'],   
-    mounted: function () {      
-      this.audioCheck()
+    mounted: function () { 
       if (device == 'U'){
         this.showUpload('up')
-      }
-
-      if (device == 'I'){
-        this.phone = 'Recording with Apple Device'
-      }
-      else if (device == 'A') {
-        this.phone = 'Recording with Android or Computer'
-      }
-      else {
-        this.phone = 'This device may not work'
-      }
+      }     
       
     },   
     data: {
         ansOBJ: ansOBJ, 
         device: device,
-
-        //testOBJ: testOBJ, 
+        notice : notice,
+        addReady : true,        
         unit: (window.location.href).split('/snl/')[1].split('/')[0],
         team: (window.location.href).split('/snl/')[1].split('/')[1], 
-        phone : 'None',
+        
         show: {
           1 : true          
         },
@@ -212,8 +197,7 @@ function startVue(ansOBJ, device){
         },
         uploadBTN : {
           1 : ['upbtn1', 'uplink1']          
-        },               
-                   
+        },          
         rec1: {          
             start : true,
             stop : false, 
@@ -224,15 +208,18 @@ function startVue(ansOBJ, device){
             count : false 
         },   
         base64data : {
-          image_b64 : null, 
-          image_file : null, 
+          image_b64 : null,            
+          fileType : null, 
           audio_b64 : null, 
           audio_file : null, 
+          word : null, 
+          sentence : null
         },     
         rec_timer : null,
         mediaRecorder : null,
         audio_source : null,        
         blobURL : null, 
+        
         upload : false 
     }, 
     methods: {
@@ -273,7 +260,8 @@ function startVue(ansOBJ, device){
                   reader = new FileReader();
                   reader.readAsDataURL(blob); 
                   reader.onloadend = function() {
-                    vue.base64data[audio_b64] = reader.result.split(',')[1]; //remove padding from beginning of string
+                    vue.base64data['audio_b64'] = reader.result.split(',')[1]; //remove padding from beginning of string
+                    vue.base64data['audio_file'] = 'Set'
                     vue.blobURL = blobURL            
                   }  
                 }        
@@ -293,16 +281,16 @@ function startVue(ansOBJ, device){
         console.log(this.device);
         if (this.device == 'A') {  
           console.log('stopped');
-          vue.mediaRecorder.stop(); 
-          vue.audio[task] = 3
+          vue.mediaRecorder.stop();           
           console.log('status:' + vue.mediaRecorder.state);
         }
         else if (this.device == 'I'){
           // global function for iphone recording
           window.globalFunc('stop')
-          vue.blobURL = globlob
-          vue.audio[task] = 3
-          console.log('status: mp3 rec stopped');          
+          vue.blobURL = globlob;    
+          vue.base64data['audio_b64'] = b64d      
+          console.log('status: mp3 rec stopped', vue.base64data['audio_b64']); 
+
         }        
       },  
       cancel: function(){
@@ -315,79 +303,52 @@ function startVue(ansOBJ, device){
 
         vue.show['1'] = true
         vue.show['2'] = true
-        vue.base64data = null
-        vue.blobURL = null 
-        this.audioCheck()
+        vue.base64data['audio_b64'] = null
+        vue.blobURL = null         
       },
-      save : function (){
-        var word = document.getElementById('word').innerHTML
-        var sentence = document.getElementById('sentence').innerHTML
-
-        if (this.device == 'I'){
-          vue.base64data = b64d          
+      updateWord: function(){
+        vue.base64data['word'] = document.getElementById('word').value
+        vue.base64data['sentence'] = document.getElementById('sentence').value
+        console.log(vue.base64data);
+      },
+      deleteWord : function(key){
+        console.log(vue.ansObj[key]);        
+      },
+      addWord : function (){        
+        var user = document.getElementById('user').value
+        for (var key in vue.base64data) {
+          if (vue.base64data[key] == null) {
+            alert (key + ' is not complete')
+            return false
+          }
+          else{
+            console.log('clear');
+          }
         }  
-        let task_title
-        if (task == '3'){
-          task_title = 'text'          
-        }
-        else{  
-          task_title = (vue.ansOBJ.Unit + '_' + task + '_' + device)
-        }
-        if (mark == 'link'){
-          task_title = 'link'
-        }
 
         $.ajax({
-          data : {
-              task : task,
-              unit : vue.ansOBJ.Unit,
-              title : task_title,
-              base64 : vue.base64data,
-              ansDict : JSON.stringify(vue.ansOBJ),
-              Notes : this.n1,
-              TextOne : this.t1,
-              TextTwo : this.t2,
+          data : {              
+              unit : vue.unit,
+              team : vue.team,
+              user : user,
+              b64String : JSON.stringify(vue.base64data),              
           },
           type : 'POST',
-          url : '/audioUpload'                    
+          url : '/addWord'                    
           })
           .done(function(data) {
-              if (task < 3 ){
-                vue.ansOBJ[task]['AudioData'] = data.title
-                vue.ansOBJ[task]['Length'] = vue.rec1.count                
-              }              
-              vue.cancel() 
-              if (data.grade == 0){
-                alert('Upload successful\r\nKeep going')    
-              }
-              else if (data.grade == 1){
-                alert('Assignment complete\r\nLate submission\r\n1 point\r\nGo back to assignments')    
-              }
-              else if (data.grade == 2){
-                alert('Assignment completed on time\r\n 2 points\r\nGo back to assignments')    
-              }
-                        
+            console.log(data.word + ' has been succesfully added');
+            vue.ansOBJ[data.word] = JSON.parse(data.newDict)
+            // reset base64data
+            for (var key in vue.base64data) {
+              vue.base64data[key] = null
+              }  
           })
           .fail(function(){
             alert('Upload Failed, there has been an error. Reload the page and if it happens again please tell you instructor')
           });           
           console.log(vue.ansOBJ);
-      },
-      audioCheck : function(){
-        if (this.ansOBJ['1']['rec'] == null){
-          this.audio['1'] = 1
-        }
-        else{
-          this.audio['1'] = 2
-        }
-        if (this.ansOBJ['2']['rec'] == null){
-          this.audio['2'] = 1
-        }
-        else{
-          this.audio['2'] = 2
-        }
-        console.log(this.audio);
-      },
+      },           
       showUpload : function(arg){
         if (arg == 'up'){
           this.upload = true
@@ -434,13 +395,8 @@ function startVue(ansOBJ, device){
           }, 1000)
       },
       playAudio : function (arg) { 
-
         let playlist = {
-          '0' : vue.blobURL, 
-          '1' : vue.ansOBJ['1']['AudioData'], 
-          '2' : vue.ansOBJ['2']['AudioData'], 
-          '3' : vue.ansOBJ['1']['model'], 
-          '3' : vue.ansOBJ['2']['model'], 
+          '0' : vue.blobURL          
         }
         player = document.getElementById('handler')        
         player.src = playlist[arg]
@@ -508,7 +464,9 @@ function startVue(ansOBJ, device){
         console.log('file', fileInput)
         var filePath = fileInput.value;
         console.log(filePath);
-        vue.fileType = filePath.split('.')[1]
+        //console.log(vue.base64data);
+        vue.base64data['fileType'] = filePath.split('.')[1]
+        console.log(vue.base64data['fileType']);
 
         var allowedExtensions = /(\.jpeg|\.png|\.jpg)$/i;
     
@@ -533,9 +491,10 @@ function startVue(ansOBJ, device){
                   var reader = new FileReader();
                   reader.readAsDataURL(savedBlob);          
                   reader.onloadend = function() {
-                      vue.image_b64 = reader.result.split(',')[1];  
-                      console.log(vue.image_b64); 
-                      setTimeout(vue.uploadImage() , 10000)
+                      vue.base64data['image_b64'] = reader.result.split(',')[1];  
+                      //vue.base64data[image_file] = 'T' + vue.team + '_U' + vue.unit;  
+                      console.log(vue.base64data['image_b64']); 
+                      //setTimeout(vue.uploadImage() , 10000)
                       
                       } 
               })  
@@ -547,28 +506,33 @@ function startVue(ansOBJ, device){
         $.ajax({    
             type : 'POST',
             data : {
-                unit : document.getElementById('unit').innerHTML, 
-                b64String : app.image_b64,
-                fileType : app.fileType                                       
-                      
+                unit : vue.unit, 
+                team : vue.team, 
+                base64data : JSON.stringify(vue.base64data)     
             },
             url : '/sendImage',    
         })
         .done(function(data) {              
             if (data) {
-                console.log(data.imageLink);    
-                app.imageLink = data.imageLink  
-                document.getElementById('final_image').src = app.imageLink    
+                //console.log(data.imageLink);    
+                //app.imageLink = data.imageLink  
+                //document.getElementById('final_image').src = app.imageLink    
             }
         });
-    }, 
-      saveLink : function(task){    
-        vue.base64data = document.getElementById('uplink' + task).value
-        vue.rec1.count = 1        
-        console.log( 'link stored for task ' + task) 
-        this.save(task, 'link')       
-    }                  
-    } // end methods    
+      },                
+    }, // end methods  
+    computed : {
+      ready : function() {
+          vue.addReady = true
+          for (var key in vue.base64data) {
+            if (vue.base64data[key] = null) {
+              vue.addReady = false
+            }
+          }  
+      },
+          
+
+    }  
     
     
     

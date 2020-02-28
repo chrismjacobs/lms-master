@@ -113,14 +113,14 @@ def project_teams(unit, number):
         }
     
     snlDict = {}
-    for i in range (1, 5):
+    '''for i in range (1, 5):
         snlDict[i] = {
             'word' : None,
             'sentence' : None, 
             'rec' : None, 
             'image' : None, 
             'phone' : None
-        }       
+        }'''       
 
     #make a list of team already set up 
     teams = []
@@ -292,6 +292,53 @@ def abc_qna(unit, team):
     ansDict=ansDict,
     testDict=str(json.dumps(testDict))
     )
+
+
+@app.route('/addWord', methods=['POST'])
+def addWord(): 
+    b64Dict = json.loads(request.form ['b64String'])
+    print(b64Dict)
+    print('ADDWORD ACTIVE') 
+    word = b64Dict ['word']  
+    user = request.form ['user']  
+    sentence= b64Dict ['sentence']  
+    unit = request.form ['unit']  
+    team = request.form ['team'] 
+
+    project = unitDict[unit].query.filter_by(teamnumber=team).first()   
+    
+    ansDict = ast.literal_eval(project.Ans02)
+
+    qCount = len(ansDict)
+    print('qCount', qCount)
+
+    print('PROCESSING IMAGE')            
+    image = base64.b64decode(b64Dict['image_b64'])    
+    filename = unit + '/' + team + '/' + word + '_image.' + b64Dict['fileType']
+    imageLink = S3_LOCATION + filename
+    s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=image)
+
+    print('PROCESSING AUDIO')       
+    audio = base64.b64decode(b64Dict['audio_b64'])
+    filename = unit + '/' + team + '/' + word + '_audio.mp3'
+    audioLink = S3_LOCATION + filename  
+    s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=audio)
+
+    ansDict[qCount + 1] = {
+            'word' : word,
+            'sentence' : sentence, 
+            'audioLink' : audioLink, 
+            'imageLink' : imageLink, 
+            'user' : user
+        }
+
+    ansString = json.dumps(ansDict)
+    
+    project.Ans02 = ansString 
+    project.Ans04 = len(ansDict)
+    db.session.commit()
+
+    return jsonify({'word' : word, 'newDict' : ansString })
 
 
 @app.route ("/abc/snl/<string:unit>/<int:team>", methods=['GET','POST'])
