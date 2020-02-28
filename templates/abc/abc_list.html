@@ -110,10 +110,10 @@ function startVue(OBJ, colorFloat){ new Vue({
           if (QorS == 'q'){
             var max = 12            
           } else {
-            var max = 8
+            var max = 4
           }
 
-          if (total == max) {
+          if (total >= max) {
             return 3
           } else {
             return 2
@@ -134,19 +134,8 @@ function startVue(OBJ, colorFloat){ new Vue({
 
           // go to HTTPS version
           var str = window.location.href
-            if ( str.includes('127')  ){   
-                console.log(str);
-                var newURLString = str
-            }
-            else if ( str.includes('https')  ){   
-                console.log(str);
-                var newURLString = str
-            }
-            else {
-            var newURLString = 'https://' + str.split('://')[1]
-            }
 
-          let url = (newURLString).split('_list')[0] + link + key + '/' + number
+          let url = (str).split('_list')[0] + link + key + '/' + number
           console.log('goTO', url);
             window.location = url
             console.log('DONE');

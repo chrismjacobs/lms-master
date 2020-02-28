@@ -324,7 +324,7 @@ def addWord():
     audioLink = S3_LOCATION + filename  
     s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=audio)
 
-    ansDict[qCount + 1] = {
+    ansDict[word] = {
             'word' : word,
             'sentence' : sentence, 
             'audioLink' : audioLink, 
@@ -338,7 +338,31 @@ def addWord():
     project.Ans04 = len(ansDict)
     db.session.commit()
 
-    return jsonify({'word' : word, 'newDict' : ansString })
+
+    return jsonify({'word' : word, 'newDict' : ansString, 'qCount' : qCount })
+
+@app.route('/deleteWord', methods=['POST'])
+def deleteWord():
+    word = request.form ['word'] 
+    unit = request.form ['unit']  
+    team = request.form ['team'] 
+
+    project = unitDict[unit].query.filter_by(teamnumber=team).first()   
+    
+    ansDict = ast.literal_eval(project.Ans02)
+
+    if ansDict[word]:
+        ansDict.pop(word)
+        ansString = json.dumps(ansDict)
+        project.Ans02 = ansString 
+        project.Ans04 = len(ansDict)
+        db.session.commit()
+
+    qCount = len(ansDict)
+    print('qCount', qCount)
+    
+    return jsonify({'word' : word, 'newDict' : json.dumps(ansDict), 'qCount' : qCount })
+
 
 
 @app.route ("/abc/snl/<string:unit>/<int:team>", methods=['GET','POST'])

@@ -312,7 +312,27 @@ function startVue(ansOBJ, device, notice){
         console.log(vue.base64data);
       },
       deleteWord : function(key){
-        console.log(vue.ansObj[key]);        
+        $.ajax({
+          data : {              
+              unit : vue.unit,
+              team : vue.team,
+              word : key             
+          },
+          type : 'POST',
+          url : '/deleteWord'                    
+          })
+          .done(function(data) {
+            alert('Your team answers have been updated. You now have ' + data.qCount + ' words');
+            vue.ansOBJ = JSON.parse(data.newDict)
+            // reset base64data
+            for (var key in vue.base64data) {
+              vue.base64data[key] = null
+              }  
+          })
+          .fail(function(){
+            alert('Upload Failed, there has been an error. Reload the page and if it happens again please tell you instructor')
+          });           
+          console.log(vue.ansOBJ);       
       },
       addWord : function (){        
         var user = document.getElementById('user').value
@@ -320,10 +340,7 @@ function startVue(ansOBJ, device, notice){
           if (vue.base64data[key] == null) {
             alert (key + ' is not complete')
             return false
-          }
-          else{
-            console.log('clear');
-          }
+          }         
         }  
 
         $.ajax({
@@ -338,7 +355,7 @@ function startVue(ansOBJ, device, notice){
           })
           .done(function(data) {
             console.log(data.word + ' has been succesfully added');
-            vue.ansOBJ[data.word] = JSON.parse(data.newDict)
+            vue.ansOBJ = JSON.parse(data.newDict)
             // reset base64data
             for (var key in vue.base64data) {
               vue.base64data[key] = null
