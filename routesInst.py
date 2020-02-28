@@ -29,9 +29,8 @@ def get_schedule():
 def about():     
     ## src explaining this course
     srcs = get_schedule()
-    intro = srcs['1']['M1']
-    aboutList = ['None', '', '']       
-    return render_template('instructor/about.html', about=aboutList[SCHEMA], intro=intro)
+    intro = srcs['1']['M1']      
+    return render_template('instructor/about.html', intro=intro)
 
 
 @app.route("/course", methods = ['GET', 'POST'])

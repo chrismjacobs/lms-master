@@ -401,6 +401,8 @@ if BaseConfig.SCHEMA < 3:
         admin.add_view(MyModelView(ass, db.session))
 
 elif BaseConfig.SCHEMA == 3:
-    pass
+    admin.add_view(MyModelView(U001U, db.session))
+    admin.add_view(MyModelView(U011U, db.session))
+    
 
 

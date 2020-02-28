@@ -121,7 +121,20 @@ function startVue(assOBJ, colorFloat){ new Vue({
             return background         
         }, 
         goTo: function(key){
-          let url = (window.location.href).split('assignments')[0] + 'ass/' + key
+          var str = window.location.href
+          if ( str.includes('127')  ){   
+                console.log(str);
+                var newURLString = str
+            }
+          else if ( str.includes('https')  ){   
+                console.log(str);
+                var newURLString = str
+            }
+            else {
+            var newURLString = 'https://' + str.split('://')[1]
+            }
+
+          let url = (newURLString).split('assignments')[0] + 'ass/' + key
           console.log('goTO', url);
             window.location = url
             console.log('DONE');

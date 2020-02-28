@@ -49,7 +49,7 @@
                                   <a class="nav-item nav-link" href="{{ url_for ('unit_list') }}">My Units</a>
                                   <a class="nav-item nav-link" href="{{ url_for ('assignment_list') }}">My Assignments</a>
                                 {% elif SCHEMA == 3 %} 
-                                  <a class="nav-item nav-link" href="">My Mini Projects</a> 
+                                  <a class="nav-item nav-link" href="{{ url_for ('abc_list') }}">My Projects</a> 
                                 {% elif SCHEMA == 4 %}
                                   <a class="nav-item nav-link" href="">My Presentations</a>
                                 {% elif SCHEMA > 4 %}

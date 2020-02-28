@@ -4,6 +4,9 @@
 
 <div class="content-section">
 <legend class="border-bottom mb-4">About this Website</legend>
+    <h4 id="website"> </h4>
+    <br>
+    
     <h4> This website is a specially designed LMS (Learner Management System)</h4>
     <br>
     <h5> Features include:</h5>
@@ -37,3 +40,20 @@
 
 {% endblock content %}
 
+{% block script %}  
+
+<script type="text/javascript">
+
+ var str = window.location.href
+ if ( str.includes('https')  ){   
+    console.log(str);
+ }
+ else{
+    var url = 'https://' + str.split('://')[1]
+  }
+ document.getElementById('website').innerHTML = url
+
+
+</script>  
+
+{% endblock %} 

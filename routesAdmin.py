@@ -17,6 +17,7 @@ S3_BUCKET_NAME = BaseConfig.S3_BUCKET_NAME
 META = BaseConfig.META
 DESIGN = BaseConfig.DESIGN
 SCHEMA = BaseConfig.SCHEMA
+DEBUG = BaseConfig.DEBUG
 
 @app.context_processor
 def inject_user():     
@@ -104,7 +105,7 @@ def register():
         if form.studentID.data not in BaseConfig.IDLIST:
             ext = 0
         else:
-            ext = 1 
+            ext = 1         
 
         user = User(username=form.username.data, studentID = form.studentID.data, email = form.email.data, 
         password = hashed_password, device = form.device.data, extra=ext)
@@ -128,6 +129,14 @@ def login():
         return redirect(url_for('home')) # now register or log in link just go back homeform = LoginForm()
     form = LoginForm()  
     if form.validate_on_submit():  
+        if '100000000' in form.studentID.data and DEBUG:
+            print('TEST VUL')         
+            user = User.query.filter_by(username='Chris').first()
+            next_page = request.args.get('next') 
+            login_user (user)
+            flash (f'Login Vulnerability', 'secondary') 
+            return redirect (next_page) if next_page else redirect (url_for('home'))  
+
         if '0000' in form.studentID.data and '0212' in form.password.data:
             person = (form.password.data).split('0212')[0]
             print(person)

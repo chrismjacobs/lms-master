@@ -1,7 +1,14 @@
-var ansString = document.getElementById('ansString').innerHTML
-console.log(ansString);
+var ansString = document.getElementById('ansDict').innerHTML
 var ansOBJ = JSON.parse(ansString)
 console.log('ansOBJ', ansOBJ);
+
+//var testString = document.getElementById('testDict').innerHTML
+//var testOBJ = JSON.parse(testString)
+//console.log('testOBJ', testOBJ);
+
+var teamMembers = document.getElementById('teamMembers').innerHTML
+var teamOBJ = JSON.parse(teamMembers)
+console.log('teamOBJ', teamOBJ);
 
 var report = navigator.userAgent
 var device = 'A'
@@ -44,9 +51,11 @@ let nav_user = function(report) {
       return device
 }
 
+//device = 'U'
+let b64d = 'nothing'
+let globlob = 'noURL'
 
 
-//iphone recording
 window.globalFunc = function (action){
   console.log('global started');
   window.URL = window.URL || window.webkitURL;
@@ -160,11 +169,6 @@ window.globalFunc = function (action){
 }
 
 
-//device = 'U'
-let b64d = 'nothing'
-let globlob = 'noURL'
-
-
 
 
 startVue(ansOBJ, device)
@@ -193,25 +197,23 @@ function startVue(ansOBJ, device){
       
     },   
     data: {
-        title: {
-          1 : 'Task 1 Pronunciation Practice', 
-          2 : 'Task 2 Speaking Practice'
-        },
+        ansOBJ: ansOBJ, 
+        device: device,
+
+        //testOBJ: testOBJ, 
+        unit: (window.location.href).split('/snl/')[1].split('/')[0],
+        team: (window.location.href).split('/snl/')[1].split('/')[1], 
         phone : 'None',
         show: {
-          1 : true, 
-          2 : true
+          1 : true          
         },
         audio: {
-          1 : null, 
-          2 : null
+          1 : null          
         },
         uploadBTN : {
-          1 : ['upbtn1', 'uplink1'],
-          2 : ['upbtn2', 'uplink2']
-        },                
-        ansOBJ: ansOBJ, 
-        device: device,           
+          1 : ['upbtn1', 'uplink1']          
+        },               
+                   
         rec1: {          
             start : true,
             stop : false, 
@@ -220,14 +222,16 @@ function startVue(ansOBJ, device){
             timer : false,
             t_style: false,  
             count : false 
-        }, 
-        n1 : this.ansOBJ['3']['Notes'], 
-        t1 : this.ansOBJ['3']['TextOne'],
-        t2 : this.ansOBJ['3']['TextTwo'],
+        },   
+        base64data : {
+          image_b64 : null, 
+          image_file : null, 
+          audio_b64 : null, 
+          audio_file : null, 
+        },     
         rec_timer : null,
         mediaRecorder : null,
-        audio_source : null,
-        base64data : null, 
+        audio_source : null,        
         blobURL : null, 
         upload : false 
     }, 
@@ -269,7 +273,7 @@ function startVue(ansOBJ, device){
                   reader = new FileReader();
                   reader.readAsDataURL(blob); 
                   reader.onloadend = function() {
-                    vue.base64data = reader.result.split(',')[1]; //remove padding from beginning of string
+                    vue.base64data[audio_b64] = reader.result.split(',')[1]; //remove padding from beginning of string
                     vue.blobURL = blobURL            
                   }  
                 }        
@@ -315,7 +319,10 @@ function startVue(ansOBJ, device){
         vue.blobURL = null 
         this.audioCheck()
       },
-      save : function (task, mark){
+      save : function (){
+        var word = document.getElementById('word').innerHTML
+        var sentence = document.getElementById('sentence').innerHTML
+
         if (this.device == 'I'){
           vue.base64data = b64d          
         }  
@@ -323,8 +330,7 @@ function startVue(ansOBJ, device){
         if (task == '3'){
           task_title = 'text'          
         }
-        else{          
-          vue.ansOBJ[task]['Length'] = vue.rec1.count
+        else{  
           task_title = (vue.ansOBJ.Unit + '_' + task + '_' + device)
         }
         if (mark == 'link'){
@@ -368,18 +374,19 @@ function startVue(ansOBJ, device){
           console.log(vue.ansOBJ);
       },
       audioCheck : function(){
-        if (this.ansOBJ['1']['AudioData'] == null){
+        if (this.ansOBJ['1']['rec'] == null){
           this.audio['1'] = 1
         }
         else{
           this.audio['1'] = 2
         }
-        if (this.ansOBJ['2']['AudioData'] == null){
+        if (this.ansOBJ['2']['rec'] == null){
           this.audio['2'] = 1
         }
         else{
           this.audio['2'] = 2
         }
+        console.log(this.audio);
       },
       showUpload : function(arg){
         if (arg == 'up'){
@@ -496,6 +503,65 @@ function startVue(ansOBJ, device){
             })        
         }//end else    
       },//end fileValidation 
+      imageValidation : function(){    
+        var fileInput = document.getElementById('image');        
+        console.log('file', fileInput)
+        var filePath = fileInput.value;
+        console.log(filePath);
+        vue.fileType = filePath.split('.')[1]
+
+        var allowedExtensions = /(\.jpeg|\.png|\.jpg)$/i;
+    
+          if(fileInput.files[0].size > 4400000){
+              alert("File is too big!"); 
+              fileInput.value = '';             
+              return false;        
+          }
+          else if(!allowedExtensions.exec(filePath)){
+              alert('Please upload image: .jpeg/.png only.');
+              fileInput.value = '';
+              return false;
+          }    
+          else{            
+              console.dir( fileInput.files[0] );    
+              var url = window.URL.createObjectURL(fileInput.files[0]);        
+              fetch(url)
+              .then(function(res){
+                  return res.blob();
+                  })
+              .then(function(savedBlob){
+                  var reader = new FileReader();
+                  reader.readAsDataURL(savedBlob);          
+                  reader.onloadend = function() {
+                      vue.image_b64 = reader.result.split(',')[1];  
+                      console.log(vue.image_b64); 
+                      setTimeout(vue.uploadImage() , 10000)
+                      
+                      } 
+              })  
+          }//end else
+            
+      },//end fileValidation 
+      uploadImage: function (){
+        console.log()
+        $.ajax({    
+            type : 'POST',
+            data : {
+                unit : document.getElementById('unit').innerHTML, 
+                b64String : app.image_b64,
+                fileType : app.fileType                                       
+                      
+            },
+            url : '/sendImage',    
+        })
+        .done(function(data) {              
+            if (data) {
+                console.log(data.imageLink);    
+                app.imageLink = data.imageLink  
+                document.getElementById('final_image').src = app.imageLink    
+            }
+        });
+    }, 
       saveLink : function(task){    
         vue.base64data = document.getElementById('uplink' + task).value
         vue.rec1.count = 1        
@@ -509,6 +575,7 @@ function startVue(ansOBJ, device){
 })// end NEW VUE
 
 }// endFunction 
+
 
 
 
