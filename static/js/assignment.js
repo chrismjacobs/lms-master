@@ -4,46 +4,41 @@ var ansOBJ = JSON.parse(ansString)
 console.log('ansOBJ', ansOBJ);
 
 var report = navigator.userAgent
-var device = 'I'
-let nav_user = function(report) {
-      
+console.log(report);
+var device = null
+var notice = null
 
-      if (report.includes('Line')){
-          alert('WARNING: It looks like you are using Line App to view this website. Please switch to Chrome or Safari browser to do assignments')
-          window.location = (window.location.href).split('ass')[0] + 'assignment'   
-      }
-      if (report.includes('FB')){
-          alert('WARNING: It looks like you are using Facebook Chat App to view this website. Please switch to Chrome or Safari browser to do assignments')
-          window.location = (window.location.href).split('ass')[0] + 'assignment' 
-      }
 
-      if (report.includes('Android')){
-          device = 'A'
-      }
-      else if (report.includes('iPhone')){          
-        if (report.includes('iPhone OS 1')){
-            
-                if (report.includes('iPhone OS 10')){
-                  device = 'U'
-                  alert('NOTICE: It looks like you are using an older iOS; recording online works with iOS 11+ ; please upload file or share a link')
-                }  
-                else {
-                  device = 'I'
-                }
-          }
-          else {
-            device = 'U'
-            alert('NOTICE: It looks like you are using an older iOS; recording online works with iOS 11+ ; please upload file or share a link')
-          }
-      }
-      else if (report.includes('iPad')){
-          alert('NOTICE: It looks like you are using an iPad; recording may not work; if so, please upload file or share a link')
-          device = 'I'
-      }
 
-      return device
+if (report.includes('Windows')){
+  device = 'A'
+  notice = 'Recording in Windows'
 }
-
+else if (report.includes('Android')){
+    device = 'A'
+    notice = 'Recording in Android'
+}
+else if (report.includes('iPad')){
+    notice = 'Recording on iPad may not work; please upload file, share a link or use a phone/computer'
+    device = 'I'
+}
+else if (report.includes('iPhone OS 11')){ 
+    device = 'I'
+    notice = 'Recording in iOS 11'
+}      
+else if (report.includes('iPhone OS 12')){ 
+  device = 'I'
+  notice = 'Recording in iOS 12'
+}
+else if (report.includes('iPhone OS 13')){ 
+  device = 'I'
+  notice = 'Recording in iOS 13'
+}
+else {
+  device = 'U'
+  notice = 'Your iOS may not work; if so try upload a file, share a link, or use a computer'
+}
+console.log('DEVICE', device);
 
 
 //iphone recording
@@ -167,7 +162,7 @@ let globlob = 'noURL'
 
 
 
-startVue(ansOBJ, device)
+startVue(ansOBJ, device, notice)
 
 function startVue(ansOBJ, device){ 
   
@@ -179,25 +174,14 @@ function startVue(ansOBJ, device){
       this.audioCheck()
       if (device == 'U'){
         this.showUpload('up')
-      }
-
-      if (device == 'I'){
-        this.phone = 'Recording with Apple Device'
-      }
-      else if (device == 'A') {
-        this.phone = 'Recording with Android or Computer'
-      }
-      else {
-        this.phone = 'This device may not work'
-      }
-      
+      }      
     },   
     data: {
         title: {
           1 : 'Task 1 Pronunciation Practice', 
           2 : 'Task 2 Speaking Practice'
         },
-        phone : 'None',
+        notice : notice,
         show: {
           1 : true, 
           2 : true
