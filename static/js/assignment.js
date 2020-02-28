@@ -12,18 +12,18 @@ let nav_user = function(report) {
           alert('WARNING: It looks like you are using Line App to view this website. Please switch to Chrome or Safari browser to do assignments')
           window.location = (window.location.href).split('ass')[0] + 'assignment'   
       }
-      if (report .includes('FB')){
+      if (report.includes('FB')){
           alert('WARNING: It looks like you are using Facebook Chat App to view this website. Please switch to Chrome or Safari browser to do assignments')
           window.location = (window.location.href).split('ass')[0] + 'assignment' 
       }
 
-      if (report .includes('Android')){
+      if (report.includes('Android')){
           device = 'A'
       }
-      else if (report .includes('iPhone')){          
-        if (report .includes('iPhone OS 1')){
+      else if (report.includes('iPhone')){          
+        if (report.includes('iPhone OS 1')){
             
-                if (report .includes('iPhone OS 10')){
+                if (report.includes('iPhone OS 10')){
                   device = 'U'
                   alert('NOTICE: It looks like you are using an older iOS; recording online works with iOS 11+ ; please upload file or share a link')
                 }  
@@ -36,7 +36,7 @@ let nav_user = function(report) {
             alert('NOTICE: It looks like you are using an older iOS; recording online works with iOS 11+ ; please upload file or share a link')
           }
       }
-      else if (report .includes('iPad')){
+      else if (report.includes('iPad')){
           alert('NOTICE: It looks like you are using an iPad; recording may not work; if so, please upload file or share a link')
           device = 'I'
       }
