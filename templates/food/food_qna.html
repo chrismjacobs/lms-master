@@ -43,53 +43,41 @@
 
 <template v-for="(item, key) in ansOBJ"> 
 
-<span  v-if="marker[key] == 3" @click="edit(key)" class="unit-span" style="background:dogerblue"> &emsp;Q[[ key ]]&emsp; </span>
-<span  v-if="marker[key] == 2" @click="edit(key)" class="unit-span" style="background:mediumseagreen"> &emsp;Q[[ key ]]&emsp; </span>
-<span  v-if="marker[key] == 1" @click="edit(key)" class="unit-span" style="background:lightcoral"> &emsp;Q[[ key ]]&emsp; </span>
-
-<br>      
-<h6 v-if="item.topic"> [[ item.topic ]] </h6>
+<span @click="edit(key)" class="unit-span" :style="qStyle(key)"> &emsp;&emsp;Q[[ key ]]&emsp;&emsp; </span>
+<br>
+    
+<h6  v-if="item.topic"> [[ item.topic ]] </h6>
 <h6  v-if="item.question"> Q: [[ item.question ]] </h6>
 <h6  v-if="item.answer"> A: [[ item.answer ]] </h6>
 <h6  v-if="item.writer"> By [[ item.writer ]] </h6>
 <br>
-
-<br>      
-<h6 v-if="testOBJ[key][topic]"> testOBJ[key][topic] </h6>
-<h6 v-if="testOBJ[key][topic]"> testOBJ[key][topic] </h6>
-<h6 v-if="testOBJ[key][topic]"> testOBJ[key][topic] </h6>
-<br>
-
-</template>  
-
-</div> 
-
-<div class="content-section">
-
-
-<template v-for="(item, key) in ansOBJ">         
-        <div v-if="editControl[key]">        
+        <div v-if="marker[key] == 3">        
                 <h5>  Edit Q&A [[key]] </h5>   
                 Writer: <span :id="key + 'w'" name="writer"> {{current_user.username}} </span>
                 <br>
                 <br>
-                Topic: <input :id="key + 't'" type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ[key]['topic']" ></input> 
+                Topic: <input :id="key + 't'" type="text" class="textAss" style="margin-left:5px" v-model="testOBJ[key]['topic']" ></input> 
                 <br>
                 <br>
                 Question
                 <br>
-                <textarea :id="key + 'q'" class="textAss"  v-model="ansOBJ[key]['question']"></textarea> 
+                <textarea :id="key + 'q'" class="textAss"  v-model="testOBJ[key]['question']"></textarea> 
                 <br>
                 Answer
                 <br> 
-                <textarea :id="key + 'a'" class="textAss"  v-model="ansOBJ[key]['answer']"></textarea>         
+                <textarea :id="key + 'a'" class="textAss"  v-model="testOBJ[key]['answer']"></textarea>         
                 <div>  			
-                <button  class="btn btn-info" @click="storeData(key)">Add Q&A</button>
+                <button  class="btn btn-warning" @click="storeData(key)">Add Q&A</button>
                 </div> 
+                
+
         <div>
+
+<br>
 </template>  
 
 </div> 
+
 
 
   

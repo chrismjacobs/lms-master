@@ -403,6 +403,19 @@ if BaseConfig.SCHEMA < 3:
 elif BaseConfig.SCHEMA == 3:
     admin.add_view(MyModelView(U001U, db.session))
     admin.add_view(MyModelView(U011U, db.session))
+    admin.add_view(MyModelView(U021U, db.session))
+    admin.add_view(MyModelView(U031U, db.session))
+    admin.add_view(MyModelView(U041U, db.session))
+    admin.add_view(MyModelView(U051U, db.session))
+    admin.add_view(MyModelView(U061U, db.session))
+    admin.add_view(MyModelView(U071U, db.session))
+    admin.add_view(MyModelView(U081U, db.session))
+
+elif BaseConfig.SCHEMA == 5:    
+    admin.add_view(MyModelView(U011U, db.session))
+    admin.add_view(MyModelView(U012U, db.session))
+    admin.add_view(MyModelView(U013U, db.session))
+    admin.add_view(MyModelView(U014U, db.session))
     
 
 

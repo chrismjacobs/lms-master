@@ -51,9 +51,9 @@
                                 {% elif SCHEMA == 3 %} 
                                   <a class="nav-item nav-link" href="{{ url_for ('abc_list') }}">My Projects</a> 
                                 {% elif SCHEMA == 4 %}
-                                  <a class="nav-item nav-link" href="">My Presentations</a>
+                                  <a class="nav-item nav-link" href="{{ url_for ('peng_list') }}">My Presentations</a>
                                 {% elif SCHEMA > 4 %}
-                                  <a class="nav-item nav-link" href="">My Presentations</a>
+                                  <a class="nav-item nav-link" href="{{ url_for ('food_list') }}">My Presentations</a>
                                 {% endif %} 
                           <a class="nav-item nav-link" href="{{ url_for ('account') }}">My Account</a>                           
                           <a class="nav-item nav-link" href="{{ url_for ('logout') }}">Logout</a>

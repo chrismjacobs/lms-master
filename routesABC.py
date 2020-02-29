@@ -11,35 +11,13 @@ from routesUser import get_grades, get_sources
 
 from meta import BaseConfig   
 s3_resource = BaseConfig.s3_resource  
+s3_client = BaseConfig.s3_client
 S3_LOCATION = BaseConfig.S3_LOCATION
 S3_BUCKET_NAME = BaseConfig.S3_BUCKET_NAME
 SCHEMA = BaseConfig.SCHEMA
 DESIGN = BaseConfig.DESIGN
 
-'''
-list of projects 
-Title
-Team
-Status
 
-project page
-4 questions about content
-record question
-write question
-
-4 questions using vocabulary
-upload picture
-record answer 
-write answer
-
-Exam
-create dictionary of exams
-randomly assign exams to each student
-
-listen to question - submit answers
-check listen to answers - do you want to edit your answer?
-
-'''
 unitDict = {
         '00' : U001U, 
         '01' : U011U, 
@@ -51,7 +29,6 @@ unitDict = {
         '07' : U071U, 
         '08' : U081U, 
     }  
-
 
 def create_folder(unit, teamnumber, nameRange): 
     keyName = (unit + '/' + teamnumber + '/')  #adding '/' makes a folder object
@@ -112,15 +89,7 @@ def project_teams(unit, number):
             'writer' : None 
         }
     
-    snlDict = {}
-    '''for i in range (1, 5):
-        snlDict[i] = {
-            'word' : None,
-            'sentence' : None, 
-            'rec' : None, 
-            'image' : None, 
-            'phone' : None
-        }'''       
+    snlDict = {}           
 
     #make a list of team already set up 
     teams = []
@@ -351,12 +320,14 @@ def deleteWord():
     
     ansDict = ast.literal_eval(project.Ans02)
 
-    if ansDict[word]:
+    try:
         ansDict.pop(word)
         ansString = json.dumps(ansDict)
         project.Ans02 = ansString 
         project.Ans04 = len(ansDict)
         db.session.commit()
+    except:
+        pass        
 
     qCount = len(ansDict)
     print('qCount', qCount)

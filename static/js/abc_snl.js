@@ -185,10 +185,10 @@ function startVue(ansOBJ, device, notice){
         ansOBJ: ansOBJ, 
         device: device,
         notice : notice,
-        addReady : true,        
+        addReady : false,        
         unit: (window.location.href).split('/snl/')[1].split('/')[0],
         team: (window.location.href).split('/snl/')[1].split('/')[1], 
-        
+        edit: false,
         show: {
           1 : true          
         },
@@ -210,8 +210,7 @@ function startVue(ansOBJ, device, notice){
         base64data : {
           image_b64 : null,            
           fileType : null, 
-          audio_b64 : null, 
-          audio_file : null, 
+          audio_b64 : null,           
           word : null, 
           sentence : null
         },     
@@ -261,8 +260,8 @@ function startVue(ansOBJ, device, notice){
                   reader.readAsDataURL(blob); 
                   reader.onloadend = function() {
                     vue.base64data['audio_b64'] = reader.result.split(',')[1]; //remove padding from beginning of string
-                    vue.base64data['audio_file'] = 'Set'
-                    vue.blobURL = blobURL            
+                    vue.blobURL = blobURL 
+                    vue.ready()           
                   }  
                 }        
              })
@@ -289,9 +288,10 @@ function startVue(ansOBJ, device, notice){
           window.globalFunc('stop')
           vue.blobURL = globlob;    
           vue.base64data['audio_b64'] = b64d      
-          console.log('status: mp3 rec stopped', vue.base64data['audio_b64']); 
+          //console.log('status: mp3 rec stopped', vue.base64data['audio_b64']); 
 
-        }        
+        }
+        vue.ready()        
       },  
       cancel: function(){
         console.log('cancel');
@@ -304,11 +304,17 @@ function startVue(ansOBJ, device, notice){
         vue.show['1'] = true
         vue.show['2'] = true
         vue.base64data['audio_b64'] = null
-        vue.blobURL = null         
+        vue.blobURL = null  
+        vue.ready()       
       },
-      updateWord: function(){
+      editor: function(){
+        console.log('test');        
+        this.edit =  !this.edit        
+      },
+      updateWord: function(){        
         vue.base64data['word'] = document.getElementById('word').value
         vue.base64data['sentence'] = document.getElementById('sentence').value
+        this.ready() 
         console.log(vue.base64data);
       },
       deleteWord : function(key){
@@ -328,6 +334,7 @@ function startVue(ansOBJ, device, notice){
             for (var key in vue.base64data) {
               vue.base64data[key] = null
               }  
+            vue.edit = false
           })
           .fail(function(){
             alert('Upload Failed, there has been an error. Reload the page and if it happens again please tell you instructor')
@@ -474,16 +481,17 @@ function startVue(ansOBJ, device, notice){
                 vue.save(task) 
                 })
             })        
-        }//end else    
+        }//end else   
+        this.ready() 
       },//end fileValidation 
       imageValidation : function(){    
         var fileInput = document.getElementById('image');        
-        console.log('file', fileInput)
+        //console.log('file', fileInput)
         var filePath = fileInput.value;
-        console.log(filePath);
+        //console.log(filePath);
         //console.log(vue.base64data);
         vue.base64data['fileType'] = filePath.split('.')[1]
-        console.log(vue.base64data['fileType']);
+        //console.log(vue.base64data['fileType']);
 
         var allowedExtensions = /(\.jpeg|\.png|\.jpg)$/i;
     
@@ -510,43 +518,28 @@ function startVue(ansOBJ, device, notice){
                   reader.onloadend = function() {
                       vue.base64data['image_b64'] = reader.result.split(',')[1];  
                       //vue.base64data[image_file] = 'T' + vue.team + '_U' + vue.unit;  
-                      console.log(vue.base64data['image_b64']); 
+                      //console.log(vue.base64data['image_b64']); 
                       //setTimeout(vue.uploadImage() , 10000)
                       
                       } 
               })  
           }//end else
+          vue.ready()
             
-      },//end fileValidation 
-      uploadImage: function (){
-        console.log()
-        $.ajax({    
-            type : 'POST',
-            data : {
-                unit : vue.unit, 
-                team : vue.team, 
-                base64data : JSON.stringify(vue.base64data)     
-            },
-            url : '/sendImage',    
-        })
-        .done(function(data) {              
-            if (data) {
-                //console.log(data.imageLink);    
-                //app.imageLink = data.imageLink  
-                //document.getElementById('final_image').src = app.imageLink    
-            }
-        });
-      },                
-    }, // end methods  
-    computed : {
-      ready : function() {
-          vue.addReady = true
-          for (var key in vue.base64data) {
-            if (vue.base64data[key] = null) {
-              vue.addReady = false
-            }
-          }  
       },
+      ready : function() {
+        console.log('checking ready');        
+        for (var key in this.base64data) {
+          if (this.base64data[key] == null) {
+            this.addReady = false
+            return false
+          }
+        }
+        this.addReady = true
+        return true
+                     
+    }, // end methods  
+    
           
 
     }  

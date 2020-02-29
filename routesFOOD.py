@@ -46,16 +46,61 @@ listen to question - submit answers
 check listen to answers - do you want to edit your answer?
 
 '''
+unitDict = {
+        'ND' : U011U, 
+        'CV' : U012U, 
+        'RR' : U013U,         
+    }  
+
+
+def get_food_projects():
+    content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/sources.json' )
+    file_content = content_object.get()['Body'].read().decode('utf-8')    
+    sDict = json.loads(file_content)  # json loads returns a dictionary       
+    print(sDict)
+    return sDict
 
 
 @app.route ("/food_list", methods=['GET','POST'])
 @login_required
-def food_list():    
+def food_list(): 
+
+    sDict = get_food_projects() 
+    source = sDict['1']['M2']     
+        
+    return render_template('food/food_list.html', legend='Food Projects', source=source)
+
+@app.route ("/food/<string:proj>", methods=['GET','POST'])
+@login_required
+def food_proj(proj):
     
-    srcDict = get_sources()
-    #print(srcDict)
-      
-    return render_template('units/food_list.html', legend='Units Dashboard')
+    project = unitDict[proj].query.filter_by(username=current_user.username).first()
+    if project:
+        pass
+    else:
+        start = project(username=current_user.username, Ans01=str({}), Grade=0)
+        db.session.add(start)
+        db.session.commit()
+        project = unitDict[proj].query.filter_by(username=current_user.username).first()
+    
+    ansDict = json.loads(project.Ans01)
+
+    
+    ND_Dict = {
+            'dish' : None, 
+            'question' : None, 
+            'answer' : None, 
+            'writer' : None 
+        }    
+    
+    
+    return render_template('abc/abc_qna.html', legend='Questions & Answers', 
+    meta=meta, 
+    teamMembers=teamMembers,
+    ansDict=ansDict,
+    testDict=str(json.dumps(testDict))
+    )
+
 
 
 
