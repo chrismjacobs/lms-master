@@ -342,7 +342,8 @@ function startVue(ansOBJ, device, notice){
           console.log(vue.ansOBJ);       
       },
       addWord : function (){   
-        alert('Please wait a moment while you word is added')     
+        alert('Please wait a moment while your word is added') 
+        vue.addReady = false    
         var user = document.getElementById('user').value
         for (var key in vue.base64data) {
           if (vue.base64data[key] == null) {
@@ -521,16 +522,14 @@ function startVue(ansOBJ, device, notice){
                   var reader = new FileReader();
                   reader.readAsDataURL(savedBlob);          
                   reader.onloadend = function() {
-                      vue.base64data['image_b64'] = reader.result.split(',')[1];  
+                      vue.base64data['image_b64'] = reader.result.split(',')[1]; 
+                      vue.ready() 
                       //vue.base64data[image_file] = 'T' + vue.team + '_U' + vue.unit;  
                       //console.log(vue.base64data['image_b64']); 
-                      //setTimeout(vue.uploadImage() , 10000)
-                      
+                      //setTimeout(vue.uploadImage() , 10000)                      
                       } 
               })  
-          }//end else
-          vue.ready()
-            
+          }//end else   
       },
       ready : function() {
         console.log('checking ready');        
