@@ -341,7 +341,8 @@ function startVue(ansOBJ, device, notice){
           });           
           console.log(vue.ansOBJ);       
       },
-      addWord : function (){        
+      addWord : function (){   
+        alert('Please wait a moment while you word is added')     
         var user = document.getElementById('user').value
         for (var key in vue.base64data) {
           if (vue.base64data[key] == null) {
@@ -361,12 +362,16 @@ function startVue(ansOBJ, device, notice){
           url : '/addWord'                    
           })
           .done(function(data) {
-            console.log(data.word + ' has been succesfully added');
+            alert(data.word + ' has been succesfully added');
             vue.ansOBJ = JSON.parse(data.newDict)
             // reset base64data
             for (var key in vue.base64data) {
               vue.base64data[key] = null
-              }  
+              }
+            document.getElementById('word').value = null
+            document.getElementById('sentence').value = null
+             
+            
           })
           .fail(function(){
             alert('Upload Failed, there has been an error. Reload the page and if it happens again please tell you instructor')
