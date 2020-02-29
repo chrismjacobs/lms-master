@@ -35,8 +35,7 @@ function startVue(ansOBJ, teamOBJ){
         teamOBJ: teamOBJ,
         testOBJ: testOBJ, 
         unit: (window.location.href).split('/qna/')[1].split('/')[0],
-        team: (window.location.href).split('/qna/')[1].split('/')[1],        
-        
+        team: (window.location.href).split('/qna/')[1].split('/')[1],  
         marker:{
             1 : 1, 
             2 : 1, 
@@ -50,7 +49,6 @@ function startVue(ansOBJ, teamOBJ){
             2 : {background: 'mediumseagreen', padding: '5px'},             
             1 : {background: 'lightcoral', padding: '5px'}   
         }
-
     }, 
     methods: {  
         edit : function(question) {
@@ -109,7 +107,6 @@ function startVue(ansOBJ, teamOBJ){
             }
         },
         checkMarkers : function() {
-
             for (var mark in vue.marker) {
                 if (this.ansOBJ[mark]['writer']){
                     vue.marker[mark] = 2                    
@@ -137,8 +134,6 @@ function startVue(ansOBJ, teamOBJ){
             }
             console.log(total);
 
-
-
             $.ajax({
               data : {
                 unit : this.unit,
@@ -160,10 +155,7 @@ function startVue(ansOBJ, teamOBJ){
             });
         }
                     
-    }, // end methods    
-    computed : {        
-
-    }
+    }, // end methods        
     
     
     
