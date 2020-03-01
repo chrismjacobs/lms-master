@@ -46,32 +46,11 @@ check listen to answers - do you want to edit your answer?
 
 '''
 
-
-
-def create_food(proj): 
-    keyName = (proj + '/' + current_user.username)  #adding '/' makes a folder object
-    print (keyName)
-    try: 
-        # use s3_client instead of resource to use head_object or list_objects
-        response = s3_client.head_object(Bucket=S3_BUCKET_NAME, Key=keyName)
-        print('Folder Located')   
-    except:
-        s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=keyName) 
-        object = s3_resource.Object(S3_BUCKET_NAME, keyName + str(nameRange) + '.txt')         
-        object.put(Body='some_binary_data') 
-        print('Folder Created for', teamnumber, nameRange)          
-    else:
-        print('Create_Folder_Pass')  
-        pass
-
-    return keyName
-
-
 def get_peng_projects():
     content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/sources.json' )
     file_content = content_object.get()['Body'].read().decode('utf-8')    
     sDict = json.loads(file_content)  # json loads returns a dictionary       
-    print(sDict)
+    
     return sDict
 
 
@@ -80,11 +59,114 @@ def get_peng_projects():
 def peng_list(): 
 
     sDict = get_peng_projects() 
-    source = sDict['00']['M2'] 
+    source = sDict['1']['M2']   
     
         
-    return render_template('peng/peng_list.html', legend='Food Projects', source=source)
+    return render_template('peng/peng_list.html', legend='Presentation Projects', source=source)
 
+
+from routesFOOD import get_all_values
+
+@app.route('/updatePENG', methods=['POST'])
+def updatePENG():  
+    proj = request.form ['proj']
+    ansOBJ = request.form ['ansOBJ']
+
+    ansDict = json.loads(ansOBJ)
+    
+    if get_all_values(ansDict) == None:        
+        grade = 3
+    else:
+        print ('GET_ALL', get_all_values(ansDict))
+        grade = 0 
+       
+
+    print('GRADE', grade)     
+
+    project_answers = U011U.query.filter_by(username=current_user.username).first() 
+    project_answers.Ans01 = ansOBJ 
+    project_answers.Grade = grade 
+    db.session.commit()   
+    
+    return jsonify({'grade' : grade})
+
+@app.route ("/peng/<string:proj>", methods=['GET','POST'])
+@login_required
+def peng_proj(proj):
+    print(proj)
+    sDict = get_peng_projects()
+    source = sDict['1']['M2']
+    print(source)
+    source = None 
+        
+    if U011U.query.filter_by(username=current_user.username).first():
+        pass
+    else:
+        startDict = {
+            'Product' : None, 
+            'Image' : None,
+            'Intro' : {
+                1 : None, 
+                2 : None, 
+                3 : None
+                },            
+            'Parts' : {                
+                'Product' : {
+                1 : None, 
+                2 : None, 
+                3 : None
+                },
+                'Features' : {
+                1 : None, 
+                2 : None, 
+                3 : None
+                },
+                'Demo' : {
+                1 : None, 
+                2 : None, 
+                3 : None
+                },
+                'Close' : {
+                1 : None, 
+                2 : None, 
+                3 : None
+                },
+            },
+            'Cues' : {                
+                'Product' : {
+                1 : None, 
+                2 : None, 
+                3 : None
+                },
+                'Features' : {
+                1 : None, 
+                2 : None, 
+                3 : None
+                },
+                'Demo' : {
+                1 : None, 
+                2 : None, 
+                3 : None
+                },
+                'Close' : {
+                1 : None, 
+                2 : None, 
+                3 : None
+                },
+            },
+        }
+            
+        start = U011U(username=current_user.username, Ans01=json.dumps(startDict), Grade=0)
+        db.session.add(start)
+        db.session.commit()
+
+    project = U011U.query.filter_by(username=current_user.username).first() 
+    ansDict = project.Ans01
+
+    return render_template('peng/peng_proj.html', legend='Presentation Project', 
+    source=source,  
+    ansString=ansDict,
+    )
 
 
 

@@ -1,0 +1,147 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<span id="projectDict" style="display:none">{{abcDict}}</span>
+
+<div id="vue-app">
+
+<div class="content-section">    
+        <h1> Exam Projects </h1>
+  
+    
+</div>
+
+<div class="content-section">        
+    
+    <div style="overflow-x:auto;">
+      <table class="table table-sm">
+        <thead>
+            <tr>
+              <th scope="col" >Student</th>  
+              <th scope="col" >Title</th>                                  
+              <th scope="col" >Team</th>                       
+              <th scope="col" >Q&A</th>                       
+              <th scope="col" >S&L</th>                       
+                                   
+            </tr>
+        </thead> 
+        
+        <tbody>
+        <template v-for="(proj, key) in projectOBJ" :key="key"   > 
+            
+            <tr>
+              <td>  
+              {% if current_user.id == 1 %} 
+              <span @click="goTo(key, 0, 'I')" class="unit-span" style="background:silver;padding:3px"> [[ key ]] </span>               
+              {% else %}  
+               <span class="unit-span" style="background:coral;padding:3px"> [[ key ]] </span>
+              {% endif %} 
+              </td>  
+              <td> [[ proj.Title]] </td>  
+              <td> [[ proj.Team]] </td>  
+              <td> 
+              <span v-if="proj.Number == 0"> </span>  
+              <span v-else-if="setButtons('q', proj.QTotal) == 3" @click="goTo(key, proj.Number, 'Q')" class="unit-span" style="background:mediumseagreen;padding:3px"> &nbsp;1&nbsp; </span>  
+              <span v-else="setButtons('q' , proj.QTotal) == 2" @click="goTo(key, proj.Number, 'Q')" class="unit-span" style="background:goldenrod;padding:3px"> &nbsp;0&nbsp; </span> 
+              </td>  
+              <td> 
+              <span v-if="proj.Number == 0"> </span>  
+              <span v-else-if="setButtons('s', proj.STotal) == 3" @click="goTo(key, proj.Number, 'S')" class="unit-span" style="background:mediumseagreen;padding:3px"> &nbsp;1&nbsp; </span>  
+              <span v-else="setButtons('s' , proj.STotal) == 2" @click="goTo(key, proj.Number, 'S')" class="unit-span" style="background:goldenrod;padding:3px"> &nbsp;0&nbsp; </span> 
+              </td>  
+              
+              
+     
+                         
+            </tr>  
+        </template>     
+            
+        </tbody>   
+   
+      </table>
+    </div>
+
+</div>   
+   
+
+</div> <!-- end of Vue app -->
+
+
+{% endblock %}
+
+{% block script %}   
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+
+<script type="text/javascript" >
+
+var projectDict = document.getElementById('projectDict').innerHTML
+var OBJ = JSON.parse(projectDict)
+console.log('projecDict', OBJ);
+
+
+startVue(OBJ)
+
+function startVue(OBJ, colorFloat){ new Vue({   
+
+    el: '#vue-app',
+    delimiters: ['[[', ']]'],
+    mounted: function(){
+        console.log('projecDict', OBJ);
+    },
+    data: {
+        projectOBJ: OBJ, 
+        
+    }, 
+    methods: {   
+        setButtons: function(QorS, total) { 
+          if (total == null) { 
+            return 1
+          } 
+          
+          if (QorS == 'q'){
+            var max = 12            
+          } else {
+            var max = 4
+          }
+
+          if (total >= max) {
+            return 3
+          } else {
+            return 2
+          }          
+          
+        },     
+        goTo: function(key, number, state) {          
+          console.log(state);
+          if (state == 'Q') {
+            var link = '/qna/'                      
+          }           
+          else if (state == 'S') {
+            var link = '/snl/'                      
+          }           
+          else { 
+            var link = '/make_teams/'  
+          }
+
+          // go to HTTPS version
+          var str = window.location.href
+
+          let url = (str).split('_list')[0] + link + key + '/' + number
+          console.log('goTO', url);
+            window.location = url
+            console.log('DONE');
+        }
+                  
+    }         
+})// end NEW VUE
+
+
+
+}// endFunction 
+
+</script>  
+
+{% endblock %} 
+

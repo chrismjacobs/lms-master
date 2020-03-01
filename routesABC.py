@@ -335,7 +335,6 @@ def deleteWord():
     return jsonify({'word' : word, 'newDict' : json.dumps(ansDict), 'qCount' : qCount })
 
 
-
 @app.route ("/abc/snl/<string:unit>/<int:team>", methods=['GET','POST'])
 @login_required
 def abc_snl(unit, team): 

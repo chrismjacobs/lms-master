@@ -1,0 +1,131 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<span id="ansString" style="display:none">{{ansString}}</span>
+<span id="name" style="display:none">{{current_user.username}}</span>
+
+<div class="content-section">    
+        <h1> Project: <br> {{title}} </h1>
+    </div>
+    <div class="content-section">
+    <div class="embed-responsive embed-responsive-4by3">
+            <iframe id="questions_embed" src="{{source}}"
+            allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
+	</iframe>
+    </div> 
+      
+</div>
+
+<div id="vue-app">
+
+<div class="content-section">
+
+<legend class="border-bottom mb-4"> {{title}} Set Up </legend>
+
+
+<span :style="style('Intro')"> Dish </span>
+<input type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Dish']"></input> 
+<br>  
+
+<span v-if="project == 'CV'" :style="style('Intro')"> Link </span>
+<input v-if="project == 'CV'" type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Link']"></input> 
+<br> 
+
+<!-- <span :style="style('Intro')"> Intro </span>
+<input type="text" class="textAss" style="margin-left:5px; width:80%" v-model="ansOBJ['Intro']"></input> 
+<br> 
+<br> 
+--> 
+
+<template v-for="(reason, num) in ansOBJ['Reasons']">
+<span :style="style('Reasons')"> Reason [[num]] </span>
+<input type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Reasons'][num]"></input> 
+<br>    
+<br>    
+</template>       
+
+<template v-for="(item, key) in ansOBJ['Parts']"> 
+<h4 v-if="project == 'ND'" > Part [[ key ]] - [[ ansOBJ['Reasons'][key] ]] </h4>
+<h4 v-else-if="key == '1'" > Ingredients </h4>
+<h4 v-else-if="key == '2'" > Cooking Methods </h4>
+<h4 v-else-if="key == '3'" > Description </h4>
+        <div v-for="(point, order) in ansOBJ['Parts'][key]['kw']">
+                <span :style="style('kw')"> Key words [[order]] --> </span>
+                <input type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Parts'][key]['kw'][order]"></input> 
+                <br>
+                <span :style="style('dt')"> Sentence [[order]] </span>
+                <textarea :id="ansOBJ['Parts'][key] ansOBJ['Parts'][key]['dt'][order]" type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Parts'][key]['dt'][order]" @on-blur="wordCount(this.id)"></textarea> 
+                <br>
+                <br>
+        </div>
+<br>
+</template>  
+
+<span :style="style('Intro')"> Final Comments </span>
+<input type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Final']"></input> 
+<br>  
+<br>  
+ 
+
+<div v-if="updateReady">				
+    <button  class="btn btn-dark" style="margin-right:5px" @click="updatePlan()">Update Plan</button>
+</div> 
+<br>  
+
+<div v-if="updateReady">				
+    <button  class="btn btn-danger" style="margin-right:5px" @click="createPPT()">Create PPT</button>
+</div> 
+
+<br>
+
+<div v-if="pptLink">				
+    <a :href="pptLink" download>Download PPT</button>
+</div> 
+
+
+</div> 
+
+<div class="content-section">    
+    <legend class="border-bottom mb-4"> Script and Notes </legend>
+
+Introduction
+<br>
+        <h5>[[ script[project][1] ]]  [[ ansOBJ['Dish'] ]]</h5>
+        
+<br>
+        <h5>[[ script[project][2] ]]</h5>
+        <h5 v-for="r in ansOBJ['Reasons']">[[ r ]]</h5>
+<br>
+        <h5>[[ script[project][3] ]]</h5>
+        <h5 v-for="r in ansOBJ['Parts'][1]['dt']">[[ r ]]</h5>
+<br>
+        <h5>[[ script[project][4] ]]</h5>
+        <h5 v-for="r in ansOBJ['Parts'][2]['dt']">[[ r ]]</h5>
+
+<br>
+        <h5>[[ script[project][5] ]]</h5>
+        <h5 v-for="r in ansOBJ['Parts'][3]['dt']">[[ r ]]</h5>
+
+<br>
+
+
+
+
+
+      
+</div>
+
+
+</div> <!-- end of Vue app -->
+
+
+{% endblock %}
+
+{% block script %}   
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script type="text/javascript" src="{{url_for('static', filename= 'js/food_proj.js')}}"></script>
+
+{% endblock %} 
+
