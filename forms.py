@@ -85,6 +85,7 @@ class RegistrationForm(FlaskForm):
             bookcodeID = studentID.data
     
     def validate_bookcode(self, bookcode):   
+        if SCHEMA < 3:
             print(bookcodeID)          
             print(bookcode)          
             bc1 = bookcodeID[0] 
@@ -96,6 +97,8 @@ class RegistrationForm(FlaskForm):
                 pass      
             elif bookcode.data != bcFinal:
                 raise ValidationError('Incorrect BookCode - please see your instructor')  
+        else:
+            pass
 
 class LoginForm(FlaskForm):
     studentID = StringField ('Student ID', validators=[DataRequired(), Length(min=2, max=9)])     

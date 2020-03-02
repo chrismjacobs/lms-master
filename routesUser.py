@@ -147,6 +147,28 @@ def chatCheck():
         return jsonify({'new' : lastChat})
 
 
+@app.route ("/grades", methods = ['GET', 'POST'])
+@login_required
+def grades():
+       
+    ''' deal with grades ''' 
+    if SCHEMA < 3:
+        grades = get_grades(True, True) 
+    else:
+        grades = {'unitGrade': None, 'assGrade': None,'maxA':None, 'maxU':None  }    
+
+    
+    context = {    
+    'unitGrade' : grades['unitGrade'], 
+    'assGrade' :  grades['assGrade'], 
+    'maxA' : grades['maxA'],
+    'maxU' : grades['maxU'], 
+    'title' : 'Grades'    
+    } 
+
+    return render_template('admin/grades.html', **context )
+  
+
 @app.route ("/", methods = ['GET', 'POST'])
 @app.route ("/home", methods = ['GET', 'POST'])
 def home():

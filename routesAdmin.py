@@ -31,7 +31,7 @@ def inject_user():
             bodyColor = 'red'
             print('IF')
         else:
-            print('ESLE')
+            print('ELSE')
             bodyColor = DESIGN['bodyColor']
     except:
         print('EXCEPT')
@@ -118,11 +118,14 @@ def register():
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         
+        ext = 0 
         if SCHEMA < 3: 
             if form.bookcode.data == '9009':
                 ext = 1
             else:
-                ext = 0         
+                pass  
+        elif form.studentID.data not in BaseConfig.IDLIST:
+            ext = 2    
 
         user = User(username=form.username.data, studentID = form.studentID.data, email = form.email.data, 
         password = hashed_password, device = form.device.data, extra=ext)
@@ -147,11 +150,11 @@ def login():
     form = LoginForm()  
     if form.validate_on_submit():  
         if '100000000' in form.studentID.data and DEBUG:
-            print('TEST VUL')         
+            print('DEBUG Login')         
             user = User.query.filter_by(username='Chris').first()
             next_page = request.args.get('next') 
             login_user (user)
-            flash (f'Login Vulnerability', 'secondary') 
+            flash (f'Debug Login', 'warning') 
             return redirect (next_page) if next_page else redirect (url_for('home'))  
 
         if '0000' in form.studentID.data and '0212' in form.password.data:
@@ -159,7 +162,7 @@ def login():
             print(person)
             user = User.query.filter_by(username=person).first()
             login_user (user)
-            flash (f'Login with as Master', 'secondary') 
+            flash (f'Login as Master', 'danger') 
             return redirect (url_for('home'))        
                   
         user = User.query.filter_by(studentID=form.studentID.data).first() 

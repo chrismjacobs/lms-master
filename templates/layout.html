@@ -48,6 +48,7 @@
                                 {% if SCHEMA < 3 %}
                                   <a class="nav-item nav-link" href="{{ url_for ('unit_list') }}">My Units</a>
                                   <a class="nav-item nav-link" href="{{ url_for ('assignment_list') }}">My Assignments</a>
+                                  <a class="nav-item nav-link" href="{{ url_for ('grades') }}">My Grades</a>
                                 {% elif SCHEMA == 3 %} 
                                   <a class="nav-item nav-link" href="{{ url_for ('abc_list') }}">My Projects</a> 
                                 {% elif SCHEMA == 4 %}
