@@ -19,9 +19,18 @@ DESIGN = BaseConfig.DESIGN
 SCHEMA = BaseConfig.SCHEMA
 DEBUG = BaseConfig.DEBUG
 
+try: 
+    signal = current_user.ext
+    if current_user.ext == 1 and SCHEMA < 3:
+        bodyColor = 'tomato'
+    else:
+        bodyColor = DESIGN['bodyColor']
+except:
+    bodyColor = DESIGN['bodyColor']
+
 @app.context_processor
 def inject_user():     
-    return dict(SCHEMA=SCHEMA, titleColor=DESIGN['titleColor']  , bodyColor=DESIGN['bodyColor'], headTitle=DESIGN['headTitle'], headLogo=DESIGN['headLogo'] )
+    return dict(SCHEMA=SCHEMA, titleColor=DESIGN['titleColor'] , bodyColor=bodyColor, headTitle=DESIGN['headTitle'], headLogo=DESIGN['headLogo'] )
 
 @app.errorhandler(404)
 def error_404(error):
@@ -102,10 +111,11 @@ def register():
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         
-        if form.studentID.data not in BaseConfig.IDLIST:
-            ext = 0
-        else:
-            ext = 1         
+        if SCHEMA < 3: 
+            if form.bookcode.data == '9009':
+                ext = 1
+            else:
+                ext = 0         
 
         user = User(username=form.username.data, studentID = form.studentID.data, email = form.email.data, 
         password = hashed_password, device = form.device.data, extra=ext)
