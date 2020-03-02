@@ -25,7 +25,6 @@ def get_schedule():
     
 
 @app.route ("/about")
-@login_required 
 def about():     
     ## src explaining this course
     srcs = get_schedule()
