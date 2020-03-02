@@ -44,7 +44,11 @@ class Chat(FlaskForm):
     submit = SubmitField('Post Chat')
 
 
-class RegistrationForm(FlaskForm):
+
+bookcodeID = None
+
+class RegistrationForm(FlaskForm):   
+     
 
     username = StringField ('Name in English', validators=[DataRequired(), Length(min=2, max=20)])    
     studentID = StringField ('Student ID (9 numbers)', validators=[DataRequired(), Length(9)])
@@ -76,16 +80,22 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('That student ID already has an account, did you forget your password?') 
         
         if SCHEMA < 3: 
-            def validate_bookcode(self, bookcode):             
-                bc1 = studentID.data[0] 
-                bc2 = int(studentID.data[7])*2
-                bc3 = int(studentID.data[8])*3
-                bcFinal = bc1 + str(bc2) + str(bc3)
-                print(bcFinal) 
-                if bookcode.data == '9009': 
-                    pass      
-                elif bookcode.data != bcFinal:
-                    raise ValidationError('Incorrect BookCode - please see your instructor')  
+            print('BOOKCODE TEST')
+            global bookcodeID 
+            bookcodeID = studentID.data
+    
+    def validate_bookcode(self, bookcode):   
+            print(bookcodeID)          
+            print(bookcode)          
+            bc1 = bookcodeID[0] 
+            bc2 = int(bookcodeID[7])*2
+            bc3 = int(bookcodeID[8])*3
+            bcFinal = bc1 + str(bc2) + str(bc3)
+            print('EXPECTED BOOKCODE ', bcFinal) 
+            if bookcode.data == '9009': 
+                pass      
+            elif bookcode.data != bcFinal:
+                raise ValidationError('Incorrect BookCode - please see your instructor')  
 
 class LoginForm(FlaskForm):
     studentID = StringField ('Student ID', validators=[DataRequired(), Length(min=2, max=9)])     

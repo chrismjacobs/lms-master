@@ -19,17 +19,24 @@ DESIGN = BaseConfig.DESIGN
 SCHEMA = BaseConfig.SCHEMA
 DEBUG = BaseConfig.DEBUG
 
-try: 
-    signal = current_user.ext
-    if current_user.ext == 1 and SCHEMA < 3:
-        bodyColor = 'tomato'
-    else:
-        bodyColor = DESIGN['bodyColor']
-except:
-    bodyColor = DESIGN['bodyColor']
+
 
 @app.context_processor
-def inject_user():     
+def inject_user():    
+    try: 
+        print('COLOR TEST')
+        signal = current_user.extra
+        print(current_user.extra)
+        if current_user.extra == 1 and SCHEMA < 3:
+            bodyColor = 'red'
+            print('IF')
+        else:
+            print('ESLE')
+            bodyColor = DESIGN['bodyColor']
+    except:
+        print('EXCEPT')
+        bodyColor = DESIGN['bodyColor']
+
     return dict(SCHEMA=SCHEMA, titleColor=DESIGN['titleColor'] , bodyColor=bodyColor, headTitle=DESIGN['headTitle'], headLogo=DESIGN['headLogo'] )
 
 @app.errorhandler(404)
