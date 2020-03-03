@@ -357,7 +357,7 @@ def att_int():
             openData.teamcount = form.teamcount.data 
             openData.unit =  form.unit.data 
 
-            set_timer()
+            ##set_timer()
 
             db.session.commit() 
             if form.teamnumber.data == 100:
