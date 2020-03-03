@@ -49,11 +49,13 @@
  var str = window.location.href
  if ( str.includes('https')  ){   
     console.log(str);
+    document.getElementById('website').innerHTML = str
  }
  else{
     var url = 'https://' + str.split('://')[1]
+    document.getElementById('website').innerHTML = url
   }
- document.getElementById('website').innerHTML = url
+
 
 
 </script>  

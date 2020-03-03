@@ -2,7 +2,8 @@ var ansString = document.getElementById('ansString').innerHTML
 var ansOBJ = JSON.parse(ansString)
 console.log('ansOBJ', ansOBJ);
 
-var name = document.getElementById('name').innerHTML
+var stage = document.getElementById('stage').innerHTML
+var grade = document.getElementById('grade').innerHTML
 
 
 
@@ -17,28 +18,12 @@ function startVue(ansOBJ){
     mounted: function () {        
     },    
     data: {                        
-        ansOBJ: ansOBJ,
-        name : name,
+        ansOBJ: ansOBJ,       
+        stage : stage,
         updateReady : true,
         pptLink : false,
-        project: (window.location.href).split('/food/')[1],       
-        script: {
-            ND : {
-                1 : 'If Taiwan were going to vote for a national dish I would choose ', 
-                2 : 'This is for three reasons', 
-                3 : 'First of all,', 
-                4 : 'The next reason is', 
-                5 : 'The last point is',
-            },        
-            CV : {
-                1 : 'Today I want to share with you a recipe for ', 
-                2 : 'I choose this video because', 
-                3 : 'Some important ingredients are...', 
-                4 : 'To prepare this dish you will need...', 
-                5 : 'This recipe is...',  
-            },        
-        },
-        
+        image_b64 : null,
+        project: (window.location.href).split('/peng/')[1].split('/')[0]        
     }, 
     methods: {  
         wordCount : function(mark) { 
@@ -52,7 +37,42 @@ function startVue(ansOBJ){
             return true
         },
         imageValidation : function() { 
-            
+                    
+        var fileInput = document.getElementById('image');        
+        //console.log('file', fileInput)
+        var filePath = fileInput.value;
+        //console.log(filePath);
+        //console.log(vue.base64data);
+        //vue.fileType = filePath.split('.')[1]
+        //console.log(vue.base64data['fileType']);
+
+        var allowedExtensions = /(\.jpeg|\.png|\.jpg)$/i;
+    
+          if(fileInput.files[0].size > 4400000){
+              alert("File is too big!"); 
+              fileInput.value = '';             
+              return false;        
+          }
+          else if(!allowedExtensions.exec(filePath)){
+              alert('Please upload image: .jpeg/.png only.');
+              fileInput.value = '';
+              return false;
+          }    
+          else{            
+              console.dir( fileInput.files[0] );    
+              var url = window.URL.createObjectURL(fileInput.files[0]);        
+              fetch(url)
+              .then(function(res){
+                  return res.blob();
+                  })
+              .then(function(savedBlob){
+                  var reader = new FileReader();
+                  reader.readAsDataURL(savedBlob);          
+                  reader.onloadend = function() {
+                      vue.image_b64 = reader.result.split(',')[1];                                       
+                } 
+              })  
+          }//end else   
             return true
         },
         style : function(mark) { 
@@ -72,22 +92,26 @@ function startVue(ansOBJ){
             return {padding:'4px', 'font-size':'15px', background:bg, color:'white', border:'1px sold white', 'border-radius':'5px', width:'20%'}
 
         },
-        updatePlan : function() { 
-            vue.ansOBJ['Writer'] = name 
-            console.log('update via AJAX');
-            console.log(this.ansOBJ);
-            //return false
+        updatePlan : function() {  
+            alert('Please wait, your plan is being updated')           
 
             $.ajax({
               data : {
                 proj : this.project,
+                stage: this.stage,
+                image_b64 : this.image_b64,
                 ansOBJ : JSON.stringify(this.ansOBJ)  
               },
               type : 'POST',
-              url : '/updateFood',               
+              url : '/updatePENG',               
             })
             .done(function(data) { 
-                alert('Your FORM has been updated')                
+                vue.ansOBJ = JSON.parse(data.ansString)
+                vue.image_b64 = null
+                console.log(vue.ansOBJ)
+                document.getElementById('final_image').src = vue.ansOBJ['Image']
+                alert('Your FORM has been updated')
+
             })
             .fail(function(){
                 alert('error has occurred');
@@ -99,11 +123,11 @@ function startVue(ansOBJ){
             $.ajax({
               data : {
                 proj : this.project,
-                name : this.name,
+                stage : this.stage,
                 ansOBJ : JSON.stringify(this.ansOBJ)  
               },
               type : 'POST',
-              url : '/createPPT',               
+              url : '/createFOOD',               
             })
             .done(function(data) { 
                 alert('Your ppt has been created') 
@@ -112,8 +136,14 @@ function startVue(ansOBJ){
             .fail(function(){
                 alert('There has been an error. Please check that your FORM is complete or see your instructor');
             });
-        }      
-    }, // end methods        
+        },     
+            
+    },
+    computed : {
+        imageCheck : function() { 
+            return this.ansOBJ['Image']
+        },
+    } // end methods        
     
     
     

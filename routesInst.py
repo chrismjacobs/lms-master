@@ -253,27 +253,30 @@ def students():
 
 
     #### add student grading
-    for model in Info.unit_mods_list:
-        rows = model.query.all()   
-        for row in rows:    
-                                  
-            names = ast.literal_eval(row.username)            
-            for name in names:
-                sDict[name]['units'] += row.Grade
+    maxA = 1
+    maxU = 1
+    if SCHEMA  < 3:
+        for model in Info.unit_mods_list:
+            rows = model.query.all()   
+            for row in rows:    
+                                    
+                names = ast.literal_eval(row.username)            
+                for name in names:
+                    sDict[name]['units'] += row.Grade
     
-    for model in Info.ass_mods_list:        
-        rows = model.query.all()        
-        for row in rows:
-            
-            sDict[row.username]['asses'] += row.Grade   
+        for model in Info.ass_mods_list:        
+            rows = model.query.all()        
+            for row in rows:            
+                sDict[row.username]['asses'] += row.Grade   
 
-    print(sDict)   
+        print(sDict)   
 
-    from routesUser import get_grades
-    grades = get_grades(False, False)
-    maxU = grades['maxU']
-    maxA = grades['maxA']
+        from routesUser import get_grades
+        grades = get_grades(False, False)
+        maxU = grades['maxU']
+        maxA = grades['maxA']
 
+    
     
     return render_template('instructor/students.html', students=students, S3_LOCATION=S3_LOCATION, 
     sDict=sDict, maxU=maxU, maxA=maxA, title='students')  

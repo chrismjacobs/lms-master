@@ -23,15 +23,13 @@
 <legend class="border-bottom mb-4"> Set Up </legend>
 
 
-<span :style="style('Intro')"> Product Name/Brand </span>
-<input type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Product']"></input> 
-<br>  
-
-<input type="file" id="image" accept="image/*" @change="imageValidation()"> </input> <button class="btn btn-secondary btn-sm"> Upload Image </button>
+<span :style="style('Intro')"> Product Name: [[ ansOBJ['Product'] ]] </span>
 <br>
-<div v-if="true">
-<span style="color:red"> Image Ready </span>
-</div>
+<br>
+<span :style="style('Intro')"> Product Brand: [[ ansOBJ['Brand'] ]] </span>
+
+<br>
+    <img class="rounded img-fluid" id="final_image" alt="need to update" style="max-width:80%"  :src="imageCheck">
 <br>
 
 <h4 >  Intro  </h4>

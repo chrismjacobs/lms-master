@@ -17,94 +17,32 @@ S3_BUCKET_NAME = BaseConfig.S3_BUCKET_NAME
 SCHEMA = BaseConfig.SCHEMA
 DESIGN = BaseConfig.DESIGN
 
-'''
-list of stages of presentation
 
-choose product
-choose transitions
-choose cue card points (take form writing app)
-Title
-Team
-Status
-
-project page
-4 questions about content
-record question
-write question
-
-4 questions using vocabulary
-upload picture
-record answer 
-write answer
-
-Exam
-create dictionary of exams
-randomly assign exams to each student
-
-listen to question - submit answers
-check listen to answers - do you want to edit your answer?
-
-'''
+from routesFOOD import get_all_values
 
 def get_peng_projects():
     content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/sources.json' )
     file_content = content_object.get()['Body'].read().decode('utf-8')    
     sDict = json.loads(file_content)  # json loads returns a dictionary       
-    
-    return sDict
+    source = sDict['1']['M2']
+    return source
 
 
 @app.route ("/peng_list", methods=['GET','POST'])
 @login_required
 def peng_list(): 
 
-    sDict = get_peng_projects() 
-    source = sDict['1']['M2']   
-    
-        
-    return render_template('peng/peng_list.html', legend='Presentation Projects', source=source)
+    source = get_peng_projects() 
 
-
-from routesFOOD import get_all_values
-
-@app.route('/updatePENG', methods=['POST'])
-def updatePENG():  
-    proj = request.form ['proj']
-    ansOBJ = request.form ['ansOBJ']
-
-    ansDict = json.loads(ansOBJ)
-    
-    if get_all_values(ansDict) == None:        
-        grade = 3
-    else:
-        print ('GET_ALL', get_all_values(ansDict))
-        grade = 0 
-       
-
-    print('GRADE', grade)     
-
-    project_answers = U011U.query.filter_by(username=current_user.username).first() 
-    project_answers.Ans01 = ansOBJ 
-    project_answers.Grade = grade 
-    db.session.commit()   
-    
-    return jsonify({'grade' : grade})
-
-@app.route ("/peng/<string:proj>", methods=['GET','POST'])
-@login_required
-def peng_proj(proj):
-    print(proj)
-    sDict = get_peng_projects()
-    source = sDict['1']['M2']
-    print(source)
-    source = None 
-        
     if U011U.query.filter_by(username=current_user.username).first():
         pass
     else:
         startDict = {
             'Product' : None, 
+            'Brand' : None, 
+            'Why' : None, 
             'Image' : None,
+            'Presenter' : current_user.username,
             'Intro' : {
                 1 : None, 
                 2 : None, 
@@ -156,20 +94,87 @@ def peng_proj(proj):
             },
         }
             
-        start = U011U(username=current_user.username, Ans01=json.dumps(startDict), Grade=0)
+        start = U011U(username=current_user.username, Ans01=json.dumps(startDict), Grade=0, Comment='0')
         db.session.add(start)
         db.session.commit()
 
     project = U011U.query.filter_by(username=current_user.username).first() 
     ansDict = project.Ans01
+    grade = project.Grade
+    stage = project.Comment
 
-    return render_template('peng/peng_proj.html', legend='Presentation Project', 
-    source=source,  
-    ansString=ansDict,
-    )
-
+    return render_template('peng/peng_list.html', legend='Presentation Projects', source=source, stage=stage, grade=grade)
 
 
+
+@app.route ("/peng/<string:MTFN>/<string:page_stage>", methods=['GET','POST'])
+@login_required
+def peng_proj(MTFN, page_stage):    
+    source = get_peng_projects()
+
+    if MTFN == 'MT':        
+        project = U011U.query.filter_by(username=current_user.username).first() 
+    else:
+        pass
+
+    ansDict = project.Ans01
+    grade = project.Grade
+    stage = project.Comment
+    
+
+    return render_template('peng/peng_demo' + page_stage + '.html', legend='Presentation Project', 
+    source=source, ansString=ansDict )
+
+
+
+
+@app.route('/updatePENG', methods=['POST'])
+def updatePENG():  
+    proj = request.form ['proj']
+    ansOBJ = request.form ['ansOBJ']
+    stage = request.form ['stage']
+    image_b64 = request.form ['image_b64']
+
+    print (proj, stage)
+
+    ansDict = json.loads(ansOBJ)   
+
+    if image_b64:
+        print('PROCESSING IMAGE')            
+        image = base64.b64decode(image_b64)    
+        filename = proj + '/' + current_user.username + '.png'
+        imageLink = S3_LOCATION + filename
+        s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=image)
+        ansDict['Image'] = imageLink
+
+    ### check stage 1  
+    stage1_checklist = [
+        ansDict['Product'], 
+        ansDict['Brand'],  
+        ansDict['Image'],  
+        ansDict['Why']
+        ]
+
+    if None in stage1_checklist:
+        stage = 1 
+        g1 = 0        
+    else:
+        stage = 2
+        g1 = 3
+
+    
+    ansOBJ = json.dumps(ansDict)
+    grade = g1  
+    print(grade)  
+
+    project_answers = U011U.query.filter_by(username=current_user.username).first() 
+    project_answers.Ans01 = str(ansOBJ)
+    project_answers.Grade = grade
+    project_answers.Comment = stage
+
+    db.session.commit()   
+    
+    return jsonify({'ansString' : str(ansOBJ)})
 
 
 

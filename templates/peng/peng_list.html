@@ -2,7 +2,8 @@
 
 {% block content %}
 
-<span id="user" style="display:none">{{current_user.username}}</span>
+<span id="stage" style="display:none">{{stage}}</span>
+<span id="grade" style="display:none">{{grade}}</span>
 
 <div id="vue-app">
 
@@ -22,28 +23,20 @@
 
 <legend class="border-bottom mb-4"> Your Score: </legend>
 
-<span style="style()"> Product </span>
+<span v-if="status[1]" :style="linkStyle()" @click="goTo('1')"> Stage 1: Choose Product </span> -- Deadline: Mar 22
 <br>
 <br>
-<span style="style()"> Transitions </span>
+<span v-if="status[2]" :style="linkStyle()" @click="goTo('2')"> Stage 2: Prepare Plan </span>
 <br>
 <br>
-<span style="style()"> Cue Cards </span>
+<span v-if="status[3]" :style="linkStyle()" @click="goTo('3')"> Stage 3: Practice Speaking </span>
 <br>
 <br>
-<span style="style()"> Details </span>
+<span v-if="status[4]" :style="linkStyle()" @click="goTo('4')"> Stage 4: Practice with Cue Cards </span>
   
 
 </div>  
 
-<div class="content-section">  
-  <legend class="border-bottom mb-4"> Your Project: </legend>
-
-    <div>  			
-      <button  class="btn btn-light-danger" @click="goTo('MT')">Demonstration</button>
-    </div> 
-
-</div>   
    
 
 </div> <!-- end of Vue app -->
@@ -57,7 +50,8 @@
 
 <script type="text/javascript" >
 
-//var projectDict = document.getElementById('projectDict').innerHTML
+var stage = document.getElementById('stage').innerHTML
+var grade = document.getElementById('grade').innerHTML
 //var OBJ = JSON.parse(projectDict)
 //console.log('projecDict', OBJ);
 
@@ -71,25 +65,24 @@ function startVue(){ new Vue({
     mounted: function(){        
     },
     data: {
-        //projectOBJ: OBJ,         
+        stage: stage,
+        status: {
+          1 : true, 
+          2 : false, 
+          3 : false, 
+          4 : false
+        }         
     }, 
-    methods: {   
-        goTo: function(proj) {   
-
-          
-         
-          if (proj == 'MT') {
-            var link = '/MT'                      
-          }           
-          else if (proj == 'FN') {
-            var link = '/FN'                      
-          } 
-          // go to HTTPS version
-          var str = window.location.href
-
-          let url = (str).split('_list')[0] + link
+    methods: {  
+      goTo: function(link) { 
+          let url = (str).split('_list')[0] + '/MT/' + link
           console.log('goTO', url);
-            window.location = url            
+          window.location = url            
+        },                 
+        linkStyle: function(link) { 
+
+          return {padding:'4px', 'font-size':'15px', background:'purple', color:'white', border:'1px sold white', 'border-radius':'5px', width:'20%'}
+            
         }
                   
     }         
