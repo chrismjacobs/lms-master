@@ -77,6 +77,20 @@ def updateFood():
     
     return jsonify({'grade' : grade})
 
+@app.route('/createPPT', methods=['POST'])
+def createPPT():  
+    proj = request.form ['proj']
+    ansOBJ = request.form ['ansOBJ']
+
+    ansDict = json.loads(ansOBJ)
+    
+    if get_all_values(ansDict) != None: 
+        return jsonify({'error' : None})       
+      
+    pptLink = None 
+    
+    return jsonify({'pptLink' : pptLink})
+
 
 @app.route ("/food/<string:proj>", methods=['GET','POST'])
 @login_required
