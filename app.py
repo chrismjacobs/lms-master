@@ -28,6 +28,7 @@ app.config.update(dict(
     TESTING = False
 ))
 
+
 mail = Mail(app)
 
 from routesInst import *

@@ -88,11 +88,10 @@ class RegistrationForm(FlaskForm):
         if SCHEMA < 3:
             print(bookcodeID)          
             print(bookcode)          
-            bc0 = bookcodeID[0] 
-            bc1 = bookcodeID[6] 
+            bc1 = bookcodeID[0]
             bc2 = int(bookcodeID[7])*2
             bc3 = int(bookcodeID[8])*3
-            bcFinal = bc0 + bc1 + str(bc2) + str(bc3)
+            bcFinal = bc1 + str(bc2) + str(bc3)
             print('EXPECTED BOOKCODE ', bcFinal) 
             if bookcode.data == '9009': 
                 pass      

@@ -166,6 +166,7 @@ def login():
             return redirect (url_for('home'))        
                   
         user = User.query.filter_by(studentID=form.studentID.data).first() 
+        print(user.username)
         
         if user and bcrypt.check_password_hash(user.password, form.password.data): #$2b$12$UU5byZ3P/UTtk79q8BP4wukHlTT3eI9KwlkPdpgj4lCgHVgmlj1he  '123'
             login_user (user, remember=form.remember.data)
