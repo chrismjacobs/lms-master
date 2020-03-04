@@ -83,11 +83,74 @@ def createPPT():
     ansOBJ = request.form ['ansOBJ']
 
     ansDict = json.loads(ansOBJ)
+
+    if proj == 'ND':
+        head = 'National Dish'
+    if proj == 'CV':
+        head = 'Cooking Video'
     
     if get_all_values(ansDict) != None: 
-        return jsonify({'error' : None})       
+        return jsonify({'error' : None})    
+
+    from pptx import Presentation
+
+    prs = Presentation()
+    title_slide_layout = prs.slide_layouts[0]
+    slide = prs.slides.add_slide(title_slide_layout)
+    title = slide.shapes.title
+    subtitle = slide.placeholders[1]
+    title.text = "Hello, World!"
+    subtitle.text = "python-pptx was here!"
+
+
+
+    bullet_slide_layout = prs.slide_layouts[1]
+    slide = prs.slides.add_slide(bullet_slide_layout)
+    shapes = slide.shapes
+    title_shape = shapes.title
+    body_shape = shapes.placeholders[1]
+    title_shape.text = head + ': ' + ansDict['Dish']
+    
+    tf = body_shape.text_frame
+    tf.text = 'Reasons'
+    for r in ansDict['Reasons']:
+        p = tf.add_paragraph()
+        p.text = ansDict['Reasons'][r]
+        p.level = 1
+
+    count = 1
+    for p in ansDict['Parts']:
+        bullet_slide_layout = prs.slide_layouts[count + 1]
+        slide = prs.slides.add_slide(bullet_slide_layout)
+        shapes = slide.shapes
+        title_shape = shapes.title
+        body_shape = shapes.placeholders[1]
+        title_shape.text = 'Reason ' + count
+        
+        tf = body_shape.text_frame
+        tf.text = ansDict['Reaons'][p]
+        for r in ansDict['Parts'][p]:
+            p = tf.add_paragraph()
+            p.text = ansDict['Parts'][p][r]
+            p.level = 1
+        
+        count +=1
+    
+
+    bullet_slide_layout = prs.slide_layouts[5]
+    slide = prs.slides.add_slide(bullet_slide_layout)
+    shapes = slide.shapes
+    title_shape = shapes.title
+    body_shape = shapes.placeholders[1]
+    title_shape.text = 'Final Comment'
+
+    filename = current_user.username + proj + '.pptx'
+    aws_filename = 'MT/' + filename
+    pptLink = S3_LOCATION + aws_filename
+    
+    prs.save(filename)   
       
-    pptLink = None 
+    
     
     return jsonify({'pptLink' : pptLink})
 
