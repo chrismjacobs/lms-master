@@ -101,8 +101,8 @@ def createPPT():
     slide = prs.slides.add_slide(title_slide_layout)
     title = slide.shapes.title
     subtitle = slide.placeholders[1]
-    title.text = "Hello, World!"
-    subtitle.text = "python-pptx was here!"
+    title.text = "Food Culture English"
+    subtitle.text = head + " Presentation by " + current_user.username
 
 
 
@@ -136,8 +136,7 @@ def createPPT():
             p.text = ansDict['Parts'][part]['kw'][r]
             p.level = 1
         
-        count +=1
-    
+        count +=1    
 
     bullet_slide_layout = prs.slide_layouts[1]
     slide = prs.slides.add_slide(bullet_slide_layout)
@@ -146,15 +145,16 @@ def createPPT():
     body_shape = shapes.placeholders[1]
     title_shape.text = 'Final Comment'
 
+    print('PROCESSING PPT') 
     filename = current_user.username + proj + '.pptx'
+    os. remove(filename)
+    prs.save(filename) 
+    data = open(filename, 'rb')
     aws_filename = 'MT/' + filename
-    pptLink = S3_LOCATION + aws_filename
-
-    print(filename)
-    
-    prs.save(filename)   
-      
-    
+    pptLink = S3_LOCATION + aws_filename   
+                         
+    s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=aws_filename, Body=data)
+    print(filename)  
     
     return jsonify({'pptLink' : pptLink})
 
