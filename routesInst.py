@@ -52,12 +52,16 @@ def att_log():
 
     ## create a list of all course dates    
     course_dates = get_schedule()
+    print(course_dates)
     dateList = []
     for c in course_dates:
+        print(c)
+        print(course_dates[c]['Date'])
         date_string = course_dates[c]['Date']
         dt = datetime.strptime(date_string, '%Y-%m-%d')
         dateList.append(dt)    
-    print('dateList:', dateList)   
+    print('dateList:', dateList)  
+
     
     ## log all dates when attendance was complete (and show total att score)
     attLogDict = {}    
