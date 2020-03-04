@@ -102,8 +102,14 @@ function startVue(ansOBJ){
               url : '/createPPT',               
             })
             .done(function(data) { 
-                alert('Your ppt has been created') 
-                vue.pptLink = data.pptLink               
+                if(data.error){
+                    alert('There has been an error. Please check that your FORM is complete or see your instructor');
+                }
+                else{
+                    alert('Your ppt has been created') 
+                    vue.pptLink = data.pptLink
+                }
+                               
             })
             .fail(function(){
                 alert('There has been an error. Please check that your FORM is complete or see your instructor');

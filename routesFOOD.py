@@ -83,14 +83,16 @@ def createPPT():
     ansOBJ = request.form ['ansOBJ']
 
     ansDict = json.loads(ansOBJ)
+    print(ansDict)
 
     if proj == 'ND':
         head = 'National Dish'
     if proj == 'CV':
         head = 'Cooking Video'
     
-    if get_all_values(ansDict) != None: 
-        return jsonify({'error' : None})    
+    if get_all_values(ansDict) != 0: 
+        print('ERROR')
+        return jsonify({'error' : 100})    
 
     from pptx import Presentation
 
@@ -119,25 +121,25 @@ def createPPT():
         p.level = 1
 
     count = 1
-    for p in ansDict['Parts']:
-        bullet_slide_layout = prs.slide_layouts[count + 1]
+    for part in ansDict['Parts']:
+        bullet_slide_layout = prs.slide_layouts[1]
         slide = prs.slides.add_slide(bullet_slide_layout)
         shapes = slide.shapes
         title_shape = shapes.title
         body_shape = shapes.placeholders[1]
-        title_shape.text = 'Reason ' + count
+        title_shape.text = 'Reason ' + str(count)
         
         tf = body_shape.text_frame
-        tf.text = ansDict['Reaons'][p]
-        for r in ansDict['Parts'][p]:
-            p = tf.add_paragraph()
-            p.text = ansDict['Parts'][p][r]
+        tf.text = ansDict['Reasons'][part]        
+        for r in ansDict['Parts'][part]['kw']:
+            p = tf.add_paragraph()            
+            p.text = ansDict['Parts'][part]['kw'][r]
             p.level = 1
         
         count +=1
     
 
-    bullet_slide_layout = prs.slide_layouts[5]
+    bullet_slide_layout = prs.slide_layouts[1]
     slide = prs.slides.add_slide(bullet_slide_layout)
     shapes = slide.shapes
     title_shape = shapes.title
@@ -147,6 +149,8 @@ def createPPT():
     filename = current_user.username + proj + '.pptx'
     aws_filename = 'MT/' + filename
     pptLink = S3_LOCATION + aws_filename
+
+    print(filename)
     
     prs.save(filename)   
       
