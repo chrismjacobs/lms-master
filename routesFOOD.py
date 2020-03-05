@@ -30,7 +30,7 @@ def get_food_projects():
 def food_list(): 
 
     sDict = get_food_projects() 
-    source = sDict['1']['M1']     
+    source = sDict['1']['M2']     
         
     return render_template('food/food_list.html', legend='Food Projects', source=source)
 
@@ -166,9 +166,9 @@ def food_proj(proj):
     sDict = get_food_projects()
     if proj == 'ND':
         title = 'National Dish'
-        source = sDict['1']['M2']  
+        source = sDict['1']['M3']  
     elif proj == 'CV':
-        source = sDict['1']['M3']
+        source = sDict['1']['M4']
         title = 'Cooking Video'  
 
     

