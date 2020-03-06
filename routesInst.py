@@ -105,11 +105,13 @@ def openSet(unit,part):
     return redirect(url_for('unit_list'))    
 
 
-@app.route ("/studentRemove/<string:name>", methods = ['GET', 'POST'])
+@app.route ("/studentRemove", methods = ['POST'])
 @login_required 
 def studentRemove(name):
     if current_user.id != 1:
-        return abort(403)   
+        return abort(403) 
+    
+    name = request.form['name']
 
     findSt = Attendance.query.filter_by(username=name).first()    
     
@@ -124,20 +126,17 @@ def studentRemove(name):
     todaysUnit = Attendance.query.filter_by(username='Chris').first().unit   
     studentTeam = Attendance.query.filter_by(username=name).first().teamnumber
     
-    idNum = 0 
+    '''idNum = 0 
     for model in Info.unit_mods_list:
         # ie search for u061u
         if todaysUnit + '1' in str (model):
             try:
                 idNum = model.query.filter_by(teamnumber=studentTeam).first().id
             except:
-                pass
-            
+                pass'''
+       
 
-    string = [None, 'reading', 'workplace', 'icc']    
-    lms = string[int(SCHEMA)]
-
-    return jsonify({'removed' : name, 'unit' : todaysUnit, 'idNum' : idNum, 'lms': lms})
+    return jsonify({'removed' : name, 'unit' : todaysUnit})
 
 
 
@@ -174,18 +173,6 @@ def teams():
     
     return render_template('instructor/teams.html', attDict=attDict, teamcount=teamcount, title='teams')  
 
-
-'''
-@app.route('/upload/<string:assignment>', methods=['POST', 'GET'])
-def upload(assignment):
-    file = request.files['file']
-    fn = file.filename
-    file_name = current_user.username + '_' + fn + '_' + assignment + '.mp3'   
-    my_bucket = s3_resource.Bucket(S3_BUCKET_NAME)
-    my_bucket.Object(file_name).put(Body=file)
-
-    return redirect(request.referrer)
-'''
 
 @app.route("/commentSet/<string:unit>/<string:name>", methods = ['POST'])
 def commentSet(unit,name):    
@@ -295,9 +282,7 @@ def controls():
 
     return render_template('instructor/controls.html', attend_list=attend_list, team_list=team_list) 
 
-
-          
-
+ 
 @app.route ("/students")
 @login_required 
 def students():
@@ -409,6 +394,49 @@ def set_timer():
     openData = Attendance.query.filter_by(username='Chris').first()
     openData.teamnumber = 100
     db.session.commit()
+
+
+@app.route("/updateSet", methods = ['POST'])
+@login_required
+def updateSet():
+    setOBJ = request.form['setOBJ']
+    
+    setDict = json.loads(setOBJ)
+
+    print(setDict)
+
+    notice = setDict['notice']
+    unit = setDict['unit']
+    teamcount = setDict['teamcount']
+    teamsize = setDict['teamsize']
+    set_mode = setDict['set_mode']
+
+    openData = Attendance.query.filter_by(username='Chris').first()
+
+    openData.teamcount = int(teamcount)
+    openData.teamsize = int(teamsize)
+    openData.unit = unit
+    # notice and set mode are diff columns
+    openData.attend = notice
+    openData.teamnumber = int(set_mode)
+
+    db.session.commit() 
+    if int(set_mode) == 100:
+        db.session.query(Attendance).delete()
+        db.session.commit()
+        attendance = Attendance(username = 'Chris', 
+        attend='Notice', teamnumber=97, studentID='100000000')      
+        db.session.add(attendance)
+        db.session.commit()
+        flash('Attendance is not open yet, please try later', 'danger')
+        return redirect(url_for('home'))
+
+    return jsonify({'teamcount' : teamcount, 'teamsize' : teamsize, 'set_mode' : set_mode})
+    
+
+
+
+
 
 # set up the attendence for the day
 @app.route("/att_int", methods = ['GET', 'POST'])

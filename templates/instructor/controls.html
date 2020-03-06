@@ -12,7 +12,7 @@
  
 
 <button class="btn btn-outline-warning" @click="setAtt()"> Set Att </button>
-Notice <input type="text" id="notice" style="margin-left:5px"></input> 
+Notice <input type="text" class="textAss" id="notice" style="margin-left:5px"></input> 
 &nbsp&nbsp&nbsp
 Unit
 <select id="unit" name="units">
@@ -75,6 +75,7 @@ Teamsize
               <th scope="col" >ID</th>                       
               <th scope="col" >att</th>                       
               <th scope="col" >email</th>  
+              <th scope="col" ></th>  
             </tr>
         </thead> 
         
@@ -86,6 +87,7 @@ Teamsize
               <td> [[ user.idn]] </td>  
               <td :style="attStyle(user.att)"> [[ user.att ]] </td>  
               <td> <a :href="user.eml">Email</a> </td> 
+              <td>  <span> remove </span> </td> 
 
             </tr>  
         </template>                 
@@ -107,7 +109,10 @@ Teamsize
             <tr>
               <td> [[ number ]] </td>
               <template v-for="mem in team">    
-              <td> [[ mem ]] </td>  
+              <td> <span style="padding:5px; font-size:12px;background:lightcoral;width:100px;border:1px sold white; border-radius:5px" justify="right" @click="deleteStudent(mem)"> [[ mem ]] </span> </td>
+              <div v-if="studentList(mem)">
+                <button class="btn btn-sm btn-danger" @click="studentRemove(mem)">[[ mem ]]</button> </td>  
+              </div>
               </template>    
             </tr>  
         </template>     
@@ -156,6 +161,9 @@ function startVue(attendOBJ, teamOBJ){ new Vue({
         setOBJ : {
             set_mode : 'closed',
         },
+        studentList : {
+
+        },
         
         unit_list : ['RR','00', '01','02','03','04','05','06','07','08','09', '10'],       
         size_list : ['4','0', '3','5'] ,   
@@ -163,8 +171,8 @@ function startVue(attendOBJ, teamOBJ){ new Vue({
     }, 
     methods: {   
         setAtt: function() { 
-        
-          this.setOBJ['notice'] = $("#notice :selected").val();
+          
+          this.setOBJ['notice'] = document.getElementById('unit').value
 
           // vanila js
           var e = document.getElementById('unit')
@@ -184,7 +192,8 @@ function startVue(attendOBJ, teamOBJ){ new Vue({
               url : '/updateSet',               
             })
             .done(function(data) { 
-              alert('Attendance Updated')                
+
+              alert('Attendance Updated: count ' + data.teamcount)                
             })
             .fail(function(){
                 alert('error has occurred');
@@ -200,7 +209,34 @@ function startVue(attendOBJ, teamOBJ){ new Vue({
           else if (att == 'Late') {
             return { background:'lightgrey'}
           } 
-        }                  
+        },                  
+        deleteStudent: function(mem) {
+          if (studentList[mem] ){
+            studentList[mem] = false 
+          }
+          else{
+            studentList[mem] = true 
+          }
+          
+        },                  
+        studentRemove: function(mem) {
+          $.ajax({
+              data : {
+                name : mem
+              },
+              type : 'POST',
+              url : '/studentRemove'         
+                  
+          })
+		      .done(function(data) {  
+            vue.studentList[mem] = false        
+            alert('student removed:' + mem)
+                           
+		      })
+          .fail(function(){
+                alert('error has occurred');
+          });
+        },                  
     }         
 })// end NEW VUE
 
