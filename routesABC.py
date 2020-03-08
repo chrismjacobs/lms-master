@@ -55,8 +55,11 @@ def project_teams(unit, number):
     if current_user.id != 1:
         return abort(403)
     
+    print('make team unit', unit)
+    print('make team number', number)
+    
     project = unitDict[unit]
-    print (project.query.all())
+    print (project, project.query.all())
 
     #create a dictionary of teams
     attTeams = Attendance.query.all()
@@ -67,15 +70,17 @@ def project_teams(unit, number):
         else: 
             teamsDict[att.teamnumber] = [att.username]    
     
+    print(teamsDict)
+
     manualTeams = {
         20: ['Chris', 'Test', 'Victor', 'Winnie'],        
     }
 
     '''control which teams are added'''
-    controller = 2
+    controller = 1
    
     if controller == 1:
-        team_dict = attTeams
+        team_dict = teamsDict
     elif controller == 2:
         team_dict = manualTeams
     
@@ -89,19 +94,29 @@ def project_teams(unit, number):
             'writer' : None 
         }
     
-    snlDict = {}           
+    snlDict = {}
+    for i in range (1, 7):
+        snlDict[i] = {
+            'word' : None, 
+            'sentence' : None, 
+            'imageLink' : None, 
+            'audioLink' : None, 
+            'user' : None, 
+        }           
 
     #make a list of team already set up 
     teams = []
     for pro in project.query.all():
         teams.append(pro.teamnumber) 
     
+    print('teams', teams)
 
     returnStr = str(team_dict)
     for team in team_dict:
         if team in teams:
             returnStr = 'Error - check table' 
-            break    
+            break  
+        print(unit, team_dict)  
         create_folder(unit, str(team), team_dict[team])
         teamStart = project(
             teamnumber=int(team), 
@@ -119,28 +134,29 @@ def get_projects():
     content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/sources.json' )
     file_content = content_object.get()['Body'].read().decode('utf-8')    
     sDict = json.loads(file_content)  # json loads returns a dictionary 
-    unitDict = {}  
+    projectDict = {}  
     for week in sDict:
         try:      
             if int(sDict[week]['Unit']) >= 0:
                 print('2') 
                 unitNumber = sDict[week]['Unit']
-                unitDict[unitNumber] = {}
+                projectDict[unitNumber] = {}
                 section = sDict[week]
-                #unitDict[unitNumber] = sDict[week]  
+                #projectDict[unitNumber] = sDict[week]  
 
-                unitDict[unitNumber]['Title'] = section['Title']
-                unitDict[unitNumber]['Date'] = section['Date']
-                unitDict[unitNumber]['Deadline'] = section['Deadline']                
-                unitDict[unitNumber]['M1'] = section['M1']
-                unitDict[unitNumber]['M2'] = section['M2']                
+                projectDict[unitNumber]['Title'] = section['Title']
+                projectDict[unitNumber]['Date'] = section['Date']
+                projectDict[unitNumber]['Deadline'] = section['Deadline']                
+                projectDict[unitNumber]['M1'] = section['M1']
+                projectDict[unitNumber]['M2'] = section['M2']                
         except:
             print('except', sDict[week]['Unit'])
             pass
             
-    pprint(unitDict)
+    pprint(projectDict)
         
-    return unitDict   
+    return projectDict  
+
 
 @app.route ("/abc_list", methods=['GET','POST'])
 @login_required
@@ -149,6 +165,7 @@ def abc_list():
     pprint(srcDict)
     abcDict = { }
     for src in srcDict:
+        # check sources against open units in model
         if Units.query.filter_by(unit=src).count() == 1:
             abcDict[src] = {                
                 'Title' : srcDict[src]['Title'],
@@ -165,7 +182,7 @@ def abc_list():
                     abcDict[src]['Number'] = proj.teamnumber
                     abcDict[src]['QTotal'] = proj.Ans03
                     abcDict[src]['STotal'] = proj.Ans04  
-                    pass     
+                    #pass    
         
     pprint (abcDict)        
        
@@ -175,18 +192,64 @@ def abc_list():
 
 
 
-@app.route('/storeQNA', methods=['POST'])
-def storeQNA():  
+@app.route('/storeB64', methods=['POST'])
+def storeB64():  
     unit = request.form ['unit']  
     team = request.form ['team']      
+    mode = request.form ['mode']      
+    b64 = request.form ['b64']      
+    question = request.form ['question']      
+    b64data = request.form ['b64data'] 
+    fileType = request.form ['fileType'] 
+
+    project = unitDict[unit]           
+    project_data = project.query.filter_by(teamnumber=team).first() 
+    project_answers = json.loads(project_data.Ans02)
+    
+    if b64 == 'i':
+        print('PROCESSING IMAGE')            
+        image = base64.b64decode(b64data)    
+        filename = unit + '/' + team + '/' + question + '_image.' + fileType
+        imageLink = S3_LOCATION + filename
+        s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=image)
+
+        project_answers[question]['imageLink'] = imageLink   
+        project_data.Ans02 = json.dumps(project_answers)
+        db.session.commit()
+
+    if b64 == 'a':
+        print('PROCESSING AUDIO')            
+        audio = base64.b64decode(b64data)    
+        filename = unit + '/' + team + '/' + question + '_audio.mp3'
+        audioLink = S3_LOCATION + filename
+        s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=audio)
+
+        project_answers[question]['audioLink'] = audioLink   
+        project_data.Ans02 = json.dumps(project_answers)
+        db.session.commit()
+       
+    
+    return jsonify({'question' : question})
+
+@app.route('/storeAnswer', methods=['POST'])
+def storeAnswer():  
+    unit = request.form ['unit']  
+    team = request.form ['team']      
+    mode = request.form ['mode']      
     question = request.form ['question']      
     ansOBJ = request.form ['ansOBJ']  
     total = request.form ['total']  
 
     project = unitDict[unit]           
-    project_answers = project.query.filter_by(teamnumber=team).first()    
-    project_answers.Ans01 = ansOBJ    
-    project_answers.Ans03 = total  #12 will be the maximum 
+    project_answers = project.query.filter_by(teamnumber=team).first() 
+
+    if mode == 'qna':           
+        project_answers.Ans01 = ansOBJ    
+        project_answers.Ans03 = total  #12 will be the maximum 
+    if mode == 'snl':           
+        project_answers.Ans02 = ansOBJ    
+        project_answers.Ans04 = total
+    
     db.session.commit()   
     
     return jsonify({'question' : question})
@@ -197,16 +260,23 @@ def storeQNA():
 def updateAnswers():  
     unit = request.form ['unit']  
     team = request.form ['team'] 
+    mode = request.form ['mode'] 
 
     project = unitDict[unit]           
-    project_answers = project.query.filter_by(teamnumber=team).first()    
+    project_answers = project.query.filter_by(teamnumber=team).first()   
+
+    if mode == 'qna':
+        ansString = str(project_answers.Ans01)
+    if mode == 'snl':
+        ansString = str(project_answers.Ans02)
+
        
     
-    return jsonify({'ansString' : str(project_answers.Ans01)})
+    return jsonify({'ansString' : ansString})
 
 
 
-def setUpProject(unit, team):
+def get_team_data(unit, team):
     srcDict = get_projects()
     meta = srcDict[unit]
 
@@ -232,35 +302,6 @@ def setUpProject(unit, team):
         'teamMembers' : json.dumps(teamDict)
     }
 
-
-
-@app.route ("/abc/qna/<string:unit>/<int:team>", methods=['GET','POST'])
-@login_required
-def abc_qna(unit, team): 
-
-    data = setUpProject(unit, team)  
-    project_answers = data['project_answers'] 
-    meta = data['meta'] 
-    teamMembers = data['teamMembers'] 
-    
-    ansDict = project_answers.Ans01
-
-    testDict = {}
-    for i in range (1, 7):
-        testDict[i] = {
-            'topic' : None, 
-            'question' : None, 
-            'answer' : None, 
-            'writer' : None 
-        }    
-    
-    
-    return render_template('abc/abc_qna.html', legend='Questions & Answers', 
-    meta=meta, 
-    teamMembers=teamMembers,
-    ansDict=ansDict,
-    testDict=str(json.dumps(testDict))
-    )
 
 
 @app.route('/addWord', methods=['POST'])
@@ -335,6 +376,49 @@ def deleteWord():
     return jsonify({'word' : word, 'newDict' : json.dumps(ansDict), 'qCount' : qCount })
 
 
+@app.route ("/abc/<string:qs>/<string:unit>/<int:team>", methods=['GET','POST'])
+@login_required
+def abc_setup(qs, unit, team): 
+
+    data = get_team_data(unit, team)  
+    project_answers = data['project_answers'] 
+    meta = data['meta'] 
+    teamMembers = data['teamMembers'] 
+
+    if qs == 'qna':
+        testDict = {}
+        for i in range (1, 7):
+            testDict[i] = {
+                'topic' : None, 
+                'question' : None, 
+                'answer' : None, 
+                'writer' : None 
+            }  
+        html = 'abc/abc_qna.html'
+        ansDict = project_answers.Ans01 
+
+    if qs == 'snl':
+        testDict = {}
+        for i in range (1, 7):
+            testDict[i] = {
+            'word' : None, 
+            'sentence' : None, 
+            'imageLink' : None, 
+            'audioLink' : None, 
+            'user' : None, 
+            }  
+        html = 'abc/abc_snl.html'
+        ansDict = project_answers.Ans02 
+        
+        
+    return render_template(html, legend='Questions & Answers',
+    meta=meta, 
+    teamMembers=teamMembers,
+    ansDict=ansDict,
+    testDict=str(json.dumps(testDict))
+    )
+
+'''
 @app.route ("/abc/snl/<string:unit>/<int:team>", methods=['GET','POST'])
 @login_required
 def abc_snl(unit, team): 
@@ -352,7 +436,68 @@ def abc_snl(unit, team):
     teamMembers=teamMembers,
     ansDict=ansDict, 
     testDict=None
-    )
+    )'''
+
+@app.route ("/abc_dash", methods=['GET','POST'])
+@login_required
+def abc_dash(): 
+    if current_user.id !=1:
+        return redirect('home')
+    
+    srcDict = get_projects()       
+    pprint(srcDict)
+    abcDict = { }
+    for src in srcDict:
+        # check sources against open units in model
+        if Units.query.filter_by(unit=src).count() == 1:
+            abcDict[src] = {                
+                'Title' : srcDict[src]['Title'],                
+                'Unit' : src,
+                'QNA' : 0,
+                'SNL' : 0,
+                'Teams' : 0
+            }
+
+            projects = unitDict[src].query.all()
+            for proj in projects:
+                abcDict[src]['Teams'] += 1
+                if int(proj.Ans03) == 12:
+                    abcDict[src]['QNA'] += 1
+                if int(proj.Ans04) == 4:
+                    abcDict[src]['SNL'] += 1
+
+    pprint (abcDict)       
+    
+    return render_template('abc/abc_dash.html', legend='ABC Dash', abcString = json.dumps(abcDict))
+
+@app.route ("/abc_check/<string:unit>", methods=['GET','POST'])
+@login_required
+def abc_check(unit): 
+    if current_user.id !=1:
+        return redirect('home')
+    
+    srcDict = get_projects()       
+    title = srcDict[unit]['Title']                
+               
+
+    checkDict = { }
+    
+    projects = unitDict[unit].query.all()
+    for proj in projects:
+        print(proj.teamnumber)
+        checkDict[proj.teamnumber] = {
+            'team' : ast.literal_eval(proj.username),
+            'qna_list' : json.loads(proj.Ans01), 
+            'qna_score' : proj.Ans03, 
+            'snl_list' : json.loads(proj.Ans02), 
+            'snl_score' : proj.Ans04,
+            }
+        
+
+    pprint (checkDict)  
+     
+    
+    return render_template('abc/abc_check.html', legend='QNA Check', title=title, abcString = json.dumps(checkDict))
 
 
 

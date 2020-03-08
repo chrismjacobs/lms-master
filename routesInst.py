@@ -93,18 +93,6 @@ def att_log():
     return render_template('instructor/att_log.html', title='att_log', attLogDict=attLogDict, dateList=dateList, todayDate=todayDate, userDict=userDict)  
 
 
-
-
-@app.route("/openSet/<string:unit>/<string:part>", methods = ['POST'])
-def openSet(unit,part):
-    # set unit participation from sources page
-    status = request.form['status' + unit + part]
-    openSetModel = Sources.query.filter_by(unit=unit).filter_by(part=part).first()
-    openSetModel.openSet = status
-    db.session.commit() 
-    return redirect(url_for('unit_list'))    
-
-
 @app.route ("/studentRemove", methods = ['POST'])
 @login_required 
 def studentRemove(name):
@@ -138,40 +126,6 @@ def studentRemove(name):
 
     return jsonify({'removed' : name, 'unit' : todaysUnit})
 
-
-
-@app.route ("/teams")
-@login_required 
-def teams():  
-    if current_user.id != 1:
-        return abort(403)       
-
-    try:
-        teamcount = Attendance.query.filter_by(username='Chris').first().teamcount
-    except:
-        flash('Attendance not open yet', 'danger')
-        return redirect(url_for('home')) 
-    
-    if teamcount > 0: 
-        attDict = {}  #  teamnumber = fields, 1,2,3,4 names
-        for i in range(1, teamcount+1):
-            teamCall = Attendance.query.filter_by(teamnumber=i).all()
-            attDict[i] = teamCall    
-    # if team count set to zero ---> solo joining
-    else:
-        attDict = {}
-        users = User.query.order_by(asc(User.studentID)).all()        
-        for user in users:
-            attStudent = Attendance.query.filter_by(username=user.username).first() 
-            if attStudent:
-                attDict[user.username] = [user.studentID, attStudent.date_posted]
-            else:
-                attDict[user.username] = [user.studentID, 0]
-    print(attDict)
-
-    tablesDict = {}
-    
-    return render_template('instructor/teams.html', attDict=attDict, teamcount=teamcount, title='teams')  
 
 
 @app.route("/commentSet/<string:unit>/<string:name>", methods = ['POST'])
@@ -219,29 +173,50 @@ def dashboard():
     return render_template('instructor/dashboard.html', ansDict=ansDict, ansRange=ansRange, title='dashboard')  
 
 
-
+@app.route("/refreshAttend", methods = ['POST'])
 def get_attend_list():
     if current_user.id != 1:
         return abort(403) 
 
     sDict = {}
-    students = User.query.order_by(asc(User.studentID)).all()  
-    for student in students:  
-
-        sDict[student.username] = {
-            'idn' : student.studentID, 
-            'img' : S3_LOCATION + student.image_file,
-            'eml' : student.email,
-            'att' : 'Absent',           
-        }
+    IDLIST = BaseConfig.IDLIST
+    for s in IDLIST:
+        sDict[s] = {
+                'nme' : None, 
+                'img' : None,
+                'eml' : None,
+                'att' : 'Unregistered',           
+            }
     
+    students = User.query.order_by(asc(User.studentID)).all() 
+    for student in students:  
+        if student.studentID not in IDLIST:
+            print (student.studentID)
+            sDict[student.studentID] = {
+                'nme' : None, 
+                'img' : None,
+                'eml' : None,
+                'att' : 'Unregistered',           
+            }
+        print(student.username)
+        sDict[student.studentID]['nme'] = student.username 
+        print(sDict[student.studentID]['nme'])
+        sDict[student.studentID]['img'] = S3_LOCATION + student.image_file
+        sDict[student.studentID]['eml'] = student.email
+        sDict[student.studentID]['att'] = 'Absent'   
+            
     #### attend todays attendance
     attendance = Attendance.query.all()
     for att in attendance: 
-        sDict[att.username]['att'] = att.attend
+        sDict[att.studentID]['att'] = att.attend
     
-    return json.dumps(sDict)
+    if request.method == 'POST':
+        return jsonify({'attString' : json.dumps(sDict) })
+    else:
+        return json.dumps(sDict)
+      
 
+@app.route("/refreshTeams", methods = ['POST'])
 def get_team_list():
     instructor = Attendance.query.filter_by(username='Chris').first()
 
@@ -254,13 +229,22 @@ def get_team_list():
         attDict = {}  #  teamnumber = fields, 1,2,3,4 names
         for i in range(1, teamcount+1):
             teamCall = Attendance.query.filter_by(teamnumber=i).all()
-            attDict[i] = teamCall
-        attString = json.dumps(attDict) 
+            print(teamCall)
+            teamCall_students = []
+            for s in teamCall:
+                teamCall_students.append(s.username)
+            attDict[i] = teamCall_students
+            print (teamCall_students)
+        
+        teamString = json.dumps(attDict) 
     else:
-        attString = json.dumps({ 1 : []})     
+        teamString = json.dumps({ 1 : []})     
     
-    return attString 
-
+    if request.method == 'POST':
+        return jsonify({'teamString' : teamString })
+    else:
+        return teamString
+        
 
 def get_chat_list():
     chats = ChatBox.query.all() 
@@ -277,12 +261,61 @@ def get_chat_list():
 def controls():
 
     attend_list = get_attend_list()
-    team_list = get_team_list()
+    team_list = get_team_list()    
     chat_list = get_chat_list()
 
-    return render_template('instructor/controls.html', attend_list=attend_list, team_list=team_list) 
+    openData = Attendance.query.filter_by(username='Chris').first()
 
- 
+    setDict = {
+        'Notice' : openData.attend,
+        'Set_mode' : openData.teamnumber,
+        'Unit' : openData.unit, 
+        'Size' : openData.teamsize, 
+        'Count' : openData.teamcount, 
+    }
+
+    setString = json.dumps(setDict)     
+
+
+    return render_template('instructor/controls.html', setString=setString, attend_list=attend_list, team_list=team_list, title='Controls') 
+
+
+
+
+@app.route ("/teams")
+@login_required 
+def teams():  
+    if current_user.id != 1:
+        return abort(403)       
+
+    try:
+        teamcount = Attendance.query.filter_by(username='Chris').first().teamcount
+    except:
+        flash('Attendance not open yet', 'danger')
+        return redirect(url_for('home')) 
+    
+    if teamcount > 0: 
+        attDict = {}  #  teamnumber = fields, 1,2,3,4 names
+        for i in range(1, teamcount+1):
+            teamCall = Attendance.query.filter_by(teamnumber=i).all()
+            attDict[i] = teamCall    
+    # if team count set to zero ---> solo joining
+    else:
+        attDict = {}
+        users = User.query.order_by(asc(User.studentID)).all()        
+        for user in users:
+            attStudent = Attendance.query.filter_by(username=user.username).first() 
+            if attStudent:
+                attDict[user.username] = [user.studentID, attStudent.date_posted]
+            else:
+                attDict[user.username] = [user.studentID, 0]
+    print(attDict)
+
+    tablesDict = {}
+    
+    return render_template('instructor/teams.html', attDict=attDict, teamcount=teamcount, title='teams')  
+
+
 @app.route ("/students")
 @login_required 
 def students():
@@ -374,28 +407,6 @@ def inchat(user_name):
     return render_template('instructor/inchat.html', form=form, dialogues=dialogues, name=user_name, image_chris=image_chris, image_file=image_file)
 
 
-def change_late():
-    openData = Attendance.query.filter_by(username='Chris').first()
-    if openData.teamnumber == 98:
-        openData.teamnumber = 99
-    elif openData.teamnumber == 50:
-        openData.teamnumber = 51
-    db.session.commit()
-
-def set_timer():
-    #https://docs.python.org/2/library/sched.html
-    import time
-    from threading import Timer
-    
-    print (time.time())
-    Timer(1800, change_late, ()).start()
-    time.sleep(7800)
-
-    openData = Attendance.query.filter_by(username='Chris').first()
-    openData.teamnumber = 100
-    db.session.commit()
-
-
 @app.route("/updateSet", methods = ['POST'])
 @login_required
 def updateSet():
@@ -430,8 +441,18 @@ def updateSet():
         db.session.commit()
         flash('Attendance is not open yet, please try later', 'danger')
         return redirect(url_for('home'))
+    
+    setDict = {
+        'Notice' : openData.attend,
+        'Set_mode' : openData.teamnumber,
+        'Unit' : openData.unit, 
+        'Size' : openData.teamsize, 
+        'Count' : openData.teamcount, 
+    }
 
-    return jsonify({'teamcount' : teamcount, 'teamsize' : teamsize, 'set_mode' : set_mode})
+    setString = json.dumps(setDict)  
+
+    return jsonify({'teamcount' : teamcount, 'teamsize' : teamsize, 'setString' : setString})
     
 
 

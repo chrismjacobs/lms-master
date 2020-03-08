@@ -3,7 +3,7 @@
 {% block content %}
 
 <span id="ansDict" style="display:none">{{ansDict}}</span>
-<span id="username" style="display:none">{{current_user.username}}</span>
+<span id="testDict" style="display:none">{{testDict}}</span>
 <span id="teamMembers" style="display:none">{{teamMembers}}</span>
 
 <div class="content-section">    
@@ -14,11 +14,12 @@
             <iframe id="questions_embed" src="{{meta.M1}}"
             allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
 	        </iframe>
-    </div>   
+    </div> 
+  
     
 </div>
 
-<div id="vue-app"> 
+<div id="vue-app">
 
 <div class="content-section">
         <legend class="border-bottom mb-4">Team [[team]] </legend>
@@ -34,138 +35,80 @@
 </div>
 
 
+
+
 <div class="content-section">
-<legend class="border-bottom mb-4">Prepare Word </legend>
 
-<input type="file" id="image" accept="image/*" @change="imageValidation()"> </input> <button class="btn btn-secondary btn-sm"> Upload Image </button>
-<br>
-<div v-if="base64data['fileType']">
-<span style="color:red"> Image Ready </span>
-</div>
-<br>
+<legend class="border-bottom mb-4"> Your S&L List: </legend>
 
-<span style="padding:6px; font-size:15px; background:grey; color:white; width:100px;border:1px sold white; border-radius:5px"> Speaker: </span>
-<input id="user" type="text" class="textAss" style="margin-left:5px" value="{{current_user.username}}"></input> 
-<br>
-<br>
+<template v-for="(item, key) in ansOBJ"> 
 
-<span style="padding:6px; font-size:15px; background:grey; color:white; width:100px;border:1px sold white; border-radius:5px"> Word: </span>
-<input id="word" type="text" class="textAss" style="margin-left:5px" v-on:blur="updateWord()"></input> 
+<span @click="editMarkers(key)" class="unit-span" :style="qStyle(key)"> &emsp;&emsp;Q[[ key ]]&emsp;&emsp; </span>
 <br>
 <br>
-
-<span style="padding:6px; font-size:15px; background:grey; color:white; width:100px;border:1px sold white; border-radius:5px"> Sentence: </span>
-<br>
-<textarea id="sentence" class="textAss" v-on:blur="updateWord()"></textarea> 
-<br>
-<br>
-
-Rec:
-<span> [[notice]]</span>
-<div style="background:papayawhip;width:100px;border:1px sold white; border-radius:5px" @click="showUpload('up')">
-    <span style="padding:5px; font-size:12px" justify="right"> Recording Problems? </span>
-</div> 
-<br>
-<div>                              
- <audio id="handler" ref="player" controls autoplay></audio> 
-</div>
-<br>
-<span v-if="base64data['audio_64']" style="color:red"> Audio Ready </span>
-
-<template v-if="show[1]">
-
-    <div style="display:flex" > 
-            <div  v-if="rec1.start">				
-                <button  class="btn btn-success" @click="start(1)" >Start</button>
-            </div> 
-            <div  v-if="rec1.stop">				
-                <button  class="btn btn-danger" @click="stop(1)" >Stop</button>
-            </div>             
-            <div  v-if="rec1.cancel" flex="0.5">				
-                <button  class="btn btn-secondary" @click="cancel(1)">Cancel/Redo</button>
-            </div> 
-            <div  v-if="base64data['audio_b64']" >     
-                <button type="button" class="btn btn-dark" style="margin-left:5px" @click="playAudio('0')">Test Listen</button>	
-            </div>
-    </div>  
-
-    <br>
-    <div v-if="rec1.timer" :style="rec1.t_style">
-        <span class="ml-2" style="color:white" > [[ rec1.count ]] </span>
-    </div> 
-    <br> 
-</template>
-
-<div v-if="upload">
-    <div class="content-section">
-        <p>If you have an Android phone and you cannot record, please first check your microphone permissions or try a different browser.</p> 
-
-        <p>If you are using iOS, recording should work for IOS 11+ on iPhones. Older versions and iPads may not work, please upload or share a link.</p>
-         <div style="background:mediumseagreen;width:100px;border:1px sold white; border-radius:5px" @click="showUpload('rec')">
-                <span style="padding:5px; font-size:12px" justify="right"> Try Recording </span>
-        </div> 
-    </div>
     
-        <div class="content-section">       
-            <h6> Upload files from phone </h6>
-                <div class="">                      
-                    <label class="btn btn-secondary btn-info" style="margin-left:10px">
-                        <input  type="file" name="options" :id="uploadBTN[1][0]" @change="fileValidation(1)" > Upload File  <!--accept=audio removed-->
-                    </label>
+<h6  v-if="item.user"> [[ item.user ]] </h6>
+<h6  v-if="item.word"> [[ item.word ]] </h6>
+<h6  v-if="item.sentence"> [[ item.sentence ]] </h6>
+<img v-if="item.imageLink" class="rounded img-fluid" id="final_image" alt="No file yet" style="width: 150px"  :src="item.imageLink">      
+<br>
+<audio v-if="item.audioLink" controls style="width: 150px" :src="item.audioLink"></audio>  
+
+<br>
+        <div v-if="marker[key] == 3"> 
+                Speaker: <input :id="key + 'u'" type="text" class="textAss" style="margin-left:5px" value="{{current_user.username}}"> </input> 
+                <br>
+                <br>
+                Word: <input :id="key + 'w'" type="text" class="textAss" style="margin-left:5px" v-model="testOBJ[key]['word']" ></input> 
+                <br>
+                <br>
+                Sentence
+                <br>
+                <textarea :id="key + 's'" class="textAss"  v-model="testOBJ[key]['sentence']"></textarea> 
+                <br>                      
+                <div>  			
+                <button  class="btn btn-warning btn-sm" @click="storeData(key)">Update Text</button>
                 </div> 
-        </div> 
-</div>  <!-- end of upload -->
+                <br>
 
-<div v-if="addReady">				
-    <button  class="btn btn-dark" style="margin-right:5px" @click="addWord(1)">Add Word</button>
+                Image:
+                <input type="file" id="image" accept="image/*" @change="imageValidation()"> </input> <button class="btn btn-secondary btn-sm"> Select </button>
+                <br>
+                <div v-if="image64['fileType']" >
+                <button  class="btn btn-danger btn-sm" @click="storeB64(key, 'i')">Update</button>
+                </div>
+                <br>
+                
+                <br>                
+
+                Audio:
+                <input type="file" id="audio" accept="audio/*" @change="audioValidation()"> </input> <button class="btn btn-secondary btn-sm"> Select </button>
+                <br>
+                <div v-if="audio64['fileType']">
+                <button  class="btn btn-danger btn-sm" @click="storeB64(key, 'a')">Update</button>
+                </div>
+                <br>
+                
+                <br>                
+
+
+        <div>
+
+<br>
+</template>  
+
 </div> 
-
-</div> 
-
-<div class="content-section">
-        <legend class="border-bottom mb-4">Words
-        <span style="padding:5px; font-size:12px;background:papayawhip;width:100px;border:1px sold white; border-radius:5px" justify="right" @click="deleteWord('0')"> Refresh Words </span> 
-        <span style="padding:5px; font-size:12px;background:silver;width:100px;border:1px sold white; border-radius:5px" justify="right" @click="editor()"> Delete Words </span>
-        </legend>
-
-    <template v-for="(ans, key) in ansOBJ">
-        <h4 style="display:inline-block"> [[key]] </h4>
-        <div v-if="edit">
-        <span style="padding:5px; font-size:12px;background:lightcoral;width:100px;border:1px sold white; border-radius:5px" justify="right" @click="deleteWord(key)"> Delete [[ key ]] </span>
-        </div>
-        <br>
-        <img class="rounded img-fluid" id="final_image" alt="No file yet" style="max-width:80%"  :src="ansOBJ[key]['imageLink']">
-        <br>
-        <br>        
-        <h6> Sentence: [[ans.sentence]] </h6>
-        <h6> Speaker: [[ans.user]] </h6>
-        <div>                              
-            <audio id="" controls :src="ansOBJ[key]['audioLink']"></audio> 
-        </div>        
-       
-        <br>
-
-    </template>
-
-</div>
-
-
-
+   
 
 </div> <!-- end of Vue app -->
 
 
-
 {% endblock %}
 
-{% block script %} 
-<script type="text/javascript" src="{{url_for('static', filename= 'js/Mp3LameEncoder.js')}}"></script> 
+{% block script %}   
+
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
-<script type="text/javascript" src="{{url_for('static', filename= 'js/abc_snl.js')}}"></script>  
+<script type="text/javascript" src="{{url_for('static', filename= 'js/abc_snl.js')}}"></script>
+
 {% endblock %} 
 
-
-      
-    
-  
- 
