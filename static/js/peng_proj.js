@@ -2,9 +2,8 @@ var ansString = document.getElementById('ansString').innerHTML
 var ansOBJ = JSON.parse(ansString)
 console.log('ansOBJ', ansOBJ);
 
-var stage = document.getElementById('stage').innerHTML
-var grade = document.getElementById('grade').innerHTML
-
+var str = window.location.href
+let stage = (str).split('peng/')[1].split('/')[1]
 
 
 startVue(ansOBJ)
@@ -111,7 +110,12 @@ function startVue(ansOBJ){
                 console.log(vue.ansOBJ)
                 document.getElementById('final_image').src = vue.ansOBJ['Image']
                 alert('Your FORM has been updated')
-
+                //if (data.stage > vue.stage) {
+                    //var str = window.location.href
+                    //let url = (str).split('peng/')[0] + 'peng_list' 
+                    //console.log('goTO', url);
+                    //window.location = url   
+                //}
             })
             .fail(function(){
                 alert('error has occurred');

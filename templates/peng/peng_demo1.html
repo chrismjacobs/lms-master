@@ -3,11 +3,9 @@
 {% block content %}
 
 <span id="ansString" style="display:none">{{ansString}}</span>
-<span id="stage" style="display:none">{{stage}}</span>
-<span id="grade" style="display:none">{{grade}}</span>
 
 <div class="content-section">    
-<h1> MT Presentation: <br> Product Demonstration </h1>
+<h3> MT Presentation: <br> Product Demonstration </h3>
   
     <div class="embed-responsive embed-responsive-4by3">
         <iframe id="questions_embed" src="{{source}}"
@@ -26,6 +24,7 @@
 
             <span :style="style('Intro')"> Product</span>
             <input type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Product']"></input> 
+            *you cannot choose phones, laptops, tablet or airpods - try and think of something more interesting
             <br>  
             <br>  
 

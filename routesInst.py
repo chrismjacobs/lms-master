@@ -432,6 +432,7 @@ def updateSet():
     openData.teamnumber = int(set_mode)
 
     db.session.commit() 
+    
     if int(set_mode) == 100:
         db.session.query(Attendance).delete()
         db.session.commit()

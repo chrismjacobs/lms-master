@@ -111,7 +111,7 @@ def peng_list():
 @login_required
 def peng_proj(MTFN, page_stage):    
     source = get_peng_projects()
-
+    # midterm or final
     if MTFN == 'MT':        
         project = U011U.query.filter_by(username=current_user.username).first() 
     else:
@@ -147,34 +147,48 @@ def updatePENG():
         s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=image)
         ansDict['Image'] = imageLink
 
-    ### check stage 1  
-    stage1_checklist = [
-        ansDict['Product'], 
-        ansDict['Brand'],  
-        ansDict['Image'],  
-        ansDict['Why']
-        ]
-
-    if None in stage1_checklist:
-        stage = 1 
-        g1 = 0        
-    else:
-        stage = 2
-        g1 = 3
-
-    
-    ansOBJ = json.dumps(ansDict)
-    grade = g1  
-    print(grade)  
-
     project_answers = U011U.query.filter_by(username=current_user.username).first() 
+    ansOBJ = json.dumps(ansDict)
     project_answers.Ans01 = str(ansOBJ)
-    project_answers.Grade = grade
-    project_answers.Comment = stage
+    db.session.commit()  
 
-    db.session.commit()   
+
+    ### check stage 1 
+    if int(stage) == 1: 
+        stage1_checklist = [
+            ansDict['Product'], 
+            ansDict['Brand'],  
+            ansDict['Image'],  
+            ansDict['Why']
+            ]            
+        
+        if project_answers.Ans02 == '3' or int(project_answers.Comment) > 1 :
+            pass 
+        elif None in stage1_checklist:
+            project_answers.Ans02 = 0      ## stage one grade
+            project_answers.Comment = 1  ## stage
+            db.session.commit()   
+        else:
+            project_answers.Ans02 = 3  ## stage one grade
+            project_answers.Comment = 2  ## stage
+            db.session.commit()       
     
-    return jsonify({'ansString' : str(ansOBJ)})
+    if int(stage) == 2: 
+        check = 0 
+        for answer in ansDict:
+            if ansDict.answer == None:
+                check += 1
+        
+        if project_answers.Ans03 == '3' or int(project_answers.Comment) > 2 :
+            pass 
+        elif check > 0:
+            pass
+        else:
+            project_answers.Ans03 = 3  ## stage one grade
+            project_answers.Comment = 3  ## stage
+            db.session.commit()       
+
+    return jsonify({'ansString' : str(ansOBJ), 'stage' : project_answers.Comment})
 
 
 

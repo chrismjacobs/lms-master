@@ -37,7 +37,7 @@
 <h4 >  Point [[ key ]]  </h4>
 
         <span :style="style('dt')">Sentence </span>
-        <textarea id="" type="text" class="textAss" style="margin-left:5px" v-model="item" @on-blur="wordCount()"></textarea> 
+        <textarea type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Intro'][key]" @on-blur="wordCount()"></textarea> 
         <br>
         <br>  
 
@@ -45,14 +45,14 @@
  
    
 
-<template v-for="(item, key) in ansOBJ['Parts']"> 
+<template v-for="(section, key) in ansOBJ['Parts']"> 
 <h4 >  [[ key ]]  </h4>
         <div v-for="(point, order) in ansOBJ['Parts'][key]">
                 <span :style="style('kw')">Point [[order]]: CC word(s) --> </span>
                 <input type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Cues'][key][order]"></input> 
                 <br>
                 <span :style="style('dt')"> Sentence </span>
-                <textarea id="" type="text" class="textAss" style="margin-left:5px" v-model="point" @on-blur="wordCount()"></textarea> 
+                <textarea type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Parts'][key][order]" @on-blur="wordCount()"></textarea> 
                 <br>
                 <br>
         </div>
@@ -62,17 +62,9 @@
 <div v-if="updateReady">				
     <button  class="btn btn-dark" style="margin-right:5px" @click="updatePlan()">Update Plan</button>
 </div> 
-<br>  
+<br> 
 
-<div v-if="updateReady">				
-    <button  class="btn btn-danger" style="margin-right:5px" @click="createPPT()">Create Cue Cards</button>
-</div> 
 
-<br>
-
-<div v-if="pptLink">				
-    <a :href="pptLink" download>Download PPT</button>
-</div> 
 
 
 </div> 

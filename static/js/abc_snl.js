@@ -64,19 +64,22 @@ function startVue(){
     }, 
     methods: {  
         editMarkers : function(question) {
-            if (this.marker[question] == 3 ) {
-                vue.image64['fileType'] = false
-                vue.audio64['fileType'] = false
+            this.resetB64() 
+            if (this.marker[question] == 3 ) {                
                 this.checkMarkers()
             }
             else{
-                this.checkMarkers()
+                this.checkMarkers()                               
                 this.marker[question] = 3 
                 // the role of the testOBJ is to store the changes 
                 //but not the alter the mainOBJ in case the changes are not saved
                 let testString = JSON.stringify(this.ansOBJ[question])
                 this.testOBJ[question] = JSON.parse(testString) 
             }   
+        },
+        resetB64 : function() {             
+            vue.image64['fileType'] = false
+            vue.audio64['fileType'] = false
         },
         resetMarkers : function(q) {             
             for (var mark in vue.marker) {
@@ -208,8 +211,7 @@ function startVue(){
             .done(function(data) { 
                 console.log(data); 
                 alert('Question ' + data.question + ' updated') 
-                vue.image64['fileType'] = false
-                vue.audio64['fileType'] = false
+                vue.resetB64() 
                 vue.updateAnswers()  
                 vue.checkMarkers()       
             })

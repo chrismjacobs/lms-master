@@ -71,27 +71,26 @@
                 </div> 
                 <br>
 
-                Image:
-                <input type="file" id="image" accept="image/*" @change="imageValidation()"> </input> <button class="btn btn-secondary btn-sm"> Select </button>
-                <br>
-                <div v-if="image64['fileType']" >
-                <button  class="btn btn-danger btn-sm" @click="storeB64(key, 'i')">Update</button>
+                <div style="display:inline-flex">
+                        Image:&nbsp&nbsp                
+                        <input type="file" id="image" accept="image/*" @change="imageValidation()" > </input> <button class="btn btn-secondary btn-sm"> Select </button>
+                        &nbsp&nbsp                        
+                        <div v-if="image64['fileType']">
+                        <button  class="btn btn-danger btn-sm" @click="storeB64(key, 'i')">Update</button>
+                        </div>
                 </div>
-                <br>
+                <br>  
+                <br>  
                 
-                <br>                
-
-                Audio:
-                <input type="file" id="audio" accept="audio/*" @change="audioValidation()"> </input> <button class="btn btn-secondary btn-sm"> Select </button>
-                <br>
-                <div v-if="audio64['fileType']">
-                <button  class="btn btn-danger btn-sm" @click="storeB64(key, 'a')">Update</button>
+                <div style="display:inline-flex">
+                        Audio:&nbsp&nbsp
+                        <input type="file" id="audio" accept="audio/*" @change="audioValidation()"> </input> <button class="btn btn-secondary btn-sm"> Select </button>
+                        &nbsp&nbsp
+                        <div v-if="audio64['fileType']">
+                        <button  class="btn btn-danger btn-sm" @click="storeB64(key, 'a')">Update</button>
+                        </div>
                 </div>
-                <br>
                 
-                <br>                
-
-
         <div>
 
 <br>

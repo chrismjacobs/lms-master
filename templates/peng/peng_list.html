@@ -23,16 +23,16 @@
 
 <legend class="border-bottom mb-4"> Your Score: </legend>
 
-<span v-if="status[1]" :style="linkStyle()" @click="goTo('1')"> Stage 1: Choose Product </span> -- Deadline: Mar 22
+<span :style="linkStyle(1)" @click="goTo('1')"> Stage 1: Choose Product </span> -- Deadline: Mar 22
 <br>
 <br>
-<span v-if="status[2]" :style="linkStyle()" @click="goTo('2')"> Stage 2: Prepare Plan </span>
+<span v-if="stage > 1" :style="linkStyle(2)" @click="goTo('2')"> Stage 2: Prepare Plan </span>
 <br>
 <br>
-<span v-if="status[3]" :style="linkStyle()" @click="goTo('3')"> Stage 3: Practice Speaking </span>
+<span v-if="stage > 2" :style="linkStyle(3)" @click="goTo('3')"> Stage 3: Practice Speaking </span>
 <br>
 <br>
-<span v-if="status[4]" :style="linkStyle()" @click="goTo('4')"> Stage 4: Practice with Cue Cards </span>
+<span v-if="stage > 3" :style="linkStyle(4)" @click="goTo('4')"> Stage 4: Practice with Cue Cards </span>
   
 
 </div>  
@@ -66,6 +66,7 @@ function startVue(){ new Vue({
     },
     data: {
         stage: stage,
+        grade: grade,        
         status: {
           1 : true, 
           2 : false, 
@@ -75,14 +76,19 @@ function startVue(){ new Vue({
     }, 
     methods: {  
       goTo: function(link) { 
+          var str = window.location.href
           let url = (str).split('_list')[0] + '/MT/' + link
           console.log('goTO', url);
           window.location = url            
         },                 
-        linkStyle: function(link) { 
-
-          return {padding:'4px', 'font-size':'15px', background:'purple', color:'white', border:'1px sold white', 'border-radius':'5px', width:'20%'}
-            
+      linkStyle: function(link) { 
+          if (this.stage > link) {
+              return {padding:'4px', 'font-size':'15px', background:'seagreen', color:'white', border:'1px sold white', 'border-radius':'5px', width:'20%'}
+         }
+          else {
+            return {padding:'4px', 'font-size':'15px', background:'purple', color:'white', border:'1px sold white', 'border-radius':'5px', width:'20%'}
+          }
+           
         }
                   
     }         
