@@ -81,9 +81,7 @@ function startVue(qOBJ){
         6 : false,
         7 : false,
         8 : false,
-      }, 
-            
-
+      },
 
     }, 
     methods: {      
@@ -212,7 +210,7 @@ function startVue(qOBJ){
           console.log('ClassOBJ', vue.classOBJ);
 
 
-          for (let team in vue.leaderOBJ) {            
+          for (let team in vue.leaderOBJ) {                        
             for (let qn in vue.classOBJ){
               let answer = vue.classOBJ[qn][team]
               if (answer != null && answer.length > 0 ){
@@ -227,14 +225,15 @@ function startVue(qOBJ){
             var width = ((vue.leaderOBJ[rec]).length / vue.qs ) * 100
             var width_percent = width + '%'
             console.log(width);
-            vue.leaderBar[rec] = { background:'red',  height:'20px', width: width_percent, border: '1px solid grey', 'border-radius': '5px'}
+            vue.leaderBar[rec] = { background:'red',  height:'30px', width: width_percent, border: '1px solid grey', 'border-radius': '5px'}
           
             
           }
           var total = 0
           for (let team in vue.leaderOBJ){
-            console.log('TEAM', vue.leaderOBJ[team]);
-            total += 1
+            for (let answer in vue.leaderOBJ[team]){
+              total += 1              
+            }              
           }
           
 
@@ -248,9 +247,16 @@ function startVue(qOBJ){
           });
       },
       leaderStyle : function(key){
+        console.log('leaderOBJ.key', this.leaderOBJ[key] );
+        if (this.leaderOBJ[key] == '100'){
+          var bar_color = 'green'
+        }
+        else {
+          var bar_color = 'red'
+        }
           var width = this.leaderOBJ[key] + '0%'
           console.log(width);          
-          this.leaderBar[key] = { background:'red',  height:'20px', width: width, border: '1px solid grey', 'border-radius': '5px'}
+          this.leaderBar[key] = { background:bar_color,  height:'20px', width: width, border: '1px solid grey', 'border-radius': '5px'}
           console.log(this.leaderBar);    
       }
           
