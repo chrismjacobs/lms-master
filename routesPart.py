@@ -231,12 +231,11 @@ def getPdata():
             dataDict[1][entry.teamnumber] = entry.Ans01 
             dataDict[2][entry.teamnumber] = entry.Ans02 
             dataDict[3][entry.teamnumber] = entry.Ans03 
-            dataDict[4][entry.teamnumber] = entry.Ans01 
+            dataDict[4][entry.teamnumber] = entry.Ans04 
             dataDict[5][entry.teamnumber] = entry.Ans05 
             dataDict[6][entry.teamnumber] = entry.Ans06 
             dataDict[7][entry.teamnumber] = entry.Ans07 
             dataDict[8][entry.teamnumber] = entry.Ans08 
-            dataDict[7][entry.teamnumber] = entry.Ans07  
 
     return jsonify({'dataDict' : json.dumps(dataDict)})
 

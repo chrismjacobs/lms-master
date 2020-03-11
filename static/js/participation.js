@@ -209,6 +209,7 @@ function startVue(qOBJ){
             vue.leaderOBJ[lead] = []
           }
           console.log('RESET', JSON.stringify(vue.leaderOBJ));
+          console.log('ClassOBJ', vue.classOBJ);
 
 
           for (let team in vue.leaderOBJ) {            
@@ -232,12 +233,14 @@ function startVue(qOBJ){
           }
           var total = 0
           for (let team in vue.leaderOBJ){
-            //
-            total += vue.leaderOBJ[team]
+            console.log('TEAM', vue.leaderOBJ[team]);
+            total += 1
           }
+          
 
-          vue.percent = ( total / (vue.qs * vue.teamcount )  ) *100
-          console.log('percent', vue.qs, vue.teamcount, vue.percent);
+          var percent_float = ( total / (vue.qs * vue.teamcount )  ) *100
+          vue.percent = percent_float.toPrecision(4)
+          console.log('%: qs/teamocunt/total/percent', vue.qs, vue.teamcount, total, vue.percent);
             
           })
           .fail(function(){
