@@ -415,16 +415,19 @@ function startVue(ansOBJ, device){
           }, 1000)
       },
       playAudio : function (arg) { 
-
+        
         let playlist = {
           '0' : vue.blobURL, 
           '1' : vue.ansOBJ['1']['AudioData'], 
           '2' : vue.ansOBJ['2']['AudioData'], 
           '3' : vue.ansOBJ['1']['model'], 
-          '3' : vue.ansOBJ['2']['model'], 
+          '4' : vue.ansOBJ['2']['model'], 
         }
-        player = document.getElementById('handler')        
+        player = document.getElementById('handler') 
+       
         player.src = playlist[arg]
+        
+        
        
       },
       fileValidation : function(task){    
