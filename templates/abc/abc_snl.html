@@ -71,21 +71,23 @@
                 </div> 
                 <br>
 
-                <div style="display:inline-flex">
+                <div >
                         Image:&nbsp&nbsp                
+                        <div>
                         <input type="file" id="image" accept="image/*" @change="imageValidation()" > </input> <button class="btn btn-secondary btn-sm"> Select </button>
-                        &nbsp&nbsp                        
+                        </div>  
+                        <br>                
                         <div v-if="image64['fileType']">
                         <button  class="btn btn-danger btn-sm" @click="storeB64(key, 'i')">Update</button>
                         </div>
                 </div>
-                <br>  
-                <br>  
-                
-                <div style="display:inline-flex">
+               <br>
+                <div>
                         Audio:&nbsp&nbsp
+                        <div>
                         <input type="file" id="audio" accept="audio/*" @change="audioValidation()"> </input> <button class="btn btn-secondary btn-sm"> Select </button>
-                        &nbsp&nbsp
+                        </div>
+                        <br>                        
                         <div v-if="audio64['fileType']">
                         <button  class="btn btn-danger btn-sm" @click="storeB64(key, 'a')">Update</button>
                         </div>
