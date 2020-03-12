@@ -414,7 +414,7 @@ def updateSet():
     
     setDict = json.loads(setOBJ)
 
-    print(setDict)
+    print('setDict', setDict)
 
     notice = setDict['notice']
     unit = setDict['unit']
@@ -424,24 +424,23 @@ def updateSet():
 
     openData = Attendance.query.filter_by(username='Chris').first()
 
-    openData.teamcount = int(teamcount)
-    openData.teamsize = int(teamsize)
-    openData.unit = unit
-    # notice and set mode are diff columns
-    openData.attend = notice
-    openData.teamnumber = int(set_mode)
-
-    db.session.commit() 
-    
     if int(set_mode) == 100:
         db.session.query(Attendance).delete()
         db.session.commit()
         attendance = Attendance(username = 'Chris', 
         attend='Notice', teamnumber=97, studentID='100000000')      
         db.session.add(attendance)
-        db.session.commit()
-        flash('Attendance is not open yet, please try later', 'danger')
-        return redirect(url_for('home'))
+        db.session.commit()    
+    else:
+        openData.teamcount = int(teamcount)
+        openData.teamsize = int(teamsize)
+        openData.unit = unit
+        # notice and set mode are diff columns
+        openData.attend = notice
+        openData.teamnumber = int(set_mode)
+
+        db.session.commit() 
+      
     
     setDict = {
         'Notice' : openData.attend,
@@ -450,8 +449,9 @@ def updateSet():
         'Size' : openData.teamsize, 
         'Count' : openData.teamcount, 
     }
-
-    setString = json.dumps(setDict)  
+    
+    setString = json.dumps(setDict) 
+     
 
     return jsonify({'teamcount' : teamcount, 'teamsize' : teamsize, 'setString' : setString})
     
