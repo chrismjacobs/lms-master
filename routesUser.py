@@ -191,13 +191,13 @@ def home():
             chat = ChatBox(username = current_user.username, chat=form.chat.data, response=form.response.data)      
             db.session.add(chat)
             db.session.commit() 
-            #if form.chat.data != "":                     
-            #    msg = Message('LMS Message', 
-            #    sender='chrisflask0212@gmail.com', 
-            #    recipients=['cjx02121981@gmail.com'])
-            #    msg.body = f'''Message from {current_user.username} says {form.chat.data}'''
+            if form.chat.data != "":                     
+                msg = Message('LMS Message', 
+                sender='chrisflask0212@gmail.com', 
+                recipients=['cjx02121981@gmail.com'])
+                msg.body = f'''Message from {current_user.username} says {form.chat.data}'''
                 #jinja2 template can be used to make more complex emails
-            #    mail.send(msg)
+                mail.send(msg)
             return redirect(url_for('home'))
     else:
         form.name.data = current_user.username

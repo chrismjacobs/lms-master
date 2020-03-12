@@ -389,12 +389,12 @@ def inchat(user_name):
         chat = ChatBox(username = user_name, response=form.response.data, chat=form.chat.data)      
         db.session.add(chat)
         db.session.commit()  
-        #msg = Message(messText, 
-        #            sender='chrisflask0212@gmail.com', 
-        #            recipients=[email ,'cjx02121981@gmail.com'])
-        #msg.body = f'''You have a message from waiting for you at {website}. Please follow the link to read and reply. (DO NOT REPLY TO THIS EMAIL)'''
+        msg = Message(messText, 
+                    sender='chrisflask0212@gmail.com', 
+                    recipients=[email ,'cjx02121981@gmail.com'])
+        msg.body = f'''You have a message from waiting for you at {website}. Please follow the link to read and reply. (DO NOT REPLY TO THIS EMAIL)'''
         #jinja2 template can be used to make more complex emails
-        #mail.send(msg)
+        mail.send(msg)
         return redirect(url_for('inchat', user_name=user_name))
     else:
         form.name.data = current_user.username

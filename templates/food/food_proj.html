@@ -47,7 +47,7 @@
 <h4 v-else-if="key == '3'" > Description </h4>
         <div v-for="(point, order) in ansOBJ['Parts'][key]['kw']">
                 <span :style="style('kw')"> Key words [[order]] --> </span>
-                <input type="text" class="textAss" style="margin-left:5px" v-model="point"></input> 
+                <input type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Parts'][key]['kw'][order]"></input> 
                 <br>
                 <span :style="style('dt')"> Sentence [[order]] </span>
                 <textarea :id="point + key" type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Parts'][key]['dt'][order]" @blur="wordCount(point + key)"></textarea> 

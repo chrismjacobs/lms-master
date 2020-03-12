@@ -332,7 +332,8 @@ def shareUpload():
 @login_required
 def participation(unit_num,part_num,state):
 
-    teamcount = Attendance.query.filter_by(username='Chris').first().teamcount
+    chris_attend = Attendance.query.filter_by(username='Chris').first()
+    teamcount = chris_attend.teamcount
     print('teamcount', teamcount)
     #check source to see if unit is open yet    
     unit_count = Units.query.filter_by(unit=unit_num).count()
@@ -350,13 +351,15 @@ def participation(unit_num,part_num,state):
         else:
             flash('This unit is not open at the moment', 'danger')
             return redirect(url_for('unit_list'))
+        
         if unitChecker[part_num] == 0:
             flash('This activity is not open at the moment', 'danger')
-            return redirect(url_for('unit_list'))  
-        if unit_num != Attendance.query.filter_by(username='Chris').first().unit:
-            print (unit, Attendance.query.filter_by(username='Chris').first().unit)
-            flash('This task is not open at the moment', 'danger')
-            return redirect(url_for('unit_list'))  
+            return redirect(url_for('unit_list')) 
+        if chris_attend.teamnumber != 97: 
+            if unit_num != Attendance.query.filter_by(username='Chris').first().unit:
+                print (unit, Attendance.query.filter_by(username='Chris').first().unit)
+                flash('This task is not open at the moment', 'danger')
+                return redirect(url_for('unit_list'))  
     
     # get sources
     srcDict = get_sources()

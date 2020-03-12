@@ -52,7 +52,7 @@
         <button type="button" class="btn btn-dark" style="margin-right:5px" @click="playAudio('0')">Test Listen</button>	
         </div>
         <div v-if="ansOBJ[i]['model'] != null">           
-        <button type="button" class="btn btn-default" style="margin-right:5px" @click="playAudio(3)">Instructor Model</button>	
+        <button type="button" class="btn btn-secondary" style="margin-right:5px" @click="playAudio(3)">Instructor Model</button>	
         </div>
     </div>
 
@@ -78,7 +78,7 @@
         </div> 
         <br>
 
-        <div style="background:whitesmoke;width:100px;border:1px sold white; border-radius:5px" @click="showUpload('up')">
+        <div style="background:lightcoral;width:100px;border:1px sold white; border-radius:5px" @click="showUpload('up')">
             <span style="padding:5px; font-size:12px" justify="right"> Rec Problems? </span>
         </div> 
 
@@ -120,7 +120,7 @@
                 </div> 
 
             <h6> *Or share a link to your file</h6>
-                <label class="btn btn-default">
+                <label class="btn btn-secondary">
                     <input name="options" :id="uploadBTN[i][1]"></input>
                 </label>   
                 <label class="btn">
