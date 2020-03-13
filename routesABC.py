@@ -461,9 +461,9 @@ def abc_dash():
             projects = unitDict[src].query.all()
             for proj in projects:
                 abcDict[src]['Teams'] += 1
-                if int(proj.Ans03) == 12:
+                if proj.Ans03 == '12':
                     abcDict[src]['QNA'] += 1
-                if int(proj.Ans04) == 4:
+                if proj.Ans04 == '4':
                     abcDict[src]['SNL'] += 1
 
     pprint (abcDict)       
