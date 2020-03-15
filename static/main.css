@@ -147,6 +147,11 @@ body {
     margin-bottom: 5px;
   }
 
+
+  .noScrollBar::-webkit-scrollbar {
+    display: none;
+}
+
   
   .account-heading {
     font-size: 2.5rem;

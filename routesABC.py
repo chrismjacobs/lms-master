@@ -463,7 +463,7 @@ def abc_dash():
                 abcDict[src]['Teams'] += 1
                 if proj.Ans03 == '12':
                     abcDict[src]['QNA'] += 1
-                if proj.Ans04 == '4':
+                if proj.Ans04 == '6':
                     abcDict[src]['SNL'] += 1
 
     pprint (abcDict)       

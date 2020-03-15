@@ -32,7 +32,10 @@
                         {% if current_user.id == 1 %}
                         <div class="navbar-nav mr-auto">
                           <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('controls') }}", target="_blank">Controls</a>                                   
-                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('admin') }}", target="_blank">Admin</a>                                   
+                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('admin') }}", target="_blank">Admin</a> 
+                          {% if SCHEMA < 3 %}
+                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('dashboard')}}", target="_blank" ">Dashboard</a> 
+                          {% endif %}                                 
                         </div>                                                                       
                         {% endif %} 
                         

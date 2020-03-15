@@ -6,6 +6,7 @@
     <h1> <a href='https://affairs.just.edu.tw/TeacherStuApp/Default.aspx'> Attendance Log </a> </h1>   
 </div> 
 
+<div id="vue-app">
 
 <div class="content-section">      
 
@@ -14,54 +15,98 @@
             <tr>            
               <th scope="col">No.</th> 
               <th scope="col">Name</th>              
-              <th scope="col">ID</th> 
-              <th scope="col">Today</th>
+              <th scope="col">ID</th>               
               <th scope="col">Scr</th>              
-              {% for date in dateList %}                
-                    <th> {{date}} </th>
-               
-                {% endfor %}               
-                                         
+              <template v-for="date in dateList">
+                    <th> [[date]] </th>
+              </template>                   
             </tr>
         </thead>
          
         <!-- Team Table______________________________________________-->
         
         <tbody> 
-        {% set count = [1] %}        
-            {% for item in attLogDict %}
+          <template v-for="(item, key) in logOBJ">
             <tr>
-            <td>{{count|length}}</td> 
-            <td>{{userDict[item]}}</td> 
+                <td> [[ counter[key] ]] </td>
+                <td> [[ item.user]] </td>
+                <td> [[ key ]] </td>
+                <td> [[ item.grade]] </td>
 
-            <td>{{item}}</td> 
-            {% if todayDate in attLogDict[item] %}                
-                    <td style="background:green"> 0 </td> 
-                {% else %}
-                    <td style="background:red"> - </td>
-                {% endif %}
-
-            <td>{{attLogDict[item][0]}}</td>
-            {% for date in dateList %}
-                {% if date in attLogDict[item] %}                
-                    <td style="background:green"> 0 </td> 
-                {% else %}
-                    <td style="background:red"> - </td>
-                {% endif %}
-            {% endfor %}            
-            </tr> 
-        {% set __ = count.append(1) %}                  
-            {% endfor %}            
+                <template v-for="date in item.dates">
+                        <td :style="headStyle(date)"> [[date]] </td>
+                </template>
+            </tr>
+          </template>            
         </tbody>
                
         
 </div>
 
+</div id="vue end">
+
+<span id="logString" style="display:none">{{logString}}</span>
+<span id="dateString" style="display:none">{{dateString}}</span>
+
 
 {% endblock %}   
 
 {% block script %}
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+
 <script>
+
+var logString = document.getElementById('logString').innerHTML
+var OBJ = JSON.parse(logString)
+console.log('logOBJ', OBJ);
+
+var dateString = document.getElementById('dateString').innerHTML
+var dateList = JSON.parse(dateString)
+console.log('date', dateList);
+
+var counter = {}
+var count = 1 
+for (var user in OBJ){
+    counter[user] = count
+    count +=1
+    }
+
+console.log(counter);
+
+
+startVue()
+
+function startVue(){ 
+  
+  let vue = new Vue({   
+
+    el: '#vue-app',
+    delimiters: ['[[', ']]'],
+    mounted : function (){
+        
+    },
+
+    data: {
+        logOBJ: OBJ, 
+        counter: counter, 
+        dateList: dateList    
+    }, 
+    methods: {
+        headStyle: function(arg){ 
+            if (arg == '1'){
+                return {background:'mediumseagreen'}
+            }          
+            else{
+                return {background:'lightcoral'}
+            }          
+                    
+        },       
+              
+                  
+    }         
+})
+}// end NEW VUE
 
 
 

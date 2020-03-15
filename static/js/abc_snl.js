@@ -101,7 +101,7 @@ function startVue(){
             for (var mark in vue.marker) {                
                 vue.marker[mark] = 2  
                 for (var item in vue.ansOBJ[mark]) {
-                    console.log(mark, item);
+                    console.log(mark, item, vue.ansOBJ[mark][item]);
                     if(vue.ansOBJ[mark][item] == null){
                         vue.marker[mark] = 1
                     }

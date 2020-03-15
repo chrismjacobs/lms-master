@@ -10,10 +10,11 @@
 
     <template v-for="(val, name) in week">   
 
-    <div v-bind:style="style(name, val)">        
-    
-        <span v-if=" val.length > 60  " style="">  [[ name ]]: <a :href="val" target="_blank"> Link </a> </span>
-        <span v-else-if="val != '-'" style="">  [[ name ]]: [[ val ]] </span>
+    <div v-bind:style="style(name, val)">      
+
+        <span v-if="val[0] == '-'" style=""> </span>
+        <span v-else-if=" val.length > 60  " style="">  [[ name ]]: <a :href="val" target="_blank"> Link </a> </span>
+        <span v-else style="">  [[ name ]]: [[ val ]] </span>
 
     </div>
     

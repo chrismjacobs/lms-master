@@ -2,125 +2,153 @@
 
 {% block content %}
 
+<span id="ansString" style="display:none">{{ansString}}</span>
+
+<div id="vue-app">
+
 <div class="content-section">    
     <h1> Dashboard </h1>
     <audio controls autoplay id="instructorPlayer"></audio>      
-</div> 
-
-<div class="content-section">
-<div class="btn-toolbar btn-group-toggle ">        
-        
-        {% for item in ansDict %}
-        <button class="btn  btn-xs mr-2" type="button" data-toggle="collapse" data-target="#{{item}}" 
-        aria-expanded="false" aria-controls="collapseExample">
-            A {{item}}: {{ansDict[item][2]}}
-        </button>
-        {% endfor %}
-       
-</div> 
 </div>
-
-<div class="content-section">  
-
+   
+    
     <div style="overflow-x:auto;">
-    <table class="table table-sm" style="table-layout: width: 100%">
+      <table class="table table-sm">
         <thead>
             <tr>
-              <th scope="col">User</th>              
-              <th scope="col">A1</th>            
-              <th scope="col">A2</th>
-              <th scope="col">Notes</th> 
-              <th scope="col">TextOne</th>
-              <th scope="col">TextTwo</th>
-              <th scope="col">G</th> 
-              <th scope="col">Comments</th>
-              <th scope="col">Edit</th>                
+              <th scope="col" >Edit</th>   
+              <th scope="col" >A1</th>
+              <th scope="col" >A2</th>                       
+              <th scope="col" >Notes</th>                       
+              <th scope="col" >T1</th>                       
+              <th scope="col" >T2</th>                       
+              <th scope="col" >G</th>                       
+              <th scope="col" >Comments</th>                       
+              <th scope="col" >Update</th>                       
             </tr>
-        </thead>         
+        </thead> 
         
-        
-        {% for item in ansDict %}     
-        {% if item | int < 5 %}
-        {% else %}
-        <tbody class="collapse" id="{{item}}"> 
-            <tr> 
-                <th> <h4>A{{item}}</h4> </th>
-            </tr> 
-                {% for answer in ansDict[item][1] %}
-            <tr>              
-              <td scope="row" style="width: 10px;"> <a href="../admin/ass{{item}}/edit/?id={{answer.id}}",  target="_blank">{{answer.username}} </a></td> 
-              {% if answer.LengthOne == 888 %}  <td style="width: 20px;"><a href="{{answer.AudioDataOne}}", target="_blank">Link</a></td>              
-              {% else %} <td style="width: 10px;"><button class="btn btn-outline-dark btn-xs" onclick='playAudio(this)' value="{{answer.AudioDataOne}}">{{answer.LengthOne}}</button></td>
-              {% endif %} 
-              {% if answer.LengthTwo == 888 %}  <td style="width: 20px;"><a href="{{answer.AudioDataTwo}}" target="_blank">Link</a></td>              
-              {% else %} <td style="width: 10px;"><button class="btn btn-outline-dark btn-xs" onclick='playAudio(this)' value="{{answer.AudioDataTwo}}">{{answer.LengthTwo}}</button></td>
-              {% endif %}          
-              <td style="width: 50px; word-wrap: break-word">{% if answer.Notes %} <div style="overflow:scroll;width:210px;height:110px">{{answer.Notes}}</div>{% endif %}</td>
-              <td style="width: 50px; word-wrap: break-word"><div style="overflow:scroll;width:210px;height:110px">{{answer.TextOne}}</div></td>
-              <td style="width: 50px; word-wrap: break-word"><div style="overflow:scroll;width:210px;height:110px">{{answer.TextTwo}}</div></td>
-              <td style="width: 6px;">{{answer.Grade}}</td>
-              
-    <td style="width: 30px;">
-        <form class="form-openSet" method="post" action="javascript:;" onsubmit="commentSet('{{item}}','{{answer.username}}')">  
+        <tbody>
+        <template v-for="(userList, user) in ansOBJ" > 
+          <tr style="background:wheat">
+              <td style="font-weight:14pt" colspan=9> [[  user ]] </td>          
+                      
+          </tr>
 
-	    <div class="form-group">
-            <input type="text" id="input{{item}}{{answer.username}}" name="comment{{item}}{{answer.username}}" class="form-control" placeholder="{{answer.Comment}}" required>        
-        </div>
-    </td>
+            <template v-for="(item, key) in ansOBJ[user]">
+              <tr v-if="item.idNum">
+                <td > <button @click="edit(item.idNum, key)"> [[  key ]] </button> </td>               
+                <td> <button @click="play(item.A1)"> [[  item.L1  ]] </button> </td>
+                <td> <button @click="play(item.A2)"> [[  item.L2  ]] </button> </td>                       
+                <td style="width: 50px; word-wrap: break-word"> <div v-if="item.Notes" class="noScrollBar" style="overflow:scroll;width:210px;height:110px">[[  item.Notes ]] </div></td>
+                <td style="width: 50px; word-wrap: break-word"><div class="noScrollBar" style="overflow:scroll;width:210px;height:110px">[[  item.T1  ]] </div></td>
+                <td style="width: 50px; word-wrap: break-word"><div  class="noScrollBar" style="overflow:scroll;width:210px;height:110px">[[  item.T2  ]] </div></td>              
+                <td> [[  item.G  ]] </td>                
+                <td> <textarea type="text" :style="commentStyle(item.C)" :id="user+key" v-model="item.C" required> </textarea></td>                
+                <td> <button @click="commentSet(user,key)"> Update </button> </td>                
+              </tr> 
+            </template> 
 
-     <td style="width: 20px;">
-     {% if answer.Comment == 'Completed on time - Great!'%}        
-        <button class="btn btn-sm btn-danger" type="submit">{{grades[answer.username]}}</button>
-	{% else %}        
-        <button class="btn btn-sm btn-success" type="submit">{{grades[answer.username]}}</button>
-	{% endif %} 
-    </form>
-     
-
-     </td>
             
-    </tr>  
-     {% endfor %}
-     {% endif %}
-    {% endfor %}
+         </template>     
             
-                              
-               
-    </tbody>
-        
-    </table>
+        </tbody>   
+   
+      </table>
     </div>
-        
-        
-</div>
+
+</div>   
+   
+
+</div> <!-- end of Vue app -->
 
 
-{% endblock %}   
-
-{% block script %}
-<script type="text/javascript">
-
-let InstructorListen = document.getElementById('instructorPlayer')
-
-function playAudio(current) {
-    InstructorListen.src = current.value    
-}
-
-function commentSet(ass, name) {
-		
-        varURL = '/commentSet/' + ass + '/' + name 
-        
-		$.ajax({
-			data : {
-				comment : $('#input' + ass + name).val()
-			},
-			type : 'POST',
-            url : varURL           
-           
-		})
-		.done(function(data) {           
-            alert(data.comment)   
-		});
-    }
-</script>
 {% endblock %}
+
+{% block script %}   
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+
+<script type="text/javascript" >
+
+var ansString = document.getElementById('ansString').innerHTML
+var OBJ = JSON.parse(ansString)
+console.log('unitOBJ', OBJ);
+
+
+startVue()
+
+function startVue(){ 
+  
+  let vue = new Vue({   
+
+    el: '#vue-app',
+    delimiters: ['[[', ']]'],
+
+    data: {
+        ansOBJ: OBJ,            
+                            
+    }, 
+    methods: {
+        headStyle: function(){           
+                    
+        },       
+        play: function(audio){
+          document.getElementById('instructorPlayer').src = audio   
+        },
+        edit: function(key, unit){
+          let url = (window.location.href).split('dashboard')[0] + 'admin/' + 'a' + unit + 'a/edit/?id=' + key
+
+          console.log('goTO', url);
+          // go to new tab...........
+          window.location = url                
+        }, 
+        commentStyle: function(comment){
+          console.log(comment);
+          if(comment.includes("on time")){
+            return {width:'100%', 'background-color':'pink', height: '30px !important'}
+          }
+          else if(comment.includes("progress")){
+            return {width:'100%', 'background-color':'orange', height: '30px !important'}
+          }
+          else{
+            return {width:'100%', 'background-color':'lightgreen', height: '110px !important'}
+          }
+
+          console.log('goTO', url);
+          // go to new tab...........
+          window.location = url                
+        }, 
+        commentSet: function(user, unit){ 
+          var comment = document.getElementById(user+unit).value
+          console.log(user, unit);
+          $.ajax({
+          data : {
+              comment : comment,            
+              user : user,            
+              unit : unit,            
+          },
+          type : 'POST',
+          url : '/commentSet'                   
+          })
+          .done(function(data) {
+           alert(data.comment);
+            
+          })
+          .fail(function(){
+            alert('Failed, check server')
+          });            
+                  
+        }      
+                  
+    }         
+})// end NEW VUE
+
+
+
+}// endFunction 
+
+</script>  
+
+{% endblock %} 
+

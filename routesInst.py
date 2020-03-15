@@ -42,113 +42,82 @@ def course():
     return render_template('instructor/course.html', course=course, color=color)
 
 
-@app.route ("/att_log")
+@app.route ("/att_log", methods = ['GET', 'POST'])
 @login_required
 def att_log():  
     if current_user.id != 1:
         return abort(403)
     
     IDLIST = BaseConfig.IDLIST
-
+    
     ## create a list of all course dates    
     course_dates = get_schedule()
-    print(course_dates)
+    #print(course_dates)
     dateList = []
     for c in course_dates:
         print(c)
         print(course_dates[c]['Date'])
-        date_string = course_dates[c]['Date']
-        dt = datetime.strptime(date_string, '%Y-%m-%d')
-        dateList.append(dt)    
+        date_string = course_dates[c]['Date']        
+        dateList.append(date_string)    
+    
     print('dateList:', dateList)  
 
-    
-    ## log all dates when attendance was complete (and show total att score)
-    attLogDict = {}    
-    for number in IDLIST:        
-        attLogDict[number] = []
 
-    for attLog in attLogDict:
-        logs = AttendLog.query.filter_by(studentID=str(attLog)).all() 
-        attGrade = 0        
-        if logs:                        
-            for log in logs:
-                d = log.date_posted
-                dStr = d.strftime("%m/%d")                
-                attLogDict[attLog].append(dStr) 
-                attGrade = attGrade + log.attScore
-            attLogDict[attLog].insert(0, attGrade) 
+    ### create a dictionary of all att_logs
+    userLogsDict = {}
+
+    # set up user dict for vue table
+    for number in IDLIST:
+        # make a new dateDict for each number
+        dateDict = {}
+        for date in dateList:
+            dateDict[date] = 0 
+
+        userLogsDict[number] = {
+            'user' : None, 
+            'dates' : dateDict, 
+            'grade' : 0 
+        }
+
+    # add data to user dict  
+    logs = AttendLog.query.all()  
+    for log in logs:
+
+        date = log.date_posted
+        print(date)
+        check = date.strftime("%Y-%m-%d")
+        print(check)
+        if check in dateList:
+            if log.studentID in userLogsDict:
+                print(log.username, log.studentID, userLogsDict[log.studentID]['dates'])
+                userLogsDict[log.studentID]['user'] = log.username
+                userLogsDict[log.studentID]['grade'] += log.attScore 
+                userLogsDict[log.studentID]['dates'][check] = 1
+                print(log.username, log.studentID, userLogsDict[log.studentID]['dates'])
+            else: 
+                print('ID check fail', log.username)
+        else:
+            print('Date not found')
         
-    print('attLogDict', attLogDict)
-
-    ##get names for all student IDs
-    userDict = {}
-    users = User.query.all()
-    for user in users:
-        userDict[int(user.studentID)] = user.username
-
-    today = datetime.now()
-    todayDate = today.strftime("%m/%d")  
-
-    return render_template('instructor/att_log.html', title='att_log', attLogDict=attLogDict, dateList=dateList, todayDate=todayDate, userDict=userDict)  
-
-
-@app.route ("/studentRemove", methods = ['POST'])
-@login_required 
-def studentRemove(name):
-    if current_user.id != 1:
-        return abort(403) 
-    
-    name = request.form['name']
-
-    findSt = Attendance.query.filter_by(username=name).first()    
-    
-    #delete the attendances entries using ids
-    Attendance.query.filter_by(id=findSt.id).delete()
-    db.session.commit()
-
-    AttendLog.query.filter_by(id=findSt.unit).delete()
-    db.session.commit()
-    
-    #find the team work today
-    todaysUnit = Attendance.query.filter_by(username='Chris').first().unit   
-    studentTeam = Attendance.query.filter_by(username=name).first().teamnumber
-    
-    '''idNum = 0 
-    for model in Info.unit_mods_list:
-        # ie search for u061u
-        if todaysUnit + '1' in str (model):
-            try:
-                idNum = model.query.filter_by(teamnumber=studentTeam).first().id
-            except:
-                pass'''
-       
-
-    return jsonify({'removed' : name, 'unit' : todaysUnit})
+    #print(userLogsDict)  
+    return render_template('instructor/att_log.html', title='att_log', logString=json.dumps(userLogsDict), dateString=json.dumps(dateList))  
 
 
 
-@app.route("/commentSet/<string:unit>/<string:name>", methods = ['POST'])
-def commentSet(unit,name):    
+@app.route("/commentSet", methods = ['POST'])
+def commentSet(): 
+
     newComment = request.form['comment']
+    unit = request.form['unit']
+    name = request.form['user']
     mods = Info.ass_mods_dict
     studentAns = mods[unit].query.filter_by(username=name).first()
 
     studentAns.Comment = newComment
-    db.session.commit()   
+    db.session.commit()    
     
-    grades = Grades.query.filter_by(username=name).first()
-    string = grades.extraStr
-    if string:
-        gradeSet = eval(string)
-        gradeSet.add(int(unit))
-        grades.extraStr = str(gradeSet)
-        db.session.commit()  
-    else:        
-        grades.extraStr = '{' + str(int(unit)) + '}'
-        db.session.commit()  
-
     return jsonify({'comment' : newComment})
+
 
 @app.route ("/dashboard")
 @login_required 
@@ -156,21 +125,56 @@ def dashboard():
     if current_user.id != 1:
         return abort(403)
 
-    ansDict = {}
-    for item in Info.ass_mods_dict:    
-        ansDict[item] = [Info.ass_mods_dict[item]]
-    # {'01': [<class 'models.A01A'>], '02': [<class 'models.A02A'>],  only used for dashboard
+    midterm = ['01', '02', '03', '04']
+    final = ['05', '06', '07', '08']
     
-    for item in ansDict:
-        model = ansDict[item][0]
-        answers = model.query.order_by(desc(model.Grade)).all() # find that item model and query it
-        count = len(answers)
-        ansDict[item].append(answers)
-        ansDict[item].append(count)
+    totalDict = {}
+    allStudents = User.query.all()
+    for user in allStudents:
+        example = {                
+                'idNum' : None,          
+                'A1' :None, 
+                'A2' :None, 
+                'L1' :None, 
+                'L2' :None, 
+                'L2' :None, 
+                'Notes' :None,
+                'T1' :None,
+                'T2' :None,
+                'G' :None,
+                'C' :None
+                }
+        totalDict[user.username] = {
+            midterm[0] : example, 
+            midterm[1] : example, 
+            midterm[2] : example, 
+            midterm[3] : example, 
+        }
     
-    ansRange = len(ansDict)     
+    print(totalDict)
+
+    for unit in midterm:
+        model = Info.ass_mods_dict[unit]
+        answers = model.query.order_by(desc(model.Grade)).all()
+        for item in answers:
+            totalDict[item.username][unit] = {
+                'user' : item.username,
+                'idNum' : item.id,
+                'A1' : item.AudioDataOne, 
+                'A2' : item.AudioDataTwo, 
+                'L1' : item.LengthOne, 
+                'L2' : item.LengthTwo, 
+                'L2' : item.LengthTwo, 
+                'Notes' : item.Notes, 
+                'T1' : item.TextOne, 
+                'T2' : item.TextTwo, 
+                'G' : item.Grade, 
+                'C' : item.Comment, 
+                }
     
-    return render_template('instructor/dashboard.html', ansDict=ansDict, ansRange=ansRange, title='dashboard')  
+    pprint(totalDict)
+
+    return render_template('instructor/dashboard.html', ansString=json.dumps(totalDict), title='dashboard')  
 
 
 @app.route("/refreshAttend", methods = ['POST'])
@@ -246,23 +250,47 @@ def get_team_list():
         return teamString
         
 
-def get_chat_list():
-    chats = ChatBox.query.all() 
+@app.route ("/studentRemove", methods = ['POST'])
+@login_required 
+def studentRemove(name):
+    if current_user.id != 1:
+        return abort(403) 
+    
+    name = request.form['name']
 
-    for chat in chats:
-        if chat.date_posted:
-            pass
+    findSt = Attendance.query.filter_by(username=name).first()    
+    
+    #delete the attendances entries using ids
+    Attendance.query.filter_by(id=findSt.id).delete()
+    db.session.commit()
 
-    return None 
-  
+    AttendLog.query.filter_by(id=findSt.unit).delete()
+    db.session.commit()
+    
+    #find the team work today
+    todaysUnit = Attendance.query.filter_by(username='Chris').first().unit   
+    studentTeam = Attendance.query.filter_by(username=name).first().teamnumber
+    
+    '''idNum = 0 
+    for model in Info.unit_mods_list:
+        # ie search for u061u
+        if todaysUnit + '1' in str (model):
+            try:
+                idNum = model.query.filter_by(teamnumber=studentTeam).first().id
+            except:
+                pass'''
+       
+
+    return jsonify({'removed' : name, 'unit' : todaysUnit})
+
+
 
 @app.route ("/controls")
 @login_required 
 def controls():
 
     attend_list = get_attend_list()
-    team_list = get_team_list()    
-    chat_list = get_chat_list()
+    team_list = get_team_list()  
 
     openData = Attendance.query.filter_by(username='Chris').first()
 
@@ -278,134 +306,6 @@ def controls():
 
 
     return render_template('instructor/controls.html', setString=setString, attend_list=attend_list, team_list=team_list, title='Controls') 
-
-
-
-
-@app.route ("/teams")
-@login_required 
-def teams():  
-    if current_user.id != 1:
-        return abort(403)       
-
-    try:
-        teamcount = Attendance.query.filter_by(username='Chris').first().teamcount
-    except:
-        flash('Attendance not open yet', 'danger')
-        return redirect(url_for('home')) 
-    
-    if teamcount > 0: 
-        attDict = {}  #  teamnumber = fields, 1,2,3,4 names
-        for i in range(1, teamcount+1):
-            teamCall = Attendance.query.filter_by(teamnumber=i).all()
-            attDict[i] = teamCall    
-    # if team count set to zero ---> solo joining
-    else:
-        attDict = {}
-        users = User.query.order_by(asc(User.studentID)).all()        
-        for user in users:
-            attStudent = Attendance.query.filter_by(username=user.username).first() 
-            if attStudent:
-                attDict[user.username] = [user.studentID, attStudent.date_posted]
-            else:
-                attDict[user.username] = [user.studentID, 0]
-    print(attDict)
-
-    tablesDict = {}
-    
-    return render_template('instructor/teams.html', attDict=attDict, teamcount=teamcount, title='teams')  
-
-
-@app.route ("/students")
-@login_required 
-def students():
-    if current_user.id != 1:
-        return abort(403) 
-
-    sDict = {}
-    students = User.query.order_by(asc(User.studentID)).all()  
-    for student in students:  
-
-        sDict[student.username] = {
-            'idn' : student.studentID, 
-            'img' : student.image_file,
-            'eml' : student.email,
-            'att' : 'Absent',
-            'units' : 0,             
-            'asses' : 0 
-        }   
-
-    #### attend todays attendance
-    attendance = Attendance.query.all()
-    for att in attendance: 
-        sDict[att.username]['att'] = att.attend
-
-
-    #### add student grading
-    maxA = 1
-    maxU = 1
-    if SCHEMA  < 3:
-        for model in Info.unit_mods_list:
-            rows = model.query.all()   
-            for row in rows:    
-                                    
-                names = ast.literal_eval(row.username)            
-                for name in names:
-                    sDict[name]['units'] += row.Grade
-    
-        for model in Info.ass_mods_list:        
-            rows = model.query.all()        
-            for row in rows:            
-                sDict[row.username]['asses'] += row.Grade   
-
-        print(sDict)   
-
-        from routesUser import get_grades
-        grades = get_grades(False, False)
-        maxU = grades['maxU']
-        maxA = grades['maxA']
-
-    
-    
-    return render_template('instructor/students.html', students=students, S3_LOCATION=S3_LOCATION, 
-    sDict=sDict, maxU=maxU, maxA=maxA, title='students')  
-
-
-
-@app.route ("/inchat/<string:user_name>", methods = ['GET', 'POST'])
-@login_required 
-def inchat(user_name):
-    from flask_mail import Message
-    if current_user.id != 1:
-        return abort(403)
-    form = Chat() 
-    email = User.query.filter_by(username=user_name).first().email    
-    print (email)
-    dialogues = ChatBox.query.filter_by(username=user_name).all()
-    websites = ['blank', 'READING', 'WORKPLACE', 'ICC']
-    website = 'https://' + websites[int(SCHEMA)] + '-lms.herokuapp.com'
-    messText = 'New message for ' + websites[int(SCHEMA)] + ' English class'
-    if form.validate_on_submit():
-        chat = ChatBox(username = user_name, response=form.response.data, chat=form.chat.data)      
-        db.session.add(chat)
-        db.session.commit()  
-        msg = Message(messText, 
-                    sender='chrisflask0212@gmail.com', 
-                    recipients=[email ,'cjx02121981@gmail.com'])
-        msg.body = f'''You have a message from waiting for you at {website}. Please follow the link to read and reply. (DO NOT REPLY TO THIS EMAIL)'''
-        #jinja2 template can be used to make more complex emails
-        mail.send(msg)
-        return redirect(url_for('inchat', user_name=user_name))
-    else:
-        form.name.data = current_user.username
-        form.response.data = ""
-        form.chat.data = ""
-        image_file = S3_LOCATION + User.query.filter_by(username=user_name).first().image_file      
-      
-    image_chris = S3_LOCATION + User.query.filter_by(id=1).first().image_file
-
-    return render_template('instructor/inchat.html', form=form, dialogues=dialogues, name=user_name, image_chris=image_chris, image_file=image_file)
-
 
 @app.route("/updateSet", methods = ['POST'])
 @login_required
@@ -453,59 +353,42 @@ def updateSet():
     setString = json.dumps(setDict) 
      
 
-    return jsonify({'teamcount' : teamcount, 'teamsize' : teamsize, 'setString' : setString})
+    return jsonify({'set_mode' : set_mode, 'setString' : setString})
     
 
-
-
-
-
-# set up the attendence for the day
-@app.route("/att_int", methods = ['GET', 'POST'])
-@login_required
-def att_int():
+@app.route ("/inchat/<string:user_name>", methods = ['GET', 'POST'])
+@login_required 
+def inchat(user_name):
+    from flask_mail import Message
     if current_user.id != 1:
         return abort(403)
-    form = AttendInst()
-    openData = Attendance.query.filter_by(username='Chris').first()
-
-    if openData:    
-        if form.validate_on_submit(): 
-
-            openData.attend = form.attend.data 
-            openData.teamnumber = form.teamnumber.data 
-            openData.teamsize = form.teamsize.data 
-            openData.teamcount = form.teamcount.data 
-            openData.unit =  form.unit.data 
-            ##set_timer()
-            db.session.commit() 
-            if form.teamnumber.data == 100:
-                pass
-                #sourceCheck = Sources.query.filter_by(openSet='2').all()
-                #return to normal state after attendence closed
-                '''for sourceLine in sourceCheck:
-                    sourceLine.openReset = 0
-                    sourceLine.openSet = 1
-                    db.session.commit()'''                     
-            
-            flash('Attendance has been updated', 'secondary') 
-            return redirect(url_for('att_team')) 
-        else:
-            form.username.data = 'Chris'
-            form.studentID.data = '100000000'
-            try:
-                form.attend.data = openData.attend
-                form.teamnumber.data = openData.teamnumber
-                form.teamsize.data = openData.teamsize
-                form.teamcount.data = openData.teamcount
-                form.unit.data = openData.unit                
-            except: 
-                pass 
+    form = Chat() 
+    email = User.query.filter_by(username=user_name).first().email    
+    print (email)
+    dialogues = ChatBox.query.filter_by(username=user_name).all()
+    websites = ['blank', 'READING', 'WORKPLACE', 'ICC']
+    website = 'https://' + websites[int(SCHEMA)] + '-lms.herokuapp.com'
+    messText = 'New message for ' + websites[int(SCHEMA)] + ' English class'
+    if form.validate_on_submit():
+        chat = ChatBox(username = user_name, response=form.response.data, chat=form.chat.data)      
+        db.session.add(chat)
+        db.session.commit()  
+        msg = Message(messText, 
+                    sender='chrisflask0212@gmail.com', 
+                    recipients=[email ,'cjx02121981@gmail.com'])
+        msg.body = f'''You have a message from waiting for you at {website}. Please follow the link to read and reply. (DO NOT REPLY TO THIS EMAIL)'''
+        #jinja2 template can be used to make more complex emails
+        mail.send(msg)
+        return redirect(url_for('inchat', user_name=user_name))
     else:
-        flash('Attendance not set up', 'secondary') 
-        return redirect(request.referrer)  
+        form.name.data = current_user.username
+        form.response.data = ""
+        form.chat.data = ""
+        image_file = S3_LOCATION + User.query.filter_by(username=user_name).first().image_file      
+      
+    image_chris = S3_LOCATION + User.query.filter_by(id=1).first().image_file
 
-    return render_template('instructor/att_int.html', form=form, status=openData.teamnumber, title='controls')  
+    return render_template('instructor/inchat.html', form=form, dialogues=dialogues, name=user_name, image_chris=image_chris, image_file=image_file)
 
 
 ######## Attendance //////////////////////////////////////////////

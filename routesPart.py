@@ -45,12 +45,14 @@ def unit_list():
     try: 
         int(todays_unit)
         review = 0 
+        print('TRY')
     except:
         review = 1 
+        print('EXCEPT')
 
     unitDict = {}
     for unit in recs:
-        unit2c = unit[0:2] # 011 --> 01 
+        unit2c = unit[0:2] # string 011 --> 01 
         part = unit[2]
         
         checkOpen = Units.query.filter_by(unit=unit2c).first()
@@ -59,12 +61,12 @@ def unit_list():
             2 : checkOpen.u2, 
             3 : checkOpen.u3, 
             4 : checkOpen.u4
-        }    
-
-        if review == 1:
-            access = 1  ## go to review
-        elif checkDict[int(part)] == 0:
+        } 
+            
+        if checkDict[int(part)] == 0:
             access = 0
+        elif review == 1:
+            access = 1  ## mean attedance not started so open for access
         else:
             if todays_unit == unit2c:
                 access = 2  ## button option for writer/reader

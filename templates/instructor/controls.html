@@ -177,7 +177,7 @@ let vue = new Vue({
     methods: {   
         setAtt: function() { 
           
-          this.setOBJ['notice'] = document.getElementById('unit').value
+          this.setOBJ['notice'] = document.getElementById('notice').value
           // vanila js
           var e = document.getElementById('unit')
           this.setOBJ['unit'] = e.options[e.selectedIndex].value
@@ -197,7 +197,7 @@ let vue = new Vue({
             })
             .done(function(data) {
               vue.setOBJ = JSON.parse(data.setString) 
-              alert('Attendance Updated: count ' + data.teamcount)                
+              alert('Attendance Updated: STATUS ' + data.set_mode)                
             })
             .fail(function(){
                 alert('error has occurred');
