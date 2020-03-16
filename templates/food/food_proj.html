@@ -84,25 +84,28 @@
 <div class="content-section">    
     <legend class="border-bottom mb-4"> Script and Notes </legend>
 
-Introduction
-<br>
+        <h5 style="color:red">Introduction</h5>
         <h5>[[ script[project][1] ]]  [[ ansOBJ['Dish'] ]]</h5>
         
 <br>
-        <h5>[[ script[project][2] ]]</h5>
+        <h5>[[ script[project][2] ]]</h5>        
         <h5 v-for="r in ansOBJ['Reasons']">[[ r ]]</h5>
 <br>
-        <h5>[[ script[project][3] ]]</h5>
+        <h5 style="color:red"> [[ansOBJ['Reasons'][1] ]]: <span v-for="phrase in ansOBJ['Parts'][1]['kw']"> [[ phrase ]], </span></h5>
+        <h5>[[ script[project][3] ]]</h5>        
         <h5 v-for="r in ansOBJ['Parts'][1]['dt']">[[ r ]]</h5>
 <br>
+        <h5 style="color:red"> [[ansOBJ['Reasons'][2] ]]: <span v-for="phrase in ansOBJ['Parts'][2]['kw']"> [[ phrase ]], </span></h5>
         <h5>[[ script[project][4] ]]</h5>
         <h5 v-for="r in ansOBJ['Parts'][2]['dt']">[[ r ]]</h5>
 
 <br>
+        <h5 style="color:red"> [[ansOBJ['Reasons'][3] ]]: <span v-for="phrase in ansOBJ['Parts'][3]['kw']"> [[ phrase ]], </span></h5>
         <h5>[[ script[project][5] ]]</h5>
         <h5 v-for="r in ansOBJ['Parts'][3]['dt']">[[ r ]]</h5>
-
 <br>
+        <h5 style="color:red">Final Comments</h5>
+        <h5> [[ ansOBJ['Final'] ]]</h5>
 
 
 

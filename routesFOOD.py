@@ -40,10 +40,10 @@ def get_all_values(nested_dictionary):
     for key, value in nested_dictionary.items():        
         if type(value) is dict:
             #print ('DICT FOUND', value)
-            if get_all_values(value) != None:
+            if get_all_values(value) != 0:
                 detected += get_all_values(value)
         else:
-            if value == None:
+            if value == None or value == "":
                 #print(key, value)
                 detected += 1
                 
@@ -56,8 +56,8 @@ def updateFood():
 
     ansDict = json.loads(ansOBJ)
     
-    if get_all_values(ansDict) == None:        
-        grade = 3
+    if get_all_values(ansDict) == 0:        
+        grade = 4
     else:
         print ('GET_ALL', get_all_values(ansDict))
         grade = 0 

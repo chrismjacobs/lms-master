@@ -104,18 +104,19 @@ function startVue(ansOBJ){
               type : 'POST',
               url : '/updatePENG',               
             })
-            .done(function(data) { 
-                vue.ansOBJ = JSON.parse(data.ansString)
-                vue.image_b64 = null
-                console.log(vue.ansOBJ)
-                document.getElementById('final_image').src = vue.ansOBJ['Image']
-                alert('Your FORM has been updated')
-                //if (data.stage > vue.stage) {
-                    //var str = window.location.href
-                    //let url = (str).split('peng/')[0] + 'peng_list' 
-                    //console.log('goTO', url);
-                    //window.location = url   
-                //}
+            .done(function(data) {
+                if (data.fail){
+                    alert('Your FORM is NOT complete yet')
+                }
+                else{
+                    vue.ansOBJ = JSON.parse(data.ansString)
+                    vue.image_b64 = null
+                    console.log(vue.ansOBJ)
+                    document.getElementById('final_image').src = vue.ansOBJ['Image']
+                    alert('Your FORM has been updated')   
+                }  
+                
+                               
             })
             .fail(function(){
                 alert('error has occurred');

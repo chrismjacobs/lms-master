@@ -64,6 +64,11 @@ def peng_list():
                 2 : None, 
                 3 : None
                 },
+                'Extra' : {
+                1 : None, 
+                2 : None, 
+                3 : None
+                },
                 'Close' : {
                 1 : None, 
                 2 : None, 
@@ -82,6 +87,11 @@ def peng_list():
                 3 : None
                 },
                 'Demo' : {
+                1 : None, 
+                2 : None, 
+                3 : None
+                },
+                'Extra' : {
                 1 : None, 
                 2 : None, 
                 3 : None
@@ -126,7 +136,19 @@ def peng_proj(MTFN, page_stage):
     source=source, ansString=ansDict )
 
 
-
+def get_all_values(nested_dictionary):
+    detected = 0
+    for key, value in nested_dictionary.items():        
+        if type(value) is dict:
+            #print ('DICT FOUND', value)
+            if get_all_values(value) != 0:
+                detected += get_all_values(value)
+        else:
+            if value == None or value == "" :
+                #print(key, value)
+                detected += 1
+                
+    return detected 
 
 @app.route('/updatePENG', methods=['POST'])
 def updatePENG():  
@@ -174,15 +196,13 @@ def updatePENG():
             db.session.commit()       
     
     if int(stage) == 2: 
-        check = 0 
-        for answer in ansDict:
-            if ansDict.answer == None:
-                check += 1
+        if get_all_values(ansDict) != 0:
+            return jsonify({'fail' : True})
+        else:             
+            print ('clear', get_all_values(ansDict))        
         
         if project_answers.Ans03 == '3' or int(project_answers.Comment) > 2 :
-            pass 
-        elif check > 0:
-            pass
+            pass         
         else:
             project_answers.Ans03 = 3  ## stage one grade
             project_answers.Comment = 3  ## stage
