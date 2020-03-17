@@ -77,10 +77,10 @@
     <legend class="border-bottom mb-4"> Script and Notes </legend>
 
 <template v-for="(section, key) in ansOBJ['Parts']"> 
-<h4 style="color:purple" >  [[ key ]]  </h4>
+
 
         <div style="border: 0.5px solid purple;border-radius: 3px; padding: 5px">
-        Cue Card:
+        <h4 style="color:purple" >  [[ key ]]  </h4>       
         <ul>
            <li>[[  ansOBJ['Cues'][key][1]  ]]</li>
            <li>[[  ansOBJ['Cues'][key][2]  ]]</li>
@@ -88,6 +88,7 @@
         </ul>
         </div>
         <br>
+        <h5 style="color:purple"> [[ script[key] ]]</h5>
         <h5> [[ ansOBJ['Parts'][key][1] ]] </h5>
         <h5> [[ ansOBJ['Parts'][key][2] ]] </h5>
         <h5> [[ ansOBJ['Parts'][key][3] ]] </h5>

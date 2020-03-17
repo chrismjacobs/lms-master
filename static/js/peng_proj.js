@@ -22,7 +22,14 @@ function startVue(ansOBJ){
         updateReady : true,
         pptLink : false,
         image_b64 : null,
-        project: (window.location.href).split('/peng/')[1].split('/')[0]        
+        project: (window.location.href).split('/peng/')[1].split('/')[0], 
+        script: {            
+            Product : "What is this product", 
+            Features : "First, I would like to talk about some product features", 
+            Demo : "Now, for the demonstration", 
+            Extra : "Finally, what are some extra benefits of this product?", 
+        }  
+
     }, 
     methods: {  
         wordCount : function(mark) { 
