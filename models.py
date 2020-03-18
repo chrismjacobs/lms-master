@@ -92,7 +92,21 @@ class Units(db.Model):
     u2 = db.Column(db.Integer)
     u3 = db.Column(db.Integer)
     u4 = db.Column(db.Integer)
-    uA = db.Column(db.Integer)    
+    uA = db.Column(db.Integer)      
+
+class Exams(db.Model):
+    id = db.Column(db.Integer, primary_key=True)     
+    username = db.Column(db.String)
+    j1 = db.Column(db.String)
+    j2 = db.Column(db.String)
+    j3 = db.Column(db.String)
+    j4 = db.Column(db.String)
+    j5 = db.Column(db.String)
+    j6 = db.Column(db.String)
+    j7 = db.Column(db.String)
+    j8 = db.Column(db.String)
+    
+     
 
 ############### UNIT MODELS ###################################
 
@@ -401,6 +415,7 @@ if BaseConfig.SCHEMA < 3:
         admin.add_view(MyModelView(ass, db.session))
 
 elif BaseConfig.SCHEMA == 3:
+    admin.add_view(MyModelView(Exams, db.session))
     admin.add_view(MyModelView(U001U, db.session))
     admin.add_view(MyModelView(U011U, db.session))
     admin.add_view(MyModelView(U021U, db.session))
