@@ -12,6 +12,7 @@ function startVue(qOBJ){
     el: '#vue-app',
     delimiters: ['[[', ']]'],
     mounted : function (){
+        // start interval for ajax of participation data
         this.ansCheck()
         this.part_timer = setInterval(this.ansCheck, 30000); 
         if (this.mode == 'Reader'){
@@ -35,10 +36,10 @@ function startVue(qOBJ){
             } 
         var range = parseInt(this.teamcount) + 1
         for (i = 1; i < range; i++) {
-            this.leaderOBJ[i] = []
+            //this.leaderOBJ[i] = []
             this.leaderOBJ[i] = null
         }
-        console.log('TEST', this.leaderOBJ)
+        console.log('LeaderOBJ-mounted', this.leaderOBJ)
                          
             
 
@@ -219,13 +220,24 @@ function startVue(qOBJ){
             }
           }   
           console.log('POST PUSH', vue.leaderOBJ);
-
+          console.log(vue.leaderOBJ[1].length, vue.qs);
           for (let rec in vue.leaderOBJ){
+            if (vue.leaderOBJ[rec].length == 0 ){
+              var width_percent = '5%'
+              var background = 'red'
+            } 
+            else if (vue.leaderOBJ[rec].length == vue.qs) {
+              var width_percent = '100%'
+              var background = 'green'              
+            }
+            else {
+              var width = ((vue.leaderOBJ[rec]).length / vue.qs ) * 100
+              var width_percent = width + '%'
+              var background = 'purple'
+            }
+            console.log('width ', width_percent);
 
-            var width = ((vue.leaderOBJ[rec]).length / vue.qs ) * 100
-            var width_percent = width + '%'
-            console.log(width);
-            vue.leaderBar[rec] = { background:'red',  height:'30px', width: width_percent, border: '1px solid grey', 'border-radius': '5px'}
+            vue.leaderBar[rec] = { background:background,  height:'30px', width: width_percent, border: '1px solid grey', 'border-radius': '5px'}
           
             
           }
