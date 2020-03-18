@@ -24,17 +24,17 @@ DEBUG = BaseConfig.DEBUG
 @app.context_processor
 def inject_user():    
     try: 
-        print('COLOR TEST')
+        #print('COLOR TEST')
         signal = current_user.extra
         print(current_user.extra)
         if current_user.extra == 1 and SCHEMA < 3:
             bodyColor = 'red'
             print('IF')
         else:
-            print('ELSE')
+            #print('INJECT USER ELSE')
             bodyColor = DESIGN['bodyColor']
     except:
-        print('EXCEPT')
+        #print('EXCEPT')
         bodyColor = DESIGN['bodyColor']
 
     return dict(SCHEMA=SCHEMA, titleColor=DESIGN['titleColor'] , bodyColor=bodyColor, headTitle=DESIGN['headTitle'], headLogo=DESIGN['headLogo'] )
