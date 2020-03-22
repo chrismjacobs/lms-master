@@ -1,0 +1,98 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+
+<div id="vue-app">
+
+<div class="content-section">
+<h3 > Exam Review </h3>
+
+</div>
+
+<div class="content-section">
+    
+    <div style="overflow-x:auto;">
+      <table class="table table-sm">
+        <thead>
+            <tr>
+              <th scope="col" >Units</th>  
+              <th scope="col" >Completed</th>
+              <th scope="col" >Scores(/5)</th>                       
+            </tr>
+        </thead> 
+        
+        <tbody>         
+         <tr>
+            <td><span @click="goTo('1-2', 'review')" class="unit-span" style="background:{{theme}}; height:40px"> &nbsp&nbsp 1-2 &nbsp&nbsp  </span></td>
+            <td>[[ reviewOBJ['1-2'].length ]]</td>
+            <td><span v-for="score in reviewOBJ['1-2']">[[score]], </span> </td>
+        </tr>
+        
+
+         
+            
+        </tbody>   
+   
+      </table>
+    </div>
+
+</div>   
+   
+
+</div> <!-- end of Vue app -->
+
+<span id="reviewDict" style="display:none">{{reviewData}}</span>
+<span id="examDict" style="display:none">{{examData}}</span>
+
+{% endblock %}
+
+{% block script %}   
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+
+<script type="text/javascript" >
+
+var reviewDict = document.getElementById('reviewDict').innerHTML
+var reviewOBJ = JSON.parse(reviewDict)
+console.log('Review', reviewOBJ);
+
+var examDict = document.getElementById('examDict').innerHTML
+var examOBJ = JSON.parse(examDict)
+console.log('Exam', reviewOBJ);
+
+
+startVue()
+
+function startVue(){ 
+  
+  let vue = new Vue({   
+
+    el: '#vue-app',
+    delimiters: ['[[', ']]'],
+
+    data: {
+        reviewOBJ: reviewOBJ,   
+        examOBJ: examOBJ,   
+    }, 
+    methods: {        
+        goTo: function(unit, test){
+          var str = window.location.href
+          
+          let url = (str).split('exam_list')[0] + 'exams/' + test + '/' + unit
+          console.log('goTO', url);
+          window.location = url
+         
+        }
+                  
+    }         
+})// end NEW VUE
+
+
+
+}// endFunction 
+
+</script>  
+
+{% endblock %} 
+

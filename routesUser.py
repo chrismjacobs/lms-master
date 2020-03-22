@@ -232,6 +232,113 @@ def home():
     return render_template('admin/home.html', **context )
    
 
+######## Exams //////////////////////////////////////////////
+
+### randomize two questions from each section
+def review_random(originalDict):        
+    examDict = {}
+    for topic in originalDict:
+        examDict[topic] = {}
+        length = len(originalDict[topic])
+        randArray = []
+        for i in range(length):
+            randArray.append(i)
+
+        random.shuffle(randArray)        
+        ##print(topic, randArray)
+
+        count = 0
+        for question in originalDict[topic]:
+            if count != randArray[0] and count != randArray[1]:                
+                pass
+            else: 
+                examDict[topic][question] = originalDict[topic][question]
+            count += 1 
+    
+    return examDict   
+
+
+@app.route ("/exams/<string:test>/<string:unit>", methods=['GET','POST'])
+@login_required
+def exams(test, unit):  
+
+    content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/exam.json' )
+    file_content = content_object.get()['Body'].read().decode('utf-8')      
+    examAWS = json.loads(file_content) 
+
+    if test == 'review':
+        originalDict = examAWS[unit]
+        examDict = review_random(originalDict)
+        html = 'units/exam_review.html'
+    if test == 'exam':
+        examDict = examAWS[unit]
+        html = 'units/exam_form.html'        
+    
+    theme=DESIGN['titleColor']
+
+    return render_template(html, legend='Exams', 
+    Dict=json.dumps(examDict), title=unit, theme=theme)
+
+
+@app.route ("/updateExam", methods=['POST', 'GET'])
+@login_required
+def updateExam(): 
+    unit = request.form ['unit']
+    test = request.form ['test']
+    grade = request.form ['grade']    
+    
+    user = Exams.query.filter_by(username=current_user.username).first()
+
+    if test == 'review':
+        record = json.loads(user.j1)
+        record[unit].append(grade)
+        tries = len(record[unit])
+        user.j1 = json.dumps(record)
+        db.session.commit()
+
+    if test == 'exam':
+        tries = None
+        record = json.loads(user.j2)
+        record[unit].append(grade)
+        user.j1 = json.dumps(record)
+        db.session.commit()
+
+    return jsonify({'unit' : unit, 'tries' : tries})
+
+
+@app.route ("/exam_list", methods=['GET','POST'])
+@login_required
+def exam_list(): 
+
+    try: 
+        user = Exams.query.filter_by(username=current_user.username).first()
+        reviewData = user.j1
+        examData = user.j2
+        print('exam_list_data_checked')
+    except:
+        reviewDict = {        
+                '1-2' : [], 
+                '3-4' : [], 
+                '5-6' : [], 
+                '7-8' : [] 
+            }        
+        entry = Exams(username=current_user.username, j1=json.dumps(reviewDict), j2=json.dumps(reviewDict))
+        db.session.add(entry)
+        db.session.commit()
+
+        user = Exams.query.filter_by(username=current_user.username).first()   
+        reviewData = user.j1
+        examData = user.j2    
+    
+    theme=DESIGN['titleColor']
+
+    return render_template('units/exam_list.html', title='Exams', theme=theme, reviewData=reviewData, examData=examData)
+
+
+
+
+
+
 ######## Assignments //////////////////////////////////////////////
 
 @app.route ("/assignments", methods=['GET','POST'])
@@ -351,7 +458,7 @@ def ass(unit):
     setting =  Units.query.filter_by(unit=unit).first().uA
     if setting != 1:
         return redirect(request.referrer)
-        flash('This assignment is not open until ' + date, 'danger')
+        flash('This assignment is not open yet', 'danger')
     
     # models update
     assDict = Info.ass_mods_dict   

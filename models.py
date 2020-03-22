@@ -408,6 +408,7 @@ admin.add_view(MyModelView(AttendLog, db.session))
 admin.add_view(MyModelView(Units, db.session))
 
 if BaseConfig.SCHEMA < 3:
+    admin.add_view(MyModelView(Exams, db.session))
     for unit in listUnits:
         admin.add_view(MyModelView(unit, db.session))
 
