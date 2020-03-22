@@ -8,6 +8,7 @@ from models import *
 import ast 
 from pprint import pprint
 from routesUser import get_grades, get_sources
+from random import shuffle
 
 from meta import BaseConfig   
 s3_resource = BaseConfig.s3_resource  
@@ -138,7 +139,7 @@ def get_projects():
     for week in sDict:
         try:      
             if int(sDict[week]['Unit']) >= 0:
-                print('2') 
+                #print('2') 
                 unitNumber = sDict[week]['Unit']
                 projectDict[unitNumber] = {}
                 section = sDict[week]
@@ -150,10 +151,10 @@ def get_projects():
                 projectDict[unitNumber]['M1'] = section['M1']
                 projectDict[unitNumber]['M2'] = section['M2']                
         except:
-            print('except', sDict[week]['Unit'])
+            #print('except', sDict[week]['Unit'])
             pass
             
-    pprint(projectDict)
+    #pprint(projectDict)
         
     return projectDict  
 
@@ -276,7 +277,7 @@ def updateAnswers():
 
 
 
-def get_team_data(unit, team):
+def get_team_data(unit, team, exam):
     srcDict = get_projects()
     meta = srcDict[unit]
 
@@ -284,7 +285,10 @@ def get_team_data(unit, team):
     questions = project.query.filter_by(teamnumber=team).first()   
     teamMembers = ast.literal_eval(questions.username)
 
-    if current_user.username not in teamMembers:
+    if exam == 1:
+        pass
+    elif current_user.username not in teamMembers:
+        print('username not found in teamMembers')
         return abort(403)  
     
     teamDict = {}
@@ -380,10 +384,13 @@ def deleteWord():
 @login_required
 def abc_setup(qs, unit, team): 
 
-    data = get_team_data(unit, team)  
+    data = get_team_data(unit, team, 0)  
     project_answers = data['project_answers'] 
     meta = data['meta'] 
-    teamMembers = data['teamMembers'] 
+    teamMembers = data['teamMembers']
+    if current_user.username not in teamMembers :
+        flash('You are not on the team for this project', 'warning')
+        return (redirect (url_for('abc_dash')))
 
     if qs == 'qna':
         testDict = {}
@@ -418,26 +425,6 @@ def abc_setup(qs, unit, team):
     testDict=str(json.dumps(testDict))
     )
 
-'''
-@app.route ("/abc/snl/<string:unit>/<int:team>", methods=['GET','POST'])
-@login_required
-def abc_snl(unit, team): 
-    data = setUpProject(unit, team)  
-    project_answers = data['project_answers'] 
-    meta = data['meta'] 
-    teamMembers = data['teamMembers'] 
-    
-    ansDict = project_answers.Ans02
-
-    
-    
-    return render_template('abc/abc_snl.html', legend='Questions & Answers', 
-    meta=meta, 
-    teamMembers=teamMembers,
-    ansDict=ansDict, 
-    testDict=None
-    )'''
-
 @app.route ("/abc_dash", methods=['GET','POST'])
 @login_required
 def abc_dash(): 
@@ -470,6 +457,7 @@ def abc_dash():
     
     return render_template('abc/abc_dash.html', legend='ABC Dash', abcString = json.dumps(abcDict))
 
+# instructor check
 @app.route ("/abc_check/<string:unit>", methods=['GET','POST'])
 @login_required
 def abc_check(unit): 
@@ -492,12 +480,102 @@ def abc_check(unit):
             'snl_list' : json.loads(proj.Ans02), 
             'snl_score' : proj.Ans04,
             }
-        
 
     pprint (checkDict)  
-     
     
     return render_template('abc/abc_check.html', legend='QNA Check', title=title, abcString = json.dumps(checkDict))
+
+
+
+# exam format
+@app.route ("/abc_exam/<string:qORs>/<string:unit>/<string:team>", methods=['GET','POST'])
+@login_required
+def abc_exam(qORs, unit, team): 
+    print('exam', unit, team)
+
+    team_data = get_team_data(unit, team, 1)
+    data = team_data['project_answers']
+    print(team_data)
+    source = team_data['meta']['M1']
+    print(source)
+    qnaString = data.Ans01
+    snlString = data.Ans02
+    snlDict = json.loads(data.Ans02)
+    
+    orderList = ['1','2','3','4','5','6']
+    random.shuffle(orderList)
+
+    print('orderList', orderList)
+
+    count = 1
+    orderDict = {}
+    for number in orderList:
+        orderDict[count] = [number, snlDict[number]['audioLink']]
+        count +=1
+    
+    print('orderDict', orderDict)
+
+    if qORs == 'qna':
+        html = 'abc/abc_exam_qna.html'
+    else:
+        html = 'abc/abc_exam_snl.html'    
+    
+    return render_template(html, legend='ABC Exam', title=unit, orderDict=json.dumps(orderDict), qnaString=qnaString, snlString=snlString)
+# exam format
+
+
+
+@app.route('/updateGrades', methods=['POST'])
+def updateGrades():
+    qORs = request.form ['qORs']
+    unit = request.form ['unit']  
+    team = request.form ['team']
+    grade = request.form ['grade'] 
+
+    try: 
+        checkUser = Exams.query.filter_by(username=current_user.username).first().username 
+    except: 
+        user = Exams(username=current_user.username, j1='{}', j2='{}', j3='{}', j4='{}')
+        db.session.add(user) 
+        db.session.commit()
+    
+    user = Exams.query.filter_by(username=current_user.username).first()
+    
+    if qORs == 'qna': 
+        examDict = json.loads(user.j1) 
+    elif qORs == 'snl': 
+        examDict = json.loads(user.j2) 
+   
+    print('before', examDict)
+
+    entryChecker = True
+    for entry in examDict:        
+        if examDict[entry]['team'] == team and examDict[entry]['unit'] == unit:
+            entryChecker = False
+    
+    if entryChecker:
+        count = len(examDict)
+        examDict[count+1] = {
+            'unit' : unit, 
+            'team' : team, 
+            'grade' : grade
+            }
+
+        if qORs == 'qna': 
+            user.j1 = json.dumps(examDict)
+            db.session.commit()
+            print('qnaCommit')
+        elif qORs == 'snl': 
+            user.j2 = json.dumps(examDict)
+            db.session.commit()
+            print('snlCommit')
+    
+    
+    print('after', examDict)
+
+        
+    return jsonify({'grade' : grade})
+
 
 
 

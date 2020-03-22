@@ -19,7 +19,9 @@
     
 </div>
 
-<div class="content-section">        
+<div class="content-section">  
+
+<h3> Project Dash </h3>
     
     <div style="overflow-x:auto;">
       <table class="table table-sm">
@@ -35,35 +37,66 @@
         </thead> 
         
         <tbody>
-        <template v-for="(proj, key) in projectOBJ" :key="key"   > 
-            
+            <template v-for="(proj, key) in projectOBJ" :key="key" >             
+                <tr>
+                  <td>  
+                  {% if current_user.id == 1 %} 
+                  <span @click="goTo(key, 0, 'I')" class="unit-span" style="background:silver;padding:3px"> [[ key ]] </span>               
+                  {% else %}  
+                  <span class="unit-span" style="background:coral;padding:3px"> [[ key ]] </span>
+                  {% endif %} 
+                  </td>  
+                  <td> [[ proj.Title]] </td>  
+                  <td> [[ proj.Team]] </td>  
+                  <td> 
+                      <span v-if="proj.Number == 0"> </span>  
+                      <span v-else-if="setButtons('q', proj.QTotal) == 3" @click="goTo(key, proj.Number, 'Q')" class="unit-span" style="background:mediumseagreen;padding:3px"> &nbsp;1&nbsp; </span>  
+                      <span v-else="setButtons('q' , proj.QTotal) == 2" @click="goTo(key, proj.Number, 'Q')" class="unit-span" style="background:goldenrod;padding:3px"> &nbsp;0&nbsp; </span> 
+                  </td>  
+                  <td> 
+                      <span v-if="proj.Number == 0"> </span>  
+                      <span v-else-if="setButtons('s', proj.STotal) == 3" @click="goTo(key, proj.Number, 'S')" class="unit-span" style="background:mediumseagreen;padding:3px"> &nbsp;1&nbsp; </span>  
+                      <span v-else="setButtons('s' , proj.STotal) == 2" @click="goTo(key, proj.Number, 'S')" class="unit-span" style="background:goldenrod;padding:3px"> &nbsp;0&nbsp; </span> 
+                  </td>      
+                </tr>  
+            </template> 
+        </tbody>   
+   
+      </table>
+    </div>
+
+</div>   
+
+<div class="content-section">  
+
+<h3> Exam Test Board </h3>
+    
+    <div style="overflow-x:auto;">
+      <table class="table table-sm">
+        <thead>
             <tr>
-              <td>  
-              {% if current_user.id == 1 %} 
-              <span @click="goTo(key, 0, 'I')" class="unit-span" style="background:silver;padding:3px"> [[ key ]] </span>               
-              {% else %}  
-               <span class="unit-span" style="background:coral;padding:3px"> [[ key ]] </span>
-              {% endif %} 
-              </td>  
-              <td> [[ proj.Title]] </td>  
-              <td> [[ proj.Team]] </td>  
-              <td> 
-              <span v-if="proj.Number == 0"> </span>  
-              <span v-else-if="setButtons('q', proj.QTotal) == 3" @click="goTo(key, proj.Number, 'Q')" class="unit-span" style="background:mediumseagreen;padding:3px"> &nbsp;1&nbsp; </span>  
-              <span v-else="setButtons('q' , proj.QTotal) == 2" @click="goTo(key, proj.Number, 'Q')" class="unit-span" style="background:goldenrod;padding:3px"> &nbsp;0&nbsp; </span> 
-              </td>  
-              <td> 
-              <span v-if="proj.Number == 0"> </span>  
-              <span v-else-if="setButtons('s', proj.STotal) == 3" @click="goTo(key, proj.Number, 'S')" class="unit-span" style="background:mediumseagreen;padding:3px"> &nbsp;1&nbsp; </span>  
-              <span v-else="setButtons('s' , proj.STotal) == 2" @click="goTo(key, proj.Number, 'S')" class="unit-span" style="background:goldenrod;padding:3px"> &nbsp;0&nbsp; </span> 
-              </td>  
-              
-              
-     
-                         
-            </tr>  
-        </template>     
-            
+              <th scope="col" >U</th>  
+              <th scope="col" >Title</th>
+              <th scope="col" >Q&A</th>                       
+              <th scope="col" >S&L</th>  
+            </tr>
+        </thead> 
+        
+        <tbody>
+            <template v-for="(proj, key) in projectOBJ" :key="key" >             
+                <tr>
+                  <td>  
+                    <span class="unit-span" style="background:silver;padding:3px"> [[ key ]] </span> 
+                  </td>  
+                  <td> [[ proj.Title]] </td>  
+                  <td>
+                    <span @click="goToExam()" class="unit-span" style="background:blue;padding:3px"> &nbsp;Test&nbsp; </span>  
+                  </td>  
+                  <td> 
+                    <span @click="goToExam()" class="unit-span" style="background:blue;padding:3px"> &nbsp;Test&nbsp; </span>  
+                  </td>      
+                </tr>  
+            </template> 
         </tbody>   
    
       </table>

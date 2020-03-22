@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<span id="qnaDict" style="display:none">{{abcString}}</span>
+<span id="abcDict" style="display:none">{{abcString}}</span>
 
 <div id="vue-app">
 
@@ -145,7 +145,7 @@
 
 <script type="text/javascript" >
 
-var projectDict = document.getElementById('qnaDict').innerHTML
+var projectDict = document.getElementById('abcDict').innerHTML
 var OBJ = JSON.parse(projectDict)
 console.log('projecDict', OBJ);
 
