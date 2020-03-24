@@ -62,6 +62,9 @@ Teamsize
 <a href='https://hrapp.just.edu.tw/hr_personal/Default.aspx'>Personnel</a> 
 &nbsp
 &nbsp
+<br> 
+<br> 
+<button class="btn btn-outline-secondary" @click="attOBJ({{SCHEMA}})"> GET RECORDS </button>
     
 </div>
 
@@ -116,7 +119,7 @@ Teamsize
               <td> [[ number ]] </td>
               <template v-for="mem in team">    
               <td> 
-               <button :class="deleteClass" @click="deleteStudent(mem)">[[ mem ]]</button> 
+               <button :class="deleteClass" @click="studentRemove(mem)">[[ mem ]]</button> 
                 </td>
               </template>    
             </tr>  
@@ -172,9 +175,40 @@ let vue = new Vue({
         deleteMode : false,
         unit_list : ['RR','00', '01','02','03','04','05','06','07','08','09', '10'],       
         size_list : ['4','0', '3','5'] ,   
-        team_list : ['5','6', '7','8','9', '10','11','12','13','14','15','16','17','18','19','20'],       
+        team_list : ['5','6', '7','8','9', '10','11','12','13','14','15','16','17','18','19','20'],
+        recordOBJ : {}       
     }, 
     methods: {   
+        attOBJ: function(schema) {
+
+          if (schema in [4]){
+            var time1 = '_8_1'
+            var time2 = '_9_1'
+          }
+          if (schema in [3, 2, 5]){
+            var time1 = '_6_1'
+            var time2 = '_7_1'
+          }
+          if (schema == 1){
+            var time1 = '_3_1'
+            var time2 = '_4_1'
+          }
+          
+          console.log('start', schema);
+          
+          for (var student in vue.attendOBJ){            
+            if (vue.attendOBJ[student]['att'] == 'Absent'){              
+              vue.recordOBJ[student] = ['DDList' + student + time1, 'DDList' + student + time2]
+            }
+            if (vue.attendOBJ[student]['att']  == 'Unregistered'){
+              vue.recordOBJ[student] = ['DDList' + student + time1, 'DDList' + student + time2]
+            }
+          }
+
+          console.log('var obj =' + JSON.stringify(vue.recordOBJ));
+          var string = 'for (var student in obj){ if (document.getElementById(obj[student][0])){ document.getElementById(obj[student][0]).checked=true; document.getElementById(obj[student][1]).checked=true}}'
+          console.log(string);
+        },
         setAtt: function() { 
           
           this.setOBJ['notice'] = document.getElementById('notice').value
@@ -276,9 +310,9 @@ let vue = new Vue({
           .fail(function(){
                 alert('error has occurred');
           });
-        }                  
-    }, 
-    computed : {
+        } 
+      }, 
+      computed : {
       deleteClass: function() {          
           if (this.deleteMode == true ){
             return 'btn btn-sm btn-danger'
