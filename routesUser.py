@@ -48,8 +48,7 @@ def get_sources():
     pprint(unitDict)
         
     return unitDict            
-        
-
+       
 
 def get_grades(ass, unt):
 
@@ -147,26 +146,6 @@ def chatCheck():
         return jsonify({'new' : lastChat})
 
 
-@app.route ("/grades", methods = ['GET', 'POST'])
-@login_required
-def grades():
-       
-    ''' deal with grades ''' 
-    if SCHEMA < 3:
-        grades = get_grades(True, True) 
-    else:
-        grades = {'unitGrade': None, 'assGrade': None,'maxA':None, 'maxU':None  }    
-
-    
-    context = {    
-    'unitGrade' : grades['unitGrade'], 
-    'assGrade' :  grades['assGrade'], 
-    'maxA' : grades['maxA'],
-    'maxU' : grades['maxU'], 
-    'title' : 'Grades'    
-    } 
-
-    return render_template('admin/grades.html', **context )
   
 
 @app.route ("/", methods = ['GET', 'POST'])
@@ -310,6 +289,13 @@ def updateExam():
 @login_required
 def exam_list(): 
 
+    ''' deal with grades ''' 
+    if SCHEMA < 3:
+        grades = get_grades(True, True)
+    else:
+        grades = {'unitGrade': None, 'assGrade': None,'maxA':None, 'maxU':None  }    
+    
+    ''' set exam practice '''
     try: 
         user = Exams.query.filter_by(username=current_user.username).first()
         reviewData = user.j1
@@ -330,9 +316,20 @@ def exam_list():
         reviewData = user.j1
         examData = user.j2    
     
-    theme=DESIGN['titleColor']
 
-    return render_template('units/exam_list.html', title='Exams', theme=theme, reviewData=reviewData, examData=examData)
+    context = {    
+    'unitGrade' : grades['unitGrade'], 
+    'assGrade' :  grades['assGrade'], 
+    'maxA' : grades['maxA'],
+    'maxU' : grades['maxU'], 
+    'title' : 'Exams', 
+    'theme' : DESIGN['titleColor'], 
+    'reviewData' : reviewData, 
+    'examData' : examData   
+    } 
+    
+
+    return render_template('units/exam_list.html', **context )
 
 
 
