@@ -305,7 +305,7 @@ def controls():
     setString = json.dumps(setDict)     
 
 
-    return render_template('instructor/controls.html', setString=setString, attend_list=attend_list, team_list=team_list, title='Controls') 
+    return render_template('instructor/controls.html', SCHEMA=SCHEMA, setString=setString, attend_list=attend_list, team_list=team_list, title='Controls') 
 
 @app.route("/updateSet", methods = ['POST'])
 @login_required
