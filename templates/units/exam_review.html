@@ -118,8 +118,12 @@ function startVue(){
                 var e = document.getElementById(correct_answer) 
                   if (e.options[e.selectedIndex].value != correct_answer ) {
                       vue.errorCount += 1
+                      e.setAttribute("style", "height:30px;width:150px;color:white;background:lightcoral")
                       console.log(vue.errorCount);
-                  } 
+                  }
+                  else {
+                    e.setAttribute("style", "height:30px;width:150px;color:white;background:lightseagreen")
+                  }
               }
           }
 
