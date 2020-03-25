@@ -351,16 +351,19 @@ def participation(unit_num,part_num,state):
                 '4' : unit_check.u4,
             } 
         else:
-            flash('This unit is not open at the moment', 'danger')
+            flash('This unit is not open at the moment(1)', 'danger')
             return redirect(url_for('unit_list'))
         
         if unitChecker[part_num] == 0:
-            flash('This activity is not open at the moment', 'danger')
+            flash('This activity is not open at the moment(2)', 'danger')
             return redirect(url_for('unit_list')) 
-        if chris_attend.teamnumber != 97: 
-            if unit_num != Attendance.query.filter_by(username='Chris').first().unit:
+        if chris_attend.teamnumber != 97:
+            todays_unit = Attendance.query.filter_by(username='Chris').first().unit
+            if todays_unit  == 'RR':
+                pass
+            elif unit_num != todays_unit:
                 print (unit, Attendance.query.filter_by(username='Chris').first().unit)
-                flash('This task is not open at the moment', 'danger')
+                flash('This task is not open at the moment(3)', 'danger')
                 return redirect(url_for('unit_list'))  
     
     # get sources
