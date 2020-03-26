@@ -105,6 +105,15 @@ class Exams(db.Model):
     j6 = db.Column(db.String)
     j7 = db.Column(db.String)
     j8 = db.Column(db.String)
+
+class Errors(db.Model):
+    id = db.Column(db.Integer, primary_key=True)     
+    username = db.Column(db.String)
+    err = db.Column(db.String)
+    device = db.Column(db.String)
+    mode = db.Column(db.String)
+    unit = db.Column(db.String)
+    
     
      
 
@@ -409,6 +418,7 @@ admin.add_view(MyModelView(Units, db.session))
 
 if BaseConfig.SCHEMA < 3:
     admin.add_view(MyModelView(Exams, db.session))
+    admin.add_view(MyModelView(Errors, db.session))
     for unit in listUnits:
         admin.add_view(MyModelView(unit, db.session))
 

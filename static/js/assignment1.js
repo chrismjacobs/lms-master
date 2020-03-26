@@ -130,32 +130,64 @@ window.globalFunc = function (action){
               console.log('MP3 encoding');
           };
 
-          stopBtnRecord = () => {              
-              console.log('stop Record');
-              audioContext.close();
-              processor.disconnect();
-              tracks.forEach(track => track.stop());
+          stopBtnRecord = () => {                   
+                  var stage = 1                          
+                  console.log('stop Record');
+                  audioContext.close();
+                  processor.disconnect();
+                  tracks.forEach(track => track.stop());                  
+                  stage = 2
+                  audioElement = document.getElementById('handler')   
+                  audioElement.src = URL.createObjectURL(encoder.finish());                  
+                  stage = 3 
 
-              audioElement = document.getElementById('handler')   
-              audioElement.src = URL.createObjectURL(encoder.finish());   
-              globlob = audioElement.src              
-                fetch(audioElement.src)
-                .then( response => response.blob() )
-                .then( blob =>{
-                    var reader = new FileReader();
-                    reader.readAsDataURL(blob);	
-                    reader.onload = function(){ 
-                        var base64data = this.result.split(',')[1]  // <-- this.result contains a base64 data URI 
-                        b64d = base64data                                                                  
-                    }; //end reader.onload
-                
-                })//end fetch      
+                  globlob = audioElement.src
+                                                                
+                    fetch(audioElement.src)
+                    .then( response => response.blob() )
+                    .then( blob =>{                        
+                        var reader = new FileReader();
+                        reader.readAsDataURL(blob);	
+                        reader.onload = function(){ 
+                            var base64data = this.result.split(',')[1]  // <-- this.result contains a base64 data URI 
+                            b64d = base64data                                              
+                        }; //end reader.onload                    
+                    })//end fetch 
+                  return stage
+                               
           };// stopRecord          
       }
       this.stopRecord = function() {
-          stopBtnRecord();
+        try{
+          var stage = stopBtnRecord()
+          console.log(stage);
+        }
+        catch {
+          recErrorWin('Apple fail before fetch');
+        }
+
       }; 
   }
+}
+
+function recErrorWin (message){
+
+  $.ajax({
+    data : {              
+        unit : 'A', 
+        message : message, 
+        mode : notice 
+    },
+    type : 'POST',
+    url : '/recError'                    
+    })
+    .done(function(data) {                  
+      alert('error has occured - your device is unable to record - please try to upload mp3 instead - sorry for the inconvenience')                  
+    })
+    .fail(function(){       
+      alert('error has occured - your device is unable to record - please try to upload mp3 instead - sorry for the inconvenience')
+    });           
+    
 }
 
 
@@ -248,18 +280,24 @@ function startVue(ansOBJ, device){
               }
 
               vue.mediaRecorder.onstop = (ev)=>{
-                  var blob = new Blob(chunks, { 'audio' : 'audio/mpeg;' });
-                  console.log(blob);
-                  chunks = [];// here we clean out the array
-                  var blobURL = window.URL.createObjectURL(blob);
-                  console.log(blobURL);         
-                  //get the base64data string from the blob
-                  reader = new FileReader();
-                  reader.readAsDataURL(blob); 
-                  reader.onloadend = function() {
-                    vue.base64data = reader.result.split(',')[1]; //remove padding from beginning of string
-                    vue.blobURL = blobURL            
-                  }  
+                    try{                
+                      var blob = new Blob(chunks, { 'audio' : 'audio/mpeg;' });
+                      console.log(blob);
+                      chunks = [];// here we clean out the array
+                      var blobURL = window.URL.createObjectURL(blob);
+                      console.log(blobURL);         
+                      //get the base64data string from the blob
+                      reader = new FileReader();
+                      reader.readAsDataURL(blob); 
+                      reader.onloadend = function() {
+                        vue.base64data = reader.result.split(',')[1]; //remove padding from beginning of string
+                        vue.blobURL = blobURL            
+                      }
+                    }
+                    catch(err) {                  
+                      console.log(err.message);
+                      vue.recError(err.message) 
+                    }
                 }        
              })
           }
@@ -275,19 +313,22 @@ function startVue(ansOBJ, device){
         vue.rec1.cancel = true
         clearInterval(vue.rec_timer)
         console.log(this.device);
-        if (this.device == 'A') {  
-          console.log('stopped');
-          vue.mediaRecorder.stop(); 
-          vue.audio[task] = 3
-          console.log('status:' + vue.mediaRecorder.state);
-        }
-        else if (this.device == 'I'){
-          // global function for iphone recording
-          window.globalFunc('stop')
-          vue.blobURL = globlob
-          vue.audio[task] = 3
-          console.log('status: mp3 rec stopped');          
-        }        
+               
+            if (this.device == 'A') {  
+              console.log('stopped');
+              vue.mediaRecorder.stop(); 
+              vue.audio[task] = 3
+              console.log('status:' + vue.mediaRecorder.state);
+            }
+            else if (this.device == 'I'){
+              // global function for iphone recording
+              window.globalFunc('stop')
+              vue.blobURL = globlob
+              vue.audio[task] = 3
+              console.log('status: mp3 rec stopped');          
+            } 
+          
+               
       },  
       cancel: function(){
         console.log('cancel');
@@ -303,6 +344,27 @@ function startVue(ansOBJ, device){
         vue.blobURL = null 
         this.audioCheck()
       },
+      recError : function (message){
+
+        $.ajax({
+          data : {              
+              unit : vue.ansOBJ.Unit, 
+              message : message, 
+              mode : notice 
+          },
+          type : 'POST',
+          url : '/recError'                    
+          })
+          .done(function(data) { 
+            vue.showUpload('up')             
+            alert('error has occured - your device is unable to record - please try to upload mp3 instead - sorry for the inconvenience')                  
+          })
+          .fail(function(){
+            vue.showUpload('up')  
+            alert('error has occured - your device is unable to record - please try to upload mp3 instead - sorry for the inconvenience')
+          });           
+          console.log(vue.ansOBJ);
+      },      
       save : function (task, mark){
         if (this.device == 'I'){
           vue.base64data = b64d          

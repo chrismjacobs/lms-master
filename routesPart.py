@@ -88,6 +88,20 @@ def unit_list():
     Dict=json.dumps(unitDict), Grade=unitGrade, max=maxU, title='Units')
 
 
+@app.route('/recError', methods=['POST'])
+def recError():
+
+    message = request.form ['message']
+    mode = request.form ['mode']   
+    unit = request.form ['unit']   
+
+    
+    error = Errors(username=current_user.username, device=current_user.device, mode=mode, unit=unit, err=message)
+    db.session.add(error)
+    db.session.commit() 
+    
+    return jsonify({'message' : message })
+
 @app.route('/openUnit', methods=['POST'])
 def openUnit():
 
