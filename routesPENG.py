@@ -115,6 +115,23 @@ def peng_list():
 
     return render_template('peng/peng_list.html', legend='Presentation Projects', source=source, stage=stage, grade=grade)
 
+@app.route ("/peng_check1", methods=['GET','POST'])
+@login_required
+def peng_check1(): 
+
+    midterms = U011U.query.all()
+
+
+    midDict = {}
+    for user in models:
+        midDict[user.username] = user.Ans01
+    
+    midString = json.dumps(midDict)
+
+
+
+    return render_template('peng/peng_check1.html', title='Midterm', midString=midString)
+
 
 
 @app.route ("/peng/<string:MTFN>/<string:page_stage>", methods=['GET','POST'])
