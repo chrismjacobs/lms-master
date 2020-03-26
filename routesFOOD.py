@@ -39,12 +39,12 @@ def get_all_values(nested_dictionary):
     detected = 0
     for key, value in nested_dictionary.items():        
         if type(value) is dict:
-            #print ('DICT FOUND', value)
+            print ('DICT FOUND', value)
             if get_all_values(value) != 0:
                 detected += get_all_values(value)
         else:
             if value == None or value == "":
-                #print(key, value)
+                print('CHECK', key, value)
                 detected += 1
                 
     return detected 
@@ -144,10 +144,15 @@ def createPPT():
     title_shape = shapes.title
     body_shape = shapes.placeholders[1]
     title_shape.text = 'Final Comment'
+    tf = body_shape.text_frame
+    tf.text = ansDict['Final']
 
     print('PROCESSING PPT') 
     filename = current_user.username + proj + '.pptx'
-    os. remove(filename)
+    try:
+        os.remove(filename)
+    except:
+        print('No OS File')
     prs.save(filename) 
     data = open(filename, 'rb')
     aws_filename = 'MT/' + filename
@@ -179,8 +184,7 @@ def food_proj(proj):
             'Dish' : None,             
             'Link' : 'Video Link',             
             'Image' : 'Image Link',
-            'Final' : None,             
-            'Intro' : None,             
+            'Final' : None,
             'Writer' : None, 
             'Reasons' : {
                 1 : None, 
