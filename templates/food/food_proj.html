@@ -17,7 +17,14 @@
       
 </div>
 
+
 <div id="vue-app">
+
+<div class="content-section" v-if="project == 'ND'">    
+
+   <h3> <a href="https://drive.google.com/open?id=1djGSzFuFEyCyCwu-pSBbcPx1EmXJu2KR">Example Form</a></h3>
+      
+</div>
 
 <div class="content-section">
 
@@ -45,20 +52,20 @@
 <h4 v-else-if="key == '1'" > Ingredients </h4>
 <h4 v-else-if="key == '2'" > Cooking Methods </h4>
 <h4 v-else-if="key == '3'" > Description </h4>
-        <div v-for="(point, order) in ansOBJ['Parts'][key]['kw']">
-                <span :style="style('kw')"> Key words [[order]] --> </span>
-                <input type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Parts'][key]['kw'][order]"></input> 
-                <br>
+        <div v-for="(point, order) in ansOBJ['Parts'][key]['kw']">                
                 <span :style="style('dt')"> Sentence [[order]] </span>
                 <textarea :id="point + key" type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Parts'][key]['dt'][order]" @blur="wordCount(point + key)"></textarea> 
+                <br>
+                <span :style="style('kw')"> Key words [[order]] --> </span>
+                <input type="text" class="textAss" style="margin-left:5px; width:80%" v-model="ansOBJ['Parts'][key]['kw'][order]"></input> 
                 <br>
                 <br>
         </div>
 <br>
 </template>  
 
-<span :style="style('Intro')"> Final Comments </span>
-<input type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Final']"></input> 
+<span :style="style('Intro')"> Final Comment </span>
+<textarea  type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Final']"></textarea> 
 <br>  
 <br>  
  
