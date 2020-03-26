@@ -6,7 +6,14 @@
 
 <div class="content-section">    
         <h1> Exam: {{ title }}  </h1>
-    
+</div>
+
+<div class="content-section">
+  <div class="embed-responsive embed-responsive-4by3">
+      <iframe id="questions_embed" src="{{meta.M1}}"
+      allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
+	    </iframe>
+  </div> 
 </div>
 
 <div class="content-section">        
@@ -15,10 +22,7 @@
       <table class="table table-sm">
         <thead>
             <tr>
-              <th scope="col" >Question</th>
-              <th scope="col" >Answer</th>
-              <th scope="col" >Check</th>                                  
-              <th scope="col" >Grade</th>                                
+              <th scope="col" >Questions</th>                                          
             </tr>
         </thead> 
         
@@ -27,26 +31,28 @@
             
             <tr>
               <td>
-                [[ key ]]: [[  answerSet['topic]  ]] <br>
-                [[  answerSet['question']  ]]
+                [[ key ]]: <span style="color:red">[[  answerSet.topic  ]] </span> <br>
+                [[  answerSet.question  ]]
               </td>
+            </tr> 
+
+            <tr v-if="display == false">
+              <td>
+                <input  type="text" style="width: 100%" v-model="input[key]">
+              </td>
+            </tr>
+            <tr v-if="display">
               <td> 
-                  <img class="rounded img-fluid" alt="No file yet" style="width: 250px"  :src="answerSet.imageLink">      
-              </td>              
-              <td>
-                <input  type="text" style="width: 100%" >
-                <h4 v-model=""> </h4>
-                
-              </td>  
-              <td>
-                <select style="height:50px;width:50px;color:white;background:royalblue" :id="orderOBJ[key][0]" name="cars">  
-                  <option :value="orderOBJ[key][0]">--</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>  
+                  Correct answer: <span style="color:blue">[[ answerSet.answer ]]</span>
+                  <br>  
+                  Your answer: <span > [[ input[key] ]]</span>  
+                  <br>
+                  <select style="height:25px;width:200px;color:white;background:royalblue" :id="key">  
+                  <option value="0">--</option>
+                  <option value="1">Incorrect</option>
+                  <option value="2">Not really Correct</option>
+                  <option value="3">Kind of Correct</option>
+                  <option value="4">Correct</option>
                 </select>
               </td>
             </tr> 
@@ -55,7 +61,8 @@
         </tbody>
       </table>
 
-      <button class="btn btn-warning" @click="submitQNA()"> Submit </button>
+      <button v-if="display" class="btn btn-warning" @click="submitQNA()"> Submit </button>
+      <button v-else class="btn btn-info" @click="checkQNA()"> Check Answers </button>
     </div>
 
 </div>   
@@ -97,53 +104,49 @@ function startVue(){
 
     el: '#vue-app',
     delimiters: ['[[', ']]'],
-    mounted: function(){
-      //resort snlOBJ
+    mounted: function(){     
        
     },
     data: {
         qnaOBJ: qnaOBJ,
-        grade : 5    
+        grade : 0,   
+        input : {
+          1 : null,   
+          2 : null,   
+          3 : null,   
+          4 : null,   
+          5 : null,   
+          6 : null
+        },   
+        display : false
     }, 
     methods: {              
-        goTo: function(key, state) {          
-          
+        goTo: function(key, state) {    
           var str = window.location.href
-
           let url = str.split('abc_exam')[0] + 'abc_list'
           console.log('goTO', url);
-            window.location = url
-            console.log('DONE');
+          window.location = url
         },
-        submitQNA: function() {
-          //check if dropdown answers match          
-          for (var object in vue.snlOBJ){
-            console.log(object, vue.orderOBJ);
-            console.log(vue.orderOBJ[object][0]);
-            var dropdown = vue.orderOBJ[object][0] // 
-            var e = document.getElementById(dropdown) 
-            if (e.options[e.selectedIndex].value != vue.orderOBJ[object][0] ) {
-              vue.errorCount += 1
-              console.log(vue.errorCount);
-              } 
+        checkQNA: function() {
+         vue.display = true
+        }, 
+        submitQNA: function() { 
+          obj = { 1:1, 2:2, 3:3, 4:4, 5:5, 6:6}         
+          
+          for (var i in obj){
+            var e = document.getElementById(i) 
+            var score = e.options[e.selectedIndex].value 
+            vue.grade += score
           }
-          if (vue.errorCount > 0){
-              alert('Sorry, you have ' + vue.errorCount + ' incorrect answers. Please try again')
-              vue.errorCount = 0 
-              if (vue.grade > 0 ){
-                vue.grade -= 1
-              }              
-          }          
-          else{
-              alert('Great, all answer are correct - your grade will be updated')
-              vue.updateGrades()              
-          }
+          alert('Great, your grade will be updated')
+          vue.updateGrades()              
+          
         }, 
         updateGrades: function() {
           
           $.ajax({
               data : {
-                qORs : 'snl',                         
+                qORs : 'qna',                         
                 unit : unit,                
                 team : team,
                 grade : vue.grade                
@@ -158,7 +161,7 @@ function startVue(){
             .fail(function(){
                 alert('error has occurred');
             }); 
-    },
+        },
     }          
 })// end NEW VUE
 

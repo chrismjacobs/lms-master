@@ -287,6 +287,8 @@ def get_team_data(unit, team, exam):
 
     if exam == 1:
         pass
+    elif current_user.id == 1:
+        print('admin user')        
     elif current_user.username not in teamMembers:
         print('username not found in teamMembers')
         return abort(403)  
@@ -490,7 +492,10 @@ def abc_check(unit):
 # exam format
 @app.route ("/abc_exam/<string:qORs>/<string:unit>/<string:team>", methods=['GET','POST'])
 @login_required
-def abc_exam(qORs, unit, team): 
+def abc_exam(qORs, unit, team):
+    data = get_team_data(unit, team, 0)      
+    meta = data['meta']  
+
     print('exam', unit, team)
 
     team_data = get_team_data(unit, team, 1)
@@ -520,7 +525,7 @@ def abc_exam(qORs, unit, team):
     else:
         html = 'abc/abc_exam_snl.html'    
     
-    return render_template(html, legend='ABC Exam', title=unit, orderDict=json.dumps(orderDict), qnaString=qnaString, snlString=snlString)
+    return render_template(html, legend='ABC Exam', title=unit, meta=meta, orderDict=json.dumps(orderDict), qnaString=qnaString, snlString=snlString)
 # exam format
 
 

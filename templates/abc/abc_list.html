@@ -37,27 +37,31 @@
         </thead> 
         
         <tbody>
-            <template v-for="(proj, key) in projectOBJ" :key="key" >             
+            <template v-for="(proj, unit) in projectOBJ"  >             
                 <tr>
                   <td>  
                   {% if current_user.id == 1 %} 
-                  <span @click="goTo(key, 0, 'I')" class="unit-span" style="background:silver;padding:3px"> [[ key ]] </span>               
+                  <span @click="goTo(unit, 0, 'I')" class="unit-span" style="background:silver;padding:3px"> [[ unit ]] </span>               
                   {% else %}  
-                  <span class="unit-span" style="background:coral;padding:3px"> [[ key ]] </span>
+                  <span class="unit-span" style="background:coral;padding:3px"> [[ unit ]] </span>
                   {% endif %} 
                   </td>  
                   <td> [[ proj.Title]] </td>  
                   <td> [[ proj.Team]] </td>  
                   <td> 
-                      <span v-if="proj.Number == 0"> </span>  
-                      <span v-else-if="setButtons('q', proj.QTotal) == 3" @click="goTo(key, proj.Number, 'Q')" class="unit-span" style="background:mediumseagreen;padding:3px"> &nbsp;1&nbsp; </span>  
-                      <span v-else="setButtons('q' , proj.QTotal) == 2" @click="goTo(key, proj.Number, 'Q')" class="unit-span" style="background:goldenrod;padding:3px"> &nbsp;0&nbsp; </span> 
+                      <span v-if="proj.Number == 0"> </span>  &nbsp;
+                      <span v-else @click="goTo(unit, proj.Number, 'Q')" class="unit-span" :style="buttonStyle(proj.QTotal, 'snl', 'edit')"> &nbsp;[[proj.QTotal]]/12&nbsp; </span> 
+                       <br>
+                       <br> 
+                      <span v-if="proj.QTotal >= 12" @click="goToExam(unit, proj.Number, 'qna')" class="unit-span" :style="buttonStyle(proj.QTotal, 'qna', 'check')"> check </span> 
+                       
                   </td>  
-                  <td> 
-                      <span v-if="proj.Number == 0"> </span>  
-                      <span v-else-if="setButtons('s', proj.STotal) == 3" @click="goTo(key, proj.Number, 'S')" class="unit-span" style="background:mediumseagreen;padding:3px"> &nbsp;1&nbsp; </span>  
-                      <span v-else="setButtons('s' , proj.STotal) == 2" @click="goTo(key, proj.Number, 'S')" class="unit-span" style="background:goldenrod;padding:3px"> &nbsp;0&nbsp; </span> 
-                  </td>      
+                  <td>
+                      <span v-if="proj.Number == 0"> </span>  &nbsp;
+                      <span v-else @click="goTo(unit, proj.Number, 'S')" class="unit-span" :style="buttonStyle(proj.STotal, 'snl', 'edit')"> &nbsp;[[proj.STotal]]/12&nbsp; </span> 
+                       &nbsp; 
+                      <span v-if="proj.STotal >= 12" @click="goToExam(unit, proj.Number, 'snl')" class="unit-span" :style="buttonStyle(proj.QTotal, 'snl', 'check')"> check </span> 
+                       </td>      
                 </tr>  
             </template> 
         </tbody>   
@@ -67,7 +71,7 @@
 
 </div>   
 
-<div class="content-section">  
+<div class="content-section" style="display:none">  
 
 <h3> Exam Test Board </h3>
     
@@ -83,10 +87,10 @@
         </thead> 
         
         <tbody>
-            <template v-for="(proj, key) in projectOBJ" :key="key" >             
+            <template v-for="(proj, unit) in projectOBJ" :unit="unit" >             
                 <tr>
                   <td>  
-                    <span class="unit-span" style="background:silver;padding:3px"> [[ key ]] </span> 
+                    <span class="unit-span" style="background:silver;padding:3px"> [[ unit ]] </span> 
                   </td>  
                   <td> [[ proj.Title]] </td>  
                   <td>
@@ -123,7 +127,9 @@ console.log('projecDict', OBJ);
 
 startVue(OBJ)
 
-function startVue(OBJ, colorFloat){ new Vue({   
+function startVue(OBJ){ 
+  
+  let vue = new Vue({   
 
     el: '#vue-app',
     delimiters: ['[[', ']]'],
@@ -131,34 +137,39 @@ function startVue(OBJ, colorFloat){ new Vue({
         console.log('projecDict', OBJ);
     },
     data: {
-        projectOBJ: OBJ, 
+        projectOBJ: OBJ,
+        check: {
+          qna : 1, 
+          snl : 1
+        } 
         
     }, 
     methods: {   
-        setButtons: function(QorS, total) { 
-          if (total == null) { 
-            return 1
+        buttonStyle: function(total, mode, style) { 
+          if (style == 'edit') { 
+            if (total >= 12){
+              return { background: 'mediumseagreen', padding:'3px'}
+            }
+            else{
+              return { background: 'goldenrod', padding:'3px'}
+            }
           } 
-          
-          if (QorS == 'q'){
-            var max = 12            
-          } else {
-            var max = 12
-          }
-
-          if (total >= max) {
-            return 3
-          } else {
-            return 2
-          }          
+          else if (style == 'check'){
+            if (this.check[mode] == 1){
+              return { background: 'blue', padding:'3px'}
+            }
+            else{
+              return { background: 'goldenrod', padding:'3px'}
+            }
+          }                 
           
         },     
-        goTo: function(key, number, state) {          
-          console.log(state);
-          if (state == 'Q') {
+        goTo: function(unit, team, mode) {          
+          console.log(mode);
+          if (mode == 'Q') {
             var link = '/qna/'                      
           }           
-          else if (state == 'S') {
+          else if (mode == 'S') {
             var link = '/snl/'                      
           }           
           else { 
@@ -167,11 +178,19 @@ function startVue(OBJ, colorFloat){ new Vue({
 
           // go to HTTPS version
           var str = window.location.href
-
-          let url = (str).split('_list')[0] + link + key + '/' + number
+          let url = (str).split('_list')[0] + link + unit + '/' + team
           console.log('goTO', url);
-            window.location = url
-            console.log('DONE');
+          window.location = url
+            
+        },
+        goToExam: function(unit, team, mode) {
+
+          // go to HTTPS version
+          var str = window.location.href
+          let url = (str).split('_list')[0] + '_exam/' + mode + '/' + unit + '/' + team
+          console.log('goTO', url);
+          window.location = url
+            
         }
                   
     }         

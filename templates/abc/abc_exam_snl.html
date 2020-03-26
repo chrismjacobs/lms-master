@@ -28,8 +28,8 @@
             <tr>
               <td>
                 [[ key ]] <br>
-                <span v-if="tries > 0"> [[  answerSet['word']  ]] </span>
-                <span v-if="tries > 1"> [[  answerSet['sentence']  ]] </span>
+                <span v-if="grade < 5"> [[  answerSet['word']  ]] </span>
+                <span v-if="grade < 4"> [[  answerSet['sentence']  ]] </span>
               </td>
               <td> 
                   <img class="rounded img-fluid" alt="No file yet" style="width: 250px"  :src="answerSet.imageLink">      
@@ -39,8 +39,8 @@
                 
               </td>  
               <td>
-                <select style="height:50px;width:50px;color:white;background:royalblue" :id="orderOBJ[key][0]" name="cars">  
-                  <option :value="orderOBJ[key][0]">--</option>
+                <select style="height:50px;width:50px;color:white;background:royalblue" :id="orderOBJ[key][0]" name="listening">  
+                  <option value="0">--</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
@@ -112,7 +112,7 @@ function startVue(){
         qnaOBJ: qnaOBJ,        
         snlOBJ: snlOBJ,
         orderOBJ: orderOBJ,        
-        errorCount : 0,   
+        errorCount : 0,           
         grade : 5    
     }, 
     methods: {              
