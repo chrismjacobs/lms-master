@@ -142,7 +142,7 @@ window.globalFunc = function (action){
                   stage = 3 
 
                   globlob = audioElement.src
-                                                                
+
                     fetch(audioElement.src)
                     .then( response => response.blob() )
                     .then( blob =>{                        
@@ -150,9 +150,14 @@ window.globalFunc = function (action){
                         reader.readAsDataURL(blob);	
                         reader.onload = function(){ 
                             var base64data = this.result.split(',')[1]  // <-- this.result contains a base64 data URI 
-                            b64d = base64data                                              
-                        }; //end reader.onload                    
-                    })//end fetch 
+                            b64d = base64data                                             
+                        }; //end reader.onload 
+                                         
+                    })//end fetch then
+                    .catch((error) => {                      
+                      console.log(error);
+                      recErrorWin(error);
+                    })
                   return stage
                                
           };// stopRecord          
@@ -316,15 +321,15 @@ function startVue(ansOBJ, device){
                
             if (this.device == 'A') {  
               console.log('stopped');
-              vue.mediaRecorder.stop(); 
               vue.audio[task] = 3
+              vue.mediaRecorder.stop();               
               console.log('status:' + vue.mediaRecorder.state);
             }
             else if (this.device == 'I'){
               // global function for iphone recording
-              window.globalFunc('stop')
-              vue.blobURL = globlob
               vue.audio[task] = 3
+              window.globalFunc('stop')
+              vue.blobURL = globlob              
               console.log('status: mp3 rec stopped');          
             } 
           
