@@ -180,12 +180,14 @@ let vue = new Vue({
     }, 
     methods: {   
         attOBJ: function(schema) {
+          schemaOBJ = { 3:3, 2:2, 5:5 }
 
-          if (schema in [4]){
+
+          if (schema == 4){
             var time1 = '_8_1'
             var time2 = '_9_1'
           }
-          if (schema in [3, 2, 5]){
+          if (schema in schemaOBJ){
             var time1 = '_6_1'
             var time2 = '_7_1'
           }
@@ -195,6 +197,7 @@ let vue = new Vue({
           }
           
           console.log('start', schema);
+          console.log(vue.attendOBJ);
           
           for (var student in vue.attendOBJ){            
             if (vue.attendOBJ[student]['att'] == 'Absent'){              
