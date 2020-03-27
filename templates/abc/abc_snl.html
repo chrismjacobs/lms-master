@@ -52,7 +52,10 @@
 <h6  v-if="item.sentence"> [[ item.sentence ]] </h6>
 <img v-if="item.imageLink" class="rounded img-fluid" alt="No file yet" style="width: 150px"  :src="item.imageLink">      
 <br>
-<audio v-if="item.audioLink" controls style="width: 150px" :src="item.audioLink"></audio>  
+<br>
+<div>
+<audio v-if="item.audioLink" controls :src="item.audioLink"></audio>  
+<div>
 
 <br>
         <div v-if="marker[key] == 3"> 

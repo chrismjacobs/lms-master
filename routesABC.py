@@ -74,7 +74,9 @@ def project_teams(unit, number):
     print(teamsDict)
 
     manualTeams = {
-        20: ['Chris', 'Test', 'Victor', 'Winnie'],        
+        11: ['Penny Lai', 'Ching', 'Jim', 'Kevin'],        
+        12: ['Amanda', 'Fiona', 'Winnie', 'Elsa'],        
+        13: ['Ginny', 'Andy chang', 'Ann', 'Raye'],        
     }
 
     '''control which teams are added'''
@@ -163,9 +165,7 @@ def get_tests(unit, team):
     user = midtermGrades()
 
     qna = json.loads(user.j1)
-    snl = json.loads(user.j2)
-
-    
+    snl = json.loads(user.j2)    
 
     qnaCount = 0
     for test in qna:
@@ -178,10 +178,6 @@ def get_tests(unit, team):
             snlCount = 1
 
     return { 'snlCount' : snlCount, 'qnaCount' : qnaCount }
-    
-
-    
-
     
 
 
