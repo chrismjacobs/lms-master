@@ -159,30 +159,64 @@ def get_projects():
     return projectDict  
 
 
+def get_tests(unit, team):
+    user = midtermGrades()
+
+    qna = json.loads(user.j1)
+    snl = json.loads(user.j2)
+
+    
+
+    qnaCount = 0
+    for test in qna:
+        print ('CHECK', qna[test]['unit'], unit ,  qna[test]['team'], team)        
+        if qna[test]['unit'] == str(unit) and qna[test]['team'] == str(team):
+            qnaCount = 1
+    snlCount = 0        
+    for test in snl:
+        if snl[test]['unit'] == str(unit) and snl[test]['team'] == str(team):
+            snlCount = 1
+
+    return { 'snlCount' : snlCount, 'qnaCount' : qnaCount }
+    
+
+    
+
+    
+
+
 @app.route ("/abc_list", methods=['GET','POST'])
 @login_required
 def abc_list():        
     srcDict = get_projects()       
     pprint(srcDict)
-    abcDict = { }
+    abcDict = {}
     for src in srcDict:
         # check sources against open units in model
+        # src == unit
+
+
         if Units.query.filter_by(unit=src).count() == 1:
             abcDict[src] = {                
                 'Title' : srcDict[src]['Title'],
                 'Team'  : 'Not set up yet',
                 'Number' : 0,
                 'QTotal' : 0,
-                'STotal' : 0
+                'STotal' : 0,
+                'QTest' : 0,
+                'STest' : 0,
             }
 
             projects = unitDict[src].query.all()
-            for proj in projects:                
+            for proj in projects:                 
+                tests = get_tests(src, proj.teamnumber )
                 if current_user.username in ast.literal_eval(proj.username):                    
                     abcDict[src]['Team'] = proj.username
                     abcDict[src]['Number'] = proj.teamnumber
                     abcDict[src]['QTotal'] = proj.Ans03
                     abcDict[src]['STotal'] = proj.Ans04  
+                    abcDict[src]['QTest'] = tests['qnaCount']
+                    abcDict[src]['STest'] = tests['snlCount']
                     #pass    
         
     pprint (abcDict)        
@@ -438,6 +472,7 @@ def abc_dash():
     abcDict = { }
     for src in srcDict:
         # check sources against open units in model
+        # src = unit
         if Units.query.filter_by(unit=src).count() == 1:
             abcDict[src] = {                
                 'Title' : srcDict[src]['Title'],                
@@ -528,6 +563,18 @@ def abc_exam(qORs, unit, team):
     return render_template(html, legend='ABC Exam', title=unit, meta=meta, orderDict=json.dumps(orderDict), qnaString=qnaString, snlString=snlString)
 # exam format
 
+def midtermGrades():
+    try: 
+        checkUser = Exams.query.filter_by(username=current_user.username).first().username 
+    except: 
+        user = Exams(username=current_user.username, j1='{}', j2='{}', j3='{}', j4='{}')
+        db.session.add(user) 
+        db.session.commit()
+    
+    user = Exams.query.filter_by(username=current_user.username).first()
+    
+
+    return user
 
 
 @app.route('/updateGrades', methods=['POST'])
@@ -537,14 +584,7 @@ def updateGrades():
     team = request.form ['team']
     grade = request.form ['grade'] 
 
-    try: 
-        checkUser = Exams.query.filter_by(username=current_user.username).first().username 
-    except: 
-        user = Exams(username=current_user.username, j1='{}', j2='{}', j3='{}', j4='{}')
-        db.session.add(user) 
-        db.session.commit()
-    
-    user = Exams.query.filter_by(username=current_user.username).first()
+    user = midtermGrades()   
     
     if qORs == 'qna': 
         examDict = json.loads(user.j1) 

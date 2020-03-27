@@ -52,16 +52,20 @@
                       <span v-if="proj.Number == 0"> </span>  &nbsp;
                       <span v-else @click="goTo(unit, proj.Number, 'Q')" class="unit-span" :style="buttonStyle(proj.QTotal, 'snl', 'edit')"> &nbsp;[[proj.QTotal]]/12&nbsp; </span> 
                        <br>
-                       <br> 
-                      <span v-if="proj.QTotal >= 12" @click="goToExam(unit, proj.Number, 'qna')" class="unit-span" :style="buttonStyle(proj.QTotal, 'qna', 'check')"> check </span> 
+                       <br>
                        
+                      <span v-if="proj.QTotal >= 12" @click="goToExam(unit, proj.Number, 'qna')" class="unit-span" :style="buttonStyle(proj.QTest, 'qna', 'check')"> &nbsp;check&nbsp; </span> 
+                       <br> 
                   </td>  
                   <td>
                       <span v-if="proj.Number == 0"> </span>  &nbsp;
                       <span v-else @click="goTo(unit, proj.Number, 'S')" class="unit-span" :style="buttonStyle(proj.STotal, 'snl', 'edit')"> &nbsp;[[proj.STotal]]/12&nbsp; </span> 
-                       &nbsp; 
-                      <span v-if="proj.STotal >= 12" @click="goToExam(unit, proj.Number, 'snl')" class="unit-span" :style="buttonStyle(proj.QTotal, 'snl', 'check')"> check </span> 
-                       </td>      
+                       <br>
+                       <br>
+                        
+                      <span v-if="proj.STotal >= 12" @click="goToExam(unit, proj.Number, 'snl')" class="unit-span" :style="buttonStyle(proj.STest, 'snl', 'check')"> &nbsp;check&nbsp; </span> 
+                       </td> 
+                       <br>      
                 </tr>  
             </template> 
         </tbody>   
@@ -137,11 +141,7 @@ function startVue(OBJ){
         console.log('projecDict', OBJ);
     },
     data: {
-        projectOBJ: OBJ,
-        check: {
-          qna : 1, 
-          snl : 1
-        } 
+        projectOBJ: OBJ        
         
     }, 
     methods: {   
@@ -155,7 +155,7 @@ function startVue(OBJ){
             }
           } 
           else if (style == 'check'){
-            if (this.check[mode] == 1){
+            if (total == 1){
               return { background: 'blue', padding:'3px'}
             }
             else{
