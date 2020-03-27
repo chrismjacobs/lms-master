@@ -74,9 +74,8 @@ def project_teams(unit, number):
     print(teamsDict)
 
     manualTeams = {
-        11: ['Penny Lai', 'Ching', 'Jim', 'Kevin'],        
-        12: ['Amanda', 'Fiona', 'Winnie', 'Elsa'],        
-        13: ['Ginny', 'Andy chang', 'Ann', 'Raye'],        
+        15: ['Wayne', 'Jessica']       
+              
     }
 
     '''control which teams are added'''
@@ -169,7 +168,7 @@ def get_tests(unit, team):
 
     qnaCount = 0
     for test in qna:
-        print ('CHECK', qna[test]['unit'], unit ,  qna[test]['team'], team)        
+        #print ('CHECK', qna[test]['unit'], unit ,  qna[test]['team'], team)        
         if qna[test]['unit'] == str(unit) and qna[test]['team'] == str(team):
             qnaCount = 1
     snlCount = 0        

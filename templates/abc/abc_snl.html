@@ -54,7 +54,8 @@
 <br>
 <br>
 <div>
-<audio v-if="item.audioLink" controls :src="item.audioLink"></audio>  
+<button @click="playAudio(key, item.audioLink)"> Play </button>
+<audio v-if="item.audioLink" :id="key" controls :src="item.audioLink"></audio>  
 <div>
 
 <br>
@@ -112,7 +113,7 @@
 {% block script %}   
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
-<script type="text/javascript" src="{{url_for('static', filename= 'js/abc_snl.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static', filename= 'js/abc_snl0.js')}}"></script>
 
 {% endblock %} 
 
