@@ -386,29 +386,6 @@ def addWord():
 
     return jsonify({'word' : word, 'newDict' : ansString, 'qCount' : qCount })
 
-@app.route('/deleteWord', methods=['POST'])
-def deleteWord():
-    word = request.form ['word'] 
-    unit = request.form ['unit']  
-    team = request.form ['team'] 
-
-    project = unitDict[unit].query.filter_by(teamnumber=team).first()   
-    
-    ansDict = ast.literal_eval(project.Ans02)
-
-    try:
-        ansDict.pop(word)
-        ansString = json.dumps(ansDict)
-        project.Ans02 = ansString 
-        project.Ans04 = len(ansDict)
-        db.session.commit()
-    except:
-        pass        
-
-    qCount = len(ansDict)
-    print('qCount', qCount)
-    
-    return jsonify({'word' : word, 'newDict' : json.dumps(ansDict), 'qCount' : qCount })
 
 
 @app.route ("/abc/<string:qs>/<string:unit>/<int:team>", methods=['GET','POST'])
@@ -456,6 +433,8 @@ def abc_setup(qs, unit, team):
     testDict=str(json.dumps(testDict))
     )
 
+
+'''Instructor dashboard'''
 @app.route ("/abc_dash", methods=['GET','POST'])
 @login_required
 def abc_dash(): 
@@ -471,19 +450,16 @@ def abc_dash():
         if Units.query.filter_by(unit=src).count() == 1:
             abcDict[src] = {                
                 'Title' : srcDict[src]['Title'],                
-                'Unit' : src,
-                'QNA' : 0,
-                'SNL' : 0,
-                'Teams' : 0
+                'Unit' : src,                
+                'Teams' : {}
             }
 
             projects = unitDict[src].query.all()
             for proj in projects:
-                abcDict[src]['Teams'] += 1
-                if proj.Ans03 == '12':
-                    abcDict[src]['QNA'] += 1
-                if proj.Ans04 == '6':
-                    abcDict[src]['SNL'] += 1
+                abcDict[src]['Teams'][proj.teamnumber] = {'team' : proj.username, 
+                                                          'QNA' : proj.Ans03, 
+                                                          'SNL' : proj.Ans04
+                                                          }                
 
     pprint (abcDict)       
     
@@ -519,7 +495,7 @@ def abc_check(unit):
 
 
 
-# exam format
+'''Exam '''
 @app.route ("/abc_exam/<string:qORs>/<string:unit>/<string:team>", methods=['GET','POST'])
 @login_required
 def abc_exam(qORs, unit, team):
