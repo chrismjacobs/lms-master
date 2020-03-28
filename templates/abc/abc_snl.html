@@ -34,10 +34,6 @@
         </template>     
 </div>
 
-<div class="content-section" @click="showSrc()">
- <audio id="handler" controls autoplay src="https://proorgano.com/wp-content/uploads/2015/03/7167-13sample.mp3"></audio> 
-</div> 
-
 
 <div class="content-section">
 
@@ -56,7 +52,10 @@
 <br>
 <br>
 <div>
-<button class="btn btn-info" v-if="item.audioLink" :id="key" @click="playAudio(key)"> Listen </button> 
+<button class="btn btn-info" v-if="item.audioLink" :id="key" :value="item.audioLink" onclick="playSound(this.id, this.value)"> Listen </button> 
+<div>
+ <audio :id="key + key" controls autoplay ></audio> 
+</div> 
 <div>
 
 <br>
@@ -112,6 +111,14 @@
 {% endblock %}
 
 {% block script %}   
+
+<script type="text/javascript">
+function playSound(key, link) {
+  console.log(key, link);  
+  player = document.getElementById(key + key) 
+  player.src = link
+}  
+</script>
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 <script type="text/javascript" src="{{url_for('static', filename= 'js/abc_snl0.js')}}"></script>
