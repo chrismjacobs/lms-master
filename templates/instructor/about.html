@@ -20,9 +20,14 @@
   
   <small> * The system is still under developement and will be improved over time. Any suggestions about features or problems are very welcome. Thank you :)</small>
 
-  <span> <a href="https://gersonrosales.github.io/Record-Audios-and-Videos-with-getUserMedia/example_3.html"> Test Recorder </span> 
+  <span> <a href="https://gersonrosales.github.io/Record-Audios-and-Videos-with-getUserMedia/example_3.html"> Test Recorder</a> </span> 
   
 </div>
+
+<div class="content-section" >
+<button onclick="playAudio()"> Play </button>
+ <audio id="handler" controls autoplay src=""></audio> 
+</div> 
 
 <div class="content-section">
 <legend class="border-bottom mb-4">About this Course</legend>     
@@ -42,7 +47,8 @@
 
 {% endblock content %}
 
-{% block script %}  
+{% block script %}
+ 
 
 <script type="text/javascript">
 
@@ -56,8 +62,13 @@
     document.getElementById('website').innerHTML = url
   }
 
+function playAudio() {
+  player = document.getElementById('handler') 
+  player.src = 'https://proorgano.com/wp-content/uploads/2015/03/7167-13sample.mp3'
+}
 
+</script> 
 
-</script>  
+ 
 
 {% endblock %} 
