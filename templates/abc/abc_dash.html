@@ -19,7 +19,7 @@
             <tr>
               <th scope="col" >U</th>  
               <th scope="col" >Title</th>                                  
-              <th scope="col" >Teams</th>                       
+              <th scope="col" >Team</th>                       
               <th scope="col" >Q&A</th>                       
               <th scope="col" >S&L</th>                       
                                    
@@ -27,23 +27,31 @@
         </thead> 
         
         <tbody>
-        <template v-for="(proj, key) in projectOBJ" :key="key"   > 
-            
+        <template v-for="(proj, key) in projectOBJ" :key="key"> 
             <tr>
               <td>                
-              <span @click="goTo(key)" class="unit-span" style="background:silver;padding:3px"> [[ key ]] </span>              
-              
+              <span @click="goTo(key)" class="unit-span" style="background:silver;padding:3px"> 
+              [[ key ]] 
+              </span>  
               </td>  
-              <td> [[ proj.Title]] </td>  
-              <td> [[ proj.Teams]] </td>  
+              <td> 
+              [[ proj.Title]] 
+              </td>  
+            </tr>
+           <template v-for="(teams, number) in proj.Teams" >
+             <tr> 
+              <td></td>
+              <td> [[ number ]] </td> 
+              <td> [[ teams.team ]] </td>  
               <td>
-              <span  class="unit-span" style="background:mediumseagreen;padding:3px"> &nbsp;[[ proj.QNA ]] &nbsp; </span>               
+              <span  class="unit-span" style="background:mediumseagreen;padding:3px"> &nbsp;[[ teams.QNA ]] &nbsp; </span>               
               </td>  
               <td>               
-              <span  class="unit-span" style="background:mediumseagreen;padding:3px"> &nbsp;[[ proj.SNL ]]&nbsp; </span>                
-              </td>  
-                
+              <span  class="unit-span" style="background:mediumseagreen;padding:3px"> &nbsp;[[ teams.SNL ]]&nbsp; </span>                
+              </td> 
             </tr>  
+           </template>
+
         </template>     
             
         </tbody>   
