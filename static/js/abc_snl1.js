@@ -24,12 +24,13 @@ function startVue(){
 
     el: '#vue-app',
     delimiters: ['[[', ']]'],   
-    mounted: function () {
+    mounted: function () {        
+        
         setInterval(function(){
             vue.updateAnswers()
         }, 15000)
         setTimeout(function(){
-           vue.checkMarkers()
+           vue.checkMarkers()           
         }, 2000);        
 
     },    
@@ -75,6 +76,7 @@ function startVue(){
                 //but not the alter the mainOBJ in case the changes are not saved
                 let testString = JSON.stringify(this.ansOBJ[question])
                 this.testOBJ[question] = JSON.parse(testString) 
+
             }   
         },
         resetB64 : function() {             
@@ -97,7 +99,7 @@ function startVue(){
                 }                
             }
         },
-        checkMarkers : function() {
+        checkMarkers : function(arg) {
             for (var mark in vue.marker) {                
                 vue.marker[mark] = 2  
                 for (var item in vue.ansOBJ[mark]) {
@@ -106,7 +108,7 @@ function startVue(){
                         vue.marker[mark] = 1
                     }
                 }                               
-            }
+            }            
         },        
         qStyle : function(key) {            
             return this.buttonColor[this.marker[key]]  
@@ -138,20 +140,26 @@ function startVue(){
                 console.log('error has occurred');
             });
         },
-        storeData : function(key) {            
+        storeData : function(key) { 
+                     
             this.ansOBJ[key]['word'] = document.getElementById(key + 'w').value        
             this.ansOBJ[key]['user'] = document.getElementById(key +  'u').value          
             this.ansOBJ[key]['sentence'] = document.getElementById(key + 's').value 
-            //console.log(this.ansOBJ);
+                    
             
-            console.log(this.ansOBJ.values);
+            
             //reset the testOBJ
             this.testOBJ = testOBJ            
             
+            vue.storeData()
             var total = 0
-            for (var mark in this.marker){
+            for (var mark in this.marker){                             
                 total += this.marker[mark]
             }
+            if (total > 12){
+                // because if edit is open the mark will 3 instead of two 
+                total = 12
+            }   
             console.log(total);
 
             $.ajax({
@@ -290,10 +298,16 @@ function startVue(){
             }//end else   
             
           },//end audioValidation 
-        playAudio : function(item){
+        playAudio : function(key){
             player = document.getElementById('handler')        
-            player.src = item
-          },//end audioValidation 
+            button = document.getElementById(key)        
+            player.src = ansOBJ[key]['audioLink']
+            button.innerHTML = 'Playing'
+          },
+        showSrc : function(key){
+            player = document.getElementById('handler')        
+            alert(player.src)
+          },
                     
     }, // end methods        
     
