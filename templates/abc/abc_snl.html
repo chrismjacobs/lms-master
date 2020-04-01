@@ -51,10 +51,11 @@
 <img v-if="item.imageLink" class="rounded img-fluid" alt="No file yet" style="width: 150px"  :src="item.imageLink">      
 <br>
 <br>
-<div>
-<button class="btn btn-info" v-if="item.audioLink" :id="key" :value="item.audioLink" onclick="playSound(this.id, this.value)"> Listen </button> 
-<div>
- <audio :id="key + key" controls autoplay ></audio> 
+
+<audio controls>
+        <source :src="item.audioLink" type="audio/mpeg" >
+        <source :src="item.audioLink" type="audio/x-m4a" >
+</audio>
 </div> 
 <div>
 
@@ -110,15 +111,8 @@
 
 {% endblock %}
 
-{% block script %}   
+{% block script %}  
 
-<script type="text/javascript">
-function playSound(key, link) {
-  console.log(key, link);  
-  player = document.getElementById(key + key) 
-  player.src = link
-}  
-</script>
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 <script type="text/javascript" src="{{url_for('static', filename= 'js/abc_snl0.js')}}"></script>
