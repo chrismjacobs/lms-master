@@ -107,7 +107,8 @@ class Exams(db.Model):
     j8 = db.Column(db.String)
 
 class Errors(db.Model):
-    id = db.Column(db.Integer, primary_key=True)     
+    id = db.Column(db.Integer, primary_key=True)  
+    #date_added = db.Column(db.DateTime, default=datetime.now)   
     username = db.Column(db.String)
     err = db.Column(db.String)
     device = db.Column(db.String)
