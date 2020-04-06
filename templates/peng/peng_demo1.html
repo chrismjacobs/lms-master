@@ -158,7 +158,8 @@ function startVue(ansOBJ){
         imageValidation : function() {                     
         var fileInput = document.getElementById('image');  
         var allowedExtensions = /(\.jpeg|\.png|\.jpg)$/i;
-    
+        var filePath = fileInput.value;
+        
           if(fileInput.files[0].size > 4400000){
               alert("File is too big!"); 
               fileInput.value = '';             
