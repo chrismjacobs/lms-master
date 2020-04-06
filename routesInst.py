@@ -366,7 +366,7 @@ def inchat(user_name):
     email = User.query.filter_by(username=user_name).first().email    
     print (email)
     dialogues = ChatBox.query.filter_by(username=user_name).all()
-    websites = ['blank', 'READING', 'WORKPLACE', 'ICC']
+    websites = ['blank', 'READING', 'WORKPLACE', 'ABC', 'PENG', 'FOOD']
     website = 'https://' + websites[int(SCHEMA)] + '-lms.herokuapp.com'
     messText = 'New message for ' + websites[int(SCHEMA)] + ' English class'
     if form.validate_on_submit():
