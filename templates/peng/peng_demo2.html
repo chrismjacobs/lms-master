@@ -137,10 +137,10 @@ function startVue(ansOBJ){
         updateReady : true,       
         project: (window.location.href).split('/peng/')[1].split('/')[0], 
         script: {            
-            Product : "What is this product", 
-            Features : "First, I would like to talk about some product features", 
+            Product : "What is this product?", 
+            Features : "First, let me explain some product features", 
             Demo : "Now, for the demonstration", 
-            Extra : "Finally, what are some extra benefits of this product?", 
+            Extra : "Finally, what are some extra benefits?", 
         }  
 
     }, 
@@ -180,6 +180,7 @@ function startVue(ansOBJ){
                 proj : this.project,
                 stage: this.stage,
                 image_b64 : null,
+                audio_b64 : null,
                 ansOBJ : JSON.stringify(this.ansOBJ)  
               },
               type : 'POST',
@@ -190,14 +191,9 @@ function startVue(ansOBJ){
                     alert('Your FORM is NOT complete yet')
                 }
                 else{
-                    vue.ansOBJ = JSON.parse(data.ansString)
-                    vue.image_b64 = null
-                    console.log(vue.ansOBJ)
-                    document.getElementById('final_image').src = vue.ansOBJ['Image']
+                    vue.ansOBJ = JSON.parse(data.ansString)                    
                     alert('Your FORM has been updated')   
-                }  
-                
-                               
+                }          
             })
             .fail(function(){
                 alert('error has occurred');

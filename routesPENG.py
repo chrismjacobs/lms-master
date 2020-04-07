@@ -118,6 +118,7 @@ def peng_list():
 @app.route ("/peng_dash/<string:MTFN>", methods=['GET','POST'])
 @login_required
 def peng_dash(MTFN):
+    source = get_peng_projects() 
 
     projDict = {}
 
@@ -130,7 +131,7 @@ def peng_dash(MTFN):
     
     ansString = json.dumps(projDict)
 
-    return render_template('peng/peng_dash.html', title='Midterm', ansString=ansString)
+    return render_template('peng/peng_dash.html', title='Midterm', ansString=ansString, source=source)
 
 
 
@@ -148,9 +149,8 @@ def peng_proj(MTFN, page_stage):
     grade = project.Grade
     stage = project.Comment
     
-
-    return render_template('peng/peng_demo' + page_stage + '.html', legend='Presentation Project', 
-    source=source, ansString=ansDict )
+    print(page_stage)
+    return render_template('peng/peng_demo' + page_stage + '.html', legend='Presentation Project', source=source, ansString=ansDict )
 
 
 def get_all_values(nested_dictionary):
@@ -173,20 +173,33 @@ def updatePENG():
     ansOBJ = request.form ['ansOBJ']
     stage = request.form ['stage']
     image_b64 = request.form ['image_b64']
+    audio_b64 = request.form ['audio_b64']
+    
+    try: 
+        user = request.form ['user']
+    except: 
+        user = current_user.username
 
-    print (proj, stage)
+    print (proj, stage, user)    
 
     ansDict = json.loads(ansOBJ)   
 
     if image_b64:
-        print('PROCESSING IMAGE')            
+        print('PROCESSING IMAGE') 
         image = base64.b64decode(image_b64)    
-        filename = proj + '/' + current_user.username + '.png'
+        filename = proj + '/' + user + '.png'
         imageLink = S3_LOCATION + filename
         s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=image)
         ansDict['Image'] = imageLink
-
-    project_answers = U011U.query.filter_by(username=current_user.username).first() 
+    if audio_b64:
+        print('PROCESSING AUDIO')            
+        audio = base64.b64decode(audio_b64)    
+        filename = proj + '/' + user + '.mp3'
+        audioLink = S3_LOCATION + filename
+        s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=audio)
+        ansDict['Audio'] = audioLink
+    
+    project_answers = U011U.query.filter_by(username=user).first() 
     ansOBJ = json.dumps(ansDict)
     project_answers.Ans01 = str(ansOBJ)
     db.session.commit()  
@@ -201,14 +214,12 @@ def updatePENG():
             ansDict['Why']
             ]            
         
-        if project_answers.Ans02 == '3' or int(project_answers.Comment) > 1 :
+        if int(project_answers.Comment) > 1 :
             pass 
-        elif None in stage1_checklist:
-            project_answers.Ans02 = 0      ## stage one grade
+        elif None in stage1_checklist:            
             project_answers.Comment = 1  ## stage
             db.session.commit()   
-        else:
-            project_answers.Ans02 = 3  ## stage one grade
+        else:            
             project_answers.Comment = 2  ## stage
             db.session.commit()       
     
@@ -218,11 +229,17 @@ def updatePENG():
         else:             
             print ('clear', get_all_values(ansDict))        
         
-        if project_answers.Ans03 == '3' or int(project_answers.Comment) > 2 :
+        if int(project_answers.Comment) > 2 :
             pass         
-        else:
-            project_answers.Ans03 = 3  ## stage one grade
+        else:           
             project_answers.Comment = 3  ## stage
+            db.session.commit()   
+
+    if int(stage) > 3:  
+        if int(project_answers.Comment) > int(stage):
+            pass
+        else:            
+            project_answers.Comment = stage  ## stage
             db.session.commit()       
 
     return jsonify({'ansString' : str(ansOBJ), 'stage' : project_answers.Comment})

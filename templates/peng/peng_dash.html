@@ -27,20 +27,21 @@
         
     <div v-if="ansOBJ['stage'] > 1">
         <span :style="style('Intro')"> Presenter: [[ ansOBJ['Presenter'] ]] </span>
-        <br>
-        <br>
+       
         <span :style="style('Intro')"> Product Name: [[ ansOBJ['Product'] ]] </span>
-        <br>
-        <br>
+        
         <span :style="style('Intro')"> Product Brand: [[ ansOBJ['Brand'] ]] </span>
 
         <br>
-            <img class="rounded img-fluid" id="final_image" alt="need to update" style="max-width:80%"  :src="ansOBJ['Image']">
+            <img class="rounded img-fluid" id="final_image" alt="need to update" style="max-width:50%;max-height:200px"  :src="ansOBJ['Image']">
         <br>
     </div>
+    <br>
+    <br>
 
-    <div v-if="ansOBJ['stage'] > 2">
-        <h4>  Intro  </h4>
+        <h4>   <span :style="style('Check')"  v-if="ansOBJ['stage'] > 2" @click="viewWork = ansOBJ['Presenter']"> Intro </span>  </h4>
+    <div v-if="viewWork == ansOBJ['Presenter']">
+        
         <template v-for="(item, key) in ansOBJ['Intro']"> 
         <h4 >  Point [[ key ]]  </h4>
 
@@ -67,16 +68,18 @@
         </template>  
 
         <div>				
-            <button  class="btn btn-dark" style="margin-right:5px" @click="updatePlan(student)">Update Plan</button>
+            <button  class="btn btn-dark" style="margin-right:5px" @click="updatePlan(student, 3)">Update Plan</button>
+            <button  class="btn btn-success" style="margin-right:5px" @click="updatePlan(student, 4)">Update Plan</button>
         </div> 
         <br>
 
 
         </div> 
     </div> 
-
+<br>
+<br>  
 </template>  
-      
+   
 </div>
 
 
@@ -106,7 +109,8 @@ function startVue(){
     mounted: function () {        
     },    
     data: {                        
-        fullOBJ: fullOBJ,  
+        fullOBJ: fullOBJ,
+        viewWork: null,  
          
         script: {            
             Product : "What is this product", 
@@ -140,26 +144,35 @@ function startVue(){
             else if (mark.includes('Int')){
                 var bg = 'DARKCYAN'
             }           
+            else if (mark.includes('Che')){
+                var bg = 'TOMATO'
+            }           
 
-            return {padding:'4px', 'font-size':'15px', background:bg, color:'white', border:'1px sold white', 'border-radius':'5px', width:'20%'}
+            return {padding:'4px', 'font-size':'25px', background:bg, color:'white', border:'1px sold white', 'border-radius':'5px', width:'20%', height:'30px'}
 
         },
-        updatePlan : function(student) {  
+        updatePlan : function(student, key) {  
             alert('Please wait, your plan is being updated')           
 
             $.ajax({
               data : {                               
-                reviseOBJ : JSON.stringify(this.fullOBJ[student])  
+                ansOBJ : JSON.stringify(this.fullOBJ[student]), 
+                image_b64 : null,
+                audio_b64 : null,
+                proj : 'MT', 
+                stage : key, 
+                user : student               
+                  
               },
               type : 'POST',
-              url : '/revisePENG',               
+              url : '/updatePENG',               
             })
             .done(function(data) {
                 if (data.fail){
                     alert('Your FORM is NOT complete yet')
                 }
                 else{
-                    
+                    alert('Your FORM has been updated: stage', data.stage)
                 }                  
                                
             })

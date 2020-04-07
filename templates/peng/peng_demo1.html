@@ -93,7 +93,7 @@ function startVue(ansOBJ){
         ansOBJ: ansOBJ,       
         stage : stage,
         updateReady : true,       
-        image_b64 : null,
+        image_b64 : null,        
         project: (window.location.href).split('/peng/')[1].split('/')[0],   
     }, 
     methods: {  
@@ -132,6 +132,7 @@ function startVue(ansOBJ){
                 proj : this.project,
                 stage: this.stage,
                 image_b64 : this.image_b64,
+                audio_b64 : null,
                 ansOBJ : JSON.stringify(this.ansOBJ)  
               },
               type : 'POST',
@@ -156,9 +157,9 @@ function startVue(ansOBJ){
             });
         }, 
         imageValidation : function() {                     
-        var fileInput = document.getElementById('image');  
-        var allowedExtensions = /(\.jpeg|\.png|\.jpg)$/i;
-        var filePath = fileInput.value;
+            var fileInput = document.getElementById('image');  
+            var allowedExtensions = /(\.jpeg|\.png|\.jpg)$/i;
+            var filePath = fileInput.value;
         
           if(fileInput.files[0].size > 4400000){
               alert("File is too big!"); 
