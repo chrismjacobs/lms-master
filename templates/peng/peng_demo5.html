@@ -19,9 +19,9 @@
 <div id="vue-app">
 
 <div class="content-section">   
-        <audio id="audioPlayer" :src="ansOBJ['Audio']" controls>
-                <source  type="audio/mpeg" >
-                <source  type="audio/x-m4a" >
+        <audio id="audioPlayer" controls>
+                <source  :src="ansOBJ['Audio']" type="audio/mpeg" >
+                <source  :src="ansOBJ['Audio']" type="audio/x-m4a" >
         </audio>
         
 <br>
