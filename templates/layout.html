@@ -35,10 +35,13 @@
                           <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('admin') }}", target="_blank">Admin</a> 
                           {% if SCHEMA < 3 %}
                           <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('dashboard')}}", target="_blank">Dashboard</a> 
+                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('grades')}}", target="_blank">Grades</a> 
                           {% elif SCHEMA == 3 %}
                           <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('abc_dash')}}", target="_blank">Dashboard</a> 
                           {% elif SCHEMA == 4 %}
                           <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('peng_dash', MTFN='MT')}}", target="_blank">Dashboard</a> 
+                          {% elif SCHEMA == 5 %}
+                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('food_MT')}}", target="_blank">Dashboard</a> 
                           {% endif %}                                 
                         </div>                                                                       
                         {% endif %} 
@@ -57,6 +60,10 @@
                                   <a class="nav-item nav-link" href="{{ url_for ('unit_list') }}">My Units</a>
                                   <a class="nav-item nav-link" href="{{ url_for ('assignment_list') }}">My Assignments</a>
                                   <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('exam_list') }}">My Exams</a>
+                                  {% if current_user.extra == '3' %}
+                                    <a class="nav-item nav-link" style="color:white;background:purple" href="{{ url_for ('exam_test') }}">My Exams</a>
+                                  {% endif %}
+
                                 {% elif SCHEMA == 3 %} 
                                   <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('abc_list') }}">My Projects</a> 
                                 {% elif SCHEMA == 4 %}
