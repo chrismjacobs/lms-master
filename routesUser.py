@@ -288,18 +288,12 @@ def updateExam():
 @app.route ("/exam_list", methods=['GET','POST'])
 @login_required
 def exam_list(): 
-
-    ''' deal with grades ''' 
-    if SCHEMA < 3:
-        grades = get_grades(True, True)
-    else:
-        grades = {'unitGrade': None, 'assGrade': None,'maxA':None, 'maxU':None  }    
     
     ''' set exam practice '''
     try: 
         user = Exams.query.filter_by(username=current_user.username).first()
-        reviewData = user.j1
-        examData = user.j2
+        reviewData = json.loads(user.j1)
+        examData = json.loads(user.j2) 
         print('exam_list_data_checked')
     except:
         reviewDict = {        
@@ -313,21 +307,47 @@ def exam_list():
         db.session.commit()
 
         user = Exams.query.filter_by(username=current_user.username).first()   
-        reviewData = user.j1
-        examData = user.j2    
+        reviewData = json.loads(user.j1)
+        examData = json.loads(user.j2)   
     
+    examDict = {
+        'total' : 0, 
+        'units' : 0, 
+        'asses' : 0, 
+        'tries12' : len(reviewData['1-2']), 
+        'tries34' : len(reviewData['3-4']), 
+        'ex12' : 0, 
+        'ex34' : 0, 
+    }
 
-    context = {    
-    'unitGrade' : grades['unitGrade'], 
-    'assGrade' :  grades['assGrade'], 
-    'maxA' : grades['maxA'],
-    'maxU' : grades['maxU'], 
+    grades = get_grades(True, True)
+
+    if grades['unitGrade'] > 0:         
+        u = grades['unitGrade'] * 30 / grades['maxU']
+        examDict['units'] = round(u, 1)
+    if grades['assGrade'] > 0:
+        a = grades['assGrade'] * 30 / grades['maxA']
+        examDict['asses'] = round(a, 1)
+    
+    examDict['total'] = examDict['units'] + examDict['asses'] + examDict['ex12'] + examDict['ex34']
+     
+    setDict = {
+        '12' : 0, 
+        '34' : 0,
+        'ex' : current_user.extra
+    }
+
+    if Units.query.filter_by(unit='02').first():
+        setDict['12'] = Units.query.filter_by(unit='02').first().uA
+    if Units.query.filter_by(unit='04').first():
+        setDict['34'] = Units.query.filter_by(unit='04').first().uA
+        
+    context = {  
     'title' : 'Exams', 
     'theme' : DESIGN['titleColor'], 
-    'reviewData' : reviewData, 
-    'examData' : examData   
-    } 
-    
+    'examString' : json.dumps(examDict), 
+    'setString' : json.dumps(setDict)   
+    }    
 
     return render_template('units/exam_list.html', **context )
 

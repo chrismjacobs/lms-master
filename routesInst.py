@@ -52,13 +52,20 @@ def att_log():
     
     ## create a list of all course dates    
     course_dates = get_schedule()
-    #print(course_dates)
+    print(course_dates)
     dateList = []
     for c in course_dates:
         print(c)
-        print(course_dates[c]['Date'])
-        date_string = course_dates[c]['Date']        
-        dateList.append(date_string)    
+        ### special set up for the Food calendar
+        if SCHEMA == 5: 
+            date_string1 = course_dates[c]['Wed']        
+            dateList.append(date_string1) 
+            date_string2 = course_dates[c]['Thurs']        
+            dateList.append(date_string2) 
+        else: 
+            print(course_dates[c]['Date'])
+            date_string = course_dates[c]['Date']        
+            dateList.append(date_string)    
     
     print('dateList:', dateList)  
 
