@@ -1,7 +1,4 @@
 var name = document.getElementById('name').innerHTML
-if (name == 'Disa'){
-  alert('Hi Disa, this is a test' )
-}
 
 var ansString = document.getElementById('ansString').innerHTML
 console.log(ansString);
@@ -14,10 +11,6 @@ var device = null
 var notice = null
 
 
-
-if (name == 'Disa'){
-  alert('Hi Disa, this is a test:  ' + report )
-}
 
 if (report.includes('Windows')){
   device = 'A'
@@ -54,8 +47,8 @@ else {
 console.log('DEVICE', device);
 
 
-if (name == 'Disa'){
-  alert('Hi Disa, this is a test:  ' + device +'__'+ notice )
+if (name == 'Test'){
+  alert('Hi Test, this is a test:  ' + device +'__'+ notice )
 }
 
 //iphone recording

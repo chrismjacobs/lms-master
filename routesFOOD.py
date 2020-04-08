@@ -55,10 +55,12 @@ def updateFood():
     ansOBJ = request.form ['ansOBJ']
 
     ansDict = json.loads(ansOBJ)
-
+    print(proj, ansDict)
     try: 
         grade = request.form ['grade']
-    except:    
+        name = request.form ['name']
+    except:   
+        name = current_user.username 
         if get_all_values(ansDict) == 0:        
             grade = 4
         else:
@@ -67,11 +69,11 @@ def updateFood():
 
     print('GRADE', grade)     
 
-    project_answers = U011U.query.filter_by(username=current_user.username).first() 
+    project_answers = U011U.query.filter_by(username=name).first() 
     if proj == 'ND':
-        project_answers.Ans01 = ansOBJ 
+        project_answers.Ans01 = json.dumps(ansDict)
     if proj == 'CV':
-        project_answers.Ans02 = ansOBJ 
+        project_answers.Ans02 = json.dumps(ansDict)
        
     project_answers.Grade = grade 
     db.session.commit()   
