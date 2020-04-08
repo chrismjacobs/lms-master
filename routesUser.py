@@ -114,7 +114,7 @@ def get_grades(ass, unt):
         'maxU' : maxU, 
         'maxA' : maxA
     }
-
+ 
 
 @app.route('/chatCheck', methods=['POST'])
 @login_required
@@ -333,6 +333,94 @@ def exam_list():
 
 
 
+@app.route ("/grades", methods=['GET','POST'])
+@login_required
+def grades():
+
+    gradesDict = {}
+
+    users = User.query.all()    
+
+    for user in users:
+        gradesDict[user.username] = {
+            'Name' : user.username, 
+            'ID' : user.studentID, 
+            'Total' : 0,
+            'units' : 0, 
+            'uP' : 0, 
+            'asses' : 0,             
+            'aP' : 0, 
+            'tries1' : 0,
+            'tries2' : 0,
+            'exam1' : 0, 
+            'e1P' : 0,
+            'exam2' : 0,           
+            'e2P' : 0,
+        }
+
+    ### set max grades
+    total_units = 0
+    maxU = 0 
+    maxA = 0 
+    units = Units.query.all()
+    for unit in units:
+        total = unit.u1 + unit.u2 + unit.u3 + unit.u4
+        maxU += total*2
+        maxA += unit.uA*2
+        total_units += 1
+         
+    model_check = total_units*4 ## 4 units for each unit    
+
+    for model in Info.unit_mods_list[0:model_check]:
+        rows = model.query.all()
+        unit = str(model).split('U')[1]        
+        for row in rows:                       
+            names = ast.literal_eval(row.username)            
+            for name in names:
+                gradesDict[name]['units'] += row.Grade          
+    
+    model_check = total_units
+    
+    for model in Info.ass_mods_list[0:model_check]:        
+        unit = str(model).split('A')[1]
+        rows = model.query.all()
+        for row in rows:
+            gradesDict[row.username]['asses'] += row.Grade
+            
+     
+    practices = Exams.query.all()
+    for practice in practices:
+        reviewData = ast.literal_eval(practice.j1)
+        gradesDict[practice.username]['tries1'] = len(reviewData['1-2'])
+        gradesDict[practice.username]['tries2'] = len(reviewData['3-4'])
+        examData = practice.j2
+
+        print('exam_list_data_checked')
+    
+
+    maxE1 = 20
+    maxE2 = 20 
+
+    for entry in gradesDict:
+        try: 
+            percent = gradesDict[entry]['units']*30/maxU
+            gradesDict[entry]['uP'] = round(percent, 1)
+        except: 
+            pass
+
+    for entry in gradesDict:
+        try: 
+            percent = gradesDict[entry]['asses']*30/maxA
+            gradesDict[entry]['aP'] = round(percent, 1)
+        except: 
+            pass
+
+
+    return render_template('instructor/grades.html', ansString=json.dumps(gradesDict))
+
+
+
+
 
 
 
@@ -365,6 +453,10 @@ def assignment_list():
 
     return render_template('units/assignment_list.html', legend='Assignments Dashboard', 
     Dict=json.dumps(assDict), Grade=assGrade, max=maxA, title='Assignments', theme=theme)
+
+
+
+
 
 
 
