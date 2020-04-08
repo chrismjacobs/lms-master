@@ -262,6 +262,7 @@ def food_MT():
     mtDict = {}
     for user in users:
         mtDict[user.username] = {
+            'ID' : user.studentID,
             'Dish' : None,
             'Proj' : None,
             'Grade' : 0,
