@@ -197,7 +197,7 @@ def updatePENG():
         filename = proj + '/' + user + '.mp3'
         audioLink = S3_LOCATION + filename
         s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=audio)
-        ansDict['Audio'] = audioLink
+        ansDict['Audio'+ stage] = audioLink
     
     project_answers = U011U.query.filter_by(username=user).first() 
     ansOBJ = json.dumps(ansDict)

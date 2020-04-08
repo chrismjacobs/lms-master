@@ -26,12 +26,22 @@
 <template v-for="(ansOBJ, student) in fullOBJ">
         
     <div v-if="ansOBJ['stage'] > 1">
-        <span :style="style('Intro')"> Presenter: [[ ansOBJ['Presenter'] ]] </span>
-       
-        <span :style="style('Intro')"> Product Name: [[ ansOBJ['Product'] ]] </span>
-        
-        <span :style="style('Intro')"> Product Brand: [[ ansOBJ['Brand'] ]] </span>
+        <span :style="style('dt')"> [[ ansOBJ['stage'] ]] </span>
 
+        <span :style="style('Intro')"> [[ ansOBJ['Presenter'] ]] </span>
+       
+        <span :style="style('kw')"> [[ ansOBJ['Product'] ]] </span>
+        
+        <span :style="style('kw')"> [[ ansOBJ['Brand'] ]] </span>
+
+        <audio v-if="ansOBJ['Audio5']" controls>
+                <source  :src="ansOBJ['Audio5']" type="audio/mpeg" >               
+        </audio>
+        <audio v-else-if="ansOBJ['Audio6']" controls>
+                <source  :src="ansOBJ['Audio6']" type="audio/mpeg" >               
+        </audio>
+
+        <br>
         <br>
             <img class="rounded img-fluid" id="final_image" alt="need to update" style="max-width:50%;max-height:200px"  :src="ansOBJ['Image']">
         <br>
