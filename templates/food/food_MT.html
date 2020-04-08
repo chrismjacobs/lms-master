@@ -27,64 +27,68 @@
 <div class="content-section">
 
 <template v-for="(nameOBJ, name) in mtOBJ">
+<div v-if="!nameOBJ.ID.includes(1208)">
+            [[nameOBJ.ID]]
 
         <span :style="style(nameOBJ.Grade + 'test')" @click="view = name"> [[name]] -- [[nameOBJ.Grade]] </span>     
 
         <br>
         <br>
         
-<div v-if="view == name">
+            <div v-if="view == name">
 
-        <span :style="style('Intro')"> Dish </span>
-        <input type="text" class="textAss" style="margin-left:5px" v-model="nameOBJ.Data['Dish']"></input> 
-        <br>  
+                    <span :style="style('Intro')"> Dish </span>
+                    <input type="text" class="textAss" style="margin-left:5px" v-model="nameOBJ.Data['Dish']"></input> 
+                    <br>  
 
-        <span v-if="nameOBJ.Proj == 'CV'" :style="style('Intro')"> Link </span>
-        <input v-if="nameOBJ.Proj == 'CV'" type="text" class="textAss" style="margin-left:5px" v-model="nameOBJ.Data['Link']"></input> 
-        <br> 
+                    <span v-if="nameOBJ.Proj == 'CV'" :style="style('Intro')"> Link </span>
+                    <input v-if="nameOBJ.Proj == 'CV'" type="text" class="textAss" style="margin-left:5px" v-model="nameOBJ.Data['Link']"></input> 
+                    <br> 
 
 
-        <template v-for="(reason, num) in nameOBJ.Data['Reasons']">
-        <span :style="style('Reasons')"> Reason [[num]] </span>
-        <input type="text" class="textAss" style="margin-left:5px" v-model="nameOBJ.Data['Reasons'][num]"></input> 
-        <br>    
-        <br>    
-        </template>       
+                    <template v-for="(reason, num) in nameOBJ.Data['Reasons']">
+                    <span :style="style('Reasons')"> Reason [[num]] </span>
+                    <input type="text" class="textAss" style="margin-left:5px" v-model="nameOBJ.Data['Reasons'][num]"></input> 
+                    <br>    
+                    <br>    
+                    </template>       
 
-        <template v-for="(item, key) in nameOBJ.Data['Parts']"> 
-        <h4 v-if="nameOBJ.Proj == 'ND'" > Part [[ key ]] - [[ nameOBJ.Data['Reasons'][key] ]] </h4>
-        <h4 v-else-if="key == '1'" > Ingredients </h4>
-        <h4 v-else-if="key == '2'" > Cooking Methods </h4>
-        <h4 v-else-if="key == '3'" > Description </h4>
-                <div v-for="(point, order) in nameOBJ.Data['Parts'][key]['kw']">                
-                        <span :style="style('dt')"> Sentence [[order]] </span>
-                        <textarea :id="point + key" type="text" class="textAss" style="margin-left:5px" v-model="nameOBJ.Data['Parts'][key]['dt'][order]"></textarea> 
-                        <br>
-                        <span :style="style('kw')"> Key words [[order]] --> </span>
-                        <input type="text" class="textAss" style="margin-left:5px; width:80%" v-model="nameOBJ.Data['Parts'][key]['kw'][order]"></input> 
-                        <br>
-                        <br>
-                </div>
-        <br>
-        </template>  
+                    <template v-for="(item, key) in nameOBJ.Data['Parts']"> 
+                    <h4 v-if="nameOBJ.Proj == 'ND'" > Part [[ key ]] - [[ nameOBJ.Data['Reasons'][key] ]] </h4>
+                    <h4 v-else-if="key == '1'" > Ingredients </h4>
+                    <h4 v-else-if="key == '2'" > Cooking Methods </h4>
+                    <h4 v-else-if="key == '3'" > Description </h4>
+                            <div v-for="(point, order) in nameOBJ.Data['Parts'][key]['kw']">                
+                                    <span :style="style('dt')"> Sentence [[order]] </span>
+                                    <textarea :id="point + key" type="text" class="textAss" style="margin-left:5px" v-model="nameOBJ.Data['Parts'][key]['dt'][order]"></textarea> 
+                                    <br>
+                                    <span :style="style('kw')"> Key words [[order]] --> </span>
+                                    <input type="text" class="textAss" style="margin-left:5px; width:80%" v-model="nameOBJ.Data['Parts'][key]['kw'][order]"></input> 
+                                    <br>
+                                    <br>
+                            </div>
+                    <br>
+                    </template>  
 
-        <span :style="style('Intro')"> Final Comment </span>
-        <textarea  type="text" class="textAss" style="margin-left:5px" v-model="nameOBJ['Data']['Final']"></textarea> 
-        <br>  
-        <br>  
-        
+                    <span :style="style('Intro')"> Final Comment </span>
+                    <textarea  type="text" class="textAss" style="margin-left:5px" v-model="nameOBJ['Data']['Final']"></textarea> 
+                    <br>  
+                    <br>  
+                    
 
-        <div >				
-        <button  class="btn btn-dark" style="margin-right:5px" @click="updatePlan(name, 4)">Update 4</button>
-        </div> 
-        <br>
-        <div >				
-        <button  class="btn btn-success" style="margin-right:5px" @click="updatePlan(name, 5)">Update 5</button>
-        </div> 
+                    <div >				
+                        <button  class="btn btn-dark" style="margin-right:5px" @click="updatePlan(name, 4)">Update 4</button>
+                    </div> 
+                    <br>
+                    <div >				
+                        <button  class="btn btn-success" style="margin-right:5px" @click="updatePlan(name, 5)">Update 5</button>
+                    </div> 
 
+            </div> 
+<br>
 </div> 
 
-<br>
+
 </template>
 <br>
 
