@@ -2,68 +2,94 @@
 
 {% block content %}
 
-<span id="projectDict" style="display:none">{{abcDict}}</span>
+<span id="ansString" style="display:none">{{ansString}}</span>
+
+<div class="content-section">    
+
+    <div class="embed-responsive embed-responsive-4by3">
+        <iframe id="questions_embed" src="{{source1}}"
+            allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
+	</iframe>
+    </div> 
+    <br>
+    <br>
+    <div class="embed-responsive embed-responsive-4by3">
+        <iframe id="questions_embed" src="{{source2}}"
+            allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
+	</iframe>
+    </div> 
+      
+</div>
+
 
 <div id="vue-app">
 
-<div class="content-section">    
-        <h1> Exam Projects </h1>
-  
-    
-</div>
+<div class="content-section">
 
-<div class="content-section">        
-    
-    <div style="overflow-x:auto;">
-      <table class="table table-sm">
-        <thead>
-            <tr>
-              <th scope="col" >Student</th>  
-              <th scope="col" >Title</th>                                  
-              <th scope="col" >Team</th>                       
-              <th scope="col" >Q&A</th>                       
-              <th scope="col" >S&L</th>                       
-                                   
-            </tr>
-        </thead> 
+<template v-for="(nameOBJ, name) in mtOBJ">
+
+        <span :style="style(nameOBJ.Grade + 'test')" @click="view = name"> [[name]] -- [[nameOBJ.Grade]] </span>     
+
+        <br>
+        <br>
         
-        <tbody>
-        <template v-for="(proj, key) in projectOBJ" :key="key"   > 
-            
-            <tr>
-              <td>  
-              {% if current_user.id == 1 %} 
-              <span @click="goTo(key, 0, 'I')" class="unit-span" style="background:silver;padding:3px"> [[ key ]] </span>               
-              {% else %}  
-               <span class="unit-span" style="background:coral;padding:3px"> [[ key ]] </span>
-              {% endif %} 
-              </td>  
-              <td> [[ proj.Title]] </td>  
-              <td> [[ proj.Team]] </td>  
-              <td> 
-              <span v-if="proj.Number == 0"> </span>  
-              <span v-else-if="setButtons('q', proj.QTotal) == 3" @click="goTo(key, proj.Number, 'Q')" class="unit-span" style="background:mediumseagreen;padding:3px"> &nbsp;1&nbsp; </span>  
-              <span v-else="setButtons('q' , proj.QTotal) == 2" @click="goTo(key, proj.Number, 'Q')" class="unit-span" style="background:goldenrod;padding:3px"> &nbsp;0&nbsp; </span> 
-              </td>  
-              <td> 
-              <span v-if="proj.Number == 0"> </span>  
-              <span v-else-if="setButtons('s', proj.STotal) == 3" @click="goTo(key, proj.Number, 'S')" class="unit-span" style="background:mediumseagreen;padding:3px"> &nbsp;1&nbsp; </span>  
-              <span v-else="setButtons('s' , proj.STotal) == 2" @click="goTo(key, proj.Number, 'S')" class="unit-span" style="background:goldenrod;padding:3px"> &nbsp;0&nbsp; </span> 
-              </td>  
-              
-              
-     
-                         
-            </tr>  
-        </template>     
-            
-        </tbody>   
-   
-      </table>
-    </div>
+<div v-if="view == name">
 
-</div>   
-   
+        <span :style="style('Intro')"> Dish </span>
+        <input type="text" class="textAss" style="margin-left:5px" v-model="nameOBJ.Data['Dish']"></input> 
+        <br>  
+
+        <span v-if="nameOBJ.Proj == 'CV'" :style="style('Intro')"> Link </span>
+        <input v-if="nameOBJ.Proj == 'CV'" type="text" class="textAss" style="margin-left:5px" v-model="nameOBJ.Data['Link']"></input> 
+        <br> 
+
+
+        <template v-for="(reason, num) in nameOBJ.Data['Reasons']">
+        <span :style="style('Reasons')"> Reason [[num]] </span>
+        <input type="text" class="textAss" style="margin-left:5px" v-model="nameOBJ.Data['Reasons'][num]"></input> 
+        <br>    
+        <br>    
+        </template>       
+
+        <template v-for="(item, key) in nameOBJ.Data['Parts']"> 
+        <h4 v-if="nameOBJ.Proj == 'ND'" > Part [[ key ]] - [[ nameOBJ.Data['Reasons'][key] ]] </h4>
+        <h4 v-else-if="key == '1'" > Ingredients </h4>
+        <h4 v-else-if="key == '2'" > Cooking Methods </h4>
+        <h4 v-else-if="key == '3'" > Description </h4>
+                <div v-for="(point, order) in nameOBJ.Data['Parts'][key]['kw']">                
+                        <span :style="style('dt')"> Sentence [[order]] </span>
+                        <textarea :id="point + key" type="text" class="textAss" style="margin-left:5px" v-model="nameOBJ.Data['Parts'][key]['dt'][order]"></textarea> 
+                        <br>
+                        <span :style="style('kw')"> Key words [[order]] --> </span>
+                        <input type="text" class="textAss" style="margin-left:5px; width:80%" v-model="nameOBJ.Data['Parts'][key]['kw'][order]"></input> 
+                        <br>
+                        <br>
+                </div>
+        <br>
+        </template>  
+
+        <span :style="style('Intro')"> Final Comment </span>
+        <textarea  type="text" class="textAss" style="margin-left:5px" v-model="nameOBJ['Data']['Final']"></textarea> 
+        <br>  
+        <br>  
+        
+
+        <div >				
+        <button  class="btn btn-dark" style="margin-right:5px" @click="updatePlan(name, 4)">Update 4</button>
+        </div> 
+        <br>
+        <div >				
+        <button  class="btn btn-success" style="margin-right:5px" @click="updatePlan(name, 5)">Update 5</button>
+        </div> 
+
+</div> 
+
+<br>
+</template>
+<br>
+
+</div> 
+
 
 </div> <!-- end of Vue app -->
 
@@ -74,74 +100,105 @@
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 
-<script type="text/javascript" >
+<script type="text/javascript">
+var ansString = document.getElementById('ansString').innerHTML
+var mtOBJ = JSON.parse(ansString)
+console.log('mtOBJ', mtOBJ);
 
-var projectDict = document.getElementById('projectDict').innerHTML
-var OBJ = JSON.parse(projectDict)
-console.log('projecDict', OBJ);
 
+startVue()
 
-startVue(OBJ)
-
-function startVue(OBJ, colorFloat){ new Vue({   
+function startVue(){ 
+  
+  let vue = new Vue({   
 
     el: '#vue-app',
-    delimiters: ['[[', ']]'],
-    mounted: function(){
-        console.log('projecDict', OBJ);
-    },
-    data: {
-        projectOBJ: OBJ, 
+    delimiters: ['[[', ']]'],   
+    mounted: function () {        
+    },    
+    data: {                        
+        mtOBJ: mtOBJ,   
+        view : null,                          
+        script: {
+            ND : {
+                1 : 'If Taiwan were going to vote for a national dish I would choose ', 
+                2 : 'This is for three reasons', 
+                3 : 'First of all,', 
+                4 : 'The next reason is', 
+                5 : 'The last point is',
+            },        
+            CV : {
+                1 : 'Today I want to share with you a recipe for ', 
+                2 : 'I choose this video because', 
+                3 : 'Some important ingredients are...', 
+                4 : 'To prepare this dish you will need...', 
+                5 : 'This recipe is...',  
+            }, 
+            
+        },
         
     }, 
-    methods: {   
-        setButtons: function(QorS, total) { 
-          if (total == null) { 
-            return 1
-          } 
-          
-          if (QorS == 'q'){
-            var max = 12            
-          } else {
-            var max = 4
-          }
+    methods: { 
+        style : function(mark) { 
+            if (mark.includes('kw')){
+                var bg = 'silver'
+            }
+            else if (mark.includes('dt')){
+                var bg = 'darkorange'
+            }           
+            else if (mark.includes('Rea')){
+                var bg = 'PALEVIOLETRED'
+            }           
+            else if (mark.includes('Int')){
+                var bg = 'DARKCYAN'
+            }           
+            else if (mark.includes('0')){
+                var bg = 'coral'
+            }           
+            else if (mark.includes('4')){
+                var bg = 'purple'
+            }           
+            else if (mark.includes('5')){
+                var bg = 'seagreen'
+            }           
 
-          if (total >= max) {
-            return 3
-          } else {
-            return 2
-          }          
-          
+            return {padding:'4px', 'font-size':'15px', background:bg, color:'white', border:'1px sold white', 'border-radius':'5px', width:'20%'}
+
+        },
+        updatePlan : function(name, grade) { 
+            nameOBJ = vue.mtOBJ[name]
+            console.log('update via AJAX');
+            console.log(nameOBJ['Proj']);
+            console.log(nameOBJ['Data']);
+            
+            //return false
+
+            $.ajax({
+              data : {
+                proj : nameOBJ['Proj'],
+                ansOBJ : JSON.stringify(nameOBJ['Data']),
+                grade :  grade
+              },
+              type : 'POST',
+              url : '/updateFood',               
+            })
+            .done(function(data) { 
+                alert('Your FORM has been updated')                
+            })
+            .fail(function(){
+                alert('error has occurred');
+            });
         },     
-        goTo: function(key, number, state) {          
-          console.log(state);
-          if (state == 'Q') {
-            var link = '/qna/'                      
-          }           
-          else if (state == 'S') {
-            var link = '/snl/'                      
-          }           
-          else { 
-            var link = '/make_teams/'  
-          }
-
-          // go to HTTPS version
-          var str = window.location.href
-
-          let url = (str).split('_list')[0] + link + key + '/' + number
-          console.log('goTO', url);
-            window.location = url
-            console.log('DONE');
-        }
-                  
-    }         
+         
+    }, // end methods        
+    
+    
+    
 })// end NEW VUE
-
-
 
 }// endFunction 
 
-</script>  
+</script>
 
 {% endblock %} 
 

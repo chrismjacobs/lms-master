@@ -55,14 +55,15 @@ def updateFood():
     ansOBJ = request.form ['ansOBJ']
 
     ansDict = json.loads(ansOBJ)
-    
-    if get_all_values(ansDict) == 0:        
-        grade = 4
-    else:
-        print ('GET_ALL', get_all_values(ansDict))
-        grade = 0 
-    
-    
+
+    try: 
+        grade = request.form ['grade']
+    except:    
+        if get_all_values(ansDict) == 0:        
+            grade = 4
+        else:
+            print ('GET_ALL', get_all_values(ansDict))
+            grade = 0 
 
     print('GRADE', grade)     
 
@@ -163,24 +164,7 @@ def createPPT():
     
     return jsonify({'pptLink' : pptLink})
 
-
-@app.route ("/food/<string:proj>", methods=['GET','POST'])
-@login_required
-def food_proj(proj):
-    print(proj)
-    sDict = get_food_projects()
-    if proj == 'ND':
-        title = 'National Dish'
-        source = sDict['1']['M3']  
-    elif proj == 'CV':
-        source = sDict['1']['M4']
-        title = 'Cooking Video'  
-
-    
-    if U011U.query.filter_by(username=current_user.username).first():
-        pass
-    else:
-        startDict = {
+startDict = {
             'Dish' : None,             
             'Link' : 'Video Link',             
             'Image' : 'Image Link',
@@ -230,6 +214,24 @@ def food_proj(proj):
                 },
             }
         }
+
+@app.route ("/food/<string:proj>", methods=['GET','POST'])
+@login_required
+def food_proj(proj):
+    print(proj)
+    sDict = get_food_projects()
+    if proj == 'ND':
+        title = 'National Dish'
+        source = sDict['1']['M3']  
+    elif proj == 'CV':
+        source = sDict['1']['M4']
+        title = 'Cooking Video'  
+
+    
+    if U011U.query.filter_by(username=current_user.username).first():
+        pass
+    else:
+        startDict = startDict
         start = U011U(username=current_user.username, Ans01=json.dumps(startDict), Ans02=json.dumps(startDict), Grade=0)
         db.session.add(start)
         db.session.commit()
@@ -259,8 +261,9 @@ def food_MT():
     for user in users:
         mtDict[user.username] = {
             'Dish' : None,
-            'Project' : None,
-            'Grade' : None,
+            'Proj' : None,
+            'Grade' : 0,
+            'Data' : startDict
         }
     
     project_answers = U011U.query.all()
@@ -271,24 +274,33 @@ def food_MT():
         print(get_all_values(ndDict))
         print(get_all_values(cvDict))        
         
-        if get_all_values(ndDict) < get_all_values(cvDict):
-            project_result = 'National Dish'
+        if get_all_values(ndDict) < get_all_values(cvDict):            
             dish = ndDict['Dish']
-        elif get_all_values(ndDict) > get_all_values(cvDict):
-            project_result = 'Cooking Video'
+            data = ndDict
+            proj = 'ND'
+        elif get_all_values(ndDict) > get_all_values(cvDict):            
             dish = cvDict['Dish']
+            data = cvDict
+            proj = 'CV'
         else: 
             project_result = 'Unknown'
             dish = 'Unknown'
 
 
         mtDict[answer.username]['Dish'] = dish
-        mtDict[answer.username]['Project'] = project_result
+        mtDict[answer.username]['Proj'] = proj
         mtDict[answer.username]['Grade'] = answer.Grade
+        mtDict[answer.username]['Data'] = data
     
-    pprint(mtDict)   
+    pprint(mtDict)
+
+    sDict = get_food_projects()    
+    source1 = sDict['1']['M3'] 
+    source2 = sDict['1']['M4']
         
-    return 'Done'
+
+    return render_template('food/food_MT.html', legend='Food Project', 
+    source1=source1, source2=source2, ansString=json.dumps(mtDict)  )
 
 
 
