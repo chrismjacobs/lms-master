@@ -29,7 +29,7 @@ def about():
     ## src explaining this course
     srcs = get_schedule()
     intro = srcs['1']['M1']      
-    return render_template('instructor/about.html', intro=intro)
+    return render_template('instructor/about.html', intro=intro, SCHEMA=SCHEMA)
 
 
 @app.route("/course", methods = ['GET', 'POST'])
