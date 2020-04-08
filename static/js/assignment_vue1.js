@@ -46,7 +46,7 @@ console.log('DEVICE', device);
 
 
 if (name == 'Disa'){
-  alert('Hi Disa, this is a test:  ' + device +'__'+ notice)
+  alert('Hi Disa, this is a test:  ' + device +'__'+ notice + '___' + report )
 }
 
 //iphone recording
