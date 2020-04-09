@@ -166,7 +166,7 @@ def createPPT():
     
     return jsonify({'pptLink' : pptLink})
 
-startDict = {
+startDictGlobal = {
             'Dish' : None,             
             'Link' : 'Video Link',             
             'Image' : 'Image Link',
@@ -233,7 +233,7 @@ def food_proj(proj):
     if U011U.query.filter_by(username=current_user.username).first():
         pass
     else:
-        startDict = startDict
+        startDict = startDictGlobal
         start = U011U(username=current_user.username, Ans01=json.dumps(startDict), Ans02=json.dumps(startDict), Grade=0)
         db.session.add(start)
         db.session.commit()
@@ -266,7 +266,7 @@ def food_MT():
             'Dish' : None,
             'Proj' : None,
             'Grade' : 0,
-            'Data' : startDict
+            'Data' : startDictGlobal
         }
     
     project_answers = U011U.query.all()
