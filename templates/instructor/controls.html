@@ -306,7 +306,7 @@ let vue = new Vue({
                   
           })
 		      .done(function(data) {
-            refreshTeams()
+            vue.refreshTeams()
             alert('student removed:' + mem)
                            
 		      })
