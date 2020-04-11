@@ -36,7 +36,7 @@
               <td> 
                 <span v-if="unit.Access == 2" @click="optionsClick(key)" class="unit-span" :style="btnStyle(unit.Grade)"> &emsp;&emsp;[[  key ]]&emsp;&emsp; </span> 
                 <span v-if="unit.Access == 0" style="background:silver;padding:3px"  class="unit-span"> [[  key  ]] disabled </span> 
-                <span v-if="unit.Access == 1"  @click="goTo(key, 'Writer' )"  class="unit-span" style="background:blue"> &emsp;&emsp;[[  key ]]&emsp;&emsp; </span> 
+                <span v-if="unit.Access == 1"  @click="optionsClick(key)"  class="unit-span" style="background:blue"> &emsp;&emsp;[[  key ]]&emsp;&emsp; </span> 
               </td>
 
               <td colspan ="2"> 
@@ -52,8 +52,9 @@
 
             <tr v-if="options[key]">
               <td > 
-                <span   @click="goTo(key, 'Writer' )" class="unit-span" style="background:blue; padding:3px; margin-left:10px"> Writer </span> 
-                <span   @click="goTo(key, 'Reader' )" class="unit-span" style="background:goldenrod; padding:3px; margin-left:10px"> Reader </span>  
+                <span   v-if="unit.Grade > 0" @click="goTo(key, 'Writer' )" class="unit-span" style="background:thistle; padding:3px; margin-left:10px"> Answers </span> 
+                <span   V-else @click="goTo(key, 'Writer' )" class="unit-span" style="background:blue; padding:3px; margin-left:10px"> Writer </span> 
+                <span   @click="goTo(key, 'Reader' )" class="unit-span" style="background:goldenrod; padding:3px; margin-left:10px"> Reader </span>                  
               </td>
               <td colspan='2'>
                 <span style="color:tomato">Choose 1 writer </span>                           
