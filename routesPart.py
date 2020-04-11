@@ -147,7 +147,9 @@ def team_details ():
         teamnumber = current_user.id + 100
         nameRange = [current_user.username] 
         print ('Teamnumber: ', teamnumber)
-    
+        
+
+
     nnDict = { 
             'teamnumber' : teamnumber, 
             'nameRange' : nameRange
@@ -208,6 +210,13 @@ def getPdata():
     # get model
     models = Info.unit_mods_dict[unit] # '01' : [None, mod, mod, mod, mod]
     model = models[int(part)]
+
+    for row in model.query.all():
+        if current_user.username in ast.literal_eval(row.username):
+            teamnumber = row.teamnumber
+            print('teamnumber detected: ', teamnumber)
+            break
+
 
     dataDict = {}
 
