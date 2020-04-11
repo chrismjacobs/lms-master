@@ -157,7 +157,7 @@ function startVue(qOBJ){
           data : {
             unit : this.unit,
             part : this.part,
-            check : 0  // signal to return all class data              
+            check : 0  // signal to return one students data (not whole class)              
           },
           type : 'POST',
           url : '/getPdata',               
