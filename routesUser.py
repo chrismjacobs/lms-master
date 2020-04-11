@@ -265,21 +265,56 @@ def updateExam():
     unit = request.form ['unit']
     test = request.form ['test']
     grade = request.form ['grade']    
+    tries = request.form ['tries']    
     
     user = Exams.query.filter_by(username=current_user.username).first()
+    
+    # no action after 2 tries
+    if int(tries) > 2:
+        test = None
 
     if test == 'review':
-        record = json.loads(user.j1)
-        record[unit].append(grade)
-        tries = len(record[unit])
+        record = json.loads(user.j2)
+        try: 
+            attempts = record[unit][2]
+            return redirect(url_for('exam_list')) 
+        except:
+             record[unit] = [0,0,0] 
+        
+        if int(tries) == 1:
+            # check that first grade hasn't been submitted (ie student has refreshed to cheat)
+            if record[unit][0] == 0: 
+                record[unit][0] = int(grade)
+            else: 
+                record[unit][1] = int(grade)
+                record[unit][2] = (int(attempts) + 1)   
+                tries = 2               
+        if int(tries) == 2: 
+            record[unit][1] = int(grade)
+            record[unit][2] = (int(attempts) + 1)   
         user.j1 = json.dumps(record)
         db.session.commit()
 
     if test == 'exam':
-        tries = None
-        record = json.loads(user.j2)
-        record[unit].append(grade)
-        user.j1 = json.dumps(record)
+        record = json.loads(user.j1)
+        try: 
+            attempts = record[unit][2]
+            return ()
+        except:
+             record[unit] = [0,0,0] 
+        
+        if int(tries) == 1:
+            # check that first grade hasn't been submitted (ie student has refreshed to cheat)
+            if record[unit][0] == 0: 
+                record[unit][0] = int(grade)
+            else: 
+                record[unit][1] = int(grade)
+                record[unit][2] = (int(attempts) + 1)   
+                tries = 2               
+        if int(tries) == 2: 
+            record[unit][1] = int(grade)
+            record[unit][2] = (int(attempts) + 1)   
+        user.j2 = json.dumps(record)
         db.session.commit()
 
     return jsonify({'unit' : unit, 'tries' : tries})
@@ -307,15 +342,26 @@ def exam_list():
         db.session.commit()
 
         user = Exams.query.filter_by(username=current_user.username).first()   
-        reviewData = json.loads(user.j1)
+        reviewData = json.loads(user.j1)        
         examData = json.loads(user.j2)   
+    
+    try:
+        tries12 = round(   (reviewData['1-2'][0] + reviewData['1-2'][1])   /2  )
+    except:
+        tries12 = 0 
+        reviewData['1-2'] = [0,0,0,]
+    try:
+        tries34 = round(   (reviewData['3-4'][0] + reviewData['3-4'][1])   /2  )
+    except:
+        tries34 = 0
+        reviewData['3-4'] = [0,0,0,]
     
     examDict = {
         'total' : 0, 
         'units' : 0, 
         'asses' : 0, 
-        'tries12' : len(reviewData['1-2']), 
-        'tries34' : len(reviewData['3-4']), 
+        'tries12' : str(tries12) + '/20% - tries: ' + str(reviewData['1-2'][2]), 
+        'tries34' : str(tries34) + '/20% - tries: ' + str(reviewData['3-4'][2]),  
         'ex12' : 0, 
         'ex34' : 0, 
     }
@@ -411,8 +457,8 @@ def grades():
     practices = Exams.query.all()
     for practice in practices:
         reviewData = ast.literal_eval(practice.j1)
-        gradesDict[practice.username]['tries1'] = len(reviewData['1-2'])
-        gradesDict[practice.username]['tries2'] = len(reviewData['3-4'])
+        gradesDict[practice.username]['tries1'] = reviewData['1-2'][0]
+        gradesDict[practice.username]['tries2'] = reviewData['3-4'][0]
         examData = practice.j2
 
         print('exam_list_data_checked')
