@@ -274,49 +274,46 @@ def updateExam():
         test = None
 
     if test == 'review':
-        record = json.loads(user.j2)
-        try: 
-            attempts = record[unit][2]
-            return redirect(url_for('exam_list')) 
-        except:
-             record[unit] = [0,0,0] 
-        
-        if int(tries) == 1:
-            # check that first grade hasn't been submitted (ie student has refreshed to cheat)
-            if record[unit][0] == 0: 
-                record[unit][0] = int(grade)
-            else: 
-                record[unit][1] = int(grade)
-                record[unit][2] = (int(attempts) + 1)   
-                tries = 2               
-        if int(tries) == 2: 
-            record[unit][1] = int(grade)
-            record[unit][2] = (int(attempts) + 1)   
-        user.j1 = json.dumps(record)
-        db.session.commit()
-
-    if test == 'exam':
         record = json.loads(user.j1)
         try: 
-            attempts = record[unit][2]
-            return ()
+            attempts = record[unit][3]        
         except:
-             record[unit] = [0,0,0] 
-        
-        if int(tries) == 1:
-            # check that first grade hasn't been submitted (ie student has refreshed to cheat)
-            if record[unit][0] == 0: 
-                record[unit][0] = int(grade)
-            else: 
-                record[unit][1] = int(grade)
-                record[unit][2] = (int(attempts) + 1)   
-                tries = 2               
-        if int(tries) == 2: 
-            record[unit][1] = int(grade)
-            record[unit][2] = (int(attempts) + 1)   
-        user.j2 = json.dumps(record)
-        db.session.commit()
+            record[unit] = [0,0,0,0] 
+    elif test == 'exam':
+        record = json.loads(user.j2)
+        try: 
+            attempts = record[unit][3]
+            return redirect(url_for('exam_list'))        
+        except:
+            record[unit] = [0,0,0,0]    
 
+    if int(tries) == 1 and record[unit][3] == 0:
+        # safe - no cheating 
+        record[unit][0] = int(grade)
+        record[unit][3] = 1
+        if int(grade) == 20: # average is 20
+            record[unit][0] = 20
+            record[unit][1] = 20
+            record[unit][2] = (record[unit][2] + 1)  # attempts
+            record[unit][3] = 0 # reset try counter
+    elif int(tries) == 1 and record[unit][3] == 1: # first try happened already
+        record[unit][1] = int(grade)
+        record[unit][2] = (record[unit][2] + 1)
+        record[unit][3] = 0 # reset try counter
+        tries = 2         
+    elif int(tries) == 2: 
+        record[unit][1] = int(grade)
+        record[unit][2] = (int(attempts) + 1)   
+        record[unit][3] = 0 # reset try counter
+        
+    if test == 'review':
+        user.j1 = json.dumps(record)
+        db.session.commit()
+    elif test == 'exam':
+        user.j2 = json.dumps(record)
+        db.session.commit()      
+
+    
     return jsonify({'unit' : unit, 'tries' : tries})
 
 
