@@ -44,7 +44,14 @@
                           <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('food_MT')}}", target="_blank">Dashboard</a> 
                           {% endif %}                                 
                         </div>                                                                       
-                        {% endif %} 
+                        {% endif %}
+                        {% if current_user.username == 'Robin' or current_user.username == 'William'  %}
+                        <div class="navbar-nav mr-auto">
+                          {% if SCHEMA == 3 %}
+                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('abc_dash')}}", target="_blank">Dashboard</a> 
+                         {% endif %}                                 
+                        </div>                                                                       
+                        {% endif %}
                         
                         <div class="navbar-nav mr-auto">
                           <a class="nav-item nav-link" href= "{{ url_for ('home') }}">Home</a>                        

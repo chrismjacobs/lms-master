@@ -438,7 +438,9 @@ def abc_setup(qs, unit, team):
 @app.route ("/abc_dash", methods=['GET','POST'])
 @login_required
 def abc_dash(): 
-    if current_user.id !=1:
+    taList = ['Chris', 'Robin', 'William']
+
+    if current_user.username not in taList:
         return redirect('home')
     
     srcDict = get_projects()       
@@ -469,7 +471,9 @@ def abc_dash():
 @app.route ("/abc_check/<string:unit>", methods=['GET','POST'])
 @login_required
 def abc_check(unit): 
-    if current_user.id !=1:
+    taList = ['Chris', 'Robin', 'William']
+
+    if current_user.username not in taList:
         return redirect('home')
     
     srcDict = get_projects()       
