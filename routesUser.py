@@ -276,20 +276,22 @@ def updateExam():
     if test == 'review':
         record = json.loads(user.j1)
         try: 
-            attempts = record[unit][3]        
+            attempts = record[unit][2]        
         except:
             record[unit] = [0,0,0,0] 
     elif test == 'exam':
         record = json.loads(user.j2)
         try: 
-            attempts = record[unit][3]
+            attempts = record[unit][2]
             return redirect(url_for('exam_list'))        
         except:
             record[unit] = [0,0,0,0]    
 
     if int(tries) == 1 and record[unit][3] == 0:
+        print('ACTION 1')
         # safe - no cheating 
         record[unit][0] = int(grade)
+        record[unit][1] = 0
         record[unit][3] = 1
         if int(grade) == 20: # average is 20
             record[unit][0] = 20
@@ -297,11 +299,13 @@ def updateExam():
             record[unit][2] = (record[unit][2] + 1)  # attempts
             record[unit][3] = 0 # reset try counter
     elif int(tries) == 1 and record[unit][3] == 1: # first try happened already
+        print('ACTION 2')
         record[unit][1] = int(grade)
         record[unit][2] = (record[unit][2] + 1)
         record[unit][3] = 0 # reset try counter
         tries = 2         
     elif int(tries) == 2: 
+        print('ACTION 3')
         record[unit][1] = int(grade)
         record[unit][2] = (int(attempts) + 1)   
         record[unit][3] = 0 # reset try counter

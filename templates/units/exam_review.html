@@ -33,7 +33,7 @@
                       <h6>[[ k ]]</h6>
                   
                       <select style="height:30px;width:150px;color:white;background:burlywood" :id="[[ qa[0] ]]" name="questions">  
-                        <option :value="0"> -- </option>
+                        <option :value="[[ qa[0] ]]"> -- </option>
                           <template v-for="x in shuffle(qa)">
                               <option :value="[[ x ]]">[[ x ]]</option>                             
                           </template>
@@ -131,7 +131,8 @@ function startVue(){
           }
 
           if (vue.errorCount > 0){
-              vue.tries +=1
+              vue.tries += 1
+              console.log('x', vue.tries);
               alert('Sorry, you have ' + vue.errorCount + ' incorrect answers. Please try again')
               var floatGrade = (vue.questionCount - vue.errorCount)*20/vue.questionCount 
               var percentGrade = Math.round(floatGrade)
@@ -141,7 +142,7 @@ function startVue(){
           }          
           else{
               alert('Great, all answers are correct')
-              vue.tries +=1
+              vue.tries += 1
               vue.updateGrades(20)              
           }
         }, 
@@ -158,7 +159,8 @@ function startVue(){
               url : '/updateExam',               
             })
             .done(function(data) { 
-              vue.tries = data.tries
+              vue.tries = parseInt(data.tries)
+              console.log('tries', vue.tries);
               if (vue.tries > 3){          
                 alert('too many tries - grade updated') 
                 vue.goTo()   
