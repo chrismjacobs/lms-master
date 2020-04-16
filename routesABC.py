@@ -214,11 +214,77 @@ def abc_list():
                     abcDict[src]['STest'] = tests['snlCount']
                     #pass    
         
-    pprint (abcDict)        
+    pprint (abcDict)       
+
+    examDict = {} 
+       
+    for src in srcDict:
+        if int(src) > 3:
+            pass
+        else:
+            examDict[src] = {}
+            try:
+                teamCheck = int(abcDict[src]['Number'])
+                selector = teamCheck % 2
+                print('selector', selector)
+            except:
+                selector = 0
+            
+            if Units.query.filter_by(unit=src).count() == 1:     
+                projects = unitDict[src].query.all()
+                
+                for proj in projects:
+
+                    if int(proj.teamnumber) > 20:
+                        pass
+                    elif selector == 0 and proj.teamnumber % 2 != 0:
+                        pass
+                    elif selector != 0 and proj.teamnumber % 2 == 0:
+                        pass
+                    else: 
+                        examDict[src][proj.teamnumber] = {
+                            'QTotal' : proj.Ans03,
+                            'STotal' : proj.Ans04,
+                            'Qscore' : 0, 
+                            'Sscore' : 0,                 
+                            }
+    
+    user = midtermGrades()
+    qna = json.loads(user.j1)
+    snl = json.loads(user.j2) 
+    print (qna)
+    print (snl)
+
+    for entry in qna:
+        unit = qna[entry]['unit']
+        team = qna[entry]['team']
+        grade = qna[entry]['grade']
+        print(entry)
+        print(qna[entry])
+        print(unit)
+        print(team)
+        print(grade)
+        print(examDict[unit])
+        print(examDict[unit][int(team)])
+        try:            
+            print(examDict[unit][int(team)]['Qscore'])
+            examDict[unit][int(team)]['Qscore'] = grade
+        except:
+            print('FAIL QNA')
+        
+    for entry in snl:
+        print(entry)
+        try:
+            examDict[entry.unit][entry.team]['Sscore'] = entry.grade
+        except:
+            print('FAIL QNA')   
+
+
+    pprint (examDict)       
        
     source = srcDict['00']['M2']
         
-    return render_template('abc/abc_list.html', legend='ABC Projects', source=source, abcDict=json.dumps(abcDict))
+    return render_template('abc/abc_list.html', legend='ABC Projects', source=source, abcDict=json.dumps(abcDict),  examDict=json.dumps(examDict))
 
 
 

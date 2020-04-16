@@ -36,7 +36,7 @@
               </td>              
               <td>
               <div>
-                <audio controls>
+                <audio controls style="width: 150px">
                  <source :src="orderOBJ[key][1]" type="audio/mpeg" >
                  <source :src="orderOBJ[key][1]" type="audio/x-m4a" >
                 </audio>
@@ -138,9 +138,13 @@ function startVue(){
             var dropdown = vue.orderOBJ[object][0] // 
             var e = document.getElementById(dropdown) 
             if (e.options[e.selectedIndex].value != vue.orderOBJ[object][0] ) {
+              e.setAttribute('style', 'height:50px;width:50px;color:white;background:coral')
               vue.errorCount += 1
               console.log(vue.errorCount);
-              } 
+              }
+            else {
+              e.setAttribute('style', 'height:50px;width:50px;color:white;background:mediumseagreen')
+            } 
           }
           if (vue.errorCount > 0){
               alert('Sorry, you have ' + vue.errorCount + ' incorrect answers. Please try again')

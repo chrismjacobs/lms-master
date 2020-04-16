@@ -45,14 +45,14 @@
               <td> 
                   Correct answer: <span style="color:blue">[[ answerSet.answer ]]</span>
                   <br>  
-                  Your answer: <span > [[ input[key] ]]</span>  
+                  Your answer: <span style="color:green"> [[ input[key] ]]</span>  
                   <br>
                   <select style="height:25px;width:200px;color:white;background:royalblue" :id="key">  
                   <option value="0">--</option>
-                  <option value="1">Incorrect</option>
-                  <option value="2">Not really Correct</option>
-                  <option value="3">Kind of Correct</option>
-                  <option value="4">Correct</option>
+                  <option value="0">Not Correct</option>
+                  <option value="3">Different but Correct</option>
+                  <option value="4">Kind of Correct</option>
+                  <option value="5">Correct</option>
                 </select>
               </td>
             </tr> 
@@ -136,7 +136,7 @@ function startVue(){
           for (var i in obj){
             var e = document.getElementById(i) 
             var score = e.options[e.selectedIndex].value 
-            vue.grade += score
+            vue.grade += parseInt(score)
           }
           alert('Great, your grade will be updated')
           vue.updateGrades()              
@@ -149,7 +149,7 @@ function startVue(){
                 qORs : 'qna',                         
                 unit : unit,                
                 team : team,
-                grade : vue.grade                
+                grade : Math.round(vue.grade/6)                
               },
               type : 'POST',
               url : '/updateGrades',               

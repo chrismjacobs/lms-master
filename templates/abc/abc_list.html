@@ -3,6 +3,7 @@
 {% block content %}
 
 <span id="projectDict" style="display:none">{{abcDict}}</span>
+<span id="examDict" style="display:none">{{examDict}}</span>
 
 <div id="vue-app">
 
@@ -75,7 +76,7 @@
 
 </div>   
 
-<div class="content-section" style="display:none">  
+<div class="content-section">  
 
 <h3> Exam Test Board </h3>
     
@@ -83,27 +84,44 @@
       <table class="table table-sm">
         <thead>
             <tr>
-              <th scope="col" >U</th>  
-              <th scope="col" >Title</th>
+              <th scope="col" >U</th>                
               <th scope="col" >Q&A</th>                       
+              <th scope="col" >Grade</th>                       
               <th scope="col" >S&L</th>  
+              <th scope="col" >Grade</th>  
             </tr>
         </thead> 
         
         <tbody>
-            <template v-for="(proj, unit) in projectOBJ" :unit="unit" >             
+            <template v-for="(part, unit) in examOBJ"  >  
+              <tr style="background:grey">
+                  <td colspan="5">  
+                    <span class="unit-span" style="background:tomato;padding:3px"> [[ unit ]] </span> 
+                  </td> 
+              </tr>
+                <template v-for="(exam, team) in part" >   
+
                 <tr>
                   <td>  
-                    <span class="unit-span" style="background:silver;padding:3px"> [[ unit ]] </span> 
-                  </td>  
-                  <td> [[ proj.Title]] </td>  
+                    <span class="unit-span" style="background:silver;padding:3px"> [[ team  ]] </span> 
+                  </td>                    
                   <td>
-                    <span @click="goToExam()" class="unit-span" style="background:blue;padding:3px"> &nbsp;Test&nbsp; </span>  
+                    <span v-if="exam.QTotal > 11" @click="" class="unit-span" :style="buttonStyle(exam.Qscore, 'qna', 'check')"> &nbsp;QNA&nbsp; </span>  
+                    <span v-else @click="" class="unit-span" style="background:lightgrey;padding:3px"> N/A </span>  
                   </td>  
-                  <td> 
-                    <span @click="goToExam()" class="unit-span" style="background:blue;padding:3px"> &nbsp;Test&nbsp; </span>  
-                  </td>      
+                  <td>
+                    [[ exam.Qscore ]]
+                  </td>  
+                  <td>
+                    <span v-if="exam.STotal > 11" @click="" class="unit-span" :style="buttonStyle(exam.Sscore, 'snl', 'check')"> &nbsp;SNL&nbsp; </span>  
+                    <span v-else @click="" class="unit-span" style="background:lightgrey;padding:3px"> N/A </span>  
+                  </td>  
+                  <td>
+                    [[ exam.Sscore ]]
+                  </td>  
+                  
                 </tr>  
+            </template> 
             </template> 
         </tbody>   
    
@@ -126,7 +144,11 @@
 
 var projectDict = document.getElementById('projectDict').innerHTML
 var OBJ = JSON.parse(projectDict)
-console.log('projecDict', OBJ);
+console.log('projectOBJ', OBJ);
+
+var examDict = document.getElementById('examDict').innerHTML
+var examOBJ = JSON.parse(examDict)
+console.log('examOBJ', examOBJ);
 
 
 startVue(OBJ)
@@ -136,10 +158,7 @@ function startVue(OBJ){
   let vue = new Vue({   
 
     el: '#vue-app',
-    delimiters: ['[[', ']]'],
-    mounted: function(){
-        console.log('projecDict', OBJ);
-    },
+    delimiters: ['[[', ']]'],    
     data: {
         projectOBJ: OBJ        
         
@@ -155,8 +174,8 @@ function startVue(OBJ){
             }
           } 
           else if (style == 'check'){
-            if (total == 1){
-              return { background: 'blue', padding:'3px'}
+            if (total > 0 ){
+              return { background: 'mediumseagreen', padding:'3px'}
             }
             else{
               return { background: 'goldenrod', padding:'3px'}
