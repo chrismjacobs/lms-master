@@ -419,10 +419,8 @@ def grades():
             'aP' : 0, 
             'tries1' : 0,
             'tries2' : 0,
-            'exam1' : 0, 
-            'e1P' : 0,
-            'exam2' : 0,           
-            'e2P' : 0,
+            'exam1' : 0,             
+            'exam2' : 0   
         }
 
     ### set max grades
@@ -458,9 +456,17 @@ def grades():
     practices = Exams.query.all()
     for practice in practices:
         reviewData = ast.literal_eval(practice.j1)
-        gradesDict[practice.username]['tries1'] = reviewData['1-2'][0]
-        gradesDict[practice.username]['tries2'] = reviewData['3-4'][0]
-        examData = practice.j2
+        if len(reviewData['1-2']) > 2:
+            gradesDict[practice.username]['tries1'] = reviewData['1-2'][2]
+        if len(reviewData['3-4']) > 2:
+            gradesDict[practice.username]['tries2'] = reviewData['3-4'][2]        
+
+        examData =  ast.literal_eval(practice.j2)
+        if len(examData['1-2']) > 0 :
+            gradesDict[practice.username]['exam1'] = round( (examData['1-2'][0] + examData['1-2'][1])/2 )
+        if len(examData['3-4']) > 0 :
+            gradesDict[practice.username]['exam2'] = round( (examData['3-4'][0] + examData['3-4'][1])/2 )
+
 
         print('exam_list_data_checked')
     
@@ -469,18 +475,14 @@ def grades():
     maxE2 = 20 
 
     for entry in gradesDict:
-        try: 
+        if gradesDict[entry]['units'] > 0:
             percent = gradesDict[entry]['units']*30/maxU
             gradesDict[entry]['uP'] = round(percent, 1)
-        except: 
-            pass
-
-    for entry in gradesDict:
-        try: 
+        if gradesDict[entry]['asses'] > 0:
             percent = gradesDict[entry]['asses']*30/maxA
             gradesDict[entry]['aP'] = round(percent, 1)
-        except: 
-            pass
+        
+
 
 
     return render_template('instructor/grades.html', ansString=json.dumps(gradesDict))
