@@ -17,6 +17,7 @@ S3_LOCATION = BaseConfig.S3_LOCATION
 S3_BUCKET_NAME = BaseConfig.S3_BUCKET_NAME
 SCHEMA = BaseConfig.SCHEMA
 DESIGN = BaseConfig.DESIGN
+DEBUG = BaseConfig.DEBUG
 
 
 unitDict = {
@@ -74,16 +75,17 @@ def project_teams(unit, number):
     print(teamsDict)
 
     manualTeams = {
-        15: ['Wayne', 'Jessica']       
+        
+        11: ['Leo', 'Judy', 'Wayne'],
+      
               
     }
 
     '''control which teams are added'''
-    controller = 1
-   
-    if controller == 1:
+       
+    if DEBUG == False:
         team_dict = teamsDict
-    elif controller == 2:
+    else:
         team_dict = manualTeams
     
     # prepare answers for QNA
@@ -237,6 +239,8 @@ def abc_list():
 
                     if int(proj.teamnumber) > 20:
                         pass
+                    elif abcDict[src]['Number'] == proj.teamnumber:
+                        pass
                     elif selector == 0 and proj.teamnumber % 2 != 0:
                         pass
                     elif selector != 0 and proj.teamnumber % 2 == 0:
@@ -258,14 +262,7 @@ def abc_list():
     for entry in qna:
         unit = qna[entry]['unit']
         team = qna[entry]['team']
-        grade = qna[entry]['grade']
-        print(entry)
-        print(qna[entry])
-        print(unit)
-        print(team)
-        print(grade)
-        print(examDict[unit])
-        print(examDict[unit][int(team)])
+        grade = qna[entry]['grade']        
         try:            
             print(examDict[unit][int(team)]['Qscore'])
             examDict[unit][int(team)]['Qscore'] = grade
@@ -663,8 +660,96 @@ def updateGrades():
     return jsonify({'grade' : grade})
 
 
+@app.route ("/abc_grades", methods=['GET','POST'])
+@login_required
+def abc_grades():
+
+    gradesDict = {}
+
+    users = User.query.all()    
+
+    for user in users:
+        gradesDict[user.username] = {
+            'Student' : { 
+                'name' :user.username, 
+                'id' : user.studentID
+             },         
+            '00' : {
+                'team' : 0, 
+                'QNA' : 0, 
+                'SNL' : 0, 
+                'QNA_check' : 0, 
+                'SNL_check' : 0, 
+                'QNA_grades' : [], 
+                'SNL_grades' : [] 
+            },
+            '01' : {
+                'team' : 0, 
+                'QNA' : 0, 
+                'SNL' : 0, 
+                'QNA_check' : 0, 
+                'SNL_check' : 0, 
+                'QNA_grades' : [], 
+                'SNL_grades' : [] 
+            },
+            '02' : {
+                'team' : 0, 
+                'QNA' : 0, 
+                'SNL' : 0, 
+                'QNA_check' : 0, 
+                'SNL_check' : 0, 
+                'QNA_grades' : [], 
+                'SNL_grades' : [] 
+            },
+            '03' : {
+                'team' : 0, 
+                'QNA' : 0, 
+                'SNL' : 0, 
+                'QNA_check' : 0, 
+                'SNL_check' : 0, 
+                'QNA_grades' : [], 
+                'SNL_grades' : [] 
+            },
+            
+        }
+    
+    exams = Exams.query.all()
+
+    models = {
+        '00' : U001U, 
+        '01' : U011U, 
+        '02' : U021U, 
+        '03' : U031U
+    }
+
+    for model in models:
+        projects = models[model].query.all()
+        for proj in projects: 
+            team = ast.literal_eval(proj.username)
+            for stu in team:
+                gradesDict[stu][model]['QNA'] = proj.Ans03
+                gradesDict[stu][model]['SNL'] = proj.Ans04
+                gradesDict[stu][model]['team'] = str(proj.teamnumber)
+
+    for exam in exams:
+        #break
+        QNA = json.loads(exam.j1)
+        for record in QNA:
+            entry = QNA[record]
+            print(exam.username, entry) 
+            if entry['team'] == gradesDict[exam.username][entry['unit']]['team']:
+                gradesDict[exam.username][entry['unit']]['QNA_check'] = 1
+            else:
+                gradesDict[exam.username][ entry['unit'] ]['QNA_grades'].append(entry['grade'])
+
+        SNL = json.loads(exam.j2)
+        for record in SNL:
+            entry = SNL[record]
+            print(exam.username, entry) 
+            if entry['team'] == gradesDict[exam.username][entry['unit']]['team']:
+                gradesDict[exam.username][entry['unit']]['SNL_check'] = 1
+            else:
+                gradesDict[exam.username][ entry['unit'] ]['SNL_grades'].append(entry['grade'])
 
 
-
-
-
+    return render_template('abc/abc_grades.html', ansString=json.dumps(gradesDict))

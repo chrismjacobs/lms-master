@@ -88,46 +88,7 @@
 
 </div>   
 
-<div class="content-section">        
-    
-    <div style="overflow-x:auto;">
-      <table class="table table-sm">
-        <thead>
-            <tr>
-              <th scope="col" >Team</th>  
-              <th scope="col" >Names</th>  
-              <th scope="col" >Score</th>                                  
-              <th scope="col" >1</th>                       
-              <th scope="col" >2</th>                       
-              <th scope="col" >3</th>                       
-              <th scope="col" >4</th>          
-            </tr>
-        </thead> 
-        
-        <tbody>
-        <template v-for="(answerSet, key) in qnaOBJ" > 
-            
-            <tr>
-              <td>                
-              <span class="unit-span" style="background:silver;padding:3px"> [[ key ]] </span> 
-              </td>  
 
-              <td> 
-                [[ answerSet.team]]                
-              </td> 
-              <td> 
-                [[ answerSet.snl_score]]                
-              </td> 
-             
-              <td v-for="(set, num) in answerSet.snl_list">                             
-                [[ answerSet.snl_list[num]['word']  ]] <br>              
-                [[ answerSet.snl_list[num]['sentence']  ]] <br>              
-                [[ answerSet.snl_list[num]['user']  ]] <br>              
-               <img class="rounded img-fluid" id="final_image" alt="No file yet" style="width: 150px"  :src="answerSet.snl_list[num]['imageLink']">      
-               <br> 
-                <audio v-if="answerSet.snl_list[num]['audioLink']" controls style="width: 150px" :src="answerSet.snl_list[num]['audioLink']"></audio>  
-              </td> 
-            </tr> 
 
 
         </template>     
