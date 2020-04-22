@@ -114,6 +114,9 @@ function startVue(){
           else if(comment.includes("progress")){
             return {width:'100%', 'background-color':'orange', height: '30px !important'}
           }
+          else if(comment.includes("completed late")){
+            return {width:'100%', 'background-color':'yellow', height: '110px !important'}
+          }
           else{
             return {width:'100%', 'background-color':'lightgreen', height: '110px !important'}
           }
