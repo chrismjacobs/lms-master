@@ -279,16 +279,19 @@ def updateExam():
         try: 
             attempts = record[unit][2]        
         except:
-            record[unit] = [0,0,0,0] 
+            record[unit] = [0,0,0,0] # 1st try 2nd try, total attempts, current attempt stage
     elif test == 'exam':
         record = json.loads(user.j2)
         print(record)
         try: 
-            attempts = record[unit][2]
-            return redirect(url_for('exam_list'))        
+            attempts = record[unit][2]  
+            if attempts > 0:
+                tries = 3 # exam cannot be completed again
         except:
+            print('except')
             record[unit] = [0,0,0,0]    
 
+    
     if int(tries) == 1 and record[unit][3] == 0:
         print('ACTION 1')
         # safe - no cheating 
@@ -533,10 +536,6 @@ def assignment_list():
 
     return render_template('units/assignment_list.html', legend='Assignments Dashboard', 
     Dict=json.dumps(assDict), Grade=assGrade, max=maxA, title='Assignments', theme=theme)
-
-
-
-
 
 
 
