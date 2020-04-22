@@ -251,7 +251,7 @@ def exams(test, unit):
         html = 'units/exam_review.html'
     if test == 'exam':
         examDict = examAWS[unit]
-        html = 'units/exam_form.html'        
+        html = 'units/exam_review.html'        
     
     theme=DESIGN['titleColor']
 
@@ -265,7 +265,8 @@ def updateExam():
     unit = request.form ['unit']
     test = request.form ['test']
     grade = request.form ['grade']    
-    tries = request.form ['tries']    
+    tries = request.form ['tries'] 
+    print(unit, test, grade, tries)   
     
     user = Exams.query.filter_by(username=current_user.username).first()
     
@@ -281,6 +282,7 @@ def updateExam():
             record[unit] = [0,0,0,0] 
     elif test == 'exam':
         record = json.loads(user.j2)
+        print(record)
         try: 
             attempts = record[unit][2]
             return redirect(url_for('exam_list'))        
@@ -313,7 +315,7 @@ def updateExam():
     if test == 'review':
         user.j1 = json.dumps(record)
         db.session.commit()
-    elif test == 'exam':
+    elif test == 'exam':        
         user.j2 = json.dumps(record)
         db.session.commit()      
 
