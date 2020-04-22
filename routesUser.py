@@ -364,7 +364,7 @@ def exam_list():
     if len(examData['1-2']) > 0: 
         ex12 = round(   (examData['1-2'][0] + examData['1-2'][1])   /2  )
     if len(examData['3-4']) > 0: 
-        ex13 = round(   (examData['3-4'][0] + examData['3-4'][1])   /2  )
+        ex34 = round(   (examData['3-4'][0] + examData['3-4'][1])   /2  )
         
     
     
@@ -375,7 +375,7 @@ def exam_list():
         'tries12' : str(tries12) + '/20% - tries: ' + str(reviewData['1-2'][2]), 
         'tries34' : str(tries34) + '/20% - tries: ' + str(reviewData['3-4'][2]),  
         'ex12' : ex12, 
-        'ex34' : ex13, 
+        'ex34' : ex34, 
     }
 
     grades = get_grades(True, True)
