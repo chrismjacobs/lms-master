@@ -52,7 +52,8 @@ function startVue(){
         buttonColor:{
             3 : {background: 'dodgerblue', padding: '5px'},             
             2 : {background: 'mediumseagreen', padding: '5px'},             
-            1 : {background: 'lightcoral', padding: '5px'}   
+            1 : {background: 'lightcoral', padding: '5px'},  
+            0 : {background: 'silver', padding: '5px'}   
         },
         image64 : {
             fileType : null, 
@@ -63,7 +64,7 @@ function startVue(){
             base64 : null, 
         }
     }, 
-    methods: {  
+    methods: {
         editMarkers : function(question) {
             this.resetB64() 
             if (this.marker[question] == 3 ) {                
@@ -78,44 +79,10 @@ function startVue(){
                 this.testOBJ[question] = JSON.parse(testString) 
 
             }   
-        },
-        resetB64 : function() {             
-            vue.image64['fileType'] = false
-            vue.audio64['fileType'] = false
-        },
-        resetMarkers : function(q) {             
-            for (var mark in vue.marker) {
-                if (vue.marker[mark] == 3){
-                    if (mark == q) {      
-                        alert('Your team member has just edited this question')
-                        vue.marker[mark] = 2
-                    }
-                    else {
-                        vue.marker[mark] = 2
-                    }
-                }
-                else {
-                    vue.marker[mark] = 2
-                }                
-            }
-        },
-        checkMarkers : function(arg) {
-            for (var mark in vue.marker) {                
-                vue.marker[mark] = 2  
-                for (var item in vue.ansOBJ[mark]) {
-                    console.log(mark, item, vue.ansOBJ[mark][item]);
-                    if(vue.ansOBJ[mark][item] == null){
-                        vue.marker[mark] = 1
-                    }
-                }                               
-            }            
-        },        
-        qStyle : function(key) {            
-            return this.buttonColor[this.marker[key]]  
-        },
+        }, 
         updateAnswers : function() {  
+            //runs in the background to check if others have changed something
             console.log('update via AJAX');
-
             $.ajax({
               data : {
                 unit : this.unit,
@@ -133,13 +100,37 @@ function startVue(){
                         vue.ansOBJ = newOBJ
                         vue.resetMarkers(q) 
                     }
-                }  
-                
+                } 
             })
             .fail(function(){
                 console.log('error has occurred');
             });
+        },        
+        resetMarkers : function(q) {             
+            for (var mark in vue.marker) {
+                if (vue.marker[mark] == 3){
+                    if (mark == q) {      
+                        alert('Your teammate has just edited this question')
+                        vue.marker[mark] = 0
+                    }
+                }           
+            }
         },
+        checkMarkers : function(arg) {
+            for (var mark in vue.marker) {                
+                vue.marker[mark] = 2  
+                for (var item in vue.ansOBJ[mark]) {
+                    console.log(mark, item, vue.ansOBJ[mark][item]);
+                    if(vue.ansOBJ[mark][item] == null){
+                        vue.marker[mark] = 1
+                    }
+                    console.log(vue.marker[mark]);
+                }                               
+            }            
+        },        
+        qStyle : function(key) {            
+            return this.buttonColor[this.marker[key]]  
+        },        
         storeData : function(key) { 
                      
             this.ansOBJ[key]['word'] = document.getElementById(key + 'w').value        
@@ -152,7 +143,9 @@ function startVue(){
             
             //vue.storeData()
             var total = 0
-            for (var mark in this.marker){                             
+            this.checkMarkers()
+            for (var mark in this.marker){  
+                console.log(mark, this.marker, this.marker[mark]);                                           
                 total += this.marker[mark]
             }
             if (total > 12){
@@ -174,7 +167,7 @@ function startVue(){
               url : '/storeAnswer',               
             })
             .done(function(data) { 
-                console.log(data); 
+                //console.log(data); 
                 alert('Question ' + data.question + ' updated') 
                 vue.updateAnswers()  
                 vue.checkMarkers()       
@@ -187,10 +180,17 @@ function startVue(){
             //reset the testOBJ
             this.testOBJ = testOBJ
             
+             //vue.storeData()
             var total = 0
-            for (var mark in this.marker){
+            this.checkMarkers()
+            for (var mark in this.marker){  
+                console.log(mark, this.marker, this.marker[mark]);                                           
                 total += this.marker[mark]
             }
+            if (total > 12){
+                // because if edit is open the mark will 3 instead of two 
+                total = 12
+            }   
             console.log(total);
 
             if (b64 == 'i'){
@@ -208,9 +208,10 @@ function startVue(){
                 team : this.team,
                 mode : this.mode,
                 b64data : b64data,                     
-                fileType : fileType ,                     
+                fileType : fileType,                     
                 question : key,
-                b64 : b64  
+                b64 : b64, 
+                total: total  
               },
               type : 'POST',
               url : '/storeB64',               
@@ -225,6 +226,10 @@ function startVue(){
             .fail(function(){
                 alert('error - see instructor')
             });
+        },
+        resetB64 : function() {             
+            vue.image64['fileType'] = false
+            vue.audio64['fileType'] = false
         },
         imageValidation : function(){    
             var fileInput = document.getElementById('image');        
@@ -266,7 +271,7 @@ function startVue(){
             var fileInput = document.getElementById('audio');        
             console.log('file', fileInput)
             var filePath = fileInput.value;
-            var allowedExtensions = /(\.mp3|\.m4a)$/i;
+            var allowedExtensions = /(\.mp3|\.m4a|\.m4v|\.mov|\.mp4)$/i;
         
             if(fileInput.files[0].size > 4400000){
                 alert("File is too big!");

@@ -108,14 +108,14 @@
                     <span class="unit-span" style="background:silver;padding:3px"> [[ team  ]] </span> 
                   </td>                    
                   <td>
-                    <span v-if="exam.QTotal > 11" @click="" class="unit-span" :style="buttonStyle(exam.Qscore, 'qna', 'check')"> &nbsp;QNA&nbsp; </span>  
+                    <span v-if="exam.QTotal > 11" @click="goToExam(unit, team, 'qna')"  class="unit-span" :style="buttonStyle(exam.Qscore, 'qna', 'check')"> &nbsp;QNA&nbsp; </span>  
                     <span v-else @click="" class="unit-span" style="background:lightgrey;padding:3px"> N/A </span>  
                   </td>  
                   <td>
                     [[ exam.Qscore ]]
                   </td>  
                   <td>
-                    <span v-if="exam.STotal > 11" @click="" class="unit-span" :style="buttonStyle(exam.Sscore, 'snl', 'check')"> &nbsp;SNL&nbsp; </span>  
+                    <span v-if="exam.STotal > 11"  @click="goToExam(unit, team, 'snl')"  class="unit-span" :style="buttonStyle(exam.Sscore, 'snl', 'check')"> &nbsp;SNL&nbsp; </span>  
                     <span v-else @click="" class="unit-span" style="background:lightgrey;padding:3px"> N/A </span>  
                   </td>  
                   <td>

@@ -52,7 +52,7 @@
 <br>
 <br>
 
-<audio controls>
+<audio v-if="item.audioLink" controls>
         <source :src="item.audioLink" type="audio/mpeg" >
         <source :src="item.audioLink" type="audio/x-m4a" >
 </audio>
@@ -90,7 +90,7 @@
                 <div>
                         Audio:&nbsp&nbsp
                         <div>
-                        <input type="file" id="audio" accept="audio/*" @change="audioValidation()"> </input> <button class="btn btn-secondary btn-sm"> Select </button>
+                        <input type="file" id="audio" accept="audio/*,video/*" @change="audioValidation()"> </input> <button class="btn btn-secondary btn-sm"> Select </button>
                         </div>
                         <br>                        
                         <div v-if="audio64['fileType']">
@@ -115,7 +115,7 @@
 
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
-<script type="text/javascript" src="{{url_for('static', filename= 'js/abc_snl1.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static', filename= 'js/abc_snl0.js')}}"></script>
 
 {% endblock %} 
 

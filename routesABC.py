@@ -186,7 +186,7 @@ def get_tests(unit, team):
 @login_required
 def abc_list():        
     srcDict = get_projects()       
-    pprint(srcDict)
+    #pprint(srcDict)
     abcDict = {}
     for src in srcDict:
         # check sources against open units in model
@@ -216,7 +216,7 @@ def abc_list():
                     abcDict[src]['STest'] = tests['snlCount']
                     #pass    
         
-    pprint (abcDict)       
+    #pprint (abcDict)       
 
     examDict = {} 
        
@@ -228,7 +228,7 @@ def abc_list():
             try:
                 teamCheck = int(abcDict[src]['Number'])
                 selector = teamCheck % 2
-                print('selector', selector)
+                #print('selector', selector)
             except:
                 selector = 0
             
@@ -256,25 +256,28 @@ def abc_list():
     user = midtermGrades()
     qna = json.loads(user.j1)
     snl = json.loads(user.j2) 
-    print (qna)
-    print (snl)
+    #print (qna)    
+    #print (snl)
 
     for entry in qna:
         unit = qna[entry]['unit']
         team = qna[entry]['team']
         grade = qna[entry]['grade']        
         try:            
-            print(examDict[unit][int(team)]['Qscore'])
+            #print(examDict[unit][int(team)]['Qscore'])
             examDict[unit][int(team)]['Qscore'] = grade
         except:
             print('FAIL QNA')
         
     for entry in snl:
-        print(entry)
-        try:
-            examDict[entry.unit][entry.team]['Sscore'] = entry.grade
+        unit = snl[entry]['unit']
+        team = snl[entry]['team']
+        grade = snl[entry]['grade']        
+        try:            
+            #print(examDict[unit][int(team)]['Sscore'])
+            examDict[unit][int(team)]['Sscore'] = grade
         except:
-            print('FAIL QNA')   
+            print('FAIL QNA') 
 
 
     pprint (examDict)       
@@ -294,6 +297,7 @@ def storeB64():
     question = request.form ['question']      
     b64data = request.form ['b64data'] 
     fileType = request.form ['fileType'] 
+    total = request.form ['total'] 
 
     project = unitDict[unit]           
     project_data = project.query.filter_by(teamnumber=team).first() 
@@ -308,6 +312,7 @@ def storeB64():
 
         project_answers[question]['imageLink'] = imageLink   
         project_data.Ans02 = json.dumps(project_answers)
+        project_data.Ans04 = total
         db.session.commit()
 
     if b64 == 'a':
@@ -319,6 +324,7 @@ def storeB64():
 
         project_answers[question]['audioLink'] = audioLink   
         project_data.Ans02 = json.dumps(project_answers)
+        project_data.Ans04 = total
         db.session.commit()
        
     
@@ -369,21 +375,10 @@ def updateAnswers():
 
 
 
-def get_team_data(unit, team, exam):
-    srcDict = get_projects()
-    meta = srcDict[unit]
-
+def get_team_data(unit, team):  
     project = unitDict[unit]    
     questions = project.query.filter_by(teamnumber=team).first()   
-    teamMembers = ast.literal_eval(questions.username)
-
-    if exam == 1:
-        pass
-    elif current_user.id == 1:
-        print('admin user')        
-    elif current_user.username not in teamMembers:
-        print('username not found in teamMembers')
-        return abort(403)  
+    teamMembers = ast.literal_eval(questions.username)    
     
     teamDict = {}
     for member in teamMembers:
@@ -395,8 +390,7 @@ def get_team_data(unit, team, exam):
     project_answers = unitDict[unit].query.filter_by(teamnumber=team).first()
 
     return {
-        'project_answers' : project_answers, 
-        'meta' : meta, 
+        'project_answers' : project_answers,         
         'teamMembers' : json.dumps(teamDict)
     }
 
@@ -455,10 +449,14 @@ def addWord():
 @login_required
 def abc_setup(qs, unit, team): 
 
-    data = get_team_data(unit, team, 0)  
-    project_answers = data['project_answers'] 
-    meta = data['meta'] 
+    srcDict = get_projects()
+    meta = srcDict[unit]
+
+    data = get_team_data(unit, team)  
+    project_answers = data['project_answers']     
     teamMembers = data['teamMembers']
+
+    
     if current_user.username not in teamMembers :
         flash('You are not on the team for this project', 'warning')
         return (redirect (url_for('abc_dash')))
@@ -566,15 +564,26 @@ def abc_check(unit):
 @app.route ("/abc_exam/<string:qORs>/<string:unit>/<string:team>", methods=['GET','POST'])
 @login_required
 def abc_exam(qORs, unit, team):
-    data = get_team_data(unit, team, 0)      
-    meta = data['meta']  
+
+    ## get_team_data will check if user is exam ready or not
+    team_data = get_team_data(unit, team)
+    teamMembers = team_data['teamMembers']
+
+    if current_user.extra == 3:
+        print('exam user')            
+    elif current_user.username not in teamMembers:
+        flash('Exam not ready - Please see instructor', 'warning')
+        return redirect(url_for('abc_list'))
+         
+    srcDict = get_projects()
+    meta = srcDict[unit]
 
     print('exam', unit, team)
 
-    team_data = get_team_data(unit, team, 1)
+    
     data = team_data['project_answers']
     print(team_data)
-    source = team_data['meta']['M1']
+    source = meta['M1']
     print(source)
     qnaString = data.Ans01
     snlString = data.Ans02
