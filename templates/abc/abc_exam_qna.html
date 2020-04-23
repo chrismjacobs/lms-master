@@ -43,13 +43,13 @@
             </tr>
             <tr v-if="display">
               <td> 
-                  Correct answer: <span style="color:blue">[[ answerSet.answer ]]</span>
+                  Team answer: <span style="background:mediumseagreen; color:white">[[ answerSet.answer ]]</span>
                   <br>  
-                  Your answer: <span style="color:green"> [[ input[key] ]]</span>  
+                  Your answer: <span style="background:dodgerblue; color:white"> [[ input[key] ]]</span>  
                   <br>
-                  <select style="height:25px;width:200px;color:white;background:royalblue" :id="key">  
+                  <select style="height:25px;width:200px;color:white;background:thistle" :id="key">  
                   <option value="0">--</option>
-                  <option value="0">Not Correct</option>
+                  <option value="1">Not Correct</option>
                   <option value="3">Different but Correct</option>
                   <option value="4">Kind of Correct</option>
                   <option value="5">Correct</option>
@@ -143,6 +143,7 @@ function startVue(){
           
         }, 
         updateGrades: function() {
+          console.log('vueGrade', vue.grade);
           
           $.ajax({
               data : {

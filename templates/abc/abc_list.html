@@ -97,29 +97,29 @@
         <tbody>
             <template v-for="(part, unit) in examOBJ"  >  
               <tr style="background:grey">
-                  <td colspan="5">  
+                  <td v-if="unit != '00'" colspan="5">  
                     <span class="unit-span" style="background:tomato;padding:3px"> [[ unit ]] </span> 
                   </td> 
               </tr>
-                <template v-for="(exam, team) in part" >   
+                <template v-if="unit != '00'"  v-for="(exam, team) in part" >   
 
                 <tr>
                   <td>  
                     <span class="unit-span" style="background:silver;padding:3px"> [[ team  ]] </span> 
                   </td>                    
                   <td>
-                    <span v-if="exam.QTotal > 11" @click="goToExam(unit, team, 'qna')"  class="unit-span" :style="buttonStyle(exam.Qscore, 'qna', 'check')"> &nbsp;QNA&nbsp; </span>  
+                    <span v-if="exam.QTotal > 11" @click="goToExam(unit, team, 'qna', exam.Qscore)"  class="unit-span" :style="buttonStyle(exam.Qscore, 'qna', 'check')"> &nbsp;QNA&nbsp; </span>  
                     <span v-else @click="" class="unit-span" style="background:lightgrey;padding:3px"> N/A </span>  
                   </td>  
                   <td>
-                    [[ exam.Qscore ]]
+                    <span :style="gradeStyle(exam.Qscore)">&nbsp;[[ exam.Qscore ]]&nbsp;</span>
                   </td>  
                   <td>
-                    <span v-if="exam.STotal > 11"  @click="goToExam(unit, team, 'snl')"  class="unit-span" :style="buttonStyle(exam.Sscore, 'snl', 'check')"> &nbsp;SNL&nbsp; </span>  
+                    <span v-if="exam.STotal > 11"  @click="goToExam(unit, team, 'snl', exam.Sscore)"  class="unit-span" :style="buttonStyle(exam.Sscore, 'snl', 'check')"> &nbsp;SNL&nbsp; </span>  
                     <span v-else @click="" class="unit-span" style="background:lightgrey;padding:3px"> N/A </span>  
                   </td>  
                   <td>
-                    [[ exam.Sscore ]]
+                    <span :style="gradeStyle(exam.Sscore)">&nbsp;[[ exam.Sscore ]]&nbsp;</span>
                   </td>  
                   
                 </tr>  
@@ -182,8 +182,19 @@ function startVue(OBJ){
             else{
               return { background: 'goldenrod', padding:'3px'}
             }
-          }                 
-          
+          } 
+        },     
+        gradeStyle: function(grade) { 
+          if (grade > 3) {            
+              return { background: 'springgreen', padding:'3px'}
+            }
+            else if (grade == 0){
+              return false
+            }
+            else{
+              return { background: 'darkseagreen', padding:'3px'}
+            }
+                    
         },     
         goTo: function(unit, team, mode) {          
           console.log(mode);
@@ -204,13 +215,17 @@ function startVue(OBJ){
           window.location = url
             
         },
-        goToExam: function(unit, team, mode) {
-
-          // go to HTTPS version
-          var str = window.location.href
-          let url = (str).split('_list')[0] + '_exam/' + mode + '/' + unit + '/' + team
-          console.log('goTO', url);
-          window.location = url
+        goToExam: function(unit, team, mode, score) {
+          console.log(score)
+          if (score != 0 ){            
+            return false
+          }
+          else{            
+            var str = window.location.href
+            let url = (str).split('_list')[0] + '_exam/' + mode + '/' + unit + '/' + team
+            console.log('goTO', url);
+            window.location = url
+          }        
             
         }
                   
