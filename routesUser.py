@@ -185,12 +185,7 @@ def home():
         image_file = S3_LOCATION + current_user.image_file
         image_chris = S3_LOCATION + User.query.filter_by(id=1).first().image_file  
    
-    ''' deal with grades ''' 
-    if SCHEMA < 3:
-        grades = get_grades(True, True) 
-    else:
-        grades = {'unitGrade': None, 'assGrade': None,'maxA':None, 'maxU':None  }    
-
+    
     ''' deal with attendance '''          
     attLog = AttendLog.query.filter_by(username=current_user.username).all()   
          
@@ -200,11 +195,7 @@ def home():
     'image_chris' : image_chris, 
     'image_file' : image_file, 
     'chat' : chat,
-    'attLog' : attLog,
-    'unitGrade' : grades['unitGrade'], 
-    'assGrade' :  grades['assGrade'], 
-    'maxA' : grades['maxA'],
-    'maxU' : grades['maxU'], 
+    'attLog' : attLog,    
     'title' : 'Home'    
     } 
 
