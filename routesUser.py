@@ -496,6 +496,8 @@ def grades():
             percent = gradesDict[entry]['asses']*30/maxA
             gradesDict[entry]['aP'] = round(percent, 1)
         
+    for entry in gradesDict:
+        gradesDict[entry]['Total'] = gradesDict[entry]['uP'] + gradesDict[entry]['aP'] + gradesDict[entry]['exam1'] + gradesDict[entry]['exam2'] 
 
 
 
