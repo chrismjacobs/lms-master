@@ -10,7 +10,7 @@
    <div style="overflow-x:auto;"> 
     <table class="table table-sm">
        <tbody>
-          <tr>
+          <tr :style="totalStyle(examOBJ.total)">
             <td> Total Grade</td>   
             <td> [[examOBJ.total]]/100%</td>  
           </tr>       
@@ -126,6 +126,21 @@ function startVue(){
           console.log('goTO', url);
           window.location = url
          
+        },
+        totalStyle: function(grade){
+          if (grade < 60) {
+            return { 'background': 'lightsalmon'}
+          } 
+          else if (grade < 80){
+            return { 'background': 'gold'}
+          }
+          else if (grade < 90){
+            return { 'background': 'mediumseagreen'}
+          }
+          else if (grade < 101){
+            return { 'background': 'aqua'}
+          }
+
         }
                   
     }         
