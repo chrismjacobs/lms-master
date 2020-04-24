@@ -26,7 +26,7 @@
         <template v-for="(answerSet, key) in snlOBJ" > 
             
             <tr>
-              <td>
+              <td style="width: 50px; word-wrap: break-word">
                 [[ key ]] <br>
                 <span v-if="grade < 5"> [[  answerSet['word']  ]] </span>
                 <span v-if="grade < 4"> [[  answerSet['sentence']  ]] </span>
