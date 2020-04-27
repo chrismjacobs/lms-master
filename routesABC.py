@@ -187,13 +187,15 @@ def get_tests(unit, team):
 def abc_list():        
     srcDict = get_projects()       
     #pprint(srcDict)
+
+    unitList = ['00', '01', '02', '03']
     abcDict = {}
     for src in srcDict:
         # check sources against open units in model
         # src == unit
-
-
-        if Units.query.filter_by(unit=src).count() == 1:
+        if src in unitList:
+            pass
+        elif Units.query.filter_by(unit=src).count() == 1:
             abcDict[src] = {                
                 'Title' : srcDict[src]['Title'],
                 'Team'  : 'Not set up yet',
@@ -219,7 +221,7 @@ def abc_list():
     #pprint (abcDict)       
 
     examDict = {} 
-       
+    '''
     for src in srcDict:
         if int(src) > 3:
             pass
@@ -278,9 +280,7 @@ def abc_list():
             examDict[unit][int(team)]['Sscore'] = grade
         except:
             print('FAIL QNA') 
-
-
-    pprint (examDict)       
+    '''      
        
     source = srcDict['00']['M2']
         
