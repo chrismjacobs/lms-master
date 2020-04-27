@@ -24,7 +24,8 @@ def get_peng_projects():
     content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/sources.json' )
     file_content = content_object.get()['Body'].read().decode('utf-8')    
     sDict = json.loads(file_content)  # json loads returns a dictionary       
-    source = sDict['1']['M2']
+    #source = sDict['1']['M2']
+    source = sDict['1']['M3']
     return source
 
 
@@ -32,11 +33,13 @@ def get_peng_projects():
 @login_required
 def peng_list(): 
 
+    setup = 'FN'
     source = get_peng_projects() 
 
-    if U011U.query.filter_by(username=current_user.username).first():
+    #if U011U.query.filter_by(username=current_user.username).first():
+    if U021U.query.filter_by(username=current_user.username).first():
         pass
-    else:
+    elif setup == 'MT':
         startDict = {
             'Product' : None, 
             'Brand' : None, 
@@ -107,8 +110,43 @@ def peng_list():
         start = U011U(username=current_user.username, Ans01=json.dumps(startDict), Grade=0, Comment='0')
         db.session.add(start)
         db.session.commit()
+    elif setup == 'FN':
+        startDict = {
+            'Video Title' : None, 
+            'Video Length' : None, 
+            'Video Views' : None, 
+            'Video Link' : None,
+            'Video Point' : None,
+            'Presenter' : current_user.username,
+            'Warm Up Question' : None, 
+            'Your answer' : None,
+            'Cue Card Points' : {
+            1 : None, 
+            2 : None, 
+            3 : None           
+            },          
+            'Description' : {
+            1 : None, 
+            2 : None, 
+            3 : None            
+            },
+            'Comments Points' : {
+            1 : None, 
+            2 : None, 
+            3 : None
+            },
+            'Final Comments' : {
+            1 : None, 
+            2 : None, 
+            3 : None
+            },
+        }
+            
+        start = U021U(username=current_user.username, Ans01=json.dumps(startDict), Grade=0, Comment='0')
+        db.session.add(start)
+        db.session.commit()
 
-    project = U011U.query.filter_by(username=current_user.username).first() 
+    project = U021U.query.filter_by(username=current_user.username).first() 
     ansDict = project.Ans01
     grade = project.Grade
     stage = project.Comment
@@ -128,6 +166,12 @@ def peng_dash(MTFN):
             userDict = json.loads(user.Ans01)
             userDict['stage'] = user.Comment
             projDict[user.username] = userDict
+    if MTFN == 'FN':
+        midterms = U021U.query.all()
+        for user in midterms:            
+            userDict = json.loads(user.Ans01)
+            userDict['stage'] = user.Comment
+            projDict[user.username] = userDict
     
     ansString = json.dumps(projDict)
 
@@ -142,15 +186,19 @@ def peng_proj(MTFN, page_stage):
     # midterm or final
     if MTFN == 'MT':        
         project = U011U.query.filter_by(username=current_user.username).first() 
-    else:
-        pass
-
+        html = 'peng/peng_demo'
+    elif MTFN == 'FN':
+        project = U021U.query.filter_by(username=current_user.username).first() 
+        html = 'peng/peng_video'
     ansDict = project.Ans01
     grade = project.Grade
     stage = project.Comment
+
+    print(source)
+    print(page_stage)
     
     print(page_stage)
-    return render_template('peng/peng_demo' + page_stage + '.html', legend='Presentation Project', source=source, ansString=ansDict )
+    return render_template(html + page_stage + '.html', legend='Presentation Project', source=source, ansString=ansDict )
 
 
 def get_all_values(nested_dictionary):
@@ -172,8 +220,12 @@ def updatePENG():
     proj = request.form ['proj']
     ansOBJ = request.form ['ansOBJ']
     stage = request.form ['stage']
-    image_b64 = request.form ['image_b64']
-    audio_b64 = request.form ['audio_b64']
+    try:
+        image_b64 = request.form ['image_b64']
+        audio_b64 = request.form ['audio_b64']
+    except:
+        image_b64 = None
+        audio_b64 = None
     
     try: 
         user = request.form ['user']
@@ -206,13 +258,24 @@ def updatePENG():
 
 
     ### check stage 1 
-    if int(stage) == 1: 
+    if int(stage) == 1:
+        ''' 
         stage1_checklist = [
             ansDict['Product'], 
             ansDict['Brand'],  
             ansDict['Image'],  
             ansDict['Why']
-            ]            
+            ] 
+        '''          
+        
+        stage1_checklist = [
+            ansDict['Video Title'], 
+            ansDict['Video Length'],  
+            ansDict['Video Views'],  
+            ansDict['Video Link'],
+            ansDict['Video Point'],
+            ]  
+                
         
         if int(project_answers.Comment) > 1 :
             pass 

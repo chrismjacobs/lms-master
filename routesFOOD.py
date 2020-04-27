@@ -57,6 +57,7 @@ def updateFood():
     ansDict = json.loads(ansOBJ)
     print(proj, ansDict)
     try: 
+        ## instructor update
         grade = request.form ['grade']
         name = request.form ['name']
     except:   
@@ -69,11 +70,16 @@ def updateFood():
 
     print('GRADE', grade)     
 
-    project_answers = U011U.query.filter_by(username=name).first() 
+    
     if proj == 'ND':
+        project_answers = U011U.query.filter_by(username=name).first() 
         project_answers.Ans01 = json.dumps(ansDict)
     if proj == 'CV':
+        project_answers = U011U.query.filter_by(username=name).first() 
         project_answers.Ans02 = json.dumps(ansDict)
+    if proj == 'RR':
+        project_answers = U021U.query.filter_by(username=name).first() 
+        project_answers.Ans01 = json.dumps(ansDict)
        
     project_answers.Grade = grade 
     db.session.commit()   
@@ -166,7 +172,13 @@ def createPPT():
     
     return jsonify({'pptLink' : pptLink})
 
-startDictGlobal = {
+
+def startDictGlobal(sd):
+
+    midterm = ['ND', 'CV']
+
+    if sd in midterm:
+        startDictGlobal = {
             'Dish' : None,             
             'Link' : 'Video Link',             
             'Image' : 'Image Link',
@@ -216,6 +228,47 @@ startDictGlobal = {
                 },
             }
         }
+    else: 
+        startDictGlobal = {
+            'Intro' : {
+                'Name' : None, 
+                'Style' : None, 
+                'Location' : None, 
+                'When' : None
+            },
+            'Menu' : {
+                'Sentence 1' : None, 
+                'Sentence 2' : None, 
+                'Sentence 3' : None, 
+                'key words' : None 
+            },
+            'Food' : {
+                'Sentence 1' : None, 
+                'Sentence 2' : None, 
+                'Sentence 3' : None, 
+                'key words' : None 
+            },
+            'Decor' : {
+                'Sentence 1' : None, 
+                'Sentence 2' : None, 
+                'Sentence 3' : None, 
+                'key words' : None 
+            },
+            'Atmosphere' : {
+                'Sentence 1' : None, 
+                'Sentence 2' : None, 
+                'Sentence 3' : None, 
+                'key words' : None 
+            },
+            'Rating' : {
+                'Sentence 1' : None, 
+                'Sentence 2' : None, 
+                'Sentence 3' : None, 
+                'key words' : None 
+            }   
+        }
+    
+    return startDictGlobal
 
 @app.route ("/food/<string:proj>", methods=['GET','POST'])
 @login_required
@@ -224,32 +277,40 @@ def food_proj(proj):
     sDict = get_food_projects()
     if proj == 'ND':
         title = 'National Dish'
-        source = sDict['1']['M3']  
+        source = sDict['1']['M3'] 
+        model = U011U 
     elif proj == 'CV':
         source = sDict['1']['M4']
-        title = 'Cooking Video'  
+        title = 'Cooking Video' 
+        model = U011U 
+    else:
+        source = sDict['1']['MA']
+        title = 'Restaurant Review' 
+        model = U021U 
 
     
-    if U011U.query.filter_by(username=current_user.username).first():
+    if model.query.filter_by(username=current_user.username).first():
         pass
     else:
-        startDict = startDictGlobal
-        start = U011U(username=current_user.username, Ans01=json.dumps(startDict), Ans02=json.dumps(startDict), Grade=0)
+        startDict = startDictGlobal(proj)
+        start = model(username=current_user.username, Ans01=json.dumps(startDict), Ans02=json.dumps(startDict), Grade=0)
         db.session.add(start)
         db.session.commit()
 
-    project = U011U.query.filter_by(username=current_user.username).first() 
+    project = model.query.filter_by(username=current_user.username).first() 
     if proj == 'ND':
         ansDict = project.Ans01
+        html = 'food/food_proj_MT.html'
     if proj == 'CV':
         ansDict = project.Ans02
+        html = 'food/food_proj_MT.html'
+    if proj == 'RR':
+        ansDict = project.Ans01
+        html = 'food/food_proj_RR.html'
     
     
-    return render_template('food/food_proj.html', legend='Food Project', 
-    source=source,     
-    title=title,         
-    ansString=ansDict,
-    )
+    return render_template(html, legend='Food Project', 
+    source=source, title=title, ansString=ansDict)
 
 
 
@@ -266,7 +327,7 @@ def food_MT():
             'Dish' : None,
             'Proj' : None,
             'Grade' : 0,
-            'Data' : startDictGlobal
+            'Data' : startDictGlobal('ND')
         }
     
     project_answers = U011U.query.all()
