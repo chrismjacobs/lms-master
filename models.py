@@ -440,9 +440,11 @@ elif BaseConfig.SCHEMA == 3:
 
 elif BaseConfig.SCHEMA == 5:    
     admin.add_view(MyModelView(U011U, db.session))
+    admin.add_view(MyModelView(U021U, db.session))
 
 elif BaseConfig.SCHEMA == 4:    
     admin.add_view(MyModelView(U011U, db.session))
+    admin.add_view(MyModelView(U021U, db.session))
     
     
 
