@@ -1,0 +1,215 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<span id="ansString" style="display:none">{{ansString}}</span>
+
+<div class="content-section">    
+<h3> FN Presentation: <br> Share a Viral Video </h3>
+  
+    <div class="embed-responsive embed-responsive-4by3">
+        <iframe id="questions_embed" src="{{source}}"
+            allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
+	</iframe>
+    </div> 
+      
+</div>
+
+<div id="vue-app">
+
+    <div class="content-section">
+
+            <legend class="border-bottom mb-4"> Set Up </legend>
+
+
+            <span :style="style('Intro')"> Video Title</span>
+            <span> [[ ansOBJ['Video Title'] ]] </span> 
+            <br>
+            <br>
+      
+            <span :style="style('Intro')"> Video Length</span>
+            <span> [[ ansOBJ['Video Length'] ]] </span> 
+            <br>
+            <br>
+            
+            <span :style="style('Intro')"> Video Views</span>
+            <span> [[ ansOBJ['Video Views'] ]] </span> 
+            <br>
+            <br>
+        
+            <span :style="style('Intro')"> Video Link</span>
+            <span> <a :href="[[ ansOBJ['Video Title'] ]]"> Link </a> </span> 
+            <br>
+            <br>
+           
+            <span :style="style('Intro')"> Video Purpose</span>
+            <span> [[ ansOBJ['Video Point'] ]] </span> 
+            <br>
+            <br>
+         
+
+            <legend class="border-bottom mb-4"> Warm Up Question</legend>
+
+            <span :style="style('Intro')"> Question</span>
+            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Warm Up Question']"></input>            
+            <span style="color:green">*you can choose a question that will make people think, but also something they can answer</span>
+            <span style="color:green">** if your question is yes/no question than you should ask 'why?' </span>
+            <br>  
+            <br>  
+            <span :style="style('Intro')"> Your answer </span>
+            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Warm Up Question']"></input>            
+            <span style="color:green">*this shows that can answer your own question</span>
+            <br>  
+            <br>  
+            <legend class="border-bottom mb-4"> Video Description</legend>
+            <span style="color:green">*describe the video using pictures</span>
+            <br>
+            <br>
+            <span :style="style('dt')"> Sentence 1</span>
+            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Description'][1]"></input>            
+            <br>  
+            <span :style="style('kw')"> Cue Card 1</span>
+            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Cue Card Points'][1]"></input>            
+            <br>  
+            <span :style="style('dt')"> Sentence 2</span>
+            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Description'][2]"></input>            
+            <br>  
+            <span :style="style('kw')"> Cue Card 2</span>
+            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Cue Card Points'][2]"></input>            
+            <br>  
+            <span :style="style('dt')"> Sentence 3</span>
+            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Description'][3]"></input>            
+            <br>  
+            <span :style="style('kw')"> Cue Card 3</span>
+            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Cue Card Points'][3]"></input>            
+            <br>  
+            <br>  
+            <br>  
+
+            <legend class="border-bottom mb-4"> Video Comments</legend>
+            <span style="color:green">*give your comments the video, interesting things to think about, what can we learn?</span>
+            <br>
+            <br>
+            <span :style="style('dt')"> Comment 1</span>
+            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Final Comments'][1]"></input>            
+            <br>  
+            <span :style="style('kw')"> Cue Card 1</span>
+            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Comments Points'][1]"></input>            
+            <br>  
+            <span :style="style('dt')"> Comment 2</span>
+            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Final Comments'][2]"></input>            
+            <br>  
+            <span :style="style('kw')"> Cue Card 2</span>
+            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Comments Points'][2]"></input>            
+            <br>  
+            <span :style="style('dt')"> Comment 3</span>
+            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Final Comments'][3]"></input>            
+            <br>  
+            <span :style="style('kw')"> Cue Card 3</span>
+            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Comments Points'][3]"></input>            
+            <br>  
+            <br>  
+            <br>  
+
+            
+            
+            <div>				
+                <button  class="btn btn-dark" style="margin-right:5px;width:100%" @click="updatePlan()">Update Plan</button>
+            </div> 
+            <br>  
+
+    </div>
+
+
+
+
+</div> <!-- end of Vue app -->
+
+
+{% endblock %}
+
+{% block script %}   
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script type="text/javascript">
+
+var ansString = document.getElementById('ansString').innerHTML
+var ansOBJ = JSON.parse(ansString)
+console.log('ansOBJ', ansOBJ);
+
+var str = window.location.href
+let stage = (str).split('peng/')[1].split('/')[1]
+
+
+startVue(ansOBJ)
+
+function startVue(ansOBJ){ 
+  
+  let vue = new Vue({   
+
+    el: '#vue-app',
+    delimiters: ['[[', ']]'],   
+    mounted: function () {        
+    },    
+    data: {                        
+        ansOBJ: ansOBJ,       
+        stage : stage,         
+        project: (window.location.href).split('/peng/')[1].split('/')[0],   
+    }, 
+    methods: { 
+        style : function(mark) { 
+            if (mark.includes('kw')){
+                var bg = 'silver'
+            }
+            else if (mark.includes('dt')){
+                var bg = 'darkorange'
+            }           
+            else if (mark.includes('Rea')){
+                var bg = 'PALEVIOLETRED'
+            }           
+            else if (mark.includes('Int')){
+                var bg = 'DARKCYAN'
+            }           
+
+            return {padding:'4px', 'font-size':'15px', background:bg, color:'white', border:'1px sold white', 'border-radius':'5px', width:'20%'}
+
+        },
+        updatePlan : function() {  
+            alert('Please wait, your plan is being updated')           
+
+            $.ajax({
+              data : {
+                proj : this.project,
+                stage: this.stage,
+                ansOBJ : JSON.stringify(this.ansOBJ)  
+              },
+              type : 'POST',
+              url : '/updatePENG',               
+            })
+            .done(function(data) {
+                if (data.fail){
+                    alert('Your FORM is NOT complete yet')
+                }
+                else{
+                    vue.ansOBJ = JSON.parse(data.ansString)
+                    console.log(vue.ansOBJ)
+                    alert('Your FORM has been updated')   
+                }  
+                
+                               
+            })
+            .fail(function(){
+                alert('error has occurred');
+            });
+        }, 
+    }  
+    
+})// end NEW VUE
+
+}// endFunction 
+
+
+</script>
+
+{% endblock %} 
+

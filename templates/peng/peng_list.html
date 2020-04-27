@@ -23,21 +23,28 @@
 
 <legend class="border-bottom mb-4"> Your Score: </legend>
 
-<span :style="linkStyle(1)" @click="goTo('1')"> Stage 1: Choose Product </span> -- Deadline: Mar 22
+<!--
+<span :style="linkStyle(1)" @click="goToMT('1')"> Stage 1: Choose Product </span> -- Deadline: Mar 22
 <br>
 <br>
-<span v-if="stage > 1" :style="linkStyle(2)" @click="goTo('2')"> Stage 2: Prepare Plan </span>  -- Deadline: Apr 6
+<span v-if="stage > 1" :style="linkStyle(2)" @click="goToMT('2')"> Stage 2: Prepare Plan </span>  -- Deadline: Apr 6
 <br>
 <br>
-<span v-if="stage > 3" :style="linkStyle(3)" @click="goTo('5')"> Stage 3: Practice Speaking </span>
+<span v-if="stage > 3" :style="linkStyle(3)" @click="goToMT('5')"> Stage 3: Practice Speaking </span>
 <br>
 <br>
-<span v-if="stage > 4" :style="linkStyle(4)" @click="goTo('6')"> Stage 4: Practice with Cue Cards </span>
+<span v-if="stage > 4" :style="linkStyle(4)" @click="goToMT('6')"> Stage 4: Practice with Cue Cards </span>
 <br>
 <br>
 <span v-if="stage > 5" :style="linkStyle(5)" > CONGRATULATIONS - YOU ARE READY!! </span>
-  
+-->  
 
+<span :style="linkStyle(1)" @click="goToFN('1')"> Stage 1: Choose Video </span> -- Deadline: May 11
+<br>
+<br>
+<span v-if="stage > 1" :style="linkStyle(2)" @click="goToFN('2')"> Stage 2: Prepare Plan </span>  -- Deadline: May 19
+<br>
+<br>
 </div>  
 
    
@@ -78,9 +85,15 @@ function startVue(){ new Vue({
         }         
     }, 
     methods: {  
-      goTo: function(link) { 
+      goToMT: function(link) { 
           var str = window.location.href
           let url = (str).split('_list')[0] + '/MT/' + link
+          console.log('goTO', url);
+          window.location = url            
+        },                 
+      goToFN: function(link) { 
+          var str = window.location.href
+          let url = (str).split('_list')[0] + '/FN/' + link
           console.log('goTO', url);
           window.location = url            
         },                 
