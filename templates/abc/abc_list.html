@@ -55,7 +55,7 @@
                        <br>
                        <br>
                        
-                      <span v-if="proj.QTotal >= 12" @click="goToExam(unit, proj.Number, 'qna')" class="unit-span" :style="buttonStyle(proj.QTest, 'qna', 'check')"> &nbsp;check&nbsp; </span> 
+                      <span v-if="proj.QTotal >= 12" @click="goToExam(unit, proj.Number, 'qna')" class="unit-span" :style="buttonStyle(proj.QTest, 'qna', 'check')">check/[[proj.QTest]]</span> 
                        <br> 
                   </td>  
                   <td>
@@ -64,7 +64,7 @@
                        <br>
                        <br>
                         
-                      <span v-if="proj.STotal >= 12" @click="goToExam(unit, proj.Number, 'snl')" class="unit-span" :style="buttonStyle(proj.STest, 'snl', 'check')"> &nbsp;check&nbsp; </span> 
+                      <span v-if="proj.STotal >= 12" @click="goToExam(unit, proj.Number, 'snl')" class="unit-span" :style="buttonStyle(proj.STest, 'snl', 'check')">check/[[proj.STest]]</span> 
                        </td> 
                        <br>      
                 </tr>  
@@ -76,7 +76,7 @@
 
 </div>   
 
-<div class="content-section">  
+<div class="content-section" style="display:none">  
 
 <h3> Exam Test Board </h3>
 
@@ -172,7 +172,7 @@ function startVue(OBJ){
               return { background: 'mediumseagreen', padding:'3px'}
             }
             else{
-              return { background: 'goldenrod', padding:'3px'}
+              return { background: 'lightcoral', padding:'3px'}
             }
           } 
           else if (style == 'check'){
@@ -180,7 +180,7 @@ function startVue(OBJ){
               return { background: 'mediumseagreen', padding:'3px'}
             }
             else{
-              return { background: 'goldenrod', padding:'3px'}
+              return { background: 'lightcoral', padding:'3px'}
             }
           } 
         },     
