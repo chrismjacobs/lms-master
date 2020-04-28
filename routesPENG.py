@@ -116,30 +116,13 @@ def peng_list():
             'Video Length' : None, 
             'Video Views' : None, 
             'Video Link' : None,
-            'Video Point' : None,
-            'Presenter' : current_user.username,
-            'Warm Up Question' : None, 
-            'Your answer' : None,
-            'Cue Card Points' : {
-            1 : None, 
-            2 : None, 
-            3 : None           
-            },          
-            'Description' : {
-            1 : None, 
-            2 : None, 
-            3 : None            
-            },
-            'Comments Points' : {
-            1 : None, 
-            2 : None, 
-            3 : None
-            },
-            'Final Comments' : {
-            1 : None, 
-            2 : None, 
-            3 : None
-            },
+            'Video Point' : None,            
+            'Warm Up Question' : None,
+            'Your Answer' : None,
+            'Description' : None,
+            'Description Key Words' : None,  
+            'Comments' : None, 
+            'Comments Key Words' : None
         }
             
         start = U021U(username=current_user.username, Ans01=json.dumps(startDict), Grade=0, Comment='0')
@@ -251,7 +234,10 @@ def updatePENG():
         s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=audio)
         ansDict['Audio'+ stage] = audioLink
     
-    project_answers = U011U.query.filter_by(username=user).first() 
+    if proj == 'MT':
+        project_answers = U011U.query.filter_by(username=user).first() 
+    if proj == 'FN':
+        project_answers = U021U.query.filter_by(username=user).first() 
     ansOBJ = json.dumps(ansDict)
     project_answers.Ans01 = str(ansOBJ)
     db.session.commit()  

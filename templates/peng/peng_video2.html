@@ -15,6 +15,13 @@
       
 </div>
 
+<div class="content-section">   
+  
+    <h3> <a href="https://drive.google.com/open?id=1ePFM7qDeleT3RImcmPX-yBT1cdYo4TPUf0usRwjpULA"> Example: Kangaroo </a> </h3>
+      
+</div>
+
+
 <div id="vue-app">
 
     <div class="content-section">
@@ -57,61 +64,36 @@
             <br>  
             <br>  
             <span :style="style('Intro')"> Your answer </span>
-            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Warm Up Question']"></input>            
+            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Your Answer']"></input>            
             <span style="color:green">*this shows that can answer your own question</span>
             <br>  
             <br>  
             <legend class="border-bottom mb-4"> Video Description</legend>
-            <span style="color:green">*describe the video using pictures</span>
+            <span style="color:green">* describe the video using pictures</span>           
             <br>
             <br>
-            <span :style="style('dt')"> Sentence 1</span>
-            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Description'][1]"></input>            
+            <span :style="style('dt')"> more than 70 words</span>
+            <textarea id="70" type="text" class="textAss" style="margin-left:5px;width:100%;height:200px" v-model="ansOBJ['Description']" @blur="wordCount(70)"></textarea>            
             <br>  
-            <span :style="style('kw')"> Cue Card 1</span>
-            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Cue Card Points'][1]"></input>            
-            <br>  
-            <span :style="style('dt')"> Sentence 2</span>
-            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Description'][2]"></input>            
-            <br>  
-            <span :style="style('kw')"> Cue Card 2</span>
-            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Cue Card Points'][2]"></input>            
-            <br>  
-            <span :style="style('dt')"> Sentence 3</span>
-            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Description'][3]"></input>            
-            <br>  
-            <span :style="style('kw')"> Cue Card 3</span>
-            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Cue Card Points'][3]"></input>            
+            <span :style="style('kw')"> Key Words for Presentation</span>
+            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Description Key Words']"></input>            
             <br>  
             <br>  
             <br>  
+            
 
             <legend class="border-bottom mb-4"> Video Comments</legend>
             <span style="color:green">*give your comments the video, interesting things to think about, what can we learn?</span>
-            <br>
-            <br>
-            <span :style="style('dt')"> Comment 1</span>
-            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Final Comments'][1]"></input>            
-            <br>  
-            <span :style="style('kw')"> Cue Card 1</span>
-            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Comments Points'][1]"></input>            
-            <br>  
-            <span :style="style('dt')"> Comment 2</span>
-            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Final Comments'][2]"></input>            
-            <br>  
-            <span :style="style('kw')"> Cue Card 2</span>
-            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Comments Points'][2]"></input>            
-            <br>  
-            <span :style="style('dt')"> Comment 3</span>
-            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Final Comments'][3]"></input>            
-            <br>  
-            <span :style="style('kw')"> Cue Card 3</span>
-            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Comments Points'][3]"></input>            
-            <br>  
-            <br>  
-            <br>  
-
             
+            <br>
+            <br>
+            <span :style="style('dt')">more than 60 words</span>
+            <textarea id="60" type="text" class="textAss" style="margin-left:5px;width:100%;height:200px" v-model="ansOBJ['Comments']" @blur="wordCount(60)"></textarea>            
+            <br>  
+            <span :style="style('kw')">Key Words for Presentation</span>
+            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Comments Key Words']"></input>            
+            <br>  
+            <br> 
             
             <div>				
                 <button  class="btn btn-dark" style="margin-right:5px;width:100%" @click="updatePlan()">Update Plan</button>
@@ -157,6 +139,20 @@ function startVue(ansOBJ){
         project: (window.location.href).split('/peng/')[1].split('/')[0],   
     }, 
     methods: { 
+        wordCount : function(textarea) {
+            console.log(wc); 
+            var wc = (document.getElementById(textarea).value).split(' ')
+            console.log(wc.length);
+            if (wc.length < textarea) {
+                if (textarea == 70){
+                    alert('This is too short - you need more than 70 words - Try to describe the video in more detail (who made it, why, what happens, begining, middle, end...')
+                }
+                if (textarea == 60){
+                    alert('This is too short - you need more than 60 words - Explain more about why this video is important, what can we learn or think about because of this video?')
+                }                
+            }
+            return true
+        },
         style : function(mark) { 
             if (mark.includes('kw')){
                 var bg = 'silver'
