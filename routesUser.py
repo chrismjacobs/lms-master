@@ -404,6 +404,23 @@ def exam_list():
     return render_template('units/exam_list.html', **context )
 
 
+@app.route ("/setStatus", methods=['POST'])
+@login_required
+def setStatus():
+    username = request.form ['username']
+
+    student = User.query.filter_by(username=username).first()
+    if student.extra != 3:
+        print('set')
+        student.extra = 3         
+        db.session.commit()
+    else:
+        print('reset')
+        student.extra = 0 
+        db.session.commit()
+
+    return jsonify({'student' : username, 'set' : student.extra})
+
 
 @app.route ("/grades", methods=['GET','POST'])
 @login_required
@@ -414,7 +431,8 @@ def grades():
     users = User.query.all()    
 
     for user in users:
-        gradesDict[user.username] = {
+        gradesDict[user.username] = {            
+            'Status' : user.extra, 
             'Name' : user.username, 
             'ID' : user.studentID, 
             'Total' : 0,
