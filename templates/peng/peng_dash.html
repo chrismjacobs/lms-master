@@ -121,7 +121,7 @@ function startVue(){
     data: {                        
         fullOBJ: fullOBJ,
         viewWork: null,  
-         
+        blurblocker: null,
         script: {            
             Product : "What is this product", 
             Features : "First, I would like to talk about some product features", 
@@ -136,7 +136,14 @@ function startVue(){
             var wc = (document.getElementById(mark).value).split(' ')
             console.log(wc.length);
             if (wc.length < 8) {
-                alert('This sentence seems too short - try making it longer with conjunction phrases (but/so/when/if/because..)')
+                if (vue.blurblocker == mark){
+                    console.log('blur');
+                }
+                else{
+                    alert('This sentence seems too short - try making it longer with conjunction phrases (but/so/when/if/because..)')
+                    vue.blurblocker = mark
+                }
+                
             }           
 
             return true

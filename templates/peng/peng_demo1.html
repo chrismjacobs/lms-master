@@ -92,7 +92,8 @@ function startVue(ansOBJ){
     data: {                        
         ansOBJ: ansOBJ,       
         stage : stage,
-        updateReady : true,       
+        updateReady : true,   
+        blurblocker : null,    
         image_b64 : null,        
         project: (window.location.href).split('/peng/')[1].split('/')[0],   
     }, 
@@ -102,7 +103,14 @@ function startVue(ansOBJ){
             var wc = (document.getElementById(mark).value).split(' ')
             console.log(wc.length);
             if (wc.length < 8) {
-                alert('This sentence seems too short - try making it longer with conjunction phrases (but/so/when/if/because..)')
+                if (vue.blurblocker == mark){
+                    console.log('blur');
+                }
+                else{
+                    alert('This sentence seems too short - try making it longer with conjunction phrases (but/so/when/if/because..)')
+                    vue.blurblocker = mark
+                }
+                
             }           
 
             return true
