@@ -32,12 +32,12 @@
         <tbody>
         <template v-for="(unit, key) in assOBJ"  :key="key" > 
             <tr>
-              <td style="background:whitesmoke"> <span @click="goTo(key)" class="unit-span" style="background:{{theme}}; padding:3px">[[  key  ]]:[[  unit.Title  ]]</span> </td>  
+              <td style="background:whitesmoke;width:60%"> <span @click="goTo(key)" class="unit-span" style="background:{{theme}}; padding:3px">[[  key  ]]:[[  unit.Title  ]]</span> </td>  
               <td> [[  unit.Deadline  ]] </td>
               <td> [[  unit.Grade  ]] </td>                
             </tr> 
             <tr :bgcolor="bgStyle(unit.Grade)">                 
-              <td colspan ="3" style="width:70%"> [[  unit.Comment  ]] </td>  
+              <td colspan ="3" :style="commentStyle(unit.Comment)"> [[  unit.Comment  ]] </td>  
             </tr>
              
             </template>     
@@ -91,6 +91,24 @@ function startVue(assOBJ, colorFloat){ new Vue({
         colorFloat: colorFloat                       
     }, 
     methods: {
+        commentStyle: function(comment){
+          console.log(comment);
+          if(comment.includes("on time")){
+            return {width:'100%', 'background-color':'pink', height: '30px !important'}
+          }
+          else if(comment.includes("check..")){
+            return {width:'100%', 'background-color':'thistle', height: '30px !important'}
+          }
+          else if(comment.includes("progress")){
+            return {width:'100%', 'background-color':'orange', height: '30px !important'}
+          }
+          else if(comment.includes("completed late")){
+            return {width:'100%', 'background-color':'yellow', height: '110px !important'}
+          }
+          else{
+            return {width:'100%', 'background-color':'lightgreen', height: '110px !important'}
+          }                   
+        }, 
         headStyle: function(){           
             if (colorFloat < .4) {
                 var background ='salmon'; 
