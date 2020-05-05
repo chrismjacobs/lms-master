@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="content-section">
+
+<legend class="border-bottom mb-4">Exams</legend>
+
+<button> <a href={{ url_for ('exam_edit', units='1-2')}}>Midterm 1-2 </a> </button>
+
+<button> Midterm 3-4 </button>
+
+<button> Final 5-6 </button>
+
+<button> Final 7-8 </button>
+    
+
+</div>
+
+
+
+
+
+{% endblock content %}
+
+{% block script %}
+ 
+
+<script type="text/javascript">
+
+ var str = window.location.href
+ if ( str.includes('https')  ){   
+    console.log(str);
+    document.getElementById('website').innerHTML = str
+ }
+ else{
+    var url = 'https://' + str.split('://')[1]
+    document.getElementById('website').innerHTML = url
+  }
+
+function playAudio(link) {
+  player = document.getElementById('handler') 
+  player.src = link
+}
+
+</script> 
+
+ 
+
+{% endblock %} 
