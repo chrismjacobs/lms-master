@@ -52,6 +52,8 @@ def get_sources():
 
 def get_grades(ass, unt):
 
+    
+
     ### set max grades
     total_units = 0
     maxU = 0 
@@ -65,13 +67,26 @@ def get_grades(ass, unt):
     maxU = maxU*2
     maxA = maxA*2  
 
+    MTFN = 'FN'
+    # set number for counting throught the lists of units and asses
+    if MTFN == 'MT':
+        unit_start = 0
+        ass_start = 0
+        unit_check = total_units*4
+        ass_check = total_units
+    elif MTFN == 'FN':
+        unit_start = 16
+        ass_start = 4
+        unit_check = unit_start + total_units*4
+        ass_check = ass_start + total_units
+
+
     unitGrade = 0 
     print ('1', unitGrade)
     unitGradRec = {}     
-    model_check = total_units*4 ## 4 units for each unit
     print ('check units: ', unt, maxU)
     if unt == True:    
-        for model in Info.unit_mods_list[0:model_check]:
+        for model in Info.unit_mods_list[unit_start:unit_check]: # a list of all units (so MT will be the first 4x4=16 units)
             rows = model.query.all()
             unit = str(model).split('U')[1]
             unitGradRec[unit] = {
@@ -89,9 +104,11 @@ def get_grades(ass, unt):
                         }
     assGrade = 0 
     assGradRec = {}   
+
+
     model_check = total_units
     if ass == True:  
-        for model in Info.ass_mods_list[0:model_check]:        
+        for model in Info.ass_mods_list[ass_start:ass_check]:        
             unit = str(model).split('A')[1]
             rec = model.query.filter_by(username=current_user.username).first()
             if rec:
