@@ -55,7 +55,7 @@
                        <br>
                        <br>
                        
-                      <span v-if="proj.QTotal >= 12" @click="goToExam(unit, proj.Number, 'qna')" class="unit-span" :style="buttonStyle(proj.QTest, 'qna', 'check')">check/[[proj.QTest]]</span> 
+                      <span v-if="proj.QTotal >= 12" @click="goToExam(unit, proj.Number, 'qna', proj.QTest)" class="unit-span" :style="buttonStyle(proj.QTest, 'qna', 'check')">check/[[proj.QTest]]</span> 
                        <br> 
                   </td>  
                   <td>

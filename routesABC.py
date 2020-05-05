@@ -165,8 +165,10 @@ def get_projects():
 def get_tests(unit, team):
     user = midtermGrades()
 
-    qna = json.loads(user.j1)
-    snl = json.loads(user.j2)    
+    #qna = json.loads(user.j1)
+    #snl = json.loads(user.j2)    
+    qna = json.loads(user.j3)
+    snl = json.loads(user.j4)    
 
     qnaCount = 0
     for test in qna:
@@ -256,8 +258,10 @@ def abc_list():
                             }
     
     user = midtermGrades()
-    qna = json.loads(user.j1)
-    snl = json.loads(user.j2) 
+    #qna = json.loads(user.j1)
+    #snl = json.loads(user.j2) 
+    qna = json.loads(user.j3)
+    snl = json.loads(user.j4) 
     #print (qna)    
     #print (snl)
 
@@ -451,6 +455,7 @@ def abc_setup(qs, unit, team):
 
     srcDict = get_projects()
     meta = srcDict[unit]
+    print(meta['M1'])
 
     data = get_team_data(unit, team)  
     project_answers = data['project_answers']     
@@ -634,9 +639,11 @@ def updateGrades():
     user = midtermGrades()   
     
     if qORs == 'qna': 
-        examDict = json.loads(user.j1) 
+        #examDict = json.loads(user.j1) 
+        examDict = json.loads(user.j3) 
     elif qORs == 'snl': 
-        examDict = json.loads(user.j2) 
+        #examDict = json.loads(user.j2) 
+        examDict = json.loads(user.j4) 
    
     print('before', examDict)
 
@@ -654,11 +661,13 @@ def updateGrades():
             }
 
         if qORs == 'qna': 
-            user.j1 = json.dumps(examDict)
+            #user.j1 = json.dumps(examDict)
+            user.j3 = json.dumps(examDict)
             db.session.commit()
             print('qnaCommit')
         elif qORs == 'snl': 
-            user.j2 = json.dumps(examDict)
+            #user.j2 = json.dumps(examDict)
+            user.j4 = json.dumps(examDict)
             db.session.commit()
             print('snlCommit')
     
@@ -742,7 +751,8 @@ def abc_grades():
 
     for exam in exams:
         #break
-        QNA = json.loads(exam.j1)
+       #QNA = json.loads(exam.j1)
+        QNA = json.loads(exam.j3)
         for record in QNA:
             entry = QNA[record]
             print(exam.username, entry) 
@@ -751,7 +761,8 @@ def abc_grades():
             else:
                 gradesDict[exam.username][ entry['unit'] ]['QNA_grades'].append(entry['grade'])
 
-        SNL = json.loads(exam.j2)
+        #SNL = json.loads(exam.j2)
+        SNL = json.loads(exam.j4)
         for record in SNL:
             entry = SNL[record]
             print(exam.username, entry) 
