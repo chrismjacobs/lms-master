@@ -108,6 +108,7 @@ function startVue(ansOBJ){
         name : name,
         updateReady : false,
         pptLink : false,
+        blurblocker : null,
         project: (window.location.href).split('/food/')[1],       
         script: {
             RR : {
@@ -122,20 +123,26 @@ function startVue(ansOBJ){
         
     }, 
     methods: {  
-        wordCount : function(part, head) { 
-
+        wordCount : function(part, head) {
             if (part == 'Intro'){
                 console.log('Intro');
             }
             else if (head == 'key words') {
                 console.log('key words');
             }
-            else{            
-                console.log(head); 
+            else{  
                 var wc = (document.getElementById(part + head).value).split(' ')
                 console.log(wc.length);
                 if (wc.length < 8) {
-                    alert('This sentence seems too short - try making it longer with conjunction phrases (but/so/when/if/because..)')
+                    console.log('blocker', vue.blurblocker);
+                    if (vue.blurblocker == part + head){
+                        console.log('word count try');
+                    }
+                    else{
+                        alert('This sentence seems too short - try making it longer with conjunction phrases (but/so/when/if/because..)')
+                        vue.blurblocker = part + head
+                    }
+                    
                 } 
             }          
 
