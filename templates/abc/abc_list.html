@@ -64,7 +64,7 @@
                        <br>
                        <br>
                         
-                      <span v-if="proj.STotal >= 12" @click="goToExam(unit, proj.Number, 'snl')" class="unit-span" :style="buttonStyle(proj.STest, 'snl', 'check')">check/[[proj.STest]]</span> 
+                      <span v-if="proj.STotal >= 12" @click="goToExam(unit, proj.Number, 'snl', proj.STest)" class="unit-span" :style="buttonStyle(proj.STest, 'snl', 'check')">check/[[proj.STest]]</span> 
                        </td> 
                        <br>      
                 </tr>  
