@@ -44,7 +44,8 @@
                         <template v-for="(line, head) in item">  
 
                         <span :style="style(head)"> [[ head ]] --> </span>
-                        <br>                       
+                        <br> 
+                        <h6 v-if="head == 'key words'"> Use '/' to separate key words eg "word / another / last" <h6>                      
                         <textarea :id="part + head" type="text" class="textAss" style="margin-left:5px; width:100%" v-model="ansOBJ[part][head]" @blur="wordCount(part, head)"></textarea> 
                         <br>
                         <br>
@@ -106,18 +107,18 @@ function startVue(ansOBJ){
     data: {                        
         ansOBJ: ansOBJ,
         name : name,
-        updateReady : false,
+        updateReady : true,
         pptLink : false,
         blurblocker : null,
         project: (window.location.href).split('/food/')[1],       
         script: {
             RR : {
                 Intro : ['Hello, I am _____. Today I would like to review a restaurant.', 'Describe the name, style of restaurant and where it is and when you go/went there'],
-                Menu : ['Now, let’s talk about the menu:', ' '], 
-                Food : ['Here we can see the food:', ' '],
+                Menu : ['Now, let’s talk about the menu:', 'style / variety / price / sets / presentation '], 
+                Food : ['Here we can see the food:', ' order / taste / well-prepared / presentation / complaints'],
                 Decor : ['Moving on to the décor', '(seating / tables / lighting / bathrooms)'],
                 Atmosphere : ['Now for the atmosphere', '(service / busy / music / interesting / fun things)'],
-                Rating : ['Lastly, I`ll give it a rating', '(rating, any complaints and recommendations, final comments)'],
+                Rating : ['Lastly, I`ll give it a rating', '(rating, any other complaints and recommendations, final comments)'],
             },     
         },
         
@@ -202,7 +203,7 @@ function startVue(ansOBJ){
                 ansOBJ : JSON.stringify(this.ansOBJ)  
               },
               type : 'POST',
-              url : '/createPPT',               
+              url : '/createPPT_RR',               
             })
             .done(function(data) { 
                 if(data.error){

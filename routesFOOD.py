@@ -173,6 +173,94 @@ def createPPT():
     return jsonify({'pptLink' : pptLink})
 
 
+@app.route('/createPPT_RR', methods=['POST'])
+def createPPT_RR(): 
+    
+    ansOBJ = request.form ['ansOBJ']    
+    ansDict = json.loads(ansOBJ)
+    print(ansDict)
+        
+    if get_all_values(ansDict) != 0: 
+        print('ERROR')
+        return jsonify({'error' : 100})    
+
+    from pptx import Presentation
+    from pptx.util import Inches
+    
+    prs = Presentation()
+    title_slide_layout = prs.slide_layouts[0]
+    slide = prs.slides.add_slide(title_slide_layout)
+    title = slide.shapes.title
+    subtitle = slide.placeholders[1]
+    title.text = "Food Culture English: Restaurant Review"
+    subtitle.text = " Presentation by " + current_user.username
+
+
+    for entry in ansDict:
+        if entry == 'Intro':
+            bullet_slide_layout = prs.slide_layouts[1]
+            slide = prs.slides.add_slide(bullet_slide_layout)
+            shapes = slide.shapes
+            title_shape = shapes.title
+            body_shape = shapes.placeholders[1]
+            title_shape.text = entry 
+            tf = body_shape.text_frame
+            tf.text = 'Restaurant Details' 
+
+            p = tf.add_paragraph()
+            p.text = ansDict[entry]['Name']
+            p.level = 1
+            p = tf.add_paragraph()
+            p.text = ansDict[entry]['Style']
+            p.level = 1
+            p = tf.add_paragraph()
+            p.text = ansDict[entry]['Location']
+            p.level = 1
+            p = tf.add_paragraph()
+            p.text = 'when I go/went'
+            p.level = 1
+
+            pf = shapes.add_picture('add_image.png', Inches(6), Inches(2) )
+            
+        else:
+            bullet_slide_layout = prs.slide_layouts[1]
+            slide = prs.slides.add_slide(bullet_slide_layout)
+            shapes = slide.shapes
+            title_shape = shapes.title
+            body_shape = shapes.placeholders[1]
+            title_shape.text = entry 
+
+            tf = body_shape.text_frame 
+            tf.text = 'Key Words:'
+            for word in ansDict[entry]['key words'].split('/'):                 
+                p = tf.add_paragraph()
+                p.text = word
+                p.level = 1
+
+            pf = shapes.add_picture('add_image.png', Inches(6), Inches(2) )
+
+    
+
+    print('PROCESSING PPT') 
+    filename = current_user.username + 'RR' + '.pptx'
+    try:
+        os.remove(filename)
+    except:
+        print('No OS File')
+    prs.save(filename) 
+    data = open(filename, 'rb')
+    aws_filename = 'MT/' + filename
+    pptLink = S3_LOCATION + aws_filename   
+                         
+    s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=aws_filename, Body=data)
+    print(filename)  
+    
+    return jsonify({'pptLink' : pptLink})
+
+
+
+
+
 def startDictGlobal(sd):
 
     midterm = ['ND', 'CV']
