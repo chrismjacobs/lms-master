@@ -76,6 +76,7 @@
             <textarea id="70" type="text" class="textAss" style="margin-left:5px;width:100%;height:200px" v-model="ansOBJ['Description']" @blur="wordCount(70)"></textarea>            
             <br>  
             <span :style="style('kw')"> Key Words for Presentation</span>
+            <h6> Use '/' to separate key words eg "word / another / last" <h6> 
             <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Description Key Words']"></input>            
             <br>  
             <br>  
@@ -83,14 +84,14 @@
             
 
             <legend class="border-bottom mb-4"> Video Comments</legend>
-            <span style="color:green">*give your comments the video, interesting things to think about, what can we learn?</span>
-            
+            <span style="color:green">*give your comments the video, interesting things to think about, what can we learn?</span>             
             <br>
             <br>
             <span :style="style('dt')">more than 60 words</span>
             <textarea id="60" type="text" class="textAss" style="margin-left:5px;width:100%;height:200px" v-model="ansOBJ['Comments']" @blur="wordCount(60)"></textarea>            
             <br>  
             <span :style="style('kw')">Key Words for Presentation</span>
+            <h6> Use '/' to separate key words eg "word / another / last" <h6> 
             <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Comments Key Words']"></input>            
             <br>  
             <br> 
@@ -99,6 +100,15 @@
                 <button  class="btn btn-dark" style="margin-right:5px;width:100%" @click="updatePlan()">Update Plan</button>
             </div> 
             <br>  
+            <div v-if="updateReady">				
+                <button  class="btn btn-danger" style="margin-right:5px" @click="createPPT()">Create PPT</button>
+            </div> 
+
+            <br>
+
+            <div v-if="pptLink">				
+                <a :href="pptLink" download>Download PPT</a>
+            </div> 
 
     </div>
 
@@ -133,7 +143,9 @@ function startVue(ansOBJ){
     delimiters: ['[[', ']]'],   
     mounted: function () {        
     },    
-    data: {                        
+    data: {   
+        updateReady: true,                      
+        pptLink: null,                      
         ansOBJ: ansOBJ,       
         stage : stage,         
         project: (window.location.href).split('/peng/')[1].split('/')[0],   
@@ -197,7 +209,33 @@ function startVue(ansOBJ){
             .fail(function(){
                 alert('error has occurred');
             });
-        }, 
+        },
+        createPPT : function() { 
+            console.log('CreatePPT');            
+
+            $.ajax({
+              data : {
+                proj : 'VV',
+                //name : this.name,
+                ansOBJ : JSON.stringify(this.ansOBJ)  
+              },
+              type : 'POST',
+              url : '/createPPT_VV',               
+            })
+            .done(function(data) { 
+                if(data.error){
+                    alert('There has been an error. Please check that your FORM is complete or see your instructor');
+                }
+                else{
+                    alert('Your ppt has been created') 
+                    vue.pptLink = data.pptLink
+                }
+                               
+            })
+            .fail(function(){
+                alert('There has been an error. Please check that your FORM is complete or see your instructor');
+            });
+        }       
     }  
     
 })// end NEW VUE

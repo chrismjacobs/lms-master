@@ -145,11 +145,13 @@ def peng_dash(MTFN):
 
     if MTFN == 'MT':
         midterms = U011U.query.all()
-        for user in midterms:
+        html = 'peng/peng_dash.html'
+        for user in midterms:            
             userDict = json.loads(user.Ans01)
             userDict['stage'] = user.Comment
             projDict[user.username] = userDict
     if MTFN == 'FN':
+        html = 'peng/peng_dash_vv.html'
         midterms = U021U.query.all()
         for user in midterms:            
             userDict = json.loads(user.Ans01)
@@ -158,7 +160,8 @@ def peng_dash(MTFN):
     
     ansString = json.dumps(projDict)
 
-    return render_template('peng/peng_dash.html', title='Midterm', ansString=ansString, source=source)
+
+    return render_template(html, title=MTFN, ansString=ansString, source=source)
 
 
 
@@ -237,6 +240,7 @@ def updatePENG():
     if proj == 'MT':
         project_answers = U011U.query.filter_by(username=user).first() 
     if proj == 'FN':
+        print('done')
         project_answers = U021U.query.filter_by(username=user).first() 
     ansOBJ = json.dumps(ansDict)
     project_answers.Ans01 = str(ansOBJ)
@@ -294,4 +298,126 @@ def updatePENG():
     return jsonify({'ansString' : str(ansOBJ), 'stage' : project_answers.Comment})
 
 
+@app.route('/createPPT_VV', methods=['POST'])
+def createPPT_VV():     
+    ansOBJ = request.form ['ansOBJ']    
+    ansDict = json.loads(ansOBJ)
+    print(ansDict)
+        
+    if get_all_values(ansDict) != 0: 
+        print('ERROR')
+        return jsonify({'error' : 100})    
 
+    from pptx import Presentation
+    from pptx.util import Inches
+    
+    prs = Presentation()
+    title_slide_layout = prs.slide_layouts[0]
+    slide = prs.slides.add_slide(title_slide_layout)
+    title = slide.shapes.title
+    subtitle = slide.placeholders[1]
+    title.text = "Presentation English: Viral Video"
+    subtitle.text = " Presentation by " + current_user.username
+
+        #intro        
+    bullet_slide_layout = prs.slide_layouts[3]
+    # layout [3] is the two boxes next to each other
+    slide = prs.slides.add_slide(bullet_slide_layout)
+    shapes = slide.shapes
+    title_shape = shapes.title
+    title_shape.text = 'A Viral Video'
+    body_shape = shapes.placeholders[1]    
+    tf = body_shape.text_frame 
+    
+    p = tf.add_paragraph()
+    p.text = ansDict['Video Title']    
+    p = tf.add_paragraph()
+    p.text = ansDict['Video Length']
+    p = tf.add_paragraph()
+    p.text = ansDict['Video Views']
+    pf = shapes.add_picture('add_image.png', Inches(6), Inches(2) )
+    
+    #question        
+    bullet_slide_layout = prs.slide_layouts[3]
+    slide = prs.slides.add_slide(bullet_slide_layout)
+    shapes = slide.shapes
+    title_shape = shapes.title
+    title_shape.text = 'My Question'
+    body_shape = shapes.placeholders[1]
+    tf = body_shape.text_frame 
+    p = tf.add_paragraph()
+    p.text = ansDict['Warm Up Question']        
+    pf = shapes.add_picture('add_image.png', Inches(6), Inches(2) )
+
+    #answer
+    bullet_slide_layout = prs.slide_layouts[3]
+    slide = prs.slides.add_slide(bullet_slide_layout)
+    shapes = slide.shapes
+    title_shape = shapes.title
+    title_shape.text = 'My Answer'
+    body_shape = shapes.placeholders[1]
+    tf = body_shape.text_frame 
+    p = tf.add_paragraph()
+    p.text = ansDict['Your Answer']        
+    pf = shapes.add_picture('add_image.png', Inches(6), Inches(2) )
+    
+    #description
+    bullet_slide_layout = prs.slide_layouts[3]
+    slide = prs.slides.add_slide(bullet_slide_layout)
+    shapes = slide.shapes
+    title_shape = shapes.title
+    title_shape.text = 'My Description'
+    body_shape = shapes.placeholders[1]
+    tf = body_shape.text_frame 
+    tf.text = 'Key Words:'
+    for word in ansDict['Description Key Words'].split('/'):                 
+        p = tf.add_paragraph()
+        p.text = word
+        p.level = 1
+    
+    pf = shapes.add_picture('add_image.png', Inches(6), Inches(2) )
+    
+    #video
+    bullet_slide_layout = prs.slide_layouts[3]
+    slide = prs.slides.add_slide(bullet_slide_layout)
+    shapes = slide.shapes
+    title_shape = shapes.title
+    title_shape.text = 'My Video'
+    body_shape = shapes.placeholders[1]
+    tf = body_shape.text_frame 
+    tf.text = ansDict['Video Link'] 
+    
+    pf = shapes.add_picture('add_play.jpg', Inches(6), Inches(2) )
+    
+    #comments
+    bullet_slide_layout = prs.slide_layouts[3]
+    slide = prs.slides.add_slide(bullet_slide_layout)
+    shapes = slide.shapes
+    title_shape = shapes.title
+    title_shape.text = 'My Comments'
+    body_shape = shapes.placeholders[1]
+    tf = body_shape.text_frame 
+    tf.text = 'Key Words:'
+    for word in ansDict['Comments Key Words'].split('/'):                 
+        p = tf.add_paragraph()
+        p.text = word
+        p.level = 1
+    
+    pf = shapes.add_picture('add_image.png', Inches(6), Inches(2) )
+
+
+    print('PROCESSING PPT') 
+    filename = current_user.username + 'VV' + '.pptx'
+    try:
+        os.remove(filename)
+    except:
+        print('No OS File')
+    prs.save(filename) 
+    data = open(filename, 'rb')
+    aws_filename = 'MT/' + filename
+    pptLink = S3_LOCATION + aws_filename   
+                         
+    s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=aws_filename, Body=data)
+    print(filename)  
+    
+    return jsonify({'pptLink' : pptLink})
