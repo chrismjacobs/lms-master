@@ -96,6 +96,9 @@ function startVue(assOBJ, colorFloat){ new Vue({
           if(comment.includes("on time")){
             return {width:'100%', 'background-color':'pink', height: '30px !important'}
           }
+          if(comment.includes("Not started")){
+            return {width:'100%', 'background-color':'lightcoral', height: '30px !important'}
+          }
           else if(comment.includes("check..")){
             return {width:'100%', 'background-color':'thistle', height: '30px !important'}
           }
