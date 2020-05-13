@@ -94,9 +94,7 @@
             <h4 style="background:{{DESIGN['titleColor']}}; color:{{DESIGN['bodyColor']}}; border: 1px solid white; border-radius:10px">  [[ qn.q ]]  </h4>
             <div v-for="choice in qn.c">
                 <h4> [[ choice ]] </h4>
-            </div>
-            <h4 style="purple"> [[ qn.a ]] </h4>
-        
+            </div>  
         <br>                 
 
         <h4 style="background:plum; border: 1px solid white; border-radius:10px; padding:5px; cursor:pointer; width:50%" 
@@ -115,6 +113,10 @@
                             </thead> 
                             
                             <tbody>
+                                <tr v-if="qn.a" style="color:hotpink"> 
+                                    <td> Answer: </td>
+                                    <td> [[ qn.a ]] </td>
+                                </tr>   
                                 <tr v-for="(ans, teamnum) in classOBJ[key]">
                                 <td scope="col" > [[ teamnum ]] </td>  
                                 <td scope="col" > [[ ans ]]</td>                                   
