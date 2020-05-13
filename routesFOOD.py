@@ -456,5 +456,38 @@ def food_MT():
 
 
 
+@app.route ("/food_FN", methods=['GET','POST'])
+@login_required
+def food_FN(): 
+
+    users = User.query.all()
+
+    fnDict = {}
+    for user in users:
+        fnDict[user.username] = {
+            'ID' : user.studentID,            
+            'Grade' : 0,
+            'Data' : startDictGlobal('RR')
+        }
+    
+    project_answers = U021U.query.all()
+
+    for answer in project_answers:
+        rrDict = json.loads(answer.Ans01)       
+        print(get_all_values(rrDict))        
+        
+                
+        fnDict[answer.username]['Grade'] = answer.Grade
+        fnDict[answer.username]['Data'] = rrDict
+    
+    pprint(fnDict)
+
+    sDict = get_food_projects()    
+    source = sDict['1']['M2'] 
+    
+
+    return render_template('food/food_FN.html', legend='Food Project', 
+    source=source, ansString=json.dumps(fnDict)  )
+
 
 

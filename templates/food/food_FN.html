@@ -1,0 +1,175 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<span id="ansString" style="display:none">{{ansString}}</span>
+
+<div class="content-section">    
+
+    <div class="embed-responsive embed-responsive-4by3">
+        <iframe id="questions_embed" src="{{source}}"
+            allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
+	    </iframe>
+    </div> 
+     
+</div>
+
+
+<div id="vue-app">
+
+    <div class="content-section">
+
+        <template v-for="(nameOBJ, name) in fnOBJ">
+            <div v-if="nameOBJ.Grade > 0 ">
+                    <span :style="style(nameOBJ.Grade + 'test')" @click="view = name"> [[name]] -- [[nameOBJ.Grade]] </span> [[nameOBJ.ID]]    
+
+                    <br>
+                    <br>
+                    
+                        <div v-if="view == name">
+
+                            <template v-for="(item, part) in nameOBJ.Data">                                                            
+
+                                <span :style="style('main')"> [[ part ]] </span>
+                                <br>                                
+                                <h6> [[ script['RR'][part][0] ]] </h6>
+                                <h6 style="color:purple"> [[ script['RR'][part][1] ]] </h6>
+                                <br>
+                                        <template v-for="(line, head) in item">  
+
+                                        <span :style="style(head)"> [[ head ]] --> </span>
+                                        <br> 
+                                        <h6 v-if="head == 'key words'"> Use '/' to separate key words eg "word / another / last" <h6>                      
+                                        <textarea :id="part + head" type="text" class="textAss" style="margin-left:5px; width:100%" v-model="nameOBJ['Data'][part][head]" @blur="wordCount(part, head)"></textarea> 
+                                        <br>
+                                        <br>
+                                        
+                                        </template>        
+                            
+                            <br>
+                            </template> 
+
+                        </div>
+                
+
+                        <div>				
+                            <button  class="btn btn-dark" style="margin-right:5px" @click="updatePlan(name, 4)">Update 4</button>
+                        </div> 
+                        <br>
+                        <div >				
+                            <button  class="btn btn-success" style="margin-right:5px" @click="updatePlan(name, 5)">Update 5</button>
+                        </div> 
+
+                        </div> 
+
+            </div> 
+
+
+        </template>
+    <br>
+
+    </div> 
+
+
+</div> <!-- end of Vue app -->
+
+
+{% endblock %}
+
+{% block script %}   
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+
+<script type="text/javascript">
+var ansString = document.getElementById('ansString').innerHTML
+var fnOBJ = JSON.parse(ansString)
+console.log('fnOBJ', fnOBJ);
+
+
+startVue()
+
+function startVue(){ 
+  
+  let vue = new Vue({   
+
+    el: '#vue-app',
+    delimiters: ['[[', ']]'],   
+    mounted: function () {        
+    },    
+    data: {                        
+        fnOBJ: fnOBJ,   
+        view : null,                          
+        script: {
+            RR : {
+                Intro : ['Hello, I am _____. Today I would like to review a restaurant.', 'Describe the name, style of restaurant and where it is and when you go/went there'],
+                Menu : ['Now, let’s talk about the menu:', 'style / variety / price / sets / presentation '], 
+                Food : ['Here we can see the food:', ' order / taste / well-prepared / presentation / complaints'],
+                Decor : ['Moving on to the décor', '(seating / tables / lighting / bathrooms)'],
+                Atmosphere : ['Now for the atmosphere', '(service / busy / music / interesting / fun things)'],
+                Rating : ['Lastly, I`ll give it a rating', '(rating, any other complaints and recommendations, final comments)'],
+            }            
+        },
+        
+    }, 
+    methods: { 
+        style : function(mark) { 
+
+            if (mark.includes('ords')){
+                var bg = 'silver'
+            }
+            else if (mark.includes('ent')){
+                var bg = 'darkorange'
+            }         
+            else if (mark.includes('mai')){
+                var bg = 'DARKCYAN'
+            }        
+            else if (mark.includes('4')){
+                var bg = 'purple'
+            }           
+            else if (mark.includes('5')){
+                var bg = 'seagreen'
+            } 
+            else{
+                var bg = 'coral'
+            }           
+
+            return {padding:'4px', 'font-size':'15px', background:bg, color:'white', border:'1px sold white', 'border-radius':'5px', width:'20%'}
+
+        },
+        updatePlan : function(name, grade) { 
+            nameOBJ = vue.fnOBJ[name]
+            console.log('update via AJAX');            
+            console.log(nameOBJ['Data']);
+            
+            //return false
+
+            $.ajax({
+              data : {                  
+                proj : 'RR',
+                ansOBJ : JSON.stringify(this.fnOBJ[name]['Data']),
+                grade :  grade,
+                name : name
+              },
+              type : 'POST',
+              url : '/updateFood',               
+            })
+            .done(function(data) { 
+                alert('Your FORM has been updated')                
+            })
+            .fail(function(){
+                alert('error has occurred');
+            });
+        },     
+         
+    }, // end methods        
+    
+    
+    
+})// end NEW VUE
+
+}// endFunction 
+
+</script>
+
+{% endblock %} 
+
