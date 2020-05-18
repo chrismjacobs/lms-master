@@ -24,20 +24,26 @@
     <legend class="border-bottom mb-4"> Dashboard </legend>
 
     <template v-for="(ansOBJ, student) in fullOBJ">
-        <span :style="style('student')"> [[student]] </span> 
+        <span :style="style('0' + ansOBJ.stage)"  @click="view = student"> [[student]] : [[ansOBJ.stage]] </span> 
+    <br>    
+    <div v-if="view == student">
+
         <template v-for="(item, key) in ansOBJ">    
             <div v-if="ansOBJ['stage'] > 1">
             <span v-if="item" :style="style(key)"> [[key]] </span>  
             <br v-if="item" >
-                <textarea v-if="item" type="text" class="textAss" :id="key" style="margin-left:5px" v-model="item" @on-blur="wordCount(key)"></textarea> 
+                <textarea v-if="item" type="text" class="textAss" :id="key" style="margin-left:5px" v-model="fullOBJ[student][key]" @blur="wordCount(key)"></textarea> 
             <br v-if="item" >
             </div>
         </template> 
+
         <div>				
             <button  class="btn btn-dark" style="margin-right:5px" @click="updatePlan(student, 3)">Update Plan</button>
             <button  class="btn btn-success" style="margin-right:5px" @click="updatePlan(student, 4)">Update Plan</button>
         </div> 
-        <br>
+
+    </div>        
+        
         <br>
         
     </template>  
@@ -72,7 +78,7 @@ function startVue(){
     },    
     data: {                        
         fullOBJ: fullOBJ,
-        viewWork: null,  
+        view: null,  
         blurblocker: null,   
     }, 
     methods: {  
@@ -80,12 +86,12 @@ function startVue(){
             console.log(mark); 
             var wc = (document.getElementById(mark).value).split(' ')
             console.log(wc.length);
-            if (wc.length < 8) {
+            if (wc.length < 60 && ( mark == 'Description' || mark == 'Comments')) {
                 if (vue.blurblocker == mark){
                     console.log('blur');
                 }
                 else{
-                    alert('This sentence seems too short - try making it longer with conjunction phrases (but/so/when/if/because..)')
+                    alert('This seems too short: ' + toString(wc.length))
                     vue.blurblocker = mark
                 }
                 
@@ -94,33 +100,25 @@ function startVue(){
             return true
         },        
         style : function(mark) { 
-            if (mark.includes('key')){
-                var bg = 'silver'
+            console.log(mark.substring(0,2));
+
+            colorOBJ = {
+                ke : 'silver', 
+                Li : 'TOMATO', 
+                Vi : 'darkorange', 
+                De : 'PALEVIOLETRED', 
+                Co : 'DARKCYAN', 
+                Wa : 'YellowGreen', 
+                Yo : 'YellowGreen', 
+                st : 'Grey', 
+                '00' : 'Red', 
+                '01' : 'Purple', 
+                '02' : 'Pink',
+                '03' : 'hotpink',
+                '04' : 'Green'
             }
-            else if (mark.includes('Link')){
-                var bg = 'TOMATO'
-            }  
-            else if (mark.includes('Video')){
-                var bg = 'darkorange'
-            }           
-            else if (mark.includes('Des')){
-                var bg = 'PALEVIOLETRED'
-            }           
-            else if (mark.includes('Com')){
-                var bg = 'DARKCYAN'
-            }           
-            else if (mark.includes('stu')){
-                var bg = 'Grey'
-            }           
-            else if (mark.includes('Ques')){
-                var bg = 'YellowGreen'
-            }        
-            else if (mark.includes('Ans')){
-                var bg = 'YellowGreen'
-            }           
-            else if (mark.includes('sta')){
-                var bg = 'Grey'
-            }           
+
+            var bg = colorOBJ[mark.substring(0,2)]         
                      
 
             return {padding:'4px', 'font-size':'25px', background:bg, color:'white', border:'1px sold white', 'border-radius':'5px', width:'20%', height:'30px'}

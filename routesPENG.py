@@ -240,7 +240,8 @@ def updatePENG():
     if proj == 'MT':
         project_answers = U011U.query.filter_by(username=user).first() 
     if proj == 'FN':
-        print('done')
+        print('FN_done')
+        print(ansOBJ)
         project_answers = U021U.query.filter_by(username=user).first() 
     ansOBJ = json.dumps(ansDict)
     project_answers.Ans01 = str(ansOBJ)
