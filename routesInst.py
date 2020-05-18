@@ -160,7 +160,7 @@ def dashboard():
     
     print(totalDict)
 
-    for unit in midterm:
+    for unit in final:
         model = Info.ass_mods_dict[unit]
         answers = model.query.order_by(desc(model.Grade)).all()
         for item in answers:
