@@ -331,11 +331,11 @@ def createPPT_VV():
     tf = body_shape.text_frame 
     
     p = tf.add_paragraph()
-    p.text = ansDict['Video Title']    
+    p.text = 'Title: ' + ansDict['Video Title']    
     p = tf.add_paragraph()
-    p.text = ansDict['Video Length']
+    p.text = 'Time: ' + ansDict['Video Length']
     p = tf.add_paragraph()
-    p.text = ansDict['Video Views']
+    p.text = 'Views: ' + ansDict['Video Views']
     pf = shapes.add_picture('add_image.png', Inches(6), Inches(2) )
     
     #question        
@@ -386,7 +386,9 @@ def createPPT_VV():
     title_shape.text = 'My Video'
     body_shape = shapes.placeholders[1]
     tf = body_shape.text_frame 
-    tf.text = ansDict['Video Link'] 
+    p = tf.add_paragraph()
+    tf.text = 'Okay, now let`s enjoy the video before I give my comments'
+    p.text = ansDict['Video Link']    
     
     pf = shapes.add_picture('add_play.jpg', Inches(6), Inches(2) )
     
