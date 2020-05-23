@@ -179,7 +179,20 @@ function startVue(){
         storeB64 : function(key, b64) {             
             //reset the testOBJ
             this.testOBJ = testOBJ
-            
+
+            //#####################
+
+            if (b64 == 'i'){
+                var b64data = this.image64['base64']
+                var fileType = this.image64['fileType']
+                this.ansOBJ[key]['imageLink'] = 'updating'
+            }
+            if (b64 == 'a'){
+                var b64data = this.audio64['base64']                
+                var fileType = null
+                this.ansOBJ[key]['audioLink'] = 'updating'
+            }
+                        
              //vue.storeData()
             var total = 0
             this.checkMarkers()
@@ -193,14 +206,7 @@ function startVue(){
             }   
             console.log(total);
 
-            if (b64 == 'i'){
-                var b64data = this.image64['base64']
-                var fileType = this.image64['fileType']
-            }
-            if (b64 == 'a'){
-                var b64data = this.audio64['base64']
-                var fileType = null
-            }
+            
 
             $.ajax({
               data : {
@@ -241,7 +247,7 @@ function startVue(){
     
             var allowedExtensions = /(\.jpeg|\.png|\.jpg)$/i;
         
-              if(fileInput.files[0].size > 4400000){
+              if(fileInput.files[0].size > 7000000){ // 7 mb for video option 
                   alert("File is too big!"); 
                   fileInput.value = '';             
                   return false;        
