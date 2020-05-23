@@ -76,8 +76,8 @@ def project_teams(unit, number):
 
     manualTeams = {
         
-        11: ['Leo', 'Judy', 'Wayne'],
-      
+        #10: ['Fiona', 'Ann', 'Penny Lai', 'Yui'],
+        11 : ['Fiona', 'Jessica', 'Yui'],
               
     }
 
@@ -291,6 +291,20 @@ def abc_list():
     return render_template('abc/abc_list.html', legend='ABC Projects', source=source, abcDict=json.dumps(abcDict),  examDict=json.dumps(examDict))
 
 
+def get_all_snl_values(nested_dictionary):
+    detected = 0
+    for key, value in nested_dictionary.items():        
+        if type(value) is dict:
+            print ('DICT FOUND', value)
+            if get_all_snl_values(value) != 0:
+                detected += get_all_snl_values(value)
+        else:
+            if value == None or value == "":
+                print('CHECK', key, value)
+                detected += 1
+                
+    return detected 
+
 
 @app.route('/storeB64', methods=['POST'])
 def storeB64():  
@@ -314,7 +328,7 @@ def storeB64():
         imageLink = S3_LOCATION + filename
         s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=image)
 
-        project_answers[question]['imageLink'] = imageLink   
+        project_answers[question]['imageLink'] = imageLink          
         project_data.Ans02 = json.dumps(project_answers)
         project_data.Ans04 = total
         db.session.commit()
@@ -329,8 +343,7 @@ def storeB64():
         project_answers[question]['audioLink'] = audioLink   
         project_data.Ans02 = json.dumps(project_answers)
         project_data.Ans04 = total
-        db.session.commit()
-       
+        db.session.commit()       
     
     return jsonify({'question' : question})
 
@@ -356,7 +369,6 @@ def storeAnswer():
     db.session.commit()   
     
     return jsonify({'question' : question})
-
 
 
 @app.route('/updateAnswers', methods=['POST'])
@@ -477,6 +489,7 @@ def abc_setup(qs, unit, team):
             }  
         html = 'abc/abc_qna.html'
         ansDict = project_answers.Ans01 
+        current_score = None
 
     if qs == 'snl':
         testDict = {}
@@ -490,12 +503,14 @@ def abc_setup(qs, unit, team):
             }  
         html = 'abc/abc_snl.html'
         ansDict = project_answers.Ans02 
+        current_score = project_answers.Ans04
         
         
     return render_template(html, legend='Questions & Answers',
     meta=meta, 
     teamMembers=teamMembers,
     ansDict=ansDict,
+    current_score=current_score,
     testDict=str(json.dumps(testDict))
     )
 
@@ -692,7 +707,7 @@ def abc_grades():
                 'name' :user.username, 
                 'id' : user.studentID
              },         
-            '00' : {
+            '04' : {
                 'team' : 0, 
                 'QNA' : 0, 
                 'SNL' : 0, 
@@ -701,7 +716,7 @@ def abc_grades():
                 'QNA_grades' : [], 
                 'SNL_grades' : [] 
             },
-            '01' : {
+            '05' : {
                 'team' : 0, 
                 'QNA' : 0, 
                 'SNL' : 0, 
@@ -710,7 +725,7 @@ def abc_grades():
                 'QNA_grades' : [], 
                 'SNL_grades' : [] 
             },
-            '02' : {
+            '06' : {
                 'team' : 0, 
                 'QNA' : 0, 
                 'SNL' : 0, 
@@ -719,7 +734,16 @@ def abc_grades():
                 'QNA_grades' : [], 
                 'SNL_grades' : [] 
             },
-            '03' : {
+            '07' : {
+                'team' : 0, 
+                'QNA' : 0, 
+                'SNL' : 0, 
+                'QNA_check' : 0, 
+                'SNL_check' : 0, 
+                'QNA_grades' : [], 
+                'SNL_grades' : [] 
+            },
+            '08' : {
                 'team' : 0, 
                 'QNA' : 0, 
                 'SNL' : 0, 
@@ -734,10 +758,15 @@ def abc_grades():
     exams = Exams.query.all()
 
     models = {
-        '00' : U001U, 
-        '01' : U011U, 
-        '02' : U021U, 
-        '03' : U031U
+        #'00' : U001U, 
+        #'01' : U011U, 
+        #'02' : U021U, 
+        #'03' : U031U,
+        '04' : U041U, 
+        '05' : U051U, 
+        '06' : U061U, 
+        '07' : U071U,
+        '08' : U081U,
     }
 
     for model in models:
