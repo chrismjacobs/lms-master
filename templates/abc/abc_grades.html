@@ -17,10 +17,11 @@
         <thead>
             <tr>
               <th scope="col" >Name</th>                   
-              <th scope="col" >01</th>                       
-              <th scope="col" >02</th>  
-              <th scope="col" >03</th>                       
-              <th scope="col" >04</th>                        
+              <th scope="col" >04</th>                       
+              <th scope="col" >05</th>  
+              <th scope="col" >06</th>                       
+              <th scope="col" >07</th>                        
+              <th scope="col" >08</th>                        
             </tr>
         </thead> 
         
@@ -105,6 +106,7 @@ let vue = new Vue({
             }            
           }          
           if (head == 'QNA_grades') {
+            return { background:'white', color:'white'}
             if (item.length > 0){
                 return { background:'mediumseagreen'}
             }
@@ -113,6 +115,7 @@ let vue = new Vue({
             }            
           }          
           if (head == 'SNL_grades') {
+            return { background:'white', color:'white'}
             if (item.length > 0){
                 return { background:'mediumseagreen'}
             }
