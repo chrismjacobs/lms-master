@@ -514,9 +514,9 @@ def setStatus():
     username = request.form ['username']
 
     student = User.query.filter_by(username=username).first()
-    if student.extra != 0:
+    if student.extra != 3:
         print('set')
-        student.extra = 0         
+        student.extra = 3         
         db.session.commit()
     else:
         print('reset')
@@ -526,9 +526,100 @@ def setStatus():
     return jsonify({'student' : username, 'set' : student.extra})
 
 
-@app.route ("/grades", methods=['GET','POST'])
+@app.route ("/grades_final", methods=['GET','POST'])
 @login_required
-def grades():
+def grades_final():
+
+    gradesDict = {}
+
+    users = User.query.all()    
+
+    for user in users:
+        gradesDict[user.username] = {            
+            'Status' : user.extra, 
+            'Name' : user.username, 
+            'ID' : user.studentID, 
+            'Total' : 0,
+            'units' : 0, 
+            'uP' : 0, 
+            'asses' : 0,             
+            'aP' : 0, 
+            'tries1' : 0,
+            'tries2' : 0,
+            'exam1' : 0,             
+            'exam2' : 0   
+        }
+
+    ### set max grades
+    total_units = 0
+    maxU = 0 
+    maxA = 0 
+    units = Units.query.all()
+    for unit in units:
+        total = unit.u1 + unit.u2 + unit.u3 + unit.u4
+        maxU += total*2
+        maxA += unit.uA*2
+        total_units += 1
+         
+    model_check = total_units*4 ## 4 units for each unit    
+
+    for model in Info.unit_mods_list[16:(16 + model_check)]:
+        rows = model.query.all()
+        unit = str(model).split('U')[1]        
+        for row in rows:                       
+            names = ast.literal_eval(row.username)            
+            for name in names:
+                gradesDict[name]['units'] += row.Grade          
+    
+    model_check = total_units
+    
+    for model in Info.ass_mods_list[4:(4+ model_check)]:        
+        unit = str(model).split('A')[1]
+        rows = model.query.all()
+        for row in rows:
+            gradesDict[row.username]['asses'] += row.Grade
+            
+     
+    practices = Exams.query.all()
+    for practice in practices:
+        reviewData = ast.literal_eval(practice.j1)
+        if len(reviewData['5-6']) > 2:
+            gradesDict[practice.username]['tries1'] = reviewData['5-6'][2]
+        if len(reviewData['7-8']) > 2:
+            gradesDict[practice.username]['tries2'] = reviewData['7-8'][2]        
+
+        examData =  ast.literal_eval(practice.j2)
+        if len(examData['5-6']) > 0 :
+            gradesDict[practice.username]['exam1'] = round( (examData['5-6'][0] + examData['5-6'][1])/2 )
+        if len(examData['7-8']) > 0 :
+            gradesDict[practice.username]['exam2'] = round( (examData['7-8'][0] + examData['7-8'][1])/2 )
+
+
+        print('exam_list_data_checked')
+    
+
+    maxE1 = 20
+    maxE2 = 20 
+
+    for entry in gradesDict:
+        if gradesDict[entry]['units'] > 0:
+            percent = gradesDict[entry]['units']*30/maxU
+            gradesDict[entry]['uP'] = round(percent, 1)
+        if gradesDict[entry]['asses'] > 0:
+            percent = gradesDict[entry]['asses']*30/maxA
+            gradesDict[entry]['aP'] = round(percent, 1)
+        
+    for entry in gradesDict:
+        gradesDict[entry]['Total'] = gradesDict[entry]['uP'] + gradesDict[entry]['aP'] + gradesDict[entry]['exam1'] + gradesDict[entry]['exam2'] 
+
+
+
+    return render_template('instructor/grades.html', ansString=json.dumps(gradesDict))
+
+
+@app.route ("/grades_midterm", methods=['GET','POST'])
+@login_required
+def grades_midterm ():
 
     gradesDict = {}
 
@@ -585,14 +676,14 @@ def grades():
         reviewData = ast.literal_eval(practice.j1)
         if len(reviewData['1-2']) > 2:
             gradesDict[practice.username]['tries1'] = reviewData['1-2'][2]
-        if len(reviewData['7-8']) > 2:
-            gradesDict[practice.username]['tries2'] = reviewData['7-8'][2]        
+        if len(reviewData['3-4']) > 2:
+            gradesDict[practice.username]['tries2'] = reviewData['3-4'][2]        
 
         examData =  ast.literal_eval(practice.j2)
         if len(examData['1-2']) > 0 :
             gradesDict[practice.username]['exam1'] = round( (examData['1-2'][0] + examData['1-2'][1])/2 )
-        if len(examData['7-8']) > 0 :
-            gradesDict[practice.username]['exam2'] = round( (examData['7-8'][0] + examData['7-8'][1])/2 )
+        if len(examData['3-4']) > 0 :
+            gradesDict[practice.username]['exam2'] = round( (examData['3-4'][0] + examData['3-4'][1])/2 )
 
 
         print('exam_list_data_checked')
