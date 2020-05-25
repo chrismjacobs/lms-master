@@ -24,32 +24,32 @@
           </tr>  
           <tr  style="height:30px">
             <td> 
-              <span v-if="setOBJ['ex'] == 3"> Exam 1-2 Practice</span>
-              <span v-else-if="setOBJ['12'] == 1" @click="goTo('1-2', 'review')" class="unit-span" style="background:{{theme}}; height:40px"> Exam 1-2 Practice </span>
-              <span v-else> Exam 1-2 Practice</span>
+              <span v-if="setOBJ['ex'] == 3"> Exam 5-6 Practice</span>
+              <span v-else-if="setOBJ['56'] == 1" @click="goTo('5-6', 'review')" class="unit-span" style="background:{{theme}}; height:40px"> Exam 5-6 Practice </span>
+              <span v-else> Exam 5-6 Practice</span>
             </td>   
-            <td style="color:hotpink"> [[examOBJ.tries12]]</td>  
+            <td style="color:hotpink"> [[examOBJ.tries56]]</td>  
           </tr>       
           <tr>
             <td> 
-              <span v-if="setOBJ['ex'] == 3"> Exam 3-4 Practice</span>
-              <span v-else-if="setOBJ['34'] == 1" @click="goTo('3-4', 'review')" class="unit-span" style="background:{{theme}}; height:40px"> Exam 3-4 Practice </span> 
-              <span v-else> Exam 3-4 Practice</span>
+              <span v-if="setOBJ['ex'] == 3"> Exam 7-8 Practice</span>
+              <span v-else-if="setOBJ['78'] == 1" @click="goTo('7-8', 'review')" class="unit-span" style="background:{{theme}}; height:40px"> Exam 7-8 Practice </span> 
+              <span v-else> Exam 7-8 Practice</span>
             </td>   
-            <td style="color:hotpink"> [[examOBJ.tries34]]</td>  
+            <td style="color:hotpink"> [[examOBJ.tries78]]</td>  
           </tr>       
           <tr>
             <td> 
-              <span v-if="setOBJ['ex'] == 3" @click="goTo('1-2', 'exam')" class="unit-span" style="background:{{theme}}; height:40px"> Exam 1-2 Grade </span> 
-              <span v-else> Exam 1-2 Grade</span>
+              <span v-if="setOBJ['ex'] == 3" @click="goTo('5-6', 'exam')" class="unit-span" style="background:{{theme}}; height:40px"> Exam 5-6 Grade </span> 
+              <span v-else> Exam 5-6 Grade</span>
             </td>   
-            <td> [[examOBJ.ex12]]/20%</td>  
+            <td> [[examOBJ.ex56]]/20%</td>  
           </tr>       
           <tr>
-            <td>  <span v-if="setOBJ['ex'] == 3" @click="goTo('3-4', 'exam')" class="unit-span" style="background:{{theme}}; height:40px"> Exam 3-4 Grade </span> 
-              <span v-else> Exam 3-4 Grade</span>
+            <td>  <span v-if="setOBJ['ex'] == 3" @click="goTo('7-8', 'exam')" class="unit-span" style="background:{{theme}}; height:40px"> Exam 7-8 Grade </span> 
+              <span v-else> Exam 7-8 Grade</span>
             </td>   
-            <td> [[examOBJ.ex34]]/20%</td>  
+            <td> [[examOBJ.ex78]]/20%</td>  
           </tr>       
       </tbody>
     </table>   
@@ -62,7 +62,7 @@
 <div class="content-section" style="background:lightpink">
 <legend class="border-bottom mb-4">Game Zone</legend>
     
-    <h1> <a href="https://vocab-game-zone.herokuapp.com/"> Test your vocabulary </a> <h1>
+    <h1> <a href="https://vocab-game-zone.herokuapp.com/" target="_blank"> Test your vocabulary </a> <h1>
 
 </div> 
    
