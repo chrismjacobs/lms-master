@@ -104,9 +104,16 @@ function startVue(){
         tries : 0     
     }, 
     methods: {              
-        goTo: function() {                    
+        goTo: function() {  
+          reDirectOBJ = {
+            '1-2': 'exam_list_midterm',
+            '3-4': 'exam_list_midterm',
+            '5-6': 'exam_list_final',
+            '7-8': 'exam_list_final'
+          }       
+
           var str = window.location.href
-          let url = str.split('exams')[0] + 'exam_list'
+          let url = str.split('exams')[0] + reDirectOBJ[unit]
           console.log('goTO', url);
           window.location = url
         },
