@@ -656,6 +656,9 @@ def grades_midterm ():
             maxU += total*2
             maxA += un.uA*2
             total_units += 1
+        elif un.unit == '05':
+            ## we are now in final mode so ...
+            total_unit = 4
 
     
          
