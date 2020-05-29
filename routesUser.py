@@ -642,7 +642,11 @@ def grades_midterm ():
         }
 
     ### set max grades
-    total_units = 0
+
+    '''CHANGE BACK TO ------->    total_units = 0'''
+    total_units = 4
+
+
     maxU = 0 
     maxA = 0 
     units = Units.query.all()
