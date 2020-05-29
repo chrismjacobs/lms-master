@@ -643,18 +643,21 @@ def grades_midterm ():
 
     ### set max grades
 
-    '''CHANGE BACK TO ------->    total_units = 0'''
-    total_units = 4
+    total_units = 0
+   
 
-
+    midterm_unit_list = ['01', '02', '03', '04']
     maxU = 0 
     maxA = 0 
     units = Units.query.all()
-    for unit in units:
-        total = unit.u1 + unit.u2 + unit.u3 + unit.u4
-        maxU += total*2
-        maxA += unit.uA*2
-        total_units += 1
+    for un in units:
+        if un.unit in midterm_unit_list:
+            total = un.u1 + un.u2 + un.u3 + un.u4
+            maxU += total*2
+            maxA += un.uA*2
+            total_units += 1
+
+    
          
     model_check = total_units*4 ## 4 units for each unit    
 
