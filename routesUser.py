@@ -612,7 +612,9 @@ def grades_final():
     for entry in gradesDict:
         gradesDict[entry]['Total'] = gradesDict[entry]['uP'] + gradesDict[entry]['aP'] + gradesDict[entry]['exam1'] + gradesDict[entry]['exam2'] 
 
-
+    MTgrades = grades_midterm ()
+    for mt_student in MTgrades:
+        gradesDict[mt_student]['MT'] = MTgrades[mt_student]['Total']
 
     return render_template('instructor/grades.html', ansString=json.dumps(gradesDict))
 
@@ -641,6 +643,8 @@ def grades_midterm ():
             'exam2' : 0   
         }
 
+
+    MT_marker = False
     ### set max grades
 
     total_units = 0
@@ -655,10 +659,12 @@ def grades_midterm ():
             maxA += un.uA*2
             total_units += 1
         elif un.unit == '05':
-            ## we are now in final mode so ...
-            total_unit = 4
-            maxU = 16
+            print('Midterm Term Set')## we are now in final mode so ...
+            total_units = 4
+            maxU = 32
             maxA = 8
+            MT_marker = True
+
 
     
          
@@ -670,15 +676,17 @@ def grades_midterm ():
         for row in rows:                       
             names = ast.literal_eval(row.username)            
             for name in names:
-                gradesDict[name]['units'] += row.Grade          
+                gradesDict[name]['units'] += row.Grade 
+                      
     
-    model_check = total_units
-    
+    model_check = total_units  
+
     for model in Info.ass_mods_list[0:model_check]:        
         unit = str(model).split('A')[1]
         rows = model.query.all()
         for row in rows:
             gradesDict[row.username]['asses'] += row.Grade
+            
             
      
     practices = Exams.query.all()
@@ -696,7 +704,7 @@ def grades_midterm ():
             gradesDict[practice.username]['exam2'] = round( (examData['3-4'][0] + examData['3-4'][1])/2 )
 
 
-        print('exam_list_data_checked')
+        #print('exam_list_data_checked')
     
 
     maxE1 = 20
@@ -714,8 +722,10 @@ def grades_midterm ():
         gradesDict[entry]['Total'] = gradesDict[entry]['uP'] + gradesDict[entry]['aP'] + gradesDict[entry]['exam1'] + gradesDict[entry]['exam2'] 
 
 
-
-    return render_template('instructor/grades.html', ansString=json.dumps(gradesDict))
+    if MT_marker:
+        return gradesDict
+    else:
+        return render_template('instructor/grades.html', ansString=json.dumps(gradesDict))
 
 
 
