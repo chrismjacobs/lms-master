@@ -86,10 +86,14 @@ let vue = new Vue({
             else {
             return { background:'lightcoral'}  
             } 
-          }
+            }
           else if (g == 0) {
             return { background:'lightcoral'}
-          }     
+          }
+          else if (head == 'MT'){
+            return { background:'lightskyblue'}
+          }
+               
         },
         setStatus: function(head, key) {
           if (head == 'Status') {
