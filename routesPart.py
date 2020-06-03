@@ -50,8 +50,14 @@ def unit_list():
         review = 1 
         print('EXCEPT')
 
-    unitDict = {}
-    for unit in recs:
+    unitDict = {
+        '05' : {},
+        '06' : {},
+        '07' : {},
+        '08' : {},
+    }
+
+    for unit in recs:        
         unit2c = unit[0:2] # string 011 --> 01 
         part = unit[2]
         
@@ -73,7 +79,7 @@ def unit_list():
             else:
                 access = 0  ## disbaled
         
-        unitDict[ unit2c + '-' + part ] = { 
+        unitDict[unit2c][ unit2c + '-' + part ] = { 
             'Unit' : unit2c, 
             'Part' : part,           
             'Deadline' : srcDict[unit2c]['Deadline'],
@@ -106,24 +112,32 @@ def recError():
 def openUnit():
 
     key = request.form ['key']
-    print('KEYYYYYYYY', key)    
+    number = request.form ['number']
+    print('KEY', key)    
 
-    unit2c = key[0:2] # 01-1 --> 01 
+     # 01-1 --> 01 
     part = int(key[3])
+    
 
-    checkOpen = Units.query.filter_by(unit=unit2c).first() 
+    checkOpen = Units.query.filter_by(unit=number).first() 
 
-    if part == 1:
-        checkOpen.u1 = 1
-    if part == 2:
-        checkOpen.u2 = 1
-    if part == 3:
-        checkOpen.u3 = 1
-    if part == 4:
-        checkOpen.u4 = 1
-        checkOpen.uA = 1
-
-    db.session.commit()        
+    if checkOpen:  
+        if part == 0:
+            Units.query.filter_by(unit=number).delete()  
+        if part == 1:
+            checkOpen.u1 = 1
+        if part == 2:
+            checkOpen.u2 = 1
+        if part == 3:
+            checkOpen.u3 = 1
+        if part == 4:
+            checkOpen.u4 = 1
+            checkOpen.uA = 1
+        db.session.commit()
+    else: 
+        newUnit = Units(unit=number, u1=0, u2=0, u3=0, u4=0, uA=0)
+        db.session.add(newUnit)
+        db.session.commit()           
     
     return jsonify({'key' : key })
 

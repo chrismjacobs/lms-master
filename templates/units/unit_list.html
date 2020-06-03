@@ -30,53 +30,66 @@
         </thead> 
         
         <tbody>
-        <template v-for="(unit, key) in unitOBJ"  :key="key" > 
-            <tr :bgcolor="bgStyle(unit.Grade)">
+        <template v-for="(fullUnit, number) in unitOBJ" > 
+          <tr style="background:khaki"> 
+            <td colspan ="3">  
+            {% if current_user.id == 1 %}
+            <span @click="openUnit('xx-0', number)" class="unit-span" style="color:darkkhaki;background:yellow;padding:3px; margin-left:10px"> &emsp;&emsp;[[ number ]]&emsp;&emsp; </span>                                 
+                    {% else %}
+                <span style="">Unit [[ number ]] </span>
+                    {% endif %} 
+            </td>
+          </tr>     
 
-              <td> 
-                <span v-if="unit.Access == 2" @click="optionsClick(key)" class="unit-span" :style="btnStyle(unit.Grade)"> &emsp;&emsp;[[  key ]]&emsp;&emsp; </span> 
-                <span v-if="unit.Access == 0" style="background:silver;padding:3px"  class="unit-span"> [[  key  ]] disabled </span> 
-                <span v-if="unit.Access == 1"  @click="optionsClick(key)"  class="unit-span" style="background:blue"> &emsp;&emsp;[[  key ]]&emsp;&emsp; </span> 
-              </td>
+            <template v-for="(unit, key) in fullUnit"  :key="key" > 
+                <tr :bgcolor="bgStyle(unit.Grade)">
 
-              <td colspan ="2"> 
-              {% if current_user.id == 1 %}
-                <span @click="goTo(key, 'Instructor' )" class="unit-span" style="background:silver;padding:3px; margin-left:5px"> Instructor </span>                             
-                <span @click="openUnit(key)" v-if="opens[key] == false" class="unit-span" style="background:royalblue;padding:3px; margin-left:10px"> Open </span>                                 
-              {% else %}
-                <span style="">[[  unit.Comment  ]] </span>
-              {% endif %}
-              </td>  
-            
-            </tr>
+                  <td> 
+                    <span v-if="unit.Access == 2" @click="optionsClick(key)" class="unit-span" :style="btnStyle(unit.Grade)"> &emsp;&emsp;[[  key ]]&emsp;&emsp; </span> 
+                    <span v-if="unit.Access == 0" style="background:silver;padding:3px"  class="unit-span"> [[  key  ]] disabled </span> 
+                    <span v-if="unit.Access == 1"  @click="optionsClick(key)"  class="unit-span" style="background:blue"> &emsp;&emsp;[[  key ]]&emsp;&emsp; </span> 
+                  </td>
 
-            <tr v-if="options[key]">
-              <td > 
-                <span   v-if="unit.Grade > 0" @click="goTo(key, 'Writer' )" class="unit-span" style="background:thistle; padding:3px; margin-left:10px"> Answers </span> 
-                <span   V-else @click="goTo(key, 'Writer' )" class="unit-span" style="background:blue; padding:3px; margin-left:10px"> Writer </span> 
-                <span   @click="goTo(key, 'Reader' )" class="unit-span" style="background:goldenrod; padding:3px; margin-left:10px"> Reader </span>                  
-              </td>
-              <td colspan='2'>
-                <span style="color:tomato">Choose 1 writer </span>                           
-              </td>                             
-            </tr>
+                  <td colspan ="2"> 
+                  {% if current_user.id == 1 %}
+                    <span @click="goTo(key, 'Instructor' )" class="unit-span" style="background:silver;padding:3px; margin-left:5px"> Instructor </span>                             
+                    <span @click="openUnit(key, number)" v-if="opens[key] == false" class="unit-span" style="background:royalblue;padding:3px; margin-left:10px"> Open </span>                                 
+                  {% else %}
+                    <span style="">[[  unit.Comment  ]] </span>
+                  {% endif %}
+                  </td>  
+                
+                </tr>
 
-            <tr>
-              <td @click="preview(key)"> <span style="background:whitesmoke">[[  unit.Title  ]] </span>     </td>
-              <td> [[  unit.Deadline  ]] </td>
-              <td > [[  unit.Grade  ]] </td>                
-            </tr>
+                <tr v-if="options[key]">
+                  <td > 
+                    <span   v-if="unit.Grade > 0" @click="goTo(key, 'Writer' )" class="unit-span" style="background:thistle; padding:3px; margin-left:10px"> Answers </span> 
+                    <span   V-else @click="goTo(key, 'Writer' )" class="unit-span" style="background:blue; padding:3px; margin-left:10px"> Writer </span> 
+                    <span   @click="goTo(key, 'Reader' )" class="unit-span" style="background:goldenrod; padding:3px; margin-left:10px"> Reader </span>                  
+                  </td>
+                  <td colspan='2'>
+                    <span style="color:tomato">Choose 1 writer </span>                           
+                  </td>                             
+                </tr>
 
-            <tr>
-             <td colspan ="3">
-                <div  class="embed-responsive embed-responsive-4by3" v-if="prevs[key]">              
-                    <iframe   :src="unit.Source"
-                        allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
-                    </iframe>  
-                </div> 
-              </td>
-            </tr>
-          </template>     
+                <tr>
+                  <td @click="preview(key)"> <span style="background:whitesmoke">[[  unit.Title  ]] </span>     </td>
+                  <td> [[  unit.Deadline  ]] </td>
+                  <td > [[  unit.Grade  ]] </td>                
+                </tr>
+
+                <tr>
+                <td colspan ="3">
+                    <div  class="embed-responsive embed-responsive-4by3" v-if="prevs[key]">              
+                        <iframe   :src="unit.Source"
+                            allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
+                        </iframe>  
+                    </div> 
+                  </td>
+                </tr>
+            </template>     
+        
+        </template>     
             
         </tbody>   
    
@@ -118,11 +131,13 @@ else{
 let prevs = {}
 let options = {}
 let opens = {}
-for (var key in OBJ){
+for (var number in OBJ){
+    for (var key in OBJ[number]){
         prevs[key] = false
         options[key] = false
         opens[key] = false        
       }
+}
 
 
 startVue(OBJ, colorFloat, prevs, options, opens)
@@ -227,20 +242,27 @@ function startVue(unitOBJ, colorFloat, prevs, options, opens){
           // action 
           window.location = url           
         },
-        openUnit: function(key){  
-          console.log(key);
+        openUnit: function(key, number){  
+          console.log(key, number);
           $.ajax({
           data : {
               key : key,            
+              number : number,            
           },
           type : 'POST',
           url : '/openUnit'                   
           })
           .done(function(data) {
-            console.log(data.key);
-            vue.opens[data.key] = true
-            unitOBJ[data.key]['Access'] = 2
-            console.log(vue.opens);
+            if (key == 'xx-0'){
+              location.reload()
+            }
+            else{
+              console.log(data.key);
+              vue.opens[data.key] = true
+              unitOBJ[number][data.key]['Access'] = 2
+              console.log(vue.opens);
+            }
+            
           })
           .fail(function(){
             alert('Failed, check server')
