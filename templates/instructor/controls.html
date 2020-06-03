@@ -211,6 +211,7 @@ let vue = new Vue({
           console.log('var obj =' + JSON.stringify(vue.recordOBJ));
           var string = 'for (var student in obj){ if (document.getElementById(obj[student][0])){ document.getElementById(obj[student][0]).checked=true; document.getElementById(obj[student][1]).checked=true}}'
           console.log(string);
+          alert('var obj =' + JSON.stringify(vue.recordOBJ) + string)
         },
         setAtt: function() { 
           
