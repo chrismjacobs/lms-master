@@ -75,7 +75,7 @@ function startVue(){
                         vue.marker[mark] = 2
                     }
                     else {
-                        alert('Your team mate just updated question ', mark)
+                        console.log('Your team mate just updated question ' + mark)
                     }
                 }
                 else {
