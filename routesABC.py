@@ -358,7 +358,7 @@ def storeB64():
         now = datetime.now()
         time = now.strftime("_%M%S")
         print("time:", time)  
-        filename = unit + '/' + team + '/' + question + time + '_audio.' + fileType
+        filename = unit + '/' + team + '/' + question + time + '_audio.mp3'
         audioLink = S3_LOCATION + filename
         s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=audio)
 
