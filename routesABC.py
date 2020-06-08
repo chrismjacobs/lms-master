@@ -30,6 +30,8 @@ unitDict = {
         '06' : U061U, 
         '07' : U071U, 
         '08' : U081U, 
+        ##'09' : U091U, 
+        ##'10' : U101U, 
     }  
 
 def create_folder(unit, teamnumber, nameRange): 
@@ -323,8 +325,18 @@ def storeB64():
     
     if b64 == 'i':
         print('PROCESSING IMAGE')            
-        image = base64.b64decode(b64data)    
-        filename = unit + '/' + team + '/' + question + '_image.' + fileType
+        image = base64.b64decode(b64data)
+        file_key = project_answers[question]['imageLink']
+        if file_key:
+            print('file_key_found ', file_key)
+            file_key_split = file_key.split('com/')[1]
+            s3_resource.Object(S3_BUCKET_NAME, file_key_split).delete() 
+        else:
+            print('no file_key found')            
+        now = datetime.now()
+        time = now.strftime("_%M%S")
+        print("time:", time)  
+        filename = unit + '/' + team + '/' + question + time + '_image.' + fileType
         imageLink = S3_LOCATION + filename
         s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=image)
 
@@ -336,7 +348,17 @@ def storeB64():
     if b64 == 'a':
         print('PROCESSING AUDIO')            
         audio = base64.b64decode(b64data)    
-        filename = unit + '/' + team + '/' + question + '_audio.mp3'
+        file_key = project_answers[question]['audioLink']
+        if file_key:
+            print('file_key_found ', file_key)
+            file_key_split = file_key.split('com/')[1]
+            s3_resource.Object(S3_BUCKET_NAME, file_key_split).delete() 
+        else:
+            print('no file_key found')            
+        now = datetime.now()
+        time = now.strftime("_%M%S")
+        print("time:", time)  
+        filename = unit + '/' + team + '/' + question + time + '_audio.' + fileType
         audioLink = S3_LOCATION + filename
         s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=audio)
 
