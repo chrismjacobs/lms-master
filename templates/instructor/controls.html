@@ -82,7 +82,7 @@ Teamsize
               <th scope="col" >ID</th>                       
               <th scope="col" >att</th>                       
               <th scope="col" >email</th>  
-              <th scope="col" ></th>  
+              <th scope="col" >remove</th>  
             </tr>
         </thead> 
         
@@ -94,7 +94,7 @@ Teamsize
               <td> [[ key ]] </td>  
               <td :style="attStyle(user.att)"> [[ user.att ]] </td>  
               <td> <a :href="user.eml">Email</a> </td> 
-              <td>  <span> remove </span> </td> 
+              <td>  <span class="unit-span" v-for="i in 4" @click="studentRemove(user.nme, i)" > [[ i]] </span> </td> 
 
             </tr>  
         </template>                 
@@ -119,7 +119,7 @@ Teamsize
               <td> [[ number ]] </td>
               <template v-for="mem in team">    
               <td> 
-               <button :class="deleteClass" @click="studentRemove(mem)">[[ mem ]]</button> 
+               <button :class="deleteClass" @click="studentRemove(mem, 0)">[[ mem ]]</button> 
                 </td>
               </template>    
             </tr>  
@@ -297,10 +297,11 @@ let vue = new Vue({
                 alert('error has occurred');
           });
         },                  
-        studentRemove: function(mem) {
+        studentRemove: function(member, part) {
           $.ajax({
               data : {
-                name : mem
+                name : member,
+                part : part
               },
               type : 'POST',
               url : '/studentRemove'         
@@ -308,8 +309,7 @@ let vue = new Vue({
           })
 		      .done(function(data) {
             vue.refreshTeams()
-            alert('student removed:' + mem)
-                           
+            alert('student removed: ' + member + part)                           
 		      })
           .fail(function(){
                 alert('error has occurred');

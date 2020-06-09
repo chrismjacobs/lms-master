@@ -403,7 +403,7 @@ def exam_list_midterm():
     setDict = {
         '12' : 0, 
         '34' : 0,
-        'ex' : current_user.extra
+        'ex' : current_user.extra        
     }
 
     if Units.query.filter_by(unit='02').first():
@@ -415,10 +415,12 @@ def exam_list_midterm():
     'title' : 'Exams', 
     'theme' : DESIGN['titleColor'], 
     'examString' : json.dumps(examDict), 
-    'setString' : json.dumps(setDict)   
-    }    
+    'setString' : json.dumps(setDict), 
+    } 
 
-    return render_template('units/exam_list_midterm.html', **context )
+
+    return examDict['total']
+    #return render_template('units/exam_list_midterm.html', **context )
 
 
 @app.route ("/exam_list_final", methods=['GET','POST'])
@@ -474,6 +476,7 @@ def exam_list_final():
         'tries78' : str(tries78) + '/20% - tries: ' + str(reviewData['7-8'][2]),  
         'ex56' : ex56, 
         'ex78' : ex78, 
+        'midterm' : exam_list_midterm()
     }
 
     grades = get_grades(True, True)

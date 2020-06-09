@@ -257,40 +257,6 @@ def get_team_list():
         return teamString
         
 
-@app.route ("/studentRemove", methods = ['POST'])
-@login_required 
-def studentRemove(name):
-    if current_user.id != 1:
-        return abort(403) 
-    
-    name = request.form['name']
-
-    findSt = Attendance.query.filter_by(username=name).first()    
-    
-    #delete the attendances entries using ids
-    Attendance.query.filter_by(id=findSt.id).delete()
-    db.session.commit()
-
-    AttendLog.query.filter_by(id=findSt.unit).delete()
-    db.session.commit()
-    
-    #find the team work today
-    todaysUnit = Attendance.query.filter_by(username='Chris').first().unit   
-    studentTeam = Attendance.query.filter_by(username=name).first().teamnumber
-    
-    '''idNum = 0 
-    for model in Info.unit_mods_list:
-        # ie search for u061u
-        if todaysUnit + '1' in str (model):
-            try:
-                idNum = model.query.filter_by(teamnumber=studentTeam).first().id
-            except:
-                pass'''
-       
-
-    return jsonify({'removed' : name, 'unit' : todaysUnit})
-
-
 
 @app.route ("/controls")
 @login_required 
