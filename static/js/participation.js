@@ -1,6 +1,6 @@
 var qDict = document.getElementById('qDict').innerHTML
 var qOBJ = JSON.parse(qDict)
-console.log('qOBJ', qOBJ);
+console.log('qOBJ', qOBJ)
 
 
 startVue(qOBJ)
@@ -23,6 +23,17 @@ function startVue(qOBJ){
             this.show[s] = false
           }
         }
+        if (this.mode == 'Team'){
+          let name_count = (this.teamnames).length 
+          console.log('name_count', name_count);
+          if (name_count == 1 ){          
+            this.mode = 'Writer'                
+          }   
+          else{
+            this.teamSetUp(name_count)
+            this.shareAnswer(0) 
+          }                   
+        }
         if (this.mode == 'Instructor'){
             if (this.userID != 1 ){
               let url = (window.location.href).split('Instructor')[0] + 'Reader'
@@ -34,15 +45,13 @@ function startVue(qOBJ){
               this.classCheck()
               this.class_timer = setInterval(this.classCheck, 10000);
             } 
+
         var range = parseInt(this.teamcount) + 1
         for (i = 1; i < range; i++) {
             //this.leaderOBJ[i] = []
             this.leaderOBJ[i] = null
         }
         console.log('LeaderOBJ-mounted', this.leaderOBJ)
-                         
-            
-
         }
     },
     data: {
@@ -56,7 +65,11 @@ function startVue(qOBJ){
       qs : parseInt(document.getElementById('qs').innerHTML),
       mode :  document.getElementById('mode').innerHTML,
       userID : document.getElementById('userID').innerHTML,
+      user : document.getElementById('user').innerHTML,
       teamcount : document.getElementById('teamcount').innerHTML,
+      teamnames : JSON.parse(document.getElementById('teamnames').innerHTML),
+      TEAMNAMES : [],
+      teamShow : true,
       stage : 1, 
       percent : 0, 
       part_timer : null,
@@ -82,10 +95,82 @@ function startVue(qOBJ){
         6 : false,
         7 : false,
         8 : false,
-      },
-
+      },      
     }, 
-    methods: {      
+    methods: { 
+      
+      teamSetUp: function (name_count) {
+        let rotator = {
+          1 : { 
+            2 : [0,1,0,1,0,1,0,1],
+            3 : [0,1,2,0,1,2,0,1],
+            4 : [0,1,2,3,0,1,2,3]
+          },
+          2 : { 
+            2 : [1,0,1,0,1,0,1,0],
+            3 : [1,2,0,1,2,0,1,2],
+            4 : [1,2,3,0,1,2,3,0]
+          },
+          3 : { 
+            2 : [0,1,0,1,0,1,0,1],
+            3 : [2,0,1,2,0,1,2,0],
+            4 : [2,3,0,1,2,3,0,1]
+          },
+          4 : { 
+            2 : [1,0,1,0,1,0,1,0],
+            3 : [0,2,1,0,2,1,0,2],
+            4 : [3,0,1,2,3,0,1,2]
+          }         
+        }
+
+        let TEAMNAMES = []
+        let teamnames = this.teamnames
+
+        if (name_count == 1 ){          
+            this.mode = 'Writer'                
+        }
+        else{
+          items = rotator[this.part][name_count]
+          console.log('itemsArray', items);
+            items.forEach(function(item){
+              TEAMNAMES.push(teamnames[item])
+            })
+        }
+
+        this.TEAMNAMES = TEAMNAMES
+
+        if (name_count == 0 ){
+          for (var i = 1; i < 5; i++){            
+            this.TEAMNAMES.push(this.teamnames[0])
+            this.TEAMNAMES.push(this.teamnames[1])
+          }          
+        }
+        if (name_count == 0 ){
+          for (var i = 1; i < 4; i++){
+            this.TEAMNAMES.push(this.teamnames[0])
+            this.TEAMNAMES.push(this.teamnames[1])
+            this.TEAMNAMES.push(this.teamnames[2])
+          }          
+        }
+        if (name_count == 0 ){
+          for (var i = 1; i < 3; i++){
+            this.TEAMNAMES.push(this.teamnames[0])
+            this.TEAMNAMES.push(this.teamnames[1])
+            this.TEAMNAMES.push(this.teamnames[2])
+            this.TEAMNAMES.push(this.teamnames[3])
+          }          
+        }
+         
+        for (let btn in this.btnToggle){
+          if (this.TEAMNAMES[btn - 1] != this.user){            
+            this.btnToggle[btn] = false
+          }
+        }  
+        
+        console.log('TEAMNAMES ', this.TEAMNAMES);
+        console.log('btnToggle ', this.btnToggle);
+
+      },    
       showAnswers: function (key){
         if (this.show[key] == true){
           for (var s in this.show){
@@ -103,6 +188,9 @@ function startVue(qOBJ){
       stageCheck: function (key){
         if (this.mode == 'Reader') {
           return true
+        }
+        if (this.mode == 'Team') {
+          return this.teamShow
         }
         else if (this.mode == 'Instructor') {
           this.seeAnswers = true
@@ -122,12 +210,19 @@ function startVue(qOBJ){
         }      
       },
       shareAnswer: function (question){
-        console.log('ajax called');
-        this.btnToggle[question] = false
-        let answer = document.getElementById(question).value
-        if (answer.length < 1){
-          alert('answer is empty')
-          return false
+        console.log('ajax called');        
+        let answer = null
+        if (question == 0){
+          answer = 'start_team'
+          console.log(answer);
+        }
+        else{          
+          answer = document.getElementById(question).value
+          if (answer.length < 1){
+            alert('answer is empty')
+            return false
+          }  
+          this.btnToggle[question] = false      
         }
         
         $.ajax({
@@ -136,7 +231,7 @@ function startVue(qOBJ){
               part : this.part,
               question : question, 
               answer : answer,
-              qs : this.qs,
+              qs : this.qs, //qs == number of questions 
                                      
           },
           type : 'POST',
@@ -144,7 +239,10 @@ function startVue(qOBJ){
           })
           .done(function(data) {
             if (data.action){
-              alert(data.answer)
+              alert(data.answer + ' Members: ' + vue.teamnames)
+            }
+            if (data.action == '2'){
+              vue.teamShow = false
             }            
             vue.stage += 1                              
           })
@@ -170,17 +268,18 @@ function startVue(qOBJ){
               if (vue.ansOBJ[ans] != null){
                 console.log(vue.ansOBJ[ans]);
                 count += 1
+                ///////NEW ADDITON
+                vue.btnToggle[ans] = false
               }
             }
             // count starts at one and will be greater than qs 
             // after last answer submitted
-            if (count > vue.qs){
-              
+            if (count > vue.qs){              
               vue.classCheck()
               vue.class_timer = setInterval(vue.classCheck, 10000);  
               vue.seeAnswers = true
-              clearInterval(vue.part_timer)
-                           
+              //alert('The participation has been completed by ' + vue.teamnames)
+              clearInterval(vue.part_timer)                           
             }
             vue.stage = count
             console.log(count, vue.ansOBJ);
@@ -219,8 +318,8 @@ function startVue(qOBJ){
               }              
             }
           }   
-          console.log('POST PUSH', vue.leaderOBJ);
-          console.log(vue.leaderOBJ[1].length, vue.qs);
+          //console.log('POST PUSH', vue.leaderOBJ);
+          //console.log(vue.leaderOBJ[1].length, vue.qs);
           for (let rec in vue.leaderOBJ){
             if (vue.leaderOBJ[rec].length == 0 ){
               var width_percent = '5%'
@@ -258,7 +357,7 @@ function startVue(qOBJ){
                   alert('error')
           });
       },
-      leaderStyle : function(key){
+      leaderStyle_notNeeded : function(key){
         console.log('leaderOBJ.key', this.leaderOBJ[key] );
         if (this.leaderOBJ[key] == '100'){
           var bar_color = 'green'

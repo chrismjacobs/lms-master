@@ -5,6 +5,8 @@
 <span id="Table" style="display:none">{{Dict}}</span>
 <span id="max" style="display:none">{{max}}</span>
 <span id="Grade" style="display:none">{{Grade}}</span>
+<span id="unit" style="display:none">{{todays_unit}}</span>
+<span id="attend" style="display:none">{{student_attendance}}</span>
 
 <div id="vue-app">
 
@@ -64,11 +66,14 @@
                 <tr v-if="options[key]">
                   <td > 
                     <span   v-if="unit.Grade > 0" @click="goTo(key, 'Writer' )" class="unit-span" style="background:thistle; padding:3px; margin-left:10px"> Answers </span> 
-                    <span   V-else @click="goTo(key, 'Writer' )" class="unit-span" style="background:blue; padding:3px; margin-left:10px"> Writer </span> 
-                    <span   @click="goTo(key, 'Reader' )" class="unit-span" style="background:goldenrod; padding:3px; margin-left:10px"> Reader </span>                  
-                  </td>
+                    <!-- <span   V-else @click="goTo(key, 'Writer' )" class="unit-span" style="background:blue; padding:3px; margin-left:10px"> Writer </span> 
+                    <span   @click="goTo(key, 'Reader' )" class="unit-span" style="background:goldenrod; padding:3px; margin-left:10px"> Reader </span> -->  
+                    <span   v-else-if="parseInt(todays_unit) && attend == 1" @click="goTo(key, 'Team' )" class="unit-span" style="background:green; padding:3px; margin-left:10px"> TeamWork </span> 
+                    <span   V-else @click="goTo(key, 'Writer' )" class="unit-span" style="background:Orange; padding:3px; margin-left:10px"> Solo </span> 
+                    
+                    </td>
                   <td colspan='2'>
-                    <span style="color:tomato">Choose 1 writer </span>                           
+                    <!--<span style="color:tomato">Choose 1 writer </span> -->                           
                   </td>                             
                 </tr>
 
@@ -111,6 +116,10 @@
 <script type="text/javascript" >
 
 var Table = document.getElementById('Table').innerHTML
+var todays_unit = document.getElementById('unit').innerHTML
+console.log(unit);
+var attend = document.getElementById('attend').innerHTML
+console.log(attend);
 var OBJ = JSON.parse(Table)
 console.log('unitOBJ', OBJ);
 var max = parseInt(document.getElementById('max').innerHTML)
@@ -161,7 +170,9 @@ function startVue(unitOBJ, colorFloat, prevs, options, opens){
         show: false,
         prevs: prevs,  
         options: options,
-        opens: opens
+        opens: opens,
+        todays_unit: todays_unit,
+        attend: attend,
          
     }, 
     methods: {

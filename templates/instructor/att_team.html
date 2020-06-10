@@ -64,7 +64,11 @@
                                     {% endfor %}
                                 </div>                          
                             {% else %}
+                                Please <span style="color:red"> DO NOT </span> do attendance if you are <span style="color:red"> NOT IN THE CLASS.</span>
+                                <br> 
+                                <br> 
                                 {% for subfield in form.attend %}
+                                
                                 <tr >
                                     <td>{{ subfield }}</td>
                                     <td><strong style="font-size: 20px;">{{ subfield.label }}</strong></td>

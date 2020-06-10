@@ -90,8 +90,10 @@ def unit_list():
             'Access' : access
         }    
 
+    student_attendance = Attendance.query.filter_by(username=current_user.username).count()
+
     return render_template('units/unit_list.html', legend='Units Dashboard', 
-    Dict=json.dumps(unitDict), Grade=unitGrade, max=maxU, title='Units')
+    Dict=json.dumps(unitDict), Grade=unitGrade, max=maxU, title='Units', todays_unit=todays_unit, student_attendance=student_attendance)
 
 
 @app.route('/recError', methods=['POST'])
@@ -225,12 +227,13 @@ def getPdata():
     models = Info.unit_mods_dict[unit] # '01' : [None, mod, mod, mod, mod]
     model = models[int(part)]
 
+    '''
     for row in model.query.all():
         if current_user.username in ast.literal_eval(row.username):
             teamnumber = row.teamnumber
             print('teamnumber detected: ', teamnumber)
             break
-
+    '''
 
     dataDict = {}
 
@@ -305,13 +308,20 @@ def shareUpload():
 
     find = model.query.filter_by(teamnumber=teamnumber).count()
     if find == 0:
-        entry = model(username=str(nameRange), teamnumber=teamnumber, Ans01=answer, Grade=0, Comment='in progress..')
+        if int(question) == 0: ## team start
+            entry = model(username=str(nameRange), teamnumber=teamnumber, Grade=0, Comment='in progress..')
+        else: ## writer start
+            entry = model(username=str(nameRange), teamnumber=teamnumber, Grade=0, Comment='in progress..', Ans01=answer)
+
         db.session.add(entry)
         db.session.commit()
         return jsonify({'answer' : 'participation started', 'action' : 1})
     
     
-    if find == 1:       
+    if find == 1: 
+        if int(question) == 0:
+            return jsonify({'answer' : 'participation started', 'action' : None})
+
         entry = model.query.filter_by(teamnumber=teamnumber).first()
         qDict = {
             1 : entry.Ans01,
@@ -328,26 +338,41 @@ def shareUpload():
         else:                 
             if int(question) == 1:
                 entry.Ans01 = answer
+                qDict[1] = answer
             if int(question) == 2:                    
-                entry.Ans02 = answer                    
+                entry.Ans02 = answer   
+                qDict[2] = answer                 
             if int(question) == 3:
                 entry.Ans03 = answer
+                qDict[3] = answer
             if int(question) == 4:
                 entry.Ans04 = answer
+                qDict[4] = answer
             if int(question) == 5:
                 entry.Ans05 = answer
+                qDict[5] = answer
             if int(question) == 6:
                 entry.Ans06 = answer
+                qDict[6] = answer
             if int(question) == 7:
                 entry.Ans07 = answer
+                qDict[7] = answer
             if int(question) == 8:
-                entry.Ans08 = answer                
+                entry.Ans08 = answer  
+                qDict[8] = answer              
 
-            entry.username = str(nameRange)                
+            ## DO NOT ALLOW update of usernames
+            ##entry.username = str(nameRange)                
             print('commit???', question, answer)
             db.session.commit()   
             ## check if last answer given
-            if int(question) == int(qs):                
+            
+            qMarker = True
+            for qAns in qDict:
+                if int(qAns) <= int(qs) and qDict[qAns] == None:
+                    qMarker = False
+
+            if qMarker:                
                 if entry.Grade > 0 :
                     pass            
                 elif  datetime.now() < deadline:
@@ -360,11 +385,11 @@ def shareUpload():
                     entry.Grade = 1  # late start  
                     entry.Comment = random.choice(comList) 
                     db.session.commit()
-                return jsonify({'answer' : 'participation completed', 'action' : 1})
+                return jsonify({'answer' : 'participation completed', 'action' : 2})
             else:
                 return jsonify({'answer' : 'answer shared - keep going', 'action' : None})     
 
-    return jsonify({'answer' : 'something wrong has happened'})
+    return jsonify({'answer' : 'something wrong has happened - see your instructor'})
 
 
 @app.route ("/participation/<string:unit_num>/<string:part_num>/<string:state>", methods=['GET','POST'])
@@ -414,6 +439,20 @@ def participation(unit_num,part_num,state):
     qDict = vDict[unit_num][part_num]    
     qs = len(qDict)
 
+    ## Get names
+    models = Info.unit_mods_dict[unit_num] # '01' : [None, mod, mod, mod, mod]
+    model = models[int(part_num)]
+    print(model) 
+    nnDict = team_details()
+    teamnumber = nnDict['teamnumber']
+    find = model.query.filter_by(teamnumber=teamnumber).first()
+    if find:
+        teamnames = json.dumps(ast.literal_eval(find.username))
+        print(teamnames, 1)
+    else:
+        teamnames = json.dumps(team_details()['nameRange'])
+        print(teamnames, 2)
+
     context = {
         'title' : 'participation',
         'source' : source, 
@@ -425,7 +464,41 @@ def participation(unit_num,part_num,state):
         'state' : state,
         'userID' : current_user.id,
         'teamcount' : teamcount,
+        'teamnames' : teamnames
     }
 
     return render_template('units/part_vue.html', **context)
 
+
+@app.route('/studentRemove', methods=['POST'])
+def studentRemove():
+    if current_user.id != 1:
+        return abort(403) 
+
+    name = request.form ['name']
+    part = request.form ['part'] 
+    instructor_setup = Attendance.query.filter_by(studentID='100000000').first()
+    student_setup = Attendance.query.filter_by(username=name).first()
+    UNIT = instructor_setup.unit
+    TEAM = student_setup.teamnumber
+
+    part_model = Info.unit_mods_dict[UNIT][int(part)]
+    
+    print( Info.unit_mods_dict)
+    print('model', part_model)
+
+    if part_model:   
+        entry = part_model.query.filter_by(teamnumber=TEAM).first()      
+        team_list = ast.literal_eval(entry.username)
+        print('TEAM', team_list)
+        team_list.remove(name)
+        print('TEAM', team_list)
+        entry.username = str(team_list)
+        db.session.commit()
+    else:
+        attend_log_id = student_setup.unit
+        Attendance.query.filter_by(username=name).delete()
+        AttendLog.query.filter_by(id=attend_log_id).delete()
+        db.session.commit()
+
+    return jsonify({'removed' : name, 'unit' : UNIT})
