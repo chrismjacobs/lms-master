@@ -138,28 +138,6 @@ function startVue(qOBJ){
         }
 
         this.TEAMNAMES = TEAMNAMES
-
-        if (name_count == 0 ){
-          for (var i = 1; i < 5; i++){            
-            this.TEAMNAMES.push(this.teamnames[0])
-            this.TEAMNAMES.push(this.teamnames[1])
-          }          
-        }
-        if (name_count == 0 ){
-          for (var i = 1; i < 4; i++){
-            this.TEAMNAMES.push(this.teamnames[0])
-            this.TEAMNAMES.push(this.teamnames[1])
-            this.TEAMNAMES.push(this.teamnames[2])
-          }          
-        }
-        if (name_count == 0 ){
-          for (var i = 1; i < 3; i++){
-            this.TEAMNAMES.push(this.teamnames[0])
-            this.TEAMNAMES.push(this.teamnames[1])
-            this.TEAMNAMES.push(this.teamnames[2])
-            this.TEAMNAMES.push(this.teamnames[3])
-          }          
-        }
          
         for (let btn in this.btnToggle){
           if (this.TEAMNAMES[btn - 1] != this.user){            
@@ -317,9 +295,7 @@ function startVue(qOBJ){
                 vue.leaderOBJ[team].push(vue.classOBJ[qn][team])                
               }              
             }
-          }   
-          //console.log('POST PUSH', vue.leaderOBJ);
-          //console.log(vue.leaderOBJ[1].length, vue.qs);
+          }             
           for (let rec in vue.leaderOBJ){
             if (vue.leaderOBJ[rec].length == 0 ){
               var width_percent = '5%'
@@ -356,20 +332,7 @@ function startVue(qOBJ){
           .fail(function(){
                   alert('error')
           });
-      },
-      leaderStyle_notNeeded : function(key){
-        console.log('leaderOBJ.key', this.leaderOBJ[key] );
-        if (this.leaderOBJ[key] == '100'){
-          var bar_color = 'green'
-        }
-        else {
-          var bar_color = 'red'
-        }
-          var width = this.leaderOBJ[key] + '0%'
-          console.log(width);          
-          this.leaderBar[key] = { background:bar_color,  height:'20px', width: width, border: '1px solid grey', 'border-radius': '5px'}
-          console.log(this.leaderBar);    
-      }
+      }      
           
     } // end methods    
     
