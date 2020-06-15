@@ -79,7 +79,7 @@ def project_teams(unit, number):
     manualTeams = {
         
         #10: ['Fiona', 'Ann', 'Penny Lai', 'Yui'],
-        11 : ['Fiona', 'Jessica', 'Yui'],
+        11 : ['Leo', 'Emma'],
               
     }
 
@@ -193,6 +193,7 @@ def abc_list():
     #pprint(srcDict)
 
     unitList = ['00', '01', '02', '03']
+    #unitList = ['04', '05', '06', '07','08']
     abcDict = {}
     for src in srcDict:
         # check sources against open units in model
@@ -225,9 +226,9 @@ def abc_list():
     #pprint (abcDict)       
 
     examDict = {} 
-    '''
+    
     for src in srcDict:
-        if int(src) > 3:
+        if int(src) < 4: # change to match number of units 
             pass
         else:
             examDict[src] = {}
@@ -286,7 +287,8 @@ def abc_list():
             examDict[unit][int(team)]['Sscore'] = grade
         except:
             print('FAIL QNA') 
-    '''      
+        
+    
        
     source = srcDict['00']['M2']
         
@@ -662,7 +664,6 @@ def midtermGrades():
     
     user = Exams.query.filter_by(username=current_user.username).first()
     
-
     return user
 
 
@@ -671,7 +672,7 @@ def updateGrades():
     qORs = request.form ['qORs']
     unit = request.form ['unit']  
     team = request.form ['team']
-    grade = request.form ['grade'] 
+    grade = request.form ['grade']     
 
     user = midtermGrades()   
     
@@ -708,9 +709,7 @@ def updateGrades():
             db.session.commit()
             print('snlCommit')
     
-    
     print('after', examDict)
-
         
     return jsonify({'grade' : grade})
 
@@ -727,7 +726,8 @@ def abc_grades():
         gradesDict[user.username] = {
             'Student' : { 
                 'name' :user.username, 
-                'id' : user.studentID
+                'id' : user.studentID, 
+                'Status' : user.extra
              },         
             '04' : {
                 'team' : 0, 
