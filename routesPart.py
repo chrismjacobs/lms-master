@@ -227,14 +227,6 @@ def getPdata():
     models = Info.unit_mods_dict[unit] # '01' : [None, mod, mod, mod, mod]
     model = models[int(part)]
 
-    '''
-    for row in model.query.all():
-        if current_user.username in ast.literal_eval(row.username):
-            teamnumber = row.teamnumber
-            print('teamnumber detected: ', teamnumber)
-            break
-    '''
-
     dataDict = {}
 
     ## just get team data
