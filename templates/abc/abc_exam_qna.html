@@ -47,7 +47,7 @@
                   <br>  
                   Your answer: <span style="background:dodgerblue; color:white"> [[ input[key] ]]</span>  
                   <br>
-                  <select style="height:25px;width:200px;color:white;background:thistle" :id="key">  
+                  <select style="height:25px;width:200px;color:white;background:orchid" :id="key">  
                   <option value="0">--</option>
                   <option value="1">Not Correct</option>
                   <option value="3">Different but Correct</option>
@@ -128,7 +128,20 @@ function startVue(){
           window.location = url
         },
         checkQNA: function() {
-         vue.display = true
+         let checkToggle = true
+         let inputs = document.getElementsByTagName('Input')
+         console.log(inputs);
+         for (let item of inputs) {    
+            if (item.value.length < 1){
+             checkToggle = false
+           }
+         }       
+         if (checkToggle == false){
+           alert('Please check that all answers are complete')   
+         }
+         else {
+            vue.display = true
+         }       
         }, 
         submitQNA: function() { 
           obj = { 1:1, 2:2, 3:3, 4:4, 5:5, 6:6}         
@@ -138,12 +151,20 @@ function startVue(){
             var score = e.options[e.selectedIndex].value 
             vue.grade += parseInt(score)
           }
-          alert('Great, your grade will be updated')
-          vue.updateGrades()              
+
+          if (vue.grade < 1){
+              alert('Grade is too low - try again') 
+              vue.goTo() 
+          }
+          else{
+              alert('Great, your grade will be updated')
+              vue.updateGrades()  
+          }
           
         }, 
         updateGrades: function() {
           console.log('vueGrade', vue.grade);
+          
           
           $.ajax({
               data : {
