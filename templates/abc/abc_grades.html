@@ -28,10 +28,12 @@
         <tbody>
         <template v-for="(user, key) in gradesOBJ">             
             <tr>             
-              <td v-for="(data, head) in user" > <span v-for="item, head in data" :style="getStyle(head, item)"> [[head]]: [[item]] <br> </span> </td>     
+              <td v-if="!excluded.includes(key)" v-for="(data, head) in user" > <span v-for="item, head in data" :style="getStyle(head, item)" @click="setStatus(head, key)"> [[head]]: [[item]] <br> </span> </td>     
             </tr>  
         </template>                 
-        </tbody>   
+        </tbody>
+        
+
    
       </table>
     </div>
@@ -68,10 +70,29 @@ let vue = new Vue({
         
     },
     data: {
-        gradesOBJ: gradesOBJ, 
+        gradesOBJ: gradesOBJ,
+        excluded: ['Chris', 'Test', 'Jane', 'Michelle'] 
            
     }, 
-    methods: {                         
+    methods: { 
+        setStatus: function(head, key) {
+          if (head == 'Status') {
+            $.ajax({
+              data : {
+                username : key,                
+              },
+              type : 'POST',
+              url : '/setStatus',               
+            })
+            .done(function(data) {
+              gradesOBJ[key]['Student']['Status'] = data.set                         
+            })
+            .fail(function(){
+                alert('error has occurred');
+            });
+          }          
+          
+        },                        
         getStyle: function(head, item) {
           if (head == 'QNA') {
             if (item > 11){
@@ -105,22 +126,28 @@ let vue = new Vue({
               return { background:'lightcoral'}
             }            
           }          
-          if (head == 'QNA_grades') {
-            return { background:'white', color:'white'}
-            if (item.length > 0){
+          if (head == 'QNA_grades' || head == 'SNL_grades') {
+            //return { background:'white', color:'white'}
+            if (item.length > 2){
+                return { background:'mediumspringgreen'}
+            }
+            if (item.length > 1){
                 return { background:'mediumseagreen'}
+            }
+            else if (item.length > 0){
+                return { background:'gold'}
             }
             else{
               return { background:'lightcoral'}
             }            
-          }          
-          if (head == 'SNL_grades') {
-            return { background:'white', color:'white'}
-            if (item.length > 0){
-                return { background:'mediumseagreen'}
+          }   
+          if (head == 'Status') {
+            
+            if (item == 3){
+                return { background:'mediumseagreen', display: 'inline-block', padding:'20px'}
             }
             else{
-              return { background:'lightcoral'}
+              return { background:'lightcoral', display: 'inline-block', padding:'20px'}
             }            
           }          
           
