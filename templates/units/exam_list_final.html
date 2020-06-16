@@ -11,15 +11,15 @@
     <table class="table table-sm">
        <tbody>         
           <tr v-if="examOBJ.ex56 !=0 && examOBJ.ex78 !=0" :style="totalStyle((examOBJ.midterm + examOBJ.total) /2)">
-            <td> Total Grade</td>   
+            <td> <h5>Total Grade</h5> </td>   
             <td> [[ (examOBJ.midterm + examOBJ.total) /2 ]]/100%</td>  
           </tr>       
           <tr v-if="examOBJ.ex56 !=0 && examOBJ.ex78 !=0" :style="totalStyle(examOBJ.midterm)">
-            <td> Midterm Grade</td>   
+            <td> Midterm Score</td>   
             <td> [[examOBJ.midterm]]/100%</td>  
           </tr>       
           <tr :style="totalStyle(examOBJ.total)">
-            <td> Final Grade</td>   
+            <td> Final Score</td>   
             <td> [[examOBJ.total]]/100%</td>  
           </tr>       
           <tr>
