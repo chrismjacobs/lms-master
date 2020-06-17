@@ -226,17 +226,15 @@ def getPdata():
     # get model
     models = Info.unit_mods_dict[unit] # '01' : [None, mod, mod, mod, mod]
     model = models[int(part)]
+    classData = model.query.all() 
 
     dataDict = {}
 
     ## just get team data
     if int(check) == 0: 
-        find = model.query.filter_by(teamnumber=teamnumber).count()
-        if find == 0:
-            dataDict = {}
-        else:
-            entry = model.query.filter_by(teamnumber=teamnumber).first()
-            dataDict = {
+        for entry in classData:
+            if current_user.username in ast.literal_eval(entry.username):
+                dataDict = {
                 1 : entry.Ans01,
                 2 : entry.Ans02,
                 3 : entry.Ans03,
@@ -245,8 +243,9 @@ def getPdata():
                 6 : entry.Ans06,
                 7 : entry.Ans07,
                 8 : entry.Ans08,               
-            }
-        
+                }                
+                break
+            
 
     ## just get data for whole class
     if int(check) == 1:        
@@ -259,8 +258,7 @@ def getPdata():
             6 : {},
             7 : {},
             8 : {}, 
-        }
-        classData = model.query.all() 
+        }        
         for entry in classData:
             dataDict[1][entry.teamnumber] = entry.Ans01 
             dataDict[2][entry.teamnumber] = entry.Ans02 
