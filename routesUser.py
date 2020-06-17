@@ -466,8 +466,7 @@ def exam_list_final():
     if len(examData['7-8']) > 0: 
         ex78 = round(   (examData['7-8'][0] + examData['7-8'][1])   /2  )
         
-    
-    
+        
     examDict = {
         'total' : 0, 
         'units' : 0, 
@@ -476,7 +475,7 @@ def exam_list_final():
         'tries78' : str(tries78) + '/20% - tries: ' + str(reviewData['7-8'][2]),  
         'ex56' : ex56, 
         'ex78' : ex78, 
-        'midterm' : exam_list_midterm()
+        'midterm' : grades_midterm ()[current_user.username]['Total']
     }
 
     grades = get_grades(True, True)
@@ -616,7 +615,7 @@ def grades_final():
         gradesDict[entry]['Total'] = gradesDict[entry]['uP'] + gradesDict[entry]['aP'] + gradesDict[entry]['exam1'] + gradesDict[entry]['exam2'] 
 
     MTgrades = grades_midterm ()
-    for mt_student in MTgrades:
+    for mt_student in MTgrades:        
         gradesDict[mt_student]['MT'] = MTgrades[mt_student]['Total']
 
     return render_template('instructor/grades.html', ansString=json.dumps(gradesDict))
@@ -729,6 +728,45 @@ def grades_midterm ():
         return gradesDict
     else:
         return render_template('instructor/grades.html', ansString=json.dumps(gradesDict))
+
+
+@app.route ("/classwork", methods=['GET','POST'])
+@login_required
+def classwork ():
+
+    cwDict = {}
+
+    users = User.query.all()    
+   
+
+    unit_list = ['05', '06', '07', '08']    
+    
+    #for model in Info.unit_mods_list[0:16]:
+    for model in Info.unit_mods_list[16:32]:
+        rows = model.query.all()
+        unit = str(model).split('U')[1]
+        cwDict[unit] = {}
+
+        for row in rows:            
+            cwDict[unit][row.id] = {} 
+            cwDict[unit][row.id]['ID'] = row.id                    
+            cwDict[unit][row.id]['names'] = row.username                    
+            cwDict[unit][row.id]['team'] = row.teamnumber                    
+            cwDict[unit][row.id]['1'] = row.Ans01                    
+            cwDict[unit][row.id]['2'] = row.Ans02                   
+            cwDict[unit][row.id]['3'] = row.Ans03                  
+            cwDict[unit][row.id]['4'] = row.Ans04                     
+            cwDict[unit][row.id]['5'] = row.Ans05                     
+            cwDict[unit][row.id]['6'] = row.Ans06                     
+            cwDict[unit][row.id]['7'] = row.Ans07                    
+            cwDict[unit][row.id]['8'] = row.Ans08                     
+            cwDict[unit][row.id]['Comment'] = row.Comment                     
+            cwDict[unit][row.id]['Grade'] = row.Grade 
+            
+     
+    
+    return render_template('instructor/classwork.html', ansString=json.dumps(cwDict))
+
 
 
 
