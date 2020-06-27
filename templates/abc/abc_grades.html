@@ -28,7 +28,7 @@
         <tbody>
         <template v-for="(user, key) in gradesOBJ">             
             <tr>             
-              <td v-if="!excluded.includes(key)" v-for="(data, head) in user" > <span v-for="item, head in data" :style="getStyle(head, item)" @click="setStatus(head, key)"> [[head]]: [[item]] <br> </span> </td>     
+              <td v-if="!excluded.includes(key)" v-for="(data, head) in user" > <span v-for="item, head in data" :style="getStyle(head, item, key)" @click="setStatus(head, key)"> [[head]]: [[item]] <br> </span> </td>     
             </tr>  
         </template>                 
         </tbody>
@@ -71,7 +71,8 @@ let vue = new Vue({
     },
     data: {
         gradesOBJ: gradesOBJ,
-        excluded: ['Chris', 'Test', 'Jane', 'Michelle'] 
+        excluded: ['Chris', 'Test', 'Jane', 'Michelle', 'Kevin', 'Wayne123', 'Penny'] 
+
            
     }, 
     methods: { 
@@ -92,10 +93,20 @@ let vue = new Vue({
             });
           }          
           
-        },                        
-        getStyle: function(head, item) {
+        },  
+        updateGrade: function(name, grade){
+          if (gradesOBJ[name]['Student']['grade'] > 0) {
+            gradesOBJ[name]['Student']['grade'] += grade
+          }
+          else{
+            gradesOBJ[name]['Student']['grade'] = 1
+          }
+
+        },                    
+        getStyle: function(head, item, name) {
           if (head == 'QNA') {
-            if (item > 11){
+            if (item > 11){ 
+              this.updateGrade(name, 1)               
                 return { background:'mediumseagreen'}
             }
             else{
@@ -104,6 +115,7 @@ let vue = new Vue({
           }          
           if (head == 'SNL') {
             if (item > 11){
+              this.updateGrade(name, 1)
                 return { background:'mediumseagreen'}
             }
             else{
@@ -112,6 +124,7 @@ let vue = new Vue({
           }          
           if (head == 'SNL_check') {
             if (item > 0){
+              this.updateGrade(name, 1)
                 return { background:'mediumseagreen'}
             }
             else{
@@ -120,6 +133,7 @@ let vue = new Vue({
           }          
           if (head == 'QNA_check') {
             if (item > 0){
+              this.updateGrade(name, 1)
                 return { background:'mediumseagreen'}
             }
             else{
@@ -129,12 +143,15 @@ let vue = new Vue({
           if (head == 'QNA_grades' || head == 'SNL_grades') {
             //return { background:'white', color:'white'}
             if (item.length > 2){
-                return { background:'mediumspringgreen'}
+              this.updateGrade(name, 2)
+                return { background:'aqua'}
             }
             if (item.length > 1){
-                return { background:'mediumseagreen'}
+              this.updateGrade(name, 1)
+                return { background:'mediumspringgreen'}
             }
             else if (item.length > 0){
+              this.updateGrade(name, 0.5)
                 return { background:'gold'}
             }
             else{
