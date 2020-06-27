@@ -22,7 +22,7 @@ except:
     SECRET_KEY = os.environ['SECRET_KEY']
     DEBUG = False
 
-jList = ['None', 'reading-lms', 'workplace-lms', 'abc-lms', 'peng-lms', 'food-lms']
+jList = ['None', 'reading-lms', 'workplace-lms', 'abc-lms', 'peng-lms', 'food-lms', 'icc-lms', 'nme-lms', 'fse-lms']
          
 
 s3_resource = boto3.resource('s3',
