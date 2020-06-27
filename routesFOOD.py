@@ -220,7 +220,8 @@ def createPPT_RR():
             p.text = 'when I go/went'
             p.level = 1
 
-            pf = shapes.add_picture('add_image.png', Inches(6), Inches(2) )
+
+            pf = shapes.add_picture('static/images/add_image.png', Inches(6), Inches(2) )
             
         else:
             bullet_slide_layout = prs.slide_layouts[1]
@@ -237,7 +238,7 @@ def createPPT_RR():
                 p.text = word
                 p.level = 1
 
-            pf = shapes.add_picture('add_image.png', Inches(6), Inches(2) )
+            pf = shapes.add_picture('static/images/add_image.png', Inches(6), Inches(2) )
 
     
 

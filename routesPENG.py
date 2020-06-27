@@ -336,7 +336,7 @@ def createPPT_VV():
     p.text = 'Time: ' + ansDict['Video Length']
     p = tf.add_paragraph()
     p.text = 'Views: ' + ansDict['Video Views']
-    pf = shapes.add_picture('add_image.png', Inches(6), Inches(2) )
+    pf = shapes.add_picture('static/images/add_image.png', Inches(6), Inches(2) )
     
     #question        
     bullet_slide_layout = prs.slide_layouts[3]
@@ -348,7 +348,7 @@ def createPPT_VV():
     tf = body_shape.text_frame 
     p = tf.add_paragraph()
     p.text = ansDict['Warm Up Question']        
-    pf = shapes.add_picture('add_image.png', Inches(6), Inches(2) )
+    pf = shapes.add_picture('static/images/add_image.png', Inches(6), Inches(2) )
 
     #answer
     bullet_slide_layout = prs.slide_layouts[3]
@@ -360,7 +360,7 @@ def createPPT_VV():
     tf = body_shape.text_frame 
     p = tf.add_paragraph()
     p.text = ansDict['Your Answer']        
-    pf = shapes.add_picture('add_image.png', Inches(6), Inches(2) )
+    pf = shapes.add_picture('static/images/add_image.png', Inches(6), Inches(2) )
     
     #description
     bullet_slide_layout = prs.slide_layouts[3]
@@ -376,7 +376,7 @@ def createPPT_VV():
         p.text = word
         p.level = 1
     
-    pf = shapes.add_picture('add_image.png', Inches(6), Inches(2) )
+    pf = shapes.add_picture('static/images/add_image.png', Inches(6), Inches(2) )
     
     #video
     bullet_slide_layout = prs.slide_layouts[3]
@@ -390,7 +390,7 @@ def createPPT_VV():
     tf.text = 'Okay, now let`s enjoy the video before I give my comments'
     p.text = ansDict['Video Link']    
     
-    pf = shapes.add_picture('add_play.jpg', Inches(6), Inches(2) )
+    pf = shapes.add_picture('static/images/add_play.jpg', Inches(6), Inches(2) )
     
     #comments
     bullet_slide_layout = prs.slide_layouts[3]
@@ -406,7 +406,7 @@ def createPPT_VV():
         p.text = word
         p.level = 1
     
-    pf = shapes.add_picture('add_image.png', Inches(6), Inches(2) )
+    pf = shapes.add_picture('static/images/add_image.png', Inches(6), Inches(2) )
 
 
     print('PROCESSING PPT') 
