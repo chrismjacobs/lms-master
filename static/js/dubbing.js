@@ -152,7 +152,7 @@ window.globalFunc = function (action){
                     })//end fetch then
                     .catch((error) => {                      
                       console.log(error);
-                      recErrorWin(error);
+                      //recErrorWin(error);
                     })
                   return stage
                                
@@ -164,7 +164,7 @@ window.globalFunc = function (action){
           console.log(stage);
         }
         catch {
-          recErrorWin('Apple fail before fetch');
+          console.log('recErrorWin')
         }
 
       }; 
@@ -246,7 +246,7 @@ function startVue(){
                     }
                     catch(err) {                  
                       console.log(err.message);
-                      vue.recError(err.message) 
+                      //vue.recError(err.message) 
                     }
                 }        
              })
@@ -278,24 +278,27 @@ function startVue(){
           
                
       },  
-      cancel: function(){
+      cancel: function(){        
         console.log('cancel');
+
+        video = document.getElementById('vid')
+        audio = document.getElementById('aud')
+        video.currentTime = 0 
+        audio.currentTime = 0 
+
         for (var key in vue.rec1){
         vue.rec1[key] = false          
         }
-        vue.rec1.start = true 
+        vue.rec1.start = true         
         
-        vue.show['1'] = true
-        vue.show['2'] = true
         vue.base64data = null
         vue.blobURL = null 
         
       },         
-      save : function (task, mark){
+      save : function (k){
         if (this.device == 'I'){
           vue.base64data = b64d          
-        }  
-        
+        }          
 
         $.ajax({
           data : {    
@@ -356,6 +359,12 @@ function startVue(){
         video = document.getElementById('vid')
         audio = document.getElementById('aud')
         video.currentTime = 0 
+        audio.currentTime = 0 
+        console.log(vue.blobURL);
+
+        if (vue.blobURL != null){
+          audio.src = vue.blobURL
+        }
         if (arg == 'sound'){   
           video.muted = false      
           video.play()
@@ -373,6 +382,9 @@ function startVue(){
           video.muted = true 
           video.play()
           audio.play()
+        }
+        video.onended = function() {
+          vue.stop()
         }
 
 

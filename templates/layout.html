@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/png" href="{{headLogo}}">  
-  
+  <link rel="icon" type="image/png" href="{{headLogo}}">
+
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
-    
+
     {% if title %}
         <title> {{ title }} </title>
     {% else %}
@@ -22,75 +22,77 @@
         <nav class="navbar navbar-dark fixed-top" style="background:{{titleColor}}"> <!---navbar-expand-md -->
                     <div class="container">
                       <a class="navbar-brand ml-8" href="/">{{headTitle}}</a>
-                      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" 
+                      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle"
                       aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span> <!--makes nav icon appear-->
                       </button>
                       <div class="collapse navbar-collapse" id="navbarToggle" data-toggle="collapse" data-target=".navbar-collapse.show">
-                      <!-- Navbar Right Side -->                        
+                      <!-- Navbar Right Side -->
                         <div class="navbar-nav">
                         {% if current_user.id == 1 %}
                         <div class="navbar-nav mr-auto">
-                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('controls') }}", target="_blank">Controls</a>                                   
-                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('admin') }}", target="_blank">Admin</a> 
+                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('controls') }}", target="_blank">Controls</a>
+                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('admin') }}", target="_blank">Admin</a>
                           {% if SCHEMA < 3 %}
-                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('dashboard')}}", target="_blank">Dashboard</a> 
-                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('grades_final')}}", target="_blank">Grades</a> 
+                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('dashboard')}}", target="_blank">Dashboard</a>
+                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('grades_final')}}", target="_blank">Grades</a>
                           {% elif SCHEMA == 3 %}
-                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('abc_dash')}}", target="_blank">Dashboard</a> 
-                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('abc_grades')}}", target="_blank">Grades</a> 
+                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('abc_dash')}}", target="_blank">Dashboard</a>
+                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('abc_grades')}}", target="_blank">Grades</a>
                           {% elif SCHEMA == 4 %}
-                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('peng_dash', MTFN='FN')}}", target="_blank">Dashboard</a> 
+                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('peng_dash', MTFN='FN')}}", target="_blank">Dashboard</a>
                           {% elif SCHEMA == 5 %}
-                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('food_FN')}}", target="_blank">Dashboard</a> 
-                          {% endif %}                                 
-                        </div>                                                                       
+                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('food_FN')}}", target="_blank">Dashboard</a>
+                          {% endif %}
+                        </div>
                         {% endif %}
                         {% if current_user.username == 'Robin' or current_user.username == 'William'  %}
                         <div class="navbar-nav mr-auto">
                           {% if SCHEMA == 3 %}
-                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('abc_dash')}}", target="_blank">Dashboard</a> 
-                         {% endif %}                                 
-                        </div>                                                                       
-                        {% endif %}
-                        
-                        <div class="navbar-nav mr-auto">
-                          <a class="nav-item nav-link" href= "{{ url_for ('home') }}">Home</a>                        
-                          <a class="nav-item nav-link" href= "{{ url_for ('about') }}">About</a>                                             
+                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('abc_dash')}}", target="_blank">Dashboard</a>
+                         {% endif %}
                         </div>
-                      
-                             
+                        {% endif %}
+
+                        <div class="navbar-nav mr-auto">
+                          <a class="nav-item nav-link" href= "{{ url_for ('home') }}">Home</a>
+                          <a class="nav-item nav-link" href= "{{ url_for ('about') }}">About</a>
+                        </div>
+
+
                         {% if current_user.is_authenticated %}
                         <div class="navbar-nav">
-                          <a class="nav-item nav-link" href= "{{ url_for ('att_team') }}">Attendance</a>  
+                          <a class="nav-item nav-link" href= "{{ url_for ('att_team') }}">Attendance</a>
                           <a class="nav-item nav-link" href="{{ url_for ('course') }}">My Course</a>
                                 {% if SCHEMA < 3 %}
                                   <a class="nav-item nav-link" href="{{ url_for ('unit_list') }}">My Units</a>
                                   <a class="nav-item nav-link" href="{{ url_for ('assignment_list') }}">My Assignments</a>
                                   <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('exam_list_final') }}">My Exams</a>
-                                {% elif SCHEMA == 3 %} 
-                                  <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('abc_list') }}">My Projects</a> 
+                                {% elif SCHEMA == 3 %}
+                                  <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('abc_list') }}">My Projects</a>
                                 {% elif SCHEMA == 4 %}
                                   <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('peng_list') }}">My Presentations</a>
-                                {% elif SCHEMA > 4 %}
+                                {% elif SCHEMA == 5 %}
                                   <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('food_list') }}">My Presentations</a>
-                                {% endif %} 
-                          <a class="nav-item nav-link" href="{{ url_for ('account') }}">My Account</a>                           
+                                {% elif SCHEMA == 8 %}
+                                  <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('fse_list') }}">My Projects</a>
+                                {% endif %}
+                          <a class="nav-item nav-link" href="{{ url_for ('account') }}">My Account</a>
                           <a class="nav-item nav-link" href="{{ url_for ('logout') }}">Logout</a>
                         {% else %}
-                          <a class="nav-item nav-link" href="{{ url_for ('login') }}">Login</a>                          
-                          <a class="nav-item nav-link" href="{{ url_for ('register') }}">Join</a>                          
-                        {% endif %}  
+                          <a class="nav-item nav-link" href="{{ url_for ('login') }}">Login</a>
+                          <a class="nav-item nav-link" href="{{ url_for ('register') }}">Join</a>
+                        {% endif %}
                         </div>
                       </div>
                     </div>
         </nav>
       </div>
     </header>
-    
+
     <body style="background:{{bodyColor}}" class="notranslate">
 
-    
+
     <main role="main" class="container">
         <div class="row">
           <div class="col-md"> <!-- what is here???-->
@@ -101,25 +103,25 @@
                       {{ message }}
                     </div>
                   {% endfor %}
-                {% endif %}   
-            {% endwith %} 
-        
+                {% endif %}
+            {% endwith %}
 
 
-    {% block content %} 
-    {% endblock %} 
-             
-    </main> 
 
-    </body> 
+    {% block content %}
+    {% endblock %}
 
-    
+    </main>
+
+    </body>
+
+
       <!-- jquery Necessary for the toggle menu to stay open-->
       <!-- jQuery first, then Popper.js, then Bootstrap JS -->
       <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-      
+
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
       <script type="text/javascript" >
@@ -127,26 +129,26 @@
 
       if (navUser.includes('Line')){
           alert('WARNING: It looks like you are using Line App to view this website. Please switch to Chrome or Safari browser for better use')
-          //window.location = (window.location.href).split('ass')[0] + 'assignment'   
+          //window.location = (window.location.href).split('ass')[0] + 'assignment'
       }
       if (navUser.includes('FB')){
           alert('WARNING: It looks like you are using Facebook Chat App to view this website. Please switch to Chrome or Safari browser for better use')
-          //window.location = (window.location.href).split('ass')[0] + 'assignment' 
+          //window.location = (window.location.href).split('ass')[0] + 'assignment'
       }
       var str = window.location.href
-      if ( str.includes('127')  ){   
-          console.log(str);                
+      if ( str.includes('127')  ){
+          console.log(str);
       }
-      else if ( str.includes('https')  ){   
-          console.log(str);                
+      else if ( str.includes('https')  ){
+          console.log(str);
       }
       else {
       window.location = 'https://' + str.split('://')[1]
       }
       </script>
-      {% block script %} 
+      {% block script %}
       {% endblock %}
-      
-    
-  
+
+
+
   </html>

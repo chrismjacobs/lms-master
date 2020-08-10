@@ -6,12 +6,53 @@
 
 
 <div class="content-section">                          
-<video id="vid" src="https://reading-lms.s3-ap-northeast-1.amazonaws.com/dubbing/J01cd.mp4" controls ></video> 
+<video style="width:100%" id="vid" src="https://reading-lms.s3-ap-northeast-1.amazonaws.com/dubbing/J01cd.mp4" controls ></video> 
 </div> 
 
 <div class="content-section">                          
-<audio id="aud" src="https://reading-lms.s3-ap-northeast-1.amazonaws.com/dubbing/Chris.mp3" controls ></video> 
+<audio id="aud" src="https://reading-lms.s3-ap-northeast-1.amazonaws.com/dubbing/Chris.mp3" controls ></audio> 
 </div> 
+
+
+<div class="content-section">
+
+    <div style="display:flex"> 
+        <div>
+        <h5 style="display: inline-block"> Dubbing </h5>  
+        </div>         
+        <br>
+    </div>
+
+    
+    <br>
+        <div style="display:flex" > 
+                <div  v-if="rec1.start">				
+                    <button  class="btn btn-success" @click="start(), clip('sound')" >Start</button>
+                </div>
+               
+                <div  v-if="rec1.stop">				
+                    <button  class="btn btn-danger" @click="cancel()" >Cancel</button>
+                </div> 
+                <div  v-if="rec1.save" style="float: left;">				
+                    <button  class="btn btn-info" style="margin-right:5px" @click="save()">Upload</button>
+                </div> 
+
+                <div  v-if="rec1.save" style="float: left;">				
+                    <button  class="btn btn-secondary" style="margin-right:5px" @click="clip('dub')">Test</button>
+                </div>
+        </div> 
+        
+        <br>
+        <div v-if="rec1.timer" :style="rec1.t_style">
+            <span class="ml-2" style="color:white" > [[ rec1.count ]] </span>
+        </div> 
+        <br>  
+          
+
+    
+</div> 
+
+  
 
 <div class="content-section">
 
@@ -42,53 +83,12 @@
                 </div> 
         </div>    
 
-        <br>
-        <div v-if="rec1.timer" :style="rec1.t_style">
-            <span class="ml-2" style="color:white" > [[ rec1.count ]] </span>
-        </div> 
-        <br>        
+              
 
     
 </div> 
 
 
-<div class="content-section">
-
-    <div style="display:flex"> 
-        <div>
-        <h5 style="display: inline-block"> Dubbing </h5>  
-        </div>         
-        <br>
-    </div>
-
-    
-    <br>
-        <div style="display:flex" > 
-                <div  v-if="rec1.start">				
-                    <button  class="btn btn-success" @click="start(), clip('sound')" >Start</button>
-                </div> 
-               
-                <div  v-if="rec1.stop">				
-                    <button  class="btn btn-danger" @click="stop()" >Stop</button>
-                </div> 
-                <div  v-if="rec1.save" style="float: left;">				
-                    <button  class="btn btn-info" style="margin-right:5px" @click="save()">Upload</button>
-                </div> 
-                <div  v-if="rec1.cancel" flex="0.5">				
-                    <button  class="btn btn-secondary" @click="cancel()">Cancel/Redo</button>
-                </div> 
-        </div>    
-
-        <br>
-        <div v-if="rec1.timer" :style="rec1.t_style">
-            <span class="ml-2" style="color:white" > [[ rec1.count ]] </span>
-        </div> 
-        <br>        
-
-    
-</div> 
-
-   
 
 
 </div> <!-- end of Vue app -->

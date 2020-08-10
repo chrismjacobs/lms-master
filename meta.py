@@ -3,7 +3,7 @@ import json
 import os
 
 try:
-    from aws import KEYS    
+    from aws import KEYS
     SCHEMA = KEYS.SCHEMA
     AWS_ACCESS_KEY_ID = KEYS.AWS_ACCESS_KEY_ID
     AWS_SECRET_ACCESS_KEY = KEYS.AWS_SECRET_ACCESS_KEY
@@ -13,17 +13,26 @@ try:
     DEBUG = True
 
 
-except: 
-    AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID'] 
-    AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY'] 
+except:
+    AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+    AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
     SCHEMA = int(os.environ['SCHEMA'])
     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
     MAIL_PASSWORD = os.environ['MAIL_PASSWORD']
     SECRET_KEY = os.environ['SECRET_KEY']
     DEBUG = False
 
-jList = ['None', 'reading-lms', 'workplace-lms', 'abc-lms', 'peng-lms', 'food-lms', 'icc-lms', 'nme-lms', 'fse-lms']
-         
+jList = ['None',
+        'reading-lms',
+        'workplace-lms',
+        'abc-lms',
+        'peng-lms',
+        'food-lms',
+        'icc-lms',
+        'nme-lms',
+        'fse-lms'
+        ]
+
 
 s3_resource = boto3.resource('s3',
         aws_access_key_id=AWS_ACCESS_KEY_ID,
@@ -35,13 +44,13 @@ s3_client = boto3.client('s3',
 
 
 def loadJson():
-    content_object = s3_resource.Object(   jList[SCHEMA],    'json_files/meta.json' )    
+    content_object = s3_resource.Object(   jList[SCHEMA],    'json_files/meta.json' )
     file_content = content_object.get()['Body'].read().decode('utf-8')
-    meta = json.loads(file_content)      
+    meta = json.loads(file_content)
     return meta
 
 class BaseConfig:
-    META = loadJson()     
+    META = loadJson()
 
     s3_resource = s3_resource
     s3_client = s3_client
@@ -53,14 +62,14 @@ class BaseConfig:
 
     AWS_ACCESS_KEY_ID = AWS_ACCESS_KEY_ID
     AWS_SECRET_ACCESS_KEY = AWS_SECRET_ACCESS_KEY
-    SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI  
+    SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI
     MAIL_PASSWORD = MAIL_PASSWORD
-    SECRET_KEY = SECRET_KEY 
+    SECRET_KEY = SECRET_KEY
 
     IDLIST = META['C']
 
     DEBUG = DEBUG
-        
+
 
 
 

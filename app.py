@@ -22,7 +22,7 @@ app.config.update(dict(
     MAIL_USE_TLS = True,
     MAIL_USE_SSL = False,
     MAIL_USERNAME = 'chrisflask0212@gmail.com',
-    MAIL_PASSWORD = BaseConfig.MAIL_PASSWORD,    
+    MAIL_PASSWORD = BaseConfig.MAIL_PASSWORD,
     MAIL_SUPPRESS_SEND = False,
     MAIL_DEBUG = True,
     TESTING = False
@@ -34,20 +34,23 @@ mail = Mail(app)
 from routesInst import *
 from routesAdmin import *
 
-if SCHEMA < 3: 
+if SCHEMA < 3 or SCHEMA == 6:
     from routesUser import *
     from routesPart import *
-if SCHEMA == 3: 
+if SCHEMA == 3:
     from routesABC import *
-if SCHEMA == 4: 
+if SCHEMA == 4:
     from routesPENG import *
-if SCHEMA == 5: 
+if SCHEMA == 5:
     from routesFOOD import *
+if SCHEMA == 7:
+    from routesNME import *
+if SCHEMA == 8:
+    from routesFSE import *
 
 
 
 
-if __name__ == '__main__': 
+if __name__ == '__main__':
     app.run()
-    
-    
+

@@ -4,60 +4,44 @@
 
 <div class="content-section">
 <legend class="border-bottom mb-4">About this Website</legend>
-    <h4 id="website"> </h4>
-    <br>
-    
+
     <h4> This website is a specially designed LMS (Learner Management System)</h4>
     <br>
     <h5> Features include:</h5>
   <ul>
     <li>Weekly Team Maker</li>
-    <li>Online Notes</li>    
+    <li>Online Notes</li>
     <li>Participation Activities</li>
     <li>Speaking/Writing Assignments</li>
-    <li>Attendance and Grade Recording</li>   
-  </ul> 
-  
+    <li>Attendance and Grade Recording</li>
+  </ul>
+
   <small> * The system is still under developement and will be improved over time. Any suggestions about features or problems are very welcome. Thank you :)</small>
 
-  <span> <a href="https://gersonrosales.github.io/Record-Audios-and-Videos-with-getUserMedia/example_3.html"> Test Recorder</a> </span> 
-  
+  <span> <a href="https://gersonrosales.github.io/Record-Audios-and-Videos-with-getUserMedia/example_3.html"> Test Recorder</a> </span>
+
 </div>
 
 
 <div class="content-section">
-<legend class="border-bottom mb-4">About this Course</legend>     
-
+<legend class="border-bottom mb-4">About this Course</legend>
 
   <div class="embed-responsive embed-responsive-4by3">
             <iframe src="{{intro}}"></iframe>
-        </div> 
-        <br> 
-    
+        </div>
+        <br>
   </div>
-
-  {% if SCHEMA==2 %}
-  <div class="embed-responsive embed-responsive-4by3">
-            <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vSkaoFnh9EeP2MDvs1sKPpC4flE7xzMXgJbLH3gtomoQ-fLavsqTq9LpFm7RhhxOou0qR0MsLO4DmNo/embed"></iframe>
-        </div> 
-        <br>     
-  </div>
-  {% endif %}
-
-
-
-
 
 
 {% endblock content %}
 
 {% block script %}
- 
+
 
 <script type="text/javascript">
 
  var str = window.location.href
- if ( str.includes('https')  ){   
+ if ( str.includes('https')  ){
     console.log(str);
     document.getElementById('website').innerHTML = str
  }
@@ -67,12 +51,12 @@
   }
 
 function playAudio(link) {
-  player = document.getElementById('handler') 
+  player = document.getElementById('handler')
   player.src = link
 }
 
-</script> 
+</script>
 
- 
 
-{% endblock %} 
+
+{% endblock %}
