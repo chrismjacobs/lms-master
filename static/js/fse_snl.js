@@ -2,6 +2,7 @@ var ansString = document.getElementById('ansDict').innerHTML
 var ansOBJ = JSON.parse(ansString)
 console.log('ansOBJ', ansOBJ);
 
+// ablank obj version of ansstring
 var testString = document.getElementById('testDict').innerHTML
 var testOBJ = JSON.parse(testString)
 console.log('testOBJ', testOBJ);
@@ -80,10 +81,50 @@ function startVue(){
 
             }
         },
+        resetMarkers : function(q) {
+            for (var mark in vue.marker) {
+                if (vue.marker[mark] == 3){
+                    //console.log(vue.ansOBJ, vue.ansOBJ[q])
+                    if (mark == q) {
+                        alert('Question updated by ' + vue.ansOBJ[q]['user'])
+                    }
+                }
+            }
+        },
+        checkMarkers : function() {
+            for (var mark in vue.marker) {
+                if ( vue.marker[mark] == 3 ){
+                    console.log('open question', mark)
+                    let reset = true
+                    for (var item in vue.ansOBJ[mark]) {
+                        console.log('CHECK', vue.ansOBJ[mark][item])
+                        if(vue.ansOBJ[mark][item] == null){
+                            reset = false
+                        }
+                    }
+                    if ( reset == true ) {
+                        vue.marker[mark] = 2
+                    }
+                }
+                else {
+                    vue.marker[mark] = 2
+                    for (var item in vue.ansOBJ[mark]) {
+                        // console.log(mark, item, vue.ansOBJ[mark][item]);
+                        if(vue.ansOBJ[mark][item] == null){
+                            vue.marker[mark] = 1
+                        }
+                    }
+                }
+            }
+        },
+        qStyle : function(key) {
+            return this.buttonColor[this.marker[key]]
+        },
         updateAnswers : function() {
             //runs in the background to check if others have changed something
             console.log('update via AJAX');
             $.ajax({
+
               data : {
                 unit : this.unit,
                 team : this.team,
@@ -95,9 +136,11 @@ function startVue(){
             .done(function(data) {
                 var newOBJ = JSON.parse(data.ansString)
                 for (var q in vue.ansOBJ){
+                    // if the strings are not the same then a change has been made
                     if (   JSON.stringify(newOBJ[q]) != JSON.stringify(vue.ansOBJ[q])   ){
                         //alert(JSON.stringify(newOBJ[q]))
                         vue.ansOBJ = newOBJ
+                        // reset markers knowing the question that has been changed
                         vue.resetMarkers(q)
                     }
                 }
@@ -106,53 +149,15 @@ function startVue(){
                 console.log('error has occurred');
             });
         },
-        resetMarkers : function(q) {
-            for (var mark in vue.marker) {
-                if (vue.marker[mark] == 3){
-                    if (mark == q) {
-                        alert('Your teammate has just edited this question')
-                        vue.marker[mark] = 0
-                    }
-                }
-            }
-        },
-        checkMarkers : function(arg) {
-            for (var mark in vue.marker) {
-                vue.marker[mark] = 2
-                for (var item in vue.ansOBJ[mark]) {
-                    console.log(mark, item, vue.ansOBJ[mark][item]);
-                    if(vue.ansOBJ[mark][item] == null){
-                        vue.marker[mark] = 1
-                    }
-                    console.log(vue.marker[mark]);
-                }
-            }
-        },
-        qStyle : function(key) {
-            return this.buttonColor[this.marker[key]]
-        },
         storeData : function(key) {
+            //reset the testOBJ
+            this.testOBJ = testOBJ
 
             this.ansOBJ[key]['word'] = document.getElementById(key + 'w').value
             this.ansOBJ[key]['user'] = document.getElementById(key +  'u').value
             this.ansOBJ[key]['sentence'] = document.getElementById(key + 's').value
 
-
-            //reset the testOBJ
-            this.testOBJ = testOBJ
-
-            //vue.storeData()
-            var total = 0
             this.checkMarkers()
-            for (var mark in this.marker){
-                console.log(mark, this.marker, this.marker[mark]);
-                total += this.marker[mark]
-            }
-            if (total > 12){
-                // because if edit is open the mark will 3 instead of two
-                total = 12
-            }
-            console.log(total);
 
             $.ajax({
               data : {
@@ -161,14 +166,12 @@ function startVue(){
                 mode : this.mode,
                 ansOBJ : JSON.stringify(this.ansOBJ),
                 question : key,
-                total : total
               },
               type : 'POST',
               url : '/FSEstoreAnswer',
             })
             .done(function(data) {
-                //console.log(data);
-                alert('Question ' + data.question + ' updated')
+                console.log(data);
                 vue.updateAnswers()
                 vue.checkMarkers()
             })
@@ -180,8 +183,6 @@ function startVue(){
             //reset the testOBJ
             this.testOBJ = testOBJ
 
-            //#####################
-
             if (b64 == 'i'){
                 var b64data = this.image64['base64']
                 var fileType = this.image64['fileType']
@@ -189,24 +190,9 @@ function startVue(){
             }
             if (b64 == 'a'){
                 var b64data = this.audio64['base64']
-                var fileType = null
+                var fileType = 'mp3'
                 this.ansOBJ[key]['audioLink'] = 'updating'
             }
-
-             //vue.storeData()
-            var total = 0
-            this.checkMarkers()
-            for (var mark in this.marker){
-                console.log(mark, this.marker, this.marker[mark]);
-                total += this.marker[mark]
-            }
-            if (total > 12){
-                // because if edit is open the mark will 3 instead of two
-                total = 12
-            }
-            console.log(total);
-
-
 
             $.ajax({
               data : {
@@ -217,14 +203,13 @@ function startVue(){
                 fileType : fileType,
                 question : key,
                 b64 : b64,
-                total: total
               },
               type : 'POST',
               url : '/FSEstoreB64',
             })
             .done(function(data) {
-                console.log(data);
-                alert('Question ' + data.question + ' updated')
+                //console.log(data);
+                //alert('Question ' + data.question + ' updated')
                 vue.resetB64()
                 vue.updateAnswers()
                 vue.checkMarkers()

@@ -48,7 +48,7 @@
 
 <h6  v-if="item.question"> Q: [[ item.question ]] </h6>
 <h6  v-if="item.answer"> A: [[ item.answer ]] </h6>
-<h6  v-if="item.writer"> By [[ item.writer ]] </h6>
+<h6  v-if="item.user"> By [[ item.user ]] </h6>
 <br>
         <div v-if="marker[key] == 3">
                 <h5>  Edit Q&A [[key]] </h5>
@@ -126,7 +126,7 @@ function startVue(){
         mode: mode,
         unit: unit,
         team: team,
-        marker:{
+        marker:{ // 1 =
             1 : 1,
             2 : 1,
             3 : 1,
@@ -155,22 +155,16 @@ function startVue(){
         resetMarkers : function(q) {
             for (var mark in vue.marker) {
                 if (vue.marker[mark] == 3){
+                    console.log(vue.ansOBJ, vue.ansOBJ[q])
                     if (mark == q) {
-                        alert('Your team member has just edited this question')
-                        vue.marker[mark] = 2
+                        alert('Question updated by ' + vue.ansOBJ[q]['user'])
                     }
-                    else {
-                        console.log('Your team mate just updated question ' + mark)
-                    }
-                }
-                else {
-                    vue.marker[mark] = 2
                 }
             }
         },
         checkMarkers : function() {
             for (var mark in vue.marker) {
-                if (this.ansOBJ[mark]['writer']){
+                if (this.ansOBJ[mark]['user']){
                     vue.marker[mark] = 2
                 }
                 else {
@@ -208,21 +202,15 @@ function startVue(){
             });
         },
         storeData : function(key) {
-            this.ansOBJ[key]['writer'] = document.getElementById(key + 'w').innerHTML
+            //reset the testOBJ
+            this.testOBJ = testOBJ
+
+            this.ansOBJ[key]['user'] = document.getElementById(key + 'w').innerHTML
             this.ansOBJ[key]['answer'] = document.getElementById(key + 'a').value
             this.ansOBJ[key]['question'] = document.getElementById(key + 'q').value
             //console.log(this.ansOBJ);
 
-            console.log(this.ansOBJ.values);
-            //reset the testOBJ
-            this.testOBJ = testOBJ
             this.checkMarkers()
-
-            var total = 0
-            for (var mark in this.marker){
-                total += this.marker[mark]
-            }
-            console.log(total);
 
             $.ajax({
               data : {
@@ -230,16 +218,15 @@ function startVue(){
                 team : this.team,
                 mode : this.mode,
                 ansOBJ : JSON.stringify(this.ansOBJ),
-                question : key,
-                total : total
+                question : key
               },
               type : 'POST',
               url : '/FSEstoreAnswer',
             })
             .done(function(data) {
                 console.log(data);
-                alert('Question ' + data.question + ' updated')
                 vue.updateAnswers()
+                vue.checkMarkers()
             })
             .fail(function(){
                 alert('error - see instructor')

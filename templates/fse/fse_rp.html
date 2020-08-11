@@ -37,12 +37,11 @@
         <legend class="border-bottom mb-4">Audio </legend>
         <template>
         <div>
-        <audio id="rpAudio" controls>
+        <audio id="rpAudio" controls :src="ansOBJ['rpAudio']">
         </div>
 
         <br>
             <div>
-
             <input type="file" id="audio" accept="audio/*,video/*" @change="audioValidation()"> </input> <button class="btn btn-secondary btn-sm"> Select </button>
             </div>
             <br>
@@ -61,14 +60,15 @@
 <legend class="border-bottom mb-4"> Your Role Play Questions: </legend>
 
 <template v-for="(item, key) in ansOBJ">
-<div v-if="key != 'audio'">
+<div v-if="key != 'rpAudio'">
     <span @click="editMarkers(key)" class="unit-span" :style="qStyle(key)"> &emsp;&emsp;Q[[ key ]]&emsp;&emsp; </span>
     <br>
     <br>
 
     <h6  v-if="item.question"> Q: [[ item.question ]] </h6>
+    <h6  v-if="item.question"> A: [[ item.answer ]] </h6>
     <!-- <h6  v-if="!(item.answer).indexOf(null)"> A: [[ item.answer ]] </h6> -->
-    <h6  v-if="item.writer"> By [[ item.writer ]] </h6>
+    <h6  v-if="item.question"> By [[ item.user ]] </h6>
     <br>
             <div v-if="marker[key] == 3">
                     <h5>  Edit Q&A [[key]] </h5>
@@ -89,7 +89,7 @@
                     <br>
                     Wrong Answer
                     <br>
-                    <input :id="key + 'a2'" class="textAss"  v-model="testOBJ[key]['answer'][2]"></input>
+                    <input :id="key + 'a3'" class="textAss"  v-model="testOBJ[key]['answer'][2]"></input>
                     <br>
                     <br>
                     <div>
@@ -184,26 +184,41 @@ function startVue(){
         resetMarkers : function(q) {
             for (var mark in vue.marker) {
                 if (vue.marker[mark] == 3){
+                    //console.log(vue.ansOBJ, vue.ansOBJ[q])
                     if (mark == q) {
-                        alert('Your team member has just edited this question')
-                        vue.marker[mark] = 2
+                        alert('Question updated by ' + vue.ansOBJ[q]['user'])
                     }
-                    else {
-                        console.log('Your team mate just updated question ' + mark)
-                    }
-                }
-                else {
-                    vue.marker[mark] = 2
                 }
             }
         },
         checkMarkers : function() {
             for (var mark in vue.marker) {
-                if (this.ansOBJ[mark]['writer']){
-                    vue.marker[mark] = 2
+                if ( vue.marker[mark] == 3 ){
+                    console.log('open question', mark)
+                    let reset = true
+                    for (var item in vue.ansOBJ[mark]) {
+                        if ( item == 'question' && vue.ansOBJ[mark][item] == null) {
+                            reset = false
+                        }
+                        else if ( item == 'answer') {
+                            for (let ans in vue.ansOBJ[mark][item]){
+                                if ( vue.ansOBJ[mark][item][ans] == "") {
+                                    reset = false
+                                }
+                            }
+                        }
+                    }
+                    if ( reset == true ) {
+                        vue.marker[mark] = 2
+                    }
                 }
                 else {
-                    vue.marker[mark] = 1
+                    vue.marker[mark] = 2
+                    let markString = JSON.stringify(vue.ansOBJ[mark])
+                    console.log(markString)
+                    if ( markString.includes('""') ) {
+                        vue.marker[mark] = 1
+                    }
                 }
             }
         },
@@ -237,21 +252,16 @@ function startVue(){
             });
         },
         storeData : function(key) {
-            this.ansOBJ[key]['writer'] = document.getElementById(key + 'w').innerHTML
-            this.ansOBJ[key]['answer'] = [document.getElementById(key + 'a1').value, document.getElementById(key + 'a2').value, document.getElementById(key + 'a3').value].toString()
-            this.ansOBJ[key]['question'] = document.getElementById(key + 'q').value
-            //console.log(this.ansOBJ);
-
-            console.log(this.ansOBJ.values);
             //reset the testOBJ
             this.testOBJ = testOBJ
-            this.checkMarkers()
 
-            var total = 0
-            for (var mark in this.marker){
-                total += this.marker[mark]
-            }
-            console.log(total);
+            this.ansOBJ[key]['user'] = document.getElementById(key + 'w').innerHTML
+            this.ansOBJ[key]['answer'] = [document.getElementById(key + 'a1').value, document.getElementById(key + 'a2').value, document.getElementById(key + 'a3').value]
+            this.ansOBJ[key]['question'] = document.getElementById(key + 'q').value
+
+            console.log(this.ansOBJ.values);
+
+            this.checkMarkers()
 
             $.ajax({
               data : {
@@ -260,35 +270,24 @@ function startVue(){
                 mode : this.mode,
                 ansOBJ : JSON.stringify(this.ansOBJ),
                 question : key,
-                total : total
               },
               type : 'POST',
               url : '/FSEstoreAnswer',
             })
             .done(function(data) {
                 console.log(data);
-                alert('Question ' + data.question + ' updated')
                 vue.updateAnswers()
+                vue.checkMarkers()
             })
             .fail(function(){
                 alert('error - see instructor')
             });
         },
         storeB64 : function() {
-            var total = 0
             this.checkMarkers()
-            for (var mark in this.marker){
-                console.log(mark, this.marker, this.marker[mark]);
-                total += this.marker[mark]
-            }
-            if (total > 6){
-                // because if edit is open the mark will 3 instead of two
-                total = 6
-            }
-            console.log(total);
 
             var b64data = this.audio64['base64']
-            var fileType = null
+            var fileType = 'mp3'
             var mode = 'rp'
             var b64 = 'rp'
 
@@ -300,14 +299,17 @@ function startVue(){
                 b64data : b64data,
                 fileType : fileType,
                 b64 : b64,
-                question : 1,
-                total : total
+                question : 0,
               },
               type : 'POST',
               url : '/FSEstoreB64',
             })
             .done(function(data) {
                 console.log(data);
+                vue.audio64['fileType'] = false
+                vue.audio64['base64'] = null
+                vue.updateAnswers()
+                vue.checkMarkers()
             })
             .fail(function(){
                 alert('error - see instructor')

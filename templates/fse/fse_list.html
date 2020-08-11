@@ -52,29 +52,29 @@
                   <td> [[ proj.Team]] </td>
                   <td>
                       <span v-if="proj.Number == 0"> </span>  &nbsp;
-                      <span v-else @click="goTo(unit, proj.Number, 'Q')" class="unit-span" :style="buttonStyle(proj.QTotal, 'snl', 'edit')"> &nbsp;[[proj.QTotal]]/12&nbsp; </span>
+                      <span v-else @click="goTo(unit, proj.Number, 'Q')" class="unit-span" :style="buttonStyle(proj.QTotal, 'snl', 'edit')"> &nbsp;[[proj.QTotal]]/6&nbsp; </span>
                        <br>
                        <br>
 
-                      <span v-if="proj.QTotal >= 12" @click="goToExam(unit, proj.Number, 'qna', proj.QTest)" class="unit-span" :style="buttonStyle(proj.QTest, 'qna', 'check')">check/[[proj.QTest]]</span>
+                      <span v-if="proj.QTotal >= 6" @click="goToExam(unit, proj.Number, 'qna', proj.QTest)" class="unit-span" :style="buttonStyle(proj.QTest, 'qna', 'check')">check/[[proj.QTest]]</span>
                        <br>
                   </td>
                   <td>
                       <span v-if="proj.Number == 0"> </span>  &nbsp;
-                      <span v-else @click="goTo(unit, proj.Number, 'S')" class="unit-span" :style="buttonStyle(proj.STotal, 'snl', 'edit')"> &nbsp;[[proj.STotal]]/12&nbsp; </span>
+                      <span v-else @click="goTo(unit, proj.Number, 'S')" class="unit-span" :style="buttonStyle(proj.STotal, 'snl', 'edit')"> &nbsp;[[proj.STotal]]/6&nbsp; </span>
                        <br>
                        <br>
 
-                      <span v-if="proj.STotal >= 12" @click="goToExam(unit, proj.Number, 'snl', proj.STest)" class="unit-span" :style="buttonStyle(proj.STest, 'snl', 'check')">check/[[proj.STest]]</span>
+                      <span v-if="proj.STotal >= 6" @click="goToExam(unit, proj.Number, 'snl', proj.STest)" class="unit-span" :style="buttonStyle(proj.STest, 'snl', 'check')">check/[[proj.STest]]</span>
                        </td>
                        <br>
                   <td>
                       <span v-if="proj.Number == 0"> </span>  &nbsp;
-                      <span v-else @click="goTo(unit, proj.Number, 'R')" class="unit-span" :style="buttonStyle(proj.RTotal, 'rp', 'edit')"> &nbsp;[[proj.RTotal]]/12&nbsp; </span>
+                      <span v-else @click="goTo(unit, proj.Number, 'R')" class="unit-span" :style="buttonStyle(proj.RTotal, 'rp', 'edit')"> &nbsp;[[proj.RTotal]]/4&nbsp; </span>
                        <br>
                        <br>
 
-                      <span v-if="proj.RTotal >= 12" @click="goToExam(unit, proj.Number, 'rp', proj.RTest)" class="unit-span" :style="buttonStyle(proj.RTest, 'snl', 'check')">check/[[proj.RTest]]</span>
+                      <span v-if="proj.RTotal >= 4" @click="goToExam(unit, proj.Number, 'rp', proj.RTest)" class="unit-span" :style="buttonStyle(proj.RTest, 'snl', 'check')">check/[[proj.RTest]]</span>
                        </td>
                        <br>
                 </tr>
@@ -181,7 +181,10 @@ function startVue(OBJ){
     methods: {
         buttonStyle: function(total, mode, style) {
           if (style == 'edit') {
-            if (total >= 12){
+            if (total >= 6 && mode != 'rp'){
+              return { background: 'mediumseagreen', padding:'3px'}
+            }
+            else if (total >= 4) {
               return { background: 'mediumseagreen', padding:'3px'}
             }
             else{

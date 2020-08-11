@@ -98,7 +98,7 @@ def project_teams(unit, number):
         qnaDict[i] = {
             'question' : None,
             'answer' : None,
-            'writer' : None
+            'user' : None
         }
 
     snlDict = {}
@@ -111,12 +111,12 @@ def project_teams(unit, number):
             'user' : None,
         }
 
-    rpDict = {'audio': None}
+    rpDict = {'rpAudio': None}
     for i in range (1, 4):
         rpDict[i] = {
             'question' : None,
-            'answer' : [ None, None, None],
-            'writer' : None
+            'answer' : [ None, None, None ],
+            'user' : None
         }
 
     #make a list of teams already set up
@@ -327,6 +327,25 @@ def get_all_snl_values(nested_dictionary):
 
     return detected
 
+def countTotal(ansOBJ):
+    total = 0
+    data = json.loads(ansOBJ)
+    print(data)
+    for key in data:
+        if key == 'rpAudio':
+            if data[key] != None:
+                total += 1
+        else:
+            score = True
+            for item in data[key]:
+                if type(data[key][item]) == list and "" in data[key][item]:
+                    score = False
+                elif data[key][item] == None:
+                    score = False
+            if score:
+                total += 1
+
+    return total
 
 @app.route('/FSEstoreB64', methods=['POST'])
 def storeB64():
@@ -337,7 +356,6 @@ def storeB64():
     question = request.form ['question']
     b64data = request.form ['b64data']
     fileType = request.form ['fileType']
-    total = request.form ['total']
 
     project = unitDict[unit]
     project_data = project.query.filter_by(teamnumber=team).first()
@@ -346,73 +364,44 @@ def storeB64():
     else:
         project_answers = json.loads(project_data.Ans02)
 
-    if b64 == 'i':
-        print('PROCESSING IMAGE')
-        image = base64.b64decode(b64data)
-        file_key = project_answers[question]['imageLink']
-        if file_key:
-            print('file_key_found ', file_key)
-            file_key_split = file_key.split('com/')[1]
-            s3_resource.Object(S3_BUCKET_NAME, file_key_split).delete()
-        else:
-            print('no file_key found')
-        now = datetime.now()
-        time = now.strftime("_%M%S")
-        print("time:", time)
-        filename = unit + '/' + team + '/' + question + time + '_image.' + fileType
-        imageLink = S3_LOCATION + filename
-        s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=image)
-
-        project_answers[question]['imageLink'] = imageLink
-        project_data.Ans02 = json.dumps(project_answers)
-        project_data.Ans04 = total
-        db.session.commit()
-
     if b64 == 'a':
-        print('PROCESSING AUDIO')
-        audio = base64.b64decode(b64data)
-        file_key = project_answers[question]['audioLink']
-        if file_key:
-            print('file_key_found ', file_key)
-            file_key_split = file_key.split('com/')[1]
-            s3_resource.Object(S3_BUCKET_NAME, file_key_split).delete()
-        else:
-            print('no file_key found')
-        now = datetime.now()
-        time = now.strftime("_%M%S")
-        print("time:", time)
-        filename = unit + '/' + team + '/' + question + time + '_audio.mp3'
-        audioLink = S3_LOCATION + filename
-        s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=audio)
+        link = 'audioLink'
+        file_key = project_answers[question][link]
+    elif b64 == 'i':
+        link = 'imageLink'
+        file_key = project_answers[question][link]
+    elif b64 == 'rp':
+        link = 'rpAudio'
+        file_key = project_answers[link]
 
-        project_answers[question]['audioLink'] = audioLink
+    print('PROCESSING: ' + link)
+    data = base64.b64decode(b64data)
+    if file_key:
+        print('file_key_found ', file_key)
+        file_key_split = file_key.split('com/')[1]
+        s3_resource.Object(S3_BUCKET_NAME, file_key_split).delete()
+    else:
+        print('no file_key found')
+    now = datetime.now()
+    time = now.strftime("_%M%S")
+    print("time:", time)
+    filename = unit + '/' + team + '/' + question + time + '_' + link + '.' + fileType
+    fileLink = S3_LOCATION + filename
+    s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=data)
+
+    aORi = ['a', 'i']
+    if b64 in aORi:
+        project_answers[question][link] = fileLink
         project_data.Ans02 = json.dumps(project_answers)
-        project_data.Ans04 = total
-        db.session.commit()
-
-    if b64 == 'rp':
-        print('PROCESSING AUDIO')
-        audio = base64.b64decode(b64data)
-        file_key = project_answers['audio']
-        if file_key:
-            print('file_key_found ', file_key)
-            file_key_split = file_key.split('com/')[1]
-            s3_resource.Object(S3_BUCKET_NAME, file_key_split).delete()
-        else:
-            print('no file_key found')
-        now = datetime.now()
-        time = now.strftime("_%M%S")
-        print("time:", time)
-        filename = unit + '/' + team + '/' + time + '_rpAudio.mp3'
-        audioLink = S3_LOCATION + filename
-        s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=audio)
-
-        project_answers['audio'] = audioLink
+        project_data.Ans05 = countTotal(json.dumps(project_answers))
+    else:
+        project_answers[link] = fileLink
         project_data.Ans03 = json.dumps(project_answers)
-        project_data.Ans06 = int(total) + 2
-        db.session.commit()
+        project_data.Ans06 = countTotal(json.dumps(project_answers))
+    db.session.commit()
 
     return jsonify({'question' : question})
+
 
 @app.route('/FSEstoreAnswer', methods=['POST'])
 def storeAnswer():
@@ -421,23 +410,19 @@ def storeAnswer():
     mode = request.form ['mode']
     question = request.form ['question']
     ansOBJ = request.form ['ansOBJ']
-    total = request.form ['total']
 
     project = unitDict[unit]
     project_answers = project.query.filter_by(teamnumber=team).first()
 
     if mode == 'qna':
         project_answers.Ans01 = ansOBJ
-        project_answers.Ans04 = total  #12 will be the maximum
+        project_answers.Ans04 = countTotal(ansOBJ)
     if mode == 'snl':
         project_answers.Ans02 = ansOBJ
-        project_answers.Ans05 = total
+        project_answers.Ans05 = countTotal(ansOBJ)
     if mode == 'rp':
-        # add 2 if audio has been added
-        if jloads(project_answers.Ans03)['audio'] != None:
-            total += 2
         project_answers.Ans03 = ansOBJ
-        project_answers.Ans06 = total
+        project_answers.Ans06 = countTotal(ansOBJ)
 
     db.session.commit()
 
@@ -465,7 +450,6 @@ def updateAnswers():
     return jsonify({'ansString' : ansString})
 
 
-
 def get_team_data(unit, team):
     project = unitDict[unit]
     questions = project.query.filter_by(teamnumber=team).first()
@@ -485,55 +469,6 @@ def get_team_data(unit, team):
         'teamMembers' : json.dumps(teamDict)
     }
 
-
-'''
-@app.route('/addWord', methods=['POST'])
-def addWord():
-    b64Dict = json.loads(request.form ['b64String'])
-    print(b64Dict)
-    print('ADDWORD ACTIVE')
-    word = b64Dict ['word']
-    user = request.form ['user']
-    sentence= b64Dict ['sentence']
-    unit = request.form ['unit']
-    team = request.form ['team']
-
-    project = unitDict[unit].query.filter_by(teamnumber=team).first()
-
-    ansDict = ast.literal_eval(project.Ans02)
-
-    qCount = len(ansDict)
-    print('qCount', qCount)
-
-    print('PROCESSING IMAGE')
-    image = base64.b64decode(b64Dict['image_b64'])
-    filename = unit + '/' + team + '/' + word + '_image.' + b64Dict['fileType']
-    imageLink = S3_LOCATION + filename
-    s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=image)
-
-    print('PROCESSING AUDIO')
-    audio = base64.b64decode(b64Dict['audio_b64'])
-    filename = unit + '/' + team + '/' + word + '_audio.mp3'
-    audioLink = S3_LOCATION + filename
-    s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=audio)
-
-    ansDict[word] = {
-            'word' : word,
-            'sentence' : sentence,
-            'audioLink' : audioLink,
-            'imageLink' : imageLink,
-            'user' : user
-        }
-
-    ansString = json.dumps(ansDict)
-
-    project.Ans02 = ansString
-    project.Ans04 = len(ansDict)
-    db.session.commit()
-
-
-    return jsonify({'word' : word, 'newDict' : ansString, 'qCount' : qCount })
-'''
 
 
 @app.route ("/fse/<string:qs>/<string:unit>/<int:team>", methods=['GET','POST'])
@@ -559,7 +494,7 @@ def fse_setup(qs, unit, team):
             testDict[i] = {
                 'question' : None,
                 'answer' : None,
-                'writer' : None
+                'user' : None
             }
         html = 'fse/fse_qna.html'
         ansDict = project_answers.Ans01
@@ -585,7 +520,7 @@ def fse_setup(qs, unit, team):
             testDict[i] = {
             'question' : None,
             'answer' : None,
-            'writer' : None
+            'user' : None
             }
         html = 'fse/fse_rp.html'
         ansDict = project_answers.Ans03
