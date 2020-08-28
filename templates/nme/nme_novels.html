@@ -126,7 +126,7 @@ function startVue(){ new Vue({
 
           var str = window.location.href
 
-          let url = (str).split('nme')[0] + task + '/'+ index
+          let url = (str).split('nme_')[0] + task + '/'+ index
           console.log('goTO', url);
             window.location = url
             console.log('DONE');
