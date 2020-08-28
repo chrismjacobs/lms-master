@@ -426,7 +426,7 @@ if BaseConfig.SCHEMA < 3:
     for ass in listAss:
         admin.add_view(MyModelView(ass, db.session))
 
-elif BaseConfig.SCHEMA == 3:
+elif BaseConfig.SCHEMA == 3 or BaseConfig.SCHEMA == 7:
     admin.add_view(MyModelView(Exams, db.session))
     admin.add_view(MyModelView(U001U, db.session))
     admin.add_view(MyModelView(U011U, db.session))

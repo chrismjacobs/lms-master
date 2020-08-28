@@ -18,140 +18,140 @@ console.log(mode, unit, team);
 
 startVue()
 
-function startVue(){ 
-  
-  let vue = new Vue({   
+function startVue(){
+
+  let vue = new Vue({
 
     el: '#vue-app',
-    delimiters: ['[[', ']]'],   
-    mounted: function () {        
-        
+    delimiters: ['[[', ']]'],
+    mounted: function () {
+
         setInterval(function(){
             vue.updateAnswers()
         }, 15000)
         setTimeout(function(){
-           vue.checkMarkers()           
-        }, 2000);        
+           vue.checkMarkers()
+        }, 2000);
 
-    },    
-    data: {                        
-        ansOBJ: ansOBJ,         
+    },
+    data: {
+        ansOBJ: ansOBJ,
         teamOBJ: teamOBJ,
-        testOBJ: testOBJ, 
-        mode: mode, 
+        testOBJ: testOBJ,
+        mode: mode,
         unit: unit,
-        team: team,  
+        team: team,
         marker:{
-            1 : 1, 
-            2 : 1, 
-            3 : 1, 
-            4 : 1, 
-            5 : 1, 
-            6 : 1, 
+            1 : 1,
+            2 : 1,
+            3 : 1,
+            4 : 1,
+            5 : 1,
+            6 : 1,
         },
         buttonColor:{
-            3 : {background: 'dodgerblue', padding: '5px'},             
-            2 : {background: 'mediumseagreen', padding: '5px'},             
-            1 : {background: 'lightcoral', padding: '5px'},  
-            0 : {background: 'silver', padding: '5px'}   
+            3 : {background: 'dodgerblue', padding: '5px'},
+            2 : {background: 'mediumseagreen', padding: '5px'},
+            1 : {background: 'lightcoral', padding: '5px'},
+            0 : {background: 'silver', padding: '5px'}
         },
         image64 : {
-            fileType : null, 
-            base64 : null, 
+            fileType : null,
+            base64 : null,
         },
         audio64 : {
-            fileType : null, 
-            base64 : null, 
+            fileType : null,
+            base64 : null,
         }
-    }, 
+    },
     methods: {
         editMarkers : function(question) {
-            this.resetB64() 
-            if (this.marker[question] == 3 ) {                
+            this.resetB64()
+            if (this.marker[question] == 3 ) {
                 this.checkMarkers()
             }
             else{
-                this.checkMarkers()                               
-                this.marker[question] = 3 
-                // the role of the testOBJ is to store the changes 
+                this.checkMarkers()
+                this.marker[question] = 3
+                // the role of the testOBJ is to store the changes
                 //but not the alter the mainOBJ in case the changes are not saved
                 let testString = JSON.stringify(this.ansOBJ[question])
-                this.testOBJ[question] = JSON.parse(testString) 
+                this.testOBJ[question] = JSON.parse(testString)
 
-            }   
-        }, 
-        updateAnswers : function() {  
+            }
+        },
+        updateAnswers : function() {
             //runs in the background to check if others have changed something
             console.log('update via AJAX');
             $.ajax({
               data : {
                 unit : this.unit,
                 team : this.team,
-                mode : this.mode  
+                mode : this.mode
               },
               type : 'POST',
-              url : '/updateAnswers',               
+              url : '/updateAnswers',
             })
-            .done(function(data) { 
-                var newOBJ = JSON.parse(data.ansString) 
+            .done(function(data) {
+                var newOBJ = JSON.parse(data.ansString)
                 for (var q in vue.ansOBJ){
                     if (   JSON.stringify(newOBJ[q]) != JSON.stringify(vue.ansOBJ[q])   ){
                         //alert(JSON.stringify(newOBJ[q]))
                         vue.ansOBJ = newOBJ
-                        vue.resetMarkers(q) 
+                        vue.resetMarkers(q)
                     }
-                } 
+                }
             })
             .fail(function(){
                 console.log('error has occurred');
             });
-        },        
-        resetMarkers : function(q) {             
+        },
+        resetMarkers : function(q) {
             for (var mark in vue.marker) {
                 if (vue.marker[mark] == 3){
-                    if (mark == q) {      
+                    if (mark == q) {
                         alert('Your teammate has just edited this question')
                         vue.marker[mark] = 0
                     }
-                }           
+                }
             }
         },
         checkMarkers : function(arg) {
-            for (var mark in vue.marker) {                
-                vue.marker[mark] = 2  
+            for (var mark in vue.marker) {
+                vue.marker[mark] = 2
                 for (var item in vue.ansOBJ[mark]) {
                     console.log(mark, item, vue.ansOBJ[mark][item]);
                     if(vue.ansOBJ[mark][item] == null){
                         vue.marker[mark] = 1
                     }
                     console.log(vue.marker[mark]);
-                }                               
-            }            
-        },        
-        qStyle : function(key) {            
-            return this.buttonColor[this.marker[key]]  
-        },        
-        storeData : function(key) { 
-                     
-            this.ansOBJ[key]['word'] = document.getElementById(key + 'w').value        
-            this.ansOBJ[key]['user'] = document.getElementById(key +  'u').value          
-            this.ansOBJ[key]['sentence'] = document.getElementById(key + 's').value 
-                    
-               
+                }
+            }
+        },
+        qStyle : function(key) {
+            return this.buttonColor[this.marker[key]]
+        },
+        storeData : function(key) {
+
+            this.ansOBJ[key]['word'] = document.getElementById(key + 'w').value
+            this.ansOBJ[key]['user'] = document.getElementById(key +  'u').value
+            this.ansOBJ[key]['sentence'] = document.getElementById(key + 's').value
+
+
             //reset the testOBJ
-            this.testOBJ = testOBJ            
-            
+            this.testOBJ = testOBJ
+
             //vue.storeData()
             var total = 0
             this.checkMarkers()
-            for (var mark in this.marker){  
-                console.log(mark, this.marker, this.marker[mark]);                                           
+            for (var mark in this.marker){
+                console.log(mark, this.marker, this.marker[mark]);
                 total += this.marker[mark]
             }
             if (total > 12){
-                // because if edit is open the mark will 3 instead of two 
+                // because if edit is open the mark will 3 instead of two
                 total = 12
-            }   
+            }
             console.log(total);
 
             $.ajax({
@@ -159,24 +159,24 @@ function startVue(){
                 unit : this.unit,
                 team : this.team,
                 mode : this.mode,
-                ansOBJ : JSON.stringify(this.ansOBJ),                     
+                ansOBJ : JSON.stringify(this.ansOBJ),
                 question : key,
-                total : total  
+                total : total
               },
               type : 'POST',
-              url : '/storeAnswer',               
+              url : '/storeAnswer',
             })
-            .done(function(data) { 
-                //console.log(data); 
-                alert('Question ' + data.question + ' updated') 
-                vue.updateAnswers()  
-                vue.checkMarkers()       
+            .done(function(data) {
+                //console.log(data);
+                alert('Question ' + data.question + ' updated')
+                vue.updateAnswers()
+                vue.checkMarkers()
             })
             .fail(function(){
                 alert('error - see instructor')
             });
         },
-        storeB64 : function(key, b64) {             
+        storeB64 : function(key, b64) {
             //reset the testOBJ
             this.testOBJ = testOBJ
 
@@ -188,140 +188,140 @@ function startVue(){
                 this.ansOBJ[key]['imageLink'] = 'updating'
             }
             if (b64 == 'a'){
-                var b64data = this.audio64['base64']                
+                var b64data = this.audio64['base64']
                 var fileType = null
                 this.ansOBJ[key]['audioLink'] = 'updating'
             }
-                        
+
              //vue.storeData()
             var total = 0
             this.checkMarkers()
-            for (var mark in this.marker){  
-                console.log(mark, this.marker, this.marker[mark]);                                           
+            for (var mark in this.marker){
+                console.log(mark, this.marker, this.marker[mark]);
                 total += this.marker[mark]
             }
             if (total > 12){
-                // because if edit is open the mark will 3 instead of two 
+                // because if edit is open the mark will 3 instead of two
                 total = 12
-            }   
+            }
             console.log(total);
 
-            
+
 
             $.ajax({
               data : {
                 unit : this.unit,
                 team : this.team,
                 mode : this.mode,
-                b64data : b64data,                     
-                fileType : fileType,                     
+                b64data : b64data,
+                fileType : fileType,
                 question : key,
-                b64 : b64, 
-                total: total  
+                b64 : b64,
+                total: total
               },
               type : 'POST',
-              url : '/storeB64',               
+              url : '/storeB64',
             })
-            .done(function(data) { 
-                console.log(data); 
-                alert('Question ' + data.question + ' updated') 
-                vue.resetB64() 
-                vue.updateAnswers()  
-                vue.checkMarkers()       
+            .done(function(data) {
+                console.log(data);
+                alert('Question ' + data.question + ' updated')
+                vue.resetB64()
+                vue.updateAnswers()
+                vue.checkMarkers()
             })
             .fail(function(){
                 alert('error - see instructor')
             });
         },
-        resetB64 : function() {             
+        resetB64 : function() {
             vue.image64['fileType'] = false
             vue.audio64['fileType'] = false
         },
-        imageValidation : function(){    
-            var fileInput = document.getElementById('image');        
+        imageValidation : function(){
+            var fileInput = document.getElementById('image');
             //console.log('file', fileInput)
             var filePath = fileInput.value;
-            //console.log(filePath);      
+            //console.log(filePath);
             vue.image64['fileType'] = filePath.split('.')[1]
-      
-    
+
+
             var allowedExtensions = /(\.jpeg|\.png|\.jpg)$/i;
-        
-              if(fileInput.files[0].size > 7000000){ // 7 mb for video option 
-                  alert("File is too big!"); 
-                  fileInput.value = '';             
-                  return false;        
+
+              if(fileInput.files[0].size > 4000000){ // 7 mb for video option
+                  alert("File is too big!");
+                  fileInput.value = '';
+                  return false;
               }
               else if(!allowedExtensions.exec(filePath)){
                   alert('Please upload image: .jpeg/.png only.');
                   fileInput.value = '';
                   return false;
-              }    
-              else{            
-                  console.dir( fileInput.files[0] );    
-                  var url = window.URL.createObjectURL(fileInput.files[0]);        
+              }
+              else{
+                  console.dir( fileInput.files[0] );
+                  var url = window.URL.createObjectURL(fileInput.files[0]);
                   fetch(url)
                   .then(function(res){
                       return res.blob();
                       })
                   .then(function(savedBlob){
                       var reader = new FileReader();
-                      reader.readAsDataURL(savedBlob);          
+                      reader.readAsDataURL(savedBlob);
                       reader.onloadend = function() {
-                          vue.image64['base64'] = reader.result.split(',')[1];                                                                        
-                          } 
-                  })  
-              }//end else   
+                          vue.image64['base64'] = reader.result.split(',')[1];
+                          }
+                  })
+              }//end else
           },
-        audioValidation : function(){    
-            var fileInput = document.getElementById('audio');        
+        audioValidation : function(){
+            var fileInput = document.getElementById('audio');
             console.log('file', fileInput)
             var filePath = fileInput.value;
             var allowedExtensions = /(\.mp3|\.m4a|\.m4v|\.mov|\.mp4)$/i;
-        
-            if(fileInput.files[0].size > 4400000){
+
+            if(fileInput.files[0].size > 7000000){
                 alert("File is too big!");
                 location.reload()
-                return false;        
+                return false;
             }
             else if(!allowedExtensions.exec(filePath)){
                 alert('Please upload audio file: .mp3/.m4a only.');
                 fileInput.value = '';
                 return false;
-            }    
-            else{            
-                console.dir( fileInput.files[0] );    
-                var url = window.URL.createObjectURL(fileInput.files[0]);        
+            }
+            else{
+                console.dir( fileInput.files[0] );
+                var url = window.URL.createObjectURL(fileInput.files[0]);
                 fetch(url)
                 .then(function(res){
                     return res.blob();
                     })
-                .then(function(savedBlob){                  
-            
+                .then(function(savedBlob){
+
                 var reader = new FileReader();
-                reader.readAsDataURL(savedBlob);          
+                reader.readAsDataURL(savedBlob);
                 reader.onloadend = function() {
-                        vue.audio64['base64'] = reader.result.split(',')[1]; 
-                        vue.audio64['fileType'] = true 
+                        vue.audio64['base64'] = reader.result.split(',')[1];
+                        vue.audio64['fileType'] = true
                     }
                 })// end then function
-            }//end else   
-            
-          },//end audioValidation 
+            }//end else
+
+          },//end audioValidation
         playAudio : function(key){
-            player = document.getElementById('handler')        
-            button = document.getElementById(key)        
+            player = document.getElementById('handler')
+            button = document.getElementById(key)
             player.src = ansOBJ[key]['audioLink']
             player.load()
             button.innerHTML = 'Playing'
           },
-        
-                    
-    }, // end methods        
-    
-    
-    
+
+
+    }, // end methods
+
+
+
 })// end NEW VUE
 
-}// endFunction 
+}// endFunction
 

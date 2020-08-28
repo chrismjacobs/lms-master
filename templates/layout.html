@@ -30,29 +30,25 @@
                       <!-- Navbar Right Side -->
                         <div class="navbar-nav">
                         {% if current_user.id == 1 %}
-                        <div class="navbar-nav mr-auto">
-                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('controls') }}", target="_blank">Controls</a>
-                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('admin') }}", target="_blank">Admin</a>
-                          {% if SCHEMA < 3 %}
-                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('dashboard')}}", target="_blank">Dashboard</a>
-                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('grades_final')}}", target="_blank">Grades</a>
-                          {% elif SCHEMA == 3 %}
-                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('abc_dash')}}", target="_blank">Dashboard</a>
-                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('abc_grades')}}", target="_blank">Grades</a>
-                          {% elif SCHEMA == 4 %}
-                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('peng_dash', MTFN='FN')}}", target="_blank">Dashboard</a>
-                          {% elif SCHEMA == 5 %}
-                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('food_FN')}}", target="_blank">Dashboard</a>
-                          {% endif %}
-                        </div>
+                          <div class="navbar-nav mr-auto">
+                            <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('controls') }}", target="_blank">Controls</a>
+                            <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('admin') }}", target="_blank">Admin</a>
+                            {% if SCHEMA < 3 %}
+                            <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('dashboard')}}", target="_blank">Dashboard</a>
+                            <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('grades_final')}}", target="_blank">Grades</a>
+                            {% elif SCHEMA == 3 %}
+                            <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('abc_dash')}}", target="_blank">Dashboard</a>
+                            <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('abc_grades')}}", target="_blank">Grades</a>
+                            {% elif SCHEMA == 4 %}
+                            <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('peng_dash', MTFN='FN')}}", target="_blank">Dashboard</a>
+                            {% elif SCHEMA == 5 %}
+                            <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('food_FN')}}", target="_blank">Dashboard</a>
+                            {% elif SCHEMA == 7 %}
+                            <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('nme_novels')}}", target="_blank">Dashboard</a>
+                            {% endif %}
+                          </div>
                         {% endif %}
-                        {% if current_user.username == 'Robin' or current_user.username == 'William'  %}
-                        <div class="navbar-nav mr-auto">
-                          {% if SCHEMA == 3 %}
-                          <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('abc_dash')}}", target="_blank">Dashboard</a>
-                         {% endif %}
-                        </div>
-                        {% endif %}
+
 
                         <div class="navbar-nav mr-auto">
                           <a class="nav-item nav-link" href= "{{ url_for ('home') }}">Home</a>
@@ -74,6 +70,8 @@
                                   <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('peng_list') }}">My Presentations</a>
                                 {% elif SCHEMA == 5 %}
                                   <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('food_list') }}">My Presentations</a>
+                                {% elif SCHEMA == 7 %}
+                                  <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('nme_novels')}}">My Novels</a>
                                 {% elif SCHEMA == 8 %}
                                   <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('fse_list') }}">My Projects</a>
                                 {% endif %}
