@@ -16,22 +16,25 @@
 
 </div>
 
-<div class="content-section" v-if="completed >= nCount">
-  <legend class="border-bottom mb-4"> Add Novel: </legend>
+<div class="content-section" v-if="completed >= nCount || editNovel">
+  <legend class="border-bottom mb-4"> Novel Details: </legend>
 
-    Title: <input tyle="text" id="title" v-model="novel.title"></input>
+    Number: <input style="text" id="number" disabled v-model="novel.number"></input>
     <br>
     <br>
-    Author: <input tyle="text" id="author" v-model="novel.author"></input>
+    Title: <input style="text" id="title" v-model="novel.title"></input>
     <br>
     <br>
-    Publisher: <input tyle="text" id="publisher" v-model="novel.publisher"></input>
+    Author: <input style="text" id="author" v-model="novel.author"></input>
     <br>
     <br>
-    Chapters: <input tyle="text" id="chapeters" v-model="novel.chapters"></input>
+    Publisher: <input style="text" id="publisher" v-model="novel.publisher"></input>
     <br>
     <br>
-    Level: <input tyle="text" id="level" v-model="novel.level"></input>
+    Chapters: <input style="text" id="chapeters" v-model="novel.chapters"></input>
+    <br>
+    <br>
+    Level: <input style="text" id="level" v-model="novel.level"></input>
     <br>
     <br>
 
@@ -49,20 +52,19 @@
         <thead>
             <tr>
               <th scope="col" >Novel</th>
-              <th scope="col" >Title</th>
               <th scope="col" >Chapters</th>
-              <th scope="col" >Summaries</th>
-              <th scope="col" >Recordings</th>
+              <th scope="col" >Sums</th>
+              <th scope="col" >Recs</th>
             </tr>
         </thead>
 
         <tbody>
             <template v-for="(n, index) in nObj">
                 <tr>
-                  <td> [[ index ]] </td>
-                  <td> [[ n.title ]]</td>
-                  <td> [[ n.chapters ]]</td>
-                  <td> <button class="btn btn-info btn-sm"><a style="color:white" @click="goTo('sum', index)">0/[[ n.chapters ]]</a></button> </td>
+                  <td> <button class="btn" @click="edit(index)">[[ index ]]</button> <br> [[ n.novel.title ]] </td>
+                  <td> [[ n.novel.chapters ]]</td>
+                  <td> <button class="btn btn-info btn-sm"><a style="color:white" @click="goTo('sum', index)">[[ n.sums]]/[[ n.novel.chapters ]]</a></button> </td>
+                  <td> <button class="btn btn-info btn-sm"><a style="color:white" @click="goTo('rec', index)">[[ n.recs]]/3</a></button> </td>
                 </tr>
             </template>
         </tbody>
@@ -96,6 +98,8 @@ var nCount = document.getElementById('nCount').innerHTML
 
 var nObj = JSON.parse(nString)
 console.log('nObj', nObj);
+console.log('nCount', nCount);
+console.log('completed', completed);
 
 
 startVue()
@@ -108,10 +112,11 @@ function startVue(){ new Vue({
     },
     data: {
         completed: completed,
+        editNovel: false,
         nObj: nObj,
         nCount: nCount,
         novel: {
-          number: this.completed + 1,
+          number: parseInt(this.completed) + 1,
           title: null,
           author: null,
           chapters: null,
@@ -131,6 +136,13 @@ function startVue(){ new Vue({
             window.location = url
             console.log('DONE');
         },
+        edit: function(index) {
+          for (let item in this.novel) {
+            this.novel[item] = this.nObj[index][item]
+          }
+          console.log(this.novel)
+          this.editNovel = index
+        },
         submitNovel: function () {
           console.log('update via AJAX');
           let _this = this
@@ -142,8 +154,17 @@ function startVue(){ new Vue({
               url : '/addNovel',
             })
             .done(function(data) {
-              console.log('nOBj success')
-              _this.nObj[data.key] = JSON.parse(data.nValue)
+              console.log('nOBj success', data)
+              _this.nObj[data.nKey] = JSON.parse(data.nValue)
+              if (_this.editNovel) {
+                _this.editNovel = false
+              } else {
+                _this.completed += 1
+              }
+              for (let item in this.novel) {
+                _this.novel[item] = null
+              }
+              _this.novel.number = this.completed + 1
             })
             .fail(function(){
                 console.log('error has occurred');

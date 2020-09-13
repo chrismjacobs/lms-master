@@ -28,7 +28,18 @@ projectDict = {
         '05' : U051U,
         '06' : U061U,
         '07' : U071U,
-        '08' : U081U,
+        '08' : U081U
+    }
+
+effortDict = {
+        '01' : U012U,
+        '02' : U022U,
+        '03' : U032U,
+        '04' : U042U,
+        '05' : U052U,
+        '06' : U062U,
+        '07' : U072U,
+        '08' : U082U
     }
 
 def create_folder(unit, teamnumber, nameRange):
@@ -50,11 +61,13 @@ def create_folder(unit, teamnumber, nameRange):
     return keyName
 
 
+'''### novels '''
+
 @app.route ("/nme_novels", methods=['GET','POST'])
 @login_required
 def nme_novels():
 
-    novels = ['01', '02', '03']
+    novels = ['01', '02', '03', '04', '05']
 
     completed = 0
     nCount = 0
@@ -63,7 +76,20 @@ def nme_novels():
         project = projectDict[n].query.filter_by(username=current_user.username).first()
         if project:
             nCount +=1
-            nDict[n] = json.loads(project.Ans01)
+            nDict[n] = {}
+            nDict[n]['novel'] = json.loads(project.Ans01)
+            nDict[n]['sums'] = 0
+
+            for c in json.loads(project.Ans02):
+                nDict[n]['sums'] += 1
+            if nDict[n]['sums'] >= int(nDict[n]['novel']['chapters']):
+                completed += 1
+
+            nDict[n]['recs'] = 0
+            for c in json.loads(project.Ans03):
+                nDict[n]['recs'] += 1
+
+
 
     nString = json.dumps(nDict)
 
@@ -77,32 +103,25 @@ def addNovel():
     novel = request.form ['novel']
     number = json.loads(novel)['number']
 
-    project = projectDict[number]
+    PROJECT = projectDict[number]
     sums = {}
-    recs = {}
+    recs = {1:{}, 2:{}, 3:{}}
+    feeds = {}
 
-    entry = project(username=current_user.username, Ans01=novel, Ans02=json.dumps(sums), Ans03=json.dumps(recs))
-    db.session.add(entry)
-    db.session.commit()
+    check = PROJECT.query.filter_by(username=current_user.username).first()
+
+    if check:
+        check.Ans01 = novel
+        db.session.commit()
+    else:
+        entry = PROJECT(username=current_user.username, Ans01=novel, Ans02=json.dumps(sums), Ans03=json.dumps(recs), Ans04=json.dumps(feeds))
+        db.session.add(entry)
+        db.session.commit()
 
     return jsonify({'nValue' : novel, 'nKey':number })
 
-@app.route ("/addSum", methods=['GET','POST'])
-@login_required
-def addSum():
-    print('ADD_SUM')
-    novel = request.form ['novel']
-    chapter = request.form ['chapter']
-    novel_number = novel['number']
-    chap_number = chapter['number']
 
-    project = projectDict[novel_number]
-
-    current_sums = json.loads(project.Ans02)
-    current_sums[chap_number] = json.loads(chapter)
-    project.Ans02 = json.dumps(current_sums)
-
-    return jsonify({'sObj' : current_sums})
+'''### summaries '''
 
 @app.route ("/sum/<string:index>", methods=['GET','POST'])
 @login_required
@@ -114,535 +133,185 @@ def nme_sum(index):
 
     html = 'nme/nme_sums.html'
 
-
     return render_template(html, legend='Chapter Summaries', nString=project.Ans01, sString=project.Ans02)
 
-def get_all_snl_values(nested_dictionary):
-    detected = 0
-    for key, value in nested_dictionary.items():
-        if type(value) is dict:
-            print ('DICT FOUND', value)
-            if get_all_snl_values(value) != 0:
-                detected += get_all_snl_values(value)
-        else:
-            if value == None or value == "":
-                print('CHECK', key, value)
-                detected += 1
 
-    return detected
+@app.route ("/addSum", methods=['GET','POST'])
+@login_required
+def addSum():
+    print('ADD_SUM')
+    nString = request.form ['novel']
+    cString = request.form ['chapter']
 
+    novel = json.loads(nString)
+    chapter = json.loads(cString)
+    novel_number = novel['number']
+    chap_number = chapter['number']
 
-@app.route('/storeB64', methods=['POST'])
-def storeB64():
-    unit = request.form ['unit']
-    team = request.form ['team']
-    mode = request.form ['mode']
-    b64 = request.form ['b64']
-    question = request.form ['question']
-    b64data = request.form ['b64data']
-    fileType = request.form ['fileType']
-    total = request.form ['total']
+    project = projectDict[novel_number].query.filter_by(username=current_user.username).first()
 
-    project = unitDict[unit]
-    project_data = project.query.filter_by(teamnumber=team).first()
-    project_answers = json.loads(project_data.Ans02)
+    print(project, project.Ans02, novel, chapter, novel_number, chap_number)
 
-    if b64 == 'i':
-        print('PROCESSING IMAGE')
-        image = base64.b64decode(b64data)
-        file_key = project_answers[question]['imageLink']
-        if file_key:
-            print('file_key_found ', file_key)
-            file_key_split = file_key.split('com/')[1]
-            s3_resource.Object(S3_BUCKET_NAME, file_key_split).delete()
-        else:
-            print('no file_key found')
-        now = datetime.now()
-        time = now.strftime("_%M%S")
-        print("time:", time)
-        filename = unit + '/' + team + '/' + question + time + '_image.' + fileType
-        imageLink = S3_LOCATION + filename
-        s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=image)
-
-        project_answers[question]['imageLink'] = imageLink
-        project_data.Ans02 = json.dumps(project_answers)
-        project_data.Ans04 = total
-        db.session.commit()
-
-    if b64 == 'a':
-        print('PROCESSING AUDIO')
-        audio = base64.b64decode(b64data)
-        file_key = project_answers[question]['audioLink']
-        if file_key:
-            print('file_key_found ', file_key)
-            file_key_split = file_key.split('com/')[1]
-            s3_resource.Object(S3_BUCKET_NAME, file_key_split).delete()
-        else:
-            print('no file_key found')
-        now = datetime.now()
-        time = now.strftime("_%M%S")
-        print("time:", time)
-        filename = unit + '/' + team + '/' + question + time + '_audio.mp3'
-        audioLink = S3_LOCATION + filename
-        s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=audio)
-
-        project_answers[question]['audioLink'] = audioLink
-        project_data.Ans02 = json.dumps(project_answers)
-        project_data.Ans04 = total
-        db.session.commit()
-
-    return jsonify({'question' : question})
-
-@app.route('/storeAnswer', methods=['POST'])
-def storeAnswer():
-    unit = request.form ['unit']
-    team = request.form ['team']
-    mode = request.form ['mode']
-    question = request.form ['question']
-    ansOBJ = request.form ['ansOBJ']
-    total = request.form ['total']
-
-    project = unitDict[unit]
-    project_answers = project.query.filter_by(teamnumber=team).first()
-
-    if mode == 'qna':
-        project_answers.Ans01 = ansOBJ
-        project_answers.Ans03 = total  #12 will be the maximum
-    if mode == 'snl':
-        project_answers.Ans02 = ansOBJ
-        project_answers.Ans04 = total
-
+    current_sum = json.loads(project.Ans02)
+    current_sum[chap_number] = chapter
+    project.Ans02 = json.dumps(current_sum)
     db.session.commit()
 
-    return jsonify({'question' : question})
+    return jsonify({'cObj' : json.dumps(current_sum)})
+
+'''### feedback '''
+
+@app.route ("/feedback/<string:student>", methods=['GET','POST'])
+@login_required
+def nme_feedback(student):
+    if current_user.id == 1 or student == current_user.username:
+        pass
+    else:
+        flash('Wrong Username', 'danger')
+        return (redirect (url_for('home')))
+
+    novels = ['01', '02', '03']
+
+    completed = 0
+    nCount = 0
+    fDict = {}
+    for n in novels:
+        project = projectDict[n].query.filter_by(username=current_user.username).first()
+        if project:
+            nCount +=1
+            fDict[n] = json.loads(project.Ans04)
+
+    html = 'nme/nme_feedback.html'
+
+    return render_template(html, legend='Writing Feedback', fString=json.dumps(fDict))
 
 
-@app.route('/updateAnswers', methods=['POST'])
-def updateAnswers():
-    unit = request.form ['unit']
-    team = request.form ['team']
-    mode = request.form ['mode']
+@app.route ("/addFeedback", methods=['GET','POST'])
+@login_required
+def addFeedback():
+    print('ADD_FEEDBACK')
+    nString = request.form ['novel']
+    student = request.form ['student']
 
-    project = unitDict[unit]
-    project_answers = project.query.filter_by(teamnumber=team).first()
+    novel = json.loads(nString)
+    current_feedback = {}
 
-    if mode == 'qna':
-        ansString = str(project_answers.Ans01)
-    if mode == 'snl':
-        ansString = str(project_answers.Ans02)
+    return jsonify({'fObj' : json.dumps(current_feedback)})
 
 
+@app.route ("/rec/<string:index>", methods=['GET','POST'])
+@login_required
+def nme_recording(index):
+    novels = ['01', '02', '03', '04', '05']
 
-    return jsonify({'ansString' : ansString})
+    rCount = 0
+    rDict = {}
+    for n in novels:
+        project = projectDict[n].query.filter_by(username=current_user.username).first()
+        if project:
+            rDict = json.loads(project.Ans03)
+            rCount +=1
 
+    html = 'nme/nme_recs.html'
 
-
-def get_team_data(unit, team):
-    project = unitDict[unit]
-    questions = project.query.filter_by(teamnumber=team).first()
-    teamMembers = ast.literal_eval(questions.username)
-
-    teamDict = {}
-    for member in teamMembers:
-        try:
-            teamDict[member] = S3_LOCATION + User.query.filter_by(username=member).first().image_file
-        except:
-            teamDict[member] = None
-
-    project_answers = unitDict[unit].query.filter_by(teamnumber=team).first()
-
-    return {
-        'project_answers' : project_answers,
-        'teamMembers' : json.dumps(teamDict)
-    }
+    return render_template(html, legend='Add Recordings', index=index, rString=json.dumps(rDict), rCount=rCount)
 
 
+@app.route ("/addRec", methods=['GET','POST'])
+@login_required
+def addRec():
+    print('ADD_REC_DETAILS')
+    novel = request.form ['novel']
+    rec = request.form ['rec']
+    details = request.form ['details']
 
-@app.route('/addWord', methods=['POST'])
-def addWord():
-    b64Dict = json.loads(request.form ['b64String'])
-    print(b64Dict)
-    print('ADDWORD ACTIVE')
-    word = b64Dict ['word']
-    user = request.form ['user']
-    sentence= b64Dict ['sentence']
-    unit = request.form ['unit']
-    team = request.form ['team']
+    project = projectDict[novel].query.filter_by(username=current_user.username).first()
 
-    project = unitDict[unit].query.filter_by(teamnumber=team).first()
+    rDict = json.loads(project.Ans03)
+    rDict[rec] = json.loads(details)
+    project.Ans03 = json.dumps(rDict)
+    db.session.commit()
 
-    ansDict = ast.literal_eval(project.Ans02)
+    return jsonify({'details' : details})
 
-    qCount = len(ansDict)
-    print('qCount', qCount)
 
-    print('PROCESSING IMAGE')
-    image = base64.b64decode(b64Dict['image_b64'])
-    filename = unit + '/' + team + '/' + word + '_image.' + b64Dict['fileType']
-    imageLink = S3_LOCATION + filename
-    s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=image)
+
+''' ## performance '''
+
+@app.route ("/effort", methods=['GET','POST'])
+@login_required
+def nme_effort():
+    weeks =  ['01', '02', '03', '04', '05', '06', '07', '08']
+
+    survey = U012U.query.filter_by(username=current_user.username).first()
+
+    if not survey:
+        obj = json.dumps({})
+        entry = U012U(username=current_user.username, Ans01=obj, Ans02=obj, Ans03=obj, Ans04=obj, Ans05=obj, Ans06=obj, Ans07=obj, Ans08=obj)
+        db.session.add(entry)
+        db.session.commit()
+
+    survey = U012U.query.filter_by(username=current_user.username).first()
+
+    eDict = {}
+    week = '01'
+    effort1 = json.loads(survey.Ans01)
+    eDict['01'] = effort1
+
+    html = 'nme/nme_performance.html'
+
+    return render_template(html, legend='Course Performance', week=week, eString=json.dumps(eDict))
+
+@app.route ("/addSurvey", methods=['GET','POST'])
+@login_required
+def addSurvey():
+    print('ADD_SURVEY')
+    eString = request.form ['reflection']
+    reflection = json.loads(eString)
+    week = reflection['week']
+
+
+
+    survey = U012U.query.filter_by(username=current_user.username).first()
+
+
+
+    return jsonify({'msg' : True})
+
+
+@app.route('/nme_storeB64', methods=['POST'])
+def storeB64():
+
+    b64data = request.form ['b64data']
+    fileType = request.form ['fileType']
+    novel = request.form ['novel']
+    rec = request.form ['rec']
+
+    project = projectDict[novel].query.filter_by(username=current_user.username).first()
+    rDict = json.loads(project.Ans03)
+    print(type(rec), rec)
+    print(rDict)
+    try:
+        file_key = rDict[int(rec)]['audio']
+        print('file_key_found ', file_key)
+        file_key_split = file_key.split('com/')[1]
+        s3_resource.Object(S3_BUCKET_NAME, file_key_split).delete()
+    except:
+        print('no file_key found')
+
+    now = datetime.now()
+    time = now.strftime("_%M%S")
+    print("time:", time)
 
     print('PROCESSING AUDIO')
-    audio = base64.b64decode(b64Dict['audio_b64'])
-    filename = unit + '/' + team + '/' + word + '_audio.mp3'
+    audio = base64.b64decode(b64data)
+
+    filename = current_user.username + '/' + novel + '/' + rec + time + '.mp3'
     audioLink = S3_LOCATION + filename
     s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=audio)
 
-    ansDict[word] = {
-            'word' : word,
-            'sentence' : sentence,
-            'audioLink' : audioLink,
-            'imageLink' : imageLink,
-            'user' : user
-        }
-
-    ansString = json.dumps(ansDict)
-
-    project.Ans02 = ansString
-    project.Ans04 = len(ansDict)
+    rDict[rec]['audio'] = audioLink
+    project.Ans03 = json.dumps(rDict)
     db.session.commit()
 
-
-    return jsonify({'word' : word, 'newDict' : ansString, 'qCount' : qCount })
-
-
-
-@app.route ("/abc/<string:qs>/<string:unit>/<int:team>", methods=['GET','POST'])
-@login_required
-def abc_setup(qs, unit, team):
-
-    srcDict = get_projects()
-    meta = srcDict[unit]
-    print(meta['M1'])
-
-    data = get_team_data(unit, team)
-    project_answers = data['project_answers']
-    teamMembers = data['teamMembers']
-
-
-    if current_user.username not in teamMembers :
-        flash('You are not on the team for this project', 'warning')
-        return (redirect (url_for('abc_dash')))
-
-    if qs == 'qna':
-        testDict = {}
-        for i in range (1, 7):
-            testDict[i] = {
-                'topic' : None,
-                'question' : None,
-                'answer' : None,
-                'writer' : None
-            }
-        html = 'abc/abc_qna.html'
-        ansDict = project_answers.Ans01
-        current_score = None
-
-    if qs == 'snl':
-        testDict = {}
-        for i in range (1, 7):
-            testDict[i] = {
-            'word' : None,
-            'sentence' : None,
-            'imageLink' : None,
-            'audioLink' : None,
-            'user' : None,
-            }
-        html = 'abc/abc_snl.html'
-        ansDict = project_answers.Ans02
-        current_score = project_answers.Ans04
-
-
-    return render_template(html, legend='Questions & Answers',
-    meta=meta,
-    teamMembers=teamMembers,
-    ansDict=ansDict,
-    current_score=current_score,
-    testDict=str(json.dumps(testDict))
-    )
-
-
-'''Instructor dashboard'''
-@app.route ("/abc_dash", methods=['GET','POST'])
-@login_required
-def abc_dash():
-    taList = ['Chris', 'Robin', 'William']
-
-    if current_user.username not in taList:
-        return redirect('home')
-
-    srcDict = get_projects()
-    pprint(srcDict)
-    abcDict = { }
-    for src in srcDict:
-        # check sources against open units in model
-        # src = unit
-        if Units.query.filter_by(unit=src).count() == 1:
-            abcDict[src] = {
-                'Title' : srcDict[src]['Title'],
-                'Unit' : src,
-                'Teams' : {}
-            }
-
-            projects = unitDict[src].query.all()
-            for proj in projects:
-                abcDict[src]['Teams'][proj.teamnumber] = {'team' : proj.username,
-                                                          'QNA' : proj.Ans03,
-                                                          'SNL' : proj.Ans04
-                                                          }
-
-    pprint (abcDict)
-
-    return render_template('abc/abc_dash.html', legend='ABC Dash', abcString = json.dumps(abcDict))
-
-# instructor check
-@app.route ("/abc_check/<string:unit>", methods=['GET','POST'])
-@login_required
-def abc_check(unit):
-    taList = ['Chris', 'Robin', 'William']
-
-    if current_user.username not in taList:
-        return redirect('home')
-
-    srcDict = get_projects()
-    title = srcDict[unit]['Title']
-
-
-    checkDict = { }
-
-    projects = unitDict[unit].query.all()
-    for proj in projects:
-        print(proj.teamnumber)
-        checkDict[proj.teamnumber] = {
-            'team' : ast.literal_eval(proj.username),
-            'qna_list' : json.loads(proj.Ans01),
-            'qna_score' : proj.Ans03,
-            'snl_list' : json.loads(proj.Ans02),
-            'snl_score' : proj.Ans04,
-            }
-
-    pprint (checkDict)
-
-    return render_template('abc/abc_check.html', legend='QNA Check', title=title, abcString = json.dumps(checkDict))
-
-
-
-'''Exam '''
-@app.route ("/abc_exam/<string:qORs>/<string:unit>/<string:team>", methods=['GET','POST'])
-@login_required
-def abc_exam(qORs, unit, team):
-
-    ## get_team_data will check if user is exam ready or not
-    team_data = get_team_data(unit, team)
-    teamMembers = team_data['teamMembers']
-
-    if current_user.extra == 3:
-        print('exam user')
-    elif current_user.username not in teamMembers:
-        flash('Exam not ready - Please see instructor', 'warning')
-        return redirect(url_for('abc_list'))
-
-    srcDict = get_projects()
-    meta = srcDict[unit]
-
-    print('exam', unit, team)
-
-
-    data = team_data['project_answers']
-    print(team_data)
-    source = meta['M1']
-    print(source)
-    qnaString = data.Ans01
-    snlString = data.Ans02
-    snlDict = json.loads(data.Ans02)
-
-    orderList = ['1','2','3','4','5','6']
-    random.shuffle(orderList)
-
-    print('orderList', orderList)
-
-    count = 1
-    orderDict = {}
-    for number in orderList:
-        orderDict[count] = [number, snlDict[number]['audioLink']]
-        count +=1
-
-    print('orderDict', orderDict)
-
-    if qORs == 'qna':
-        html = 'abc/abc_exam_qna.html'
-    else:
-        html = 'abc/abc_exam_snl.html'
-
-    return render_template(html, legend='ABC Exam', title=unit, meta=meta, orderDict=json.dumps(orderDict), qnaString=qnaString, snlString=snlString)
-# exam format
-
-def midtermGrades():
-    try:
-        checkUser = Exams.query.filter_by(username=current_user.username).first().username
-    except:
-        user = Exams(username=current_user.username, j1='{}', j2='{}', j3='{}', j4='{}')
-        db.session.add(user)
-        db.session.commit()
-
-    user = Exams.query.filter_by(username=current_user.username).first()
-
-    return user
-
-
-@app.route('/updateGrades', methods=['POST'])
-def updateGrades():
-    qORs = request.form ['qORs']
-    unit = request.form ['unit']
-    team = request.form ['team']
-    grade = request.form ['grade']
-
-    user = midtermGrades()
-
-    if qORs == 'qna':
-        #examDict = json.loads(user.j1)
-        examDict = json.loads(user.j3)
-    elif qORs == 'snl':
-        #examDict = json.loads(user.j2)
-        examDict = json.loads(user.j4)
-
-    print('before', examDict)
-
-    entryChecker = True
-    for entry in examDict:
-        if examDict[entry]['team'] == team and examDict[entry]['unit'] == unit:
-            entryChecker = False
-
-    if entryChecker:
-        count = len(examDict)
-        examDict[count+1] = {
-            'unit' : unit,
-            'team' : team,
-            'grade' : grade
-            }
-
-        if qORs == 'qna':
-            #user.j1 = json.dumps(examDict)
-            user.j3 = json.dumps(examDict)
-            db.session.commit()
-            print('qnaCommit')
-        elif qORs == 'snl':
-            #user.j2 = json.dumps(examDict)
-            user.j4 = json.dumps(examDict)
-            db.session.commit()
-            print('snlCommit')
-
-    print('after', examDict)
-
-    return jsonify({'grade' : grade})
-
-
-@app.route ("/abc_grades", methods=['GET','POST'])
-@login_required
-def abc_grades():
-
-    gradesDict = {}
-
-    users = User.query.all()
-
-    for user in users:
-        gradesDict[user.username] = {
-            'Student' : {
-                'name' :user.username,
-                'id' : user.studentID,
-                'Status' : user.extra
-             },
-            '04' : {
-                'team' : 0,
-                'QNA' : 0,
-                'SNL' : 0,
-                'QNA_check' : 0,
-                'SNL_check' : 0,
-                'QNA_grades' : [],
-                'SNL_grades' : []
-            },
-            '05' : {
-                'team' : 0,
-                'QNA' : 0,
-                'SNL' : 0,
-                'QNA_check' : 0,
-                'SNL_check' : 0,
-                'QNA_grades' : [],
-                'SNL_grades' : []
-            },
-            '06' : {
-                'team' : 0,
-                'QNA' : 0,
-                'SNL' : 0,
-                'QNA_check' : 0,
-                'SNL_check' : 0,
-                'QNA_grades' : [],
-                'SNL_grades' : []
-            },
-            '07' : {
-                'team' : 0,
-                'QNA' : 0,
-                'SNL' : 0,
-                'QNA_check' : 0,
-                'SNL_check' : 0,
-                'QNA_grades' : [],
-                'SNL_grades' : []
-            },
-            '08' : {
-                'team' : 0,
-                'QNA' : 0,
-                'SNL' : 0,
-                'QNA_check' : 0,
-                'SNL_check' : 0,
-                'QNA_grades' : [],
-                'SNL_grades' : []
-            },
-
-        }
-
-    exams = Exams.query.all()
-
-    models = {
-        #'00' : U001U,
-        #'01' : U011U,
-        #'02' : U021U,
-        #'03' : U031U,
-        '04' : U041U,
-        '05' : U051U,
-        '06' : U061U,
-        '07' : U071U,
-        '08' : U081U,
-    }
-
-    for model in models:
-        projects = models[model].query.all()
-        for proj in projects:
-            team = ast.literal_eval(proj.username)
-            for stu in team:
-                gradesDict[stu][model]['QNA'] = proj.Ans03
-                gradesDict[stu][model]['SNL'] = proj.Ans04
-                gradesDict[stu][model]['team'] = str(proj.teamnumber)
-
-    for exam in exams:
-        #break
-       #QNA = json.loads(exam.j1)
-        QNA = json.loads(exam.j3)
-        for record in QNA:
-            entry = QNA[record]
-            print(exam.username, entry)
-            if entry['team'] == gradesDict[exam.username][entry['unit']]['team']:
-                gradesDict[exam.username][entry['unit']]['QNA_check'] = 1
-            else:
-                gradesDict[exam.username][ entry['unit'] ]['QNA_grades'].append(entry['grade'])
-
-        #SNL = json.loads(exam.j2)
-        SNL = json.loads(exam.j4)
-        for record in SNL:
-            entry = SNL[record]
-            print(exam.username, entry)
-            if entry['team'] == gradesDict[exam.username][entry['unit']]['team']:
-                gradesDict[exam.username][entry['unit']]['SNL_check'] = 1
-            else:
-                gradesDict[exam.username][ entry['unit'] ]['SNL_grades'].append(entry['grade'])
-
-
-    return render_template('abc/abc_grades.html', ansString=json.dumps(gradesDict))
+    return jsonify({'audioLink' : audioLink})

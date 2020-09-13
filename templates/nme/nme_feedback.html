@@ -5,7 +5,7 @@
 <div id="vue-app">
 
 <div class="content-section">
-        <h1> Chapter Summaries </h1>
+        <h1> Novel Projects </h1>
     </div>
     <div class="content-section">
     <div class="embed-responsive embed-responsive-4by3">
@@ -18,68 +18,40 @@
 <div class="content-section" v-if="chapter.number != 0">
   <legend class="border-bottom mb-4"> Add Chapter Summary: </legend>
 
-    Number: <input type="text" id="Number" disabled v-model="chapter.number"></input>
+    Number: <input tyle="text" id="Number" disabled v-model="chapter.number"></input>
     <br>
     <br>
-    Title: <input type="text" id="title" v-model="chapter.title"></input>
+    Title: <input tyle="text" id="title" v-model="chapter.title"></input>
     <br>
     <br>
-    Characters: <input type="text" id="characters" v-model="chapter.characters"></input>
+    Characters: <input tyle="text" id="characters" v-model="chapter.characters"></input>
     <br>
     <br>
-    Setting(s): <input type="text" id="setting" v-model="chapter.setting"></input>
+    Setting(s): <input tyle="text" id="setting" v-model="chapter.setting"></input>
     <br>
     <br>
-    Summary: <textarea type="textarea" id="summary" v-model="chapter.summary"></textarea>
+    Summary: <textarea tyle="textarea" id="summary" v-model="chapter.summary"></textarea>
     <br>
     <br>
     New Words: <br>
-    Eng 1: <input type="text" id="nwe1" v-model="chapter.newWords[1][0]"></input>
+    Eng 1: <input tyle="text" id="nwe1" v-model="chapter.newWords[1][0]"></input>
     <br>
-    Gr 1:
-    <select  name="grammar" v-model="chapter.newWords[1][1]">
-    <option value="v.">verb.</option>
-    <option value="adj.">adjective</option>
-    <option value="noun.">noun</option>
-    <option value="adv.">adverb</option>
-    <option value="prep.">preposition</option>
-    </select>
-    <br>
-    Ch 1: <input type="text" id="nwc1" v-model="chapter.newWords[1][2]"></input>
+    Ch 1: <input tyle="text" id="nwc1" v-model="chapter.newWords[1][1]"></input>
     <br>
     <br>
-    Eng 2: <input type="text" id="nwe2" v-model="chapter.newWords[2][0]"></input>
+    Eng 2: <input tyle="text" id="nwe2" v-model="chapter.newWords[2][0]"></input>
     <br>
-    Gr 2:
-    <select name="grammar" v-model="chapter.newWords[2][1]">
-    <option value="v.">verb.</option>
-    <option value="adj.">adjective</option>
-    <option value="noun.">noun</option>
-    <option value="adv.">adverb</option>
-    <option value="prep.">preposition</option>
-    </select>
-    <br>
-    Ch 2: <input type="text" id="nwc2" v-model="chapter.newWords[2][2]"></input>
+    Ch 2: <input tyle="text" id="nwc2" v-model="chapter.newWords[2][1]"></input>
     <br>
     <br>
-    Eng 3: <input type="text" id="nwe3" v-model="chapter.newWords[3][0]"></input>
+    Eng 3: <input tyle="text" id="nwe3" v-model="chapter.newWords[3][0]"></input>
     <br>
-    Gr 1:
-    <select name="grammar" v-model="chapter.newWords[3][1]">
-    <option value="v.">verb.</option>
-    <option value="adj.">adjective</option>
-    <option value="noun.">noun</option>
-    <option value="adv.">adverb</option>
-    <option value="prep.">preposition</option>
-    </select>
-    <br>
-    Ch 3: <input type="text" id="nwc3" v-model="chapter.newWords[3][2]"></input>
+    Ch 3: <input tyle="text" id="nwc3" v-model="chapter.newWords[3][1]"></input>
     <br>
     <br>
 
     <div>
       <button class="btn btn-info"><a style="color:white" @click="submitSum()">Add Chapter</a></button>
-      <button class="btn btn-danger"><a style="color:white" @click="resetChapter()">Add Chapter</a></button>
     </div>
 
 </div>
@@ -99,17 +71,15 @@
         <tbody>
             <template v-for="(s, index) in sObj">
                 <tr>
-                  <td> <button class="btn btn-sm btn-info" @click="loadSum(index)"> [[index]] </button> [[ s.title ]] </td>
-                  <td> Set:[[ s.setting ]]  <br>
-                  Char: [[ s.characters ]] </td>
+                  <td> [[ index ]] <br> [[ s.title ]] </td>
+                  <td> [[ s.setting ]] [[ s.characters ]] </td>
                 </tr>
                 <tr>
                   <td colspan="2"> [[ s.summary ]] </td>
                 </tr>
-                <tr V-for="wl in s.newWords">
-                  <td colspan="2"> <span v-for="w in wl"> [[ w ]]</span> </td>
+                <tr>
+                  <td colspan="2"> [[ s.summary ]] </td>
                 </tr>
-
             </template>
         </tbody>
 
@@ -161,9 +131,9 @@ function startVue(){ new Vue({
           setting: null,
           summary: null,
           newWords: {
-            1: [null, null, null],
-            2: [null, null, null],
-            3: [null, null, null]
+            1: [null, null],
+            2: [null, null],
+            3: [null, null]
           }
         },
         chapterString: null
@@ -174,25 +144,22 @@ function startVue(){ new Vue({
           console.log(chapter)
           for (let item in chapter) {
             console.log(item)
-            if (item !== 'newWords') {
-              if (chapter[item] === null || chapter[item] === '') {
-                alert('some parts are incomplete')
-                return false
-              }
-            }
-            else {
-              for (let list in chapter[item]) {
-                console.log(chapter[item][list])
-                for (let w in chapter[item][list]) {
-                  if ( chapter[item][list][w] === null || chapter[item][list][w] === '') {
-                    alert('some words are incomplete')
+            if (item === 'newWords') {
+              for (let w in chapter[item]) {
+                console.log(w)
+                if (chapter[item][w].includes(null)) {
+                    alert('some parts are incomplete')
                     return false
-                  }
                 }
               }
             }
+            else if (chapter[item] === null) {
+              alert('some words are incomplete')
+              return false
+            }
           }
           return true
+
         },
         checkChapterNumber: function () {
           let sLen = 0
@@ -203,26 +170,6 @@ function startVue(){ new Vue({
             this.chapter.number = 0
           } else {
             this.chapter.number =  sLen + 1
-          }
-        },
-        loadSum: function (sum) {
-          this.chapter.number = sum
-          this.chapter.title = this.sObj[sum].title
-          this.chapter.characters = this.sObj[sum].characters
-          this.chapter.setting = this.sObj[sum].setting
-          this.chapter.summary = this.sObj[sum].summary
-          this.chapter.newWords = this.sObj[sum].newWords
-        },
-        resetChapter: function () {
-          this.chapter.number = null
-          this.chapter.title = mull
-          this.chapter.characters = null
-          this.chapter.setting = null
-          this.chapter.summary = null
-          this.chapter.newWords = {
-            1: [null, null, null],
-            2: [null, null, null],
-            3: [null, null, null]
           }
         },
         goTo: function(task, index) {
