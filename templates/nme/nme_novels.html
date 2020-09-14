@@ -165,6 +165,7 @@ function startVue(){ new Vue({
                 _this.novel[item] = null
               }
               _this.novel.number = this.completed + 1
+              location.reload()
             })
             .fail(function(){
                 console.log('error has occurred');

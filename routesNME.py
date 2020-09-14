@@ -103,7 +103,10 @@ def addNovel():
     novel = request.form ['novel']
     number = json.loads(novel)['number']
 
-    PROJECT = projectDict[number]
+    for novels in projectDict:
+        if int(number) == int(novels):
+            PROJECT = projectDict[novels]
+
     sums = {}
     recs = {1:{}, 2:{}, 3:{}}
     feeds = {}
