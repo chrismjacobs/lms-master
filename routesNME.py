@@ -151,7 +151,9 @@ def addSum():
     novel_number = novel['number']
     chap_number = chapter['number']
 
-    project = projectDict[novel_number].query.filter_by(username=current_user.username).first()
+    for novels in projectDict:
+        if int(novel_number) == int(novels):
+            project = projectDict[novels].query.filter_by(username=current_user.username).first()
 
     print(project, project.Ans02, novel, chapter, novel_number, chap_number)
 
