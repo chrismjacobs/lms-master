@@ -139,7 +139,19 @@ class BaseUnits(db.Model):
 class U001U(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
 modDictUnits['00']=[None]
-#modDictUnits['00'].append(U001U)
+modDictUnits['00'].append(U001U)
+
+class U002U(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True)
+modDictUnits['00'].append(U002U)
+
+class U003U(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True)
+modDictUnits['00'].append(U003U)
+
+class U004U(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True)
+modDictUnits['00'].append(U004U)
 
 ########################################
 
@@ -342,6 +354,8 @@ class BaseAss(db.Model):
 
 class A00A (BaseAss):
     id = db.Column(db.Integer, primary_key=True)
+### remove after first class
+modDictAss['00'] = A00A
 
 class A01A (BaseAss):
     id = db.Column(db.Integer, primary_key=True)

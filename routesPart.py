@@ -30,7 +30,7 @@ def get_vocab():
 def unit_list():
 
     srcDict = get_sources()
-    print('SRCDICT', srcDict)
+    # print('SRCDICT', srcDict)
 
     ''' deal with grades '''
     grades = get_grades(False, True)

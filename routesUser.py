@@ -25,8 +25,7 @@ def get_sources():
     unitDict = {}
     for week in sDict:
         try:
-            if int(sDict[week]['Unit']) > 0:
-                print('2')
+            if int(sDict[week]['Unit']) > 0 or SCHEMA == 1: ## this or condition will add unit 00 for the reading class practice
                 unitNumber = sDict[week]['Unit']
                 unitDict[unitNumber] = {}
                 section = sDict[week]
@@ -41,6 +40,7 @@ def get_sources():
                 unitDict[unitNumber]['Materials']['3'] = section['M3']
                 unitDict[unitNumber]['Materials']['4'] = section['M4']
                 unitDict[unitNumber]['Materials']['A'] = section['MA']
+
         except:
             print('except', sDict[week]['Unit'])
             pass
