@@ -1,16 +1,16 @@
 import sys, boto3, random, base64, os, secrets, time, datetime, json
 from sqlalchemy import asc, desc, func, or_
-from flask import render_template, url_for, flash, redirect, request, abort, jsonify  
+from flask import render_template, url_for, flash, redirect, request, abort, jsonify
 from app import app, db, bcrypt, mail
 from flask_login import login_user, current_user, logout_user, login_required
-from forms import * 
-from models import * 
-import ast 
+from forms import *
+from models import *
+import ast
 from pprint import pprint
 from routesUser import get_grades, get_sources
 
-from meta import BaseConfig   
-s3_resource = BaseConfig.s3_resource  
+from meta import BaseConfig
+s3_resource = BaseConfig.s3_resource
 S3_LOCATION = BaseConfig.S3_LOCATION
 S3_BUCKET_NAME = BaseConfig.S3_BUCKET_NAME
 SCHEMA = BaseConfig.SCHEMA
@@ -18,57 +18,55 @@ DESIGN = BaseConfig.DESIGN
 
 def get_vocab():
     content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/vocab.json' )
-    file_content = content_object.get()['Body'].read().decode('utf-8')    
-    VOCAB = json.loads(file_content)  # json loads returns a dictionary  
-    SOURCES =  None        
+    file_content = content_object.get()['Body'].read().decode('utf-8')
+    VOCAB = json.loads(file_content)  # json loads returns a dictionary
+    SOURCES =  None
     EXTRA =  None
 
-    return VOCAB    
+    return VOCAB
 
 @app.route ("/unit_list", methods=['GET','POST'])
 @login_required
-def unit_list():    
-    
-    srcDict = get_sources()
-    #print(srcDict)
+def unit_list():
 
-    ''' deal with grades ''' 
-    grades = get_grades(False, True) 
-    print (grades)
-    unitGrade = grades['unitGrade'] 
+    srcDict = get_sources()
+    print('SRCDICT', srcDict)
+
+    ''' deal with grades '''
+    grades = get_grades(False, True)
+    print ('GRADES', grades)
+    unitGrade = grades['unitGrade']
     recs = grades['unitGradRec']
     maxU = grades['maxU']
 
     print ('RECS', recs)
 
     todays_unit = Attendance.query.filter_by(username='Chris').first().unit
-    try: 
+    try:
         int(todays_unit)
-        review = 0 
+        review = 0
         print('TRY')
     except:
-        review = 1 
+        review = 1
         print('EXCEPT')
 
-    unitDict = {
-        '05' : {},
-        '06' : {},
-        '07' : {},
-        '08' : {},
-    }
+    unitDict = {}
 
-    for unit in recs:        
-        unit2c = unit[0:2] # string 011 --> 01 
+    for us in Units.query.all():
+        unitDict[us.unit] = {}
+
+    for unit in recs:
+        unit2c = unit[0:2] # string 011 --> 01
         part = unit[2]
-        
+
         checkOpen = Units.query.filter_by(unit=unit2c).first()
         checkDict = {
-            1 : checkOpen.u1, 
-            2 : checkOpen.u2, 
-            3 : checkOpen.u3, 
+            1 : checkOpen.u1,
+            2 : checkOpen.u2,
+            3 : checkOpen.u3,
             4 : checkOpen.u4
-        } 
-            
+        }
+
         if checkDict[int(part)] == 0:
             access = 0
         elif review == 1:
@@ -78,21 +76,21 @@ def unit_list():
                 access = 2  ## button option for writer/reader
             else:
                 access = 0  ## disbaled
-        
-        unitDict[unit2c][ unit2c + '-' + part ] = { 
-            'Unit' : unit2c, 
-            'Part' : part,           
+
+        unitDict[unit2c][ unit2c + '-' + part ] = {
+            'Unit' : unit2c,
+            'Part' : part,
             'Deadline' : srcDict[unit2c]['Deadline'],
             'Title' : srcDict[unit2c]['Title'],
             'Grade' : recs[unit]['Grade'],
             'Comment' : recs[unit]['Comment'],
             'Source' : srcDict[unit2c]['Materials'][part],
             'Access' : access
-        }    
+        }
 
     student_attendance = Attendance.query.filter_by(username=current_user.username).count()
 
-    return render_template('units/unit_list.html', legend='Units Dashboard', 
+    return render_template('units/unit_list.html', legend='Units Dashboard',
     Dict=json.dumps(unitDict), Grade=unitGrade, max=maxU, title='Units', todays_unit=todays_unit, student_attendance=student_attendance)
 
 
@@ -100,14 +98,14 @@ def unit_list():
 def recError():
 
     message = request.form ['message']
-    mode = request.form ['mode']   
-    unit = request.form ['unit']   
+    mode = request.form ['mode']
+    unit = request.form ['unit']
 
-    
+
     error = Errors(username=current_user.username, device=current_user.device, mode=mode, unit=unit, err=message)
     db.session.add(error)
-    db.session.commit() 
-    
+    db.session.commit()
+
     return jsonify({'message' : message })
 
 @app.route('/openUnit', methods=['POST'])
@@ -115,17 +113,17 @@ def openUnit():
 
     key = request.form ['key']
     number = request.form ['number']
-    print('KEY', key)    
+    print('KEY', key)
 
-     # 01-1 --> 01 
+     # 01-1 --> 01
     part = int(key[3])
-    
 
-    checkOpen = Units.query.filter_by(unit=number).first() 
 
-    if checkOpen:  
+    checkOpen = Units.query.filter_by(unit=number).first()
+
+    if checkOpen:
         if part == 0:
-            Units.query.filter_by(unit=number).delete()  
+            Units.query.filter_by(unit=number).delete()
         if part == 1:
             checkOpen.u1 = 1
         if part == 2:
@@ -136,11 +134,11 @@ def openUnit():
             checkOpen.u4 = 1
             checkOpen.uA = 1
         db.session.commit()
-    else: 
+    else:
         newUnit = Units(unit=number, u1=0, u2=0, u3=0, u4=0, uA=0)
         db.session.add(newUnit)
-        db.session.commit()           
-    
+        db.session.commit()
+
     return jsonify({'key' : key })
 
 
@@ -154,27 +152,27 @@ def team_details ():
         else:
         # confirm names of team
             names = Attendance.query.filter_by(teamnumber=teamnumber).all()
-            nameRange = [student.username for student in names]             
+            nameRange = [student.username for student in names]
         #for student in names:
-            #nameRange.append(student.username)    
+            #nameRange.append(student.username)
         print ('NAMES', nameRange)
-    except: 
+    except:
         # create a unique teamnumber for solo users
         teamnumber = current_user.id + 100
-        nameRange = [current_user.username] 
+        nameRange = [current_user.username]
         print ('Teamnumber: ', teamnumber)
-        
 
 
-    nnDict = { 
-            'teamnumber' : teamnumber, 
+
+    nnDict = {
+            'teamnumber' : teamnumber,
             'nameRange' : nameRange
             }
     return nnDict
 
 # check the score of teams during participation for the games panel
 @app.route('/partCheck', methods=['POST'])
-def scoreCheck():  
+def scoreCheck():
     qNum = request.form ['qNum']
     part_num = request.form ['part_num']
     unit_num = request.form ['unit_num']
@@ -182,32 +180,32 @@ def scoreCheck():
     print (type(qNum), part_num, unit_num)
 
     modDict = Info.unit_mods_dict
-    model = modDict[unit_num][int(part_num)]            
-    answers = model.query.order_by(asc(model.teamnumber)).all()  
+    model = modDict[unit_num][int(part_num)]
+    answers = model.query.order_by(asc(model.teamnumber)).all()
 
-    scoreDict = {}     
-    for answer in answers: 
+    scoreDict = {}
+    for answer in answers:
         print (answer)
-        scoreList = [answer.Ans01, answer.Ans02, answer.Ans03, answer.Ans04, 
+        scoreList = [answer.Ans01, answer.Ans02, answer.Ans03, answer.Ans04,
         answer.Ans05, answer.Ans06, answer.Ans07, answer.Ans08]
         if answer.teamnumber <21:
             scoreDict[answer.teamnumber] = []
-            for item in scoreList[0:int(qNum)+1]:               
+            for item in scoreList[0:int(qNum)+1]:
                 if item != "" and item != None:
-                    scoreDict[answer.teamnumber].append(1)    
-    print (scoreDict)    
-    
+                    scoreDict[answer.teamnumber].append(1)
+    print (scoreDict)
+
     maxScore = len(scoreDict) * int(qNum)
     actScore = 0
     for key in scoreDict:
-        for item in scoreDict[key]:            
-            actScore += item  
+        for item in scoreDict[key]:
+            actScore += item
     print ('max', maxScore, 'act', actScore)
-        
+
     percentFloat = (actScore / maxScore )*100
-    percent = round (percentFloat, 1)     
-    
-    return jsonify({'percent' : percent, 'scoreDict' : scoreDict, 'qNum' : qNum })  
+    percent = round (percentFloat, 1)
+
+    return jsonify({'percent' : percent, 'scoreDict' : scoreDict, 'qNum' : qNum })
 
 
 
@@ -217,21 +215,21 @@ def getPdata():
 
     nnDict = team_details ()
     teamnumber = nnDict['teamnumber']
-    nameRange = nnDict['nameRange']  
+    nameRange = nnDict['nameRange']
 
     unit = request.form ['unit']
-    part = request.form ['part'] 
-    check = request.form ['check']  
+    part = request.form ['part']
+    check = request.form ['check']
 
     # get model
     models = Info.unit_mods_dict[unit] # '01' : [None, mod, mod, mod, mod]
     model = models[int(part)]
-    classData = model.query.all() 
+    classData = model.query.all()
 
     dataDict = {}
 
     ## just get team data
-    if int(check) == 0: 
+    if int(check) == 0:
         for entry in classData:
             if current_user.username in ast.literal_eval(entry.username):
                 dataDict = {
@@ -242,13 +240,13 @@ def getPdata():
                 5 : entry.Ans05,
                 6 : entry.Ans06,
                 7 : entry.Ans07,
-                8 : entry.Ans08,               
-                }                
+                8 : entry.Ans08,
+                }
                 break
-            
+
 
     ## just get data for whole class
-    if int(check) == 1:        
+    if int(check) == 1:
         dataDict = {
             1 : {},
             2 : {},
@@ -257,17 +255,17 @@ def getPdata():
             5 : {},
             6 : {},
             7 : {},
-            8 : {}, 
-        }        
+            8 : {},
+        }
         for entry in classData:
-            dataDict[1][entry.teamnumber] = entry.Ans01 
-            dataDict[2][entry.teamnumber] = entry.Ans02 
-            dataDict[3][entry.teamnumber] = entry.Ans03 
-            dataDict[4][entry.teamnumber] = entry.Ans04 
-            dataDict[5][entry.teamnumber] = entry.Ans05 
-            dataDict[6][entry.teamnumber] = entry.Ans06 
-            dataDict[7][entry.teamnumber] = entry.Ans07 
-            dataDict[8][entry.teamnumber] = entry.Ans08 
+            dataDict[1][entry.teamnumber] = entry.Ans01
+            dataDict[2][entry.teamnumber] = entry.Ans02
+            dataDict[3][entry.teamnumber] = entry.Ans03
+            dataDict[4][entry.teamnumber] = entry.Ans04
+            dataDict[5][entry.teamnumber] = entry.Ans05
+            dataDict[6][entry.teamnumber] = entry.Ans06
+            dataDict[7][entry.teamnumber] = entry.Ans07
+            dataDict[8][entry.teamnumber] = entry.Ans08
 
     return jsonify({'dataDict' : json.dumps(dataDict)})
 
@@ -277,24 +275,24 @@ def shareUpload():
 
     nnDict = team_details ()
     teamnumber = nnDict['teamnumber']
-    nameRange = nnDict['nameRange']   
+    nameRange = nnDict['nameRange']
 
     unit = request.form ['unit']
     part = request.form ['part']
     answer = request.form ['answer']
     question = request.form ['question']
-    qs = request.form ['qs']     
+    qs = request.form ['qs']
 
-    srcDict = get_sources()   
+    srcDict = get_sources()
     date = srcDict[unit]['Date']
     dt = srcDict[unit]['Deadline']
-    deadline = datetime.strptime(dt, '%Y-%m-%d') + timedelta(days=1)    
+    deadline = datetime.strptime(dt, '%Y-%m-%d') + timedelta(days=1)
     print ('deadline: ', deadline)
 
     # get model
     models = Info.unit_mods_dict[unit] # '01' : [None, mod, mod, mod, mod]
     model = models[int(part)]
-    print(model) 
+    print(model)
 
     find = model.query.filter_by(teamnumber=teamnumber).count()
     if find == 0:
@@ -306,9 +304,9 @@ def shareUpload():
         db.session.add(entry)
         db.session.commit()
         return jsonify({'answer' : 'participation started', 'action' : 1})
-    
-    
-    if find == 1: 
+
+
+    if find == 1:
         if int(question) == 0:
             return jsonify({'answer' : 'participation started', 'action' : None})
 
@@ -322,16 +320,16 @@ def shareUpload():
             6 : entry.Ans06,
             7 : entry.Ans07,
             8 : entry.Ans08,
-        }                                
-        if qDict[int(question)] != None:                 
-            return jsonify({'answer' : 'Sorry, an answer has already been shared in your team', 'action' : 1})            
-        else:                 
+        }
+        if qDict[int(question)] != None:
+            return jsonify({'answer' : 'Sorry, an answer has already been shared in your team', 'action' : 1})
+        else:
             if int(question) == 1:
                 entry.Ans01 = answer
                 qDict[1] = answer
-            if int(question) == 2:                    
-                entry.Ans02 = answer   
-                qDict[2] = answer                 
+            if int(question) == 2:
+                entry.Ans02 = answer
+                qDict[2] = answer
             if int(question) == 3:
                 entry.Ans03 = answer
                 qDict[3] = answer
@@ -348,36 +346,36 @@ def shareUpload():
                 entry.Ans07 = answer
                 qDict[7] = answer
             if int(question) == 8:
-                entry.Ans08 = answer  
-                qDict[8] = answer              
+                entry.Ans08 = answer
+                qDict[8] = answer
 
             ## DO NOT ALLOW update of usernames
-            ##entry.username = str(nameRange)                
+            ##entry.username = str(nameRange)
             print('commit???', question, answer)
-            db.session.commit()   
+            db.session.commit()
             ## check if last answer given
-            
+
             qMarker = True
             for qAns in qDict:
                 if int(qAns) <= int(qs) and qDict[qAns] == None:
                     qMarker = False
 
-            if qMarker:                
+            if qMarker:
                 if entry.Grade > 0 :
-                    pass            
+                    pass
                 elif  datetime.now() < deadline:
-                    comList = ['Nice work', 'Done', 'Complete', 'Great', 'Finshed'] 
+                    comList = ['Nice work', 'Done', 'Complete', 'Great', 'Finshed']
                     entry.Grade = 2  # completed on time
-                    entry.Comment = random.choice(comList) 
-                    db.session.commit()    
-                else: 
-                    comList = ['Late', 'Be careful of deadlines', 'Earlier is better', 'Try to be on time', 'Avoid last minute work'] 
-                    entry.Grade = 1  # late start  
-                    entry.Comment = random.choice(comList) 
+                    entry.Comment = random.choice(comList)
+                    db.session.commit()
+                else:
+                    comList = ['Late', 'Be careful of deadlines', 'Earlier is better', 'Try to be on time', 'Avoid last minute work']
+                    entry.Grade = 1  # late start
+                    entry.Comment = random.choice(comList)
                     db.session.commit()
                 return jsonify({'answer' : 'participation completed', 'action' : 2})
             else:
-                return jsonify({'answer' : 'answer shared - keep going', 'action' : None})     
+                return jsonify({'answer' : 'answer shared - keep going', 'action' : None})
 
     return jsonify({'answer' : 'something wrong has happened - see your instructor'})
 
@@ -389,26 +387,26 @@ def participation(unit_num,part_num,state):
     chris_attend = Attendance.query.filter_by(username='Chris').first()
     teamcount = chris_attend.teamcount
     print('teamcount', teamcount)
-    #check source to see if unit is open yet    
+    #check source to see if unit is open yet
     unit_count = Units.query.filter_by(unit=unit_num).count()
-    
+
     # block
     if current_user.id != 1 :
-        if unit_count == 1: 
+        if unit_count == 1:
             unit_check = Units.query.filter_by(unit=unit_num).first()
             unitChecker = {
                 '1' : unit_check.u1,
                 '2' : unit_check.u2,
                 '3' : unit_check.u3,
                 '4' : unit_check.u4,
-            } 
+            }
         else:
             flash('This unit is not open at the moment(1)', 'danger')
             return redirect(url_for('unit_list'))
-        
+
         if unitChecker[part_num] == 0:
             flash('This activity is not open at the moment(2)', 'danger')
-            return redirect(url_for('unit_list')) 
+            return redirect(url_for('unit_list'))
         if chris_attend.teamnumber != 97:
             todays_unit = Attendance.query.filter_by(username='Chris').first().unit
             if todays_unit  == 'RR':
@@ -416,8 +414,8 @@ def participation(unit_num,part_num,state):
             elif unit_num != todays_unit:
                 print (unit, Attendance.query.filter_by(username='Chris').first().unit)
                 flash('This task is not open at the moment(3)', 'danger')
-                return redirect(url_for('unit_list'))  
-    
+                return redirect(url_for('unit_list'))
+
     # get sources
     srcDict = get_sources()
     source = srcDict[unit_num]['Materials'][part_num]
@@ -426,13 +424,13 @@ def participation(unit_num,part_num,state):
     #vocab
     vDict = get_vocab()
     #questions
-    qDict = vDict[unit_num][part_num]    
+    qDict = vDict[unit_num][part_num]
     qs = len(qDict)
 
     ## Get names
     models = Info.unit_mods_dict[unit_num] # '01' : [None, mod, mod, mod, mod]
     model = models[int(part_num)]
-    print(model) 
+    print(model)
     nnDict = team_details()
     teamnumber = nnDict['teamnumber']
     find = model.query.filter_by(teamnumber=teamnumber).first()
@@ -445,10 +443,10 @@ def participation(unit_num,part_num,state):
 
     context = {
         'title' : 'participation',
-        'source' : source, 
-        'unit_num': unit_num, 
-        'part_num': part_num, 
-        'qDict' : json.dumps(qDict), 
+        'source' : source,
+        'unit_num': unit_num,
+        'part_num': part_num,
+        'qDict' : json.dumps(qDict),
         'qs': qs,
         'DESIGN' : DESIGN,
         'state' : state,
@@ -463,22 +461,22 @@ def participation(unit_num,part_num,state):
 @app.route('/studentRemove', methods=['POST'])
 def studentRemove():
     if current_user.id != 1:
-        return abort(403) 
+        return abort(403)
 
     name = request.form ['name']
-    part = request.form ['part'] 
+    part = request.form ['part']
     instructor_setup = Attendance.query.filter_by(studentID='100000000').first()
     student_setup = Attendance.query.filter_by(username=name).first()
     UNIT = instructor_setup.unit
     TEAM = student_setup.teamnumber
 
     part_model = Info.unit_mods_dict[UNIT][int(part)]
-    
+
     print( Info.unit_mods_dict)
     print('model', part_model)
 
-    if part_model:   
-        entry = part_model.query.filter_by(teamnumber=TEAM).first()      
+    if part_model:
+        entry = part_model.query.filter_by(teamnumber=TEAM).first()
         team_list = ast.literal_eval(entry.username)
         print('TEAM', team_list)
         team_list.remove(name)
