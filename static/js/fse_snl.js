@@ -182,6 +182,7 @@ function startVue(){
         storeB64 : function(key, b64) {
             //reset the testOBJ
             this.testOBJ = testOBJ
+            alert('data uploading, please wait')
 
             if (b64 == 'i'){
                 var b64data = this.image64['base64']
@@ -209,18 +210,21 @@ function startVue(){
             })
             .done(function(data) {
                 //console.log(data);
-                //alert('Question ' + data.question + ' updated')
-                vue.resetB64()
-                vue.updateAnswers()
-                vue.checkMarkers()
+                alert('Question ' + data.question + ' updated')
+                location.reload()
+                // ue.reset64()
+                // vue.updateAnswers()
+                // vue.checkMarkers()
             })
             .fail(function(){
                 alert('error - see instructor')
             });
         },
         resetB64 : function() {
-            vue.image64['fileType'] = false
-            vue.audio64['fileType'] = false
+            vue.image64['fileType'] = null
+            vue.image64['base64'] = null
+            vue.audio64['fileType'] = null
+            vue.audio64['base64'] = null
         },
         imageValidation : function(){
             var fileInput = document.getElementById('image');
@@ -232,31 +236,33 @@ function startVue(){
 
             var allowedExtensions = /(\.jpeg|\.png|\.jpg)$/i;
 
-              if(fileInput.files[0].size > 7000000){ // 7 mb for video option
-                  alert("File is too big!");
-                  fileInput.value = '';
-                  return false;
-              }
-              else if(!allowedExtensions.exec(filePath)){
-                  alert('Please upload image: .jpeg/.png only.');
-                  fileInput.value = '';
-                  return false;
-              }
-              else{
-                  console.dir( fileInput.files[0] );
-                  var url = window.URL.createObjectURL(fileInput.files[0]);
-                  fetch(url)
-                  .then(function(res){
-                      return res.blob();
-                      })
-                  .then(function(savedBlob){
-                      var reader = new FileReader();
-                      reader.readAsDataURL(savedBlob);
-                      reader.onloadend = function() {
-                          vue.image64['base64'] = reader.result.split(',')[1];
-                          }
-                  })
+            if(fileInput.files[0].size > 7000000){ // 7 mb for video option
+                alert("File is too big!");
+                fileInput.value = '';
+                return false;
+            }
+            else if(!allowedExtensions.exec(filePath)){
+                alert('Please upload image: .jpeg/.png only.');
+                fileInput.value = '';
+                return false;
+            }
+            else{
+                console.dir( fileInput.files[0] );
+                var url = window.URL.createObjectURL(fileInput.files[0]);
+                fetch(url)
+                .then(function(res){
+                    return res.blob();
+                    })
+                .then(function(savedBlob){
+                    var reader = new FileReader();
+                    reader.readAsDataURL(savedBlob);
+                    reader.onloadend = function() {
+                        vue.image64['base64'] = reader.result.split(',')[1];
+                        }
+                })
+
               }//end else
+            location.reload()
           },
         audioValidation : function(){
             var fileInput = document.getElementById('audio');
@@ -289,7 +295,7 @@ function startVue(){
                         vue.audio64['base64'] = reader.result.split(',')[1];
                         vue.audio64['fileType'] = true
                     }
-                })// end then function
+                })
             }//end else
 
           },//end audioValidation
