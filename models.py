@@ -302,6 +302,25 @@ class U084U(BaseUnits):
 modDictUnits['08'].append(U084U)
 
 
+if BaseConfig.SCHEMA == 6:
+    class U091U(BaseUnits):
+        id = db.Column(db.Integer, primary_key=True)
+    modDictUnits['09']=[None]
+    modDictUnits['09'].append(U091U)
+
+    class U092U(BaseUnits):
+        id = db.Column(db.Integer, primary_key=True)
+    modDictUnits['09'].append(U092U)
+
+    class U093U(BaseUnits):
+        id = db.Column(db.Integer, primary_key=True)
+    modDictUnits['09'].append(U093U)
+
+    class U094U(BaseUnits):
+        id = db.Column(db.Integer, primary_key=True)
+    modDictUnits['09'].append(U094U)
+
+
 
 
 ############### ASSIGNMENT MODELS ###################################
@@ -417,7 +436,7 @@ admin.add_view(MyModelView(Attendance, db.session))
 admin.add_view(MyModelView(AttendLog, db.session))
 admin.add_view(MyModelView(Units, db.session))
 
-if BaseConfig.SCHEMA < 3:
+if BaseConfig.SCHEMA < 3 or BaseConfig.SCHEMA == 6:
     admin.add_view(MyModelView(Exams, db.session))
     admin.add_view(MyModelView(Errors, db.session))
     for unit in listUnits:
