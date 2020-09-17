@@ -1,9 +1,9 @@
-from flask_wtf import FlaskForm 
-from flask_wtf.file import FileField, FileAllowed, FileRequired 
-from flask_login import current_user 
+from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed, FileRequired
+from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, SelectField, HiddenField, validators, IntegerField, RadioField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, InputRequired
-from models import User  
+from models import User
 from meta import BaseConfig
 SCHEMA = BaseConfig.SCHEMA
 
@@ -11,50 +11,114 @@ SCHEMA = BaseConfig.SCHEMA
 class Attend(FlaskForm):
     attend = RadioField('Attendance', choices = [('On time', 'On time'), ('Late', 'Late')])
     name =  StringField ('Name in English', validators=[DataRequired(), Length(min=2, max=20)])
-    studentID = StringField ('Student ID (9 numbers)', validators=[DataRequired(), Length(9)])                  
+    studentID = StringField ('Student ID (9 numbers)', validators=[DataRequired(), Length(9)])
     teamnumber = IntegerField ('Team Number')
-    teamcount = IntegerField ('Team Count')                                                  
+    teamcount = IntegerField ('Team Count')
     submit = SubmitField('Join Class')
 
 class AttendLate(FlaskForm):
     attend = RadioField('Attendance', choices = [('Late', 'Late'), ('2nd Class', '2nd Class')])
     name =  StringField ('Name in English', validators=[DataRequired(), Length(min=2, max=20)])
-    studentID = StringField ('Student ID (9 numbers)', validators=[DataRequired(), Length(9)])                  
+    studentID = StringField ('Student ID (9 numbers)', validators=[DataRequired(), Length(9)])
     teamnumber = IntegerField ('Team Number')
-    teamcount = IntegerField ('Team Count')                                                  
+    teamcount = IntegerField ('Team Count')
     submit = SubmitField('Join')
 
 class AttendInst(FlaskForm):
-    attend = StringField ('Notice')   
+    attend = StringField ('Notice')
     username =  StringField ('Name in English', validators=[DataRequired(), Length(min=2, max=20)])
-    studentID = StringField ('Student ID', validators=[DataRequired(), Length(9)])                  
-    teamnumber = IntegerField ('Status (50-review; 97-disabled; 98-open; 99-late; 100-clear)') 
+    studentID = StringField ('Student ID', validators=[DataRequired(), Length(9)])
+    teamnumber = IntegerField ('Status (50-review; 97-disabled; 98-open; 99-late; 100-clear)')
     #RadioField('Status', choices = [(97, 'disabled'), (98, 'open'), (99, 'late'), (100, 'clear')])
-    teamcount = IntegerField ('Team Count')   
-    teamsize = IntegerField ('Team Size (0 for no teams)')  
-    #RadioField('Size', choices = [(0, '0'), (2, '2'), (3, '3'), (4, '4')]) 
-    unit = StringField ('unit(2) eg 01 or MT', validators=[DataRequired(), Length(min=2, max=20)])                                         
+    teamcount = IntegerField ('Team Count')
+    teamsize = IntegerField ('Team Size (0 for no teams)')
+    #RadioField('Size', choices = [(0, '0'), (2, '2'), (3, '3'), (4, '4')])
+    unit = StringField ('unit(2) eg 01 or MT', validators=[DataRequired(), Length(min=2, max=20)])
     submit = SubmitField('Start Class')
 
 
 class Chat(FlaskForm):
-    name =  StringField ('Name in English', validators=[DataRequired(), Length(min=2, max=20)])                  
+    name =  StringField ('Name in English', validators=[DataRequired(), Length(min=2, max=20)])
     chat = StringField ('chat')
-    response = StringField ('response')                         
+    response = StringField ('response')
     submit = SubmitField('Post Chat')
 
 
 
 bookcodeID = None
 
-class RegistrationForm(FlaskForm):   
-     
+bookcodeList = {
+    "120000000":"6788",
+    "120433033":"6789",
+    "120554057":"6790",
+    "120554127":"6791",
+    "120654045":"6792",
+    "120654052":"6793",
+    "120654055":"6794",
+    "120654065":"6795",
+    "120654068":"6796",
+    "120754060":"6797",
+    "120754067":"6798",
+    "120754070":"6799",
+    "120754071":"6800",
+    "120850904":"6801",
+    "120850905":"6802",
+    "120850909":"6803",
+    "120850910":"6804",
+    "120850915":"6805",
+    "120850921":"6806",
+    "120850922":"6807",
+    "120850923":"6808",
+    "120850933":"6809",
+    "120850938":"6810",
+    "120854014":"6811",
+    "120954001":"6812",
+    "120954002":"6813",
+    "120954003":"6814",
+    "120954004":"6815",
+    "120954005":"6816",
+    "120954006":"6817",
+    "120954007":"6818",
+    "120954008":"6819",
+    "120954010":"6820",
+    "120954011":"6821",
+    "120954012":"6822",
+    "120954014":"6823",
+    "120954015":"6824",
+    "120954016":"6825",
+    "120954018":"6826",
+    "120954020":"6827",
+    "120954021":"6828",
+    "120954022":"6829",
+    "120954023":"6830",
+    "120954026":"6831",
+    "120954027":"6832",
+    "120954028":"6833",
+    "120954029":"6834",
+    "120954030":"6835",
+    "320952401":"6836",
+    "320952402":"6837",
+    "320952403":"6838",
+    "320952404":"6839",
+    "320952405":"6840",
+    "320952406":"6841",
+    "320952407":"6842",
+    "320952408":"6843",
+    "320952409":"6844",
+    "320952410":"6845",
+    "320952411":"6846",
+    "320952412":"6847",
+    "320952414":"6848"
+    }
 
-    username = StringField ('Name in English', validators=[DataRequired(), Length(min=2, max=20)])    
+class RegistrationForm(FlaskForm):
+
+
+    username = StringField ('Name in English', validators=[DataRequired(), Length(min=2, max=20)])
     studentID = StringField ('Student ID (9 numbers)', validators=[DataRequired(), Length(9)])
-    email = StringField('Email', validators=[DataRequired(), Email()] )  
+    email = StringField('Email', validators=[DataRequired(), Email()] )
     bookcode = StringField('bookcode')
-    device = RadioField('Main Device', choices = [('Apple', 'Apple iphone'), ('Android', 'Android Phone'), ('Win', 'Windows Phone')])                                
+    device = RadioField('Main Device', choices = [('Apple', 'Apple iphone'), ('Android', 'Android Phone'), ('Win', 'Windows Phone')])
     password = PasswordField('Password', validators=[DataRequired()] )
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')] )
     submit = SubmitField('Join')
@@ -63,68 +127,63 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(username=username.data).first()  #User was imported at the top # first means just find first instance?
         if user:  # meaning if True
             raise ValidationError('Another student has that username, please add family name')  # ValidationError needs to be imported from wtforms
-    
-    def validate_email(self, email): 
-        user = User.query.filter_by(email=email.data).first()  
-        if user:  
-            raise ValidationError('That email has an account already, did you forget your password?') 
-    
-    
-    def validate_studentID(self, studentID): 
+
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user:
+            raise ValidationError('That email has an account already, did you forget your password?')
+
+
+    def validate_studentID(self, studentID):
         try:
             int(studentID.data)
         except:
-            raise ValidationError('9 numbers; no S') 
-        user = User.query.filter_by(studentID=studentID.data).first()  
-        if user:           
-            raise ValidationError('That student ID already has an account, did you forget your password?') 
-        
-        if SCHEMA < 3: 
-            print('BOOKCODE TEST')
-            global bookcodeID 
-            bookcodeID = studentID.data
-    
-    def validate_bookcode(self, bookcode):   
+            raise ValidationError('9 numbers; no S')
+        user = User.query.filter_by(studentID=studentID.data).first()
+        if user:
+            raise ValidationError('That student ID already has an account, did you forget your password?')
+
         if SCHEMA < 3:
-            print(bookcodeID)          
-            print(bookcode)          
-            bc1 = bookcodeID[0]
-            bc2 = int(bookcodeID[7])*2
-            bc3 = int(bookcodeID[8])*3
-            bcFinal = bc1 + str(bc2) + str(bc3)
-            print('EXPECTED BOOKCODE ', bcFinal) 
-            if bookcode.data == '9009': 
-                pass      
-            elif bookcode.data != bcFinal:
-                raise ValidationError('Incorrect BookCode - please see your instructor')  
+            print('BOOKCODE TEST')
+            global bookcodeID
+            bookcodeID = studentID.data
+
+    def validate_bookcode(self, bookcode):
+        if SCHEMA < 3:
+            print(bookcodeID)
+            print(bookcode)
+            if bookcode.data == '9009':
+                pass
+            elif bookcodeList[bookcodeID] != bookcode.data:
+                raise ValidationError('Incorrect BookCode - please see your instructor')
         else:
             pass
 
 class LoginForm(FlaskForm):
-    studentID = StringField ('Student ID', validators=[DataRequired(), Length(min=2, max=9)])     
-    password = PasswordField('Password', validators=[DataRequired()]) 
+    studentID = StringField ('Student ID', validators=[DataRequired(), Length(min=2, max=9)])
+    password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
 
-    def validate_studentID(self, studentID): 
+    def validate_studentID(self, studentID):
         try:
             print(studentID.data)
             int(studentID.data)
             pass
         except:
-            raise ValidationError('This should be your ID with no `s`') 
+            raise ValidationError('This should be your ID with no `s`')
 
 
 
 
 class ForgotForm(FlaskForm):
-    email = StringField ('Email', validators=[DataRequired(), Email()])         
+    email = StringField ('Email', validators=[DataRequired(), Email()])
     submit = SubmitField('Request Password Reset')
-    
-    def validate_email(self, email): 
-        user = User.query.filter_by(email=email.data).first()  
-        if user is None:  
-            raise ValidationError('There is no account with that email, contact your instructor') 
+
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user is None:
+            raise ValidationError('There is no account with that email, contact your instructor')
 
 class PasswordResetForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()] )
@@ -132,9 +191,9 @@ class PasswordResetForm(FlaskForm):
     submit = SubmitField('Set New Password')
 
 class UpdateAccountForm(FlaskForm):
-    #username = StringField ('Username', validators=[DataRequired(), Length(min=2, max=20)])    
-    email = StringField('Email', validators=[DataRequired(), Email()] )   
-    picture = FileField ('Change Profile Picture', validators=[FileAllowed(['jpg', 'png'])]) 
+    #username = StringField ('Username', validators=[DataRequired(), Length(min=2, max=20)])
+    email = StringField('Email', validators=[DataRequired(), Email()] )
+    picture = FileField ('Change Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Update')
 
     def validate_username(self, username):  # the field is username
@@ -142,40 +201,40 @@ class UpdateAccountForm(FlaskForm):
             user = User.query.filter_by(username=username.data).first()  #User was imported at the top # first means just find first instance?
             if user:  # meaning if True
                 raise ValidationError('That user name has been used already, please add another letter')  # ValidationError needs to be imported from wtforms
-    
-    def validate_email(self, email):  
+
+    def validate_email(self, email):
         if email.data != current_user.email:
-            user = User.query.filter_by(email=email.data).first()  
-            if user:  
-                raise ValidationError('That email has an account already, did you forget your password?')  
-    
-    def validate_studentID(self, studentID):  
+            user = User.query.filter_by(email=email.data).first()
+            if user:
+                raise ValidationError('That email has an account already, did you forget your password?')
+
+    def validate_studentID(self, studentID):
         if studentID.data != current_user.student.ID:
-            user = User.query.filter_by(studentID=studentID.data).first()  
-            if user:  
-                raise ValidationError('That student ID already has an account, did you forget your password?')  
+            user = User.query.filter_by(studentID=studentID.data).first()
+            if user:
+                raise ValidationError('That student ID already has an account, did you forget your password?')
 
 
-class UnitF1(FlaskForm):    
-    Ans01 = TextAreaField ('Q1')    
-    Ans02 = TextAreaField ('Q2')    
-    Ans03 = TextAreaField ('Q3') 
-    Ans04 = TextAreaField ('Q4') 
-    Ans05 = TextAreaField ('Q5') 
-    Ans06 = TextAreaField ('Q6') 
-    Ans07 = TextAreaField ('Q7') 
-    Ans08 = TextAreaField ('Q8')     
+class UnitF1(FlaskForm):
+    Ans01 = TextAreaField ('Q1')
+    Ans02 = TextAreaField ('Q2')
+    Ans03 = TextAreaField ('Q3')
+    Ans04 = TextAreaField ('Q4')
+    Ans05 = TextAreaField ('Q5')
+    Ans06 = TextAreaField ('Q6')
+    Ans07 = TextAreaField ('Q7')
+    Ans08 = TextAreaField ('Q8')
     submit = SubmitField('Submit Answers')
 
 
 class AssBasic(FlaskForm):
-    AudioDataOne = StringField('audioDataOne')   
+    AudioDataOne = StringField('audioDataOne')
     AudioDataTwo = StringField('audioDataTwo')
-    LengthOne = IntegerField('lengthOne')   
+    LengthOne = IntegerField('lengthOne')
     LengthTwo = IntegerField('lengthTwo')
     Notes = TextAreaField('Notes')
     TextOne = TextAreaField('One')
     TextTwo = TextAreaField('Two')
-    TextThr = TextAreaField('Three')  
+    TextThr = TextAreaField('Three')
     Submit = SubmitField('Submit')
 
