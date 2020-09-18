@@ -355,6 +355,7 @@ class BaseAss(db.Model):
 class A00A (BaseAss):
     id = db.Column(db.Integer, primary_key=True)
 ### remove after first class
+## intro edit
 modDictAss['00'] = A00A
 
 class A01A (BaseAss):
