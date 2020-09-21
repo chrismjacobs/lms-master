@@ -33,7 +33,7 @@
                           <div class="navbar-nav mr-auto">
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('controls') }}", target="_blank">Controls</a>
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('admin') }}", target="_blank">Admin</a>
-                            {% if SCHEMA < 3 %}
+                            {% if SCHEMA < 3 or SCHEMA == 6 %}
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('dashboard')}}", target="_blank">Dashboard</a>
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('grades_final')}}", target="_blank">Grades</a>
                             {% elif SCHEMA == 3 %}
@@ -43,6 +43,8 @@
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('peng_dash', MTFN='FN')}}", target="_blank">Dashboard</a>
                             {% elif SCHEMA == 5 %}
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('food_FN')}}", target="_blank">Dashboard</a>
+                            {% elif SCHEMA == 7 %}
+                            <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('nme_dash')}}", target="_blank">Dashboard</a>
                             {% endif %}
                           </div>
                         {% endif %}

@@ -23,7 +23,7 @@ function startVue(){
         rec: {
           number: null,
           page: null,
-          text: null,
+          passage: null,
           words: [null, null, null, null],
           audio: null
         },
@@ -48,7 +48,7 @@ function startVue(){
         loadRec: function (rec) {
           this.rec.number = rec
           this.rec.page = this.rObj[rec].page
-          this.rec.text = this.rObj[rec].text
+          this.rec.passage = this.rObj[rec].passage
           if (this.rObj[rec].words) {
             this.rec.words = this.rObj[rec].words
           }
@@ -62,7 +62,7 @@ function startVue(){
           let check = true
           for (let word in this.rec.words){
             console.log(word)
-            if (!this.rec.text.includes(this.rec.words[word])) {
+            if (word && this.rec.passage && !this.rec.passage.includes(this.rec.words[word])) {
               check = false
             }
           }

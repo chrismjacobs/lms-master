@@ -61,6 +61,37 @@ def create_folder(unit, teamnumber, nameRange):
     return keyName
 
 
+'''Instructor dashboard'''
+@app.route ("/nme_dash", methods=['GET','POST'])
+@login_required
+def nme_dash():
+    taList = ['Chris']
+
+    if current_user.username not in taList:
+        return redirect('home')
+
+    #srcDict = get_projects()
+    #pprint(srcDict)
+    nmeDict = {}
+
+    for proj in projectDict:
+        data = projectDict[proj].query.all()
+        print(data)
+        nmeDict[proj] = {}
+        for entry in data:
+            print(entry)
+
+            nmeDict[proj][entry.username] = {
+                'novel' : json.loads(entry.Ans01),
+                'sums' : json.loads(entry.Ans02),
+                'recs' : json.loads(entry.Ans03)
+                }
+
+    pprint (nmeDict)
+
+    return render_template('nme/nme_dash.html', legend='NME Dash', nmeString = json.dumps(nmeDict))
+
+
 '''### novels '''
 
 @app.route ("/nme_novels", methods=['GET','POST'])
@@ -86,8 +117,25 @@ def nme_novels():
                 completed += 1
 
             nDict[n]['recs'] = 0
-            for c in json.loads(project.Ans03):
-                nDict[n]['recs'] += 1
+            recs = json.loads(project.Ans03)
+            print(recs)
+
+            ## check if any null in each recording
+            for rec in recs:
+                noneChecker = True
+                if len(recs[rec]) == 0:
+                    noneChecker = False
+                else:
+                    for key in recs[rec]:
+                        if key == 'words':
+                            if None in recs[rec][key]:
+                                noneChecker = False
+                        else:
+                            print(recs[rec][key])
+                            if recs[rec][key] == None:
+                                noneChecker = False
+                if noneChecker:
+                    nDict[n]['recs'] += 1
 
 
 
@@ -164,6 +212,26 @@ def addSum():
 
     return jsonify({'cObj' : json.dumps(current_sum)})
 
+@app.route ("/updateSum", methods=['GET','POST'])
+@login_required
+def updateSum():
+    print('UPDATE_SUM')
+    number = request.form ['number']
+    name = request.form ['name']
+    summary = request.form ['summary']
+    novel = request.form ['novel']
+
+    ## get student data
+    entry = projectDict[novel].query.filter_by(username=name).first()
+    sums = json.loads(entry.Ans02)
+    print(summary, sums)
+    sums[str(number)]['summary'] = summary
+    entry.Ans02 = json.dumps(sums)
+    entry.Ans03 = '{"1": {}, "2": {}, "3": {}}'
+    db.session.commit()
+
+    return jsonify({'success' : True})
+
 '''### feedback '''
 
 @app.route ("/feedback/<string:student>", methods=['GET','POST'])
@@ -229,6 +297,7 @@ def addRec():
     novel = request.form ['novel']
     rec = request.form ['rec']
     details = request.form ['details']
+    print(details)
 
     project = projectDict[novel].query.filter_by(username=current_user.username).first()
 

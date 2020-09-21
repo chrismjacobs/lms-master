@@ -1,0 +1,162 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<span id="projectDict" style="display:none">{{nmeString}}</span>
+
+<div id="vue-app">
+
+<div class="content-section">
+        <h1> Novel Projects </h1>
+
+</div>
+
+<div class="content-section">
+
+    <div style="overflow-x:auto;">
+      <table class="table table-sm">
+        <thead>
+            <tr>
+              <th scope="col" >U</th>
+              <th scope="col" >Title</th>
+              <th scope="col" >Sums</th>
+              <th scope="col" >Recs</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+        <template v-for="(proj, key) in projectOBJ" :key="key">
+          <template v-for="(student, name) in proj" :key="name">
+            <tr>
+              <td>
+              <span @click="showSums = name+key" class="unit-span" style="background:silver;padding:3px">
+              [[ name ]]
+              </span>
+              </td>
+              <td>
+              [[ student.novel.title]]
+              </td>
+              <td>
+              [[ sumsLength(name, key) ]]
+              </td>
+              <td>
+              [[ recsLength(name, key)]]
+              </td>
+            </tr>
+            <tr v-if="showSums == name+key">
+              <td colspan="4">
+                <template v-for="(sum, num) in student.sums" :key="num">
+                <span> [[sum.characters]] </span><br>
+                <span> [[sum.setting]] </span><br>
+                <span> [[sum.summary]] </span><br>
+                <textarea type="textarea" v-model="sum.summary"> [[sum.summary]] </textarea><br>
+                <button @click="updateSum(name, key, sum.number, sum.summary)"> Update </button><br>
+                <span> [[sum.newWords]] </span><br>
+                </template>
+              </td>
+            </tr>
+
+           </template>
+        </template>
+
+        </tbody>
+
+      </table>
+    </div>
+
+</div>
+
+
+</div> <!-- end of Vue app -->
+
+
+{% endblock %}
+
+{% block script %}
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+
+<script type="text/javascript" >
+
+var projectDict = document.getElementById('projectDict').innerHTML
+var OBJ = JSON.parse(projectDict)
+console.log('projecDict', OBJ);
+
+
+startVue(OBJ)
+
+function startVue(OBJ){ new Vue({
+
+    el: '#vue-app',
+    delimiters: ['[[', ']]'],
+    data: {
+        projectOBJ: OBJ,
+        showSums: null
+    },
+    methods: {
+        goTo: function(key) {
+
+          // go to HTTPS version
+          var str = window.location.href
+
+          let url = (str).split('_dash')[0] + '_check/' + key
+          console.log('goTO', url);
+            window.location = url
+            console.log('DONE');
+        },
+        sumsLength: function (name, novel) {
+          let sums = this.projectOBJ[novel][name]['sums']
+          let count = 0
+          for (let chapter in sums){
+              count +=1
+          }
+          return count
+        },
+        recsLength: function (name, novel) {
+          let recs = this.projectOBJ[novel][name]['recs']
+          let count = 0
+          for (let rec in recs){
+            if (recs[rec]['audio']) {
+              count +=1
+            }
+          }
+          return count
+        },
+        updateSum: function (name, novel, number, summary) {
+          console.log('update via AJAX');
+          let _this = this
+            $.ajax({
+              data : {
+                novel: novel,
+                number: number,
+                name: name,
+                summary: summary
+              },
+              type : 'POST',
+              url : '/updateSum',
+            })
+            .done(function(data) {
+              let newChapterList = JSON.parse(data.cObj)
+              console.log(newChapterList)
+              _this.sObj = JSON.parse(JSON.stringify(newChapterList))
+              _this.chapter = JSON.parse(_this.chapterString)
+              _this.checkChapterNumber()
+
+            })
+            .fail(function(){
+                console.log('error has occurred');
+            });
+        },
+
+    }
+})// end NEW VUE
+
+
+
+}// endFunction
+
+</script>
+
+{% endblock %}
+
