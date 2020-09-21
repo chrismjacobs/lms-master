@@ -19,7 +19,7 @@
 <div class="content-section">
   <legend class="border-bottom mb-4"> Reflection: </legend>
 
-    Week: <input style="text" id="number" disabled v-model="reflection.week"></input>
+    Date: <input type="date" id="date" v-model="reflection.date"></input>
     <br>
     <br>
     I set some goals for myself at the start of the reading session
@@ -137,7 +137,7 @@
             </tr>
         </thead>
 
-        <tbody>
+        <tbody style="display:none">
             <template v-for="(e, index) in eObj">
                 <tr>
                   <td> [[ e.week ]] </td>
@@ -184,7 +184,7 @@ function startVue(){ new Vue({
     data: {
         eObj: eObj,
         reflection: {
-          week: week,
+          date: null,
           goals: null,
           focus: null,
           imagine: null,

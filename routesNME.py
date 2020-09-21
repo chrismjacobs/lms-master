@@ -342,15 +342,26 @@ def addSurvey():
     print('ADD_SURVEY')
     eString = request.form ['reflection']
     reflection = json.loads(eString)
-    week = reflection['week']
-
-
 
     survey = U012U.query.filter_by(username=current_user.username).first()
 
+    if survey:
+        records = json.loads(survey.Ans01)
+    else:
+        start = U012U(username=current_user.username, Ans01=json.dumps({}))
+        db.session.add(start)
+        db.session.commit()
+        survey = U012U.query.filter_by(username=current_user.username).first()
+        records = json.loads(survey.Ans01)
 
+    count = len(records)
 
-    return jsonify({'msg' : True})
+    records[count+1] = reflection
+
+    survey.Ans01 = json.dumps(records)
+    db.session.commit()
+
+    return jsonify({'msg' : 'Reflection added'})
 
 
 @app.route('/nme_storeB64', methods=['POST'])

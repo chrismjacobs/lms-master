@@ -19,6 +19,7 @@
             <tr>
               <th scope="col" >U</th>
               <th scope="col" >Title</th>
+              <th scope="col" >Chap</th>
               <th scope="col" >Sums</th>
               <th scope="col" >Recs</th>
 
@@ -38,6 +39,9 @@
               [[ student.novel.title]]
               </td>
               <td>
+              [[ student.novel.chapters]]
+              </td>
+              <td>
               [[ sumsLength(name, key) ]]
               </td>
               <td>
@@ -49,7 +53,6 @@
                 <template v-for="(sum, num) in student.sums" :key="num">
                 <span> [[sum.characters]] </span><br>
                 <span> [[sum.setting]] </span><br>
-                <span> [[sum.summary]] </span><br>
                 <textarea type="textarea" v-model="sum.summary"> [[sum.summary]] </textarea><br>
                 <button @click="updateSum(name, key, sum.number, sum.summary)"> Update </button><br>
                 <span> [[sum.newWords]] </span><br>
@@ -137,12 +140,7 @@ function startVue(OBJ){ new Vue({
               url : '/updateSum',
             })
             .done(function(data) {
-              let newChapterList = JSON.parse(data.cObj)
-              console.log(newChapterList)
-              _this.sObj = JSON.parse(JSON.stringify(newChapterList))
-              _this.chapter = JSON.parse(_this.chapterString)
-              _this.checkChapterNumber()
-
+              alert(data.success)
             })
             .fail(function(){
                 console.log('error has occurred');
