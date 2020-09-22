@@ -627,6 +627,7 @@ def fse_exam(qORs, unit, team):
     source = meta['M1']
     print(source)
     qnaString = data.Ans01
+    qnaDict = json.loads(data.Ans01)
     snlString = data.Ans02
     snlDict = json.loads(data.Ans02)
 
@@ -641,14 +642,19 @@ def fse_exam(qORs, unit, team):
         orderDict[count] = [number, snlDict[number]['audioLink']]
         count +=1
 
-    print('orderDict', orderDict)
+
+    count = 1
+    newDict = {}
+    for number in orderList:
+        newDict[count] = qnaDict[number]
+        count +=1
 
     if qORs == 'qna':
         html = 'fse/fse_exam_qna.html'
     else:
         html = 'fse/fse_exam_snl.html'
 
-    return render_template(html, legend='FSE Exam', title=unit, meta=meta, orderDict=json.dumps(orderDict), qnaString=qnaString, snlString=snlString)
+    return render_template(html, legend='FSE Exam', title=unit, meta=meta, orderDict=json.dumps(orderDict), qnaString=json.dumps(newDict), snlString=snlString)
 # exam format
 
 def midtermGrades():
