@@ -175,16 +175,18 @@ def get_projects():
 
 def get_tests(unit, team):
     user = midtermGrades()
+    print('USER', user)
 
     qna = json.loads(user.j1)
     snl = json.loads(user.j2)
     rp = json.loads(user.j3)
     #qna = json.loads(user.j3)
     #snl = json.loads(user.j4)
+    print(qna)
 
     qnaCount = 0
     for test in qna:
-        #print ('CHECK', qna[test]['unit'], unit ,  qna[test]['team'], team)
+        print ('CHECK', qna[test]['unit'], unit ,  qna[test]['team'], team)
         if qna[test]['unit'] == str(unit) and qna[test]['team'] == str(team):
             qnaCount = 1
     snlCount = 0
@@ -680,11 +682,14 @@ def updateGrades():
     user = midtermGrades()
 
     if qORs == 'qna':
-        #examDict = json.loads(user.j1)
-        examDict = json.loads(user.j3)
+        examDict = json.loads(user.j1)
+        #examDict = json.loads(user.j3)
     elif qORs == 'snl':
-        #examDict = json.loads(user.j2)
-        examDict = json.loads(user.j4)
+        examDict = json.loads(user.j2)
+        #examDict = json.loads(user.j4)
+    elif qORs == 'rp':
+        examDict = json.loads(user.j3)
+        #examDict = json.loads(user.j4)
 
     print('before', examDict)
 
@@ -703,14 +708,19 @@ def updateGrades():
 
         if qORs == 'qna':
             #user.j1 = json.dumps(examDict)
-            user.j3 = json.dumps(examDict)
+            user.j1 = json.dumps(examDict)
             db.session.commit()
             print('qnaCommit')
         elif qORs == 'snl':
             #user.j2 = json.dumps(examDict)
-            user.j4 = json.dumps(examDict)
+            user.j2 = json.dumps(examDict)
             db.session.commit()
             print('snlCommit')
+        elif qORs == 'rp':
+            #user.j2 = json.dumps(examDict)
+            user.j3 = json.dumps(examDict)
+            db.session.commit()
+            print('rpCommit')
 
     print('after', examDict)
 
@@ -782,17 +792,7 @@ def fse_grades():
 
     exams = Exams.query.all()
 
-    models = {
-        #'00' : U001U,
-        #'01' : U011U,
-        #'02' : U021U,
-        #'03' : U031U,
-        '04' : U041U,
-        '05' : U051U,
-        '06' : U061U,
-        '07' : U071U,
-        '08' : U081U,
-    }
+    models = unitDict # at top of page
 
     for model in models:
         projects = models[model].query.all()
@@ -805,8 +805,8 @@ def fse_grades():
 
     for exam in exams:
         #break
-       #QNA = json.loads(exam.j1)
-        QNA = json.loads(exam.j3)
+        QNA = json.loads(exam.j1)
+        #QNA = json.loads(exam.j4)
         for record in QNA:
             entry = QNA[record]
             print(exam.username, entry)
@@ -815,8 +815,8 @@ def fse_grades():
             else:
                 gradesDict[exam.username][ entry['unit'] ]['QNA_grades'].append(entry['grade'])
 
-        #SNL = json.loads(exam.j2)
-        SNL = json.loads(exam.j4)
+        SNL = json.loads(exam.j2)
+        #SNL = json.loads(exam.j5)
         for record in SNL:
             entry = SNL[record]
             print(exam.username, entry)
