@@ -267,9 +267,9 @@ function startVue(){
             var fileInput = document.getElementById('audio');
             console.log('file', fileInput)
             var filePath = fileInput.value;
-            var allowedExtensions = /(\.mp3|\.m4a|\.m4v|\.mov|\.mp4)$/i;
+            var allowedExtensions = /(\.mp3|\.m4a|\.m4v|\.mov|\.mp4|\.aac)$/i;
 
-            if(fileInput.files[0].size > 4400000){
+            if(fileInput.files[0].size > 44000000){
                 alert("File is too big!");
                 location.reload()
                 return false;
