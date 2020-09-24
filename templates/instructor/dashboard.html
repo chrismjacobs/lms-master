@@ -47,6 +47,7 @@
                 <td> <textarea type="text" :style="commentStyle(item.C)" :id="user+key" v-model="item.C" required> </textarea></td>
                 <td> <button @click="commentSet(user,key)"> Update </button>
                   <button v-if="showNotes != user+key" @click="showNotes = user+key"> Notes </button>
+                  <button style="background:coral" @click="item.C = ''"> Clear </button>
                   <select v-if="showNotes == user+key" size="4" v-model="comment">
                     <option v-for="option in options" :value="option.value">[[option.text]]</option>
                   </select>
