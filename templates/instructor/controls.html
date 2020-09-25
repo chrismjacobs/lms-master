@@ -8,12 +8,12 @@
 <span id="team_string" style="display:none">{{team_list}}</span>
 <span id="set_string" style="display:none">{{setString}}</span>
 
-<div class="content-section">    
+<div class="content-section">
      <legend class="border-bottom mb-4">Controls</legend>
- 
+
 
 <button class="btn btn-outline-warning" @click="setAtt()"> Set Att </button>
-Notice <input type="text" class="textAss" id="notice" style="margin-left:5px"></input> 
+Notice <input type="text" class="textAss" id="notice" style="margin-left:5px"></input>
 &nbsp&nbsp&nbsp
 Unit
 <select id="unit" name="units">
@@ -23,13 +23,13 @@ Unit
 </select>
 &nbsp&nbsp&nbsp
 Set:
-<select id="set" name="cars">  
+<select id="set" name="cars">
     <option value="97">Closed</option>
     <option value="98">Open</option>
     <option value="99">Late</option>
     <option value="50">Review</option>
     <option value="51">Review Late</option>
-    <option value="100">Clear</option>  
+    <option value="100">Clear</option>
 </select>
 &nbsp&nbsp&nbsp
 Teamcount
@@ -59,16 +59,16 @@ Teamsize
 <a href='https://md.just.edu.tw/login/index.php'>Moodle</a>
 &nbsp
 &nbsp
-<a href='https://hrapp.just.edu.tw/hr_personal/Default.aspx'>Personnel</a> 
+<a href='https://hrapp.just.edu.tw/hr_personal/Default.aspx'>Personnel</a>
 &nbsp
 &nbsp
-<br> 
-<br> 
+<br>
+<br>
 <button class="btn btn-outline-secondary" @click="attOBJ({{SCHEMA}})"> GET RECORDS </button>
-    
+
 </div>
 
-<div class="content-section"> 
+<div class="content-section">
         <legend class="border-bottom mb-4">Students</legend>
       <button class="btn btn-sm btn-success" @click="refreshAttend()"> Refresh </button> </td>
     <br>
@@ -77,70 +77,70 @@ Teamsize
       <table class="table table-sm">
         <thead>
             <tr>
-              <th scope="col" >Img</th>  
-              <th scope="col" >Name</th>                                  
-              <th scope="col" >ID</th>                       
-              <th scope="col" >att</th>                       
-              <th scope="col" >email</th>  
-              <th scope="col" >remove</th>  
+              <th scope="col" >Img</th>
+              <th scope="col" >Name</th>
+              <th scope="col" >ID</th>
+              <th scope="col" >att</th>
+              <th scope="col" >email</th>
+              <th scope="col" >remove</th>
             </tr>
-        </thead> 
-        
-        <tbody>
-        <template v-for="(user, key) in attendOBJ">             
-            <tr>
-              <td> <img class="rounded-circle small-img" :src="user.img"></td>  
-              <td> [[ user.nme ]] </td>  
-              <td> [[ key ]] </td>  
-              <td :style="attStyle(user.att)"> [[ user.att ]] </td>  
-              <td> <a :href="user.eml">Email</a> </td> 
-              <td>  <span class="unit-span" v-for="i in 4" @click="studentRemove(user.nme, i)" > [[ i]] </span> </td> 
+        </thead>
 
-            </tr>  
-        </template>                 
-        </tbody>   
-   
+        <tbody>
+        <template v-for="(user, key) in attendOBJ">
+            <tr>
+              <td> <img class="rounded-circle small-img" :src="user.img"></td>
+              <td> [[ user.nme ]] </td>
+              <td> [[ key ]] </td>
+              <td :style="attStyle(user.att)"> [[ user.att ]] </td>
+              <td> <a :href="user.eml">Email</a> </td>
+              <td>  <span class="unit-span" v-for="i in 4" @click="studentRemove(user.nme, i)" > [[ i]] </span> </td>
+
+            </tr>
+        </template>
+        </tbody>
+
       </table>
     </div>
 
-</div> 
+</div>
 
-<div class="content-section"> 
+<div class="content-section">
         <legend class="border-bottom mb-4">Teams</legend>
         <button class="btn btn-sm btn-danger" @click="deleteSet()"> Delete </button> </td>
     <br>
     <br>
     <div style="overflow-x:auto;width:80%">
       <table class="table table-sm">
-        
+
         <tbody>
-        <template v-for="(team, number) in teamOBJ">             
+        <template v-for="(team, number) in teamOBJ">
             <tr>
               <td> [[ number ]] </td>
-              <template v-for="mem in team">    
-              <td> 
-               <button :class="deleteClass" @click="studentRemove(mem, 0)">[[ mem ]]</button> 
+              <template v-for="mem in team">
+              <td>
+               <button :class="deleteClass" @click="studentRemove(mem, 0)">[[ mem ]]</button>
                 </td>
-              </template>    
-            </tr>  
-        </template>     
-            
-        </tbody>   
-   
+              </template>
+            </tr>
+        </template>
+
+        </tbody>
+
       </table>
     </div>
 
-</div>   
-   
+</div>
 
-   
+
+
 
 </div> <!-- end of Vue app -->
 
 
 {% endblock %}
 
-{% block script %}   
+{% block script %}
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 
@@ -159,48 +159,46 @@ console.log('setOBJ', setOBJ);
 
 startVue()
 
-function startVue(){  
+function startVue(){
 
-let vue = new Vue({ 
+let vue = new Vue({
 
     el: '#vue-app',
     delimiters: ['[[', ']]'],
     mounted: function(){
-        
+
     },
     data: {
-        attendOBJ : attendOBJ, 
-        teamOBJ : teamOBJ, 
+        attendOBJ : attendOBJ,
+        teamOBJ : teamOBJ,
         setOBJ : setOBJ,
         deleteMode : false,
-        unit_list : ['RR','00', '01','02','03','04','05','06','07','08','09', '10'],       
-        size_list : ['4','0', '3','5'] ,   
+        unit_list : ['RR','00', '01','02','03','04','05','06','07','08','09', '10'],
+        size_list : ['4','0', '3','5'] ,
         team_list : ['5','6', '7','8','9', '10','11','12','13','14','15','16','17','18','19','20'],
-        recordOBJ : {}       
-    }, 
-    methods: {   
+        recordOBJ : {}
+    },
+    methods: {
         attOBJ: function(schema) {
-          schemaOBJ = { 3:3, 2:2, 5:5 }
 
-
-          if (schema == 4){
-            var time1 = '_8_1'
-            var time2 = '_9_1'
-          }
-          if (schema in schemaOBJ){
-            var time1 = '_6_1'
-            var time2 = '_7_1'
-          }
-          if (schema == 1){
+          if (schema == 6){
             var time1 = '_3_1'
             var time2 = '_4_1'
           }
-          
+          if (schema == 2){
+            var time1 = '_8_1'
+            var time2 = '_9_1'
+          }
+          if (schema == 1){
+            var time1 = '_6_1'
+            var time2 = '_7_1'
+          }
+
           console.log('start', schema);
           console.log(vue.attendOBJ);
-          
-          for (var student in vue.attendOBJ){            
-            if (vue.attendOBJ[student]['att'] == 'Absent'){              
+
+          for (var student in vue.attendOBJ){
+            if (vue.attendOBJ[student]['att'] == 'Absent'){
               vue.recordOBJ[student] = ['DDList' + student + time1, 'DDList' + student + time2]
             }
             if (vue.attendOBJ[student]['att']  == 'Unregistered'){
@@ -209,12 +207,13 @@ let vue = new Vue({
           }
 
           console.log('var obj =' + JSON.stringify(vue.recordOBJ));
-          var string = 'for (var student in obj){ if (document.getElementById(obj[student][0])){ document.getElementById(obj[student][0]).checked=true; document.getElementById(obj[student][1]).checked=true}}'
+          var string = 'for (var student in localStorage.obj){ if (document.getElementById(obj[student][0])){ document.getElementById(obj[student][0]).checked=true; document.getElementById(obj[student][1]).checked=true}}'
           console.log(string);
-          alert('var obj =' + JSON.stringify(vue.recordOBJ) + string)
+          localStorage.obj = vue.recordOBJ
+          alert(string)
         },
-        setAtt: function() { 
-          
+        setAtt: function() {
+
           this.setOBJ['notice'] = document.getElementById('notice').value
           // vanila js
           var e = document.getElementById('unit')
@@ -224,79 +223,79 @@ let vue = new Vue({
           this.setOBJ['teamsize'] = $("#teamsize :selected").val();
           this.setOBJ['teamcount'] = $("#teamcount :selected").val();
 
-          console.log(this.setOBJ);            
+          console.log(this.setOBJ);
 
             $.ajax({
               data : {
-                setOBJ : JSON.stringify(this.setOBJ),                
+                setOBJ : JSON.stringify(this.setOBJ),
               },
               type : 'POST',
-              url : '/updateSet',               
+              url : '/updateSet',
             })
             .done(function(data) {
-              vue.setOBJ = JSON.parse(data.setString) 
-              alert('Attendance Updated: STATUS ' + data.set_mode)                
+              vue.setOBJ = JSON.parse(data.setString)
+              alert('Attendance Updated: STATUS ' + data.set_mode)
             })
             .fail(function(){
                 alert('error has occurred');
             });
-        },                          
+        },
         attStyle: function(att) {
           if (att == 'Absent') {
             return { background:'lightcoral'}
-          }          
+          }
           else if (att == 'On time') {
             return { background:'mediumseagreen'}
-          }          
+          }
           else if (att == 'Late') {
             return { background:'lightgrey'}
-          } 
-        },                  
-        deleteStudent: function(mem) { 
+          }
+        },
+        deleteStudent: function(mem) {
           if (this.deleteMode){
             //this.studentRemove()
-            console.log(mem); 
-          } 
-          else{
-            console.log('not'); 
-          }      
-        },                  
-        deleteSet: function() {          
-          if (this.deleteMode == true ){
-            this.deleteMode = false 
+            console.log(mem);
           }
           else{
-            this.deleteMode = true 
+            console.log('not');
+          }
+        },
+        deleteSet: function() {
+          if (this.deleteMode == true ){
+            this.deleteMode = false
+          }
+          else{
+            this.deleteMode = true
             this.refreshTeams()
-          }   
-          console.log(this.deleteMode);  
-        },                
+          }
+          console.log(this.deleteMode);
+        },
         refreshTeams : function() {
-          
-          $.ajax({              
+
+          $.ajax({
               type : 'POST',
-              url : '/refreshTeams' 
+              url : '/refreshTeams'
           })
-		      .done(function(data) { 
-            vue.teamOBJ = JSON.parse(data.teamString)             
+		      .done(function(data) {
+            vue.teamOBJ = JSON.parse(data.teamString)
 		      })
           .fail(function(){
                 alert('error has occurred');
           });
-        },                  
-        refreshAttend : function() {          
-          $.ajax({              
+        },
+        refreshAttend : function() {
+          $.ajax({
               type : 'POST',
-              url : '/refreshAttend' 
+              url : '/refreshAttend'
           })
-		      .done(function(data) {             
-            vue.attendOBJ = JSON.parse(data.attString)            
+		      .done(function(data) {
+            vue.attendOBJ = JSON.parse(data.attString)
             console.log(vue.attendOBJ);
 		      })
           .fail(function(){
                 alert('error has occurred');
           });
-        },                  
+        },
         studentRemove: function(member, part) {
           $.ajax({
               data : {
@@ -304,26 +303,26 @@ let vue = new Vue({
                 part : part
               },
               type : 'POST',
-              url : '/studentRemove'         
-                  
+              url : '/studentRemove'
+
           })
 		      .done(function(data) {
             vue.refreshTeams()
-            alert('student removed: ' + member + part)                           
+            alert('student removed: ' + member + part)
 		      })
           .fail(function(){
                 alert('error has occurred');
           });
-        } 
-      }, 
+        }
+      },
       computed : {
-      deleteClass: function() {          
+      deleteClass: function() {
           if (this.deleteMode == true ){
             return 'btn btn-sm btn-danger'
           }
           else{
             return 'btn btn-sm btn-secondary'
-          }              
+          }
         },
     }
 
@@ -331,10 +330,10 @@ let vue = new Vue({
 
 
 
-}// endFunction 
+}// endFunction
 
-</script> 
+</script>
 
 
-{% endblock %} 
+{% endblock %}
 
