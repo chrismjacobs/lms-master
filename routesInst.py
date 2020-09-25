@@ -133,7 +133,7 @@ def dashboard():
         return abort(403)
 
     ## intro edit
-    midterm = ['00','01', '02', '03', '04']
+    midterm = ['01', '02', '03', '04']
     final = ['05', '06', '07', '08']
 
     period = midterm
