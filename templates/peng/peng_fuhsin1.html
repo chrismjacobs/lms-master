@@ -1,0 +1,211 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<span id="ansString" style="display:none">{{ansString}}</span>
+
+<div class="content-section">
+<h3> FU HSIN HIGH Presentation: <br> Art/Design Project </h3>
+
+    <div class="embed-responsive embed-responsive-4by3">
+        <iframe id="questions_embed" src="https://docs.google.com/presentation/d/e/2PACX-1vRmZdMtaw-WS-khw0XXNhxOAuVs98GHxdxMUfmgUL2vhfLT4_gcDoIRFYvUUmOeTYZNq_GIILZTEHOt/embed"
+            allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
+	</iframe>
+    </div>
+
+</div>
+
+<div id="vue-app">
+
+    <div class="content-section">
+
+            <legend class="border-bottom mb-4"> Set Up </legend>
+
+
+            <span :style="style('Intro')"> Project Name </span>
+            <input type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['ProductName']"></input>
+            <br>
+            <br>
+
+            <span :style="style('Intro')"> Features</span>
+            <textarea type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Features']"></textarea>
+            <br>
+            <br>
+
+            <span :style="style('Intro')"> Materials</span>
+            <textarea type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Materials']"></textarea>
+            <br>
+            <br>
+
+            <br>
+                <img class="rounded img-fluid" id="final_image" alt="need to update" style="max-width:80%"  :src="imageCheck">
+            <br>
+
+
+            <input type="file" id="image" accept="image/*" @change="imageValidation()"> </input> <button class="btn btn-secondary btn-sm"> Upload Image </button>
+            <br>
+            <div v-if="image_b64">
+            <span style="color:red"> Image Ready </span>
+            </div>
+            <br>
+
+            <div v-if="updateReady">
+                <button  class="btn btn-dark" style="margin-right:5px" @click="updatePlan()">Update Plan</button>
+            </div>
+            <br>
+
+    </div>
+
+
+
+
+</div> <!-- end of Vue app -->
+
+
+{% endblock %}
+
+{% block script %}
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script type="text/javascript">
+
+var ansString = document.getElementById('ansString').innerHTML
+var ansOBJ = JSON.parse(ansString)
+console.log('ansOBJ', ansOBJ);
+
+var str = window.location.href
+let stage = (str).split('peng/')[1].split('/')[1]
+
+
+startVue(ansOBJ)
+
+function startVue(ansOBJ){
+
+  let vue = new Vue({
+
+    el: '#vue-app',
+    delimiters: ['[[', ']]'],
+    mounted: function () {
+    },
+    data: {
+        ansOBJ: ansOBJ,
+        stage : stage,
+        updateReady : true,
+        blurblocker : null,
+        image_b64 : null,
+        project: (window.location.href).split('/peng/')[1].split('/')[0],
+    },
+    methods: {
+        wordCount : function(mark) {
+            console.log(mark);
+            var wc = (document.getElementById(mark).value).split(' ')
+            console.log(wc.length);
+            if (wc.length < 8) {
+                if (vue.blurblocker == mark){
+                    console.log('blur');
+                }
+                else{
+                    alert('This sentence seems too short - try making it longer with conjunction phrases (but/so/when/if/because..)')
+                    vue.blurblocker = mark
+                }
+
+            }
+
+            return true
+        },
+        style : function(mark) {
+            if (mark.includes('kw')){
+                var bg = 'silver'
+            }
+            else if (mark.includes('dt')){
+                var bg = 'darkorange'
+            }
+            else if (mark.includes('Rea')){
+                var bg = 'PALEVIOLETRED'
+            }
+            else if (mark.includes('Int')){
+                var bg = 'DARKCYAN'
+            }
+
+            return {padding:'4px', 'font-size':'15px', background:bg, color:'white', border:'1px sold white', 'border-radius':'5px', width:'20%'}
+        },
+        updatePlan : function() {
+            alert('Please wait, your plan is being updated')
+
+            $.ajax({
+              data : {
+                proj : this.project,
+                stage: this.stage,
+                image_b64 : this.image_b64,
+                audio_b64 : null,
+                ansOBJ : JSON.stringify(this.ansOBJ)
+              },
+              type : 'POST',
+              url : '/updatePENG',
+            })
+            .done(function(data) {
+                if (data.fail){
+                    alert('Your FORM is NOT complete yet')
+                }
+                else{
+                    vue.ansOBJ = JSON.parse(data.ansString)
+                    vue.image_b64 = null
+                    console.log(vue.ansOBJ)
+                    document.getElementById('final_image').src = vue.ansOBJ['Image']
+                    alert('Your FORM has been updated')
+                }
+
+
+            })
+            .fail(function(){
+                alert('error has occurred');
+            });
+        },
+        imageValidation : function() {
+            var fileInput = document.getElementById('image');
+            var allowedExtensions = /(\.jpeg|\.png|\.jpg)$/i;
+            var filePath = fileInput.value;
+
+          if(fileInput.files[0].size > 4400000){
+              alert("File is too big!");
+              fileInput.value = '';
+              return false;
+          }
+          else if(!allowedExtensions.exec(filePath)){
+              alert('Please upload image: .jpeg/.png only.');
+              fileInput.value = '';
+              return false;
+          }
+          else{
+              console.dir( fileInput.files[0] );
+              var url = window.URL.createObjectURL(fileInput.files[0]);
+              fetch(url)
+              .then(function(res){
+                  return res.blob();
+                  })
+              .then(function(savedBlob){
+                  var reader = new FileReader();
+                  reader.readAsDataURL(savedBlob);
+                  reader.onloadend = function() {
+                      vue.image_b64 = reader.result.split(',')[1];
+                }
+              })
+          }//end else
+            return true
+        },
+    },
+    computed : {
+        imageCheck : function() {
+            return this.ansOBJ['Image']
+        },
+    } // end methods
+
+})// end NEW VUE
+
+}// endFunction
+
+
+</script>
+
+{% endblock %}
+

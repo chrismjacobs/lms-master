@@ -7,114 +7,123 @@
 
 <div id="vue-app">
 
-<div class="content-section">    
-        <h1> Exam Projects </h1>
+    <div class="content-section">
+            <h1> Exam Projects </h1>
     </div>
     <div class="content-section">
-    <div class="embed-responsive embed-responsive-4by3">
-            <iframe id="questions_embed" src="{{source}}"
-            allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
-	        </iframe>
-    </div>   
-    
-</div>
+        <div class="embed-responsive embed-responsive-4by3">
+                <iframe id="questions_embed" src="https://docs.google.com/presentation/d/e/2PACX-1vRmZdMtaw-WS-khw0XXNhxOAuVs98GHxdxMUfmgUL2vhfLT4_gcDoIRFYvUUmOeTYZNq_GIILZTEHOt/embed"
+                allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
+              </iframe>
+        </div>
 
-<div class="content-section">
+    </div>
 
-<legend class="border-bottom mb-4"> Your Score: </legend>
+    <div class="content-section">
 
-<!--
-<span :style="linkStyle(1)" @click="goToMT('1')"> Stage 1: Choose Product </span> -- Deadline: Mar 22
-<br>
-<br>
-<span v-if="stage > 1" :style="linkStyle(2)" @click="goToMT('2')"> Stage 2: Prepare Plan </span>  -- Deadline: Apr 6
-<br>
-<br>
-<span v-if="stage > 3" :style="linkStyle(3)" @click="goToMT('5')"> Stage 3: Practice Speaking </span>
-<br>
-<br>
-<span v-if="stage > 4" :style="linkStyle(4)" @click="goToMT('6')"> Stage 4: Practice with Cue Cards </span>
-<br>
-<br>
-<span v-if="stage > 5" :style="linkStyle(5)" > CONGRATULATIONS - YOU ARE READY!! </span>
--->  
+      <legend class="border-bottom mb-4"> Progress: You are on stage {{stage}} </legend>
 
-<span :style="linkStyle(1)" @click="goToFN('1')"> Stage 1: Choose Video </span> -- Deadline: May 11
-<br>
-<br>
-<span v-if="stage > 1" :style="linkStyle(2)" @click="goToFN('2')"> Stage 2: Prepare Plan </span>  -- Deadline: May 19
-<br>
-<br>
-</div>  
 
-   
+      <span :style="linkStyle(1)" @click="goToFH('1')"> Stage 1: Choose Product </span>
+      <br>
+      <br>
+      <span v-if="stage > 1" :style="linkStyle(2)" @click="goToFH('2')"> Stage 2: Prepare Plan </span>
+      <br>
+      <br>
+      <span v-if="stage > 3" :style="linkStyle(3)" @click="goToFH('5')"> Stage 3: Practice Speaking </span>
+      <br>
+      <br>
+      <span v-if="stage > 4" :style="linkStyle(4)" @click="goToFH('6')"> Stage 4: Practice with Cue Cards </span>
+      <br>
+      <br>
+      <span v-if="stage > 5" :style="linkStyle(5)" > CONGRATULATIONS - YOU ARE READY!! </span>
+
+    </div>
 
 </div> <!-- end of Vue app -->
 
 
 {% endblock %}
 
-{% block script %}   
+    <!--<span :style="linkStyle(1)" @click="goToFN('1')"> Stage 1: Choose Video </span> -- Deadline: May 11
+    <br>
+    <br>
+    <span v-if="stage > 1" :style="linkStyle(2)" @click="goToFN('2')"> Stage 2: Prepare Plan </span>  -- Deadline: May 19
+    <br>
+    <br> -->
+
+
+{% block script %}
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 
-<script type="text/javascript" >
+<script type="text/javascript">
 
 var stage = document.getElementById('stage').innerHTML
 var grade = document.getElementById('grade').innerHTML
-//var OBJ = JSON.parse(projectDict)
-//console.log('projecDict', OBJ);
+
+console.log(stage)
 
 
 startVue()
 
-function startVue(){ new Vue({   
+function startVue() { new Vue({
 
     el: '#vue-app',
     delimiters: ['[[', ']]'],
-    mounted: function(){        
+    mounted: function(){
     },
     data: {
         stage: stage,
-        grade: grade,        
+        grade: grade,
         status: {
-          1 : true, 
-          2 : false, 
-          3 : false, 
+          1 : true,
+          2 : false,
+          3 : false,
           4 : false
-        }         
-    }, 
-    methods: {  
-      goToMT: function(link) { 
+        }
+    },
+    methods: {
+      goToMT: function(link) {
           var str = window.location.href
           let url = (str).split('_list')[0] + '/MT/' + link
           console.log('goTO', url);
-          window.location = url            
-        },                 
-      goToFN: function(link) { 
+          window.location = url
+        },
+      goToFH: function(link) {
+        if (link === '2') {
+          alert('stage 2 not open yet')
+          return false
+        }
+          var str = window.location.href
+          let url = (str).split('_list')[0] + '/FH/' + link
+          console.log('goTO', url);
+          window.location = url
+        },
+      goToFN: function(link) {
           var str = window.location.href
           let url = (str).split('_list')[0] + '/FN/' + link
           console.log('goTO', url);
-          window.location = url            
-        },                 
-      linkStyle: function(link) { 
+          window.location = url
+        },
+      linkStyle: function(link) {
           if (this.stage > link) {
               return {padding:'4px', 'font-size':'15px', background:'seagreen', color:'white', border:'1px sold white', 'border-radius':'5px', width:'20%'}
-         }
+          }
           else {
             return {padding:'4px', 'font-size':'15px', background:'purple', color:'white', border:'1px sold white', 'border-radius':'5px', width:'20%'}
           }
-           
+
         }
-                  
-    }         
+
+    }
 })// end NEW VUE
 
 
 
-}// endFunction 
+}// endFunction
 
-</script>  
+</script>
 
-{% endblock %} 
+{% endblock %}
 
