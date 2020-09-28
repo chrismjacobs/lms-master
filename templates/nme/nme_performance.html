@@ -19,12 +19,12 @@
 <div class="content-section">
   <legend class="border-bottom mb-4"> Reflection: </legend>
 
-    Date: <input type="date" id="date" v-model="reflection.date"></input>
+    Date: <input type="date" id="date" required v-model="reflection.date"></input>
     <br>
     <br>
     I set some goals for myself at the start of the reading session
     <br>
-    <select name="reflection" v-model="reflection.goals">
+    <select name="reflection" required v-model="reflection.goals">
     <option value="1">not really</option>
     <option value="2">a little</option>
     <option value="3">a lot</option>
@@ -33,7 +33,7 @@
     <br>
     I tried hard to focus/avoid distractions:
     <br>
-    <select name="reflection" v-model="reflection.focus">
+    <select name="reflection" required v-model="reflection.focus">
     <option value="1">not really</option>
     <option value="2">a little</option>
     <option value="3">sometimes</option>
@@ -44,7 +44,7 @@
     <br>
     I guessed the meaning of some words
     <br>
-    <select name="reflection" v-model="reflection.guess">
+    <select name="reflection" required v-model="reflection.guess">
     <option value="1">not really</option>
     <option value="2">a little</option>
     <option value="3">sometimes</option>
@@ -55,7 +55,7 @@
     <br>
     I made a list of new words
     <br>
-    <select name="reflection" v-model="reflection.list">
+    <select name="reflection" required v-model="reflection.list">
     <option value="1">not really</option>
     <option value="2">a little</option>
     <option value="3">sometimes</option>
@@ -66,7 +66,7 @@
     <br>
     I reread parts of the text
     <br>
-    <select name="reflection" v-model="reflection.reread">
+    <select name="reflection" required v-model="reflection.reread">
     <option value="1">not really</option>
     <option value="2">a little</option>
     <option value="3">sometimes</option>
@@ -77,7 +77,7 @@
     <br>
     I imagined the scenes in my mind
     <br>
-    <select name="reflection" v-model="reflection.imagine">
+    <select name="reflection" required v-model="reflection.imagine">
     <option value="1">not really</option>
     <option value="2">a little</option>
     <option value="3">sometimes</option>
@@ -88,7 +88,7 @@
     <br>
     I guessed about what might happen next/later
     <br>
-    <select name="reflection" v-model="reflection.next">
+    <select name="reflection" required v-model="reflection.next">
     <option value="1">not really</option>
     <option value="2">a little</option>
     <option value="3">sometimes</option>
@@ -99,7 +99,7 @@
     <br>
     I related the story to my own life
     <br>
-    <select name="reflection" v-model="reflection.relate">
+    <select name="reflection" required v-model="reflection.relate">
     <option value="1">not really</option>
     <option value="2">a little</option>
     <option value="3">sometimes</option>
@@ -110,7 +110,7 @@
     <br>
     I brought effort to this reading session
     <br>
-    <select name="reflection" v-model="reflection.effort">
+    <select name="reflection" required v-model="reflection.effort">
     <option value="1">not really</option>
     <option value="2">a little</option>
     <option value="3">a usual amount</option>
@@ -154,7 +154,6 @@
 </div>
 
 <span id="eString" style="display:none">{{eString}}</span>
-<span id="week" style="display:none">{{week}}</span>
 
 </div> <!-- end of Vue app -->
 
@@ -168,7 +167,8 @@
 <script type="text/javascript" >
 
 var eString = document.getElementById('eString').innerHTML
-var week = document.getElementById('week').innerHTML
+
+console.log(eString)
 
 var eObj = JSON.parse(eString)
 console.log('eObj', eObj)

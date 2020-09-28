@@ -312,10 +312,25 @@ def addRec():
 
 ''' ## performance '''
 
+@app.route ("/effort_dash", methods=['GET','POST'])
+@login_required
+def nme_effort_dash():
+
+    eList = U012U.query.all()
+
+    eDict = {}
+
+    for e in eList:
+        eDict[e.username] = json.loads(e.Ans01)
+
+    html = 'nme/nme_effort_dash.html'
+
+    return render_template(html, legend='Course Performance', eString=json.dumps(eDict))
+
+
 @app.route ("/effort", methods=['GET','POST'])
 @login_required
 def nme_effort():
-    weeks =  ['01', '02', '03', '04', '05', '06', '07', '08']
 
     survey = U012U.query.filter_by(username=current_user.username).first()
 
@@ -327,14 +342,9 @@ def nme_effort():
 
     survey = U012U.query.filter_by(username=current_user.username).first()
 
-    eDict = {}
-    week = '01'
-    effort1 = json.loads(survey.Ans01)
-    eDict['01'] = effort1
-
     html = 'nme/nme_performance.html'
 
-    return render_template(html, legend='Course Performance', week=week, eString=json.dumps(eDict))
+    return render_template(html, legend='Course Performance', eString=json.dumps(survey.Ans01))
 
 @app.route ("/addSurvey", methods=['GET','POST'])
 @login_required
@@ -354,9 +364,7 @@ def addSurvey():
         survey = U012U.query.filter_by(username=current_user.username).first()
         records = json.loads(survey.Ans01)
 
-    count = len(records)
-
-    records[count+1] = reflection
+    records[reflection['date']] = reflection
 
     survey.Ans01 = json.dumps(records)
     db.session.commit()
