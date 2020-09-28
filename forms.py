@@ -176,10 +176,10 @@ class RegistrationForm(FlaskForm):
 
 
     username = StringField ('Name in English', validators=[DataRequired(), Length(min=2, max=20)])
-    studentID = StringField ('Student ID (9 numbers)', validators=[DataRequired(), Length(9)])
+    studentID = StringField ('Student ID', validators=[DataRequired(), Length()])
     email = StringField('Email', validators=[DataRequired(), Email()] )
     bookcode = StringField('bookcode')
-    device = RadioField('Main Device', choices = [('Apple', 'Apple iphone'), ('Android', 'Android Phone'), ('Win', 'Windows Phone')])
+    device = RadioField('Main Device', choices = [('Apple', 'Apple iphone'), ('Android', 'Android Phone')])
     password = PasswordField('Password', validators=[DataRequired()] )
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')] )
     submit = SubmitField('Join')
