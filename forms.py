@@ -176,7 +176,7 @@ class RegistrationForm(FlaskForm):
 
 
     username = StringField ('Name in English', validators=[DataRequired(), Length(min=2, max=20)])
-    studentID = StringField ('Student ID', validators=[DataRequired(), Length()])
+    studentID = StringField ('Student ID', validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Email', validators=[DataRequired(), Email()] )
     bookcode = StringField('bookcode')
     device = RadioField('Main Device', choices = [('Apple', 'Apple iphone'), ('Android', 'Android Phone')])
@@ -199,7 +199,7 @@ class RegistrationForm(FlaskForm):
         try:
             int(studentID.data)
         except:
-            raise ValidationError('9 numbers; no S')
+            raise ValidationError('Numbers only')
         user = User.query.filter_by(studentID=studentID.data).first()
         if user:
             raise ValidationError('That student ID already has an account, did you forget your password?')
