@@ -269,8 +269,8 @@ function startVue(){
             var filePath = fileInput.value;
             var allowedExtensions = /(\.mp3|\.m4a|\.m4v|\.mov|\.mp4|\.aac)$/i;
 
-            if(fileInput.files[0].size > 44000000){
-                alert("File is too big!");
+            if(fileInput.files[0].size > 50000000){ // 50 mb
+                alert("File is too big! " + fileInput.files[0].size);
                 location.reload()
                 return false;
             }
