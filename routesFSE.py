@@ -563,8 +563,8 @@ def fse_dash():
             projects = unitDict[src].query.all()
             for proj in projects:
                 fseDict[src]['Teams'][proj.teamnumber] = {'team' : proj.username,
-                                                          'QNA' : proj.Ans03,
-                                                          'SNL' : proj.Ans04
+                                                          'QNA' : proj.Ans04,
+                                                          'SNL' : proj.Ans05
                                                           }
 
     pprint (fseDict)
@@ -592,14 +592,14 @@ def fse_check(unit):
         checkDict[proj.teamnumber] = {
             'team' : ast.literal_eval(proj.username),
             'qna_list' : json.loads(proj.Ans01),
-            'qna_score' : proj.Ans03,
+            'qna_score' : proj.Ans04,
             'snl_list' : json.loads(proj.Ans02),
-            'snl_score' : proj.Ans04,
+            'snl_score' : proj.Ans05,
             }
 
     pprint (checkDict)
 
-    return render_template('fse/fse_check.html', legend='QNA Check', title=title, fseString = json.dumps(checkDict))
+    return render_template('fse/fse_check.html', legend='QNA Check', fseString = json.dumps(checkDict))
 
 
 
