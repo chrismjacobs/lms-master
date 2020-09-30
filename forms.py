@@ -11,7 +11,7 @@ SCHEMA = BaseConfig.SCHEMA
 class Attend(FlaskForm):
     attend = RadioField('Attendance', choices = [('On time', 'On time'), ('Late', 'Late')])
     name =  StringField ('Name in English', validators=[DataRequired(), Length(min=2, max=20)])
-    studentID = StringField ('Student ID (9 numbers)', validators=[DataRequired(), Length(9)])
+    studentID = StringField ('Student ID (9 numbers)', validators=[DataRequired()])
     teamnumber = IntegerField ('Team Number')
     teamcount = IntegerField ('Team Count')
     submit = SubmitField('Join Class')
@@ -19,7 +19,7 @@ class Attend(FlaskForm):
 class AttendLate(FlaskForm):
     attend = RadioField('Attendance', choices = [('Late', 'Late'), ('2nd Class', '2nd Class')])
     name =  StringField ('Name in English', validators=[DataRequired(), Length(min=2, max=20)])
-    studentID = StringField ('Student ID (9 numbers)', validators=[DataRequired(), Length(9)])
+    studentID = StringField ('Student ID (9 numbers)', validators=[DataRequired()])
     teamnumber = IntegerField ('Team Number')
     teamcount = IntegerField ('Team Count')
     submit = SubmitField('Join')
@@ -27,7 +27,7 @@ class AttendLate(FlaskForm):
 class AttendInst(FlaskForm):
     attend = StringField ('Notice')
     username =  StringField ('Name in English', validators=[DataRequired(), Length(min=2, max=20)])
-    studentID = StringField ('Student ID', validators=[DataRequired(), Length(9)])
+    studentID = StringField ('Student ID', validators=[DataRequired()])
     teamnumber = IntegerField ('Status (50-review; 97-disabled; 98-open; 99-late; 100-clear)')
     #RadioField('Status', choices = [(97, 'disabled'), (98, 'open'), (99, 'late'), (100, 'clear')])
     teamcount = IntegerField ('Team Count')
