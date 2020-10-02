@@ -922,8 +922,7 @@ def ass(unit):
             'TextTwo' : "",
             }
         }
-
-    if count == 1:
+    elif count == 1:
         ansDict = {
         'Unit' : unit,
         1 : {
@@ -940,6 +939,29 @@ def ass(unit):
             'TextTwo' : fields.TextTwo,
             }
         }
+    else:
+        firstEntry = model.query.filter_by(username=current_user.username).first()
+        #model.query.get(firstEntry.id).delete()
+        db.session.delete(firstEntry)
+        db.session.commit()
+        fields = model.query.filter_by(username=current_user.username).first()
+        ansDict = {
+        'Unit' : unit,
+        1 : {
+            'AudioData' : fields.AudioDataOne,
+            'Length' : fields.LengthOne
+            },
+        2 : {
+            'AudioData' : fields.AudioDataTwo,
+            'Length' :  fields.LengthTwo
+            },
+        3 : {
+            'Notes' : fields.Notes,
+            'TextOne' : fields.TextOne,
+            'TextTwo' : fields.TextTwo,
+            }
+        }
+
 
     try:
         speechModel = model.query.filter_by(username='Chris').first()
