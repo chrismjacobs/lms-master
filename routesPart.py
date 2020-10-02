@@ -299,7 +299,11 @@ def shareUpload():
         if int(question) == 0: ## team start
             entry = model(username=str(nameRange), teamnumber=teamnumber, Grade=0, Comment='in progress..')
         else: ## writer start
-            entry = model(username=str(nameRange), teamnumber=teamnumber, Grade=0, Comment='in progress..', Ans01=answer)
+            if int(qs) == 1:
+                print('Only one question..')
+                entry = model(username=str(nameRange), teamnumber=teamnumber, Grade=2, Comment='Done', Ans01=answer)
+            else:
+                entry = model(username=str(nameRange), teamnumber=teamnumber, Grade=0, Comment='in progress..', Ans01=answer)
 
         db.session.add(entry)
         db.session.commit()
