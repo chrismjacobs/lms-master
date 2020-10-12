@@ -27,10 +27,10 @@
 
         <tbody>
         <template v-for="(proj, key) in projectOBJ" :key="key">
-          <template v-for="(student, name) in proj" :key="name">
-            <tr>
+          <template  v-for="(student, name) in proj" :key="name">
+            <tr :style="rowStyle(student.novel.chapters, sumsLength(name, key), key)">
               <td>
-              <span @click="showSums = name+key" class="unit-span" style="background:silver;padding:3px">
+              <span @click="showSums = name+key" class="unit-span" style="background:orange;padding:3px">
               [[ name ]]
               </span>
               </td>
@@ -50,11 +50,13 @@
             <tr v-if="showSums == name+key">
               <td colspan="4">
                 <template v-for="(sum, num) in student.sums" :key="num">
+                <span style="background:PAPAYAWHIP"> [[num]]  [[sum.title]]</span> <br>
                 <span> [[sum.characters]] </span><br>
                 <span> [[sum.setting]] </span><br>
-                <textarea type="textarea" v-model="sum.summary"> [[sum.summary]] </textarea><br>
+                <textarea style="background:LIGHTYELLOW" type="textarea" v-model="sum.summary"> [[sum.summary]] </textarea><br>
                 <button @click="updateSum(name, key, sum.number, sum.summary)"> Update </button><br>
-                <span> [[sum.newWords]] </span><br>
+                <span > [[sum.newWords]] </span>
+                <hr>
                 </template>
               </td>
             </tr>
@@ -114,6 +116,17 @@ function startVue(OBJ){ new Vue({
               count +=1
           }
           return count
+        },
+        rowStyle: function (x,y,key) {
+          if (parseInt(x) === parseInt(y) && key === '01') {
+            return 'background:lightgreen'
+          }
+          if (parseInt(x) === parseInt(y) && key === '02') {
+            return 'background:lightblue'
+          }
+          if (key === '02') {
+            return 'background:lightgrey'
+          }
         },
         recsLength: function (name, novel) {
           let recs = this.projectOBJ[novel][name]['recs']

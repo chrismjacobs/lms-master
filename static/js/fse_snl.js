@@ -187,12 +187,12 @@ function startVue(){
             if (b64 == 'i'){
                 var b64data = this.image64['base64']
                 var fileType = this.image64['fileType']
-                this.ansOBJ[key]['imageLink'] = 'updating'
+                // this.ansOBJ[key]['imageLink'] = 'updating'
             }
             if (b64 == 'a'){
                 var b64data = this.audio64['base64']
                 var fileType = 'mp3'
-                this.ansOBJ[key]['audioLink'] = 'updating'
+                // this.ansOBJ[key]['audioLink'] = 'updating'
             }
 
             $.ajax({
