@@ -7,65 +7,65 @@
 <div class="content-section">
 
 <legend class="border-bottom mb-4">Performance</legend>
-   <div style="overflow-x:auto;"> 
+   <div style="overflow-x:auto;">
     <table class="table table-sm">
-       <tbody>         
+       <tbody>
           <tr v-if="examOBJ.ex56 !=0 && examOBJ.ex78 !=0" :style="totalStyle((examOBJ.midterm + examOBJ.total) /2)">
-            <td> <h5>Total Grade</h5> </td>   
-            <td> [[ (examOBJ.midterm + examOBJ.total) /2 ]]/100%</td>  
-          </tr>       
+            <td> <h5>Total Grade</h5> </td>
+            <td> [[ (examOBJ.midterm + examOBJ.total) /2 ]]/100%</td>
+          </tr>
           <tr v-if="examOBJ.ex56 !=0 && examOBJ.ex78 !=0" :style="totalStyle(examOBJ.midterm)">
-            <td> Midterm Score</td>   
-            <td> [[examOBJ.midterm]]/100%</td>  
-          </tr>       
+            <td> Midterm Score</td>
+            <td> [[examOBJ.midterm]]/100%</td>
+          </tr>
           <tr :style="totalStyle(examOBJ.total)">
-            <td> Final Score</td>   
-            <td> [[examOBJ.total]]/100%</td>  
-          </tr>       
+            <td> Final Score</td>
+            <td> [[examOBJ.total]]/100%</td>
+          </tr>
           <tr>
-            <td> Units</td>   
-            <td> [[examOBJ.units]]/30%</td>  
-          </tr>       
+            <td> Units</td>
+            <td> [[examOBJ.units]]/30%</td>
+          </tr>
           <tr>
-            <td> Assignments</td>   
-            <td> [[examOBJ.asses]]/30%</td>  
-          </tr> 
-       
-          <tr  style="height:30px">
-            <td> 
-              <span v-if="setOBJ['ex'] == 3"> Exam 5-6 Practice</span>
-              <span v-else-if="setOBJ['56'] == 1" @click="goTo('5-6', 'review')" class="unit-span" style="background:{{theme}}; height:40px"> Exam 5-6 Practice </span>
-              <span v-else> Exam 5-6 Practice</span>
-            </td>   
-            <td style="color:hotpink"> [[examOBJ.tries56]]</td>  
-          </tr>       
-          <tr>
-            <td> 
-              <span v-if="setOBJ['ex'] == 3"> Exam 7-8 Practice</span>
-              <span v-else-if="setOBJ['78'] == 1" @click="goTo('7-8', 'review')" class="unit-span" style="background:{{theme}}; height:40px"> Exam 7-8 Practice </span> 
-              <span v-else> Exam 7-8 Practice</span>
-            </td>   
-            <td style="color:hotpink"> [[examOBJ.tries78]]</td>  
-          </tr>       
-          <tr>
-            <td> 
-              <span v-if="setOBJ['ex'] == 3" @click="goTo('5-6', 'exam')" class="unit-span" style="background:{{theme}}; height:40px"> Exam 5-6 Grade </span> 
-              <span v-else> Exam 5-6 Grade</span>
-            </td>   
-            <td> [[examOBJ.ex56]]/20%</td>  
-          </tr>       
-          <tr>
-            <td>  <span v-if="setOBJ['ex'] == 3" @click="goTo('7-8', 'exam')" class="unit-span" style="background:{{theme}}; height:40px"> Exam 7-8 Grade </span> 
-              <span v-else> Exam 7-8 Grade</span>
-            </td>   
-            <td> [[examOBJ.ex78]]/20%</td>  
+            <td> Assignments</td>
+            <td> [[examOBJ.asses]]/30%</td>
           </tr>
 
-          
-                 
+          <tr  style="height:30px">
+            <td>
+              <span v-if="setOBJ['ex'] == 3"> Exam 5-6 Practice</span>
+              <span v-else-if="setOBJ['56'] == 1" @click="goTo('1-5-6', 'review')" class="unit-span" style="background:{{theme}}; height:40px"> Exam 5-6 Practice </span>
+              <span v-else> Exam 5-6 Practice</span>
+            </td>
+            <td style="color:hotpink"> [[examOBJ.tries56]]</td>
+          </tr>
+          <tr>
+            <td>
+              <span v-if="setOBJ['ex'] == 3"> Exam 7-8 Practice</span>
+              <span v-else-if="setOBJ['78'] == 1" @click="goTo('1-7-8', 'review')" class="unit-span" style="background:{{theme}}; height:40px"> Exam 7-8 Practice </span>
+              <span v-else> Exam 7-8 Practice</span>
+            </td>
+            <td style="color:hotpink"> [[examOBJ.tries78]]</td>
+          </tr>
+          <tr>
+            <td>
+              <span v-if="setOBJ['ex'] == 3" @click="goTo('1-5-6', 'exam')" class="unit-span" style="background:{{theme}}; height:40px"> Exam 5-6 Grade </span>
+              <span v-else> Exam 5-6 Grade</span>
+            </td>
+            <td> [[examOBJ.ex56]]/20%</td>
+          </tr>
+          <tr>
+            <td>  <span v-if="setOBJ['ex'] == 3" @click="goTo('1-7-8', 'exam')" class="unit-span" style="background:{{theme}}; height:40px"> Exam 7-8 Grade </span>
+              <span v-else> Exam 7-8 Grade</span>
+            </td>
+            <td> [[examOBJ.ex78]]/20%</td>
+          </tr>
+
+
+
       </tbody>
-    </table>   
-  </div>   
+    </table>
+  </div>
 </div>
 
 
@@ -73,11 +73,11 @@
 
 <div class="content-section" style="background:lightpink">
 <legend class="border-bottom mb-4">Game Zone</legend>
-    
+
     <h1> <a href="https://vocab-game-zone.herokuapp.com/" target="_blank"> Test your vocabulary </a> <h1>
 
-</div> 
-   
+</div>
+
 
 </div> <!-- end of Vue app -->
 
@@ -87,7 +87,7 @@
 
 {% endblock %}
 
-{% block script %}   
+{% block script %}
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 
@@ -104,30 +104,30 @@ console.log('set', setOBJ);
 
 startVue()
 
-function startVue(){ 
-  
-  let vue = new Vue({   
+function startVue(){
+
+  let vue = new Vue({
 
     el: '#vue-app',
     delimiters: ['[[', ']]'],
 
-    data: {         
+    data: {
         examOBJ: examOBJ,
         setOBJ: setOBJ,
-    }, 
-    methods: {        
+    },
+    methods: {
         goTo: function(unit, test){
           var str = window.location.href
-          
+
           let url = (str).split('exam_list')[0] + 'exams/' + test + '/' + unit
           console.log('goTO', url);
           window.location = url
-         
+
         },
         totalStyle: function(grade){
           if (grade < 60) {
             return { 'background': 'lightsalmon'}
-          } 
+          }
           else if (grade < 80){
             return { 'background': 'gold'}
           }
@@ -139,15 +139,15 @@ function startVue(){
           }
 
         }
-                  
-    }         
+
+    }
 })// end NEW VUE
 
 
 
-}// endFunction 
+}// endFunction
 
-</script>  
+</script>
 
-{% endblock %} 
+{% endblock %}
 

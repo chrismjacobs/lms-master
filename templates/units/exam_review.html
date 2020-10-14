@@ -4,46 +4,46 @@
 
 <div id="vue-app">
 
-<div class="content-section">    
+<div class="content-section">
         <h1> Exam Units: {{ title }}  </h1>
-    
+
 </div>
 
-<div class="content-section">        
-    
+<div class="content-section">
+
     <div style="overflow-x:auto;">
       <table class="table table-sm">
         <thead>
-            <tr>              
-              <th scope="col" >Question</th>                                         
+            <tr>
+              <th scope="col" >Question</th>
             </tr>
-        </thead> 
-        
+        </thead>
+
         <tbody>
-        <template v-for="(qSet, key) in examOBJ" > 
-            
+        <template v-for="(qSet, key) in examOBJ" >
+
             <tr>
               <td style="background:lightgrey">
-                <h6>[[ key ]]</h6>      
+                <h6>[[ key ]]</h6>
               </td>
             </tr>
             <template v-for="(qa, k) in qSet">
-                <tr> 
+                <tr>
                     <td>
                       <h6>[[ k ]]</h6>
-                  
-                      <select style="height:30px;width:150px;color:white;background:burlywood" :id="[[ qa[0] ]]" name="questions">  
+
+                      <select style="height:30px;width:150px;color:white;background:burlywood" :id="[[ qa[0] ]]" name="questions">
                         <option :value="0"> -- </option>
                           <template v-for="x in shuffle(qa)">
-                              <option :value="[[ x ]]">[[ x ]]</option>                             
+                                <option :value="[[ x ]]">[[ x ]]</option>
                           </template>
                       </select>
 
-                 
+
                       <br>
 
                     </td>
-                </tr> 
+                </tr>
               </template>
         </template>
 
@@ -53,9 +53,9 @@
       <button class="btn btn-warning" @click="submitExam()"> Submit </button>
     </div>
 
-</div>   
+</div>
 
- 
+
 
 </div> <!-- end of Vue app -->
 
@@ -65,7 +65,7 @@
 
 {% endblock %}
 
-{% block script %}   
+{% block script %}
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 
@@ -77,40 +77,40 @@ var examOBJ = JSON.parse(OBJ)
 console.log('Exam', examOBJ);
 
 var str = window.location.href
-var browser_info = str.split('exams/')[1] 
-var test = browser_info.split('/')[0] 
-var unit = browser_info.split('/')[1] 
+var browser_info = str.split('exams/')[1]
+var test = browser_info.split('/')[0]
+var unit = browser_info.split('/')[1]
 console.log(unit, test);
 
 
 startVue()
 
-function startVue(){ 
-  
-  let vue = new Vue({   
+function startVue(){
+
+  let vue = new Vue({
 
     el: '#vue-app',
     delimiters: ['[[', ']]'],
     mounted: function(){
       //resort snlOBJ
-       
+
     },
     data: {
-        examOBJ: examOBJ, 
+        examOBJ: examOBJ,
         errorCount : 0,
-        questionCount : 0,  
-        exam : 'mock', 
+        questionCount : 0,
+        exam : 'mock',
         grade : 0,
-        tries : 0     
-    }, 
-    methods: {              
-        goTo: function() {  
+        tries : 0
+    },
+    methods: {
+        goTo: function() {
           reDirectOBJ = {
-            '1-2': 'exam_list_midterm',
-            '3-4': 'exam_list_midterm',
-            '5-6': 'exam_list_final',
-            '7-8': 'exam_list_final'
-          }       
+            '1-1-2': 'exam_list_midterm',
+            '1-3-4': 'exam_list_midterm',
+            '1-5-6': 'exam_list_final',
+            '1-7-8': 'exam_list_final'
+          }
 
           var str = window.location.href
           let url = str.split('exams')[0] + reDirectOBJ[unit]
@@ -118,14 +118,14 @@ function startVue(){
           window.location = url
         },
         submitExam: function() {
-          //check if dropdown answers match          
+          //check if dropdown answers match
           for (var topic in vue.examOBJ){
             for (var question in vue.examOBJ[topic]){
                 vue.questionCount +=1
                 var correct_answer = vue.examOBJ[topic][question][0]
 
                 console.log(question, correct_answer);
-                var e = document.getElementById(correct_answer) 
+                var e = document.getElementById(correct_answer)
                   if (e.options[e.selectedIndex].value != correct_answer ) {
                       vue.errorCount += 1
                       e.setAttribute("style", "height:30px;width:150px;color:white;background:lightcoral")
@@ -141,67 +141,67 @@ function startVue(){
               vue.tries += 1
               console.log('x', vue.tries);
               alert('Sorry, you have ' + vue.errorCount + ' incorrect answers. Please try again')
-              var floatGrade = (vue.questionCount - vue.errorCount)*20/vue.questionCount 
+              var floatGrade = (vue.questionCount - vue.errorCount)*20/vue.questionCount
               var percentGrade = Math.round(floatGrade)
-              vue.errorCount = 0 
-              vue.questionCount = 0 
-              vue.updateGrades(percentGrade)                      
-          }          
+              vue.errorCount = 0
+              vue.questionCount = 0
+              vue.updateGrades(percentGrade)
+          }
           else{
               alert('Great, all answers are correct')
               vue.tries += 1
-              vue.updateGrades(20)              
+              vue.updateGrades(20)
           }
-        }, 
+        },
         updateGrades: function(percentGrade) {
-          
+
           $.ajax({
               data : {
-                test : test,                         
-                unit : unit, 
-                grade : percentGrade,  
-                tries : vue.tries          
+                test : test,
+                unit : unit,
+                grade : percentGrade,
+                tries : vue.tries
               },
               type : 'POST',
-              url : '/updateExam',               
+              url : '/updateExam',
             })
-            .done(function(data) { 
+            .done(function(data) {
               vue.tries = parseInt(data.tries)
               console.log('tries', vue.tries);
-              if (vue.tries > 3){          
-                alert('too many tries - grade updated') 
-                vue.goTo()   
+              if (vue.tries > 3){
+                alert('too many tries - grade updated')
+                vue.goTo()
               }
-              else if (percentGrade == 20 ){                
-                vue.goTo()   
-              }            
+              else if (percentGrade == 20 ){
+                vue.goTo()
+              }
             })
             .fail(function(){
                 alert('error has occurred');
-            }); 
+            });
         },
         shuffle: function(arg) {
           //Durstenfeld shuffle:  https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
           arrayString = JSON.stringify(arg)
           array = JSON.parse(arrayString)
-          
+
           for (var i = array.length - 1; i > 0; i--) {
               var j = Math.floor(Math.random() * (i + 1));
               var temp = array[i];
               array[i] = array[j];
               array[j] = temp;
-            }   
+            }
           console.log(array);
-          return array       
+          return array
         },
-    }          
+    }
 })// end NEW VUE
 
 
 
-}// endFunction 
+}// endFunction
 
-</script>  
+</script>
 
-{% endblock %} 
+{% endblock %}
 

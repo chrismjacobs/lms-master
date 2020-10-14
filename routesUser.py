@@ -113,8 +113,8 @@ def get_grades(ass, unt):
     assGrade = 0
     assGradRec = {}
 
-
     model_check = total_units
+    print('model check ', model_check, ass, ass_start, ass_check)
     if ass == True:
         for model in Info.ass_mods_list[ass_start:ass_check]:
             unit = str(model).split('A')[1]
@@ -354,10 +354,10 @@ def exam_list_midterm():
         print('exam_list_data_checked')
     except:
         reviewDict = {
-                '1-2' : [],
-                '3-4' : [],
-                '5-6' : [],
-                '7-8' : []
+                '1-1-2' : [],
+                '1-3-4' : [],
+                '1-5-6' : [],
+                '1-7-8' : []
             }
         entry = Exams(username=current_user.username, j1=json.dumps(reviewDict), j2=json.dumps(reviewDict))
         db.session.add(entry)
@@ -368,22 +368,22 @@ def exam_list_midterm():
         examData = json.loads(user.j2)
 
     try:
-        tries12 = round(   (reviewData['1-2'][0] + reviewData['1-2'][1])   /2  )
+        tries12 = round(   (reviewData['1-1-2'][0] + reviewData['1-1-2'][1])   /2  )
     except:
         tries12 = 0
-        reviewData['1-2'] = [0,0,0,]
+        reviewData['1-1-2'] = [0,0,0]
     try:
-        tries34 = round(   (reviewData['3-4'][0] + reviewData['3-4'][1])   /2  )
+        tries34 = round(   (reviewData['1-3-4'][0] + reviewData['1-3-4'][1])   /2  )
     except:
         tries34 = 0
-        reviewData['3-4'] = [0,0,0,]
+        reviewData['1-3-4'] = [0,0,0]
 
     ex12 = 0
     ex34 = 0
-    if len(examData['1-2']) > 0:
-        ex12 = round(   (examData['1-2'][0] + examData['1-2'][1])   /2  )
-    if len(examData['3-4']) > 0:
-        ex34 = round(   (examData['3-4'][0] + examData['3-4'][1])   /2  )
+    if len(examData['1-1-2']) > 0:
+        ex12 = round(   (examData['1-1-2'][0] + examData['1-1-2'][1])   /2  )
+    if len(examData['1-3-4']) > 0:
+        ex34 = round(   (examData['1-3-4'][0] + examData['1-3-4'][1])   /2  )
 
 
 
@@ -391,13 +391,15 @@ def exam_list_midterm():
         'total' : 0,
         'units' : 0,
         'asses' : 0,
-        'tries12' : str(tries12) + '/20% - tries: ' + str(reviewData['1-2'][2]),
-        'tries34' : str(tries34) + '/20% - tries: ' + str(reviewData['3-4'][2]),
+        'tries12' : str(tries12) + '/20% - tries: ' + str(reviewData['1-1-2'][2]),
+        'tries34' : str(tries34) + '/20% - tries: ' + str(reviewData['1-3-4'][2]),
         'ex12' : ex12,
         'ex34' : ex34,
     }
 
+
     grades = get_grades(True, True)
+
 
     if grades['unitGrade'] > 0:
         u = grades['unitGrade'] * 30 / grades['maxU']
@@ -406,7 +408,9 @@ def exam_list_midterm():
         a = grades['assGrade'] * 30 / grades['maxA']
         examDict['asses'] = round(a, 1)
 
+
     examDict['total'] = examDict['units'] + examDict['asses'] + examDict['ex12'] + examDict['ex34']
+
 
     setDict = {
         '12' : 0,
@@ -414,10 +418,12 @@ def exam_list_midterm():
         'ex' : current_user.extra
     }
 
+
     if Units.query.filter_by(unit='02').first():
         setDict['12'] = Units.query.filter_by(unit='02').first().uA
     if Units.query.filter_by(unit='04').first():
         setDict['34'] = Units.query.filter_by(unit='04').first().uA
+
 
     context = {
     'title' : 'Exams',
@@ -427,8 +433,8 @@ def exam_list_midterm():
     }
 
 
-    return examDict['total']
-    #return render_template('units/exam_list_midterm.html', **context )
+    #return examDict['total']
+    return render_template('units/exam_list_midterm.html', **context )
 
 
 @app.route ("/exam_list_final", methods=['GET','POST'])
@@ -443,10 +449,10 @@ def exam_list_final():
         print('exam_list_data_checked')
     except:
         reviewDict = {
-                '1-2' : [],
-                '3-4' : [],
-                '5-6' : [],
-                '7-8' : []
+                '1-1-2' : [],
+                '1-3-4' : [],
+                '1-5-6' : [],
+                '1-7-8' : []
             }
         entry = Exams(username=current_user.username, j1=json.dumps(reviewDict), j2=json.dumps(reviewDict))
         db.session.add(entry)
@@ -457,30 +463,30 @@ def exam_list_final():
         examData = json.loads(user.j2)
 
     try:
-        tries56 = round(   (reviewData['5-6'][0] + reviewData['5-6'][1])   /2  )
+        tries56 = round(   (reviewData['1-5-6'][0] + reviewData['1-5-6'][1])   /2  )
     except:
         tries56 = 0
-        reviewData['5-6'] = [0,0,0,]
+        reviewData['1-5-6'] = [0,0,0,]
     try:
-        tries78 = round(   (reviewData['7-8'][0] + reviewData['7-8'][1])   /2  )
+        tries78 = round(   (reviewData['1-7-8'][0] + reviewData['1-7-8'][1])   /2  )
     except:
         tries78 = 0
-        reviewData['7-8'] = [0,0,0,]
+        reviewData['1-7-8'] = [0,0,0,]
 
     ex56 = 0
     ex78 = 0
-    if len(examData['5-6']) > 0:
-        ex56 = round(   (examData['5-6'][0] + examData['5-6'][1])   /2  )
-    if len(examData['7-8']) > 0:
-        ex78 = round(   (examData['7-8'][0] + examData['7-8'][1])   /2  )
+    if len(examData['1-5-6']) > 0:
+        ex56 = round(   (examData['1-5-6'][0] + examData['1-5-6'][1])   /2  )
+    if len(examData['1-7-8']) > 0:
+        ex78 = round(   (examData['1-7-8'][0] + examData['1-7-8'][1])   /2  )
 
 
     examDict = {
         'total' : 0,
         'units' : 0,
         'asses' : 0,
-        'tries56' : str(tries56) + '/20% - tries: ' + str(reviewData['5-6'][2]),
-        'tries78' : str(tries78) + '/20% - tries: ' + str(reviewData['7-8'][2]),
+        'tries56' : str(tries56) + '/20% - tries: ' + str(reviewData['1-5-6'][2]),
+        'tries78' : str(tries78) + '/20% - tries: ' + str(reviewData['1-7-8'][2]),
         'ex56' : ex56,
         'ex78' : ex78,
         'midterm' : grades_midterm ()[current_user.username]['Total']
@@ -702,16 +708,16 @@ def grades_midterm ():
     practices = Exams.query.all()
     for practice in practices:
         reviewData = ast.literal_eval(practice.j1)
-        if len(reviewData['1-2']) > 2:
-            gradesDict[practice.username]['tries1'] = reviewData['1-2'][2]
-        if len(reviewData['3-4']) > 2:
-            gradesDict[practice.username]['tries2'] = reviewData['3-4'][2]
+        if len(reviewData['1-1-2']) > 2:
+            gradesDict[practice.username]['tries1'] = reviewData['1-1-2'][2]
+        if len(reviewData['1-3-4']) > 2:
+            gradesDict[practice.username]['tries2'] = reviewData['1-3-4'][2]
 
         examData =  ast.literal_eval(practice.j2)
-        if len(examData['1-2']) > 0 :
-            gradesDict[practice.username]['exam1'] = round( (examData['1-2'][0] + examData['1-2'][1])/2 )
-        if len(examData['3-4']) > 0 :
-            gradesDict[practice.username]['exam2'] = round( (examData['3-4'][0] + examData['3-4'][1])/2 )
+        if len(examData['1-1-2']) > 0 :
+            gradesDict[practice.username]['exam1'] = round( (examData['1-1-2'][0] + examData['1-1-2'][1])/2 )
+        if len(examData['1-3-4']) > 0 :
+            gradesDict[practice.username]['exam2'] = round( (examData['1-3-4'][0] + examData['1-3-4'][1])/2 )
 
 
         #print('exam_list_data_checked')

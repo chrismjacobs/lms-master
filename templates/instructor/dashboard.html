@@ -40,17 +40,18 @@
                 <td > <button @click="edit(item.idNum, key)"> [[  key ]] </button> </td>
                 <td> <button @click="play(item.A1)"> [[  item.L1  ]] </button> </td>
                 <td> <button @click="play(item.A2)"> [[  item.L2  ]] </button> </td>
-                <td style="width: 50px; word-wrap: break-word"> <div v-if="item.Notes" class="noScrollBar" style="overflow:scroll;width:210px;height:110px">[[  item.Notes ]] </div></td>
-                <td style="width: 50px; word-wrap: break-word"><div class="noScrollBar" style="overflow:scroll;width:210px;height:110px">[[  item.T1  ]] </div></td>
-                <td style="width: 50px; word-wrap: break-word"><div  class="noScrollBar" style="overflow:scroll;width:210px;height:110px">[[  item.T2  ]] </div></td>
+                <td style="width: 45px; word-wrap: break-word"> <div v-if="item.Notes" class="noScrollBar" style="overflow:scroll;width:210px;height:110px">[[  item.Notes ]] </div></td>
+                <td style="width: 45px; word-wrap: break-word"><div class="noScrollBar" style="overflow:scroll;width:210px;height:110px">[[  item.T1  ]] </div></td>
+                <td style="width: 45px; word-wrap: break-word"><div  class="noScrollBar" style="overflow:scroll;width:210px;height:110px">[[  item.T2  ]] </div></td>
                 <td> [[  item.G  ]] </td>
                 <td> <textarea type="text" :style="commentStyle(item.C)" :id="user+key" v-model="item.C" required> </textarea></td>
                 <td> <button @click="commentSet(user,key)"> Update </button>
                   <button v-if="showNotes != user+key" @click="showNotes = user+key"> Notes </button>
                   <button style="background:coral" @click="item.C = ''"> Clear </button>
-                  <select v-if="showNotes == user+key" size="4" v-model="comment">
-                    <option v-for="option in options" :value="option.value">[[option.text]]</option>
+                  <select v-if="showNotes == user+key" size="8" v-model="comment">
+                    <option v-for="option in options" :value="option.value">[[option.value]]</option>
                   </select>
+                  <br>
                   <button v-if="showNotes == user+key" @click="item.C += comment"> Add </button>
                   </td>
 
@@ -96,12 +97,25 @@ function startVue(){
     data: {
         ansOBJ: OBJ,
         options: [
-        {value: null, text:'test'},
-        {value: null, text:'test'},
-        {value: null, text:'test'},
-        {value: null, text:'test'},
-        {value: null, text:'test'},
-        {value: null, text:'test'}
+        {value: 'Great start,', text:'test'},
+        {value: 'Good assignment,', text:'test'},
+        {value: 'I like this assignment,', text:'test'},
+        {value: 'Great work,', text:'test'},
+        {value: 'Nice work,', text:'test'},
+        {value: ' I like this narrative,', text:'test'},
+        {value: " it's a good narrative, ", text:'test'},
+        {value: ' your narrative is very good,', text:'test'},
+        {value: ' excellent pronunciation, ', text:'test'},
+        {value: ' pronunciation is clear', text:'test'},
+        {value: ' pronunciation practice is good', text:'test'},
+        {value: ' your pronunciation is improving', text:'test'},
+        {value: ' give these words some extra practice: ', text:'test'},
+        {value: ' try these words again: ', text:'test'},
+        {value: ' watch out for the (th) sound like (think),', text:'test'},
+        {value: ' grammar sentences look good', text:'test'},
+        {value: ' writing part is well done', text:'test'},
+        {value: ' no grammar problems', text:'test'},
+        {value: ' Grammar Tip: ', text:'test'},
         ],
         showNotes: null,
         comment: null
