@@ -227,7 +227,7 @@ def updateSum():
     print(summary, sums)
     sums[str(number)]['summary'] = summary
     entry.Ans02 = json.dumps(sums)
-    entry.Ans03 = '{"1": {}, "2": {}, "3": {}}'
+    entry.Ans03 = '{"1": {}, "2": {}}'
     db.session.commit()
 
     return jsonify({'success' : True})
@@ -275,16 +275,16 @@ def addFeedback():
 @app.route ("/rec/<string:index>", methods=['GET','POST'])
 @login_required
 def nme_recording(index):
-    novels = ['01', '02', '03', '04', '05']
 
     rCount = 0
     rDict = {}
-    for n in novels:
-        project = projectDict[n].query.filter_by(username=current_user.username).first()
-        if project:
-            rDict = json.loads(project.Ans03)
-            rCount +=1
 
+    project = projectDict[index].query.filter_by(username=current_user.username).first()
+    if project:
+        rDict = json.loads(project.Ans03)
+        rCount +=1
+
+    print(rDict)
     html = 'nme/nme_recs.html'
 
     return render_template(html, legend='Add Recordings', index=index, rString=json.dumps(rDict), rCount=rCount)
