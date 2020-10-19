@@ -284,7 +284,6 @@ def nme_recording(index):
         rDict = json.loads(project.Ans03)
         rCount +=1
 
-    print(rDict)
     html = 'nme/nme_recs.html'
 
     return render_template(html, legend='Add Recordings', index=index, rString=json.dumps(rDict), rCount=rCount)
