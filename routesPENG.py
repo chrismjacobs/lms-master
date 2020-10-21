@@ -119,22 +119,25 @@ def peng_list():
             'Features' : None,
             'Materials' : None,
             'Image' : None,
-            'Intro' : {
+            'Parts' : {
+                'Intro' : {
                 1 : None,
                 2 : None
                 },
-            'Parts' : {
                 'Product' : {
                 1 : None,
-                2 : None
+                2 : None,
+                3 : None
                 },
                 'Features' : {
                 1 : None,
-                2 : None
+                2 : None,
+                3 : None
                 },
                 'Extra' : {
                 1 : None,
-                2 : None
+                2 : None,
+                3 : None
                 },
                 'Close' : {
                 1 : None,
@@ -148,15 +151,18 @@ def peng_list():
                 },
                 'Product' : {
                 1 : None,
-                2 : None
+                2 : None,
+                3 : None
                 },
                 'Features' : {
                 1 : None,
-                2 : None
+                2 : None,
+                3 : None
                 },
                 'Extra' : {
                 1 : None,
-                2 : None
+                2 : None,
+                3 : None
                 },
                 'Close' : {
                 1 : None,
@@ -201,6 +207,13 @@ def peng_dash(MTFN):
 
     projDict = {}
 
+    if MTFN == 'FS':
+        midterms = U011U.query.all()
+        html = 'peng/peng_dash_fs.html'
+        for user in midterms:
+            userDict = json.loads(user.Ans01)
+            userDict['stage'] = user.Comment
+            projDict[user.username] = userDict
     if MTFN == 'MT':
         midterms = U011U.query.all()
         html = 'peng/peng_dash.html'

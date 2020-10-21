@@ -137,12 +137,35 @@ def nme_novels():
                 if noneChecker:
                     nDict[n]['recs'] += 1
 
-
-
     nString = json.dumps(nDict)
 
-
     return render_template('nme/nme_novels.html', completed=completed, nCount=nCount, nString=nString, legend='NME Projects')
+
+
+@app.route ("/nme_vocab", methods=['GET','POST'])
+@login_required
+def nme_vocab():
+
+    novels = ['01', '02', '03', '04', '05']
+
+    vCount = 1
+    vDict = {}
+    for n in novels:
+        project = projectDict[n].query.filter_by(username=current_user.username).first()
+        if project:
+            for c in json.loads(project.Ans02):
+                for w in c['newWords']:
+                    vDict[count] = c['newWords'][w]
+                    count +=1
+
+    print(len(vDict))
+
+    random.shuffle(vDict)
+
+    vString = json.dumps(vDict)
+
+
+    return render_template('nme/nme_vocab.html', completed=completed, vCount=vCount, vString=vString, legend='NME Vocab Test')
 
 @app.route ("/addNovel", methods=['GET','POST'])
 @login_required
