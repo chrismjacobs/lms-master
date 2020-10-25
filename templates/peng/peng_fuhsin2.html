@@ -6,10 +6,10 @@
 <span id="name" style="display:none">{{current_user.username}}</span>
 
 <div class="content-section">
-<h1> Fu Hsin Presentation: <br> Art/Design Project </h1>
+<h3> FU HSIN HIGH Presentation: <br> Art/Design Project </h3>
 
     <div class="embed-responsive embed-responsive-4by3">
-        <iframe id="questions_embed" src=""
+        <iframe id="questions_embed" src="https://docs.google.com/presentation/d/e/2PACX-1vRmZdMtaw-WS-khw0XXNhxOAuVs98GHxdxMUfmgUL2vhfLT4_gcDoIRFYvUUmOeTYZNq_GIILZTEHOt/embed"
             allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
 	</iframe>
     </div>
@@ -25,46 +25,37 @@
 
 
 <span :style="style('Intro')"> Project Name </span>
-<input type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['ProductName']"></input>
+<span :style="style('Set')"> [[ ansOBJ['ProductName'] ]] </span>
+
 <br>
 <br>
 
-<span :style="style('Intro')"> Features</span>
-<textarea type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Features']"></textarea>
+<span :style="style('Intro')"> Features </span>
+<span :style="style('Set')"> [[ ansOBJ['Features'] ]]</span>
+
 <br>
 <br>
 
-<span :style="style('Intro')"> Materials</span>
-<textarea type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Materials']"></textarea>
-<br>
+<span :style="style('Intro')"> Materials </span>
+<span :style="style('Set')"> [[ ansOBJ['Materials'] ]]</span>
+
 <br>
 
 <br>
     <img class="rounded img-fluid" id="final_image" alt="need to update" style="max-width:80%"  :src="imageCheck">
 <br>
 
-
-<h4 >  Intro  </h4>
-<template v-for="(item, key) in ansOBJ['Intro']">
-<h4 >  Point [[ key ]]  </h4>
-
-        <span :style="style('dt')">Sentence </span>
-        <textarea type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Intro'][key]" @on-blur="wordCount()"></textarea>
-        <br>
-        <br>
-
-</template>
-
-
-
 <template v-for="(section, key) in ansOBJ['Parts']">
-<h4 >  [[ key ]]  </h4>
+<h4 >  [[ key ]]: [[ script[key] ]]  </h4>
         <div v-for="(point, order) in ansOBJ['Parts'][key]">
-                <span :style="style('kw')">Point [[order]]: CC word(s) --> </span>
-                <input type="text" class="textAss" style="margin-left:5px; width:80%" v-model="ansOBJ['Cues'][key][order]"></input>
-                <br>
+                <div v-if="key[0] !== 'I' && key[1] !== 'l'">
+                    <span :style="style('kw')">Point [[order]]: Cue Card Key Word(s) --> </span>
+                    <input type="text" class="textAss" style="margin-left:5px; width:80%" v-model="ansOBJ['Cues'][key][order]"></input>
+                    <br>
+                </div>
+
                 <span :style="style('dt')"> Sentence </span>
-                <textarea type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Parts'][key][order]" @on-blur="wordCount()"></textarea>
+                <textarea type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Parts'][key][order]"></textarea>
                 <br>
                 <br>
         </div>
@@ -72,7 +63,7 @@
 </template>
 
 <div v-if="updateReady">
-    <button  class="btn btn-dark" style="margin-right:5px" @click="updatePlan()">Update Plan</button>
+    <button  class="btn btn-success" style="margin-right:5px" @click="updatePlan()">Update Plan</button>
 </div>
 <br>
 
@@ -86,8 +77,7 @@
 
 <template v-for="(section, key) in ansOBJ['Parts']">
 
-
-        <div style="border: 0.5px solid purple;border-radius: 3px; padding: 5px">
+        <div  v-if="key[0] !== 'I' && key[1] !== 'l'" style="background-color:lightgrey; border: 0.5px solid purple;border-radius: 3px; padding: 5px">
         <h4 style="color:purple" >  [[ key ]]  </h4>
         <ul>
            <li>[[  ansOBJ['Cues'][key][1]  ]]</li>
@@ -100,9 +90,6 @@
         <h5> [[ ansOBJ['Parts'][key][1] ]] </h5>
         <h5> [[ ansOBJ['Parts'][key][2] ]] </h5>
         <h5> [[ ansOBJ['Parts'][key][3] ]] </h5>
-
-
-
 
 <br>
 </template>
@@ -146,12 +133,10 @@ function startVue(ansOBJ){
         blurblocker:null,
         project: (window.location.href).split('/peng/')[1].split('/')[0],
         script: {
-            Product : "What is this product?",
-            Features : "First, let me explain some product features",
-            Demo : "Now, for the demonstration",
-            Extra : "Finally, what are some extra benefits?",
+            Product : "First, what are some details of the project?",
+            Creation : "Next, how did I create this?",
+            Extra : "Last, what is my reflection of this project?",
         }
-
     },
     methods: {
         wordCount : function(mark) {
@@ -179,6 +164,9 @@ function startVue(ansOBJ){
                 var bg = 'darkorange'
             }
             else if (mark.includes('Rea')){
+                var bg = 'PALEVIOLETRED'
+            }
+            else if (mark.includes('Set')){
                 var bg = 'PALEVIOLETRED'
             }
             else if (mark.includes('Int')){
