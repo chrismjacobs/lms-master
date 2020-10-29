@@ -391,6 +391,8 @@ def exam_list_midterm():
         'total' : 0,
         'units' : 0,
         'asses' : 0,
+        'tScore12': tries12,
+        'tScore34': tries34,
         'tries12' : str(tries12) + '/20% - tries: ' + str(reviewData['1-1-2'][2]),
         'tries34' : str(tries34) + '/20% - tries: ' + str(reviewData['1-3-4'][2]),
         'ex12' : ex12,
