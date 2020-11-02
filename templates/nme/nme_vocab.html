@@ -27,9 +27,9 @@
               </td>
             </tr>
             <tr>
-              <td :id="q.answer">
-                <select  type="text" style="width: 50%" name="vocab" v-model="answerSet[key]">
-                  <option v-for="option in ansShuffle" :value="option.value">[[option.text]]</option>
+              <td :id="q[2]">
+                <select  type="text" style="width: 50%; height:40px" name="vocab" v-model="answerSet[key]">
+                  <option v-for="option in answer3[key]" :value="option.text">[[option.text]]</option>
                 </select>
                 <br>
                 <br>
@@ -41,8 +41,7 @@
         </tbody>
       </table>
 
-      <button v-if="display" class="btn btn-warning" @click="submitQNA()"> Submit </button>
-      <button v-else class="btn btn-info" @click="checkQNA()"> Check Answers </button>
+      <button class="btn btn-info" @click="checkQNA()"> Check Answers </button>
     </div>
 
 </div>
@@ -79,17 +78,43 @@ function startVue(){
     el: '#vue-app',
     delimiters: ['[[', ']]'],
     created: function(){
-      let answers = [{value: null, text: '---'}]
+      let answers = []
       for (let q in vOBJ) {
-        answers.push({value:vOBJ[q][0], text:vOBJ[q][3]})
+        answers.push({value:vOBJ[q][0], text:vOBJ[q][2]})
       }
       this.ansShuffle = this.shuffle(answers)
+      // this.ansRandom = this.shuffle(answers)
+      for (let set in this.ansShuffle) {
+        this.ans3(this.ansShuffle[set].value, this.ansShuffle[set].text, set)
+      }
     },
     data: {
         vOBJ: vOBJ,
         ansShuffle: null,
         display : false,
         answerSet: {
+          1: null,
+          2: null,
+          3: null,
+          4: null,
+          5: null,
+          6: null,
+          7: null,
+          8: null,
+          9: null,
+          10: null,
+          11: null,
+          12: null,
+          13: null,
+          14: null,
+          15: null,
+          16: null,
+          17: null,
+          18: null,
+          19: null,
+          20: null,
+        },
+        answer3: {
           1: null,
           2: null,
           3: null,
@@ -121,6 +146,20 @@ function startVue(){
           }
           return array
         },
+        ans3: function (q, a, set) {
+          let aValue = {value: q , text: a}
+          let answers = [aValue]
+          let array = this.shuffle(this.ansShuffle)
+          let count = 1
+          for (let i in array) {
+            if (array[i].value !== aValue.value && count < 3) {
+              answers.push(array[i])
+              count += 1
+            }
+          }
+          console.log(answers)
+          this.answer3[set+1] = this.shuffle(answers)
+        },
         goTo: function(key, state) {
           var str = window.location.href
           let url = str.split('fse_exam')[0] + 'fse_list'
@@ -131,14 +170,14 @@ function startVue(){
           console.log(this.answerSet)
           let grade = 0
           for (let q in vOBJ) {
-            if (this.answerSet[q] === vOBJ[q].answer ) {
-              document.getElementById(vOBJ[q].answer).style.background = 'lightgreen'
+            if (this.answerSet[q] === vOBJ[q][2] ) {
+              document.getElementById(vOBJ[q][2]).style.background = 'lightgreen'
               grade += 1
             } else {
-              document.getElementById(vOBJ[q].answer).style.background = 'red'
+              document.getElementById(vOBJ[q][2]).style.background = 'red'
             }
           }
-          this.updateGrades(grade)
+          // this.updateGrades(grade)
         },
         updateGrades: function(grade) {
 

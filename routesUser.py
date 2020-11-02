@@ -994,26 +994,3 @@ def ass(unit):
     return render_template('units/assignment_vue.html', **context)
 
 
-@app.route("/dub", methods = ['GET', 'POST'])
-@login_required
-def dub():
-
-    return render_template('units/dubbing.html')
-
-
-@app.route('/dubUpload', methods=['POST', 'GET'])
-def dubUpload():
-
-
-    audio_string = request.form ['base64']
-
-    print('PROCESSING AUDIO')
-    audio = base64.b64decode(audio_string)
-    newTitle = S3_LOCATION + 'dubbing/' + current_user.username + '.mp3'
-    filename = 'dubbing/' + current_user.username + '.mp3'
-    s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=audio)
-
-
-
-    return jsonify({'title' : newTitle})
-

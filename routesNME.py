@@ -23,24 +23,9 @@ DEBUG = BaseConfig.DEBUG
 projectDict = {
         '01' : U011U,
         '02' : U021U,
-        '03' : U031U,
-        '04' : U041U,
-        '05' : U051U,
-        '06' : U061U,
-        '07' : U071U,
-        '08' : U081U
+        '03' : U031U
     }
 
-effortDict = {
-        '01' : U012U,
-        '02' : U022U,
-        '03' : U032U,
-        '04' : U042U,
-        '05' : U052U,
-        '06' : U062U,
-        '07' : U072U,
-        '08' : U082U
-    }
 
 def create_folder(unit, teamnumber, nameRange):
     keyName = (unit + '/' + teamnumber + '/')  #adding '/' makes a folder object
@@ -76,7 +61,7 @@ def nme_dash():
 
     for proj in projectDict:
         data = projectDict[proj].query.all()
-        print(data)
+        print('DATA', data)
         nmeDict[proj] = {}
         for entry in data:
             print(entry)
@@ -87,7 +72,7 @@ def nme_dash():
                 'recs' : json.loads(entry.Ans03)
                 }
 
-    pprint (nmeDict)
+    ## pprint (nmeDict)
 
     return render_template('nme/nme_dash.html', legend='NME Dash', nmeString = json.dumps(nmeDict))
 
@@ -142,30 +127,159 @@ def nme_novels():
     return render_template('nme/nme_novels.html', completed=completed, nCount=nCount, nString=nString, legend='NME Projects')
 
 
+
+@app.route ("/nme_exams", methods=['GET','POST'])
+@login_required
+def nme_exams():
+
+
+
+
+    return render_template('nme/nme_novels.html', legend='NME Reading Exams')
+
+
 @app.route ("/nme_vocab", methods=['GET','POST'])
 @login_required
 def nme_vocab():
 
-    novels = ['01', '02', '03', '04', '05']
+    novels = ['01', '02', '03']
 
     vCount = 1
     vDict = {}
+    vIndex = []
     for n in novels:
         project = projectDict[n].query.filter_by(username=current_user.username).first()
         if project:
-            for c in json.loads(project.Ans02):
-                for w in c['newWords']:
-                    vDict[count] = c['newWords'][w]
-                    count +=1
+            work = json.loads(project.Ans02)
+            for c in work:
+                print(work[c])
+                for w in work[c]['newWords']:
+                    vDict[vCount] = work[c]['newWords'][w]
+                    vIndex.append(vCount)
+                    vCount +=1
 
     print(len(vDict))
 
-    random.shuffle(vDict)
+    finalDict = {}
 
-    vString = json.dumps(vDict)
+    count = 1
+    random.shuffle(vIndex)
+
+    for w in vIndex:
+        if count <= 20:
+            finalDict[count] = vDict[w]
+            count += 1
 
 
-    return render_template('nme/nme_vocab.html', completed=completed, vCount=vCount, vString=vString, legend='NME Vocab Test')
+    vString = json.dumps(finalDict)
+
+
+    return render_template('nme/nme_vocab.html', vString=vString, legend='NME Vocab Test')
+
+@app.route ("/nme_listening", methods=['GET','POST'])
+@login_required
+def nme_listening():
+    print(U041U, type(U041U))
+
+    texts = U041U.query.all()
+
+    listDict = {}
+    count = 1
+
+    listCount = []
+
+    for tex in texts:
+        print('TRY')
+        print(tex, texts)
+        te = json.loads(tex.Ans01)
+        for entry in te:
+            print(te)
+            t = te[entry]
+            print(t, type(t))
+            listDict[count] = {}
+            listDict[count]['passOriginal'] = t['passage']
+            random.shuffle(t['words'])
+            listDict[count]['words'] = t['words']
+            newPassage = t['passage']
+            tCount = 1
+
+            wordDict = {}
+
+            for word in t['words']:
+                word_index = newPassage.find(word)
+                wordDict[word_index] = word
+
+            sort = sorted(wordDict)  ### makes a list of indexs
+
+            print(wordDict, sort)
+            wordList = []
+            for idx in sort:
+                print(idx, tCount, wordDict[idx])
+                wordList.append(wordDict[idx])
+                newPassage = newPassage.replace(wordDict[idx], '___' + str(tCount) + '___')
+                #print(newPassage)
+                tCount += 1
+
+            listDict[count]['passGaps'] = newPassage
+            listDict[count]['wordList'] = wordList
+            listDict[count]['wordsNull'] = [None, None, None, None]
+
+
+            ansPassage = t['passage'].split('.')
+            splitPassage = t['passage'].split('.')
+
+            for line in splitPassage:
+                print(line)
+                if len(line) < 3:
+                    splitPassage.pop(splitPassage.index(line))
+                    ansPassage.pop(ansPassage.index(line))
+
+
+
+            random.shuffle(splitPassage)
+            listDict[count]['passSplit'] = splitPassage
+
+            sentences = []
+            for p in range(len(splitPassage)):
+                sentences.append(None)
+
+            listDict[count]['sentences'] = sentences
+            listDict[count]['passAns'] = ansPassage
+            listDict[count]['audio'] = t['audio']
+
+            listCount.append(count)
+            count += 1
+
+
+    random.shuffle(listCount)
+    finalCount = 1
+    pairCount = 1
+
+    finalDict = {
+        1: {},
+        2: {},
+        #3: {},
+        #4: {},
+        #5: {}
+    }
+
+    for entry in listCount:
+        if finalCount == 3: ## change to 6
+            break
+
+        finalDict[finalCount][pairCount] = listDict[entry]
+
+        if pairCount == 1:
+            pairCount = 2
+        else:
+            pairCount = 1
+            finalCount += 1
+
+
+
+    lString = json.dumps(finalDict)
+
+    return render_template('nme/nme_listening.html', lString=lString, legend='NME Listening Test')
 
 @app.route ("/addNovel", methods=['GET','POST'])
 @login_required
@@ -430,3 +544,28 @@ def storeB64():
     db.session.commit()
 
     return jsonify({'audioLink' : audioLink})
+
+
+
+@app.route("/dub", methods = ['GET', 'POST'])
+@login_required
+def dub():
+
+    return render_template('nme/dubbing.html')
+
+
+@app.route('/dubUpload', methods=['POST', 'GET'])
+def dubUpload():
+
+
+    audio_string = request.form ['base64']
+
+    print('PROCESSING AUDIO')
+    audio = base64.b64decode(audio_string)
+    newTitle = S3_LOCATION + 'dubbing/' + current_user.username + '.mp3'
+    filename = 'dubbing/' + current_user.username + '.mp3'
+    s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=audio)
+
+
+
+    return jsonify({'title' : newTitle})
