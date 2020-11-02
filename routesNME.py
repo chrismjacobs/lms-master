@@ -83,7 +83,7 @@ def nme_dash():
 @login_required
 def nme_novels():
 
-    novels = ['01', '02', '03', '04', '05']
+    novels = ['01', '02', '03']
 
     completed = 0
     nCount = 0
