@@ -6,48 +6,50 @@
 
 <span id="ansString" style="display:none">{{ansString}}</span>
 
-<div class="content-section">    
+<div class="content-section">
      <legend class="border-bottom mb-4">Grades</legend>
-  
-   
+
+
     <br>
     <br>
     <div style="overflow-x:auto;width:80%">
       <table class="table table-sm">
         <thead>
             <tr>
-              <th scope="col" >Name</th>                   
-              <th scope="col" >04</th>                       
-              <th scope="col" >05</th>  
-              <th scope="col" >06</th>                       
-              <th scope="col" >07</th>                        
-              <th scope="col" >08</th>                        
+              <th scope="col" >Name</th>
+              <th scope="col" >01</th>
+              <th scope="col" >02</th>
+              <th scope="col" >03</th>
+              <th scope="col" >04</th>
+              <th scope="col" >05</th>
+              <th scope="col" >06</th>
+             >
             </tr>
-        </thead> 
-        
-        <tbody>
-        <template v-for="(user, key) in gradesOBJ">             
-            <tr>             
-              <td v-if="!excluded.includes(key)" v-for="(data, head) in user" > <span v-for="item, head in data" :style="getStyle(head, item, key)" @click="setStatus(head, key)"> [[head]]: [[item]] <br> </span> </td>     
-            </tr>  
-        </template>                 
-        </tbody>
-        
+        </thead>
 
-   
+        <tbody>
+        <template v-for="(user, key) in gradesOBJ">
+            <tr>
+              <td v-if="!excluded.includes(key)" v-for="(data, head) in user" > <span v-for="item, head in data" :style="getStyle(head, item, key)" @click="setStatus(head, key)"> [[head]]: [[item]] <br> </span> </td>
+            </tr>
+        </template>
+        </tbody>
+
+
+
       </table>
     </div>
 
-</div> 
+</div>
 
-   
+
 
 </div> <!-- end of Vue app -->
 
 
 {% endblock %}
 
-{% block script %}   
+{% block script %}
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 
@@ -60,40 +62,40 @@ console.log('OBJ', gradesOBJ);
 
 startVue()
 
-function startVue(){  
+function startVue(){
 
-let vue = new Vue({ 
+let vue = new Vue({
 
     el: '#vue-app',
     delimiters: ['[[', ']]'],
     mounted: function(){
-        
+
     },
     data: {
         gradesOBJ: gradesOBJ,
-        excluded: ['Chris', 'Test', 'Jane', 'Michelle', 'Kevin', 'Wayne123', 'Penny'] 
+        excluded: ['Chris', 'Test', 'Jane', 'Michelle', 'Kevin', 'Wayne123', 'Penny']
 
-           
-    }, 
-    methods: { 
+
+    },
+    methods: {
         setStatus: function(head, key) {
           if (head == 'Status') {
             $.ajax({
               data : {
-                username : key,                
+                username : key,
               },
               type : 'POST',
-              url : '/setStatus',               
+              url : '/setStatus',
             })
             .done(function(data) {
-              gradesOBJ[key]['Student']['Status'] = data.set                         
+              gradesOBJ[key]['Student']['Status'] = data.set
             })
             .fail(function(){
                 alert('error has occurred');
             });
-          }          
-          
-        },  
+          }
+
+        },
         updateGrade: function(name, grade){
           if (gradesOBJ[name]['Student']['grade'] > 0) {
             gradesOBJ[name]['Student']['grade'] += grade
@@ -102,26 +104,26 @@ let vue = new Vue({
             gradesOBJ[name]['Student']['grade'] = 1
           }
 
-        },                    
+        },
         getStyle: function(head, item, name) {
           if (head == 'QNA') {
-            if (item > 11){ 
-              this.updateGrade(name, 1)               
-                return { background:'mediumseagreen'}
-            }
-            else{
-              return { background:'lightcoral'}
-            }            
-          }          
-          if (head == 'SNL') {
-            if (item > 11){
+            if (item > 5){
               this.updateGrade(name, 1)
                 return { background:'mediumseagreen'}
             }
             else{
               return { background:'lightcoral'}
-            }            
-          }          
+            }
+          }
+          if (head == 'SNL') {
+            if (item > 5){
+              this.updateGrade(name, 1)
+                return { background:'mediumseagreen'}
+            }
+            else{
+              return { background:'lightcoral'}
+            }
+          }
           if (head == 'SNL_check') {
             if (item > 0){
               this.updateGrade(name, 1)
@@ -129,8 +131,8 @@ let vue = new Vue({
             }
             else{
               return { background:'lightcoral'}
-            }            
-          }          
+            }
+          }
           if (head == 'QNA_check') {
             if (item > 0){
               this.updateGrade(name, 1)
@@ -138,8 +140,8 @@ let vue = new Vue({
             }
             else{
               return { background:'lightcoral'}
-            }            
-          }          
+            }
+          }
           if (head == 'QNA_grades' || head == 'SNL_grades') {
             //return { background:'white', color:'white'}
             if (item.length > 2){
@@ -155,30 +157,41 @@ let vue = new Vue({
                 return { background:'gold'}
             }
             else{
-              return { background:'lightcoral'}
-            }            
-          }   
+              return { display:'none', background:'lightcoral'}
+            }
+          }
           if (head == 'Status') {
-            
+
             if (item == 3){
                 return { background:'mediumseagreen', display: 'inline-block', padding:'20px'}
             }
             else{
-              return { background:'lightcoral', display: 'inline-block', padding:'20px'}
-            }            
-          }          
-          
+              // display: 'inline-block'
+              return { display:'none', background:'lightcoral', padding:'20px'}
+            }
+          }
+          if (head == 'name') {
+
+            if (item == 3){
+                return { background:'mediumseagreen', display: 'inline-block', padding:'20px'}
+            }
+            else{
+              // display: 'inline-block'
+              return { background:'gold'}
+            }
+          }
+
         },
-    }                  
-        
+    }
+
 })// end NEW VUE
 
 
 
-}// endFunction 
+}// endFunction
 
-</script> 
+</script>
 
 
-{% endblock %} 
+{% endblock %}
 

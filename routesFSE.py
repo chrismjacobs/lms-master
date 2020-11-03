@@ -21,20 +21,14 @@ DEBUG = BaseConfig.DEBUG
 
 
 unitDict = {
-        '00' : U001U,
         '01' : U011U,
         '02' : U012U,
         '03' : U013U,
         '04' : U014U,
         '05' : U021U,
-        '06' : U022U,
-        '07' : U023U,
-        '08' : U024U,
-        '09' : U031U,
-        '10' : U032U,
-        '11' : U033U,
-        '12' : U034U
-    }
+        '06' : U022U
+}
+
 
 def create_folder(unit, teamnumber, nameRange):
     keyName = (unit + '/' + teamnumber + '/')  #adding '/' makes a folder object
@@ -742,6 +736,33 @@ def fse_grades():
                 'id' : user.studentID,
                 'Status' : user.extra
              },
+            '01' : {
+                'team' : 0,
+                'QNA' : 0,
+                'SNL' : 0,
+                'QNA_check' : 0,
+                'SNL_check' : 0,
+                'QNA_grades' : [],
+                'SNL_grades' : []
+            },
+            '02' : {
+                'team' : 0,
+                'QNA' : 0,
+                'SNL' : 0,
+                'QNA_check' : 0,
+                'SNL_check' : 0,
+                'QNA_grades' : [],
+                'SNL_grades' : []
+            },
+            '03' : {
+                'team' : 0,
+                'QNA' : 0,
+                'SNL' : 0,
+                'QNA_check' : 0,
+                'SNL_check' : 0,
+                'QNA_grades' : [],
+                'SNL_grades' : []
+            },
             '04' : {
                 'team' : 0,
                 'QNA' : 0,
@@ -769,24 +790,6 @@ def fse_grades():
                 'QNA_grades' : [],
                 'SNL_grades' : []
             },
-            '07' : {
-                'team' : 0,
-                'QNA' : 0,
-                'SNL' : 0,
-                'QNA_check' : 0,
-                'SNL_check' : 0,
-                'QNA_grades' : [],
-                'SNL_grades' : []
-            },
-            '08' : {
-                'team' : 0,
-                'QNA' : 0,
-                'SNL' : 0,
-                'QNA_check' : 0,
-                'SNL_check' : 0,
-                'QNA_grades' : [],
-                'SNL_grades' : []
-            },
 
         }
 
@@ -799,8 +802,8 @@ def fse_grades():
         for proj in projects:
             team = ast.literal_eval(proj.username)
             for stu in team:
-                gradesDict[stu][model]['QNA'] = proj.Ans03
-                gradesDict[stu][model]['SNL'] = proj.Ans04
+                gradesDict[stu][model]['QNA'] = proj.Ans04
+                gradesDict[stu][model]['SNL'] = proj.Ans05
                 gradesDict[stu][model]['team'] = str(proj.teamnumber)
 
     for exam in exams:
