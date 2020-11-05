@@ -133,8 +133,12 @@ def dashboard():
         return abort(403)
 
     ## intro edit
-    midterm = ['01', '02', '03', '04']
-    final = ['05', '06', '07', '08']
+    if SCHEMA == 6:
+        midterm = ['01', '02', '03', '04', '05']
+    else:
+        midterm = ['01', '02', '03', '04']
+
+    # final = ['05', '06', '07', '08']
 
     period = midterm
 

@@ -666,7 +666,11 @@ def grades_midterm ():
     ### set max grades
 
     total_units = 0
-    midterm_unit_list = ['01', '02', '03', '04']
+    if SCHEMA == 6:
+        midterm_unit_list = ['01', '02', '03', '04', '05']
+    else:
+        midterm_unit_list = ['01', '02', '03', '04']
+
     maxU = 0
     maxA = 0
     units = Units.query.all()
