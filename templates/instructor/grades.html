@@ -6,52 +6,52 @@
 
 <span id="ansString" style="display:none">{{ansString}}</span>
 
-<div class="content-section">    
+<div class="content-section">
      <legend class="border-bottom mb-4">Grades</legend>
-  
-   
+
+
     <br>
     <br>
     <div style="overflow-x:auto;width:80%">
       <table class="table table-sm">
         <thead>
             <tr>
-              <th scope="col" >Status</th>  
-              <th scope="col" >Name</th>  
-              <th scope="col" >ID</th>                                  
-              <th scope="col" >Total</th>                       
-              <th scope="col" >U</th>                       
-              <th scope="col" >%</th>  
-              <th scope="col" >A</th>                       
-              <th scope="col" >%</th>  
-              <th scope="col" >T1</th>  
-              <th scope="col" >T2</th>  
-              <th scope="col" >E1</th>                
-              <th scope="col" >E2</th>             
+              <th scope="col" >Status</th>
+              <th scope="col" >Name</th>
+              <th scope="col" >ID</th>
+              <th scope="col" >Total</th>
+              <th scope="col" >U</th>
+              <th scope="col" >%</th>
+              <th scope="col" >A</th>
+              <th scope="col" >%</th>
+              <th scope="col" >T1</th>
+              <th scope="col" >T2</th>
+              <th scope="col" >E1</th>
+              <th scope="col" >E2</th>
             </tr>
-        </thead> 
-        
+        </thead>
+
         <tbody>
-        <template v-for="(user, key) in gradesOBJ">             
-            <tr>             
-              <td v-for="(data, head) in user" :style="gStyle(head, data)" @click="setStatus(head, key)"> [[ data ]] </td>     
-            </tr>  
-        </template>                 
-        </tbody>   
-   
+        <template v-for="(user, key) in gradesOBJ">
+            <tr>
+              <td v-for="(data, head) in user" :style="gStyle(head, data)" @click="setStatus(head, key)"> [[ data ]] </td>
+            </tr>
+        </template>
+        </tbody>
+
       </table>
     </div>
 
-</div> 
+</div>
 
-   
+
 
 </div> <!-- end of Vue app -->
 
 
 {% endblock %}
 
-{% block script %}   
+{% block script %}
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 
@@ -64,28 +64,28 @@ console.log('OBJ', gradesOBJ);
 
 startVue()
 
-function startVue(){  
+function startVue(){
 
-let vue = new Vue({ 
+let vue = new Vue({
 
     el: '#vue-app',
     delimiters: ['[[', ']]'],
     mounted: function(){
-        
+
     },
     data: {
-        gradesOBJ: gradesOBJ, 
-           
-    }, 
-    methods: {                         
+        gradesOBJ: gradesOBJ,
+
+    },
+    methods: {
         gStyle: function(head, g) {
           if (head == 'Status'){
             if (g == 3) {
             return { background:'mediumseagreen'}
-            } 
+            }
             else {
-            return { background:'lightcoral'}  
-            } 
+            return { background:'lightcoral'}
+            }
             }
           else if (g == 0) {
             return { background:'lightcoral'}
@@ -93,36 +93,53 @@ let vue = new Vue({
           else if (head == 'MT'){
             return { background:'lightskyblue'}
           }
-               
+          else if (head == 'uP' || head == 'aP') {
+            if (g == 30) {
+              return { background:'lightgreen'}
+            }
+            else if (g > 20) {
+              return { background:'yellow'}
+            } else {
+              return { background:'orange'}
+            }
+          }
+          else if (head[0] == 't') {
+            if (g == 1 ) {
+              return { background:'pink'}
+            } else {
+              return { background:'hotpink'}
+            }
+          }
+
         },
         setStatus: function(head, key) {
           if (head == 'Status') {
             $.ajax({
               data : {
-                username : key,                
+                username : key,
               },
               type : 'POST',
-              url : '/setStatus',               
+              url : '/setStatus',
             })
             .done(function(data) {
-              gradesOBJ[key]['Status'] = data.set                         
+              gradesOBJ[key]['Status'] = data.set
             })
             .fail(function(){
                 alert('error has occurred');
             });
-          }          
-          
+          }
+
         },
-    }                  
-        
+    }
+
 })// end NEW VUE
 
 
 
-}// endFunction 
+}// endFunction
 
-</script> 
+</script>
 
 
-{% endblock %} 
+{% endblock %}
 
