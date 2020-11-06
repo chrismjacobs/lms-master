@@ -698,7 +698,10 @@ def grades_midterm ():
         for row in rows:
             names = ast.literal_eval(row.username)
             for name in names:
-                gradesDict[name]['units'] += row.Grade
+                try:
+                    gradesDict[name]['units'] += row.Grade
+                except:
+                    print('user deleted')
 
 
     model_check = total_units
