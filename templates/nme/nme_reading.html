@@ -1,0 +1,157 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div id="vue-app">
+
+    <div class="content-section">
+            <h1> Summary Reading </h1>
+
+    </div>
+
+    <div class="content-section">
+
+      <div v-for="(entry, idx) in rObj">
+
+        <br>
+        <h2>Your score = [[score]] / 12 </h2>
+
+        <br>
+        First Answer = [[entry.first]]
+        <div v-for="(sentence, key) in entry[ 'reorder' ]" :key="key">
+            <span :id="rObj[idx]['order'][key]" style="font-size:30px"> [[key+1]] </span>
+            <td :id="word">
+                <select  type="text" style="width: 90%" name="words" v-model="rObj[idx]['blanks'][key]">
+                    <option v-for="option in entry.reorder" :value="option">[[option]]</option>
+                </select>
+                <br>
+                <br>
+            </td>
+        </div>
+
+        <button class="btn btn-success" @click="checkAnswer(idx)">check</button>
+
+    <hr>
+
+    </div>
+
+</div>
+
+<span id="user" style="display:none">{{current_user.username}}</span>
+<span id="rString" style="display:none">{{rString}}</span>
+
+</div> <!-- end of Vue app -->
+
+
+{% endblock %}
+
+{% block script %}
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+
+<script type="text/javascript" >
+
+
+var rString = document.getElementById('rString').innerHTML
+
+var rObj = JSON.parse(rString)
+console.log('rObj', rObj);
+
+
+startVue()
+
+function startVue(){ new Vue({
+
+    el: '#vue-app',
+    delimiters: ['[[', ']]'],
+    mounted: function(){
+    },
+    data: {
+        rObj: rObj,
+        scores: {
+        }
+    },
+    computed: {
+        score () {
+            let score = 0
+            for (let s in this.scores){
+                score += this.scores[s]
+            }
+            return score
+        }
+    },
+    methods: {
+        goTo: function() {
+          var str = window.location.href
+          let url = str.split('reading')[0] + 'exams'
+          console.log('goTO', url);
+          window.location = url
+        },
+        checkAnswer: function (idx) {
+            console.log(rObj[idx]['blanks'])
+            console.log(rObj[idx]['order'])
+
+            let blanks = rObj[idx]['blanks']
+            let order = rObj[idx]['order']
+
+            if (this.scores[idx]) {
+                this.scores[idx] = -2
+            } else {
+                this.scores[idx] = 0
+            }
+
+            for (let sen in blanks) {
+                if (blanks[sen] == order[sen]) {
+                    console.log(true)
+                    document.getElementById(order[sen]).style.background = 'green'
+                    this.scores[idx] +=1
+                } else {
+                    console.log(false)
+                    document.getElementById(order[sen]).style.background = 'red'
+                }
+            }
+
+            console.log('scores', this.scores)
+            this.scores = {...this.scores}
+
+            if (this.score > 9) {
+                this.updateGrades(this.score)
+            }
+        },
+        updateGrades: function(grade) {
+
+          $.ajax({
+              data : {
+                test : 'reading',
+                grade : grade
+              },
+              type : 'POST',
+              url : '/nme_reading_score',
+            })
+            .done(function(data) {
+              alert('Grade Updated ', grade)
+
+            })
+            .fail(function(){
+                alert('error has occurred');
+            });
+        },
+        shuffle: function (array) {
+            // Fisher-Yates shuffle
+            for (let i = array.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
+                [array[i], array[j]] = [array[j], array[i]]
+            }
+            return array
+        }
+    }
+})// end NEW VUE
+
+
+
+}// endFunction
+
+</script>
+
+{% endblock %}
+

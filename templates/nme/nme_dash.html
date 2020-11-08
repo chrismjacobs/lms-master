@@ -28,7 +28,7 @@
         <tbody>
         <template v-for="(proj, key) in projectOBJ" :key="key">
           <template  v-for="(student, name) in proj" :key="name">
-            <tr :style="rowStyle(student.novel.chapters, sumsLength(name, key), key)">
+          <tr :style="rowStyle(student.novel.chapters, sumsLength(name, key), key)">
               <td>
               <span @click="showSums = name+key" class="unit-span" style="background:orange;padding:3px">
               [[ name ]]
@@ -49,7 +49,13 @@
             </tr>
             <tr v-if="showSums == name+key">
               <td colspan="4">
-                <template v-for="(sum, num) in student.sums" :key="num">
+              <div v-for="rec in student.recs">
+              [[rec]]
+              <audio :src="rec.audio" controls></audio>
+              </div>
+              <br>
+              <br>
+              <template v-for="(sum, num) in student.sums" :key="num">
                 <span style="background:PAPAYAWHIP"> [[num]]  [[sum.title]]</span> <br>
                 <span> [[sum.characters]] </span><br>
                 <span> [[sum.setting]] </span><br>

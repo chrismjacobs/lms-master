@@ -1,0 +1,133 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div id="vue-app">
+
+    <div class="content-section">
+            <h1> Summary Ordering: You need 4 to pass</h1>
+
+    </div>
+
+    <div class="content-section">
+      <legend class="border-bottom mb-4"> Summary List </legend>
+
+      <div v-for="(entry, idx) in sObj">
+            <div :id="idx">
+                <h2>Your score = [[score]] / 4 </h2>
+                <h2>[[idx]]</h2>
+
+                    <div v-for="(num, key) in entry['nums']" :key="key">
+                        <td :id="word">
+                            <select  type="text" style="background:blue;color:white;height:40px;width:40px" name="words" v-model="entry['blanks'][num-1]">
+                                <option v-for="option in options" :value="option">[[option]]</option>
+                            </select>
+                        </td>
+                        <td>
+                        <span style="font-size:20px"> [[entry['sums'][num] ]] </span>
+                        </td>
+
+                        <br>
+                        <br>
+                    </div>
+
+            </div>
+
+            <button class="btn btn-success" @click="checkAnswer(idx)">check</button>
+            <hr>
+      </div>
+
+</div>
+
+<span id="user" style="display:none">{{current_user.username}}</span>
+<span id="sString" style="display:none">{{sString}}</span>
+
+</div> <!-- end of Vue app -->
+
+
+{% endblock %}
+
+{% block script %}
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+
+<script type="text/javascript" >
+
+
+var sString = document.getElementById('sString').innerHTML
+
+var sObj = JSON.parse(sString)
+console.log('sObj', sObj);
+
+
+startVue()
+
+function startVue(){ new Vue({
+
+    el: '#vue-app',
+    delimiters: ['[[', ']]'],
+    mounted: function(){
+    },
+    data: {
+        sObj: sObj,
+        score: 0,
+        options: [1,2,3,4]
+    },
+    methods: {
+        goTo: function() {
+          var str = window.location.href
+          let url = str.split('summary')[0] + 'exams'
+          console.log('goTO', url);
+          window.location = url
+        },
+        checkAnswer: function (idx) {
+
+            let blanks = sObj[idx]['blanks']
+            if (blanks.toString() == ([1,2,3,4]).toString()) {
+                alert('correct')
+                document.getElementById(idx).style.background = 'lightgreen'
+                this.score += 1
+            } else {
+                alert('Incorrect - please try again')
+            }
+
+            if (this.score > 3) {
+                this.updateGrades(this.score)
+            }
+        },
+        updateGrades: function(grade) {
+
+          $.ajax({
+              data : {
+                test : 'summary',
+                grade : grade
+              },
+              type : 'POST',
+              url : '/nme_reading_score',
+            })
+            .done(function(data) {
+              alert('Grade Updated ', grade)
+            })
+            .fail(function(){
+                alert('error has occurred');
+            });
+        },
+        shuffle: function (array) {
+            // Fisher-Yates shuffle
+            for (let i = array.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
+                [array[i], array[j]] = [array[j], array[i]]
+            }
+            return array
+        }
+    }
+})// end NEW VUE
+
+
+
+}// endFunction
+
+</script>
+
+{% endblock %}
+

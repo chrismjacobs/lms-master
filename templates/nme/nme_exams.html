@@ -12,6 +12,19 @@
     <div class="content-section">
       <legend class="border-bottom mb-4"> Exam List </legend>
 
+      <button class="btn" :style="getStyle('v', eObj['vocab'])" @click="goTo('vocab')"> Vocab Exam </button>  [[ eObj['vocab'] ]] / 20
+      <br>
+      <br>
+      <button class="btn" :style="getStyle('l', eObj['listening'])" @click="goTo('listening')"> Listening Exam </button> [[ eObj['listening'] ]] / 6
+      <br>
+      <br>
+      <button class="btn" :style="getStyle('r', eObj['reading'])" @click="goTo('reading')"> Reading Exam </button> [[ eObj['reading'] ]] / 10
+      <br>
+      <br>
+      <button class="btn" :style="getStyle('s', eObj['summary'])" @click="goTo('summary')"> Summary Exam </button> [[ eObj['summary'] ]] / 4
+      <br>
+      <br>
+
     </div>
 
 </div>
@@ -31,7 +44,7 @@
 <script type="text/javascript" >
 
 
-var eString = document.getElementById('lString').innerHTML
+var eString = document.getElementById('eString').innerHTML
 
 var eObj = JSON.parse(eString)
 console.log('eObj', eObj);
@@ -46,19 +59,33 @@ function startVue(){ new Vue({
     mounted: function(){
     },
     data: {
-        eObj: eObj
+        eObj: eObj,
+        styles: {
+            v: 15,
+            r: 12,
+            s: 4,
+            l: 6
+        }
     },
     methods: {
         goTo: function(task, index) {
 
-          let name = document.getElementById('user').innerHTML
+          // let name = document.getElementById('user').innerHTML
 
           var str = window.location.href
 
-          let url = (str).split('nme_')[0] + task + '/'+ index
+          let url = (str).split('exams')[0] + task
           console.log('goTO', url);
             window.location = url
             console.log('DONE');
+        },
+        getStyle: function (test, score) {
+            console.log(test, score)
+            if (score < this.styles[test]) {
+                return {background:'lightcoral'}
+            } else {
+                return {background:'lightgreen'}
+            }
         },
     }
 })// end NEW VUE

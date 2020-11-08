@@ -5,7 +5,7 @@
 <div id="vue-app">
 
 <div class="content-section">
-        <h1> Exam: {{ title }}  </h1>
+        <h1>Vocab Exam: You need 15/20 to pass  </h1>
 </div>
 
 <div class="content-section">
@@ -84,8 +84,10 @@ function startVue(){
       }
       this.ansShuffle = this.shuffle(answers)
       // this.ansRandom = this.shuffle(answers)
+      let count = 0
       for (let set in this.ansShuffle) {
-        this.ans3(this.ansShuffle[set].value, this.ansShuffle[set].text, set)
+        this.ans3(this.ansShuffle[set].value, this.ansShuffle[set].text, count)
+        count +=1
       }
     },
     data: {
@@ -157,12 +159,12 @@ function startVue(){
               count += 1
             }
           }
-          console.log(answers)
           this.answer3[set+1] = this.shuffle(answers)
+          console.table(this.answer3)
         },
-        goTo: function(key, state) {
+        goTo: function() {
           var str = window.location.href
-          let url = str.split('fse_exam')[0] + 'fse_list'
+          let url = str.split('vocab')[0] + 'exams'
           console.log('goTO', url);
           window.location = url
         },
@@ -177,22 +179,26 @@ function startVue(){
               document.getElementById(vOBJ[q][2]).style.background = 'red'
             }
           }
-          // this.updateGrades(grade)
+          if (grade < 1) {
+            alert('Your grade is ' + grade + ' you must try the test again')
+            goTo()
+          } else {
+            alert('Your grade is ' + grade + ' you have passed this test')
+            this.updateGrades(grade)
+          }
         },
         updateGrades: function(grade) {
 
           $.ajax({
               data : {
-                qORs : 'v',
-                unit : unit,
-                team : team,
+                test : 'vocab',
                 grade : grade
               },
               type : 'POST',
-              url : '/updateGrades',
+              url : '/nme_reading_score',
             })
             .done(function(data) {
-              alert('Grade Updated', data.grade)
+              alert('Grade Updated', grade)
               vue.goTo()
             })
             .fail(function(){

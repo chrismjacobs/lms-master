@@ -98,6 +98,7 @@ def nme_novels():
 
             for c in json.loads(project.Ans02):
                 nDict[n]['sums'] += 1
+
             if nDict[n]['sums'] >= int(nDict[n]['novel']['chapters']):
                 completed += 1
 
@@ -132,10 +133,47 @@ def nme_novels():
 @login_required
 def nme_exams():
 
+    user = Exams.query.filter_by(username=current_user.username).first()
+
+    if user:
+        pass
+    else:
+        print('set user')
+        examDict = {
+            'vocab': 0,
+            'listening': 0,
+            'reading': 0,
+            'summary': 0
+        }
+        userSet = Exams(username=current_user.username, j1=json.dumps(examDict))
+        db.session.add(userSet)
+        db.session.commit()
+        user = Exams.query.filter_by(username=current_user.username).first()
 
 
+    eString = user.j1
 
-    return render_template('nme/nme_novels.html', legend='NME Reading Exams')
+    return render_template('nme/nme_exams.html', eString=eString, legend='NME Reading Exams')
+
+
+@app.route ("/nme_reading_score", methods=['GET','POST'])
+@login_required
+def nme_reading_score():
+    test = request.form ['test']
+    grade = request.form ['grade']
+
+    user = Exams.query.filter_by(username=current_user.username).first()
+
+    examDict = json.loads(user.j1)
+
+    examDict[test] = grade
+
+    user.j1 = json.dumps(examDict)
+    db.session.commit()
+
+    return jsonify({ 'result': 'good'})
+
+
 
 
 @app.route ("/nme_vocab", methods=['GET','POST'])
@@ -176,6 +214,80 @@ def nme_vocab():
 
     return render_template('nme/nme_vocab.html', vString=vString, legend='NME Vocab Test')
 
+@app.route ("/nme_reading", methods=['GET','POST'])
+@login_required
+def nme_reading():
+
+    texts = U061U.query.filter_by(username='test1').first()
+    textss = U061U.query.filter_by(username='Chris').first()
+
+    textDict = {
+        1: texts.Ans01,
+        2: texts.Ans02,
+        3: texts.Ans03,
+        4: texts.Ans04,
+        5: texts.Ans05,
+        6: texts.Ans06,
+        7: texts.Ans07,
+        8: texts.Ans08,
+        9: textss.Ans01,
+        10: textss.Ans02,
+        11: textss.Ans03,
+        12: textss.Ans04,
+        13: textss.Ans05,
+        14: textss.Ans06,
+        15: textss.Ans07,
+        16: textss.Ans08,
+    }
+
+    rearrDict = {}
+    count = 1
+
+    arrangeCount = []
+
+    for tex in textDict:
+        print('TEXT')
+
+        splitsO = textDict[tex].split('.')
+
+        splitsR = textDict[tex].split('.')
+        random.shuffle(splitsR)
+
+        for line in splitsO:
+                # print(line)
+                if len(line) < 3:
+                    splitsO.pop(splitsO.index(line))
+                    splitsR.pop(splitsR.index(line))
+
+        blanks = []
+        for e in splitsO:
+            blanks.append(None)
+
+
+        rearrDict[tex] = {
+            'first': splitsO[0],
+            'order': splitsO,
+            'reorder': splitsR,
+            'blanks': blanks
+        }
+
+    items = list(rearrDict.items())
+    print(items)
+
+    random.shuffle(items)
+
+    newDict = {}
+    count = 1
+    for i in items:
+        newDict[count] = i[1]
+        count += 1
+
+
+    rString = json.dumps(newDict)
+
+    ## pprint(newDict)
+    return render_template('nme/nme_reading.html', rString=rString, legend='NME Rearrange Test')
+
 @app.route ("/nme_listening", methods=['GET','POST'])
 @login_required
 def nme_listening():
@@ -196,6 +308,7 @@ def nme_listening():
             print(te)
             t = te[entry]
             print(t, type(t))
+            print(count)
             listDict[count] = {}
             listDict[count]['passOriginal'] = t['passage']
             random.shuffle(t['words'])
@@ -258,13 +371,12 @@ def nme_listening():
     finalDict = {
         1: {},
         2: {},
-        #3: {},
-        #4: {},
-        #5: {}
+        3: {},
+        4: {}
     }
 
     for entry in listCount:
-        if finalCount == 3: ## change to 6
+        if finalCount == 5: ## change to 6
             break
 
         finalDict[finalCount][pairCount] = listDict[entry]
@@ -277,9 +389,48 @@ def nme_listening():
 
 
 
+
     lString = json.dumps(finalDict)
 
     return render_template('nme/nme_listening.html', lString=lString, legend='NME Listening Test')
+
+@app.route ("/nme_summary", methods=['GET','POST'])
+@login_required
+def nme_summary():
+
+    texts = U051U.query.all()
+
+    sumDict = {}
+
+    for tex in texts:
+
+        sums = { 1: tex.Ans01, 2: tex.Ans02, 3: tex.Ans03, 4: tex.Ans04 }
+
+        nums = [1,2,3,4]
+        blanks = [None, None, None, None]
+
+        random.shuffle(nums)
+
+        sumDict[tex.username] = {
+            'sums': sums,
+            'nums': nums,
+            'blanks': blanks
+        }
+
+
+    keys = list(sumDict.keys())
+    random.shuffle(keys)
+
+    newDict = {}
+
+    for key in keys:
+        newDict[key] = sumDict[key]
+
+
+    sString = json.dumps(newDict)
+
+    return render_template('nme/nme_summary.html', sString=sString, legend='NME Summary Test')
+
 
 @app.route ("/addNovel", methods=['GET','POST'])
 @login_required
