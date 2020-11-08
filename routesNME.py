@@ -132,6 +132,14 @@ def nme_novels():
 @app.route ("/nme_exams", methods=['GET','POST'])
 @login_required
 def nme_exams():
+    names = ['Chris', 'William']
+
+    if current_user.username in names:
+        pass
+    else:
+        flash('Not open yet', 'danger')
+        return (redirect (url_for('home')))
+
 
     user = Exams.query.filter_by(username=current_user.username).first()
 
