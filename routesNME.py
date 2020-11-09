@@ -137,8 +137,9 @@ def nme_exams():
     if current_user.username in names:
         pass
     else:
-        flash('Not open yet', 'danger')
-        return (redirect (url_for('home')))
+        pass
+        # flash('Not open yet', 'danger')
+        # return (redirect (url_for('home')))
 
 
     user = Exams.query.filter_by(username=current_user.username).first()
@@ -380,11 +381,13 @@ def nme_listening():
         1: {},
         2: {},
         3: {},
-        4: {}
+        4: {},
+        5: {},
+        6: {}
     }
 
     for entry in listCount:
-        if finalCount == 5: ## change to 6
+        if finalCount == 7: ## change to 6
             break
 
         finalDict[finalCount][pairCount] = listDict[entry]

@@ -100,7 +100,7 @@ function startVue(){
         let randomArray = this.shuffle([...answers])
         let count = 1
         for (let a in randomArray) {
-          if (count < 3) {
+          if (randomArray[a]['value'] != english && count < 3) {
             console.log('random', randomArray[a])
             this.answer3[english]['three'][count] = randomArray[a]['text']
             count += 1
@@ -151,7 +151,7 @@ function startVue(){
           }
           if (grade < 15) {
             alert('Your grade is ' + grade + ' you must try the test again')
-            goTo()
+            this.goTo()
           } else {
             alert('Your grade is ' + grade + ' you have passed this test')
             this.updateGrades(grade)
