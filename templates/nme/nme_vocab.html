@@ -105,10 +105,10 @@ function startVue(){
             this.answer3[english]['three'][count] = randomArray[a]['text']
             count += 1
           } else {
-            this.shuffle(this.answer3[english]['three'])
-          }
 
+          }
         }
+        this.shuffle(this.answer3[english]['three'])
         console.table('final answers', this.answer3)
       }
 
