@@ -132,7 +132,7 @@ def nme_novels():
 @app.route ("/nme_exams", methods=['GET','POST'])
 @login_required
 def nme_exams():
-    names = ['Chris', 'William']
+    names = ['Chris', 'William ']
 
     if current_user.username in names:
         pass
