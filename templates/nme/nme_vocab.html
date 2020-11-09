@@ -19,22 +19,24 @@
         </thead>
 
         <tbody>
-        <template v-for="(q, key) in vOBJ" >
+        <template v-for="(q, key) in answer3" >
 
             <tr>
               <td>
-                [[  q[0]  ]]
+                [[  key  ]]
               </td>
             </tr>
             <tr>
-              <td :id="q[2]">
-                <select  type="text" style="width: 50%; height:40px" name="vocab" v-model="answerSet[key]">
-                  <option v-for="option in answer3[key]" :value="option.text">[[option.text]]</option>
+
+              <td :id="key">
+                <select  type="text" style="width: 50%; height:40px" name="vocab" v-model="choices[key]">
+                  <option v-for="option in q.three" :value="option">[[option]]</option>
                 </select>
                 <br>
                 <br>
               </td>
             </tr>
+
 
         </template>
 
@@ -82,61 +84,42 @@ function startVue(){
       for (let q in vOBJ) {
         answers.push({value:vOBJ[q][0], text:vOBJ[q][2]})
       }
-      this.ansShuffle = this.shuffle(answers)
+      let ansShuffle = this.shuffle(answers)
       // this.ansRandom = this.shuffle(answers)
-      let count = 0
-      for (let set in this.ansShuffle) {
-        this.ans3(this.ansShuffle[set].value, this.ansShuffle[set].text, count)
-        count +=1
+
+      console.table(ansShuffle)
+
+      for (let v in ansShuffle) {
+        let english = ansShuffle[v]['value']
+        this.choices[english] = null
+        this.answer3[english] = {
+          ans: ansShuffle[v]['text'],
+          three: [ansShuffle[v]['text'], null, null]
+        }
+        console.log(this.answer3[english])
+        let randomArray = this.shuffle([...answers])
+        let count = 1
+        for (let a in randomArray) {
+          if (count < 3) {
+            console.log('random', randomArray[a])
+            this.answer3[english]['three'][count] = randomArray[a]['text']
+            count += 1
+          } else {
+            this.shuffle(this.answer3[english]['three'])
+          }
+
+        }
+        console.table('final answers', this.answer3)
       }
+
     },
     data: {
         vOBJ: vOBJ,
         ansShuffle: null,
         display : false,
-        answerSet: {
-          1: null,
-          2: null,
-          3: null,
-          4: null,
-          5: null,
-          6: null,
-          7: null,
-          8: null,
-          9: null,
-          10: null,
-          11: null,
-          12: null,
-          13: null,
-          14: null,
-          15: null,
-          16: null,
-          17: null,
-          18: null,
-          19: null,
-          20: null,
-        },
-        answer3: {
-          1: null,
-          2: null,
-          3: null,
-          4: null,
-          5: null,
-          6: null,
-          7: null,
-          8: null,
-          9: null,
-          10: null,
-          11: null,
-          12: null,
-          13: null,
-          14: null,
-          15: null,
-          16: null,
-          17: null,
-          18: null,
-          19: null,
-          20: null,
+        answer3: {},
+        choices: {
+
         }
     },
     methods: {
@@ -148,20 +131,6 @@ function startVue(){
           }
           return array
         },
-        ans3: function (q, a, set) {
-          let aValue = {value: q , text: a}
-          let answers = [aValue]
-          let array = this.shuffle(this.ansShuffle)
-          let count = 1
-          for (let i in array) {
-            if (array[i].value !== aValue.value && count < 3) {
-              answers.push(array[i])
-              count += 1
-            }
-          }
-          this.answer3[set+1] = this.shuffle(answers)
-          console.table(this.answer3)
-        },
         goTo: function() {
           var str = window.location.href
           let url = str.split('vocab')[0] + 'exams'
@@ -171,15 +140,16 @@ function startVue(){
         checkQNA: function() {
           console.log(this.answerSet)
           let grade = 0
-          for (let q in vOBJ) {
-            if (this.answerSet[q] === vOBJ[q][2] ) {
-              document.getElementById(vOBJ[q][2]).style.background = 'lightgreen'
+          for (let q in this.choices) {
+            console.log(this.choices[q], this.answer3[q]['ans'] )
+            if (this.choices[q] === this.answer3[q]['ans'] ) {
+              document.getElementById(q).style.background = 'lightgreen'
               grade += 1
             } else {
-              document.getElementById(vOBJ[q][2]).style.background = 'red'
+              document.getElementById(q).style.background = 'red'
             }
           }
-          if (grade < 1) {
+          if (grade < 15) {
             alert('Your grade is ' + grade + ' you must try the test again')
             goTo()
           } else {
