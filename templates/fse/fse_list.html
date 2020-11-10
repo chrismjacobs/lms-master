@@ -90,7 +90,7 @@
 
 </div>
 
-<div class="content-section" style="display:none">
+<div class="content-section">
 
 <h3> Exam Test Board </h3>
 
@@ -106,8 +106,8 @@
               <th scope="col" >Grade</th>
               <th scope="col" >S&L</th>
               <th scope="col" >Grade</th>
-              <th scope="col" >RP</th>
-              <th scope="col" >Grade</th>
+              <!--<th scope="col" >RP</th>
+              <th scope="col" >Grade</th>-->
             </tr>
         </thead>
 
@@ -125,14 +125,14 @@
                     <span class="unit-span" style="background:silver;padding:3px"> [[ team  ]] </span>
                   </td>
                   <td>
-                    <span v-if="exam.QTotal > 11" @click="goToExam(unit, team, 'qna', exam.Qscore)"  class="unit-span" :style="buttonStyle(exam.Qscore, 'qna', 'check')"> &nbsp;QNA&nbsp; </span>
+                    <span v-if="exam.QTotal > 5" @click="goToExam(unit, team, 'qna', exam.Qscore)"  class="unit-span" :style="buttonStyle(exam.Qscore, 'qna', 'check')"> &nbsp;QNA&nbsp; </span>
                     <span v-else @click="" class="unit-span" style="background:lightgrey;padding:3px"> N/A </span>
                   </td>
                   <td>
                     <span :style="gradeStyle(exam.Qscore)">&nbsp;[[ exam.Qscore ]]&nbsp;</span>
                   </td>
                   <td>
-                    <span v-if="exam.STotal > 11"  @click="goToExam(unit, team, 'snl', exam.Sscore)"  class="unit-span" :style="buttonStyle(exam.Sscore, 'snl', 'check')"> &nbsp;SNL&nbsp; </span>
+                    <span v-if="exam.STotal > 5"  @click="goToExam(unit, team, 'snl', exam.Sscore)"  class="unit-span" :style="buttonStyle(exam.Sscore, 'snl', 'check')"> &nbsp;SNL&nbsp; </span>
                     <span v-else @click="" class="unit-span" style="background:lightgrey;padding:3px"> N/A </span>
                   </td>
                   <td>

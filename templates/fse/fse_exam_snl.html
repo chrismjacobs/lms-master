@@ -4,57 +4,56 @@
 
 <div id="vue-app">
 
-<div class="content-section">    
+<div class="content-section">
         <h1> Exam: {{ title }}  </h1>
-    
+
 </div>
 
-<div class="content-section">        
-    
+<div class="content-section">
+
     <div style="overflow-x:auto;">
       <table class="table table-sm">
         <thead>
             <tr>
               <th scope="col" >No.</th>
-              <th scope="col" >Picture</th>
-              <th scope="col" >Audio</th>                                  
-              <th scope="col" >Answer</th>                                
+              <th scope="col" >Audio</th>
+              <th scope="col" >Answer</th>
             </tr>
-        </thead> 
-        
+        </thead>
+
         <tbody>
-        <template v-for="(answerSet, key) in snlOBJ" > 
-            
+        <template v-for="(answerSet, key) in snlOBJ" >
+
             <tr>
-              <td style="width: 50px; word-wrap: break-word">
-                [[ key ]] <br>
-                <span v-if="grade < 5"> [[  answerSet['word']  ]] </span>
-                <span v-if="grade < 4"> [[  answerSet['sentence']  ]] </span>
+              <td style="width: 40%; word-wrap: break-word">
+               <div align="center" style="background:darkgreen; padding:3px; width:100%">
+               <h3 style="color:white" >[[ key ]]</h3>
+               </div>
+
+                <span v-if="grade < 5"> [[  answerSet['word']  ]] </span> <br>
+                <span v-if="grade < 4"> [[  answerSet['sentence']  ]] </span> <br>
+                <img class="rounded img-fluid" alt="No file yet" style="width: 100%"  :src="answerSet.imageLink">
               </td>
-              <td> 
-                  <img class="rounded img-fluid" alt="No file yet" style="width: 250px"  :src="answerSet.imageLink">      
-              </td>              
-              <td>
-              <div>
+              <td style="background:lightgrey">
+              <div align="right">
                 <audio controls style="width: 150px">
                  <source :src="orderOBJ[key][1]" type="audio/mpeg" >
                  <source :src="orderOBJ[key][1]" type="audio/x-m4a" >
                 </audio>
               </div>
-                
-              </td>  
-              <td>
-                <select style="height:50px;width:50px;color:white;background:royalblue" :id="orderOBJ[key][0]" name="listening">  
+              </td>
+              <td style="background:lightgrey">
+                <select style="height:50px;width:50px;color:white;background:royalblue" :id="orderOBJ[key][0]" name="listening">
                   <option value="0">--</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
                   <option value="4">4</option>
                   <option value="5">5</option>
-                  <option value="6">6</option>  
+                  <option value="6">6</option>
                 </select>
               </td>
-            </tr> 
+            </tr>
         </template>
 
         </tbody>
@@ -63,9 +62,9 @@
       <button class="btn btn-warning" @click="submitSNL()"> Submit </button>
     </div>
 
-</div>   
+</div>
 
- 
+
 
 </div> <!-- end of Vue app -->
 
@@ -76,7 +75,7 @@
 
 {% endblock %}
 
-{% block script %}   
+{% block script %}
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 
@@ -95,48 +94,48 @@ var orderOBJ = JSON.parse(order)
 console.log('Order', orderOBJ);
 
 var str = window.location.href
-var browser_info = str.split('snl/')[1] 
-var unit = browser_info.split('/')[0] 
-var team = browser_info.split('/')[1] 
+var browser_info = str.split('snl/')[1]
+var unit = browser_info.split('/')[0]
+var team = browser_info.split('/')[1]
 console.log(unit, team);
 
 
 startVue()
 
-function startVue(){ 
-  
-  let vue = new Vue({   
+function startVue(){
+
+  let vue = new Vue({
 
     el: '#vue-app',
     delimiters: ['[[', ']]'],
     mounted: function(){
       //resort snlOBJ
-       
+
     },
     data: {
-        qnaOBJ: qnaOBJ,        
+        qnaOBJ: qnaOBJ,
         snlOBJ: snlOBJ,
-        orderOBJ: orderOBJ,        
-        errorCount : 0,           
-        grade : 5    
-    }, 
-    methods: {              
-        goTo: function(key, state) {          
-          
+        orderOBJ: orderOBJ,
+        errorCount : 0,
+        grade : 5
+    },
+    methods: {
+        goTo: function(key, state) {
+
           var str = window.location.href
 
-          let url = str.split('abc_exam')[0] + 'abc_list'
+          let url = str.split('fse_exam')[0] + 'fse_list'
           console.log('goTO', url);
             window.location = url
             console.log('DONE');
         },
         submitSNL: function() {
-          //check if dropdown answers match          
+          //check if dropdown answers match
           for (var object in vue.snlOBJ){
             console.log(object, vue.orderOBJ);
             console.log(vue.orderOBJ[object][0]);
-            var dropdown = vue.orderOBJ[object][0] // 
-            var e = document.getElementById(dropdown) 
+            var dropdown = vue.orderOBJ[object][0] //
+            var e = document.getElementById(dropdown)
             if (e.options[e.selectedIndex].value != vue.orderOBJ[object][0] ) {
               e.setAttribute('style', 'height:50px;width:50px;color:white;background:coral')
               vue.errorCount += 1
@@ -144,48 +143,48 @@ function startVue(){
               }
             else {
               e.setAttribute('style', 'height:50px;width:50px;color:white;background:mediumseagreen')
-            } 
+            }
           }
           if (vue.errorCount > 0){
               alert('Sorry, you have ' + vue.errorCount + ' incorrect answers. Please try again')
-              vue.errorCount = 0 
+              vue.errorCount = 0
               if (vue.grade > 0 ){
                 vue.grade -= 1
-              }              
-          }          
+              }
+          }
           else{
               alert('Great, all answer are correct - your grade will be updated')
-              vue.updateGrades()              
+              vue.updateGrades()
           }
-        }, 
+        },
         updateGrades: function() {
-          
+
           $.ajax({
               data : {
-                qORs : 'snl',                         
-                unit : unit,                
+                qORs : 'snl',
+                unit : unit,
                 team : team,
-                grade : vue.grade                
+                grade : vue.grade
               },
               type : 'POST',
-              url : '/updateGrades',               
+              url : '/updateGrades',
             })
-            .done(function(data) {            
-              alert('Grade Updated') 
-              vue.goTo()               
+            .done(function(data) {
+              alert('Grade Updated')
+              vue.goTo()
             })
             .fail(function(){
                 alert('error has occurred');
-            }); 
+            });
     },
-    }          
+    }
 })// end NEW VUE
 
 
 
-}// endFunction 
+}// endFunction
 
-</script>  
+</script>
 
-{% endblock %} 
+{% endblock %}
 

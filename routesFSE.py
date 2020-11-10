@@ -180,7 +180,7 @@ def get_tests(unit, team):
 
     qnaCount = 0
     for test in qna:
-        print ('CHECK', qna[test]['unit'], unit ,  qna[test]['team'], team)
+        # print ('CHECK', qna[test]['unit'], unit ,  qna[test]['team'], team)
         if qna[test]['unit'] == str(unit) and qna[test]['team'] == str(team):
             qnaCount = 1
     snlCount = 0
@@ -241,9 +241,9 @@ def fse_list():
 
     examDict = {}
 
-    '''
+
     for src in srcDict:
-        if int(src) < 4: # change to match number of units
+        if int(src) >= 7: # change to match number of units
             pass
         else:
             examDict[src] = {}
@@ -269,17 +269,17 @@ def fse_list():
                         pass
                     else:
                         examDict[src][proj.teamnumber] = {
-                            'QTotal' : proj.Ans03,
-                            'STotal' : proj.Ans04,
+                            'QTotal' : proj.Ans04,
+                            'STotal' : proj.Ans05,
                             'Qscore' : 0,
                             'Sscore' : 0,
                             }
 
     user = midtermGrades()
-    #qna = json.loads(user.j1)
-    #snl = json.loads(user.j2)
-    qna = json.loads(user.j3)
-    snl = json.loads(user.j4)
+    qna = json.loads(user.j1)
+    snl = json.loads(user.j2)
+    #qna = json.loads(user.j3)
+    #snl = json.loads(user.j4)
     #print (qna)
     #print (snl)
 
@@ -302,7 +302,7 @@ def fse_list():
             examDict[unit][int(team)]['Sscore'] = grade
         except:
             print('FAIL QNA')
-    '''
+
 
     source = srcDict['01']['M2']
 
