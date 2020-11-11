@@ -77,7 +77,195 @@ def nme_dash():
     return render_template('nme/nme_dash.html', legend='NME Dash', nmeString = json.dumps(nmeDict))
 
 
+'''### movies '''
+
+
+@app.route ("/nme_movies", methods=['GET','POST'])
+@login_required
+def nme_movies():
+
+    users = User.query.all()
+
+    mDict = {}
+
+    movies = {
+        'Jobs': U013U,
+    }
+
+    mString = json.dumps(mDict)
+
+    return render_template('nme/nme_movies.html', mString=mString, legend='NME Movies')
+
+
+def getMovieData(arg):
+    print(arg)
+    selection = {
+        1: {
+          'trailer': 'https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/1-0.mp4',
+          'intro': 'This movie is about a young lion who has to learn how to king of the animals',
+          'q01': 'What do you know about lions? (3 things)',
+          'q02': 'In what ways should a father help his son? (3 things)',
+          'clip': 'https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/1-1.mp4',
+          'description': 'In this scene, Mufusa is giving advice to Simba about being king someday.',
+          'q11':'Do you think Simba is excited about being king? Why?',
+          'q12':'Why do think Mufasa chooses this time to talk to Simba about being king?',
+          'q21':'Which part is their kingdom?',
+          'q22':'What "rises and falls like sun"?',
+          'q23':'Which part is the one Simba should never go to?',
+          'subtitles': 'https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/1-4.mp4',
+          'script': {
+                1: 'Mufasa: Look, Simba. Everything the light touches is our kingdom.',
+                2: 'Simba: Wow.',
+                3: 'Mufasa: A king`s time as ruler rises and falls like the sun. One day, Simba, the sun will set on my time here, and will rise with you as the new king.',
+                4: 'Simba: And this will all be mine?',
+                5: 'Mufasa: Everything.',
+                6: 'Simba: Everything the light touches... What about that shadowy place?',
+                7: 'Mufasa: That`s beyond our borders. You must never go there, Simba.',
+                8: 'Simba: But I thought a king can do whatever he wants.',
+                9: 'Mufasa: Oh, there`s more to being king than getting your way all the time.',
+                10: 'Simba: There`s more?',
+                11: 'Mufasa: Simba.'
+          },
+          'vocab': {
+              1: { 'v':'borders',
+                   'q' : 'Which countries have borders with Taiwan?'
+              },
+              2: { 'v':'kingdom',
+                   'q' : 'If a kingdom is ruled by a king, what is it called when a queen rules?'
+              },
+              3: { 'v':'getting your way',
+                   'q' : 'How do some young kids get there way all the time?'
+              },
+          }
+        },
+
+        10: {
+          'trailer': 'https://drive.google.com/file/d/17IAdV7e5uDY6sQY8pPkTYj7B48jNNVt2/preview',
+          'intro': 'This movie shows the early life of Apple CEO, Steve Jobs. How he started the company and developed the Apple vision.',
+          'q01': 'Write down everything your team knows about steve jobs? (maybe 3 things):',
+          'q02': 'What things do people negotiate (協商 ) about? (maybe 3 things):',
+          'clip': 'https://drive.google.com/file/d/1EnTb5IVKk1Z7JVdu66H46W7qbDRF_wcV/preview',
+          'description': 'In this scene, the young Steve Jobs is negotiating with an electronics store.',
+          'q11':'Do you think they have met before? Why?',
+          'q12':'Do you think Steve is selling or buying computers? Why?',
+          'q13':'Do you think the store owner wants to make a deal or not? Why?'
+        },
+    }
+
+    return selection[arg]
+
+
+@app.route("/nme_mov/<string:movie>/<string:part>", methods = ['GET', 'POST'])
+@login_required
+def nme_mov(movie, part):
+
+    mDict = getMovieData(int(movie))
+    print(mDict)
+    mString = json.dumps(mDict)
+
+    movies = {
+        1: U013U, # lionking
+    }
+    print(movie)
+    entries = movies[int(movie)].query.all()
+
+    model = None
+    for a in entries:
+        print(a)
+        movieData = json.loads(a.Ans01)
+        for name in movieData['names']:
+            print(name)
+            if name == current_user.username:
+                model = a
+    if model:
+        movieData = model.Ans01
+    else:
+        movieData = json.dumps({})
+
+    uString = json.dumps({})
+    if int(part) == 0:
+        users = User.query.all()
+        uList = ['Chris']
+        # uList = []
+        for user in users:
+            if user.username != 'Chris':
+                uList.append(user.username)
+        uString=json.dumps(uList)
+        print(uString)
+
+
+    return render_template('nme/nme_mov' + part + '.html', uString=uString, mString=mString, mData=movieData)
+
+
+@app.route('/dubUpload', methods=['POST', 'GET'])
+def dubUpload(audio_string, team, movie):
+
+    movies = {
+        1: U013U, # lionking
+    }
+
+    model = movies[movie].query.filter_by(username=team).first()
+
+    title = str(movie) + '-' + str(team)
+
+    print('PROCESSING AUDIO')
+    seq = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm']
+    audio = base64.b64decode(audio_string)
+    newTitle = S3_BUCKET_NAME + 'dubbing/' + movie + '/' + team + '_' + random.choice(seq) +  '.mp3'
+    filename = 'dubbing/' + current_user.username + '.mp3'
+    s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=audio)
+
+
+    return newTitle
+
+
+@app.route('/addMovie', methods=['POST', 'GET'])
+def addMovie():
+
+    audio_string = request.form ['base64']
+    part = request.form ['part']
+    data = request.form ['movieData']
+    movie = request.form ['movie']
+    print(data)
+
+    movieData = json.loads(data)
+    team = movieData['team']
+    names = movieData['names']
+
+    movies = {
+        1: U013U, # lionking
+    }
+
+    model = movies[int(movie)]
+    print(names, type(names))
+    details = model.query.filter_by(username=json.dumps(names)).first()
+
+
+    if details == None:
+            addTeam = model(teamnumber=team, username=json.dumps(names), Ans01=data)
+            db.session.add(addTeam)
+            db.session.commit()
+            details = model.query.filter_by(username=team).first()
+            return jsonify({'result' : True})
+
+    if part == 4:
+        link = dubUpload(audio_string, team, movie, part)
+        data[audio] = link
+
+
+
+    details.Ans01 = data
+    db.session.commit()
+
+    return jsonify({'result' : True})
+
+
+
+
 '''### novels '''
+
+
+
 
 @app.route ("/nme_novels", methods=['GET','POST'])
 @login_required
@@ -126,7 +314,6 @@ def nme_novels():
     nString = json.dumps(nDict)
 
     return render_template('nme/nme_novels.html', completed=completed, nCount=nCount, nString=nString, legend='NME Projects')
-
 
 
 @app.route ("/nme_exams", methods=['GET','POST'])
@@ -442,7 +629,6 @@ def nme_summary():
 
     return render_template('nme/nme_summary.html', sString=sString, legend='NME Summary Test')
 
-
 @app.route ("/addNovel", methods=['GET','POST'])
 @login_required
 def addNovel():
@@ -532,44 +718,6 @@ def updateSum():
     return jsonify({'success' : True})
 
 '''### feedback '''
-
-@app.route ("/feedback/<string:student>", methods=['GET','POST'])
-@login_required
-def nme_feedback(student):
-    if current_user.id == 1 or student == current_user.username:
-        pass
-    else:
-        flash('Wrong Username', 'danger')
-        return (redirect (url_for('home')))
-
-    novels = ['01', '02', '03']
-
-    completed = 0
-    nCount = 0
-    fDict = {}
-    for n in novels:
-        project = projectDict[n].query.filter_by(username=current_user.username).first()
-        if project:
-            nCount +=1
-            fDict[n] = json.loads(project.Ans04)
-
-    html = 'nme/nme_feedback.html'
-
-    return render_template(html, legend='Writing Feedback', fString=json.dumps(fDict))
-
-
-@app.route ("/addFeedback", methods=['GET','POST'])
-@login_required
-def addFeedback():
-    print('ADD_FEEDBACK')
-    nString = request.form ['novel']
-    student = request.form ['student']
-
-    novel = json.loads(nString)
-    current_feedback = {}
-
-    return jsonify({'fObj' : json.dumps(current_feedback)})
-
 
 @app.route ("/rec/<string:index>", methods=['GET','POST'])
 @login_required
@@ -709,25 +857,3 @@ def storeB64():
 
 
 
-@app.route("/dub", methods = ['GET', 'POST'])
-@login_required
-def dub():
-
-    return render_template('nme/dubbing.html')
-
-
-@app.route('/dubUpload', methods=['POST', 'GET'])
-def dubUpload():
-
-
-    audio_string = request.form ['base64']
-
-    print('PROCESSING AUDIO')
-    audio = base64.b64decode(audio_string)
-    newTitle = S3_LOCATION + 'dubbing/' + current_user.username + '.mp3'
-    filename = 'dubbing/' + current_user.username + '.mp3'
-    s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=audio)
-
-
-
-    return jsonify({'title' : newTitle})

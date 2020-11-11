@@ -1,0 +1,179 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div id="vue-app">
+
+
+<div class="content-section">
+        <h1> Movie Listening </h1>
+    </div>
+    <div class="content-section">
+    <div class="embed-responsive embed-responsive-4by3">
+            <iframe id="questions_embed" :src="mObj.trailer"
+            allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
+	        </iframe>
+    </div>
+
+</div>
+
+<div class="content-section">
+  <legend class="border-bottom mb-4"> Movie Details: </legend>
+
+    Team Number: <input style="text" id="number" v-model="movieData.team"></input>
+    <br>
+    <br>
+    Team Member 1:<br>
+    <select  type="text" style="width: 50%; height:40px" name="vocab" v-model="movieData.names[0]">
+          <option v-for="option in uList" :value="option">[[option]]</option>
+    </select>
+    <br>
+    Team Member 2:<br>
+    <select  type="text" style="width: 50%; height:40px" name="vocab" v-model="movieData.names[1]">
+          <option v-for="option in uList" :value="option">[[option]]</option>
+    </select>
+    <br>
+    Team Member 3:<br>
+    <select  type="text" style="width: 50%; height:40px" name="vocab" v-model="movieData.names[2]">
+          <option v-for="option in uList" :value="option">[[option]]</option>
+    </select>
+    <br>
+    <br>
+
+
+    Introduction: <br>
+    [[ mObj.intro ]]
+
+    <br>
+    <br>
+
+
+    [[ mObj.q01 ]] <br>
+    <textarea style="text" id="q01" v-model="movieData.q01"></textarea>
+    <br>
+    <br>
+
+    [[mObj.q02]] <br>
+    <textarea style="text" id="q02" v-model="movieData.q02"></textarea>
+    <br>
+    <br>
+
+
+    <div>
+      <button class="btn btn-info"><a style="color:white" @click="submitAnswers()">Submit Answers</a></button>
+    </div>
+
+</div>
+
+
+
+</div>
+
+<span id="user" style="display:none">{{current_user.username}}</span>
+<span id="mString" style="display:none">{{mString}}</span>
+<span id="uString" style="display:none">{{uString}}</span>
+<span id="mData" style="display:none">{{mData}}</span>
+
+</div> <!-- end of Vue app -->
+
+
+{% endblock %}
+
+{% block script %}
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+
+<script type="text/javascript" >
+
+var mString = document.getElementById('mString').innerHTML
+var uString = document.getElementById('uString').innerHTML
+var mData = document.getElementById('mData').innerHTML
+console.log(mData)
+
+var mObj = JSON.parse(mString)
+var uList = JSON.parse(uString)
+var movieData = JSON.parse(mData)
+console.log('mObj', mObj);
+console.log('uList', uList);
+
+if (!movieData['team']) {
+  movieData = {
+          team: null,
+          names: [null, null, null],
+          q01: null,
+          q02: null,
+          q11: null,
+          q12: null,
+          q21: null,
+          q22: null,
+          q23: null,
+          q31: null,
+          q32: null,
+          q33: null,
+          audio: null
+        }
+}
+
+console.log(movieData, movieData.length)
+
+var str = window.location.href
+let movie = str.split('nme_mov/')[1][0]
+
+startVue()
+
+function startVue(){ new Vue({
+
+    el: '#vue-app',
+    delimiters: ['[[', ']]'],
+    mounted: function(){
+    },
+    data: {
+        uList: uList,
+        mObj: mObj,
+        movieData: movieData,
+        movie: movie,
+        base64: 000
+    },
+    methods: {
+        goTo: function(task, index) {
+
+          let name = document.getElementById('user').innerHTML
+
+          var str = window.location.href
+
+          let url = (str).split('nme_')[0] + 'nme_movies'
+          console.log('goTO', url);
+            window.location = url
+            console.log('DONE');
+        },
+        submitAnswers: function () {
+          console.log('update via AJAX');
+          let _this = this
+            $.ajax({
+              data : {
+                movie: this.movie,
+                part: 0,
+                movieData: JSON.stringify(this.movieData),
+                base64: 'none'
+              },
+              type : 'POST',
+              url : '/addMovie',
+            })
+            .done(function(data) {
+              _this.goTo()
+            })
+            .fail(function(){
+                console.log('error has occurred');
+            });
+        },
+    }
+})// end NEW VUE
+
+
+
+}// endFunction
+
+</script>
+
+{% endblock %}
+
