@@ -192,8 +192,8 @@ console.log('mData', movieData);
 var str = window.location.href
 let movie = str.split('nme_mov/')[1][0]
 
-var subtitles = movieData['subtitles']
-console.log(subtitles)
+var subtitles = mObj['subtitles']
+console.log('subs', subtitles)
 
 //device = 'U'4
 let b64d = 'nothing'
@@ -330,7 +330,7 @@ function startVue(){
         }
         $.ajax({
           data : {
-              part: 2,
+              part: 4,
               movie: vue.movie,
               movieData: JSON.stringify(vue.movieData),
               base64 : vue.base64data,
@@ -339,7 +339,7 @@ function startVue(){
           url : '/addMovie'
           })
           .done(function(data) {
-              alert(data)
+              alert('Audio Saved')
           })
           .fail(function(){
             alert('Upload Failed, there has been an error. Reload the page and if it happens again please tell you instructor')
@@ -403,6 +403,9 @@ function startVue(){
         }
         if (vue.blobURL != null){
           audio.src = vue.blobURL
+        } else if (vue.movieData['audio'] != null) {
+          console.log('check audio',  vue.movieData['audio'])
+          audio.src = vue.movieData['audio']
         }
         if (arg == 'sound'){
           video.src = vue.videoSRC

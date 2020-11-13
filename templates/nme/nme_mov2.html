@@ -85,9 +85,8 @@ function startVue(){ new Vue({
     },
     data: {
         part: 2,
-        movie: this.movie,
-        movieData: JSON.stringify(this.movieData),
-        base64: '11'
+        movie: movie,
+        movieData: movieData
     },
     methods: {
         goTo: function(task, index) {
@@ -108,7 +107,8 @@ function startVue(){ new Vue({
               data : {
                 part: 2,
                 movie: this.movie,
-                movieData: JSON.stringify(this.movieData)
+                movieData: JSON.stringify(this.movieData),
+                base64: '11'
               },
               type : 'POST',
               url : '/addMovie',

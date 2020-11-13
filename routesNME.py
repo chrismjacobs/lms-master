@@ -79,6 +79,37 @@ def nme_dash():
 
 '''### movies '''
 
+movieDict = {
+        1: U013U, # lionking
+    }
+
+
+@app.route ("/nme_dubdash", methods=['GET','POST'])
+@login_required
+def nme_dubdash():
+    taList = ['Chris']
+
+    if current_user.username not in taList:
+        return redirect('home')
+
+    nmeDict = {}
+
+    for mov in movieDict:
+        data = movieDict[mov].query.all()
+        print('DATA', data)
+        nmeDict[mov] = {}
+        for entry in data:
+            print(entry)
+            movieData = json.loads(entry.Ans01)
+            nmeDict[mov][movieData['team']] = movieData
+
+    pprint (nmeDict)
+
+    return render_template('nme/nme_dubdash.html', legend='NME Dash', nmeString = json.dumps(nmeDict))
+
+
+
+
 
 @app.route ("/nme_movies", methods=['GET','POST'])
 @login_required
@@ -88,11 +119,8 @@ def nme_movies():
 
     mDict = {}
 
-    movies = {
-        'Jobs': U013U,
-    }
-
     mString = json.dumps(mDict)
+
 
     return render_template('nme/nme_movies.html', mString=mString, legend='NME Movies')
 
@@ -134,7 +162,7 @@ def getMovieData(arg):
                    'q' : 'If a kingdom is ruled by a king, what is it called when a queen rules?'
               },
               3: { 'v':'getting your way',
-                   'q' : 'How do some young kids get there way all the time?'
+                   'q' : 'How do some young kids `get there way` all the time?'
               },
           }
         },
@@ -158,16 +186,22 @@ def getMovieData(arg):
 @app.route("/nme_mov/<string:movie>/<string:part>", methods = ['GET', 'POST'])
 @login_required
 def nme_mov(movie, part):
+    check = Units.query.filter_by(unit=movie).first()
+
+
+    if int(part) <= check.u1:
+        pass
+    else:
+        flash('Not open yet', 'danger')
+        return (redirect (url_for('nme_movies')))
+
 
     mDict = getMovieData(int(movie))
     print(mDict)
     mString = json.dumps(mDict)
 
-    movies = {
-        1: U013U, # lionking
-    }
     print(movie)
-    entries = movies[int(movie)].query.all()
+    entries = movieDict[int(movie)].query.all()
 
     model = None
     for a in entries:
@@ -200,23 +234,18 @@ def nme_mov(movie, part):
 @app.route('/dubUpload', methods=['POST', 'GET'])
 def dubUpload(audio_string, team, movie):
 
-    movies = {
-        1: U013U, # lionking
-    }
-
-    model = movies[movie].query.filter_by(username=team).first()
 
     title = str(movie) + '-' + str(team)
 
     print('PROCESSING AUDIO')
     seq = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm']
     audio = base64.b64decode(audio_string)
-    newTitle = S3_BUCKET_NAME + 'dubbing/' + movie + '/' + team + '_' + random.choice(seq) +  '.mp3'
-    filename = 'dubbing/' + current_user.username + '.mp3'
+    filename = 'dubbing/' + movie + '/' + team + '_' + random.choice(seq) +  '.mp3'
+    link = S3_LOCATION + filename
     s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=audio)
 
 
-    return newTitle
+    return link
 
 
 @app.route('/addMovie', methods=['POST', 'GET'])
@@ -232,11 +261,10 @@ def addMovie():
     team = movieData['team']
     names = movieData['names']
 
-    movies = {
-        1: U013U, # lionking
-    }
 
-    model = movies[int(movie)]
+
+
+    model = movieDict[int(movie)]
     print(names, type(names))
     details = model.query.filter_by(username=json.dumps(names)).first()
 
@@ -248,13 +276,13 @@ def addMovie():
             details = model.query.filter_by(username=team).first()
             return jsonify({'result' : True})
 
-    if part == 4:
-        link = dubUpload(audio_string, team, movie, part)
-        data[audio] = link
+    if part == '4':
+        link = dubUpload(audio_string, team, movie)
+        movieData['audio'] = link
 
 
 
-    details.Ans01 = data
+    details.Ans01 = json.dumps(movieData)
     db.session.commit()
 
     return jsonify({'result' : True})
