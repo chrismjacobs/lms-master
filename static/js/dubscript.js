@@ -402,9 +402,17 @@ function startVue(){
             }
           }, 1000)
       },
-      playAudio : function () {
-        player = document.getElementById('handler')
-        player.src = null
+      playStart : function () {
+        video = document.getElementById('vid')
+        audio = document.getElementById('aud')
+        video.play()
+        audio.play()
+        vue.start()
+      },
+      playRec : function () {
+        video = document.getElementById('vid')
+        video.play()
+        vue.start()
       },
       clip : function (arg){
         video = document.getElementById('vid')
@@ -443,25 +451,22 @@ function startVue(){
         if (arg == 'shadow') {
           video.src = vue.videoSRC
           video.muted = false
-          video.onloadeddata = function() {
-            video.play()
-            audio.play()
+          video.oncanplay = function() {
+            vue.playStart()
           }
         }
         if (arg == 'dub') {
           video.src = vue.videoSRC
           video.muted = true
-          video.onloadeddata = function() {
-            video.play()
-            audio.play()
+          video.oncanplay = function() {
+            vue.playStart()
           }
         }
         if (arg == 'start') {
           video.src = vue.videoSRC
           video.muted = true
-          video.onloadeddata = function() {
-            video.play()
-            vue.start()
+          video.oncanplay = function() {
+            vue.playRec()
           }
         }
         video.onended = function() {
