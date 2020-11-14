@@ -12,18 +12,19 @@
 </div>
 
 <div class="content-section">
+   <audio controls id="handler"> </audio>
 
     <div style="overflow-x:auto;">
       <table class="table table-sm">
         <thead>
             <tr>
-              <th scope="col" >Movie</th>
-              <th scope="col" >Names</th>
+              <th scope="col" style="width:5%"  >Movie</th>
+              <th scope="col" style="width:10%" >Names</th>
               <th scope="col" >0</th>
               <th scope="col" >1</th>
               <th scope="col" >2</th>
               <th scope="col" >3</th>
-              <th scope="col" >4</th>
+              <th scope="col" style="width:7%" >4</th>
             </tr>
         </thead>
 
@@ -38,29 +39,30 @@
               [[proj.names]]
               </td>
               <td>
-              [[proj.q01]]
+              [[proj.q01]] <br>
               [[proj.q02]]
               </td>
               <td>
-              [[proj.q11]]
+              [[proj.q11]] <br>
               [[proj.q12]]
               </td>
               <td>
-              [[proj.q21]]
-              [[proj.q22]]
+              [[proj.q21]] <br>
+              [[proj.q22]] <br>
               [[proj.q23]]
               </td>
               <td>
-              [[proj.q31]]
-              [[proj.q32]]
+              [[proj.q31]] <br>
+              [[proj.q32]] <br>
               [[proj.q33]]
               </td>
               <td>
-              <audio id="aud" :src="proj.audio" controls ></audio>
+              <button v-if="proj.audio" class="btn btn-info" @click="playAudio(proj.audio)"> Play </button>
               </td>
 
           </tr>
 
+        </template>
         </template>
 
         </tbody>
@@ -108,54 +110,11 @@ function startVue(OBJ){ new Vue({
             window.location = url
             console.log('DONE');
         },
-        sumsLength: function (name, novel) {
-          let sums = this.projectOBJ[novel][name]['sums']
-          let count = 0
-          for (let chapter in sums){
-              count +=1
-          }
-          return count
-        },
-        rowStyle: function (x,y,key) {
-          if (parseInt(x) === parseInt(y) && key === '01') {
-            return 'background:lightgreen'
-          }
-          if (parseInt(x) === parseInt(y) && key === '02') {
-            return 'background:lightblue'
-          }
-          if (key === '02') {
-            return 'background:lightgrey'
-          }
-        },
-        recsLength: function (name, novel) {
-          let recs = this.projectOBJ[novel][name]['recs']
-          let count = 0
-          for (let rec in recs){
-            if (recs[rec]['audio']) {
-              count +=1
-            }
-          }
-          return count
-        },
-        updateSum: function (name, novel, number, summary) {
-          console.log('update via AJAX');
-          let _this = this
-            $.ajax({
-              data : {
-                novel: novel,
-                number: number,
-                name: name,
-                summary: summary
-              },
-              type : 'POST',
-              url : '/updateSum',
-            })
-            .done(function(data) {
-              alert(data.success)
-            })
-            .fail(function(){
-                console.log('error has occurred');
-            });
+        playAudio: function (arg) {
+          console.log(arg)
+          let audio = document.getElementById('handler')
+          audio.src = arg
+          audio.play()
         },
 
     }
