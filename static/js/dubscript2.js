@@ -257,7 +257,6 @@ function startVue(){
     },
     methods: {
       start : function(){
-        vue.clip('mute')
         vue.rec1.start = false
         vue.rec1.cancel = true
         vue.rec1.timer = true
@@ -444,14 +443,26 @@ function startVue(){
         if (arg == 'shadow') {
           video.src = vue.videoSRC
           video.muted = false
-          video.play()
-          audio.play()
+          video.onloadeddata = function() {
+            video.play()
+            audio.play()
+          }
         }
         if (arg == 'dub') {
           video.src = vue.videoSRC
           video.muted = true
-          video.play()
-          audio.play()
+          video.onloadeddata = function() {
+            video.play()
+            audio.play()
+          }
+        }
+        if (arg == 'start') {
+          video.src = vue.videoSRC
+          video.muted = true
+          video.onloadeddata = function() {
+            video.play()
+            vue.start()
+          }
         }
         video.onended = function() {
           // alert('video ended')
