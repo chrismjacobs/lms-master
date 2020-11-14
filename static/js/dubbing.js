@@ -85,6 +85,7 @@ window.globalFunc = function (action){
       console.log('load rec voice');
 
       this.startRecord = function() {
+
         console.log('startRecord');
           audioContext = new AudioContext();
           /** Create a ScriptProcessorNode with a bufferSize of
@@ -168,11 +169,13 @@ window.globalFunc = function (action){
           };// stopRecord
       }
       this.stopRecord = function() {
+        // mark to see if iphone is recording or not
         try{
           var stage = stopBtnRecord()
           console.log(stage);
         }
         catch {
+          alert('error on video stop')
           console.log('recErrorWin')
         }
 
@@ -243,7 +246,7 @@ function startVue(){
 
         if (this.device == 'A') {
           var constraintObj = {audio: true, video: false };
-          navigator.mediaDevices.getUserMedia(constraintObj)
+          navigator.mediaDevices.getUserMedia(constraintObj, {mimeType: 'audio/webm'})
             .then(function(mediaStreamObj) {
                 vue.mediaRecorder = new MediaRecorder(mediaStreamObj);
                 var chunks = [];
@@ -256,7 +259,7 @@ function startVue(){
 
               vue.mediaRecorder.onstop = (ev)=>{
                     try{
-                      var blob = new Blob(chunks, { 'audio' : 'audio/mpeg;' });
+                      var blob = new Blob(chunks, { 'audio' : 'audio/webm' });
                       console.log(blob);
                       chunks = [];// here we clean out the array
                       var blobURL = window.URL.createObjectURL(blob);
@@ -287,7 +290,7 @@ function startVue(){
         vue.rec1.save = true
         vue.rec1.cancel = true
         clearInterval(vue.rec_timer)
-        console.log(this.device);
+        console.log('stoping on device', this.device);
 
             if (this.device == 'A') {
               console.log('stopped');
@@ -296,6 +299,7 @@ function startVue(){
             }
             else if (this.device == 'I'){
               // global function for iphone recording
+              // alert('ended 2')
               window.globalFunc('stop')
               vue.blobURL = globlob
               console.log('status: mp3 rec stopped');
@@ -305,7 +309,6 @@ function startVue(){
       },
       cancel: function(){
         console.log('cancel');
-
         video = document.getElementById('vid')
         audio = document.getElementById('aud')
         audio.pause()
@@ -313,7 +316,6 @@ function startVue(){
         video.currentTime = 0
         audio.currentTime = 0
         clearInterval(vue.rec_timer)
-
 
         for (var key in vue.rec1){
           vue.rec1[key] = false
@@ -422,19 +424,22 @@ function startVue(){
         if (arg == 'shadow') {
           video.src = vue.videoSRC
           video.muted = false
-          // video.play()
+          video.play()
           audio.play()
         }
         if (arg == 'dub') {
           video.src = vue.videoSRC
           video.muted = true
-          // video.play()
+          video.play()
           audio.play()
         }
         video.onended = function() {
+          // alert('video ended')
           console.log('stopping video')
-          console.log(vue.mediaRecorder.state)
-          if (vue.mediaRecorder.state == 'recording') {
+          // console.log(vue.mediaRecorder.state)
+          if (vue.device == 'A' && vue.mediaRecorder.state == 'recording') {
+            vue.stop()
+          } else if (vue.device == 'I') {
             vue.stop()
           }
         }

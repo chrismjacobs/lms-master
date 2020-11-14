@@ -236,7 +236,6 @@ def dubUpload(audio_string, team, movie):
 
 
     title = str(movie) + '-' + str(team)
-
     print('PROCESSING AUDIO')
     seq = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm']
     audio = base64.b64decode(audio_string)
