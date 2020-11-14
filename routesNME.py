@@ -237,6 +237,7 @@ def dubUpload(audio_string, team, movie):
 
     title = str(movie) + '-' + str(team)
     print('PROCESSING AUDIO')
+    print(audio_string[0:10])
     seq = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm']
     audio = base64.b64decode(audio_string)
     filename = 'dubbing/' + movie + '/' + team + '_' + random.choice(seq) +  '.mp3'

@@ -141,11 +141,13 @@ window.globalFunc = function (action){
                   console.log('stop Record');
                   audioContext.close();
                   processor.disconnect();
+                  alert(1)
                   tracks.forEach(track => track.stop());
                   stage = 2
                   audioElement = document.getElementById('handler')
                   audioElement.src = URL.createObjectURL(encoder.finish());
                   stage = 3
+                  alert(3)
 
                   globlob = audioElement.src
 
@@ -175,7 +177,7 @@ window.globalFunc = function (action){
           console.log(stage);
         }
         catch {
-          // alert('error on video stop')
+          alert('error on video stop')
           console.log('recErrorWin')
         }
 
