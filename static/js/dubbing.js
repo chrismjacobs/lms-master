@@ -422,13 +422,13 @@ function startVue(){
         if (arg == 'shadow') {
           video.src = vue.videoSRC
           video.muted = false
-          video.play()
+          // video.play()
           audio.play()
         }
         if (arg == 'dub') {
           video.src = vue.videoSRC
           video.muted = true
-          video.play()
+          // video.play()
           audio.play()
         }
         video.onended = function() {
