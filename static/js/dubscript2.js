@@ -11,6 +11,14 @@ if (report.includes('Windows')){
   device = 'A'
   notice = 'Recording in Windows'
 }
+else if (report.includes('Line')){
+    device = 'L'
+    notice = 'WARNING - LINE APP cannot be used for recording'
+}
+else if (report.includes('Android')){
+    device = 'FB'
+    notice = 'WARNING - FACEBOOK APP cannot be used for recording'
+}
 else if (report.includes('Android')){
     device = 'A'
     notice = 'Recording in Android'
@@ -20,7 +28,7 @@ else if (report.includes('Macintosh')){
     notice = 'Recording on Mac'
 }
 else if (report.includes('iPad')){
-    notice = 'Recording on iPad may not work; please upload file, share a link or use a phone/computer'
+    notice = 'Recording on iPad may not work; please upload file or use a phone/computer'
     device = 'I'
 }
 else if (report.includes('iPhone OS 11')){
@@ -41,7 +49,7 @@ else if (report.includes('iPhone OS 14')){
 }
 else if (report.includes('iPhone OS 15')){
   device = 'I'
-  notice = 'Recording in iOS 15'
+  notice = 'Recording in iOS 13'
 }
 else {
   device = 'U'
@@ -91,12 +99,13 @@ window.globalFunc = function (action){
           /** Create a ScriptProcessorNode with a bufferSize of
           * 4096 and two input and output channel
           * */
+          alert(audioContext)
           if (audioContext.createJavaScriptNode) {
               processor = audioContext.createJavaScriptNode(config.bufferLen, config.numChannels, config.numChannels);
-              console.log('java processer');
+              console.log('java processor');
           } else if (audioContext.createScriptProcessor) {
               processor = audioContext.createScriptProcessor(config.bufferLen, config.numChannels, config.numChannels);
-              console.log('script processer');
+              console.log('script processor');
           } else {
               console.log('WebAudio API has no support on this browser.');
           }
@@ -104,6 +113,7 @@ window.globalFunc = function (action){
           /**
           *  ask permission of the user for use microphone or camera
           * */
+         alert(processor)
           navigator.mediaDevices.getUserMedia({ audio: true, video: false })
           .then(gotStreamMethod)
           .catch('logError');
@@ -131,23 +141,25 @@ window.globalFunc = function (action){
           microphone.connect(processor);
           encoder = new Mp3LameEncoder(audioContext.sampleRate, 160); //bitRate set to 160
           /** Give the node a function to process audio events **/
+
           processor.onaudioprocess = function(event) {
               encoder.encode(getBuffers(event));
               console.log('MP3 encoding');
           };
 
           stopBtnRecord = () => {
+                  alert(1)
                   var stage = 1
                   console.log('stop Record');
                   audioContext.close();
+                  alert(2)
                   processor.disconnect();
-                  alert(1)
+                  alert(3)
                   tracks.forEach(track => track.stop());
                   stage = 2
                   audioElement = document.getElementById('handler')
                   audioElement.src = URL.createObjectURL(encoder.finish());
                   stage = 3
-                  alert(3)
 
                   globlob = audioElement.src
 

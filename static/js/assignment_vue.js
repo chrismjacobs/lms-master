@@ -16,6 +16,14 @@ if (report.includes('Windows')){
   device = 'A'
   notice = 'Recording in Windows'
 }
+else if (report.includes('Line')){
+    device = 'L'
+    notice = 'WARNING - LINE APP cannot be used for recording'
+}
+else if (report.includes('Android')){
+    device = 'FB'
+    notice = 'WARNING - FACEBOOK APP cannot be used for recording'
+}
 else if (report.includes('Android')){
     device = 'A'
     notice = 'Recording in Android'
@@ -25,7 +33,7 @@ else if (report.includes('Macintosh')){
     notice = 'Recording on Mac'
 }
 else if (report.includes('iPad')){
-    notice = 'Recording on iPad may not work; please upload file, share a link or use a phone/computer'
+    notice = 'Recording on iPad may not work; please upload file or use a phone/computer'
     device = 'I'
 }
 else if (report.includes('iPhone OS 11')){
