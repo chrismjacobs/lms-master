@@ -175,7 +175,7 @@ window.globalFunc = function (action){
           console.log(stage);
         }
         catch {
-          alert('error on video stop')
+          // alert('error on video stop')
           console.log('recErrorWin')
         }
 
@@ -239,6 +239,7 @@ function startVue(){
     },
     methods: {
       start : function(){
+        vue.clip('mute')
         vue.rec1.start = false
         vue.rec1.cancel = true
         vue.rec1.timer = true
@@ -315,6 +316,7 @@ function startVue(){
         video.pause()
         video.currentTime = 0
         audio.currentTime = 0
+        vue.stop()
         clearInterval(vue.rec_timer)
 
         for (var key in vue.rec1){

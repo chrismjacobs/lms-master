@@ -24,7 +24,7 @@
     Record: &nbsp;
         <div>
                 <div  v-if="rec1.start">
-                    <button  class="btn btn-success" @click="start(), clip('mute')" >Start</button>
+                    <button  class="btn btn-success" @click="start()" >Start</button>
                 </div>
                 <div  v-if="rec1.save" style="float: left;">
                     <button  class="btn btn-info" style="margin-right:5px" @click="save()">Upload</button>
@@ -91,5 +91,5 @@ Script:
 {% block script %}
 <script type="text/javascript" src="{{url_for('static', filename= 'js/Mp3LameEncoder.js')}}"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
-<script type="text/javascript" src="{{url_for('static', filename= 'js/dubscript.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static', filename= 'js/dubscript2.js')}}"></script>
 {% endblock %}
