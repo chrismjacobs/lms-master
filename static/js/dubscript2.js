@@ -451,21 +451,21 @@ function startVue(){
         if (arg == 'shadow') {
           video.src = vue.videoSRC
           video.muted = false
-          video.oncanplay = function() {
+          video.onloadeddata = function() {
             vue.playStart()
           }
         }
         if (arg == 'dub') {
           video.src = vue.videoSRC
           video.muted = true
-          video.oncanplay = function() {
+          video.onloadeddata = function() {
             vue.playStart()
           }
         }
         if (arg == 'start') {
           video.src = vue.videoSRC
           video.muted = true
-          video.oncanplay = function() {
+          video.onloadeddata = function() {
             vue.playRec()
           }
         }
