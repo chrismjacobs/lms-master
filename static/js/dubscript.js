@@ -57,6 +57,10 @@ else {
 }
 console.log('DEVICE', device);
 
+if (device == 'I') {
+  navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+}
+
 //iphone recording
 window.globalFunc = function (action){
   console.log('global started');
@@ -94,12 +98,12 @@ window.globalFunc = function (action){
 
       this.startRecord = function() {
 
-        console.log('startRecord');
+          console.log('startRecord');
           audioContext = new AudioContext();
           /** Create a ScriptProcessorNode with a bufferSize of
           * 4096 and two input and output channel
           * */
-          alert(audioContext)
+          // alert(audioContext)
           if (audioContext.createJavaScriptNode) {
               processor = audioContext.createJavaScriptNode(config.bufferLen, config.numChannels, config.numChannels);
               console.log('java processor');
@@ -113,7 +117,7 @@ window.globalFunc = function (action){
           /**
           *  ask permission of the user for use microphone or camera
           * */
-         alert(processor)
+         // alert(processor)
           navigator.mediaDevices.getUserMedia({ audio: true, video: false })
           .then(gotStreamMethod)
           .catch('logError');
@@ -148,13 +152,13 @@ window.globalFunc = function (action){
           };
 
           stopBtnRecord = () => {
-                  alert(1)
+                  // alert(1)
                   var stage = 1
                   console.log('stop Record');
                   audioContext.close();
-                  alert(2)
+                  // alert(2)
                   processor.disconnect();
-                  alert(3)
+                  // alert(3)
                   tracks.forEach(track => track.stop());
                   stage = 2
                   audioElement = document.getElementById('handler')
