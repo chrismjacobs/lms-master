@@ -61,7 +61,6 @@ if (device == 'I') {
   navigator.mediaDevices.getUserMedia({ audio: true, video: false })
 }
 
-var iphoneRec = false
 
 //iphone recording
 window.globalFunc = function (action){
@@ -100,7 +99,6 @@ window.globalFunc = function (action){
       console.log('load rec voice');
 
       this.startRecord = function() {
-          iphoneRec = true
 
           console.log('startRecord');
           audioContext = new AudioContext();
@@ -359,7 +357,7 @@ function startVue(){
         if (vue.device == 'A' && vue.mediaRecorder.state == 'recording') {
           clearInterval(vue.rec_timer)
           vue.stop()
-        } else if (vue.device == 'I' && iphoneRec) {
+        } else if (vue.device == 'I') {
           clearInterval(vue.rec_timer)
           vue.stop()
         }
@@ -501,7 +499,7 @@ function startVue(){
           // console.log(vue.mediaRecorder.state)
           if (vue.device == 'A' && vue.mediaRecorder.state == 'recording') {
             vue.stop()
-          } else if (vue.device == 'I' && iphoneRec) {
+          } else if (vue.device == 'I') {
             vue.stop()
           }
         }
