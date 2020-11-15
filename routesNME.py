@@ -191,7 +191,7 @@ def nme_mov(movie, part):
 
     if int(part) <= check.u1:
         pass
-    else:
+    elif current_user.username != 'Chris':
         flash('Not open yet', 'danger')
         return (redirect (url_for('nme_movies')))
 
@@ -260,6 +260,7 @@ def addMovie():
     movieData = json.loads(data)
     team = movieData['team']
     names = movieData['names']
+    link = 'None'
 
 
 
@@ -285,7 +286,7 @@ def addMovie():
     details.Ans01 = json.dumps(movieData)
     db.session.commit()
 
-    return jsonify({'result' : True})
+    return jsonify({'result' : True, 'link': link })
 
 
 
