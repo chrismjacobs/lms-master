@@ -20,7 +20,7 @@ else if (report.includes('Line')){
     device = 'L'
     notice = 'WARNING - LINE APP cannot be used for recording'
 }
-else if (report.includes('Android')){
+else if (report.includes('FB')){
     device = 'FB'
     notice = 'WARNING - FACEBOOK APP cannot be used for recording'
 }

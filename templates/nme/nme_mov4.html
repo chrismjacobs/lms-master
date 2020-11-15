@@ -21,25 +21,28 @@
 
     <legend class="border-bottom mb-4">Post Listen: Dubbing Controls ([[notice]]) </legend>
 
+    <div align="right">
+     <button  class="btn btn-danger" style="margin-right:5px" @click="cancel()">Reset</button>
+    </div>
+    <br>
+
+
     Record: &nbsp;
         <div>
                 <div  v-if="rec1.start">
-                    <button  class="btn btn-success" @click="clip('start')" >Start</button>
+                    <button  class="btn btn-success" @click="clip('start')">Start</button>
                 </div>
                 <div  v-if="rec1.save" style="float: left;">
                     <button  class="btn btn-info" style="margin-right:5px" @click="save()">Upload</button>
                 </div>
-
                 <div  v-if="rec1.save" style="float: left;">
-                    <button  class="btn btn-secondary" style="margin-right:5px" @click="clip('dub')">Test Dub</button>
+                    <button  class="btn btn-secondary" style="margin-right:5px" @click="playRec(true)">Test Dub</button>
                 </div>
                 <div  v-if="rec1.save" style="float: left;">
-                    <button  class="btn btn-secondary" style="margin-right:5px" @click="clip('shadow')">Test Shadow</button>
-                </div>
-                <div  v-if="rec1.cancel">
-                    <button  class="btn btn-danger" @click="cancel()" >Cancel</button>
+                    <button  class="btn btn-secondary" style="margin-right:5px" @click="playRec(false)">Test Shadow</button>
                 </div>
         </div>
+        <br>
         <br>
 
         <div :style="rec1.t_style">
@@ -48,22 +51,16 @@
           <br>
 
         <div>
-            Play Video: &nbsp;
-            <button  class="btn btn-success" @click="clip('sound')" >Sound On</button> &nbsp; &nbsp;
+            Play Clip:
+            <button  class="btn btn-success" @click="clip('sound')" >Sound On</button>&nbsp;
             <button  class="btn btn-warning" @click="clip('mute')" >Muted </button>
             <br>
             <br>
 
             <div v-if="blobURL || movieData['audio']">
-             Check Dubbing: &nbsp;
-            <button  class="btn btn-info" style="margin-right:5px" @click="clip('shadow')">Shadow</button>   &nbsp; &nbsp;
+            Check Dub:
+            <button  class="btn btn-info" style="margin-right:5px" @click="clip('shadow')">Shadow</button>&nbsp;
             <button  class="btn btn-info" style="margin-right:5px" @click="clip('dub')">Dubbed</button>
-            <br>
-            <br>
-            </div>
-
-            Stop: &nbsp;
-            <button  class="btn btn-danger" style="margin-right:5px" @click="clip('cancel')">Stop</button>
             <br>
             <br>
 
@@ -91,5 +88,5 @@ Script:
 {% block script %}
 <script type="text/javascript" src="{{url_for('static', filename= 'js/Mp3LameEncoder.js')}}"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
-<script type="text/javascript" src="{{url_for('static', filename= 'js/dubscript4.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static', filename= 'js/dubscript5.js')}}"></script>
 {% endblock %}

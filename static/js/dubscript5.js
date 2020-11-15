@@ -81,6 +81,8 @@ window.globalFunc = function (action){
     recorder.stopRecord();
   }
 
+  iphoneRec = false
+
   /// device = A or Windows
   function RecordVoiceAudios() {
 
@@ -97,6 +99,7 @@ window.globalFunc = function (action){
       console.log('load rec voice');
 
       this.startRecord = function() {
+          iphoneRec = true
 
           console.log('startRecord');
           audioContext = new AudioContext();
@@ -145,7 +148,8 @@ window.globalFunc = function (action){
           microphone.connect(processor);
           encoder = new Mp3LameEncoder(audioContext.sampleRate, 160); //bitRate set to 160
           /** Give the node a function to process audio events **/
-
+          video = document.getElementById('vid')
+          video.play()
           processor.onaudioprocess = function(event) {
               encoder.encode(getBuffers(event));
               console.log('MP3 encoding');
@@ -153,6 +157,7 @@ window.globalFunc = function (action){
 
           stopBtnRecord = () => {
                   // alert(1)
+                  iphoneRec = false
                   var stage = 1
                   console.log('stop Record');
                   audioContext.close();
@@ -277,6 +282,8 @@ function startVue(){
                 vue.mediaRecorder = new MediaRecorder(mediaStreamObj);
                 var chunks = [];
                 vue.mediaRecorder.start();
+                video = document.getElementById('vid')
+                video.play()
                 console.log('status:' + vue.mediaRecorder.state);
 
               vue.mediaRecorder.ondataavailable = function(ev) {
@@ -311,6 +318,12 @@ function startVue(){
           }
       },
       stop: function(){
+        video = document.getElementById('vid')
+        audio = document.getElementById('aud')
+        audio.pause()
+        video.pause()
+        video.currentTime = 0
+        audio.currentTime = 0
 
         vue.rec1.stop = false
         vue.rec1.save = true
@@ -354,6 +367,7 @@ function startVue(){
 
       },
       save : function (k){
+        alert('data upload, please wait.....')
         if (this.device == 'I'){
           vue.base64data = b64d
         }
@@ -371,7 +385,8 @@ function startVue(){
               vue.movieData['audio'] = data.link
               audio = document.getElementById('aud')
               audio.src = data.link
-              alert('Audio Saved', data.link)
+              alert('Audio Saved')
+              vue.cancel()
           })
           .fail(function(){
             alert('Upload Failed, there has been an error. Reload the page and if it happens again please tell you instructor')
@@ -419,28 +434,22 @@ function startVue(){
         video.play()
         audio.play()
       },
-      playRec : function () {
+      playRec : function (arg) {
         video = document.getElementById('vid')
+        audio = document.getElementById('aud')
+        video.muted = arg
+        audio.src = vue.blobURL
         video.play()
-        vue.start()
+        audio.play()
       },
       clip : function (arg){
         video = document.getElementById('vid')
         audio = document.getElementById('aud')
 
-        video.currentTime = 0
-        audio.currentTime = 0
-        console.log('blob', vue.blobURL);
+        // video.currentTime = 0
+        // audio.currentTime = 0
+        // console.log('blob', vue.blobURL);
 
-        if (arg === 'cancel') {
-          clearInterval(vue.rec_timer)
-          audio.pause()
-          video.pause()
-          vue.cancel()
-        }
-        if (vue.blobURL != null){
-          audio.src = vue.blobURL
-        }
         if (arg == 'sound'){
           video.muted = false
           console.log('sound', video)
@@ -453,19 +462,16 @@ function startVue(){
         }
         if (arg == 'shadow') {
           video.muted = false
-          setTimeout(function() {
-            vue.playStart()
-           }, 3000)
+          video.play()
+          audio.play()
         }
         if (arg == 'dub') {
           video.muted = true
-          setTimeout(function() {
-            vue.playStart()
-           }, 3000)
+          video.play()
+          audio.play()
         }
         if (arg == 'start') {
           video.muted = true
-          video.play()
           vue.start()
         }
         video.onended = function() {
@@ -474,7 +480,7 @@ function startVue(){
           // console.log(vue.mediaRecorder.state)
           if (vue.device == 'A' && vue.mediaRecorder.state == 'recording') {
             vue.stop()
-          } else if (vue.device == 'I') {
+          } else if (vue.device == 'I' && iphoneRec) {
             vue.stop()
           }
         }
