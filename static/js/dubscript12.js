@@ -246,10 +246,6 @@ function startVue(){
         console.log('check audio',  movieData['audio'])
         audio.src = movieData['audio']
       }
-
-      if (device == 'I') {
-        this.rec1.load == true
-      }
     },
     data: {
         mObj: mObj,
@@ -271,7 +267,7 @@ function startVue(){
         },
         mediaRecorder : null,
         audio_source : null,
-        base64data : null,
+        base64data : 'AAAAAAAAAAAAAAAAAA',
         blobURL : null,
         upload : false,
         rec_timer: null,
@@ -337,7 +333,7 @@ function startVue(){
         vue.rec1.save = true
         vue.rec1.cancel = true
         clearInterval(vue.rec_timer)
-        console.log('stoping on device', this.device);
+        console.log('stopping on device', this.device);
 
             if (this.device == 'A') {
               console.log('stopped');
@@ -351,8 +347,6 @@ function startVue(){
               vue.blobURL = globlob
               console.log('status: mp3 rec stopped');
             }
-
-
       },
       cancel: function(){
         console.log('cancel');
@@ -374,9 +368,8 @@ function startVue(){
         }
         vue.rec1.start = true
 
-        vue.base64data = null
+        vue.base64data = 'AAAAAAAAAAAAAAAAAAA'
         vue.blobURL = null
-
       },
       save : function (k){
         alert('data upload, please wait.....(this may take a few seconds)')
