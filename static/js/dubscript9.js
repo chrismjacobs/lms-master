@@ -150,13 +150,16 @@ window.globalFunc = function (action){
           encoder = new Mp3LameEncoder(audioContext.sampleRate, 160); //bitRate set to 160
           /** Give the node a function to process audio events **/
 
+          let marker = true
           processor.onaudioprocess = function(event) {
               encoder.encode(getBuffers(event));
               console.log('MP3 encoding');
+              if (marker) {
+                video = document.getElementById('vid')
+                video.play()
+              }
+              marker = false
           };
-          video = document.getElementById('vid')
-          video.play()
-
           stopBtnRecord = () => {
                   // alert(1)
                   iphoneRec = false
