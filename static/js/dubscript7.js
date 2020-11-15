@@ -21,39 +21,39 @@ else if (report.includes('FB')){
 }
 else if (report.includes('Android')){
     device = 'A'
-    notice = 'Recording in Android'
+    notice = 'Rec in Android'
 }
 else if (report.includes('Macintosh')){
     device = 'A'
     notice = 'Recording on Mac'
 }
 else if (report.includes('iPad')){
-    notice = 'Recording on iPad may not work; please upload file or use a phone/computer'
+    notice = 'Rec on iPad; may not work'
     device = 'I'
 }
 else if (report.includes('iPhone OS 11')){
     device = 'I'
-    notice = 'Recording in iOS 11'
+    notice = 'Rec iOS 11'
 }
 else if (report.includes('iPhone OS 12')){
   device = 'I'
-  notice = 'Recording in iOS 12'
+  notice = 'Rec iOS 12'
 }
 else if (report.includes('iPhone OS 13')){
   device = 'I'
-  notice = 'Recording in iOS 13'
+  notice = 'Rec iOS 13'
 }
 else if (report.includes('iPhone OS 14')){
   device = 'I'
-  notice = 'Recording in iOS 14'
+  notice = 'Rec iOS 14'
 }
 else if (report.includes('iPhone OS 15')){
   device = 'I'
-  notice = 'Recording in iOS 13'
+  notice = 'Rec iOS 13'
 }
 else {
   device = 'U'
-  notice = 'Your iOS may not work; if so try upload a file, share a link, or use a computer'
+  notice = 'Your iOS will not work; if so please use a computer'
 }
 console.log('DEVICE', device);
 
@@ -244,6 +244,10 @@ function startVue(){
         console.log('check audio',  movieData['audio'])
         audio.src = movieData['audio']
       }
+
+      if (device == 'I') {
+        this.rec1.load == true
+      }
     },
     data: {
         mObj: mObj,
@@ -260,7 +264,8 @@ function startVue(){
             cancel : false,
             timer : false,
             t_style: false,
-            count : false
+            count : false,
+            load : true
         },
         mediaRecorder : null,
         audio_source : null,
@@ -362,7 +367,6 @@ function startVue(){
           clearInterval(vue.rec_timer)
           vue.stop()
         }
-
         for (var key in vue.rec1){
           vue.rec1[key] = false
         }
@@ -440,6 +444,17 @@ function startVue(){
         video.play()
         audio.play()
       },
+      load : function () {
+        video = document.getElementById('vid')
+        audio = document.getElementById('aud')
+        video.play()
+        audio.play()
+        video.pause()
+        audio.pause()
+        video.currentTime = 0
+        audio.currentTime = 0
+        vue.rec1.load = false
+      },
       playRec : function (arg) {
         video = document.getElementById('vid')
         audio = document.getElementById('aud')
@@ -451,10 +466,11 @@ function startVue(){
       clip : function (arg){
         video = document.getElementById('vid')
         audio = document.getElementById('aud')
-
-        // video.currentTime = 0
-        // audio.currentTime = 0
-        // console.log('blob', vue.blobURL);
+        audio.pause()
+        video.pause()
+        video.currentTime = 0
+        audio.currentTime = 0
+        console.log('blob', vue.blobURL);
 
         if (arg == 'sound'){
           video.muted = false
