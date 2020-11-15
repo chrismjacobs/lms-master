@@ -149,12 +149,13 @@ window.globalFunc = function (action){
           microphone.connect(processor);
           encoder = new Mp3LameEncoder(audioContext.sampleRate, 160); //bitRate set to 160
           /** Give the node a function to process audio events **/
-          video = document.getElementById('vid')
-          video.play()
+
           processor.onaudioprocess = function(event) {
               encoder.encode(getBuffers(event));
               console.log('MP3 encoding');
           };
+          video = document.getElementById('vid')
+          video.play()
 
           stopBtnRecord = () => {
                   // alert(1)
@@ -377,7 +378,7 @@ function startVue(){
 
       },
       save : function (k){
-        alert('data upload, please wait.....')
+        alert('data upload, please wait.....(this may take a few seconds)')
         if (this.device == 'I'){
           vue.base64data = b64d
         }
