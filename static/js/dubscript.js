@@ -230,6 +230,14 @@ function startVue(){
     el: '#vue-app',
     delimiters: ['[[', ']]'],
     mounted: function () {
+      video = document.getElementById('vid')
+      audio = document.getElementById('aud')
+      video.src = subtitles
+
+      if (movieData['audio'] != null) {
+        console.log('check audio',  movieData['audio'])
+        audio.src = movieData['audio']
+      }
     },
     data: {
         mObj: mObj,
@@ -360,7 +368,10 @@ function startVue(){
           url : '/addMovie'
           })
           .done(function(data) {
-              alert('Audio Saved')
+              vue.movieData['audio'] = data.link
+              audio = document.getElementById('aud')
+              audio.src = data.link
+              alert('Audio Saved', data.link)
           })
           .fail(function(){
             alert('Upload Failed, there has been an error. Reload the page and if it happens again please tell you instructor')
@@ -417,8 +428,6 @@ function startVue(){
         video = document.getElementById('vid')
         audio = document.getElementById('aud')
 
-        // cancel
-
         video.currentTime = 0
         audio.currentTime = 0
         console.log('blob', vue.blobURL);
@@ -431,40 +440,33 @@ function startVue(){
         }
         if (vue.blobURL != null){
           audio.src = vue.blobURL
-        } else if (vue.movieData['audio'] != null) {
-          console.log('check audio',  vue.movieData['audio'])
-          audio.src = vue.movieData['audio']
         }
         if (arg == 'sound'){
-          video.src = vue.videoSRC
           video.muted = false
           console.log('sound', video)
           video.play()
         }
         if (arg == 'mute'){
-          video.src = vue.videoSRC
           video.muted = true
           console.log('mute', video)
           video.play()
         }
         if (arg == 'shadow') {
-          video.src = vue.videoSRC
           video.muted = false
           setTimeout(function() {
             vue.playStart()
            }, 3000)
         }
         if (arg == 'dub') {
-          video.src = vue.videoSRC
           video.muted = true
           setTimeout(function() {
             vue.playStart()
            }, 3000)
         }
         if (arg == 'start') {
-          video.src = vue.videoSRC
           video.muted = true
-          vue.playRec()
+          video.play()
+          vue.start()
         }
         video.onended = function() {
           // alert('video ended')
