@@ -193,7 +193,7 @@ window.globalFunc = function (action){
           console.log(stage);
         }
         catch {
-          alert('error on video stop')
+          alert('Video stopped')
           console.log('recErrorWin')
         }
 
@@ -407,7 +407,6 @@ function startVue(){
         audio = document.getElementById('aud')
         video.play()
         audio.play()
-        vue.start()
       },
       playRec : function () {
         video = document.getElementById('vid')
@@ -451,23 +450,21 @@ function startVue(){
         if (arg == 'shadow') {
           video.src = vue.videoSRC
           video.muted = false
-          video.onloadeddata = function() {
+          setTimeout(function() {
             vue.playStart()
-          }
+           }, 3000)
         }
         if (arg == 'dub') {
           video.src = vue.videoSRC
           video.muted = true
-          video.onloadeddata = function() {
+          setTimeout(function() {
             vue.playStart()
-          }
+           }, 3000)
         }
         if (arg == 'start') {
           video.src = vue.videoSRC
           video.muted = true
-          video.onloadeddata = function() {
-            vue.playRec()
-          }
+          vue.playRec()
         }
         video.onended = function() {
           // alert('video ended')
