@@ -194,7 +194,7 @@ def nme_mov(movie, part):
 
     if int(part) <= check.u1:
         pass
-    else if current_user.username == 'Chris':
+    elif current_user.username == 'Chris':
         pass
     else:
         flash('Not open yet', 'danger')
