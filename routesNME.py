@@ -188,7 +188,7 @@ def getMovieData(arg):
 def nme_mov(movie, part):
     check = Units.query.filter_by(unit=movie).first()
 
-    if current_user.username != 'Chris':
+    if current_user.username != 'Chriss':
         flash('Not open yet', 'danger')
         return (redirect (url_for('nme_movies')))
 
