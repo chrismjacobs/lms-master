@@ -6,6 +6,7 @@ var device = null
 var notice = null
 
 
+
 if (report.includes('Windows')){
   device = 'A'
   notice = 'Recording in Windows'
@@ -14,52 +15,51 @@ else if (report.includes('Line')){
     device = 'L'
     notice = 'WARNING - LINE APP cannot be used for recording'
 }
-else if (report.includes('FB')){
+else if (report.includes('Android')){
     device = 'FB'
     notice = 'WARNING - FACEBOOK APP cannot be used for recording'
 }
 else if (report.includes('Android')){
     device = 'A'
-    notice = 'Rec in Android'
+    notice = 'Recording in Android'
 }
 else if (report.includes('Macintosh')){
     device = 'A'
     notice = 'Recording on Mac'
 }
 else if (report.includes('iPad')){
-    notice = 'Rec on iPad; may not work'
+    notice = 'Recording on iPad may not work; please upload file or use a phone/computer'
     device = 'I'
 }
 else if (report.includes('iPhone OS 11')){
     device = 'I'
-    notice = 'Rec iOS 11'
+    notice = 'Recording in iOS 11'
 }
 else if (report.includes('iPhone OS 12')){
   device = 'I'
-  notice = 'Rec iOS 12'
+  notice = 'Recording in iOS 12'
 }
 else if (report.includes('iPhone OS 13')){
   device = 'I'
-  notice = 'Rec iOS 13'
+  notice = 'Recording in iOS 13'
 }
 else if (report.includes('iPhone OS 14')){
   device = 'I'
-  notice = 'Rec iOS 14'
+  notice = 'Recording in iOS 14'
 }
 else if (report.includes('iPhone OS 15')){
   device = 'I'
-  notice = 'Rec iOS 13'
+  notice = 'Recording in iOS 13'
 }
 else {
   device = 'U'
-  notice = 'Your iOS will not work; if so please use a computer'
+  notice = 'Your iOS may not work; if so try upload a file, share a link, or use a computer'
 }
 console.log('DEVICE', device);
 
 if (device == 'I') {
   navigator.mediaDevices.getUserMedia({ audio: true, video: false })
 }
-
 
 //iphone recording
 window.globalFunc = function (action){
@@ -80,7 +80,6 @@ window.globalFunc = function (action){
   else if (action == 'stop'){
     recorder.stopRecord();
   }
-
 
   /// device = A or Windows
   function RecordVoiceAudios() {
@@ -147,14 +146,10 @@ window.globalFunc = function (action){
           encoder = new Mp3LameEncoder(audioContext.sampleRate, 160); //bitRate set to 160
           /** Give the node a function to process audio events **/
 
-          video = document.getElementById('vid')
-          video.play()
-          // let marker = true
           processor.onaudioprocess = function(event) {
               encoder.encode(getBuffers(event));
               console.log('MP3 encoding');
           };
-
 
           stopBtnRecord = () => {
                   // alert(1)
@@ -198,7 +193,7 @@ window.globalFunc = function (action){
           console.log(stage);
         }
         catch {
-          alert('Video stopped')
+          alert('error on video stop')
           console.log('recErrorWin')
         }
 
@@ -235,14 +230,12 @@ function startVue(){
     el: '#vue-app',
     delimiters: ['[[', ']]'],
     mounted: function () {
-      video = document.getElementById('vid')
-      audio = document.getElementById('aud')
-      video.src = subtitles
-
-      if (movieData['audio'] != null) {
-        console.log('check audio',  movieData['audio'])
-        audio.src = movieData['audio']
-      }
+        video = document.getElementById('vid')
+        audio = document.getElementById('aud')
+        video.src = subtitles
+        //video.play()
+        video.currentTime = 0
+        video.pause()
     },
     data: {
         mObj: mObj,
@@ -259,12 +252,11 @@ function startVue(){
             cancel : false,
             timer : false,
             t_style: false,
-            count : false,
-            load : true
+            count : false
         },
         mediaRecorder : null,
         audio_source : null,
-        base64data : 'AAAAAAAAAAAAAAAAAA',
+        base64data : null,
         blobURL : null,
         upload : false,
         rec_timer: null,
@@ -283,8 +275,6 @@ function startVue(){
                 vue.mediaRecorder = new MediaRecorder(mediaStreamObj);
                 var chunks = [];
                 vue.mediaRecorder.start();
-                video = document.getElementById('vid')
-                video.play()
                 console.log('status:' + vue.mediaRecorder.state);
 
               vue.mediaRecorder.ondataavailable = function(ev) {
@@ -319,18 +309,12 @@ function startVue(){
           }
       },
       stop: function(){
-        video = document.getElementById('vid')
-        audio = document.getElementById('aud')
-        audio.pause()
-        video.pause()
-        video.currentTime = 0
-        audio.currentTime = 0
 
         vue.rec1.stop = false
         vue.rec1.save = true
         vue.rec1.cancel = true
         clearInterval(vue.rec_timer)
-        console.log('stopping on device', this.device);
+        console.log('stoping on device', this.device);
 
             if (this.device == 'A') {
               console.log('stopped');
@@ -344,6 +328,8 @@ function startVue(){
               vue.blobURL = globlob
               console.log('status: mp3 rec stopped');
             }
+
+
       },
       cancel: function(){
         console.log('cancel');
@@ -353,23 +339,19 @@ function startVue(){
         video.pause()
         video.currentTime = 0
         audio.currentTime = 0
-        if (vue.device == 'A' && vue.mediaRecorder.state == 'recording') {
-          clearInterval(vue.rec_timer)
-          vue.stop()
-        } else if (vue.device == 'I') {
-          clearInterval(vue.rec_timer)
-          vue.stop()
-        }
+        vue.stop()
+        clearInterval(vue.rec_timer)
+
         for (var key in vue.rec1){
           vue.rec1[key] = false
         }
         vue.rec1.start = true
 
-        vue.base64data = 'AAAAAAAAAAAAAAAAAAA'
+        vue.base64data = null
         vue.blobURL = null
+
       },
       save : function (k){
-        alert('data upload, please wait.....(this may take a few seconds)')
         if (this.device == 'I'){
           vue.base64data = b64d
         }
@@ -384,11 +366,7 @@ function startVue(){
           url : '/addMovie'
           })
           .done(function(data) {
-              vue.movieData['audio'] = data.link
-              audio = document.getElementById('aud')
-              audio.src = data.link
               alert('Audio Saved')
-              vue.cancel()
           })
           .fail(function(){
             alert('Upload Failed, there has been an error. Reload the page and if it happens again please tell you instructor')
@@ -435,62 +413,77 @@ function startVue(){
         audio = document.getElementById('aud')
         video.play()
         audio.play()
+        vue.start()
       },
-      load : function () {
+      playRec : function () {
         video = document.getElementById('vid')
-        audio = document.getElementById('aud')
         video.play()
-        audio.play()
-        video.pause()
-        audio.pause()
-        video.currentTime = 0
-        audio.currentTime = 0
-        vue.rec1.load = false
-      },
-      playRec : function (arg) {
-        video = document.getElementById('vid')
-        audio = document.getElementById('aud')
-        video.muted = arg
-        audio.src = vue.blobURL
-        audio.pause()
-        video.pause()
-        video.currentTime = 0
-        audio.currentTime = 0
-        video.play()
-        audio.play()
+        vue.start()
+        video.onended = function() {
+            // alert('video ended')
+            console.log('stopping video')
+            // console.log(vue.mediaRecorder.state)
+            if (vue.device == 'A' && vue.mediaRecorder.state == 'recording') {
+              vue.stop()
+            } else if (vue.device == 'I') {
+              vue.stop()
+            }
+          }
       },
       clip : function (arg){
         video = document.getElementById('vid')
         audio = document.getElementById('aud')
-        audio.pause()
-        video.pause()
+
+        // cancel
+
         video.currentTime = 0
         audio.currentTime = 0
         console.log('blob', vue.blobURL);
 
+        if (arg === 'cancel') {
+          clearInterval(vue.rec_timer)
+          audio.pause()
+          video.pause()
+          vue.cancel()
+        }
+        if (vue.blobURL != null){
+          audio.src = vue.blobURL
+        } else if (vue.movieData['audio'] != null) {
+          console.log('check audio',  vue.movieData['audio'])
+          audio.src = vue.movieData['audio']
+        }
         if (arg == 'sound'){
+          video.src = vue.videoSRC
           video.muted = false
           console.log('sound', video)
           video.play()
         }
         if (arg == 'mute'){
+          video.src = vue.videoSRC
           video.muted = true
           console.log('mute', video)
           video.play()
         }
         if (arg == 'shadow') {
+          video.src = vue.videoSRC
           video.muted = false
-          video.play()
-          audio.play()
+          video.oncanplay = function() {
+            vue.playStart()
+          }
         }
         if (arg == 'dub') {
+          video.src = vue.videoSRC
           video.muted = true
-          video.play()
-          audio.play()
+          video.oncanplay = function() {
+            vue.playStart()
+          }
         }
         if (arg == 'start') {
+          video.src = vue.videoSRC
           video.muted = true
-          vue.start()
+          video.oncanplay = function() {
+            vue.playRec()
+          }
         }
         video.onended = function() {
           // alert('video ended')
@@ -510,6 +503,3 @@ function startVue(){
 })// end NEW VUE
 
 }// endFunction
-
-
-
