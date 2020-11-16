@@ -56,9 +56,9 @@ else {
 }
 console.log('DEVICE', device);
 
-if (device == 'I') {
-  navigator.mediaDevices.getUserMedia({ audio: true, video: false })
-}
+// if (device == 'I') {
+//   navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+// }
 
 
 //iphone recording
