@@ -66,7 +66,7 @@
                                 {% if SCHEMA < 3 or SCHEMA == 6 %}
                                   <a class="nav-item nav-link" href="{{ url_for ('unit_list') }}">My Units</a>
                                   <a class="nav-item nav-link" href="{{ url_for ('assignment_list') }}">My Assignments</a>
-                                  <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('exam_list_midterm') }}">My Exams</a>
+                                 <!-- <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('exam_list_midterm') }}">My Exams</a> -->
                                 {% elif SCHEMA == 3 %}
                                   <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('abc_list') }}">My Projects</a>
                                 {% elif SCHEMA == 4 %}
@@ -129,16 +129,7 @@
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
       <script type="text/javascript" >
-      var navUser = navigator.userAgent
 
-      if (navUser.includes('Line')){
-          alert('WARNING: It looks like you are using Line App to view this website. Please switch to Chrome or Safari browser for better use')
-          //window.location = (window.location.href).split('ass')[0] + 'assignment'
-      }
-      if (navUser.includes('FB')){
-          alert('WARNING: It looks like you are using Facebook Chat App to view this website. Please switch to Chrome or Safari browser for better use')
-          //window.location = (window.location.href).split('ass')[0] + 'assignment'
-      }
       var str = window.location.href
       if ( str.includes('127')  ){
           console.log(str);
