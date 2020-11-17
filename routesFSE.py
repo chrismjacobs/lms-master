@@ -26,7 +26,13 @@ unitDict = {
         '03' : U013U,
         '04' : U014U,
         '05' : U021U,
-        '06' : U022U
+        '06' : U022U,
+        '07' : U031U,
+        '08' : U032U,
+        '09' : U033U,
+        '10' : U041U,
+        '11' : U042U,
+        '12' : U043U,
 }
 
 
@@ -202,8 +208,9 @@ def fse_list():
     srcDict = get_projects()
     print('srcDict', srcDict)
 
-    unitList = []
+    #unitList = []
     #unitList = ['04', '05', '06', '07','08']
+    unitList = ['01', '02', '03', '04','05', '06']
     fseDict = {}
     for src in srcDict:
         # check sources against open units in model
@@ -240,7 +247,7 @@ def fse_list():
     #pprint (fseDict)
 
     examDict = {}
-
+    '''
 
     for src in srcDict:
         if int(src) >= 7: # change to match number of units
@@ -275,6 +282,7 @@ def fse_list():
                             'Sscore' : 0,
                             }
 
+
     user = midtermGrades()
     qna = json.loads(user.j1)
     snl = json.loads(user.j2)
@@ -302,6 +310,7 @@ def fse_list():
             examDict[unit][int(team)]['Sscore'] = grade
         except:
             print('FAIL QNA')
+    '''
 
 
     source = srcDict['01']['M2']
@@ -603,6 +612,7 @@ def fse_check(unit):
 def fse_exam(qORs, unit, team):
 
     ## get_team_data will check if user is exam ready or not
+
     team_data = get_team_data(unit, team)
     teamMembers = team_data['teamMembers']
 

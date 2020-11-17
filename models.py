@@ -481,15 +481,12 @@ elif BaseConfig.SCHEMA == 3 or BaseConfig.SCHEMA == 7:
 elif BaseConfig.SCHEMA == 8:
     admin.add_view(MyModelView(Exams, db.session))
     admin.add_view(MyModelView(U001U, db.session))
-    admin.add_view(MyModelView(U011U, db.session))
-    admin.add_view(MyModelView(U012U, db.session))
-    admin.add_view(MyModelView(U013U, db.session))
-    admin.add_view(MyModelView(U014U, db.session))
-    admin.add_view(MyModelView(U021U, db.session))
-    admin.add_view(MyModelView(U022U, db.session))
-    admin.add_view(MyModelView(U023U, db.session))
-    admin.add_view(MyModelView(U024U, db.session))
     admin.add_view(MyModelView(U031U, db.session))
+    admin.add_view(MyModelView(U032U, db.session))
+    admin.add_view(MyModelView(U033U, db.session))
+    admin.add_view(MyModelView(U041U, db.session))
+    admin.add_view(MyModelView(U042U, db.session))
+    admin.add_view(MyModelView(U043U, db.session))
 
 
 elif BaseConfig.SCHEMA == 5:
