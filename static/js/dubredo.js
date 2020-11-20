@@ -41,7 +41,7 @@ else if (report.includes('iPhone OS 11')){
 }
 else if (report.includes('iPhone OS 12')){
   device = 'I'
-  notice = 'Recording in iOS 12'
+  notice = 'Recordingg in iOS 12'
 }
 else if (report.includes('iPhone OS 13')){
   device = 'I'
