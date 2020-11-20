@@ -130,13 +130,13 @@ def getMovieData(arg):
     selection = {
         1: {
           'trailer': 'https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/1-0.mp4',
-          'intro': 'This movie is about a young lion who has to learn how to king of the animals',
+          'intro': 'This movie is about a young lion who has to learn how to be king of the animals',
           'q01': 'What do you know about lions? (3 things)',
           'q02': 'In what ways should a father help his son? (3 things)',
           'clip': 'https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/1-1.mp4',
           'description': 'In this scene, Mufusa is giving advice to Simba about being king someday.',
           'q11':'Do you think Simba is excited about being king? Why?',
-          'q12':'Why do think Mufasa chooses this time to talk to Simba about being king?',
+          'q12':'Why do you think Mufasa chooses this time to talk to Simba about being king?',
           'q21':'Which part is their kingdom?',
           'q22':'What "rises and falls like sun"?',
           'q23':'Which part is the one Simba should never go to?',
@@ -234,6 +234,7 @@ def nme_mov(movie, part):
 
 
     return render_template('nme/nme_mov' + part + '.html', uString=uString, mString=mString, mData=movieData)
+
 
 
 @app.route('/dubUpload', methods=['POST', 'GET'])
