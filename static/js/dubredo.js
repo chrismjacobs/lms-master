@@ -11,7 +11,6 @@ var device = null
 var notice = null
 
 
-
 if (report.includes('Windows')){
   device = 'A'
   notice = 'Recording in Windows'
