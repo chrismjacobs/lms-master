@@ -209,7 +209,7 @@ def nme_mov(movie, part):
     mDict = getMovieData(int(movie))
     data = json.dumps(mDict)
 
-    moviePayload = movieDict[movie](username="payload", Ans01=data)
+    moviePayload = movieDict[int(movie)](username="payload", Ans01=data)
     db.session.add(moviePayload)
     db.session.commit()
 
