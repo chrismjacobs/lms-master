@@ -4,89 +4,20 @@
 
 <div id="vue-app">
 
-<div class="content-section">
-        <h1 > Assignment {{unit}} </h1>
-    </div>
-    <div class="content-section">
-    <div class="embed-responsive embed-responsive-4by3">
-            <iframe id="questions_embed" src=""
-            allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
-	        </iframe>
-    </div>
-
-    <span id="name" style="display:none">{{current_user.username}}</span>
-
-
-</div>
-
 
 <div class="content-section">
- <h6> [[ notice ]] </h6>
  <audio id="handler" ref="player" controls autoplay></audio>
 </div>
 
 
-<template v-for="i in 2">
-
-<div v-if="show[i]" class="content-section">
-
-    <div style="display:flex">
-        <div>
-        <h5 style="display: inline-block"> [[ title[1] ]] </h5>
-        </div>
-
-        <br>
-    </div>
-
-    <div style="display:flex">
-        <div  v-if="audio[1] == 1" >
-        <button type="button" class="btn btn-outline-danger" style="margin-right:5px" disable > 0 secs </button>
-        </div>
-        <div  v-if="audio[i] == 2">
-            <button type="button" class="btn btn-outline-primary" style="margin-right:5px" @click="playAudio(1)">
-                <span >Saved  </span>
-
-            </button>
-        </div>
-        <div  v-if="audio[1] == 3" >
-        <button type="button" class="btn btn-dark" style="margin-right:5px" @click="playAudio('0')">Test Listen</button>
-        </div>
-    </div>
-
-    <br>
-        <div style="display:flex" >
-                <div  v-if="rec1.start">
-                    <button  class="btn btn-success" @click="start(1)" >Start</button>
-                </div>
-                <div  v-if="rec1.stop">
-                    <button  class="btn btn-danger" @click="stop(1)" >Stop</button>
-                </div>
-                <div  v-if="rec1.save" style="float: left;">
-                    <button  class="btn btn-info" style="margin-right:5px" @click="save(1)">Upload</button>
-                </div>
-                <div  v-if="rec1.cancel" flex="0.5">
-                    <button  class="btn btn-secondary" @click="cancel(1)">Cancel/Redo</button>
-                </div>
-        </div>
-
-        <br>
-        <div v-if="rec1.timer" :style="rec1.t_style">
-            <span class="ml-2" style="color:white" > [[ rec1.count ]] </span>
-        </div>
-        <br>
+<button class="btn" @click="start()"> Start </button>
+<button class="btn" @click="stop()"> Stop </button>
 
 
-
-</div>
-
-</template>
-
-
-
-
-
-
-</div> <!-- end of task 3  div -->
+<h3 id="check"> </h3>
+<h3 id="mic"> </h3>
+<h3 id="count"> </h3>
+<h3 id="error"> </h3>
 
 
 
@@ -99,7 +30,7 @@
 {% block script %}
 <script type="text/javascript" src="{{url_for('static', filename= 'js/Mp3LameEncoder.js')}}"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
-<script type="text/javascript" src="{{url_for('static', filename= 'js/dub1.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static', filename= 'js/iphonedub.js')}}"></script>
 {% endblock %}
 
 

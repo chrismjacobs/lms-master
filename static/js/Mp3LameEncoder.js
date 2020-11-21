@@ -1,6 +1,6 @@
 (function(self) {
     var Module = self.Mp3LameEncoderConfig;
-  
+
   // The Module object: Our interface to the outside world. We import
   // and export values on it, and do the work to get that through
   // closure compiler if necessary. There are various ways Module can be used:
@@ -18,7 +18,7 @@
   // can continue to use Module afterwards as well.
   var Module;
   if (!Module) Module = (typeof Module !== 'undefined' ? Module : null) || {};
-  
+
   // Sometimes an existing Module object exists with properties
   // meant to overwrite the default module functionality. Here
   // we collect those properties and reapply _after_ we configure
@@ -30,7 +30,7 @@
       moduleOverrides[key] = Module[key];
     }
   }
-  
+
   // The environment setup code below is customized to use Module.
   // *** Environment setup code ***
   var ENVIRONMENT_IS_WEB = typeof window === 'object';
@@ -41,7 +41,7 @@
   // 3) We could be an application pthread running in a worker. (ENVIRONMENT_IS_WORKER == true and ENVIRONMENT_IS_PTHREAD == true)
   var ENVIRONMENT_IS_WORKER = typeof importScripts === 'function';
   var ENVIRONMENT_IS_SHELL = !ENVIRONMENT_IS_WEB && !ENVIRONMENT_IS_NODE && !ENVIRONMENT_IS_WORKER;
-  
+
   if (ENVIRONMENT_IS_NODE) {
     // Expose functionality in the same simple way that the shells work
     // Note that we pollute the global namespace here, otherwise we break in node
@@ -51,10 +51,10 @@
     if (!Module['printErr']) Module['printErr'] = function printErr(x) {
       process['stderr'].write(x + '\n');
     };
-  
+
     var nodeFS = require('fs');
     var nodePath = require('path');
-  
+
     Module['read'] = function read(filename, binary) {
       filename = nodePath['normalize'](filename);
       var ret = nodeFS['readFileSync'](filename);
@@ -66,13 +66,13 @@
       if (ret && !binary) ret = ret.toString();
       return ret;
     };
-  
+
     Module['readBinary'] = function readBinary(filename) { return Module['read'](filename, true) };
-  
+
     Module['load'] = function load(f) {
       globalEval(read(f));
     };
-  
+
     if (!Module['thisProgram']) {
       if (process['argv'].length > 1) {
         Module['thisProgram'] = process['argv'][1].replace(/\\/g, '/');
@@ -80,32 +80,32 @@
         Module['thisProgram'] = 'unknown-program';
       }
     }
-  
+
     Module['arguments'] = process['argv'].slice(2);
-  
+
     if (typeof module !== 'undefined') {
       module['exports'] = Module;
     }
-  
+
     process['on']('uncaughtException', function(ex) {
       // suppress ExitStatus exceptions from showing an error
       if (!(ex instanceof ExitStatus)) {
         throw ex;
       }
     });
-  
+
     Module['inspect'] = function () { return '[Emscripten Module object]'; };
   }
   else if (ENVIRONMENT_IS_SHELL) {
     if (!Module['print']) Module['print'] = print;
     if (typeof printErr != 'undefined') Module['printErr'] = printErr; // not present in v8 or older sm
-  
+
     if (typeof read != 'undefined') {
       Module['read'] = read;
     } else {
       Module['read'] = function read() { throw 'no read() available (jsc?)' };
     }
-  
+
     Module['readBinary'] = function readBinary(f) {
       if (typeof readbuffer === 'function') {
         return new Uint8Array(readbuffer(f));
@@ -114,13 +114,13 @@
       assert(typeof data === 'object');
       return data;
     };
-  
+
     if (typeof scriptArgs != 'undefined') {
       Module['arguments'] = scriptArgs;
     } else if (typeof arguments != 'undefined') {
       Module['arguments'] = arguments;
     }
-  
+
   }
   else if (ENVIRONMENT_IS_WEB || ENVIRONMENT_IS_WORKER) {
     Module['read'] = function read(url) {
@@ -129,11 +129,11 @@
       xhr.send(null);
       return xhr.responseText;
     };
-  
+
     if (typeof arguments != 'undefined') {
       Module['arguments'] = arguments;
     }
-  
+
     if (typeof console !== 'undefined') {
       if (!Module['print']) Module['print'] = function print(x) {
         console.log(x);
@@ -150,11 +150,11 @@
         // self.postMessage(x); // enable this if you want stdout to be sent as messages
       }));
     }
-  
+
     if (ENVIRONMENT_IS_WORKER) {
       Module['load'] = importScripts;
     }
-  
+
     if (typeof Module['setWindowTitle'] === 'undefined') {
       Module['setWindowTitle'] = function(title) { document.title = title };
     }
@@ -163,7 +163,7 @@
     // Unreachable because SHELL is dependant on the others
     throw 'Unknown runtime environment. Where are we?';
   }
-  
+
   function globalEval(x) {
     eval.call(null, x);
   }
@@ -184,40 +184,40 @@
   if (!Module['thisProgram']) {
     Module['thisProgram'] = './this.program';
   }
-  
+
   // *** Environment setup code ***
-  
+
   // Closure helpers
   Module.print = Module['print'];
   Module.printErr = Module['printErr'];
-  
+
   // Callbacks
   Module['preRun'] = [];
   Module['postRun'] = [];
-  
+
   // Merge back in the overrides
   for (var key in moduleOverrides) {
     if (moduleOverrides.hasOwnProperty(key)) {
       Module[key] = moduleOverrides[key];
     }
   }
-  
-  
-  
+
+
+
   // === Preamble library stuff ===
-  
-  // Documentation for the public APIs defined in this file must be updated in: 
+
+  // Documentation for the public APIs defined in this file must be updated in:
   //    site/source/docs/api_reference/preamble.js.rst
-  // A prebuilt local version of the documentation is available at: 
+  // A prebuilt local version of the documentation is available at:
   //    site/build/text/docs/api_reference/preamble.js.txt
   // You can also build docs locally as HTML or other formats in site/
   // An online HTML version (which may be of a different version of Emscripten)
   //    is up at http://kripken.github.io/emscripten-site/docs/api_reference/preamble.js.html
-  
+
   //========================================
   // Runtime code shared with compiler
   //========================================
-  
+
   var Runtime = {
     setTempRet0: function (value) {
       tempRet0 = value;
@@ -329,36 +329,36 @@
     QUANTUM_SIZE: 4,
     __dummy__: 0
   }
-  
-  
+
+
   Module['Runtime'] = Runtime;
-  
-  
-  
+
+
+
   //========================================
   // Runtime essentials
   //========================================
-  
+
   var __THREW__ = 0; // Used in checking for thrown exceptions.
-  
+
   var ABORT = false; // whether we are quitting the application. no code should run after this. set in exit() and abort()
   var EXITSTATUS = 0;
-  
+
   var undef = 0;
   // tempInt is used for 32-bit signed values or smaller. tempBigInt is used
   // for 32-bit unsigned values or more than 32 bits. TODO: audit all uses of tempInt
   var tempValue, tempInt, tempBigInt, tempInt2, tempBigInt2, tempPair, tempBigIntI, tempBigIntR, tempBigIntS, tempBigIntP, tempBigIntD, tempDouble, tempFloat;
   var tempI64, tempI64b;
   var tempRet0, tempRet1, tempRet2, tempRet3, tempRet4, tempRet5, tempRet6, tempRet7, tempRet8, tempRet9;
-  
+
   function assert(condition, text) {
     if (!condition) {
       abort('Assertion failed: ' + text);
     }
   }
-  
+
   var globalScope = this;
-  
+
   // Returns the C function with a specified identifier (for C++, you need to do manual name mangling)
   function getCFunc(ident) {
     var func = Module['_' + ident]; // closure exported function
@@ -370,7 +370,7 @@
     assert(func, 'Cannot call unknown function ' + ident + ' (perhaps LLVM optimizations or closure removed it?)');
     return func;
   }
-  
+
   var cwrap, ccall;
   (function(){
     var JSfuncs = {
@@ -401,8 +401,8 @@
     };
     // For fast lookup of conversion functions
     var toC = {'string' : JSfuncs['stringToC'], 'array' : JSfuncs['arrayToC']};
-  
-    // C calling interface. 
+
+    // C calling interface.
     ccall = function ccallFunc(ident, returnType, argTypes, args, opts) {
       var func = getCFunc(ident);
       var cArgs = [];
@@ -431,7 +431,7 @@
       }
       return ret;
     }
-  
+
     var sourceRegex = /^function\s*\(([^)]*)\)\s*{\s*([^*]*?)[\s;]*(?:return\s*(.*?)[;\s]*)?}$/;
     function parseJSFunc(jsfunc) {
       // Match the body and the return value of a javascript function source
@@ -446,8 +446,8 @@
         JSsource[fun] = parseJSFunc(JSfuncs[fun]);
       }
     }
-  
-    
+
+
     cwrap = function cwrap(ident, returnType, argTypes) {
       argTypes = argTypes || [];
       var cfunc = getCFunc(ident);
@@ -475,7 +475,7 @@
           funcstr += arg + '=' + convertCode.returnValue + ';';
         }
       }
-  
+
       // When the code is compressed, the name of cfunc is not literally 'cfunc' anymore
       var cfuncname = parseJSFunc(function(){return cfunc}).returnValue;
       // Call the function
@@ -495,8 +495,8 @@
   })();
   Module["cwrap"] = cwrap;
   Module["ccall"] = ccall;
-  
-  
+
+
   function setValue(ptr, value, type, noSafe) {
     type = type || 'i8';
     if (type.charAt(type.length-1) === '*') type = 'i32'; // pointers are 32-bit
@@ -512,8 +512,8 @@
       }
   }
   Module['setValue'] = setValue;
-  
-  
+
+
   function getValue(ptr, type, noSafe) {
     type = type || 'i8';
     if (type.charAt(type.length-1) === '*') type = 'i32'; // pointers are 32-bit
@@ -530,7 +530,7 @@
     return null;
   }
   Module['getValue'] = getValue;
-  
+
   var ALLOC_NORMAL = 0; // Tries to use _malloc()
   var ALLOC_STACK = 1; // Lives for the duration of the current function call
   var ALLOC_STATIC = 2; // Cannot be freed
@@ -541,7 +541,7 @@
   Module['ALLOC_STATIC'] = ALLOC_STATIC;
   Module['ALLOC_DYNAMIC'] = ALLOC_DYNAMIC;
   Module['ALLOC_NONE'] = ALLOC_NONE;
-  
+
   // allocate(): This is for internal use. You can use it yourself as well, but the interface
   //             is a little tricky (see docs right below). The reason is that it is optimized
   //             for multiple syntaxes to save space in generated code. So you should
@@ -564,16 +564,16 @@
       zeroinit = false;
       size = slab.length;
     }
-  
+
     var singleType = typeof types === 'string' ? types : null;
-  
+
     var ret;
     if (allocator == ALLOC_NONE) {
       ret = ptr;
     } else {
       ret = [_malloc, Runtime.stackAlloc, Runtime.staticAlloc, Runtime.dynamicAlloc][allocator === undefined ? ALLOC_STATIC : allocator](Math.max(size, singleType ? 1 : types.length));
     }
-  
+
     if (zeroinit) {
       var ptr = ret, stop;
       assert((ret & 3) == 0);
@@ -587,7 +587,7 @@
       }
       return ret;
     }
-  
+
     if (singleType === 'i8') {
       if (slab.subarray || slab.slice) {
         HEAPU8.set(slab, ret);
@@ -596,25 +596,25 @@
       }
       return ret;
     }
-  
+
     var i = 0, type, typeSize, previousType;
     while (i < size) {
       var curr = slab[i];
-  
+
       if (typeof curr === 'function') {
         curr = Runtime.getFunctionIndex(curr);
       }
-  
+
       type = singleType || types[i];
       if (type === 0) {
         i++;
         continue;
       }
-  
+
       if (type == 'i64') type = 'i32'; // special case: we have one i32 here, and one i32 later
-  
+
       setValue(ret+i, curr, type);
-  
+
       // no need to look up size unless type changes, so cache it
       if (previousType !== type) {
         typeSize = Runtime.getNativeTypeSize(type);
@@ -622,11 +622,11 @@
       }
       i += typeSize;
     }
-  
+
     return ret;
   }
   Module['allocate'] = allocate;
-  
+
   // Allocate memory during any stage of startup - static memory early on, dynamic memory later, malloc when ready
   function getMemory(size) {
     if (!staticSealed) return Runtime.staticAlloc(size);
@@ -634,7 +634,7 @@
     return _malloc(size);
   }
   Module['getMemory'] = getMemory;
-  
+
   function Pointer_stringify(ptr, /* optional */ length) {
     if (length === 0 || !ptr) return '';
     // TODO: use TextDecoder
@@ -650,9 +650,9 @@
       if (length && i == length) break;
     }
     if (!length) length = i;
-  
+
     var ret = '';
-  
+
     if (hasUtf < 128) {
       var MAX_CHUNK = 1024; // split up into chunks, because .apply on a huge string can overflow the stack
       var curr;
@@ -667,10 +667,10 @@
     return Module['UTF8ToString'](ptr);
   }
   Module['Pointer_stringify'] = Pointer_stringify;
-  
+
   // Given a pointer 'ptr' to a null-terminated ASCII-encoded string in the emscripten HEAP, returns
   // a copy of that string as a Javascript String object.
-  
+
   function AsciiToString(ptr) {
     var str = '';
     while (1) {
@@ -680,21 +680,21 @@
     }
   }
   Module['AsciiToString'] = AsciiToString;
-  
+
   // Copies the given Javascript String object 'str' to the emscripten HEAP at address 'outPtr',
   // null-terminated and encoded in ASCII form. The copy will require at most str.length+1 bytes of space in the HEAP.
-  
+
   function stringToAscii(str, outPtr) {
     return writeAsciiToMemory(str, outPtr, false);
   }
   Module['stringToAscii'] = stringToAscii;
-  
+
   // Given a pointer 'ptr' to a null-terminated UTF8-encoded string in the given array that contains uint8 values, returns
   // a copy of that string as a Javascript String object.
-  
+
   function UTF8ArrayToString(u8Array, idx) {
     var u0, u1, u2, u3, u4, u5;
-  
+
     var str = '';
     while (1) {
       // For UTF8 byte structure, see http://en.wikipedia.org/wiki/UTF-8#Description and https://www.ietf.org/rfc/rfc2279.txt and https://tools.ietf.org/html/rfc3629
@@ -729,15 +729,15 @@
     }
   }
   Module['UTF8ArrayToString'] = UTF8ArrayToString;
-  
+
   // Given a pointer 'ptr' to a null-terminated UTF8-encoded string in the emscripten HEAP, returns
   // a copy of that string as a Javascript String object.
-  
+
   function UTF8ToString(ptr) {
     return UTF8ArrayToString(HEAPU8, ptr);
   }
   Module['UTF8ToString'] = UTF8ToString;
-  
+
   // Copies the given Javascript String object 'str' to the given byte array at address 'outIdx',
   // encoded in UTF8 form and null-terminated. The copy will require at most str.length*4+1 bytes of space in the HEAP.
   // Use the function lengthBytesUTF8() to compute the exact number of bytes (excluding null terminator) that this function will write.
@@ -745,15 +745,15 @@
   //   str: the Javascript string to copy.
   //   outU8Array: the array to copy to. Each index in this array is assumed to be one 8-byte element.
   //   outIdx: The starting offset in the array to begin the copying.
-  //   maxBytesToWrite: The maximum number of bytes this function can write to the array. This count should include the null 
+  //   maxBytesToWrite: The maximum number of bytes this function can write to the array. This count should include the null
   //                    terminator, i.e. if maxBytesToWrite=1, only the null terminator will be written and nothing else.
   //                    maxBytesToWrite=0 does not write any bytes to the output, not even the null terminator.
   // Returns the number of bytes written, EXCLUDING the null terminator.
-  
+
   function stringToUTF8Array(str, outU8Array, outIdx, maxBytesToWrite) {
     if (!(maxBytesToWrite > 0)) // Parameter maxBytesToWrite is not optional. Negative values, 0, null, undefined and false each don't write out any bytes.
       return 0;
-  
+
     var startIdx = outIdx;
     var endIdx = outIdx + maxBytesToWrite - 1; // -1 for string null terminator.
     for (var i = 0; i < str.length; ++i) {
@@ -802,19 +802,19 @@
     return outIdx - startIdx;
   }
   Module['stringToUTF8Array'] = stringToUTF8Array;
-  
+
   // Copies the given Javascript String object 'str' to the emscripten HEAP at address 'outPtr',
   // null-terminated and encoded in UTF8 form. The copy will require at most str.length*4+1 bytes of space in the HEAP.
   // Use the function lengthBytesUTF8() to compute the exact number of bytes (excluding null terminator) that this function will write.
   // Returns the number of bytes written, EXCLUDING the null terminator.
-  
+
   function stringToUTF8(str, outPtr, maxBytesToWrite) {
     return stringToUTF8Array(str, HEAPU8, outPtr, maxBytesToWrite);
   }
   Module['stringToUTF8'] = stringToUTF8;
-  
+
   // Returns the number of bytes the given Javascript string takes if encoded as a UTF8 byte array, EXCLUDING the null terminator byte.
-  
+
   function lengthBytesUTF8(str) {
     var len = 0;
     for (var i = 0; i < str.length; ++i) {
@@ -839,13 +839,13 @@
     return len;
   }
   Module['lengthBytesUTF8'] = lengthBytesUTF8;
-  
+
   // Given a pointer 'ptr' to a null-terminated UTF16LE-encoded string in the emscripten HEAP, returns
   // a copy of that string as a Javascript String object.
-  
+
   function UTF16ToString(ptr) {
     var i = 0;
-  
+
     var str = '';
     while (1) {
       var codeUnit = HEAP16[(((ptr)+(i*2))>>1)];
@@ -857,18 +857,18 @@
     }
   }
   Module['UTF16ToString'] = UTF16ToString;
-  
+
   // Copies the given Javascript String object 'str' to the emscripten HEAP at address 'outPtr',
   // null-terminated and encoded in UTF16 form. The copy will require at most str.length*4+2 bytes of space in the HEAP.
   // Use the function lengthBytesUTF16() to compute the exact number of bytes (excluding null terminator) that this function will write.
   // Parameters:
   //   str: the Javascript string to copy.
   //   outPtr: Byte address in Emscripten HEAP where to write the string to.
-  //   maxBytesToWrite: The maximum number of bytes this function can write to the array. This count should include the null 
+  //   maxBytesToWrite: The maximum number of bytes this function can write to the array. This count should include the null
   //                    terminator, i.e. if maxBytesToWrite=2, only the null terminator will be written and nothing else.
   //                    maxBytesToWrite<2 does not write any bytes to the output, not even the null terminator.
   // Returns the number of bytes written, EXCLUDING the null terminator.
-  
+
   function stringToUTF16(str, outPtr, maxBytesToWrite) {
     // Backwards compatibility: if max bytes is not specified, assume unsafe unbounded write is allowed.
     if (maxBytesToWrite === undefined) {
@@ -889,17 +889,17 @@
     return outPtr - startPtr;
   }
   Module['stringToUTF16'] = stringToUTF16;
-  
+
   // Returns the number of bytes the given Javascript string takes if encoded as a UTF16 byte array, EXCLUDING the null terminator byte.
-  
+
   function lengthBytesUTF16(str) {
     return str.length*2;
   }
   Module['lengthBytesUTF16'] = lengthBytesUTF16;
-  
+
   function UTF32ToString(ptr) {
     var i = 0;
-  
+
     var str = '';
     while (1) {
       var utf32 = HEAP32[(((ptr)+(i*4))>>2)];
@@ -917,18 +917,18 @@
     }
   }
   Module['UTF32ToString'] = UTF32ToString;
-  
+
   // Copies the given Javascript String object 'str' to the emscripten HEAP at address 'outPtr',
   // null-terminated and encoded in UTF32 form. The copy will require at most str.length*4+4 bytes of space in the HEAP.
   // Use the function lengthBytesUTF32() to compute the exact number of bytes (excluding null terminator) that this function will write.
   // Parameters:
   //   str: the Javascript string to copy.
   //   outPtr: Byte address in Emscripten HEAP where to write the string to.
-  //   maxBytesToWrite: The maximum number of bytes this function can write to the array. This count should include the null 
+  //   maxBytesToWrite: The maximum number of bytes this function can write to the array. This count should include the null
   //                    terminator, i.e. if maxBytesToWrite=4, only the null terminator will be written and nothing else.
   //                    maxBytesToWrite<4 does not write any bytes to the output, not even the null terminator.
   // Returns the number of bytes written, EXCLUDING the null terminator.
-  
+
   function stringToUTF32(str, outPtr, maxBytesToWrite) {
     // Backwards compatibility: if max bytes is not specified, assume unsafe unbounded write is allowed.
     if (maxBytesToWrite === undefined) {
@@ -954,9 +954,9 @@
     return outPtr - startPtr;
   }
   Module['stringToUTF32'] = stringToUTF32;
-  
+
   // Returns the number of bytes the given Javascript string takes if encoded as a UTF16 byte array, EXCLUDING the null terminator byte.
-  
+
   function lengthBytesUTF32(str) {
     var len = 0;
     for (var i = 0; i < str.length; ++i) {
@@ -966,11 +966,11 @@
       if (codeUnit >= 0xD800 && codeUnit <= 0xDFFF) ++i; // possibly a lead surrogate, so skip over the tail surrogate.
       len += 4;
     }
-  
+
     return len;
   }
   Module['lengthBytesUTF32'] = lengthBytesUTF32;
-  
+
   function demangle(func) {
     var hasLibcxxabi = !!Module['___cxa_demangle'];
     if (hasLibcxxabi) {
@@ -1145,11 +1145,11 @@
     }
     return parsed;
   }
-  
+
   function demangleAll(text) {
     return text.replace(/__Z[\w\d_]+/g, function(x) { var y = demangle(x); return x === y ? x : (x + ' [' + y + ']') });
   }
-  
+
   function jsStackTrace() {
     var err = new Error();
     if (!err.stack) {
@@ -1166,39 +1166,39 @@
     }
     return err.stack.toString();
   }
-  
+
   function stackTrace() {
     return demangleAll(jsStackTrace());
   }
   Module['stackTrace'] = stackTrace;
-  
+
   // Memory management
-  
+
   var PAGE_SIZE = 4096;
-  
+
   function alignMemoryPage(x) {
     if (x % 4096 > 0) {
       x += (4096 - (x % 4096));
     }
     return x;
   }
-  
+
   var HEAP;
   var HEAP8, HEAPU8, HEAP16, HEAPU16, HEAP32, HEAPU32, HEAPF32, HEAPF64;
-  
+
   var STATIC_BASE = 0, STATICTOP = 0, staticSealed = false; // static area
   var STACK_BASE = 0, STACKTOP = 0, STACK_MAX = 0; // stack area
   var DYNAMIC_BASE = 0, DYNAMICTOP = 0; // dynamic area handled by sbrk
-  
-  
+
+
   function enlargeMemory() {
     abort('Cannot enlarge memory arrays. Either (1) compile with -s TOTAL_MEMORY=X with X higher than the current value ' + TOTAL_MEMORY + ', (2) compile with ALLOW_MEMORY_GROWTH which adjusts the size at runtime but prevents some optimizations, or (3) set Module.TOTAL_MEMORY before the program runs.');
   }
-  
-  
+
+
   var TOTAL_STACK = Module['TOTAL_STACK'] || 5242880;
   var TOTAL_MEMORY = Module['TOTAL_MEMORY'] || 16777216;
-  
+
   var totalMemory = 64*1024;
   while (totalMemory < TOTAL_MEMORY || totalMemory < 2*TOTAL_STACK) {
     if (totalMemory < 16*1024*1024) {
@@ -1211,12 +1211,12 @@
     Module.printErr('increasing TOTAL_MEMORY to ' + totalMemory + ' to be compliant with the asm.js spec (and given that TOTAL_STACK=' + TOTAL_STACK + ')');
     TOTAL_MEMORY = totalMemory;
   }
-  
+
   // Initialize the runtime's memory
   // check for full engine support (use string 'subarray' to avoid closure compiler confusion)
   assert(typeof Int32Array !== 'undefined' && typeof Float64Array !== 'undefined' && !!(new Int32Array(1)['subarray']) && !!(new Int32Array(1)['set']),
          'JS engine does not provide full typed array support');
-  
+
   var buffer;
   buffer = new ArrayBuffer(TOTAL_MEMORY);
   HEAP8 = new Int8Array(buffer);
@@ -1227,11 +1227,11 @@
   HEAPU32 = new Uint32Array(buffer);
   HEAPF32 = new Float32Array(buffer);
   HEAPF64 = new Float64Array(buffer);
-  
+
   // Endianness check (note: assumes compiler arch was little-endian)
   HEAP32[0] = 255;
   assert(HEAPU8[0] === 255 && HEAPU8[3] === 0, 'Typed arrays 2 must be run on a little-endian system');
-  
+
   Module['HEAP'] = HEAP;
   Module['buffer'] = buffer;
   Module['HEAP8'] = HEAP8;
@@ -1242,7 +1242,7 @@
   Module['HEAPU32'] = HEAPU32;
   Module['HEAPF32'] = HEAPF32;
   Module['HEAPF64'] = HEAPF64;
-  
+
   function callRuntimeCallbacks(callbacks) {
     while(callbacks.length > 0) {
       var callback = callbacks.shift();
@@ -1262,17 +1262,17 @@
       }
     }
   }
-  
+
   var __ATPRERUN__  = []; // functions called before the runtime is initialized
   var __ATINIT__    = []; // functions called during startup
   var __ATMAIN__    = []; // functions called when main() is to be run
   var __ATEXIT__    = []; // functions called during shutdown
   var __ATPOSTRUN__ = []; // functions called after the runtime has exited
-  
+
   var runtimeInitialized = false;
   var runtimeExited = false;
-  
-  
+
+
   function preRun() {
     // compatibility - merge in anything from Module['preRun'] at this time
     if (Module['preRun']) {
@@ -1283,22 +1283,22 @@
     }
     callRuntimeCallbacks(__ATPRERUN__);
   }
-  
+
   function ensureInitRuntime() {
     if (runtimeInitialized) return;
     runtimeInitialized = true;
     callRuntimeCallbacks(__ATINIT__);
   }
-  
+
   function preMain() {
     callRuntimeCallbacks(__ATMAIN__);
   }
-  
+
   function exitRuntime() {
     callRuntimeCallbacks(__ATEXIT__);
     runtimeExited = true;
   }
-  
+
   function postRun() {
     // compatibility - merge in anything from Module['postRun'] at this time
     if (Module['postRun']) {
@@ -1309,35 +1309,35 @@
     }
     callRuntimeCallbacks(__ATPOSTRUN__);
   }
-  
+
   function addOnPreRun(cb) {
     __ATPRERUN__.unshift(cb);
   }
   Module['addOnPreRun'] = Module.addOnPreRun = addOnPreRun;
-  
+
   function addOnInit(cb) {
     __ATINIT__.unshift(cb);
   }
   Module['addOnInit'] = Module.addOnInit = addOnInit;
-  
+
   function addOnPreMain(cb) {
     __ATMAIN__.unshift(cb);
   }
   Module['addOnPreMain'] = Module.addOnPreMain = addOnPreMain;
-  
+
   function addOnExit(cb) {
     __ATEXIT__.unshift(cb);
   }
   Module['addOnExit'] = Module.addOnExit = addOnExit;
-  
+
   function addOnPostRun(cb) {
     __ATPOSTRUN__.unshift(cb);
   }
   Module['addOnPostRun'] = Module.addOnPostRun = addOnPostRun;
-  
+
   // Tools
-  
-  
+
+
   function intArrayFromString(stringy, dontAddNull, length /* optional */) {
     var len = length > 0 ? length : lengthBytesUTF8(stringy)+1;
     var u8array = new Array(len);
@@ -1346,7 +1346,7 @@
     return u8array;
   }
   Module['intArrayFromString'] = intArrayFromString;
-  
+
   function intArrayToString(array) {
     var ret = [];
     for (var i = 0; i < array.length; i++) {
@@ -1359,7 +1359,7 @@
     return ret.join('');
   }
   Module['intArrayToString'] = intArrayToString;
-  
+
   function writeStringToMemory(string, buffer, dontAddNull) {
     var array = intArrayFromString(string, dontAddNull);
     var i = 0;
@@ -1370,14 +1370,14 @@
     }
   }
   Module['writeStringToMemory'] = writeStringToMemory;
-  
+
   function writeArrayToMemory(array, buffer) {
     for (var i = 0; i < array.length; i++) {
       HEAP8[((buffer++)>>0)]=array[i];
     }
   }
   Module['writeArrayToMemory'] = writeArrayToMemory;
-  
+
   function writeAsciiToMemory(str, buffer, dontAddNull) {
     for (var i = 0; i < str.length; ++i) {
       HEAP8[((buffer++)>>0)]=str.charCodeAt(i);
@@ -1386,7 +1386,7 @@
     if (!dontAddNull) HEAP8[((buffer)>>0)]=0;
   }
   Module['writeAsciiToMemory'] = writeAsciiToMemory;
-  
+
   function unSign(value, bits, ignore) {
     if (value >= 0) {
       return value;
@@ -1407,8 +1407,8 @@
     }
     return value;
   }
-  
-  
+
+
   // check for imul support, and also for correctness ( https://bugs.webkit.org/show_bug.cgi?id=126345 )
   if (!Math['imul'] || Math['imul'](0xffffffff, 5) !== -5) Math['imul'] = function imul(a, b) {
     var ah  = a >>> 16;
@@ -1418,8 +1418,8 @@
     return (al*bl + ((ah*bl + al*bh) << 16))|0;
   };
   Math.imul = Math['imul'];
-  
-  
+
+
   if (!Math['clz32']) Math['clz32'] = function(x) {
     x = x >>> 0;
     for (var i = 0; i < 32; i++) {
@@ -1428,7 +1428,7 @@
     return 32;
   };
   Math.clz32 = Math['clz32']
-  
+
   var Math_abs = Math.abs;
   var Math_cos = Math.cos;
   var Math_sin = Math.sin;
@@ -1447,7 +1447,7 @@
   var Math_fround = Math.fround;
   var Math_min = Math.min;
   var Math_clz32 = Math.clz32;
-  
+
   // A counter of dependencies for calling run(). If we need to
   // do asynchronous work before running, increment this and
   // decrement it. Incrementing must happen in a place like
@@ -1458,11 +1458,11 @@
   var runDependencies = 0;
   var runDependencyWatcher = null;
   var dependenciesFulfilled = null; // overridden to take different actions when all run dependencies are fulfilled
-  
+
   function getUniqueRunDependency(id) {
     return id;
   }
-  
+
   function addRunDependency(id) {
     runDependencies++;
     if (Module['monitorRunDependencies']) {
@@ -1488,105 +1488,105 @@
     }
   }
   Module['removeRunDependency'] = removeRunDependency;
-  
+
   Module["preloadedImages"] = {}; // maps url to image data
   Module["preloadedAudios"] = {}; // maps url to audio data
-  
-  
-  
+
+
+
   var memoryInitializer = null;
-  
-  
-  
+
+
+
   // === Body ===
-  
+
   var ASM_CONSTS = [];
-  
-  
-  
-  
+
+
+
+
   STATIC_BASE = 8;
-  
+
   STATICTOP = STATIC_BASE + 96992;
     /* global initializers */  __ATINIT__.push();
-    
-  
+
+
   /* memory initializer */ allocate([69,114,114,111,114,58,32,99,97,110,39,116,32,97,108,108,111,99,97,116,101,32,86,98,114,70,114,97,109,101,115,32,98,117,102,102,101,114,10,0,0,0,0,0,193,192,0,0,129,193,0,0,64,1,0,0,1,195,0,0,192,3,0,0,128,2,0,0,65,194,0,0,1,198,0,0,192,6,0,0,128,7,0,0,65,199,0,0,0,5,0,0,193,197,0,0,129,196,0,0,64,4,0,0,1,204,0,0,192,12,0,0,128,13,0,0,65,205,0,0,0,15,0,0,193,207,0,0,129,206,0,0,64,14,0,0,0,10,0,0,193,202,0,0,129,203,0,0,64,11,0,0,1,201,0,0,192,9,0,0,128,8,0,0,65,200,0,0,1,216,0,0,192,24,0,0,128,25,0,0,65,217,0,0,0,27,0,0,193,219,0,0,129,218,0,0,64,26,0,0,0,30,0,0,193,222,0,0,129,223,0,0,64,31,0,0,1,221,0,0,192,29,0,0,128,28,0,0,65,220,0,0,0,20,0,0,193,212,0,0,129,213,0,0,64,21,0,0,1,215,0,0,192,23,0,0,128,22,0,0,65,214,0,0,1,210,0,0,192,18,0,0,128,19,0,0,65,211,0,0,0,17,0,0,193,209,0,0,129,208,0,0,64,16,0,0,1,240,0,0,192,48,0,0,128,49,0,0,65,241,0,0,0,51,0,0,193,243,0,0,129,242,0,0,64,50,0,0,0,54,0,0,193,246,0,0,129,247,0,0,64,55,0,0,1,245,0,0,192,53,0,0,128,52,0,0,65,244,0,0,0,60,0,0,193,252,0,0,129,253,0,0,64,61,0,0,1,255,0,0,192,63,0,0,128,62,0,0,65,254,0,0,1,250,0,0,192,58,0,0,128,59,0,0,65,251,0,0,0,57,0,0,193,249,0,0,129,248,0,0,64,56,0,0,0,40,0,0,193,232,0,0,129,233,0,0,64,41,0,0,1,235,0,0,192,43,0,0,128,42,0,0,65,234,0,0,1,238,0,0,192,46,0,0,128,47,0,0,65,239,0,0,0,45,0,0,193,237,0,0,129,236,0,0,64,44,0,0,1,228,0,0,192,36,0,0,128,37,0,0,65,229,0,0,0,39,0,0,193,231,0,0,129,230,0,0,64,38,0,0,0,34,0,0,193,226,0,0,129,227,0,0,64,35,0,0,1,225,0,0,192,33,0,0,128,32,0,0,65,224,0,0,1,160,0,0,192,96,0,0,128,97,0,0,65,161,0,0,0,99,0,0,193,163,0,0,129,162,0,0,64,98,0,0,0,102,0,0,193,166,0,0,129,167,0,0,64,103,0,0,1,165,0,0,192,101,0,0,128,100,0,0,65,164,0,0,0,108,0,0,193,172,0,0,129,173,0,0,64,109,0,0,1,175,0,0,192,111,0,0,128,110,0,0,65,174,0,0,1,170,0,0,192,106,0,0,128,107,0,0,65,171,0,0,0,105,0,0,193,169,0,0,129,168,0,0,64,104,0,0,0,120,0,0,193,184,0,0,129,185,0,0,64,121,0,0,1,187,0,0,192,123,0,0,128,122,0,0,65,186,0,0,1,190,0,0,192,126,0,0,128,127,0,0,65,191,0,0,0,125,0,0,193,189,0,0,129,188,0,0,64,124,0,0,1,180,0,0,192,116,0,0,128,117,0,0,65,181,0,0,0,119,0,0,193,183,0,0,129,182,0,0,64,118,0,0,0,114,0,0,193,178,0,0,129,179,0,0,64,115,0,0,1,177,0,0,192,113,0,0,128,112,0,0,65,176,0,0,0,80,0,0,193,144,0,0,129,145,0,0,64,81,0,0,1,147,0,0,192,83,0,0,128,82,0,0,65,146,0,0,1,150,0,0,192,86,0,0,128,87,0,0,65,151,0,0,0,85,0,0,193,149,0,0,129,148,0,0,64,84,0,0,1,156,0,0,192,92,0,0,128,93,0,0,65,157,0,0,0,95,0,0,193,159,0,0,129,158,0,0,64,94,0,0,0,90,0,0,193,154,0,0,129,155,0,0,64,91,0,0,1,153,0,0,192,89,0,0,128,88,0,0,65,152,0,0,1,136,0,0,192,72,0,0,128,73,0,0,65,137,0,0,0,75,0,0,193,139,0,0,129,138,0,0,64,74,0,0,0,78,0,0,193,142,0,0,129,143,0,0,64,79,0,0,1,141,0,0,192,77,0,0,128,76,0,0,65,140,0,0,0,68,0,0,193,132,0,0,129,133,0,0,64,69,0,0,1,135,0,0,192,71,0,0,128,70,0,0,65,134,0,0,1,130,0,0,192,66,0,0,128,67,0,0,65,131,0,0,0,65,0,0,193,129,0,0,129,128,0,0,64,64,0,0,115,116,114,97,110,103,101,32,101,114,114,111,114,32,102,108,117,115,104,105,110,103,32,98,117,102,102,101,114,32,46,46,46,32,10,0,0,0,0,0,69,114,114,111,114,58,32,77,65,88,95,72,69,65,68,69,82,95,66,85,70,32,116,111,111,32,115,109,97,108,108,32,105,110,32,98,105,116,115,116,114,101,97,109,46,99,32,10,0,0,0,0,0,0,0,0,73,110,116,101,114,110,97,108,32,98,117,102,102,101,114,32,105,110,99,111,110,115,105,115,116,101,110,99,121,46,32,102,108,117,115,104,98,105,116,115,32,60,62,32,82,101,115,118,83,105,122,101,0,0,0,0,98,105,116,32,114,101,115,101,114,118,111,105,114,32,101,114,114,111,114,58,32,10,108,51,95,115,105,100,101,45,62,109,97,105,110,95,100,97,116,97,95,98,101,103,105,110,58,32,37,105,32,10,82,101,115,118,111,105,114,32,115,105,122,101,58,32,32,32,32,32,32,32,32,32,32,32,32,32,37,105,32,10,114,101,115,118,32,100,114,97,105,110,32,40,112,111,115,116,41,32,32,32,32,32,32,32,32,32,37,105,32,10,114,101,115,118,32,100,114,97,105,110,32,40,112,114,101,41,32,32,32,32,32,32,32,32,32,32,37,105,32,10,104,101,97,100,101,114,32,97,110,100,32,115,105,100,101,105,110,102,111,58,32,32,32,32,32,32,37,105,32,10,100,97,116,97,32,98,105,116,115,58,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,37,105,32,10,116,111,116,97,108,32,98,105,116,115,58,32,32,32,32,32,32,32,32,32,32,32,32,32,32,32,37,105,32,40,114,101,109,97,105,110,100,101,114,58,32,37,105,41,32,10,98,105,116,115,112,101,114,102,114,97,109,101,58,32,32,32,32,32,32,32,32,32,32,32,32,32,37,105,32,10,0,0,84,104,105,115,32,105,115,32,97,32,102,97,116,97,108,32,101,114,114,111,114,46,32,32,73,116,32,104,97,115,32,115,101,118,101,114,97,108,32,112,111,115,115,105,98,108,101,32,99,97,117,115,101,115,58,0,57,48,37,37,32,32,76,65,77,69,32,99,111,109,112,105,108,101,100,32,119,105,116,104,32,98,117,103,103,121,32,118,101,114,115,105,111,110,32,111,102,32,103,99,99,32,117,115,105,110,103,32,97,100,118,97,110,99,101,100,32,111,112,116,105,109,105,122,97,116,105,111,110,115,0,0,0,0,0,0,32,57,37,37,32,32,89,111,117,114,32,115,121,115,116,101,109,32,105,115,32,111,118,101,114,99,108,111,99,107,101,100,0,0,0,0,0,0,0,0,32,49,37,37,32,32,98,117,103,32,105,110,32,76,65,77,69,32,101,110,99,111,100,105,110,103,32,108,105,98,114,97,114,121,0,0,0,0,0,0,0,128,64,192,32,160,96,224,16,144,80,208,48,176,112,240,8,136,72,200,40,168,104,232,24,152,88,216,56,184,120,248,4,132,68,196,36,164,100,228,20,148,84,212,52,180,116,244,12,140,76,204,44,172,108,236,28,156,92,220,60,188,124,252,2,130,66,194,34,162,98,226,18,146,82,210,50,178,114,242,10,138,74,202,42,170,106,234,26,154,90,218,58,186,122,250,6,134,70,198,38,166,102,230,22,150,86,214,54,182,118,246,14,142,78,206,46,174,110,238,30,158,94,222,62,190,126,254], "i8", ALLOC_NONE, Runtime.GLOBAL_BASE);
   /* memory initializer */ allocate([94,131,108,63,21,239,195,62,109,196,126,63,54,189,200,61,67,236,127,63,176,10,201,60,196,254,127,63,136,15,201,59,88,88,88,0,0,0,0,0,37,108,117,0,0,0,0,0,105,109,97,103,101,47,112,110,103,0,0,0,0,0,0,0,105,109,97,103,101,47,103,105,102,0,0,0,0,0,0,0,105,109,97,103,101,47,106,112,101,103,0,0,0,0,0,0,37,100,0,0,0,0,0,0,128,187,0,0,0,0,0,0,0,0,208,64,0,0,0,0,0,0,208,64,148,92,0,0,68,172,0,0,0,0,0,0,0,0,208,64,0,0,0,0,0,0,208,64,20,85,0,0,0,125,0,0,0,0,208,64,0,0,0,65,102,102,166,64,0,0,208,64,184,61,0,0,192,93,0,0,0,0,0,65,0,0,8,65,102,102,166,64,0,0,192,64,74,46,0,0,34,86,0,0,0,0,8,65,246,40,16,65,102,102,166,64,0,0,208,64,140,42,0,0,128,62,0,0,246,40,16,65,102,102,22,65,205,204,156,64,0,0,208,64,223,30,0,0,224,46,0,0,102,102,22,65,154,153,25,65,0,0,144,64,0,0,192,64,40,23,0,0,17,43,0,0,154,153,25,65,102,102,30,65,51,51,163,64,0,0,208,64,70,21,0,0,64,31,0,0,102,102,30,65,0,0,32,65,205,204,156,64,0,0,208,64,112,15,0,0,8,0,0,0,208,7,0,0,16,0,0,0,116,14,0,0,24,0,0,0,60,15,0,0,32,0,0,0,124,21,0,0,40,0,0,0,88,27,0,0,48,0,0,0,76,29,0,0,56,0,0,0,16,39,0,0,64,0,0,0,248,42,0,0,80,0,0,0,188,52,0,0,96,0,0,0,252,58,0,0,112,0,0,0,240,60,0,0,128,0,0,0,104,66,0,0,160,0,0,0,92,68,0,0,192,0,0,0,168,72,0,0,224,0,0,0,200,75,0,0,0,1,0,0,244,76,0,0,64,1,0,0,20,80,0,0,44,76,0,0,56,74,0,0,168,72,0,0,80,70,0,0,92,68,0,0,128,62,0,0,240,60,0,0,52,58,0,0,212,48,0,0,16,39,0,0,110,15,0,0,0,0,0,0,192,93,0,0,44,76,0,0,68,72,0,0,80,70,0,0,92,68,0,0,104,66,0,0,116,64,0,0,240,60,0,0,96,59,0,0,62,28,0,0,110,15,0,0,0,0,0,0,44,76,0,0,56,74,0,0,68,72,0,0,80,70,0,0,92,68,0,0,116,64,0,0,140,60,0,0,164,56,0,0,212,48,0,0,28,37,0,0,110,15,0,0,0,0,0,0,102,102,182,64,0,0,208,64,154,153,233,64,51,51,3,65,0,0,32,65,102,102,62,65,0,0,80,65,0,0,96,65,0,0,112,65,0,0,132,65,87,97,114,110,105,110,103,58,32,104,105,103,104,112,97,115,115,32,102,105,108,116,101,114,32,100,105,115,97,98,108,101,100,46,32,32,104,105,103,104,112,97,115,115,32,102,114,101,113,117,101,110,99,121,32,116,111,111,32,115,109,97,108,108,10,0,0,0,0,0,0,0,69,114,114,111,114,58,32,99,97,110,39,116,32,97,108,108,111,99,97,116,101,32,105,110,95,98,117,102,102,101,114,32,98,117,102,102,101,114,10,0,0,0,0,0,1,0,0,0,16,0,0,0,17,0,0,0,8,0,0,0,9,0,0,0,24,0,0,0,25,0,0,0,4,0,0,0,5,0,0,0,20,0,0,0,21,0,0,0,12,0,0,0,13,0,0,0,28,0,0,0,29,0,0,0,2,0,0,0,3,0,0,0,18,0,0,0,19,0,0,0,10,0,0,0,11,0,0,0,26,0,0,0,27,0,0,0,6,0,0,0,7,0,0,0,22,0,0,0,23,0,0,0,14,0,0,0,15,0,0,0,30,0,0,0,31,0,0,0,0,27,134,42,204,204,52,43,33,78,132,43,252,247,157,43,88,156,166,43,252,247,157,43,33,78,132,43,204,204,52,43,0,27,134,42,83,248,191,44,254,169,171,44,146,50,149,44,159,129,122,44,239,29,73,44,62,186,23,44,116,173,207,43,133,159,107,43,183,89,146,42,83,248,191,172,254,169,171,172,146,50,149,172,159,129,122,172,239,29,73,172,62,186,23,172,116,173,207,171,133,159,107,171,183,89,146,170,0,27,134,170,204,204,52,171,33,78,132,171,252,247,157,171,88,156,166,171,252,247,157,171,33,78,132,171,204,204,52,171,0,27,134,170,0,27,134,42,204,204,52,43,33,78,132,43,252,247,157,43,88,156,166,43,252,247,157,43,33,78,132,43,204,204,52,43,0,27,134,42,83,248,191,44,254,169,171,44,146,50,149,44,159,129,122,44,239,29,73,44,62,186,23,44,116,173,207,43,133,159,107,43,183,89,146,42,37,39,192,172,51,37,173,172,234,209,152,172,227,84,131,172,249,175,89,172,11,14,43,172,102,34,244,171,201,49,137,171,74,123,157,170,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,72,144,128,170,174,79,227,170,5,174,113,170,234,207,6,62,205,19,212,62,139,111,68,63,255,175,139,63,23,208,166,63,117,235,200,63,190,226,245,63,122,130,26,64,105,251,74,64,185,87,144,64,107,16,243,64,233,58,183,65,92,28,124,63,187,141,36,63,68,29,175,62,178,143,112,63,212,208,49,190,125,27,68,191,215,179,93,63,0,0,0,63,254,181,3,191,218,134,241,190,2,115,160,190,116,71,58,190,29,176,193,189,135,203,39,189,29,161,104,188,70,123,114,187,168,132,91,63,216,185,97,63,221,26,115,63,129,186,123,63,65,218,126,63,253,200,127,63,101,249,127,63,141,255,127,63,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,72,144,128,42,174,79,227,42,5,174,113,42,37,39,192,44,51,37,173,44,234,209,152,44,227,84,131,44,249,175,89,44,11,14,43,44,102,34,244,43,201,49,137,43,74,123,157,42,83,248,191,172,254,169,171,172,146,50,149,172,159,129,122,172,239,29,73,172,62,186,23,172,116,173,207,171,133,159,107,171,183,89,146,170,0,27,134,170,204,204,52,171,33,78,132,171,252,247,157,171,88,156,166,171,252,247,157,171,33,78,132,171,204,204,52,171,0,27,134,170,121,207,23,190,138,59,1,66,164,51,148,67,155,200,92,68,202,167,45,70,175,40,132,68,192,222,152,67,129,155,246,65,199,156,118,64,77,183,109,66,194,101,49,68,74,15,165,69,82,45,182,197,71,104,76,196,73,213,153,194,66,4,147,192,94,6,104,63,54,189,72,62,3,97,30,190,44,76,9,66,68,231,150,67,96,102,76,68,47,215,52,70,17,168,147,68,117,204,160,67,46,219,249,65,68,124,109,64,146,154,86,66,183,10,43,68,136,68,163,69,35,243,198,197,129,62,99,196,80,169,179,194,43,42,173,192,1,24,82,63,194,197,199,62,223,144,36,190,144,150,16,66,32,15,152,67,140,47,55,68,113,86,59,70,101,128,162,68,120,164,167,67,193,231,251,65,149,237,87,64,209,237,60,66,46,47,35,68,80,99,160,69,178,232,215,197,240,127,122,196,100,62,207,194,121,91,195,192,207,220,61,63,49,160,20,63,61,91,42,190,177,1,23,66,106,129,151,67,98,254,28,68,14,27,65,70,229,136,176,68,246,95,173,67,75,201,252,65,52,59,74,64,173,80,34,66,178,10,26,68,170,126,156,69,83,240,232,197,121,249,136,196,253,124,236,194,231,48,218,192,193,13,43,63,21,239,67,63,139,188,47,190,75,118,28,66,177,43,149,67,81,195,251,67,92,30,70,70,161,146,189,68,23,254,177,67,116,41,251,65,165,166,58,64,77,48,7,66,62,185,15,68,225,169,151,69,144,236,249,197,102,184,148,196,253,164,5,195,130,12,247,192,196,112,25,63,234,90,113,63,120,177,52,190,11,224,32,66,197,255,144,67,75,169,179,67,9,89,74,70,63,131,201,68,227,108,181,67,12,94,248,65,73,159,52,64,49,233,215,65,148,121,4,68,250,250,145,69,153,95,5,198,224,82,160,196,230,149,21,195,193,75,10,193,185,213,8,63,218,57,142,63,244,54,185,190,93,45,36,66,238,197,138,67,123,163,67,67,193,197,77,70,150,52,212,68,118,180,183,67,208,116,244,65,169,3,34,64,173,143,160,65,68,192,240,67,195,135,139,69,122,165,13,198,28,180,171,196,130,42,38,195,136,83,25,193,112,40,242,62,153,103,162,63,55,74,189,190,167,146,37,66,148,165,130,67,182,247,78,65,135,96,80,70,71,144,221,68,247,225,184,67,182,2,238,65,153,191,25,64,113,224,84,65,226,71,215,67,116,104,132,69,186,183,21,198,32,182,182,196,153,32,55,195,248,124,43,193,205,19,212,62,243,4,181,63,187,232,192,190,91,122,38,66,227,13,113,67,88,242,59,195,65,40,82,70,237,132,229,68,213,190,184,67,201,3,232,65,16,147,4,64,105,242,216,64,110,227,188,67,47,102,121,69,214,134,29,198,81,62,193,196,85,96,72,195,235,212,61,193,80,50,183,62,3,228,197,63,71,16,196,190,73,155,36,66,18,122,88,67,23,20,203,195,140,28,83,70,216,249,235,68,185,166,183,67,247,22,225,65,11,250,244,63,71,16,196,62,69,237,161,67,91,2,105,69,239,4,37,198,124,38,203,196,16,160,89,195,54,63,80,193,66,80,155,62,49,219,212,63,46,15,21,191,242,108,33,66,98,51,60,67,83,17,32,196,220,60,83,70,70,243,240,68,238,104,181,67,38,192,215,65,112,137,223,63,88,12,180,192,157,166,134,67,47,214,87,69,149,32,44,198,6,85,212,196,16,196,106,195,193,157,98,193,212,63,128,62,152,197,225,63,57,182,22,191,234,239,28,66,206,194,27,67,244,79,94,196,226,141,82,70,182,97,244,68,249,56,178,67,221,40,207,65,124,229,200,63,57,233,50,193,16,207,86,67,160,18,70,69,73,205,50,198,21,165,220,196,104,176,123,195,1,246,119,193,175,175,75,62,94,131,236,63,230,143,74,191,36,147,21,66,35,102,239,66,16,227,143,196,201,17,81,70,166,76,246,68,130,2,174,67,22,218,197,65,28,72,177,63,12,95,131,193,224,12,33,67,81,229,51,69,247,251,56,198,140,255,227,196,139,36,134,195,184,137,134,193,100,229,23,62,11,250,244,63,223,202,75,191,201,237,12,66,223,9,160,66,174,0,178,196,45,207,78,70,187,185,246,68,213,254,168,67,51,80,186,65,197,91,178,63,32,204,168,193,139,247,216,66,54,123,33,69,232,158,62,198,230,72,234,196,148,31,142,195,218,232,144,193,220,181,201,61,190,20,251,63,15,177,127,191,152,64,2,66,94,213,19,66,106,66,213,196,38,205,75,70,66,172,245,68,70,55,163,67,112,102,177,65,251,108,153,63,81,248,202,193,231,35,102,66,180,6,15,69,179,170,67,198,226,90,239,196,151,161,149,195,66,6,155,193,60,57,73,61,109,196,254,63,54,211,37,70,68,177,165,69,175,113,104,68,69,51,54,68,128,12,144,67,180,213,129,66,2,0,241,65,34,63,131,64,49,19,72,70,167,49,243,68,86,182,156,67,170,105,166,65,251,100,249,68,112,3,16,65,17,158,233,193,0,0,0,0,0,0,0,0,9,0,0,0,9,0,0,0,0,0,0,0,102,102,166,64,0,0,250,66,102,102,134,192,154,153,201,192,154,153,153,64,0,0,128,63,0,0,0,0,0,0,0,0,2,0,0,0,21,0,0,0,236,81,120,63,0,0,160,64,0,0,200,66,1,0,0,0,9,0,0,0,9,0,0,0,0,0,0,0,154,153,169,64,0,0,250,66,102,102,102,192,51,51,179,192,0,0,144,64,0,0,192,63,0,0,0,0,0,0,0,0,2,0,0,0,21,0,0,0,205,204,172,63,0,0,160,64,0,0,200,66,2,0,0,0,9,0,0,0,9,0,0,0,0,0,0,0,51,51,179,64,0,0,250,66,205,204,12,192,0,0,96,192,51,51,51,64,0,0,0,64,0,0,0,0,0,0,0,0,2,0,0,0,21,0,0,0,82,184,190,63,0,0,160,64,0,0,200,66,3,0,0,0,9,0,0,0,9,0,0,0,1,0,0,0,154,153,185,64,0,0,2,67,102,102,230,191,51,51,51,192,102,102,38,64,0,0,64,64,0,0,128,192,0,0,0,0,2,0,0,0,20,0,0,0,133,235,209,63,0,0,160,64,0,0,200,66,4,0,0,0,9,0,0,0,9,0,0,0,1,0,0,0,0,0,192,64,0,0,7,67,51,51,51,191,205,204,140,191,205,204,140,63,0,0,96,64,0,0,0,193,0,0,0,0,2,0,0,0,0,0,0,0,184,30,229,63,0,0,160,64,0,0,200,66,5,0,0,0,9,0,0,0,9,0,0,0,1,0,0,0,205,204,204,64,0,0,12,67,0,0,0,63,205,204,204,62,0,0,240,192,0,0,128,64,0,0,64,193,23,183,81,57,0,0,0,0,0,0,0,0,154,153,249,63,0,0,160,64,0,0,200,66,6,0,0,0,9,0,0,0,9,0,0,0,1,0,0,0,51,51,211,64,0,0,17,67,31,133,43,63,102,102,38,63,51,51,107,193,0,0,208,64,0,0,152,193,23,183,209,57,0,0,0,0,0,0,0,0,51,51,19,64,0,0,160,64,0,0,200,66,7,0,0,0,9,0,0,0,9,0,0,0,1,0,0,0,51,51,211,64,0,0,17,67,205,204,76,63,0,0,64,63,154,153,157,193,0,0,0,65,0,0,176,193,82,73,29,58,0,0,0,0,0,0,0,0,205,204,44,64,0,0,160,64,0,0,200,66,8,0,0,0,9,0,0,0,9,0,0,0,1,0,0,0,51,51,211,64,0,0,17,67,154,153,153,63,51,51,147,63,0,0,220,193,0,0,32,65,0,0,184,193,52,128,55,58,0,0,0,0,0,0,0,0,0,0,0,0,0,0,160,64,0,0,200,66,9,0,0,0,9,0,0,0,9,0,0,0,1,0,0,0,51,51,211,64,0,0,17,67,205,204,204,63,205,204,204,63,0,0,16,194,0,0,48,65,0,0,200,193,23,183,81,58,0,0,0,0,0,0,0,0,0,0,0,0,0,0,160,64,0,0,200,66,10,0,0,0,9,0,0,0,9,0,0,0,1,0,0,0,51,51,211,64,0,0,17,67,0,0,0,64,0,0,0,64,0,0,16,194,0,0,64,65,0,0,200,193,23,183,81,58,0,0,0,0,0,0,0,0,0,0,0,0,0,0,160,64,0,0,200,66,0,0,0,0,0,0,0,0,9,0,0,0,9,0,0,0,0,0,0,0,102,102,134,64,0,0,200,65,154,153,217,192,154,153,217,192,51,51,227,64,0,0,128,63,0,0,0,0,0,0,0,0,2,0,0,0,31,0,0,0,0,0,128,63,0,0,160,64,0,0,200,66,1,0,0,0,9,0,0,0,9,0,0,0,0,0,0,0,102,102,134,64,0,0,200,65,154,153,153,192,154,153,153,192,205,204,172,64,51,51,179,63,0,0,128,191,0,0,0,0,2,0,0,0,27,0,0,0,178,157,143,63,0,0,160,64,0,0,196,66,2,0,0,0,9,0,0,0,9,0,0,0,0,0,0,0,102,102,134,64,0,0,200,65,102,102,38,192,102,102,38,192,205,204,108,64,0,0,0,64,0,0,64,192,0,0,0,0,2,0,0,0,23,0,0,0,47,221,164,63,0,0,160,64,0,0,194,66,3,0,0,0,9,0,0,0,9,0,0,0,1,0,0,0,102,102,134,64,0,0,200,65,205,204,204,191,205,204,204,191,0,0,0,64,0,0,0,64,0,0,160,192,0,0,0,0,2,0,0,0,18,0,0,0,223,79,189,63,0,0,160,64,0,0,192,66,4,0,0,0,9,0,0,0,9,0,0,0,1,0,0,0,102,102,134,64,0,0,200,65,0,0,0,128,0,0,0,128,0,0,0,0,0,0,0,64,0,0,0,193,0,0,0,0,2,0,0,0,12,0,0,0,16,88,217,63,0,0,160,64,0,0,190,66,5,0,0,0,9,0,0,0,9,0,0,0,1,0,0,0,102,102,134,64,0,0,200,65,102,102,166,63,102,102,166,63,0,0,192,192,0,0,96,64,0,0,48,193,0,0,0,0,2,0,0,0,8,0,0,0,154,153,249,63,0,0,160,64,102,102,188,66,6,0,0,0,9,0,0,0,9,0,0,0,1,0,0,0,0,0,144,64,0,0,200,66,205,204,12,64,51,51,19,64,0,0,64,193,0,0,192,64,0,0,96,193,0,0,0,0,2,0,0,0,4,0,0,0,199,75,15,64,0,0,64,64,205,204,187,66,7,0,0,0,9,0,0,0,9,0,0,0,1,0,0,0,154,153,153,64,0,0,72,67,205,204,44,64,205,204,44,64,0,0,144,193,0,0,16,65,0,0,136,193,0,0,0,0,2,0,0,0,0,0,0,0,225,122,36,64,0,0,128,63,51,51,187,66,8,0,0,0,9,0,0,0,9,0,0,0,1,0,0,0,154,153,169,64,0,0,150,67,51,51,51,64,51,51,51,64,0,0,168,193,0,0,32,65,0,0,184,193,23,183,81,57,0,0,0,0,0,0,0,0,47,221,60,64,0,0,0,0,154,153,186,66,9,0,0,0,9,0,0,0,9,0,0,0,1,0,0,0,51,51,211,64,0,0,150,67,51,51,51,64,51,51,51,64,0,0,184,193,0,0,48,65,0,0,200,193,82,73,29,58,0,0,0,0,0,0,0,0,254,212,88,64,0,0,0,0,154,153,186,66,10,0,0,0,9,0,0,0,9,0,0,0,1,0,0,0,0,0,200,65,0,0,150,67,51,51,51,64,51,51,51,64,0,0,200,193,0,0,64,65,0,0,216,193,10,215,35,59,0,0,0,0,0,0,0,0,0,0,96,64,0,0,0,0,154,153,186,66,0,0,0,0,8,0,0,0,9,0,0,0,9,0,0,0,0,0,0,0,0,0,0,0,51,51,211,64,0,0,17,67,51,51,115,63,0,0,0,0,0,0,240,193,0,0,48,65,82,73,157,58,1,0,0,0,16,0,0,0,9,0,0,0,9,0,0,0,0,0,0,0,0,0,0,0,51,51,211,64,0,0,17,67,51,51,115,63,0,0,0,0,0,0,200,193,0,0,48,65,111,18,131,58,1,0,0,0,24,0,0,0,9,0,0,0,9,0,0,0,0,0,0,0,0,0,0,0,51,51,211,64,0,0,17,67,51,51,115,63,0,0,0,0,0,0,160,193,0,0,48,65,111,18,131,58,1,0,0,0,32,0,0,0,9,0,0,0,9,0,0,0,0,0,0,0,0,0,0,0,51,51,211,64,0,0,17,67,51,51,115,63,0,0,0,0,0,0,112,193,0,0,48,65,111,18,131,58,1,0,0,0,40,0,0,0,9,0,0,0,9,0,0,0,0,0,0,0,0,0,0,0,51,51,211,64,0,0,17,67,51,51,115,63,0,0,0,0,0,0,32,193,0,0,48,65,250,237,107,58,1,0,0,0,48,0,0,0,9,0,0,0,9,0,0,0,0,0,0,0,0,0,0,0,51,51,211,64,0,0,17,67,51,51,115,63,0,0,0,0,0,0,32,193,0,0,48,65,250,237,107,58,1,0,0,0,56,0,0,0,9,0,0,0,9,0,0,0,0,0,0,0,0,0,0,0,51,51,211,64,0,0,17,67,51,51,115,63,0,0,0,0,0,0,192,192,0,0,48,65,23,183,81,58,1,0,0,0,64,0,0,0,9,0,0,0,9,0,0,0,0,0,0,0,0,0,0,0,51,51,211,64,0,0,17,67,51,51,115,63,0,0,0,0,0,0,0,192,0,0,48,65,23,183,81,58,1,0,0,0,80,0,0,0,9,0,0,0,9,0,0,0,0,0,0,0,0,0,0,0,51,51,211,64,0,0,17,67,51,51,115,63,0,0,0,0,0,0,0,0,0,0,0,65,52,128,55,58,1,0,0,0,96,0,0,0,9,0,0,0,9,0,0,0,0,0,0,0,0,0,32,64,51,51,211,64,0,0,17,67,51,51,115,63,0,0,0,0,0,0,128,63,0,0,176,64,82,73,29,58,1,0,0,0,112,0,0,0,9,0,0,0,9,0,0,0,0,0,0,0,0,0,16,64,51,51,211,64,0,0,17,67,51,51,115,63,0,0,0,0,0,0,0,64,0,0,144,64,111,18,3,58,1,0,0,0,128,0,0,0,9,0,0,0,9,0,0,0,0,0,0,0,154,153,249,63,205,204,204,64,0,0,12,67,51,51,115,63,0,0,0,0,0,0,64,64,0,0,128,64,23,183,81,57,1,0,0,0,160,0,0,0,9,0,0,0,9,0,0,0,1,0,0,0,184,30,229,63,0,0,192,64,0,0,7,67,51,51,115,63,0,0,0,192,0,0,160,64,0,0,96,64,0,0,0,0,1,0,0,0,192,0,0,0,9,0,0,0,9,0,0,0,1,0,0,0,82,184,190,63,51,51,179,64,0,0,250,66,236,81,120,63,0,0,128,192,0,0,224,64,0,0,64,64,0,0,0,0,0,0,0,0,224,0,0,0,9,0,0,0,9,0,0,0,1,0,0,0,0,0,160,63,102,102,166,64,0,0,250,66,72,225,122,63,0,0,192,192,0,0,16,65,0,0,0,64,0,0,0,0,0,0,0,0,0,1,0,0,9,0,0,0,9,0,0,0,1,0,0,0,236,81,120,63,102,102,166,64,0,0,250,66,0,0,128,63,0,0,0,193,0,0,32,65,0,0,128,63,0,0,0,0,0,0,0,0,64,1,0,0,9,0,0,0,9,0,0,0,1,0,0,0,102,102,102,63,102,102,166,64,0,0,250,66,0,0,128,63,0,0,32,193,0,0,64,65,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,2,0,0,0,2,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,255,255,255,255,0,0,0,0,0,0,128,63,54,89,75,63,152,134,33,63,152,134,33,63,152,134,33,63,152,134,33,63,152,134,33,63,250,155,128,62,153,158,240,61,0,0,0,0,0,0,0,0,0,0,0,0,137,158,227,63,229,83,236,63,167,94,245,63,155,20,249,63,14,217,252,63,123,143,234,63,218,151,217,63,226,132,191,63,124,145,168,63,0,0,128,63,0,0,0,0,0,0,0,0,205,204,60,65,154,153,89,65,154,153,137,65,0,0,0,66,0,0,58,66,51,51,77,66,0,0,102,66,51,51,134,66,0,0,143,66,51,51,169,66,51,51,195,66,0,0,2,67,154,153,217,64,154,153,185,64,154,153,185,64,205,204,204,64,0,0,208,64,102,102,30,65,154,153,65,65,102,102,102,65,0,0,112,65,51,51,151,65,205,204,172,65,51,51,215,65,205,204,8,66,205,204,32,66,51,51,59,66,0,0,98,66,205,204,114,66,205,204,147,66,102,102,171,66,205,204,186,66,51,51,252,66,0,0,0,0,205,204,236,192,205,204,236,192,205,204,236,192,0,0,24,193,205,204,236,192,51,51,195,192,0,0,176,192,102,102,150,192,102,102,150,192,102,102,150,192,102,102,150,192,0,0,0,0,73,78,84,69,82,78,65,76,32,69,82,82,79,82,32,73,78,32,86,66,82,32,78,69,87,32,67,79,68,69,44,32,112,108,101,97,115,101,32,115,101,110,100,32,98,117,103,32,114,101,112,111,114,116,10,0,6,0,0,0,5,0,0,0,5,0,0,0,5,0,0,0,9,0,0,0,9,0,0,0,9,0,0,0,9,0,0,0,6,0,0,0,9,0,0,0,9,0,0,0,9,0,0,0,6,0,0,0,5,0,0,0,7,0,0,0,3,0,0,0,9,0,0,0,9,0,0,0,12,0,0,0,6,0,0,0,6,0,0,0,9,0,0,0,12,0,0,0,6,0,0,0,11,0,0,0,10,0,0,0,0,0,0,0,0,0,0,0,18,0,0,0,18,0,0,0,0,0,0,0,0,0,0,0,15,0,0,0,18,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,7,0,0,0,7,0,0,0,0,0,0,0,12,0,0,0,12,0,0,0,12,0,0,0,0,0,0,0,6,0,0,0,15,0,0,0,12,0,0,0,0,0,0,0,6,0,0,0,6,0,0,0,6,0,0,0,3,0,0,0,12,0,0,0,9,0,0,0,9,0,0,0,6,0,0,0,6,0,0,0,12,0,0,0,9,0,0,0,6,0,0,0,8,0,0,0,8,0,0,0,5,0,0,0,0,0,0,0,15,0,0,0,12,0,0,0,9,0,0,0,0,0,0,0,6,0,0,0,18,0,0,0,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,2,0,0,0,2,0,0,0,3,0,0,0,3,0,0,0,3,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,12,0,0,0,18,0,0,0,24,0,0,0,30,0,0,0,36,0,0,0,44,0,0,0,54,0,0,0,66,0,0,0,80,0,0,0,96,0,0,0,116,0,0,0,140,0,0,0,168,0,0,0,200,0,0,0,238,0,0,0,28,1,0,0,80,1,0,0,140,1,0,0,208,1,0,0,10,2,0,0,64,2,0,0,0,0,0,0,4,0,0,0,8,0,0,0,12,0,0,0,18,0,0,0,24,0,0,0,32,0,0,0,42,0,0,0,56,0,0,0,74,0,0,0,100,0,0,0,132,0,0,0,174,0,0,0,192,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,12,0,0,0,18,0,0,0,24,0,0,0,30,0,0,0,36,0,0,0,44,0,0,0,54,0,0,0,66,0,0,0,80,0,0,0,96,0,0,0,114,0,0,0,136,0,0,0,162,0,0,0,194,0,0,0,232,0,0,0,22,1,0,0,76,1,0,0,138,1,0,0,208,1,0,0,28,2,0,0,64,2,0,0,0,0,0,0,4,0,0,0,8,0,0,0,12,0,0,0,18,0,0,0,26,0,0,0,36,0,0,0,48,0,0,0,62,0,0,0,80,0,0,0,104,0,0,0,136,0,0,0,180,0,0,0,192,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,12,0,0,0,18,0,0,0,24,0,0,0,30,0,0,0,36,0,0,0,44,0,0,0,54,0,0,0,66,0,0,0,80,0,0,0,96,0,0,0,116,0,0,0,140,0,0,0,168,0,0,0,200,0,0,0,238,0,0,0,28,1,0,0,80,1,0,0,140,1,0,0,208,1,0,0,10,2,0,0,64,2,0,0,0,0,0,0,4,0,0,0,8,0,0,0,12,0,0,0,18,0,0,0,26,0,0,0,36,0,0,0,48,0,0,0,62,0,0,0,80,0,0,0,104,0,0,0,134,0,0,0,174,0,0,0,192,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,8,0,0,0,12,0,0,0,16,0,0,0,20,0,0,0,24,0,0,0,30,0,0,0,36,0,0,0,44,0,0,0,52,0,0,0,62,0,0,0,74,0,0,0,90,0,0,0,110,0,0,0,134,0,0,0,162,0,0,0,196,0,0,0,238,0,0,0,32,1,0,0,86,1,0,0,162,1,0,0,64,2,0,0,0,0,0,0,4,0,0,0,8,0,0,0,12,0,0,0,16,0,0,0,22,0,0,0,30,0,0,0,40,0,0,0,52,0,0,0,66,0,0,0,84,0,0,0,106,0,0,0,136,0,0,0,192,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,8,0,0,0,12,0,0,0,16,0,0,0,20,0,0,0,24,0,0,0,30,0,0,0,36,0,0,0,42,0,0,0,50,0,0,0,60,0,0,0,72,0,0,0,88,0,0,0,106,0,0,0,128,0,0,0,156,0,0,0,190,0,0,0,230,0,0,0,20,1,0,0,74,1,0,0,128,1,0,0,64,2,0,0,0,0,0,0,4,0,0,0,8,0,0,0,12,0,0,0,16,0,0,0,22,0,0,0,28,0,0,0,38,0,0,0,50,0,0,0,64,0,0,0,80,0,0,0,100,0,0,0,126,0,0,0,192,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,8,0,0,0,12,0,0,0,16,0,0,0,20,0,0,0,24,0,0,0,30,0,0,0,36,0,0,0,44,0,0,0,54,0,0,0,66,0,0,0,82,0,0,0,102,0,0,0,126,0,0,0,156,0,0,0,194,0,0,0,240,0,0,0,40,1,0,0,108,1,0,0,192,1,0,0,38,2,0,0,64,2,0,0,0,0,0,0,4,0,0,0,8,0,0,0,12,0,0,0,16,0,0,0,22,0,0,0,30,0,0,0,42,0,0,0,58,0,0,0,78,0,0,0,104,0,0,0,138,0,0,0,180,0,0,0,192,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,12,0,0,0,18,0,0,0,24,0,0,0,30,0,0,0,36,0,0,0,44,0,0,0,54,0,0,0,66,0,0,0,80,0,0,0,96,0,0,0,116,0,0,0,140,0,0,0,168,0,0,0,200,0,0,0,238,0,0,0,28,1,0,0,80,1,0,0,140,1,0,0,208,1,0,0,10,2,0,0,64,2,0,0,0,0,0,0,4,0,0,0,8,0,0,0,12,0,0,0,18,0,0,0,26,0,0,0,36,0,0,0,48,0,0,0,62,0,0,0,80,0,0,0,104,0,0,0,134,0,0,0,174,0,0,0,192,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,12,0,0,0,18,0,0,0,24,0,0,0,30,0,0,0,36,0,0,0,44,0,0,0,54,0,0,0,66,0,0,0,80,0,0,0,96,0,0,0,116,0,0,0,140,0,0,0,168,0,0,0,200,0,0,0,238,0,0,0,28,1,0,0,80,1,0,0,140,1,0,0,208,1,0,0,10,2,0,0,64,2,0,0,0,0,0,0,4,0,0,0,8,0,0,0,12,0,0,0,18,0,0,0,26,0,0,0,36,0,0,0,48,0,0,0,62,0,0,0,80,0,0,0,104,0,0,0,134,0,0,0,174,0,0,0,192,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,0,0,0,24,0,0,0,36,0,0,0,48,0,0,0,60,0,0,0,72,0,0,0,88,0,0,0,108,0,0,0,132,0,0,0,160,0,0,0,192,0,0,0,232,0,0,0,24,1,0,0,80,1,0,0,144,1,0,0,220,1,0,0,54,2,0,0,56,2,0,0,58,2,0,0,60,2,0,0,62,2,0,0,64,2,0,0,0,0,0,0,8,0,0,0,16,0,0,0,24,0,0,0,36,0,0,0,52,0,0,0,72,0,0,0,96,0,0,0,124,0,0,0,160,0,0,0,162,0,0,0,164,0,0,0,166,0,0,0,192], "i8", ALLOC_NONE, Runtime.GLOBAL_BASE+6448);
   /* memory initializer */ allocate([1,4,3,5,0,0,0,0,1,5,5,7,5,8,7,9,5,7,7,9,7,9,9,10,4,5,5,6,5,6,6,7,5,6,6,7,6,7,7,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,192,72,1,0,56,65,1,0,3,0,0,0,0,0,0,0,200,72,1,0,224,72,1,0,3,0,0,0,0,0,0,0,240,72,1,0,8,73,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,24,73,1,0,56,73,1,0,4,0,0,0,0,0,0,0,72,73,1,0,104,73,1,0,6,0,0,0,0,0,0,0,120,73,1,0,192,73,1,0,6,0,0,0,0,0,0,0,232,73,1,0,48,74,1,0,6,0,0,0,0,0,0,0,88,74,1,0,160,74,1,0,8,0,0,0,0,0,0,0,200,74,1,0,72,75,1,0,8,0,0,0,0,0,0,0,136,75,1,0,8,76,1,0,8,0,0,0,0,0,0,0,72,76,1,0,200,76,1,0,16,0,0,0,0,0,0,0,8,77,1,0,8,79,1,0,0,0,0,0,0,0,0,0,0,0,0,0,8,80,1,0,16,0,0,0,0,0,0,0,8,81,1,0,8,83,1,0,1,0,0,0,1,0,0,0,8,84,1,0,8,86,1,0,2,0,0,0,3,0,0,0,8,84,1,0,8,86,1,0,3,0,0,0,7,0,0,0,8,84,1,0,8,86,1,0,4,0,0,0,15,0,0,0,8,84,1,0,8,86,1,0,6,0,0,0,63,0,0,0,8,84,1,0,8,86,1,0,8,0,0,0,255,0,0,0,8,84,1,0,8,86,1,0,10,0,0,0,255,3,0,0,8,84,1,0,8,86,1,0,13,0,0,0,255,31,0,0,8,84,1,0,8,86,1,0,4,0,0,0,15,0,0,0,8,87,1,0,8,89,1,0,5,0,0,0,31,0,0,0,8,87,1,0,8,89,1,0,6,0,0,0,63,0,0,0,8,87,1,0,8,89,1,0,7,0,0,0,127,0,0,0,8,87,1,0,8,89,1,0,8,0,0,0,255,0,0,0,8,87,1,0,8,89,1,0,9,0,0,0,255,1,0,0,8,87,1,0,8,89,1,0,11,0,0,0,255,7,0,0,8,87,1,0,8,89,1,0,13,0,0,0,255,31,0,0,8,87,1,0,8,89,1,0,0,0,0,0,0,0,0,0,8,90,1,0,64,65,1,0,0,0,0,0,0,0,0,0,40,90,1,0,80,65,1,0,4,0,1,0,5,0,5,0,7,0,7,0,8,0,9,0,9,0,10,0,10,0,10,0,10,0,11,0,11,0,11,0,11,0,12,0,12,0,12,0,12,0,12,0,12,0,13,0,12,0,13,0,12,0,13,0,13,0,14,0,10,0,10,0,5,0,4,0,6,0,6,0,7,0,8,0,8,0,9,0,9,0,10,0,10,0,11,0,10,0,11,0,11,0,11,0,11,0,12,0,11,0,12,0,12,0,12,0,12,0,13,0,12,0,14,0,12,0,13,0,12,0,14,0,10,0,10,0,7,0,7,0,7,0,8,0,8,0,9,0,9,0,10,0,9,0,11,0,10,0,11,0,10,0,12,0,11,0,12,0,11,0,13,0,11,0,12,0,11,0,13,0,12,0,13,0,12,0,13,0,12,0,14,0,13,0,14,0,9,0,11,0,8,0,9,0,8,0,9,0,9,0,10,0,9,0,11,0,10,0,11,0,10,0,12,0,10,0,12,0,11,0,12,0,11,0,13,0,11,0,13,0,11,0,14,0,12,0,14,0,12,0,14,0,12,0,15,0,12,0,15,0,9,0,12,0,9,0,10,0,9,0,10,0,9,0,11,0,10,0,11,0,10,0,12,0,10,0,12,0,10,0,13,0,11,0,13,0,11,0,13,0,11,0,14,0,12,0,14,0,12,0,14,0,12,0,15,0,12,0,15,0,13,0,15,0,9,0,11,0,10,0,10,0,9,0,10,0,10,0,11,0,10,0,11,0,10,0,12,0,10,0,13,0,11,0,13,0,11,0,14,0,11,0,13,0,11,0,14,0,12,0,14,0,12,0,15,0,12,0,15,0,12,0,15,0,12,0,16,0,9,0,12,0,10,0,11,0,10,0,11,0,10,0,11,0,10,0,12,0,10,0,13,0,11,0,13,0,11,0,13,0,11,0,13,0,11,0,14,0,12,0,14,0,12,0,14,0,12,0,14,0,12,0,15,0,12,0,15,0,13,0,16,0,9,0,12,0,11,0,11,0,10,0,11,0,10,0,12,0,10,0,12,0,11,0,13,0,11,0,13,0,11,0,13,0,11,0,14,0,12,0,14,0,12,0,15,0,12,0,15,0,12,0,15,0,12,0,15,0,13,0,17,0,13,0,17,0,10,0,12,0,11,0,11,0,11,0,12,0,11,0,12,0,11,0,13,0,11,0,13,0,11,0,13,0,11,0,14,0,11,0,14,0,11,0,15,0,12,0,15,0,12,0,15,0,12,0,15,0,12,0,16,0,13,0,16,0,13,0,16,0,10,0,12,0,11,0,12,0,11,0,12,0,11,0,12,0,11,0,13,0,11,0,13,0,11,0,14,0,11,0,14,0,12,0,15,0,12,0,15,0,12,0,15,0,12,0,15,0,12,0,16,0,13,0,15,0,13,0,16,0,13,0,15,0,10,0,13,0,12,0,12,0,11,0,13,0,11,0,12,0,11,0,13,0,11,0,14,0,12,0,14,0,12,0,14,0,12,0,14,0,12,0,15,0,12,0,16,0,12,0,16,0,13,0,16,0,13,0,17,0,13,0,17,0,13,0,16,0,10,0,12,0,12,0,13,0,12,0,13,0,11,0,13,0,11,0,13,0,11,0,14,0,12,0,14,0,12,0,15,0,12,0,16,0,12,0,16,0,12,0,16,0,12,0,16,0,13,0,16,0,13,0,16,0,13,0,15,0,13,0,16,0,10,0,13,0,12,0,13,0,12,0,14,0,12,0,14,0,12,0,14,0,12,0,14,0,12,0,15,0,12,0,15,0,12,0,15,0,12,0,15,0,12,0,17,0,13,0,16,0,13,0,16,0,13,0,16,0,13,0,16,0,13,0,18,0,10,0,13,0,12,0,15,0,12,0,14,0,12,0,14,0,12,0,14,0,12,0,15,0,12,0,15,0,12,0,16,0,12,0,16,0,13,0,16,0,13,0,18,0,13,0,17,0,13,0,17,0,13,0,17,0,13,0,19,0,13,0,17,0,10,0,13,0,13,0,14,0,12,0,15,0,12,0,13,0,12,0,14,0,12,0,16,0,12,0,16,0,12,0,15,0,13,0,16,0,13,0,16,0,13,0,17,0,13,0,18,0,13,0,17,0,13,0,19,0,13,0,17,0,13,0,16,0,10,0,13,0,9,0,10,0,9,0,10,0,9,0,10,0,9,0,11,0,9,0,11,0,9,0,12,0,9,0,12,0,9,0,12,0,9,0,13,0,9,0,13,0,9,0,13,0,10,0,13,0,10,0,13,0,10,0,13,0,10,0,13,0,6,0,10,0,2,0,1,0,3,0,4,0,7,0,7,0,4,0,4,0,4,0,5,0,7,0,7,0,6,0,6,0,7,0,7,0,8,0,8,0,0,0,0,0,3,0,1,0,4,0,4,0,6,0,7,0,8,0,8,0,4,0,4,0,4,0,5,0,6,0,8,0,7,0,9,0,5,0,7,0,6,0,8,0,7,0,9,0,8,0,10,0,7,0,8,0,7,0,8,0,8,0,9,0,9,0,10,0,0,0,0,0,8,0,0,0,16,0,0,0,24,0,0,0,32,0,0,0,40,0,0,0,48,0,0,0,56,0,0,0,64,0,0,0,80,0,0,0,96,0,0,0,112,0,0,0,128,0,0,0,144,0,0,0,160,0,0,0,255,255,255,255,0,0,0,0,32,0,0,0,40,0,0,0,48,0,0,0,56,0,0,0,64,0,0,0,80,0,0,0,96,0,0,0,112,0,0,0,128,0,0,0,160,0,0,0,192,0,0,0,224,0,0,0,0,1,0,0,64,1,0,0,255,255,255,255,0,0,0,0,8,0,0,0,16,0,0,0,24,0,0,0,32,0,0,0,40,0,0,0,48,0,0,0,56,0,0,0,64,0,0,0,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,255,0,0,0,0,6,0,0,0,11,0,0,0,16,0,0,0,21,0,0,0,0,0,0,0,1,0,1,0,1,0,0,0,1,0,2,0,1,0,3,0,1,0,1,0,3,0,2,0,0,0,0,0,0,0,0,0,1,4,7,4,5,7,6,7,8,0,0,0,0,0,0,0,3,0,2,0,1,0,1,0,1,0,1,0,3,0,2,0,0,0,0,0,0,0,0,0,2,3,7,4,4,7,6,7,8,0,0,0,0,0,0,0,1,0,2,0,6,0,5,0,3,0,1,0,4,0,4,0,7,0,5,0,7,0,1,0,6,0,1,0,1,0,0,0,1,4,7,8,4,5,8,9,7,8,9,10,8,8,9,10,7,0,3,0,5,0,1,0,6,0,2,0,3,0,2,0,5,0,4,0,4,0,1,0,3,0,3,0,2,0,0,0,3,4,6,8,4,4,6,7,5,6,7,8,7,7,8,9,1,0,2,0,10,0,19,0,16,0,10,0,3,0,3,0,7,0,10,0,5,0,3,0,11,0,4,0,13,0,17,0,8,0,4,0,12,0,11,0,18,0,15,0,11,0,2,0,7,0,6,0,9,0,14,0,3,0,1,0,6,0,4,0,5,0,3,0,2,0,0,0,1,4,7,9,9,10,4,6,8,9,9,10,7,7,9,10,10,11,8,9,10,11,11,11,8,9,10,11,11,12,9,10,11,12,12,12,0,0,0,0,3,0,4,0,6,0,18,0,12,0,5,0,5,0,1,0,2,0,16,0,9,0,3,0,7,0,3,0,5,0,14,0,7,0,3,0,19,0,17,0,15,0,13,0,10,0,4,0,13,0,5,0,8,0,11,0,5,0,1,0,12,0,4,0,4,0,1,0,1,0,0,0,2,4,7,9,9,10,4,4,6,10,10,10,7,6,8,10,10,11,9,10,10,11,11,12,9,9,10,11,12,12,10,10,11,11,13,13,0,0,0,0,7,0,5,0,9,0,14,0,15,0,7,0,6,0,4,0,5,0,5,0,6,0,7,0,7,0,6,0,8,0,8,0,8,0,5,0,15,0,6,0,9,0,10,0,5,0,1,0,11,0,7,0,9,0,6,0,4,0,1,0,14,0,4,0,6,0,2,0,6,0,0,0,3,4,6,7,9,10,4,5,6,7,8,10,5,6,7,8,9,10,7,7,8,9,9,10,8,8,9,9,10,11,9,9,10,10,11,11,0,0,0,0,1,0,2,0,10,0,23,0,35,0,30,0,12,0,17,0,3,0,3,0,8,0,12,0,18,0,21,0,12,0,7,0,11,0,9,0,15,0,21,0,32,0,40,0,19,0,6,0,14,0,13,0,22,0,34,0,46,0,23,0,18,0,7,0,20,0,19,0,33,0,47,0,27,0,22,0,9,0,3,0,31,0,22,0,41,0,26,0,21,0,20,0,5,0,3,0,14,0,13,0,10,0,11,0,16,0,6,0,5,0,1,0,9,0,8,0,7,0,8,0,4,0,4,0,2,0,0,0,1,4,7,9,10,10,10,11,4,6,8,9,10,11,10,10,7,8,9,10,11,12,11,11,8,9,10,11,12,12,11,12,9,10,11,12,12,12,12,12,10,11,12,12,13,13,12,13,9,10,11,12,12,12,13,13,10,10,11,12,12,13,13,13,3,0,4,0,10,0,24,0,34,0,33,0,21,0,15,0,5,0,3,0,4,0,10,0,32,0,17,0,11,0,10,0,11,0,7,0,13,0,18,0,30,0,31,0,20,0,5,0,25,0,11,0,19,0,59,0,27,0,18,0,12,0,5,0,35,0,33,0,31,0,58,0,30,0,16,0,7,0,5,0,28,0,26,0,32,0,19,0,17,0,15,0,8,0,14,0,14,0,12,0,9,0,13,0,14,0,9,0,4,0,1,0,11,0,4,0,6,0,6,0,6,0,3,0,2,0,0,0,2,4,6,8,9,10,9,10,4,5,6,8,10,10,9,10,6,7,8,9,10,11,10,10,8,8,9,11,10,12,10,11,9,10,10,11,11,12,11,12,9,10,11,12,12,13,12,13,9,9,9,10,11,12,12,12,9,9,10,11,12,12,12,12,9,0,6,0,16,0,33,0,41,0,39,0,38,0,26,0,7,0,5,0,6,0,9,0,23,0,16,0,26,0,11,0,17,0,7,0,11,0,14,0,21,0,30,0,10,0,7,0,17,0,10,0,15,0,12,0,18,0,28,0,14,0,5,0,32,0,13,0,22,0,19,0,18,0,16,0,9,0,5,0,40,0,17,0,31,0,29,0,17,0,13,0,4,0,2,0,27,0,12,0,11,0,15,0,10,0,7,0,4,0,1,0,27,0,12,0,8,0,12,0,6,0,3,0,1,0,0,0,4,4,6,8,9,10,10,10,4,5,6,7,9,9,10,10,6,6,7,8,9,10,9,10,7,7,8,8,9,10,10,10,8,8,9,9,10,10,10,11,9,9,10,10,10,11,10,11,9,9,9,10,10,11,11,12,10,10,10,11,11,11,11,12,1,0,5,0,14,0,21,0,34,0,51,0,46,0,71,0,42,0,52,0,68,0,52,0,67,0,44,0,43,0,19,0,3,0,4,0,12,0,19,0,31,0,26,0,44,0,33,0,31,0,24,0,32,0,24,0,31,0,35,0,22,0,14,0,15,0,13,0,23,0,36,0,59,0,49,0,77,0,65,0,29,0,40,0,30,0,40,0,27,0,33,0,42,0,16,0,22,0,20,0,37,0,61,0,56,0,79,0,73,0,64,0,43,0,76,0,56,0,37,0,26,0,31,0,25,0,14,0,35,0,16,0,60,0,57,0,97,0,75,0,114,0,91,0,54,0,73,0,55,0,41,0,48,0,53,0,23,0,24,0,58,0,27,0,50,0,96,0,76,0,70,0,93,0,84,0,77,0,58,0,79,0,29,0,74,0,49,0,41,0,17,0,47,0,45,0,78,0,74,0,115,0,94,0,90,0,79,0,69,0,83,0,71,0,50,0,59,0,38,0,36,0,15,0,72,0,34,0,56,0,95,0,92,0,85,0,91,0,90,0,86,0,73,0,77,0,65,0,51,0,44,0,43,0,42,0,43,0,20,0,30,0,44,0,55,0,78,0,72,0,87,0,78,0,61,0,46,0,54,0,37,0,30,0,20,0,16,0,53,0,25,0,41,0,37,0,44,0,59,0,54,0,81,0,66,0,76,0,57,0,54,0,37,0,18,0,39,0,11,0,35,0,33,0,31,0,57,0,42,0,82,0,72,0,80,0,47,0,58,0,55,0,21,0,22,0,26,0,38,0,22,0,53,0,25,0,23,0,38,0,70,0,60,0,51,0,36,0,55,0,26,0,34,0,23,0,27,0,14,0,9,0,7,0,34,0,32,0,28,0,39,0,49,0,75,0,30,0,52,0,48,0,40,0,52,0,28,0,18,0,17,0,9,0,5,0,45,0,21,0,34,0,64,0,56,0,50,0,49,0,45,0,31,0,19,0,12,0,15,0,10,0,7,0,6,0,3,0,48,0,23,0,20,0,39,0,36,0,35,0,53,0,21,0,16,0,23,0,13,0,10,0,6,0,1,0,4,0,2,0,16,0,15,0,17,0,27,0,25,0,20,0,29,0,11,0,17,0,12,0,16,0,8,0,1,0,1,0,0,0,1,0,1,5,7,8,9,10,10,11,10,11,12,12,13,13,14,14,4,6,8,9,10,10,11,11,11,11,12,12,13,14,14,14,7,8,9,10,11,11,12,12,11,12,12,13,13,14,15,15,8,9,10,11,11,12,12,12,12,13,13,13,13,14,15,15,9,9,11,11,12,12,13,13,12,13,13,14,14,15,15,16,10,10,11,12,12,12,13,13,13,13,14,13,15,15,16,16,10,11,12,12,13,13,13,13,13,14,14,14,15,15,16,16,11,11,12,13,13,13,14,14,14,14,15,15,15,16,18,18,10,10,11,12,12,13,13,14,14,14,14,15,15,16,17,17,11,11,12,12,13,13,13,15,14,15,15,16,16,16,18,17,11,12,12,13,13,14,14,15,14,15,16,15,16,17,18,19,12,12,12,13,14,14,14,14,15,15,15,16,17,17,17,18,12,13,13,14,14,15,14,15,16,16,17,17,17,18,18,18,13,13,14,15,15,15,16,16,16,16,16,17,18,17,18,18,14,14,14,15,15,15,17,16,16,19,17,17,17,19,18,18,13,14,15,16,16,16,17,16,17,17,18,18,21,20,21,18,1,5,7,9,10,10,11,11,12,12,12,13,13,13,14,11,4,6,8,9,10,11,11,11,12,12,12,13,14,13,14,11,7,8,9,10,11,11,12,12,13,12,13,13,13,14,14,12,9,9,10,11,11,12,12,12,13,13,14,14,14,15,15,13,10,10,11,11,12,12,13,13,13,14,14,14,15,15,15,12,10,10,11,11,12,13,13,14,13,14,14,15,15,15,16,13,11,11,11,12,13,13,13,13,14,14,14,14,15,15,16,13,11,11,12,12,13,13,13,14,14,15,15,15,15,17,17,13,11,12,12,13,13,13,14,14,15,15,15,15,16,16,16,13,12,12,12,13,13,14,14,15,15,15,15,16,15,16,15,14,12,13,12,13,14,14,14,14,15,16,16,16,17,17,16,13,13,13,13,13,14,14,15,16,16,16,16,16,16,15,16,14,13,14,14,14,14,15,15,15,15,17,16,16,16,16,18,14,15,14,14,14,15,15,16,16,16,18,17,17,17,19,17,14,14,15,13,14,16,16,15,16,16,17,18,17,19,17,16,14,11,11,11,12,12,13,13,13,14,14,14,14,14,14,14,12,7,0,12,0,18,0,53,0,47,0,76,0,124,0,108,0,89,0,123,0,108,0,119,0,107,0,81,0,122,0,63,0,13,0,5,0,16,0,27,0,46,0,36,0,61,0,51,0,42,0,70,0,52,0,83,0,65,0,41,0,59,0,36,0,19,0,17,0,15,0,24,0,41,0,34,0,59,0,48,0,40,0,64,0,50,0,78,0,62,0,80,0,56,0,33,0,29,0,28,0,25,0,43,0,39,0,63,0,55,0,93,0,76,0,59,0,93,0,72,0,54,0,75,0,50,0,29,0,52,0,22,0,42,0,40,0,67,0,57,0,95,0,79,0,72,0,57,0,89,0,69,0,49,0,66,0,46,0,27,0,77,0,37,0,35,0,66,0,58,0,52,0,91,0,74,0,62,0,48,0,79,0,63,0,90,0,62,0,40,0,38,0,125,0,32,0,60,0,56,0,50,0,92,0,78,0,65,0,55,0,87,0,71,0,51,0,73,0,51,0,70,0,30,0,109,0,53,0,49,0,94,0,88,0,75,0,66,0,122,0,91,0,73,0,56,0,42,0,64,0,44,0,21,0,25,0,90,0,43,0,41,0,77,0,73,0,63,0,56,0,92,0,77,0,66,0,47,0,67,0,48,0,53,0,36,0,20,0,71,0,34,0,67,0,60,0,58,0,49,0,88,0,76,0,67,0,106,0,71,0,54,0,38,0,39,0,23,0,15,0,109,0,53,0,51,0,47,0,90,0,82,0,58,0,57,0,48,0,72,0,57,0,41,0,23,0,27,0,62,0,9,0,86,0,42,0,40,0,37,0,70,0,64,0,52,0,43,0,70,0,55,0,42,0,25,0,29,0,18,0,11,0,11,0,118,0,68,0,30,0,55,0,50,0,46,0,74,0,65,0,49,0,39,0,24,0,16,0,22,0,13,0,14,0,7,0,91,0,44,0,39,0,38,0,34,0,63,0,52,0,45,0,31,0,52,0,28,0,19,0,14,0,8,0,9,0,3,0,123,0,60,0,58,0,53,0,47,0,43,0,32,0,22,0,37,0,24,0,17,0,12,0,15,0,10,0,2,0,1,0,71,0,37,0,34,0,30,0,28,0,20,0,17,0,26,0,21,0,16,0,10,0,6,0,8,0,6,0,2,0,0,0,3,5,6,8,8,9,10,10,10,11,11,12,12,12,13,14,5,5,7,8,9,9,10,10,10,11,11,12,12,12,13,13,6,7,7,8,9,9,10,10,10,11,11,12,12,13,13,13,7,8,8,9,9,10,10,11,11,11,12,12,12,13,13,13,8,8,9,9,10,10,11,11,11,11,12,12,12,13,13,13,9,9,9,10,10,10,11,11,11,11,12,12,13,13,13,14,10,9,10,10,10,11,11,11,11,12,12,12,13,13,14,14,10,10,10,11,11,11,11,12,12,12,12,12,13,13,13,14,10,10,10,11,11,11,11,12,12,12,12,13,13,14,14,14,10,10,11,11,11,11,12,12,12,13,13,13,13,14,14,14,11,11,11,11,12,12,12,12,12,13,13,13,13,14,15,14,11,11,11,11,12,12,12,12,13,13,13,13,14,14,14,15,12,12,11,12,12,12,13,13,13,13,13,13,14,14,15,15,12,12,12,12,12,13,13,13,13,14,14,14,14,14,15,15,13,13,13,13,13,13,13,13,14,14,14,14,15,15,14,15,13,13,13,13,13,13,13,14,14,14,14,14,15,15,15,15,1,0,5,0,14,0,44,0,74,0,63,0,110,0,93,0,172,0,149,0,138,0,242,0,225,0,195,0,120,1,17,0,3,0,4,0,12,0,20,0,35,0,62,0,53,0,47,0,83,0,75,0,68,0,119,0,201,0,107,0,207,0,9,0,15,0,13,0,23,0,38,0,67,0,58,0,103,0,90,0,161,0,72,0,127,0,117,0,110,0,209,0,206,0,16,0,45,0,21,0,39,0,69,0,64,0,114,0,99,0,87,0,158,0,140,0,252,0,212,0,199,0,131,1,109,1,26,0,75,0,36,0,68,0,65,0,115,0,101,0,179,0,164,0,155,0,8,1,246,0,226,0,139,1,126,1,106,1,9,0,66,0,30,0,59,0,56,0,102,0,185,0,173,0,9,1,142,0,253,0,232,0,144,1,132,1,122,1,189,1,16,0,111,0,54,0,52,0,100,0,184,0,178,0,160,0,133,0,1,1,244,0,228,0,217,0,129,1,110,1,203,2,10,0,98,0,48,0,91,0,88,0,165,0,157,0,148,0,5,1,248,0,151,1,141,1,116,1,124,1,121,3,116,3,8,0,85,0,84,0,81,0,159,0,156,0,143,0,4,1,249,0,171,1,145,1,136,1,127,1,215,2,201,2,196,2,7,0,154,0,76,0,73,0,141,0,131,0,0,1,245,0,170,1,150,1,138,1,128,1,223,2,103,1,198,2,96,1,11,0,139,0,129,0,67,0,125,0,247,0,233,0,229,0,219,0,137,1,231,2,225,2,208,2,117,3,114,3,183,1,4,0,243,0,120,0,118,0,115,0,227,0,223,0,140,1,234,2,230,2,224,2,209,2,200,2,194,2,223,0,180,1,6,0,202,0,224,0,222,0,218,0,216,0,133,1,130,1,125,1,108,1,120,3,187,1,195,2,184,1,181,1,192,6,4,0,235,2,211,0,210,0,208,0,114,1,123,1,222,2,211,2,202,2,199,6,115,3,109,3,108,3,131,13,97,3,2,0,121,1,113,1,102,0,187,0,214,2,210,2,102,1,199,2,197,2,98,3,198,6,103,3,130,13,102,3,178,1,0,0,12,0,10,0,7,0,11,0,10,0,17,0,11,0,9,0,13,0,12,0,10,0,7,0,5,0,3,0,1,0,3,0,1,5,7,9,10,10,11,11,12,12,12,13,13,13,14,10,4,6,8,9,10,11,11,11,12,12,12,13,14,13,14,10,7,8,9,10,11,11,12,12,13,12,13,13,13,14,14,11,9,9,10,11,11,12,12,12,13,13,14,14,14,15,15,12,10,10,11,11,12,12,13,13,13,14,14,14,15,15,15,11,10,10,11,11,12,13,13,14,13,14,14,15,15,15,16,12,11,11,11,12,13,13,13,13,14,14,14,14,15,15,16,12,11,11,12,12,13,13,13,14,14,15,15,15,15,17,17,12,11,12,12,13,13,13,14,14,15,15,15,15,16,16,16,12,12,12,12,13,13,14,14,15,15,15,15,16,15,16,15,13,12,13,12,13,14,14,14,14,15,16,16,16,17,17,16,12,13,13,13,13,14,14,15,16,16,16,16,16,16,15,16,13,13,14,14,14,14,15,15,15,15,17,16,16,16,16,18,13,15,14,14,14,15,15,16,16,16,18,17,17,17,19,17,13,14,15,13,14,16,16,15,16,16,17,18,17,19,17,16,13,10,10,10,11,11,12,12,12,13,13,13,13,13,13,13,10,15,0,13,0,46,0,80,0,146,0,6,1,248,0,178,1,170,1,157,2,141,2,137,2,109,2,5,2,8,4,88,0,14,0,12,0,21,0,38,0,71,0,130,0,122,0,216,0,209,0,198,0,71,1,89,1,63,1,41,1,23,1,42,0,47,0,22,0,41,0,74,0,68,0,128,0,120,0,221,0,207,0,194,0,182,0,84,1,59,1,39,1,29,2,18,0,81,0,39,0,75,0,70,0,134,0,125,0,116,0,220,0,204,0,190,0,178,0,69,1,55,1,37,1,15,1,16,0,147,0,72,0,69,0,135,0,127,0,118,0,112,0,210,0,200,0,188,0,96,1,67,1,50,1,29,1,28,2,14,0,7,1,66,0,129,0,126,0,119,0,114,0,214,0,202,0,192,0,180,0,85,1,61,1,45,1,25,1,6,1,12,0,249,0,123,0,121,0,117,0,113,0,215,0,206,0,195,0,185,0,91,1,74,1,52,1,35,1,16,1,8,2,10,0,179,1,115,0,111,0,109,0,211,0,203,0,196,0,187,0,97,1,76,1,57,1,42,1,27,1,19,2,125,1,17,0,171,1,212,0,208,0,205,0,201,0,193,0,186,0,177,0,169,0,64,1,47,1,30,1,12,1,2,2,121,1,16,0,79,1,199,0,197,0,191,0,189,0,181,0,174,0,77,1,65,1,49,1,33,1,19,1,9,2,123,1,115,1,11,0,156,2,184,0,183,0,179,0,175,0,88,1,75,1,58,1,48,1,34,1,21,1,18,2,127,1,117,1,110,1,10,0,140,2,90,1,171,0,168,0,164,0,62,1,53,1,43,1,31,1,20,1,7,1,1,2,119,1,112,1,106,1,6,0,136,2,66,1,60,1,56,1,51,1,46,1,36,1,28,1,13,1,5,1,0,2,120,1,114,1,108,1,103,1,4,0,108,2,44,1,40,1,38,1,32,1,26,1,17,1,10,1,3,2,124,1,118,1,113,1,109,1,105,1,101,1,2,0,9,4,24,1,22,1,18,1,11,1,8,1,3,1,126,1,122,1,116,1,111,1,107,1,104,1,102,1,100,1,0,0,43,0,20,0,19,0,17,0,15,0,13,0,11,0,9,0,7,0,6,0,4,0,7,0,5,0,3,0,1,0,3,0,4,5,7,8,9,10,10,11,11,12,12,12,12,12,13,10,5,6,7,8,9,10,10,11,11,11,12,12,12,12,12,10,7,7,8,9,9,10,10,11,11,11,11,12,12,12,13,9,8,8,9,9,10,10,10,11,11,11,11,12,12,12,12,9,9,9,9,10,10,10,10,11,11,11,12,12,12,12,13,9,10,9,10,10,10,10,11,11,11,11,12,12,12,12,12,9,10,10,10,10,10,11,11,11,11,12,12,12,12,12,13,9,11,10,10,10,11,11,11,11,12,12,12,12,12,13,13,10,11,11,11,11,11,11,11,11,11,12,12,12,12,13,13,10,11,11,11,11,11,11,11,12,12,12,12,12,13,13,13,10,12,11,11,11,11,12,12,12,12,12,12,13,13,13,13,10,12,12,11,11,11,12,12,12,12,12,12,13,13,13,13,10,12,12,12,12,12,12,12,12,12,12,13,13,13,13,13,10,12,12,12,12,12,12,12,12,13,13,13,13,13,13,13,10,13,12,12,12,12,12,12,13,13,13,13,13,13,13,13,10,9,9,9,9,9,9,9,9,9,9,9,10,10,10,10,6,1,0,10,0,8,0,20,0,12,0,20,0,16,0,32,0,14,0,12,0,24,0,0,0,28,0,16,0,24,0,16,0,15,0,28,0,26,0,48,0,22,0,40,0,36,0,64,0,14,0,24,0,20,0,32,0,12,0,16,0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,2,0,0,0,2,0,0,0,2,0,0,0,3,0,0,0,3,0,0,0,3,0,0,0,4,0,0,0,4,0,0,0,0,0,0,0,1,0,0,0,2,0,0,0,3,0,0,0,0,0,0,0,1,0,0,0,2,0,0,0,3,0,0,0,1,0,0,0,2,0,0,0,3,0,0,0,1,0,0,0,2,0,0,0,3,0,0,0,2,0,0,0,3,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,8,0,0,0,2,0,0,0,2,0,0,0,2,0,0,0,4,0,0,0,4,0,0,0,4,0,0,0,8,0,0,0,8,0,0,0,8,0,0,0,16,0,0,0,16,0,0,0,1,0,0,0,2,0,0,0,4,0,0,0,8,0,0,0,1,0,0,0,2,0,0,0,4,0,0,0,8,0,0,0,2,0,0,0,4,0,0,0,8,0,0,0,2,0,0,0,4,0,0,0,8,0,0,0,4,0,0,0,8,0,0,0,0,0,0,0,18,0,0,0,36,0,0,0,54,0,0,0,51,0,0,0,35,0,0,0,53,0,0,0,71,0,0,0,52,0,0,0,70,0,0,0,88,0,0,0,69,0,0,0,87,0,0,0,105,0,0,0,104,0,0,0,122,0,0,0,0,0,0,0,18,0,0,0,36,0,0,0,54,0,0,0,54,0,0,0,36,0,0,0,54,0,0,0,72,0,0,0,54,0,0,0,72,0,0,0,90,0,0,0,72,0,0,0,90,0,0,0,108,0,0,0,108,0,0,0,126,0,0,0,0,0,0,0,10,0,0,0,20,0,0,0,30,0,0,0,33,0,0,0,21,0,0,0,31,0,0,0,41,0,0,0,32,0,0,0,42,0,0,0,52,0,0,0,43,0,0,0,53,0,0,0,63,0,0,0,64,0,0,0,74,0,0,0,15,0,0,0,15,0,0,0,7,0,0,0,7,0,0,0,15,0,0,0,15,0,0,0,7,0,0,0,0,0,0,0,7,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,15,0,0,0,31,0,0,0,31,0,0,0,0,0,0,0,7,0,0,0,7,0,0,0,7,0,0,0,0,0,0,0,3,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,2,0,0,0,2,0,0,0,3,0,0,0,3,0,0,0,3,0,0,0,3,0,0,0,4,0,0,0,4,0,0,0,4,0,0,0,4,0,0,0,4,0,0,0,4,0,0,0,4,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,2,0,0,0,2,0,0,0,2,0,0,0,2,0,0,0,3,0,0,0,2,0,0,0,3,0,0,0,3,0,0,0,4,0,0,0,3,0,0,0,4,0,0,0,3,0,0,0,4,0,0,0,4,0,0,0,5,0,0,0,4,0,0,0,5,0,0,0,4,0,0,0,6,0,0,0,5,0,0,0,6,0,0,0,5,0,0,0,6,0,0,0,5,0,0,0,7,0,0,0,6,0,0,0,7,0,0,0,6,0,0,0,7,0,0,0,1,0,0,0,2,0,0,0,3,0,0,0,3,0,0,0,4,0,0,0,4,0,0,0,4,0,0,0,4,0,0,0,4,0,0,0,4,0,0,0,4,0,0,0,4,0,0,0,4,0,0,0,4,0,0,0,4,0,0,0,4,0,0,0,1,0,0,0,2,0,0,0,5,0,0,0,7,0,0,0,7,0,0,0,10,0,0,0,10,0,0,0,13,0,0,0,13,0,0,0,13,0,0,0,13,0,0,0,13,0,0,0,13,0,0,0,13,0,0,0,13,0,0,0,0,0,0,0,8,0,0,0,16,0,0,0,24,0,0,0,32,0,0,0,40,0,0,0,48,0,0,0,56,0,0,0,64,0,0,0,80,0,0,0,96,0,0,0,112,0,0,0,128,0,0,0,160,0,0,0,192,0,0,0,224,0,0,0,0,1,0,0,64,1], "i8", ALLOC_NONE, Runtime.GLOBAL_BASE+82224);
   /* memory initializer */ allocate([51,46,57,57,46,53,0,0,93,61,127,102,158,160,230,63,0,0,0,0,0,136,57,61,68,23,117,250,82,176,230,63,0,0,0,0,0,0,216,60,254,217,11,117,18,192,230,63,0,0,0,0,0,120,40,189,191,118,212,221,220,207,230,63,0,0,0,0,0,192,30,61,41,26,101,60,178,223,230,63,0,0,0,0,0,0,216,188,227,58,89,152,146,239,230,63,0,0,0,0,0,0,188,188,134,147,81,249,125,255,230,63,0,0,0,0,0,216,47,189,163,45,244,102,116,15,231,63,0,0,0,0,0,136,44,189,195,95,236,232,117,31,231,63,0,0,0,0,0,192,19,61,5,207,234,134,130,47,231,63,0,0,0,0,0,48,56,189,82,129,165,72,154,63,231,63,0,0,0,0,0,192,0,189,252,204,215,53,189,79,231,63,0,0,0,0,0,136,47,61,241,103,66,86,235,95,231,63,0,0,0,0,0,224,3,61,72,109,171,177,36,112,231,63,0,0,0,0,0,208,39,189,56,93,222,79,105,128,231,63,0,0,0,0,0,0,221,188,0,29,172,56,185,144,231,63,0,0,0,0,0,0,227,60,120,1,235,115,20,161,231,63,0,0,0,0,0,0,237,188,96,208,118,9,123,177,231,63,0,0,0,0,0,64,32,61,51,193,48,1,237,193,231,63,0,0,0,0,0,0,160,60,54,134,255,98,106,210,231,63,0,0,0,0,0,144,38,189,59,78,207,54,243,226,231,63,0,0,0,0,0,224,2,189,232,195,145,132,135,243,231,63,0,0,0,0,0,88,36,189,78,27,62,84,39,4,232,63,0,0,0,0,0,0,51,61,26,7,209,173,210,20,232,63,0,0,0,0,0,0,15,61,126,205,76,153,137,37,232,63,0,0,0,0,0,192,33,189,208,66,185,30,76,54,232,63,0,0,0,0,0,208,41,61,181,202,35,70,26,71,232,63,0,0,0,0,0,16,71,61,188,91,159,23,244,87,232,63,0,0,0,0,0,96,34,61,175,145,68,155,217,104,232,63,0,0,0,0,0,196,50,189,149,163,49,217,202,121,232,63,0,0,0,0,0,0,35,189,184,101,138,217,199,138,232,63,0,0,0,0,0,128,42,189,0,88,120,164,208,155,232,63,0,0,0,0,0,0,237,188,35,162,42,66,229,172,232,63,0,0,0,0,0,40,51,61,250,25,214,186,5,190,232,63,0,0,0,0,0,180,66,61,131,67,181,22,50,207,232,63,0,0,0,0,0,208,46,189,76,102,8,94,106,224,232,63,0,0,0,0,0,80,32,189,7,120,21,153,174,241,232,63,0,0,0,0,0,40,40,61,14,44,40,208,254,2,233,63,0,0,0,0,0,176,28,189,150,255,145,11,91,20,233,63,0,0,0,0,0,224,5,189,249,47,170,83,195,37,233,63,0,0,0,0,0,64,245,60,74,198,205,176,55,55,233,63,0,0,0,0,0,32,23,61,174,152,95,43,184,72,233,63,0,0,0,0,0,0,9,189,203,82,200,203,68,90,233,63,0,0,0,0,0,104,37,61,33,111,118,154,221,107,233,63,0,0,0,0,0,208,54,189,42,78,222,159,130,125,233,63,0,0,0,0,0,0,1,189,163,35,122,228,51,143,233,63,0,0,0,0,0,0,45,61,4,6,202,112,241,160,233,63,0,0,0,0,0,164,56,189,137,255,83,77,187,178,233,63,0,0,0,0,0,92,53,61,91,241,163,130,145,196,233,63,0,0,0,0,0,184,38,61,197,184,75,25,116,214,233,63,0,0,0,0,0,0,236,188,142,35,227,25,99,232,233,63,0,0,0,0,0,208,23,61,2,243,7,141,94,250,233,63,0,0,0,0,0,64,22,61,77,229,93,123,102,12,234,63,0,0,0,0,0,0,245,188,246,184,142,237,122,30,234,63,0,0,0,0,0,224,9,61,39,46,74,236,155,48,234,63,0,0,0,0,0,216,42,61,93,10,70,128,201,66,234,63,0,0,0,0,0,240,26,189,155,37,62,178,3,85,234,63,0,0,0,0,0,96,11,61,19,98,244,138,74,103,234,63,0,0,0,0,0,136,56,61,167,179,48,19,158,121,234,63,0,0,0,0,0,32,17,61,141,46,193,83,254,139,234,63,0,0,0,0,0,192,6,61,210,252,121,85,107,158,234,63,0,0,0,0,0,184,41,189,184,111,53,33,229,176,234,63,0,0,0,0,0,112,43,61,129,243,211,191,107,195,234,63,0,0,0,0,0,0,217,60,128,39,60,58,255,213,234,63,0,0,0,0,0,0,228,60,163,210,90,153,159,232,234,63,0,0,0,0,0,144,44,189,103,243,34,230,76,251,234,63,0,0,0,0,0,80,22,61,144,183,141,41,7,14,235,63,0,0,0,0,0,212,47,61,169,137,154,108,206,32,235,63,0,0,0,0,0,112,18,61,75,26,79,184,162,51,235,63,0,0,0,0,0,71,77,61,231,71,183,21,132,70,235,63,0,0,0,0,0,56,56,189,58,89,229,141,114,89,235,63,0,0,0,0,0,0,152,60,106,197,241,41,110,108,235,63,0,0,0,0,0,208,10,61,80,94,251,242,118,127,235,63,0,0,0,0,0,128,222,60,178,73,39,242,140,146,235,63,0,0,0,0,0,192,4,189,3,6,161,48,176,165,235,63,0,0,0,0,0,112,13,189,102,111,154,183,224,184,235,63,0,0,0,0,0,144,13,61,255,193,75,144,30,204,235,63,0,0,0,0,0,160,2,61,111,161,243,195,105,223,235,63,0,0,0,0,0,120,31,189,184,29,215,91,194,242,235,63,0,0,0,0,0,160,16,189,233,178,65,97,40,6,236,63,0,0,0,0,0,64,17,189,224,82,133,221,155,25,236,63,0,0,0,0,0,224,11,61,238,100,250,217,28,45,236,63,0,0,0,0,0,64,9,189,47,208,255,95,171,64,236,63,0,0,0,0,0,208,14,189,21,253,250,120,71,84,236,63,0,0,0,0,0,102,57,61,203,208,87,46,241,103,236,63,0,0,0,0,0,16,26,189,182,193,136,137,168,123,236,63,0,0,0,0,128,69,88,189,51,231,6,148,109,143,236,63,0,0,0,0,0,72,26,189,223,196,81,87,64,163,236,63,0,0,0,0,0,0,203,60,148,144,239,220,32,183,236,63,0,0,0,0,0,64,1,61,137,22,109,46,15,203,236,63,0,0,0,0,0,32,240,60,18,196,93,85,11,223,236,63,0,0,0,0,0,96,243,60,59,171,91,91,21,243,236,63,0,0,0,0,0,144,6,189,188,137,7,74,45,7,237,63,0,0,0,0,0,160,9,61,250,200,8,43,83,27,237,63,0,0,0,0,0,224,21,189,133,138,13,8,135,47,237,63,0,0,0,0,0,40,29,61,3,162,202,234,200,67,237,63,0,0,0,0,0,160,1,61,145,164,251,220,24,88,237,63,0,0,0,0,0,0,223,60,161,230,98,232,118,108,237,63,0,0,0,0,0,160,3,189,78,131,201,22,227,128,237,63,0,0,0,0,0,216,12,189,144,96,255,113,93,149,237,63,0,0,0,0,0,192,244,60,174,50,219,3,230,169,237,63,0,0,0,0,0,144,255,60,37,131,58,214,124,190,237,63,0,0,0,0,0,128,233,60,69,180,1,243,33,211,237,63,0,0,0,0,0,32,245,188,191,5,28,100,213,231,237,63,0,0,0,0,0,112,29,189,236,154,123,51,151,252,237,63,0,0,0,0,0,20,22,189,94,125,25,107,103,17,238,63,0,0,0,0,0,72,11,61,231,163,245,20,70,38,238,63,0,0,0,0,0,206,64,61,92,238,22,59,51,59,238,63,0,0,0,0,0,104,12,61,180,63,139,231,46,80,238,63,0,0,0,0,0,48,9,189,104,109,103,36,57,101,238,63,0,0,0,0,0,0,229,188,68,76,199,251,81,122,238,63,0,0,0,0,0,248,7,189,38,183,205,119,121,143,238,63,0,0,0,0,0,112,243,188,232,144,164,162,175,164,238,63,0,0,0,0,0,208,229,60,228,202,124,134,244,185,238,63,0,0,0,0,0,26,22,61,13,104,142,45,72,207,238,63,0,0,0,0,0,80,245,60,20,133,24,162,170,228,238,63,0,0,0,0,0,64,198,60,19,90,97,238,27,250,238,63,0,0,0,0,0,128,238,188,6,65,182,28,156,15,239,63,0,0,0,0,0,136,250,188,99,185,107,55,43,37,239,63,0,0,0,0,0,144,44,189,117,114,221,72,201,58,239,63,0,0,0,0,0,0,170,60,36,69,110,91,118,80,239,63,0,0,0,0,0,240,244,188,253,68,136,121,50,102,239,63,0,0,0,0,0,128,202,60,56,190,156,173,253,123,239,63,0,0,0,0,0,188,250,60,130,60,36,2,216,145,239,63,0,0,0,0,0,96,212,188,142,144,158,129,193,167,239,63,0,0,0,0,0,12,11,189,17,213,146,54,186,189,239,63,0,0,0,0,0,224,192,188,148,113,143,43,194,211,239,63,0,0,0,0,128,222,16,189,238,35,42,107,217,233,239,63,0,0,0,0,0,67,238,60,0,0,0,0,0,0,240,63,0,0,0,0,0,0,0,0,190,188,90,250,26,11,240,63,0,0,0,0,0,64,179,188,3,51,251,169,61,22,240,63,0,0,0,0,0,23,18,189,130,2,59,20,104,33,240,63,0,0,0,0,0,64,186,60,108,128,119,62,154,44,240,63,0,0,0,0,0,152,239,60,202,187,17,46,212,55,240,63,0,0,0,0,0,64,199,188,137,127,110,232,21,67,240,63,0,0,0,0,0,48,216,60,103,84,246,114,95,78,240,63,0,0,0,0,0,63,26,189,90,133,21,211,176,89,240,63,0,0,0,0,0,132,2,189,149,31,60,14,10,101,240,63,0,0,0,0,0,96,241,60,26,247,221,41,107,112,240,63,0,0,0,0,0,36,21,61,45,168,114,43,212,123,240,63,0,0,0,0,0,160,233,188,208,155,117,24,69,135,240,63,0,0,0,0,0,64,230,60,200,7,102,246,189,146,240,63,0,0,0,0,0,120,0,189,131,243,198,202,62,158,240,63,0,0,0,0,0,0,152,188,48,57,31,155,199,169,240,63,0,0,0,0,0,160,255,60,252,136,249,108,88,181,240,63,0,0,0,0,0,200,250,188,138,108,228,69,241,192,240,63,0,0,0,0,0,192,217,60,22,72,114,43,146,204,240,63,0,0,0,0,0,32,5,61,216,93,57,35,59,216,240,63,0,0,0,0,0,208,250,188,243,209,211,50,236,227,240,63,0,0,0,0,0,172,27,61,166,169,223,95,165,239,240,63,0,0,0,0,0,232,4,189,240,210,254,175,102,251,240,63,0,0,0,0,0,48,13,189,75,35,215,40,48,7,241,63,0,0,0,0,0,80,241,60,91,91,18,208,1,19,241,63,0,0,0,0,0,0,236,60,249,42,94,171,219,30,241,63,0,0,0,0,0,188,22,61,213,49,108,192,189,42,241,63,0,0,0,0,0,64,232,60,125,4,242,20,168,54,241,63,0,0,0,0,0,208,14,189,233,45,169,174,154,66,241,63,0,0,0,0,0,224,232,60,56,49,79,147,149,78,241,63,0,0,0,0,0,64,235,60,113,142,165,200,152,90,241,63,0,0,0,0,0,48,5,61,223,195,113,84,164,102,241,63,0,0,0,0,0,56,3,61,17,82,125,60,184,114,241,63,0,0,0,0,0,212,40,61,159,187,149,134,212,126,241,63,0,0,0,0,0,208,5,189,147,141,140,56,249,138,241,63,0,0,0,0,0,136,28,189,102,93,55,88,38,151,241,63,0,0,0,0,0,240,17,61,167,203,111,235,91,163,241,63,0,0,0,0,0,72,16,61,227,135,19,248,153,175,241,63,0,0,0,0,0,57,71,189,84,93,4,132,224,187,241,63,0,0,0,0,0,228,36,61,67,28,40,149,47,200,241,63,0,0,0,0,0,32,10,189,178,185,104,49,135,212,241,63,0,0,0,0,0,128,227,60,49,64,180,94,231,224,241,63,0,0,0,0,0,192,234,60,56,217,252,34,80,237,241,63,0,0,0,0,0,144,1,61,247,205,56,132,193,249,241,63,0,0,0,0,0,120,27,189,143,141,98,136,59,6,242,63,0,0,0,0,0,148,45,61,30,168,120,53,190,18,242,63,0,0,0,0,0,0,216,60,65,221,125,145,73,31,242,63,0,0,0,0,0,52,43,61,35,19,121,162,221,43,242,63,0,0,0,0,0,248,25,61,231,97,117,110,122,56,242,63,0,0,0,0,0,200,25,189,39,20,130,251,31,69,242,63,0,0,0,0,0,48,2,61,2,166,178,79,206,81,242,63,0,0,0,0,0,72,19,189,176,206,30,113,133,94,242,63,0,0,0,0,0,112,18,61,22,125,226,101,69,107,242,63,0,0,0,0,0,208,17,61,15,224,29,52,14,120,242,63,0,0,0,0,0,238,49,61,62,99,245,225,223,132,242,63,0,0,0,0,0,192,20,189,48,187,145,117,186,145,242,63,0,0,0,0,0,216,19,189,9,223,31,245,157,158,242,63,0,0,0,0,0,176,8,61,155,14,209,102,138,171,242,63,0,0,0,0,0,124,34,189,58,218,218,208,127,184,242,63,0,0,0,0,0,52,42,61,249,26,119,57,126,197,242,63,0,0,0,0,0,128,16,189,217,2,228,166,133,210,242,63,0,0,0,0,0,208,14,189,121,21,100,31,150,223,242,63,0,0,0,0,0,32,244,188,207,46,62,169,175,236,242,63,0,0,0,0,0,152,36,189,34,136,189,74,210,249,242,63,0,0,0,0,0,48,22,189,37,182,49,10,254,6,243,63,0,0,0,0,0,54,50,189,11,165,238,237,50,20,243,63,0,0,0,0,128,223,112,189,184,215,76,252,112,33,243,63,0,0,0,0,0,72,34,189,162,233,168,59,184,46,243,63,0,0,0,0,0,152,37,189,102,23,100,178,8,60,243,63,0,0,0,0,0,208,30,61,39,250,227,102,98,73,243,63,0,0,0,0,0,0,220,188,15,159,146,95,197,86,243,63,0,0,0,0,0,216,48,189,185,136,222,162,49,100,243,63,0,0,0,0,0,200,34,61,57,170,58,55,167,113,243,63,0,0,0,0,0,96,32,61,254,116,30,35,38,127,243,63,0,0,0,0,0,96,22,189,56,216,5,109,174,140,243,63,0,0,0,0,0,224,10,189,195,62,113,27,64,154,243,63,0,0,0,0,0,114,68,189,32,160,229,52,219,167,243,63,0,0,0,0,0,32,8,61,149,110,236,191,127,181,243,63,0,0,0,0,0,128,62,61,242,168,19,195,45,195,243,63,0,0,0,0,0,128,239,60,34,225,237,68,229,208,243,63,0,0,0,0,0,160,23,189,187,52,18,76,166,222,243,63,0,0,0,0,0,48,38,61,204,78,28,223,112,236,243,63,0,0,0,0,0,166,72,189,140,126,172,4,69,250,243,63,0,0,0,0,0,220,60,189,187,160,103,195,34,8,244,63,0,0,0,0,0,184,37,61,149,46,247,33,10,22,244,63,0,0,0,0,0,192,30,61,70,70,9,39,251,35,244,63,0,0,0,0,0,96,19,189,32,169,80,217,245,49,244,63,0,0,0,0,0,152,35,61,235,185,132,63,250,63,244,63,0,0,0,0,0,0,250,60,25,137,97,96,8,78,244,63,0,0,0,0,0,192,246,188,1,210,167,66,32,92,244,63,0,0,0,0,0,192,11,189,22,0,29,237,65,106,244,63,0,0,0,0,0,128,18,189,38,51,139,102,109,120,244,63,0,0,0,0,0,224,48,61,0,60,193,181,162,134,244,63,0,0,0,0,0,64,45,189,4,175,146,225,225,148,244,63,0,0,0,0,0,32,12,61,114,211,215,240,42,163,244,63,0,0,0,0,0,80,30,189,1,184,109,234,125,177,244,63,0,0,0,0,0,128,7,61,225,41,54,213,218,191,244,63,0,0,0,0,0,128,19,189,50,193,23,184,65,206,244,63,0,0,0,0,0,128,0,61,219,221,253,153,178,220,244,63,0,0,0,0,0,112,44,61,150,171,216,129,45,235,244,63,0,0,0,0,0,224,28,189,2,45,157,118,178,249,244,63,0,0,0,0,0,32,25,61,193,49,69,127,65,8,245,63,0,0,0,0,0,192,8,189,42,102,207,162,218,22,245,63,0,0,0,0,0,0,250,188,234,81,63,232,125,37,245,63,0,0,0,0,0,8,74,61,218,78,157,86,43,52,245,63,0,0,0,0,0,216,38,189,26,172,246,244,226,66,245,63,0,0,0,0,0,68,50,189,219,148,93,202,164,81,245,63,0,0,0,0,0,60,72,61,107,17,233,221,112,96,245,63,0,0,0,0,0,176,36,61,222,41,181,54,71,111,245,63,0,0,0,0,0,90,65,61,14,196,226,219,39,126,245,63,0,0,0,0,0,224,41,189,111,199,151,212,18,141,245,63,0,0,0,0,0,8,35,189,76,11,255,39,8,156,245,63,0,0,0,0,0,236,77,61,39,84,72,221,7,171,245,63,0,0,0,0,0,0,196,188,244,122,168,251,17,186,245,63,0,0,0,0,0,8,48,61,11,70,89,138,38,201,245,63,0,0,0,0,0,200,38,189,63,142,153,144,69,216,245,63,0,0,0,0,0,154,70,61,225,32,173,21,111,231,245,63,0,0,0,0,0,64,27,189,202,235,220,32,163,246,245,63,0,0,0,0,0,112,23,61,184,220,118,185,225,5,246,63,0,0,0,0,0,248,38,61,21,247,205,230,42,21,246,63,0,0,0,0,0,0,1,61,49,85,58,176,126,36,246,63,0,0,0,0,0,208,21,189,181,41,25,29,221,51,246,63,0,0,0,0,0,208,18,189,19,195,204,52,70,67,246,63,0,0,0,0,0,128,234,188,250,142,188,254,185,82,246,63,0,0,0,0,0,96,40,189,151,51,85,130,56,98,246,63,0,0,0,0,0,254,113,61,142,50,8,199,193,113,246,63,0,0,0,0,0,32,55,189,126,169,76,212,85,129,246,63,0,0,0,0,0,128,230,60,113,148,158,177,244,144,246,63,0,0,0,0,0,120,41,189,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,255,255,255,255,255,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,10,0,17,17,17,0,0,0,0,5,0,0,0,0,0,0,9,0,0,0,0,11,0,0,0,0,0,0,0,0,17,0,15,10,17,17,17,3,10,7,0,1,19,9,11,11,0,0,9,6,11,0,0,11,0,6,17,0,0,0,17,17,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,0,0,0,0,0,0,0,0,17,0,10,10,17,17,17,0,10,0,0,2,0,9,11,0,0,0,9,0,11,0,0,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,0,0,0,0,0,0,0,0,0,0,0,12,0,0,0,0,12,0,0,0,0,9,12,0,0,0,0,0,12,0,0,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,0,0,0,0,0,0,0,0,0,0,0,13,0,0,0,4,13,0,0,0,0,9,14,0,0,0,0,0,14,0,0,14,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,16,0,0,0,0,0,0,0,0,0,0,0,15,0,0,0,0,15,0,0,0,0,9,16,0,0,0,0,0,16,0,0,16,0,0,18,0,0,0,18,18,18,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,0,0,0,18,18,18,0,0,0,0,0,0,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,11,0,0,0,0,0,0,0,0,0,0,0,10,0,0,0,0,10,0,0,0,0,9,11,0,0,0,0,0,11,0,0,11,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,0,0,0,0,0,0,0,0,0,0,0,12,0,0,0,0,12,0,0,0,0,9,12,0,0,0,0,0,12,0,0,12,0,0,48,49,50,51,52,53,54,55,56,57,65,66,67,68,69,70,45,43,32,32,32,48,88,48,120,0,0,0,0,0,0,0,40,110,117,108,108,41,0,0,45,48,88,43,48,88,32,48,88,45,48,120,43,48,120,32,48,120,0,0,0,0,0,0,105,110,102,0,0,0,0,0,73,78,70,0,0,0,0,0,110,97,110,0,0,0,0,0,78,65,78,0,0,0,0,0,46,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], "i8", ALLOC_NONE, Runtime.GLOBAL_BASE+91696);
-  
-  
-  
-  
-  
+
+
+
+
+
   /* no memory initializer */
   var tempDoublePtr = Runtime.alignMemory(allocate(12, "i8", ALLOC_STATIC), 8);
-  
+
   assert(tempDoublePtr % 8 == 0);
-  
+
   function copyTempFloat(ptr) { // functions, because inlining this code increases code size too much
-  
+
     HEAP8[tempDoublePtr] = HEAP8[ptr];
-  
+
     HEAP8[tempDoublePtr+1] = HEAP8[ptr+1];
-  
+
     HEAP8[tempDoublePtr+2] = HEAP8[ptr+2];
-  
+
     HEAP8[tempDoublePtr+3] = HEAP8[ptr+3];
-  
+
   }
-  
+
   function copyTempDouble(ptr) {
-  
+
     HEAP8[tempDoublePtr] = HEAP8[ptr];
-  
+
     HEAP8[tempDoublePtr+1] = HEAP8[ptr+1];
-  
+
     HEAP8[tempDoublePtr+2] = HEAP8[ptr+2];
-  
+
     HEAP8[tempDoublePtr+3] = HEAP8[ptr+3];
-  
+
     HEAP8[tempDoublePtr+4] = HEAP8[ptr+4];
-  
+
     HEAP8[tempDoublePtr+5] = HEAP8[ptr+5];
-  
+
     HEAP8[tempDoublePtr+6] = HEAP8[ptr+6];
-  
+
     HEAP8[tempDoublePtr+7] = HEAP8[ptr+7];
-  
+
   }
-  
+
   // {{PRE_LIBRARY}}
-  
-  
+
+
     function _InitGainAnalysis() {
     Module['printErr']('missing function: InitGainAnalysis'); abort(-1);
     }
-  
+
     function _AnalyzeSamples() {
     Module['printErr']('missing function: AnalyzeSamples'); abort(-1);
     }
-  
-     
+
+
     Module["_i64Subtract"] = _i64Subtract;
-  
+
     var _fabsf=Math_abs;
-  
+
     var _floorf=Math_floor;
-  
-     
+
+
     Module["_memset"] = _memset;
-  
+
     var _BDtoILow=true;
-  
-    
-    
+
+
+
     var ERRNO_CODES={EPERM:1,ENOENT:2,ESRCH:3,EINTR:4,EIO:5,ENXIO:6,E2BIG:7,ENOEXEC:8,EBADF:9,ECHILD:10,EAGAIN:11,EWOULDBLOCK:11,ENOMEM:12,EACCES:13,EFAULT:14,ENOTBLK:15,EBUSY:16,EEXIST:17,EXDEV:18,ENODEV:19,ENOTDIR:20,EISDIR:21,EINVAL:22,ENFILE:23,EMFILE:24,ENOTTY:25,ETXTBSY:26,EFBIG:27,ENOSPC:28,ESPIPE:29,EROFS:30,EMLINK:31,EPIPE:32,EDOM:33,ERANGE:34,ENOMSG:42,EIDRM:43,ECHRNG:44,EL2NSYNC:45,EL3HLT:46,EL3RST:47,ELNRNG:48,EUNATCH:49,ENOCSI:50,EL2HLT:51,EDEADLK:35,ENOLCK:37,EBADE:52,EBADR:53,EXFULL:54,ENOANO:55,EBADRQC:56,EBADSLT:57,EDEADLOCK:35,EBFONT:59,ENOSTR:60,ENODATA:61,ETIME:62,ENOSR:63,ENONET:64,ENOPKG:65,EREMOTE:66,ENOLINK:67,EADV:68,ESRMNT:69,ECOMM:70,EPROTO:71,EMULTIHOP:72,EDOTDOT:73,EBADMSG:74,ENOTUNIQ:76,EBADFD:77,EREMCHG:78,ELIBACC:79,ELIBBAD:80,ELIBSCN:81,ELIBMAX:82,ELIBEXEC:83,ENOSYS:38,ENOTEMPTY:39,ENAMETOOLONG:36,ELOOP:40,EOPNOTSUPP:95,EPFNOSUPPORT:96,ECONNRESET:104,ENOBUFS:105,EAFNOSUPPORT:97,EPROTOTYPE:91,ENOTSOCK:88,ENOPROTOOPT:92,ESHUTDOWN:108,ECONNREFUSED:111,EADDRINUSE:98,ECONNABORTED:103,ENETUNREACH:101,ENETDOWN:100,ETIMEDOUT:110,EHOSTDOWN:112,EHOSTUNREACH:113,EINPROGRESS:115,EALREADY:114,EDESTADDRREQ:89,EMSGSIZE:90,EPROTONOSUPPORT:93,ESOCKTNOSUPPORT:94,EADDRNOTAVAIL:99,ENETRESET:102,EISCONN:106,ENOTCONN:107,ETOOMANYREFS:109,EUSERS:87,EDQUOT:122,ESTALE:116,ENOTSUP:95,ENOMEDIUM:123,EILSEQ:84,EOVERFLOW:75,ECANCELED:125,ENOTRECOVERABLE:131,EOWNERDEAD:130,ESTRPIPE:86};
-    
+
     var ERRNO_MESSAGES={0:"Success",1:"Not super-user",2:"No such file or directory",3:"No such process",4:"Interrupted system call",5:"I/O error",6:"No such device or address",7:"Arg list too long",8:"Exec format error",9:"Bad file number",10:"No children",11:"No more processes",12:"Not enough core",13:"Permission denied",14:"Bad address",15:"Block device required",16:"Mount device busy",17:"File exists",18:"Cross-device link",19:"No such device",20:"Not a directory",21:"Is a directory",22:"Invalid argument",23:"Too many open files in system",24:"Too many open files",25:"Not a typewriter",26:"Text file busy",27:"File too large",28:"No space left on device",29:"Illegal seek",30:"Read only file system",31:"Too many links",32:"Broken pipe",33:"Math arg out of domain of func",34:"Math result not representable",35:"File locking deadlock error",36:"File or path name too long",37:"No record locks available",38:"Function not implemented",39:"Directory not empty",40:"Too many symbolic links",42:"No message of desired type",43:"Identifier removed",44:"Channel number out of range",45:"Level 2 not synchronized",46:"Level 3 halted",47:"Level 3 reset",48:"Link number out of range",49:"Protocol driver not attached",50:"No CSI structure available",51:"Level 2 halted",52:"Invalid exchange",53:"Invalid request descriptor",54:"Exchange full",55:"No anode",56:"Invalid request code",57:"Invalid slot",59:"Bad font file fmt",60:"Device not a stream",61:"No data (for no delay io)",62:"Timer expired",63:"Out of streams resources",64:"Machine is not on the network",65:"Package not installed",66:"The object is remote",67:"The link has been severed",68:"Advertise error",69:"Srmount error",70:"Communication error on send",71:"Protocol error",72:"Multihop attempted",73:"Cross mount point (not really error)",74:"Trying to read unreadable message",75:"Value too large for defined data type",76:"Given log. name not unique",77:"f.d. invalid for this operation",78:"Remote address changed",79:"Can   access a needed shared lib",80:"Accessing a corrupted shared lib",81:".lib section in a.out corrupted",82:"Attempting to link in too many libs",83:"Attempting to exec a shared library",84:"Illegal byte sequence",86:"Streams pipe error",87:"Too many users",88:"Socket operation on non-socket",89:"Destination address required",90:"Message too long",91:"Protocol wrong type for socket",92:"Protocol not available",93:"Unknown protocol",94:"Socket type not supported",95:"Not supported",96:"Protocol family not supported",97:"Address family not supported by protocol family",98:"Address already in use",99:"Address not available",100:"Network interface is not configured",101:"Network is unreachable",102:"Connection reset by network",103:"Connection aborted",104:"Connection reset by peer",105:"No buffer space available",106:"Socket is already connected",107:"Socket is not connected",108:"Can't send after socket shutdown",109:"Too many references",110:"Connection timed out",111:"Connection refused",112:"Host is down",113:"Host is unreachable",114:"Socket already connected",115:"Connection already in progress",116:"Stale file handle",122:"Quota exceeded",123:"No medium (in tape drive)",125:"Operation canceled",130:"Previous owner died",131:"State not recoverable"};
-    
-    
+
+
     var ___errno_state=0;function ___setErrNo(value) {
         // For convenient setting and returning of errno.
         HEAP32[((___errno_state)>>2)]=value;
@@ -1608,21 +1608,21 @@
         _strerror_r(errnum, _strerror.buffer, 256);
         return _strerror.buffer;
       }
-  
+
     function _VBR_encode_frame() {
     Module['printErr']('missing function: VBR_encode_frame'); abort(-1);
     }
-  
+
     function _abort() {
         Module['abort']();
       }
-  
+
     function _init_xrpow_core_sse() {
     Module['printErr']('missing function: init_xrpow_core_sse'); abort(-1);
     }
-  
-    
-    
+
+
+
     var PATH={splitPath:function (filename) {
           var splitPathRe = /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
           return splitPathRe.exec(filename).slice(1);
@@ -1740,7 +1740,7 @@
           outputParts = outputParts.concat(toParts.slice(samePartsLength));
           return outputParts.join('/');
         }};
-    
+
     var TTY={ttys:[],init:function () {
           // https://github.com/kripken/emscripten/pull/1555
           // if (ENVIRONMENT_IS_NODE) {
@@ -1821,7 +1821,7 @@
                 var BUFSIZE = 256;
                 var buf = new Buffer(BUFSIZE);
                 var bytesRead = 0;
-    
+
                 var fd = process.stdin.fd;
                 // Linux and Mac cannot use process.stdin.fd (which isn't set up as sync)
                 var usingDevice = false;
@@ -1829,16 +1829,16 @@
                   fd = fs.openSync('/dev/stdin', 'r');
                   usingDevice = true;
                 } catch (e) {}
-    
+
                 bytesRead = fs.readSync(fd, buf, 0, BUFSIZE, null);
-    
+
                 if (usingDevice) { fs.closeSync(fd); }
                 if (bytesRead > 0) {
                   result = buf.slice(0, bytesRead).toString('utf-8');
                 } else {
                   result = null;
                 }
-    
+
               } else if (typeof window != 'undefined' &&
                 typeof window.prompt == 'function') {
                 // Browser.
@@ -1884,7 +1884,7 @@
               tty.output = [];
             }
           }}};
-    
+
     var MEMFS={ops_table:null,mount:function (mount) {
           return MEMFS.createNode(null, '/', 16384 | 511 /* 0777 */, 0);
         },createNode:function (parent, name, mode, dev) {
@@ -1953,7 +1953,7 @@
             // When the byte data of the file is populated, this will point to either a typed array, or a normal JS array. Typed arrays are preferred
             // for performance, and used by default. However, typed arrays are not resizable like normal JS arrays are, so there is a small disk size
             // penalty involved for appending file writes that continuously grow a file similar to std::vector capacity vs used -scheme.
-            node.contents = null; 
+            node.contents = null;
           } else if (FS.isLink(node.mode)) {
             node.node_ops = MEMFS.ops_table.link.node;
             node.stream_ops = MEMFS.ops_table.link.stream;
@@ -1986,7 +1986,7 @@
             node.contents = MEMFS.getFileDataAsRegularArray(node);
             node.usedBytes = node.contents.length; // We might be writing to a lazy-loaded file which had overridden this property, so force-reset it.
           }
-    
+
           if (!node.contents || node.contents.subarray) { // Keep using a typed array if creating a new storage, or if old one was a typed array as well.
             var prevCapacity = node.contents ? node.contents.buffer.byteLength : 0;
             if (prevCapacity >= newCapacity) return; // No need to expand, the storage was already large enough.
@@ -2126,7 +2126,7 @@
             if (!length) return 0;
             var node = stream.node;
             node.timestamp = Date.now();
-    
+
             if (buffer.subarray && (!node.contents || node.contents.subarray)) { // This write is from a typed array to a typed array?
               if (canOwn) { // Can we just reuse the buffer we are given?
                 node.contents = buffer.subarray(offset, offset + length);
@@ -2141,7 +2141,7 @@
                 return length;
               }
             }
-    
+
             // Appending to an existing file and we need to reallocate, or source data did not come as a typed array.
             MEMFS.expandFileStorage(node, position+length);
             if (node.contents.subarray && buffer.subarray) node.contents.set(buffer.subarray(offset, offset + length), position); // Use typed array write if available.
@@ -2207,12 +2207,12 @@
               // MAP_PRIVATE calls need not to be synced back to underlying fs
               return 0;
             }
-    
+
             var bytesWritten = MEMFS.stream_ops.write(stream, buffer, 0, length, offset, false);
             // should we check if bytesWritten and length are the same?
             return 0;
           }}};
-    
+
     var IDBFS={dbs:{},indexedDB:function () {
           if (typeof indexedDB !== 'undefined') return indexedDB;
           var ret = null;
@@ -2225,13 +2225,13 @@
         },syncfs:function (mount, populate, callback) {
           IDBFS.getLocalSet(mount, function(err, local) {
             if (err) return callback(err);
-    
+
             IDBFS.getRemoteSet(mount, function(err, remote) {
               if (err) return callback(err);
-    
+
               var src = populate ? remote : local;
               var dst = populate ? local : remote;
-    
+
               IDBFS.reconcile(src, dst, callback);
             });
           });
@@ -2241,7 +2241,7 @@
           if (db) {
             return callback(null, db);
           }
-    
+
           var req;
           try {
             req = IDBFS.indexedDB().open(name, IDBFS.DB_VERSION);
@@ -2251,22 +2251,22 @@
           req.onupgradeneeded = function(e) {
             var db = e.target.result;
             var transaction = e.target.transaction;
-    
+
             var fileStore;
-    
+
             if (db.objectStoreNames.contains(IDBFS.DB_STORE_NAME)) {
               fileStore = transaction.objectStore(IDBFS.DB_STORE_NAME);
             } else {
               fileStore = db.createObjectStore(IDBFS.DB_STORE_NAME);
             }
-    
+
             if (!fileStore.indexNames.contains('timestamp')) {
               fileStore.createIndex('timestamp', 'timestamp', { unique: false });
             }
           };
           req.onsuccess = function() {
             db = req.result;
-    
+
             // add to the cache
             IDBFS.dbs[name] = db;
             callback(null, db);
@@ -2277,7 +2277,7 @@
           };
         },getLocalSet:function (mount, callback) {
           var entries = {};
-    
+
           function isRealDir(p) {
             return p !== '.' && p !== '..';
           };
@@ -2286,57 +2286,57 @@
               return PATH.join2(root, p);
             }
           };
-    
+
           var check = FS.readdir(mount.mountpoint).filter(isRealDir).map(toAbsolute(mount.mountpoint));
-    
+
           while (check.length) {
             var path = check.pop();
             var stat;
-    
+
             try {
               stat = FS.stat(path);
             } catch (e) {
               return callback(e);
             }
-    
+
             if (FS.isDir(stat.mode)) {
               check.push.apply(check, FS.readdir(path).filter(isRealDir).map(toAbsolute(path)));
             }
-    
+
             entries[path] = { timestamp: stat.mtime };
           }
-    
+
           return callback(null, { type: 'local', entries: entries });
         },getRemoteSet:function (mount, callback) {
           var entries = {};
-    
+
           IDBFS.getDB(mount.mountpoint, function(err, db) {
             if (err) return callback(err);
-    
+
             var transaction = db.transaction([IDBFS.DB_STORE_NAME], 'readonly');
             transaction.onerror = function(e) {
               callback(this.error);
               e.preventDefault();
             };
-    
+
             var store = transaction.objectStore(IDBFS.DB_STORE_NAME);
             var index = store.index('timestamp');
-    
+
             index.openKeyCursor().onsuccess = function(event) {
               var cursor = event.target.result;
-    
+
               if (!cursor) {
                 return callback(null, { type: 'remote', db: db, entries: entries });
               }
-    
+
               entries[cursor.primaryKey] = { timestamp: cursor.key };
-    
+
               cursor.continue();
             };
           });
         },loadLocalEntry:function (path, callback) {
           var stat, node;
-    
+
           try {
             var lookup = FS.lookupPath(path);
             node = lookup.node;
@@ -2344,7 +2344,7 @@
           } catch (e) {
             return callback(e);
           }
-    
+
           if (FS.isDir(stat.mode)) {
             return callback(null, { timestamp: stat.mtime, mode: stat.mode });
           } else if (FS.isFile(stat.mode)) {
@@ -2364,19 +2364,19 @@
             } else {
               return callback(new Error('node type not supported'));
             }
-    
+
             FS.chmod(path, entry.mode);
             FS.utime(path, entry.timestamp, entry.timestamp);
           } catch (e) {
             return callback(e);
           }
-    
+
           callback(null);
         },removeLocalEntry:function (path, callback) {
           try {
             var lookup = FS.lookupPath(path);
             var stat = FS.stat(path);
-    
+
             if (FS.isDir(stat.mode)) {
               FS.rmdir(path);
             } else if (FS.isFile(stat.mode)) {
@@ -2385,7 +2385,7 @@
           } catch (e) {
             return callback(e);
           }
-    
+
           callback(null);
         },loadRemoteEntry:function (store, path, callback) {
           var req = store.get(path);
@@ -2410,7 +2410,7 @@
           };
         },reconcile:function (src, dst, callback) {
           var total = 0;
-    
+
           var create = [];
           Object.keys(src.entries).forEach(function (key) {
             var e = src.entries[key];
@@ -2420,7 +2420,7 @@
               total++;
             }
           });
-    
+
           var remove = [];
           Object.keys(dst.entries).forEach(function (key) {
             var e = dst.entries[key];
@@ -2430,17 +2430,17 @@
               total++;
             }
           });
-    
+
           if (!total) {
             return callback(null);
           }
-    
+
           var errored = false;
           var completed = 0;
           var db = src.type === 'remote' ? src.db : dst.db;
           var transaction = db.transaction([IDBFS.DB_STORE_NAME], 'readwrite');
           var store = transaction.objectStore(IDBFS.DB_STORE_NAME);
-    
+
           function done(err) {
             if (err) {
               if (!done.errored) {
@@ -2453,12 +2453,12 @@
               return callback(null);
             }
           };
-    
+
           transaction.onerror = function(e) {
             done(this.error);
             e.preventDefault();
           };
-    
+
           // sort paths in ascending order so directory entries are created
           // before the files inside them
           create.sort().forEach(function (path) {
@@ -2474,7 +2474,7 @@
               });
             }
           });
-    
+
           // sort paths in descending order so files are deleted before their
           // parent directories
           remove.sort().reverse().forEach(function(path) {
@@ -2485,7 +2485,7 @@
             }
           });
         }};
-    
+
     var NODEFS={isWindows:false,staticInit:function () {
           NODEFS.isWindows = !!process.platform.match(/^win/);
         },mount:function (mount) {
@@ -2708,27 +2708,27 @@
                 }
               }
             }
-    
+
             if (position < 0) {
               throw new FS.ErrnoError(ERRNO_CODES.EINVAL);
             }
-    
+
             return position;
           }}};
-    
+
     var _stdin=allocate(1, "i32*", ALLOC_STATIC);
-    
+
     var _stdout=allocate(1, "i32*", ALLOC_STATIC);
-    
+
     var _stderr=allocate(1, "i32*", ALLOC_STATIC);var FS={root:null,mounts:[],devices:[null],streams:[],nextInode:1,nameTable:null,currentPath:"/",initialized:false,ignorePermissions:true,trackingDelegate:{},tracking:{openFlags:{READ:1,WRITE:2}},ErrnoError:null,genericErrors:{},handleFSError:function (e) {
           if (!(e instanceof FS.ErrnoError)) throw e + ' : ' + stackTrace();
           return ___setErrNo(e.errno);
         },lookupPath:function (path, opts) {
           path = PATH.resolve(FS.cwd(), path);
           opts = opts || {};
-    
+
           if (!path) return { path: '', node: null };
-    
+
           var defaults = {
             follow_mount: true,
             recurse_count: 0
@@ -2738,37 +2738,37 @@
               opts[key] = defaults[key];
             }
           }
-    
+
           if (opts.recurse_count > 8) {  // max recursive lookup of 8
             throw new FS.ErrnoError(ERRNO_CODES.ELOOP);
           }
-    
+
           // split the path
           var parts = PATH.normalizeArray(path.split('/').filter(function(p) {
             return !!p;
           }), false);
-    
+
           // start at the root
           var current = FS.root;
           var current_path = '/';
-    
+
           for (var i = 0; i < parts.length; i++) {
             var islast = (i === parts.length-1);
             if (islast && opts.parent) {
               // stop resolving
               break;
             }
-    
+
             current = FS.lookupNode(current, parts[i]);
             current_path = PATH.join2(current_path, parts[i]);
-    
+
             // jump to the mount's root node if this is a mountpoint
             if (FS.isMountpoint(current)) {
               if (!islast || (islast && opts.follow_mount)) {
                 current = current.mounted.root;
               }
             }
-    
+
             // by default, lookupPath will not follow a symlink if it is the final path component.
             // setting opts.follow = true will override this behavior.
             if (!islast || opts.follow) {
@@ -2776,17 +2776,17 @@
               while (FS.isLink(current.mode)) {
                 var link = FS.readlink(current_path);
                 current_path = PATH.resolve(PATH.dirname(current_path), link);
-    
+
                 var lookup = FS.lookupPath(current_path, { recurse_count: opts.recurse_count });
                 current = lookup.node;
-    
+
                 if (count++ > 40) {  // limit max consecutive symlinks to 40 (SYMLOOP_MAX).
                   throw new FS.ErrnoError(ERRNO_CODES.ELOOP);
                 }
               }
             }
           }
-    
+
           return { path: current_path, node: current };
         },getPath:function (node) {
           var path;
@@ -2801,8 +2801,8 @@
           }
         },hashName:function (parentid, name) {
           var hash = 0;
-    
-    
+
+
           for (var i = 0; i < name.length; i++) {
             hash = ((hash << 5) - hash + name.charCodeAt(i)) | 0;
           }
@@ -2855,13 +2855,13 @@
               this.stream_ops = {};
               this.rdev = rdev;
             };
-    
+
             FS.FSNode.prototype = {};
-    
+
             // compatibility
             var readMode = 292 | 73;
             var writeMode = 146;
-    
+
             // NOTE we must use Object.defineProperties instead of individual calls to
             // Object.defineProperty in order to make closure compiler happy
             Object.defineProperties(FS.FSNode.prototype, {
@@ -2881,11 +2881,11 @@
               }
             });
           }
-    
+
           var node = new FS.FSNode(parent, name, mode, rdev);
-    
+
           FS.hashAddNode(node);
-    
+
           return node;
         },destroyNode:function (node) {
           FS.hashRemoveNode(node);
@@ -3053,25 +3053,25 @@
         },getMounts:function (mount) {
           var mounts = [];
           var check = [mount];
-    
+
           while (check.length) {
             var m = check.pop();
-    
+
             mounts.push(m);
-    
+
             check.push.apply(check, m.mounts);
           }
-    
+
           return mounts;
         },syncfs:function (populate, callback) {
           if (typeof(populate) === 'function') {
             callback = populate;
             populate = false;
           }
-    
+
           var mounts = FS.getMounts(FS.root.mount);
           var completed = 0;
-    
+
           function done(err) {
             if (err) {
               if (!done.errored) {
@@ -3084,7 +3084,7 @@
               callback(null);
             }
           };
-    
+
           // sync all mounts
           mounts.forEach(function (mount) {
             if (!mount.type.syncfs) {
@@ -3096,78 +3096,78 @@
           var root = mountpoint === '/';
           var pseudo = !mountpoint;
           var node;
-    
+
           if (root && FS.root) {
             throw new FS.ErrnoError(ERRNO_CODES.EBUSY);
           } else if (!root && !pseudo) {
             var lookup = FS.lookupPath(mountpoint, { follow_mount: false });
-    
+
             mountpoint = lookup.path;  // use the absolute path
             node = lookup.node;
-    
+
             if (FS.isMountpoint(node)) {
               throw new FS.ErrnoError(ERRNO_CODES.EBUSY);
             }
-    
+
             if (!FS.isDir(node.mode)) {
               throw new FS.ErrnoError(ERRNO_CODES.ENOTDIR);
             }
           }
-    
+
           var mount = {
             type: type,
             opts: opts,
             mountpoint: mountpoint,
             mounts: []
           };
-    
+
           // create a root node for the fs
           var mountRoot = type.mount(mount);
           mountRoot.mount = mount;
           mount.root = mountRoot;
-    
+
           if (root) {
             FS.root = mountRoot;
           } else if (node) {
             // set as a mountpoint
             node.mounted = mount;
-    
+
             // add the new mount to the current mount's children
             if (node.mount) {
               node.mount.mounts.push(mount);
             }
           }
-    
+
           return mountRoot;
         },unmount:function (mountpoint) {
           var lookup = FS.lookupPath(mountpoint, { follow_mount: false });
-    
+
           if (!FS.isMountpoint(lookup.node)) {
             throw new FS.ErrnoError(ERRNO_CODES.EINVAL);
           }
-    
+
           // destroy the nodes for this mount, and all its child mounts
           var node = lookup.node;
           var mount = node.mounted;
           var mounts = FS.getMounts(mount);
-    
+
           Object.keys(FS.nameTable).forEach(function (hash) {
             var current = FS.nameTable[hash];
-    
+
             while (current) {
               var next = current.name_next;
-    
+
               if (mounts.indexOf(current.mount) !== -1) {
                 FS.destroyNode(current);
               }
-    
+
               current = next;
             }
           });
-    
+
           // no longer a mountpoint
           node.mounted = null;
-    
+
           // remove this mount from the child mounts
           var idx = node.mount.mounts.indexOf(mount);
           assert(idx !== -1);
@@ -3557,7 +3557,7 @@
           }
           // we've already handled these, don't pass down to the underlying vfs
           flags &= ~(128 | 512);
-    
+
           // register the stream with the filesystem
           var stream = FS.createStream({
             node: node,
@@ -3794,7 +3794,7 @@
           // TODO deprecate the old functionality of a single
           // input / output callback and that utilizes FS.createDevice
           // and instead require a unique set of stream ops
-    
+
           // by default, we symlink the standard streams to the
           // default tty devices. however, if the standard streams
           // have been overwritten we create a unique device for
@@ -3814,16 +3814,16 @@
           } else {
             FS.symlink('/dev/tty1', '/dev/stderr');
           }
-    
+
           // open default streams for the stdin, stdout and stderr devices
           var stdin = FS.open('/dev/stdin', 'r');
           HEAP32[((_stdin)>>2)]=FS.getPtrForStream(stdin);
           assert(stdin.fd === 0, 'invalid handle for stdin (' + stdin.fd + ')');
-    
+
           var stdout = FS.open('/dev/stdout', 'w');
           HEAP32[((_stdout)>>2)]=FS.getPtrForStream(stdout);
           assert(stdout.fd === 1, 'invalid handle for stdout (' + stdout.fd + ')');
-    
+
           var stderr = FS.open('/dev/stderr', 'w');
           HEAP32[((_stderr)>>2)]=FS.getPtrForStream(stderr);
           assert(stderr.fd === 2, 'invalid handle for stderr (' + stderr.fd + ')');
@@ -3852,24 +3852,24 @@
           });
         },staticInit:function () {
           FS.ensureErrnoError();
-    
+
           FS.nameTable = new Array(4096);
-    
+
           FS.mount(MEMFS, {}, '/');
-    
+
           FS.createDefaultDirectories();
           FS.createDefaultDevices();
         },init:function (input, output, error) {
           assert(!FS.init.initialized, 'FS.init was previously called. If you want to initialize later with custom parameters, remove any earlier calls (note that one is automatically added to the generated code)');
           FS.init.initialized = true;
-    
+
           FS.ensureErrnoError();
-    
+
           // Allow Module.stdin etc. to provide defaults, if none explicitly passed to us here
           Module['stdin'] = input || Module['stdin'];
           Module['stdout'] = output || Module['stdout'];
           Module['stderr'] = error || Module['stderr'];
-    
+
           FS.createStandardStreams();
         },quit:function () {
           FS.init.initialized = false;
@@ -4072,25 +4072,25 @@
             var header;
             var hasByteServing = (header = xhr.getResponseHeader("Accept-Ranges")) && header === "bytes";
             var chunkSize = 1024*1024; // Chunk size in bytes
-    
+
             if (!hasByteServing) chunkSize = datalength;
-    
+
             // Function to get a range from the remote URL.
             var doXHR = (function(from, to) {
               if (from > to) throw new Error("invalid range (" + from + ", " + to + ") or no bytes requested!");
               if (to > datalength-1) throw new Error("only " + datalength + " bytes available! programmer error!");
-    
+
               // TODO: Use mozResponseArrayBuffer, responseStream, etc. if available.
               var xhr = new XMLHttpRequest();
               xhr.open('GET', url, false);
               if (datalength !== chunkSize) xhr.setRequestHeader("Range", "bytes=" + from + "-" + to);
-    
+
               // Some hints to the browser that we want binary data.
               if (typeof Uint8Array != 'undefined') xhr.responseType = 'arraybuffer';
               if (xhr.overrideMimeType) {
                 xhr.overrideMimeType('text/plain; charset=x-user-defined');
               }
-    
+
               xhr.send(null);
               if (!(xhr.status >= 200 && xhr.status < 300 || xhr.status === 304)) throw new Error("Couldn't load " + url + ". Status: " + xhr.status);
               if (xhr.response !== undefined) {
@@ -4110,7 +4110,7 @@
               if (typeof(lazyArray.chunks[chunkNum]) === "undefined") throw new Error("doXHR failed!");
               return lazyArray.chunks[chunkNum];
             });
-    
+
             this._length = datalength;
             this._chunkSize = chunkSize;
             this.lengthKnown = true;
@@ -4134,12 +4134,12 @@
                     return this._chunkSize;
                 }
             });
-    
+
             var properties = { isDevice: false, contents: lazyArray };
           } else {
             var properties = { isDevice: false, url: url };
           }
-    
+
           var node = FS.createFile(parent, name, properties, canRead, canWrite);
           // This is a total hack, but I want to get this lazy file code out of the
           // core of MEMFS. If we want to keep this lazy file concept I feel it should
@@ -4300,7 +4300,7 @@
         }};function _fflush(stream) {
         // int fflush(FILE *stream);
         // http://pubs.opengroup.org/onlinepubs/000095399/functions/fflush.html
-    
+
         /*
         // Disabled, see https://github.com/kripken/emscripten/issues/2770
         stream = FS.getStreamFromPtr(stream);
@@ -4309,39 +4309,39 @@
         }
         */
       }
-  
-     
+
+
     Module["_strlen"] = _strlen;
-  
+
     function _GetTitleGain() {
     Module['printErr']('missing function: GetTitleGain'); abort(-1);
     }
-  
-     
+
+
     Module["_i64Add"] = _i64Add;
-  
+
     var _fabs=Math_abs;
-  
+
     var _floor=Math_floor;
-  
+
     var _sqrt=Math_sqrt;
-  
+
     function _hip_set_errorf() {
     Module['printErr']('missing function: hip_set_errorf'); abort(-1);
     }
-  
+
     var _llvm_pow_f32=Math_pow;
-  
-    
-    
+
+
+
     function _emscripten_set_main_loop_timing(mode, value) {
         Browser.mainLoop.timingMode = mode;
         Browser.mainLoop.timingValue = value;
-    
+
         if (!Browser.mainLoop.func) {
           return 1; // Return non-zero on failure, can't set timing mode when there is no main loop.
         }
-    
+
         if (mode == 0 /*EM_TIMING_SETTIMEOUT*/) {
           Browser.mainLoop.scheduler = function Browser_mainLoop_scheduler() {
             setTimeout(Browser.mainLoop.runner, value); // doing this each time means that on exception, we stop
@@ -4356,14 +4356,14 @@
         return 0;
       }function _emscripten_set_main_loop(func, fps, simulateInfiniteLoop, arg, noSetTiming) {
         Module['noExitRuntime'] = true;
-    
+
         assert(!Browser.mainLoop.func, 'emscripten_set_main_loop: there can only be one main loop function at once: call emscripten_cancel_main_loop to cancel the previous one before setting a new one with different parameters.');
-    
+
         Browser.mainLoop.func = func;
         Browser.mainLoop.arg = arg;
-    
+
         var thisMainLoopId = Browser.mainLoop.currentlyRunningMainloop;
-    
+
         Browser.mainLoop.runner = function Browser_mainLoop_runner() {
           if (ABORT) return;
           if (Browser.mainLoop.queue.length > 0) {
@@ -4386,10 +4386,10 @@
             setTimeout(Browser.mainLoop.runner, 0);
             return;
           }
-    
+
           // catch pauses from non-main loop sources
           if (thisMainLoopId < Browser.mainLoop.currentlyRunningMainloop) return;
-    
+
           // Implement very basic swap interval control
           Browser.mainLoop.currentFrameNumber = Browser.mainLoop.currentFrameNumber + 1 | 0;
           if (Browser.mainLoop.timingMode == 1/*EM_TIMING_RAF*/ && Browser.mainLoop.timingValue > 1 && Browser.mainLoop.currentFrameNumber % Browser.mainLoop.timingValue != 0) {
@@ -4397,15 +4397,15 @@
             Browser.mainLoop.scheduler();
             return;
           }
-    
+
           // Signal GL rendering layer that processing of a new frame is about to start. This helps it optimize
           // VBO double-buffering and reduce GPU stalls.
-    
+
           if (Browser.mainLoop.method === 'timeout' && Module.ctx) {
             Module.printErr('Looks like you are rendering without using requestAnimationFrame for the main loop. You should use 0 for the frame rate in emscripten_set_main_loop in order to use requestAnimationFrame, as that can greatly improve your frame rates!');
             Browser.mainLoop.method = ''; // just warn once per call to set main loop
           }
-    
+
           Browser.mainLoop.runIter(function() {
             if (typeof arg !== 'undefined') {
               Runtime.dynCall('vi', func, [arg]);
@@ -4413,26 +4413,26 @@
               Runtime.dynCall('v', func);
             }
           });
-    
+
           // catch pauses from the main loop itself
           if (thisMainLoopId < Browser.mainLoop.currentlyRunningMainloop) return;
-    
+
           // Queue new audio data. This is important to be right after the main loop invocation, so that we will immediately be able
           // to queue the newest produced audio samples.
           // TODO: Consider adding pre- and post- rAF callbacks so that GL.newRenderingFrameStarted() and SDL.audio.queueNewAudioData()
           //       do not need to be hardcoded into this function, but can be more generic.
           if (typeof SDL === 'object' && SDL.audio && SDL.audio.queueNewAudioData) SDL.audio.queueNewAudioData();
-    
+
           Browser.mainLoop.scheduler();
         }
-    
+
         if (!noSetTiming) {
           if (fps && fps > 0) _emscripten_set_main_loop_timing(0/*EM_TIMING_SETTIMEOUT*/, 1000.0 / fps);
           else _emscripten_set_main_loop_timing(1/*EM_TIMING_RAF*/, 1); // Do rAF by rendering each frame (no decimating)
-    
+
           Browser.mainLoop.scheduler();
         }
-    
+
         if (simulateInfiniteLoop) {
           throw 'SimulateInfiniteLoop';
         }
@@ -4484,10 +4484,10 @@
             if (Module['postMainLoop']) Module['postMainLoop']();
           }},isFullScreen:false,pointerLock:false,moduleContextCreatedCallbacks:[],workers:[],init:function () {
           if (!Module["preloadPlugins"]) Module["preloadPlugins"] = []; // needs to exist even in workers
-    
+
           if (Browser.initted) return;
           Browser.initted = true;
-    
+
           try {
             new Blob();
             Browser.hasBlobConstructor = true;
@@ -4501,7 +4501,7 @@
             console.log("warning: Browser does not support creating object URLs. Built-in browser image decoding will not be available.");
             Module.noImageDecoding = true;
           }
-    
+
           // Support for plugins that can process preloaded files. You can add more of these to
           // your app by creating and appending to Module.preloadPlugins.
           //
@@ -4509,7 +4509,7 @@
           // it is given the file's raw data. When it is done, it calls a callback with the file's
           // (possibly modified) data. For example, a plugin might decompress a file, or it
           // might create some side data structure for use later (like an Image element, etc.).
-    
+
           var imagePlugin = {};
           imagePlugin['canHandle'] = function imagePlugin_canHandle(name) {
             return !Module.noImageDecoding && /\.(jpg|jpeg|png|bmp)$/i.test(name);
@@ -4552,7 +4552,7 @@
             img.src = url;
           };
           Module['preloadPlugins'].push(imagePlugin);
-    
+
           var audioPlugin = {};
           audioPlugin['canHandle'] = function audioPlugin_canHandle(name) {
             return !Module.noAudioDecoding && name.substr(-4) in { '.ogg': 1, '.wav': 1, '.mp3': 1 };
@@ -4620,9 +4620,9 @@
             }
           };
           Module['preloadPlugins'].push(audioPlugin);
-    
+
           // Canvas event setup
-    
+
           var canvas = Module['canvas'];
           function pointerLockChange() {
             Browser.pointerLock = document['pointerLockElement'] === canvas ||
@@ -4633,7 +4633,7 @@
           if (canvas) {
             // forced aspect ratio can be enabled by defining 'forcedAspectRatio' on Module
             // Module['forcedAspectRatio'] = 4 / 3;
-            
+
             canvas.requestPointerLock = canvas['requestPointerLock'] ||
                                         canvas['mozRequestPointerLock'] ||
                                         canvas['webkitRequestPointerLock'] ||
@@ -4645,13 +4645,13 @@
                                      document['msExitPointerLock'] ||
                                      function(){}; // no-op if function does not exist
             canvas.exitPointerLock = canvas.exitPointerLock.bind(document);
-    
-    
+
+
             document.addEventListener('pointerlockchange', pointerLockChange, false);
             document.addEventListener('mozpointerlockchange', pointerLockChange, false);
             document.addEventListener('webkitpointerlockchange', pointerLockChange, false);
             document.addEventListener('mspointerlockchange', pointerLockChange, false);
-    
+
             if (Module['elementPointerLock']) {
               canvas.addEventListener("click", function(ev) {
                 if (!Browser.pointerLock && canvas.requestPointerLock) {
@@ -4663,7 +4663,7 @@
           }
         },createContext:function (canvas, useWebGL, setInModule, webGLContextAttributes) {
           if (useWebGL && Module.ctx && canvas == Module.canvas) return Module.ctx; // no need to recreate GL context if it's already been created for this canvas.
-    
+
           var ctx;
           var contextHandle;
           if (useWebGL) {
@@ -4672,13 +4672,13 @@
               antialias: false,
               alpha: false
             };
-    
+
             if (webGLContextAttributes) {
               for (var attribute in webGLContextAttributes) {
                 contextAttributes[attribute] = webGLContextAttributes[attribute];
               }
             }
-    
+
             contextHandle = GL.createContext(canvas, contextAttributes);
             if (contextHandle) {
               ctx = GL.getContext(contextHandle).GLctx;
@@ -4688,12 +4688,12 @@
           } else {
             ctx = canvas.getContext('2d');
           }
-    
+
           if (!ctx) return null;
-    
+
           if (setInModule) {
             if (!useWebGL) assert(typeof GLctx === 'undefined', 'cannot set in module if GLctx is used, but we are a non-GL context that would replace it');
-    
+
             Module.ctx = ctx;
             if (useWebGL) GL.makeContextCurrent(contextHandle);
             Module.useWebGL = useWebGL;
@@ -4708,7 +4708,7 @@
           if (typeof Browser.lockPointer === 'undefined') Browser.lockPointer = true;
           if (typeof Browser.resizeCanvas === 'undefined') Browser.resizeCanvas = false;
           if (typeof Browser.vrDevice === 'undefined') Browser.vrDevice = null;
-    
+
           var canvas = Module['canvas'];
           function fullScreenChange() {
             Browser.isFullScreen = false;
@@ -4729,17 +4729,17 @@
               Browser.isFullScreen = true;
               if (Browser.resizeCanvas) Browser.setFullScreenCanvasSize();
             } else {
-              
+
               // remove the full screen specific parent of the canvas again to restore the HTML structure from before going full screen
               canvasContainer.parentNode.insertBefore(canvas, canvasContainer);
               canvasContainer.parentNode.removeChild(canvasContainer);
-              
+
               if (Browser.resizeCanvas) Browser.setWindowedCanvasSize();
             }
             if (Module['onFullScreen']) Module['onFullScreen'](Browser.isFullScreen);
             Browser.updateCanvasDimensions(canvas);
           }
-    
+
           if (!Browser.fullScreenHandlersInstalled) {
             Browser.fullScreenHandlersInstalled = true;
             document.addEventListener('fullscreenchange', fullScreenChange, false);
@@ -4747,18 +4747,18 @@
             document.addEventListener('webkitfullscreenchange', fullScreenChange, false);
             document.addEventListener('MSFullscreenChange', fullScreenChange, false);
           }
-    
+
           // create a new parent to ensure the canvas has no siblings. this allows browsers to optimize full screen performance when its parent is the full screen root
           var canvasContainer = document.createElement("div");
           canvas.parentNode.insertBefore(canvasContainer, canvas);
           canvasContainer.appendChild(canvas);
-    
+
           // use parent of canvas as full screen root to allow aspect ratio correction (Firefox stretches the root to screen size)
           canvasContainer.requestFullScreen = canvasContainer['requestFullScreen'] ||
                                               canvasContainer['mozRequestFullScreen'] ||
                                               canvasContainer['msRequestFullscreen'] ||
                                              (canvasContainer['webkitRequestFullScreen'] ? function() { canvasContainer['webkitRequestFullScreen'](Element['ALLOW_KEYBOARD_INPUT']) } : null);
-    
+
           if (vrDevice) {
             canvasContainer.requestFullScreen({ vrDisplay: vrDevice });
           } else {
@@ -4861,13 +4861,13 @@
         },getMouseWheelDelta:function (event) {
           var delta = 0;
           switch (event.type) {
-            case 'DOMMouseScroll': 
+            case 'DOMMouseScroll':
               delta = event.detail;
               break;
-            case 'mousewheel': 
+            case 'mousewheel':
               delta = event.wheelDelta;
               break;
-            case 'wheel': 
+            case 'wheel':
               delta = event['deltaY'];
               break;
             default:
@@ -4886,7 +4886,7 @@
               Browser.mouseMovementX = Browser.getMovementX(event);
               Browser.mouseMovementY = Browser.getMovementY(event);
             }
-            
+
             // check if SDL is available
             if (typeof SDL != "undefined") {
                 Browser.mouseX = SDL.mouseX + Browser.mouseMovementX;
@@ -4896,34 +4896,34 @@
                 // FIXME: ideally this should be clamped against the canvas size and zero
                 Browser.mouseX += Browser.mouseMovementX;
                 Browser.mouseY += Browser.mouseMovementY;
-            }        
+            }
           } else {
             // Otherwise, calculate the movement based on the changes
             // in the coordinates.
             var rect = Module["canvas"].getBoundingClientRect();
             var cw = Module["canvas"].width;
             var ch = Module["canvas"].height;
-    
+
             // Neither .scrollX or .pageXOffset are defined in a spec, but
             // we prefer .scrollX because it is currently in a spec draft.
             // (see: http://www.w3.org/TR/2013/WD-cssom-view-20131217/)
             var scrollX = ((typeof window.scrollX !== 'undefined') ? window.scrollX : window.pageXOffset);
             var scrollY = ((typeof window.scrollY !== 'undefined') ? window.scrollY : window.pageYOffset);
-    
+
             if (event.type === 'touchstart' || event.type === 'touchend' || event.type === 'touchmove') {
               var touch = event.touch;
               if (touch === undefined) {
                 return; // the "touch" property is only defined in SDL
-    
+
               }
               var adjustedX = touch.pageX - (scrollX + rect.left);
               var adjustedY = touch.pageY - (scrollY + rect.top);
-    
+
               adjustedX = adjustedX * (cw / rect.width);
               adjustedY = adjustedY * (ch / rect.height);
-    
+
               var coords = { x: adjustedX, y: adjustedY };
-              
+
               if (event.type === 'touchstart') {
                 Browser.lastTouches[touch.identifier] = coords;
                 Browser.touches[touch.identifier] = coords;
@@ -4932,19 +4932,19 @@
                 if (!last) last = coords;
                 Browser.lastTouches[touch.identifier] = last;
                 Browser.touches[touch.identifier] = coords;
-              } 
+              }
               return;
             }
-    
+
             var x = event.pageX - (scrollX + rect.left);
             var y = event.pageY - (scrollY + rect.top);
-    
+
             // the canvas might be CSS-scaled compared to its backbuffer;
             // SDL-using content will want mouse coordinates in terms
             // of backbuffer units.
             x = x * (cw / rect.width);
             y = y * (ch / rect.height);
-    
+
             Browser.mouseMovementX = x - Browser.mouseX;
             Browser.mouseMovementY = y - Browser.mouseY;
             Browser.mouseX = x;
@@ -4986,7 +4986,7 @@
           Browser.updateCanvasDimensions(canvas, width, height);
           if (!noUpdates) Browser.updateResizeListeners();
         },windowedWidth:0,windowedHeight:0,setFullScreenCanvasSize:function () {
-          // check if SDL is available   
+          // check if SDL is available
           if (typeof SDL != "undefined") {
               var flags = HEAPU32[((SDL.screen+Runtime.QUANTUM_SIZE*0)>>2)];
               flags = flags | 0x00800000; // set SDL_FULLSCREEN flag
@@ -4994,7 +4994,7 @@
           }
           Browser.updateResizeListeners();
         },setWindowedCanvasSize:function () {
-          // check if SDL is available       
+          // check if SDL is available
           if (typeof SDL != "undefined") {
               var flags = HEAPU32[((SDL.screen+Runtime.QUANTUM_SIZE*0)>>2)];
               flags = flags & ~0x00800000; // clear SDL_FULLSCREEN flag
@@ -5052,10 +5052,10 @@
           Browser.nextWgetRequestHandle++;
           return handle;
         }};
-  
+
     var _llvm_sqrt_f64=Math_sqrt;
-  
-    
+
+
     function __exit(status) {
         // void _exit(int status);
         // http://pubs.opengroup.org/onlinepubs/000095399/functions/exit.html
@@ -5063,17 +5063,17 @@
       }function _exit(status) {
         __exit(status);
       }
-  
+
     function _hip_decode_init() {
     Module['printErr']('missing function: hip_decode_init'); abort(-1);
     }
-  
+
     function _hip_set_msgf() {
     Module['printErr']('missing function: hip_set_msgf'); abort(-1);
     }
-  
+
     var _sin=Math_sin;
-  
+
     function _sysconf(name) {
         // long sysconf(int name);
         // http://pubs.opengroup.org/onlinepubs/009695399/functions/sysconf.html
@@ -5218,32 +5218,32 @@
         ___setErrNo(ERRNO_CODES.EINVAL);
         return -1;
       }
-  
-     
+
+
     Module["_bitshift64Lshr"] = _bitshift64Lshr;
-  
+
     function _hip_decode_exit() {
     Module['printErr']('missing function: hip_decode_exit'); abort(-1);
     }
-  
+
     var _atan=Math_atan;
-  
+
     var _BDtoIHigh=true;
-  
+
     var _ceil=Math_ceil;
-  
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
     function _mkport() { throw 'TODO' }var SOCKFS={mount:function (mount) {
           // If Module['websocket'] has already been defined (e.g. for configuring
           // the subprotocol/url) use that, if not initialise it to a new object.
-          Module['websocket'] = (Module['websocket'] && 
+          Module['websocket'] = (Module['websocket'] &&
                                  ('object' === typeof Module['websocket'])) ? Module['websocket'] : {};
-    
+
           // Add the Event registration mechanism to the exported websocket configuration
           // object so we can register network callbacks from native JavaScript too.
           // For more documentation see system/include/emscripten/emscripten.h
@@ -5254,22 +5254,22 @@
             }
             return this;
           };
-    
+
           Module['websocket'].emit = function(event, param) {
             if ('function' === typeof this._callbacks[event]) {
               this._callbacks[event].call(this, param);
             }
           };
-    
+
           // If debug is enabled register simple default logging callbacks for each Event.
-    
+
           return FS.createNode(null, '/', 16384 | 511 /* 0777 */, 0);
         },createSocket:function (family, type, protocol) {
           var streaming = type == 1;
           if (protocol) {
             assert(streaming == (protocol == 6)); // if SOCK_STREAM, must be tcp
           }
-    
+
           // create our internal socket structure
           var sock = {
             family: family,
@@ -5282,12 +5282,12 @@
             recv_queue: [],
             sock_ops: SOCKFS.websocket_sock_ops
           };
-    
+
           // create the filesystem node to store the socket structure
           var name = SOCKFS.nextname();
           var node = FS.createNode(SOCKFS.root, name, 49152, 0);
           node.sock = sock;
-    
+
           // and the wrapping stream that enables library functions such
           // as read and write to indirectly interact with the socket
           var stream = FS.createStream({
@@ -5297,11 +5297,11 @@
             seekable: false,
             stream_ops: SOCKFS.stream_ops
           });
-    
+
           // map the new stream to the socket structure (sockets have a 1:1
           // relationship with a stream)
           sock.stream = stream;
-    
+
           return sock;
         },getSocket:function (fd) {
           var stream = FS.getStream(fd);
@@ -5337,13 +5337,13 @@
           return 'socket[' + (SOCKFS.nextname.current++) + ']';
         },websocket_sock_ops:{createPeer:function (sock, addr, port) {
             var ws;
-    
+
             if (typeof addr === 'object') {
               ws = addr;
               addr = null;
               port = null;
             }
-    
+
             if (ws) {
               // for sockets that've already connected (e.g. we're the server)
               // we can inspect the _socket property for the address
@@ -5366,38 +5366,38 @@
               try {
                 // runtimeConfig gets set to true if WebSocket runtime configuration is available.
                 var runtimeConfig = (Module['websocket'] && ('object' === typeof Module['websocket']));
-    
+
                 // The default value is 'ws://' the replace is needed because the compiler replaces '//' comments with '#'
                 // comments without checking context, so we'd end up with ws:#, the replace swaps the '#' for '//' again.
                 var url = 'ws:#'.replace('#', '//');
-    
+
                 if (runtimeConfig) {
                   if ('string' === typeof Module['websocket']['url']) {
                     url = Module['websocket']['url']; // Fetch runtime WebSocket URL config.
                   }
                 }
-    
+
                 if (url === 'ws://' || url === 'wss://') { // Is the supplied URL config just a prefix, if so complete it.
                   var parts = addr.split('/');
                   url = url + parts[0] + ":" + port + "/" + parts.slice(1).join('/');
                 }
-    
+
                 // Make the WebSocket subprotocol (Sec-WebSocket-Protocol) default to binary if no configuration is set.
                 var subProtocols = 'binary'; // The default value is 'binary'
-    
+
                 if (runtimeConfig) {
                   if ('string' === typeof Module['websocket']['subprotocol']) {
                     subProtocols = Module['websocket']['subprotocol']; // Fetch runtime WebSocket subprotocol config.
                   }
                 }
-    
+
                 // The regex trims the string (removes spaces at the beginning and end, then splits the string by
                 // <any space>,<any space> into an Array. Whitespace removal is important for Websockify and ws.
                 subProtocols = subProtocols.replace(/^ +| +$/g,"").split(/ *, */);
-    
+
                 // The node ws library API for specifying optional subprotocol is slightly different than the browser's.
                 var opts = ENVIRONMENT_IS_NODE ? {'protocol': subProtocols.toString()} : subProtocols;
-    
+
                 // If node we use the ws library.
                 var WebSocket = ENVIRONMENT_IS_NODE ? require('ws') : window['WebSocket'];
                 ws = new WebSocket(url, opts);
@@ -5406,18 +5406,18 @@
                 throw new FS.ErrnoError(ERRNO_CODES.EHOSTUNREACH);
               }
             }
-    
-    
+
+
             var peer = {
               addr: addr,
               port: port,
               socket: ws,
               dgram_send_queue: []
             };
-    
+
             SOCKFS.websocket_sock_ops.addPeer(sock, peer);
             SOCKFS.websocket_sock_ops.handlePeerEvents(sock, peer);
-    
+
             // if this is a bound dgram socket, send the port number first to allow
             // us to override the ephemeral port reported to us by remotePort on the
             // remote end.
@@ -5428,7 +5428,7 @@
                   ((sock.sport & 0xff00) >> 8) , (sock.sport & 0xff)
               ]));
             }
-    
+
             return peer;
           },getPeer:function (sock, addr, port) {
             return sock.peers[addr + ':' + port];
@@ -5438,11 +5438,11 @@
             delete sock.peers[peer.addr + ':' + peer.port];
           },handlePeerEvents:function (sock, peer) {
             var first = true;
-    
+
             var handleOpen = function () {
-    
+
               Module['websocket'].emit('open', sock.stream.fd);
-    
+
               try {
                 var queued = peer.dgram_send_queue.shift();
                 while (queued) {
@@ -5455,12 +5455,12 @@
                 peer.socket.close();
               }
             };
-    
+
             function handleMessage(data) {
               assert(typeof data !== 'string' && data.byteLength !== undefined);  // must receive an ArrayBuffer
               data = new Uint8Array(data);  // make a typed array view on the array buffer
-    
-    
+
+
               // if this is the port message, override the peer's port with it
               var wasfirst = first;
               first = false;
@@ -5475,11 +5475,11 @@
                 SOCKFS.websocket_sock_ops.addPeer(sock, peer);
                 return;
               }
-    
+
               sock.recv_queue.push({ addr: peer.addr, port: peer.port, data: data });
               Module['websocket'].emit('message', sock.stream.fd);
             };
-    
+
             if (ENVIRONMENT_IS_NODE) {
               peer.socket.on('open', handleOpen);
               peer.socket.on('message', function(data, flags) {
@@ -5493,7 +5493,7 @@
               });
               peer.socket.on('error', function(error) {
                 // Although the ws library may pass errors that may be more descriptive than
-                // ECONNREFUSED they are not necessarily the expected error code e.g. 
+                // ECONNREFUSED they are not necessarily the expected error code e.g.
                 // ENOTFOUND on getaddrinfo seems to be node.js specific, so using ECONNREFUSED
                 // is still probably the most useful thing to do.
                 sock.error = ERRNO_CODES.ECONNREFUSED; // Used in getsockopt for SOL_SOCKET/SO_ERROR test.
@@ -5521,29 +5521,29 @@
               // if there are pending clients.
               return sock.pending.length ? (64 | 1) : 0;
             }
-    
+
             var mask = 0;
             var dest = sock.type === 1 ?  // we only care about the socket state for connection-based sockets
               SOCKFS.websocket_sock_ops.getPeer(sock, sock.daddr, sock.dport) :
               null;
-    
+
             if (sock.recv_queue.length ||
                 !dest ||  // connection-less sockets are always ready to read
                 (dest && dest.socket.readyState === dest.socket.CLOSING) ||
                 (dest && dest.socket.readyState === dest.socket.CLOSED)) {  // let recv return 0 once closed
               mask |= (64 | 1);
             }
-    
+
             if (!dest ||  // connection-less sockets are always ready to write
                 (dest && dest.socket.readyState === dest.socket.OPEN)) {
               mask |= 4;
             }
-    
+
             if ((dest && dest.socket.readyState === dest.socket.CLOSING) ||
                 (dest && dest.socket.readyState === dest.socket.CLOSED)) {
               mask |= 16;
             }
-    
+
             return mask;
           },ioctl:function (sock, request, arg) {
             switch (request) {
@@ -5605,11 +5605,11 @@
             if (sock.server) {
               throw new FS.ErrnoError(ERRNO_CODES.EOPNOTSUPP);
             }
-    
+
             // TODO autobind
             // if (!sock.addr && sock.type == 2) {
             // }
-    
+
             // early out if we're already connected / in the middle of connecting
             if (typeof sock.daddr !== 'undefined' && typeof sock.dport !== 'undefined') {
               var dest = SOCKFS.websocket_sock_ops.getPeer(sock, sock.daddr, sock.dport);
@@ -5621,13 +5621,13 @@
                 }
               }
             }
-    
+
             // add the socket to our peer list and set our
             // destination address / port to match
             var peer = SOCKFS.websocket_sock_ops.createPeer(sock, addr, port);
             sock.daddr = peer.addr;
             sock.dport = peer.port;
-    
+
             // always "fail" in non-blocking mode
             throw new FS.ErrnoError(ERRNO_CODES.EINPROGRESS);
           },listen:function (sock, backlog) {
@@ -5645,16 +5645,16 @@
               // TODO support backlog
             });
             Module['websocket'].emit('listen', sock.stream.fd); // Send Event with listen fd.
-    
+
             sock.server.on('connection', function(ws) {
               if (sock.type === 1) {
                 var newsock = SOCKFS.createSocket(sock.family, sock.type, sock.protocol);
-    
+
                 // create a peer on the new socket
                 var peer = SOCKFS.websocket_sock_ops.createPeer(newsock, ws);
                 newsock.daddr = peer.addr;
                 newsock.dport = peer.port;
-    
+
                 // push to queue for accept to pick up
                 sock.pending.push(newsock);
                 Module['websocket'].emit('connection', newsock.stream.fd);
@@ -5672,7 +5672,7 @@
             });
             sock.server.on('error', function(error) {
               // Although the ws library may pass errors that may be more descriptive than
-              // ECONNREFUSED they are not necessarily the expected error code e.g. 
+              // ECONNREFUSED they are not necessarily the expected error code e.g.
               // ENOTFOUND on getaddrinfo seems to be node.js specific, so using EHOSTUNREACH
               // is still probably the most useful thing to do. This error shouldn't
               // occur in a well written app as errors should get trapped in the compiled
@@ -5720,10 +5720,10 @@
               addr = sock.daddr;
               port = sock.dport;
             }
-    
+
             // find the peer for the destination address
             var dest = SOCKFS.websocket_sock_ops.getPeer(sock, addr, port);
-    
+
             // early out if not connected with a connection-based socket
             if (sock.type === 1) {
               if (!dest || dest.socket.readyState === dest.socket.CLOSING || dest.socket.readyState === dest.socket.CLOSED) {
@@ -5732,7 +5732,7 @@
                 throw new FS.ErrnoError(ERRNO_CODES.EAGAIN);
               }
             }
-    
+
             // create a copy of the incoming data to send, as the WebSocket API
             // doesn't work entirely with an ArrayBufferView, it'll just send
             // the entire underlying buffer
@@ -5742,7 +5742,7 @@
             } else {  // ArrayBufferView
               data = buffer.buffer.slice(buffer.byteOffset + offset, buffer.byteOffset + offset + length);
             }
-    
+
             // if we're emulating a connection-less dgram socket and don't have
             // a cached connection, queue the buffer to send upon connect and
             // lie, saying the data was sent now.
@@ -5756,7 +5756,7 @@
                 return length;
               }
             }
-    
+
             try {
               // send the actual data
               dest.socket.send(data);
@@ -5770,12 +5770,12 @@
               // tcp servers should not be recv()'ing on the listen socket
               throw new FS.ErrnoError(ERRNO_CODES.ENOTCONN);
             }
-    
+
             var queued = sock.recv_queue.shift();
             if (!queued) {
               if (sock.type === 1) {
                 var dest = SOCKFS.websocket_sock_ops.getPeer(sock, sock.daddr, sock.dport);
-    
+
                 if (!dest) {
                   // if we have a destination address but are not connected, error out
                   throw new FS.ErrnoError(ERRNO_CODES.ENOTCONN);
@@ -5792,7 +5792,7 @@
                 throw new FS.ErrnoError(ERRNO_CODES.EAGAIN);
               }
             }
-    
+
             // queued.data will be an ArrayBuffer if it's unadulterated, but if it's
             // requeued TCP data it'll be an ArrayBufferView
             var queuedLength = queued.data.byteLength || queued.data.length;
@@ -5804,15 +5804,15 @@
               addr: queued.addr,
               port: queued.port
             };
-    
-    
+
+
             // push back any unread data for TCP connections
             if (sock.type === 1 && bytesRead < queuedLength) {
               var bytesRemaining = queuedLength - bytesRead;
               queued.data = new Uint8Array(queuedBuffer, queuedOffset + bytesRead, bytesRemaining);
               sock.recv_queue.unshift(queued);
             }
-    
+
             return res;
           }}};function _send(fd, buf, len, flags) {
         var sock = SOCKFS.getSocket(fd);
@@ -5823,7 +5823,7 @@
         // TODO honor flags
         return _write(fd, buf, len);
       }
-    
+
     function _pwrite(fildes, buf, nbyte, offset) {
         // ssize_t pwrite(int fildes, const void *buf, size_t nbyte, off_t offset);
         // http://pubs.opengroup.org/onlinepubs/000095399/functions/write.html
@@ -5847,8 +5847,8 @@
           ___setErrNo(ERRNO_CODES.EBADF);
           return -1;
         }
-    
-    
+
+
         try {
           var slab = HEAP8;
           return FS.write(stream, slab, buf, nbyte);
@@ -5857,7 +5857,7 @@
           return -1;
         }
       }
-    
+
     function _fileno(stream) {
         // int fileno(FILE *stream);
         // http://pubs.opengroup.org/onlinepubs/000095399/functions/fileno.html
@@ -5879,8 +5879,8 @@
           return (bytesWritten / size)|0;
         }
       }
-    
-    
+
+
     function __reallyNegative(x) {
         return x < 0 || (x === 0 && (1/x) === -Infinity);
       }function __formatString(format, varargs) {
@@ -5898,7 +5898,7 @@
           } else if (type == 'i64') {
             ret = [HEAP32[(((varargs)+(argIndex))>>2)],
                    HEAP32[(((varargs)+(argIndex+4))>>2)]];
-    
+
             argIndex += 8;
           } else {
             assert((argIndex & 3) === 0);
@@ -5908,7 +5908,7 @@
           }
           return ret;
         }
-    
+
         var ret = [];
         var curr, next, currArg;
         while(1) {
@@ -5950,7 +5950,7 @@
               textIndex++;
               next = HEAP8[((textIndex+1)>>0)];
             }
-    
+
             // Handle width.
             var width = 0;
             if (next == 42) {
@@ -5964,7 +5964,7 @@
                 next = HEAP8[((textIndex+1)>>0)];
               }
             }
-    
+
             // Handle precision.
             var precisionSet = false, precision = -1;
             if (next == 46) {
@@ -5990,7 +5990,7 @@
               precision = 6; // Standard default.
               precisionSet = false;
             }
-    
+
             // Handle integer sizes. WARNING: These assume a 32-bit architecture!
             var argSize;
             switch (String.fromCharCode(next)) {
@@ -6027,7 +6027,7 @@
             }
             if (argSize) textIndex++;
             next = HEAP8[((textIndex+1)>>0)];
-    
+
             // Handle type specifier.
             switch (String.fromCharCode(next)) {
               case 'd': case 'i': case 'u': case 'o': case 'x': case 'X': case 'p': {
@@ -6100,7 +6100,7 @@
                     argText = '0' + argText;
                   }
                 }
-    
+
                 // Add sign if needed
                 if (currArg >= 0) {
                   if (flagAlwaysSigned) {
@@ -6109,13 +6109,13 @@
                     prefix = ' ' + prefix;
                   }
                 }
-    
+
                 // Move sign to prefix so we zero-pad after the sign
                 if (argText.charAt(0) == '-') {
                   prefix = '-' + prefix;
                   argText = argText.substr(1);
                 }
-    
+
                 // Add padding.
                 while (prefix.length + argText.length < width) {
                   if (flagLeftAlign) {
@@ -6128,7 +6128,7 @@
                     }
                   }
                 }
-    
+
                 // Insert the result into the buffer.
                 argText = prefix + argText;
                 argText.split('').forEach(function(chr) {
@@ -6149,7 +6149,7 @@
                 } else {
                   var isGeneral = false;
                   var effectivePrecision = Math.min(precision, 20);
-    
+
                   // Convert g/G to f/F or e/E, as per:
                   // http://pubs.opengroup.org/onlinepubs/9699919799/functions/printf.html
                   if (next == 103 || next == 71) {
@@ -6165,7 +6165,7 @@
                     }
                     effectivePrecision = Math.min(precision, 20);
                   }
-    
+
                   if (next == 101 || next == 69) {
                     argText = currArg.toExponential(effectivePrecision);
                     // Make sure the exponent has at least 2 digits.
@@ -6178,7 +6178,7 @@
                       argText = '-' + argText;
                     }
                   }
-    
+
                   var parts = argText.split('e');
                   if (isGeneral && !flagAlternative) {
                     // Discard trailing zeros and periods.
@@ -6193,10 +6193,10 @@
                     while (precision > effectivePrecision++) parts[0] += '0';
                   }
                   argText = parts[0] + (parts.length > 1 ? 'e' + parts[1] : '');
-    
+
                   // Capitalize 'E' if needed.
                   if (next == 69) argText = argText.toUpperCase();
-    
+
                   // Add sign.
                   if (currArg >= 0) {
                     if (flagAlwaysSigned) {
@@ -6206,7 +6206,7 @@
                     }
                   }
                 }
-    
+
                 // Add padding.
                 while (argText.length < width) {
                   if (flagLeftAlign) {
@@ -6219,10 +6219,10 @@
                     }
                   }
                 }
-    
+
                 // Adjust case.
                 if (next < 97) argText = argText.toUpperCase();
-    
+
                 // Insert the result into the buffer.
                 argText.split('').forEach(function(chr) {
                   ret.push(chr.charCodeAt(0));
@@ -6300,20 +6300,20 @@
       }function _vfprintf(s, f, va_arg) {
         return _fprintf(s, f, HEAP32[((va_arg)>>2)]);
       }
-  
-    
+
+
     function _emscripten_memcpy_big(dest, src, num) {
         HEAPU8.set(HEAPU8.subarray(src, src+num), dest);
         return dest;
-      } 
+      }
     Module["_memcpy"] = _memcpy;
-  
+
     var _log=Math_log;
-  
+
     var _cos=Math_cos;
-  
+
     var _llvm_pow_f64=Math_pow;
-  
+
     function _sbrk(bytes) {
         // Implement a Linux-like 'memory area' for our 'process'.
         // Changes the size of the memory area by |bytes|; returns the
@@ -6334,22 +6334,22 @@
         }
         return ret;  // Previous break location.
       }
-  
-     
+
+
     Module["_bitshift64Shl"] = _bitshift64Shl;
-  
+
     function ___errno_location() {
         return ___errno_state;
       }
-  
+
     var _BItoD=true;
-  
+
     function _hip_set_debugf() {
     Module['printErr']('missing function: hip_set_debugf'); abort(-1);
     }
-  
+
     var _exp=Math_exp;
-  
+
     function _time(ptr) {
         var ret = (Date.now()/1000)|0;
         if (ptr) {
@@ -6357,11 +6357,11 @@
         }
         return ret;
       }
-  
+
     function _hip_decode1_unclipped() {
     Module['printErr']('missing function: hip_decode1_unclipped'); abort(-1);
     }
-  
+
   ___errno_state = Runtime.staticAlloc(4); HEAP32[((___errno_state)>>2)]=0;
   FS.staticInit();__ATINIT__.unshift(function() { if (!Module["noFSInit"] && !FS.init.initialized) FS.init() });__ATMAIN__.push(function() { FS.ignorePermissions = false });__ATEXIT__.push(function() { FS.quit() });Module["FS_createFolder"] = FS.createFolder;Module["FS_createPath"] = FS.createPath;Module["FS_createDataFile"] = FS.createDataFile;Module["FS_createPreloadedFile"] = FS.createPreloadedFile;Module["FS_createLazyFile"] = FS.createLazyFile;Module["FS_createLink"] = FS.createLink;Module["FS_createDevice"] = FS.createDevice;
   __ATINIT__.unshift(function() { TTY.init() });__ATEXIT__.push(function() { TTY.shutdown() });
@@ -6375,18 +6375,18 @@
     Module["createContext"] = function Module_createContext(canvas, useWebGL, setInModule, webGLContextAttributes) { return Browser.createContext(canvas, useWebGL, setInModule, webGLContextAttributes) }
   __ATINIT__.push(function() { SOCKFS.root = FS.mount(SOCKFS, {}, null); });
   STACK_BASE = STACKTOP = Runtime.alignMemory(STATICTOP);
-  
+
   staticSealed = true; // seal the static portion of memory
-  
+
   STACK_MAX = STACK_BASE + TOTAL_STACK;
-  
+
   DYNAMIC_BASE = DYNAMICTOP = Runtime.alignMemory(STACK_MAX);
-  
+
   assert(DYNAMIC_BASE < TOTAL_MEMORY, "TOTAL_MEMORY not big enough for stack");
-  
+
    var cttz_i8 = allocate([8,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,5,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,6,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,5,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,7,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,5,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,6,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,5,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0,4,0,1,0,2,0,1,0,3,0,1,0,2,0,1,0], "i8", ALLOC_DYNAMIC);
-  
-  
+
+
   function invoke_iiii(index,a1,a2,a3) {
     try {
       return Module["dynCall_iiii"](index,a1,a2,a3);
@@ -6395,7 +6395,7 @@
       asm["setThrew"](1, 0);
     }
   }
-  
+
   function invoke_iiiii(index,a1,a2,a3,a4) {
     try {
       return Module["dynCall_iiiii"](index,a1,a2,a3,a4);
@@ -6404,7 +6404,7 @@
       asm["setThrew"](1, 0);
     }
   }
-  
+
   function invoke_vii(index,a1,a2) {
     try {
       Module["dynCall_vii"](index,a1,a2);
@@ -6413,7 +6413,7 @@
       asm["setThrew"](1, 0);
     }
   }
-  
+
   function invoke_iii(index,a1,a2) {
     try {
       return Module["dynCall_iii"](index,a1,a2);
@@ -6422,7 +6422,7 @@
       asm["setThrew"](1, 0);
     }
   }
-  
+
   function invoke_viiii(index,a1,a2,a3,a4) {
     try {
       Module["dynCall_viiii"](index,a1,a2,a3,a4);
@@ -6431,13 +6431,13 @@
       asm["setThrew"](1, 0);
     }
   }
-  
+
   Module.asmGlobalArg = { "Math": Math, "Int8Array": Int8Array, "Int16Array": Int16Array, "Int32Array": Int32Array, "Uint8Array": Uint8Array, "Uint16Array": Uint16Array, "Uint32Array": Uint32Array, "Float32Array": Float32Array, "Float64Array": Float64Array, "NaN": NaN, "Infinity": Infinity };
   Module.asmLibraryArg = { "abort": abort, "assert": assert, "invoke_iiii": invoke_iiii, "invoke_iiiii": invoke_iiiii, "invoke_vii": invoke_vii, "invoke_iii": invoke_iii, "invoke_viiii": invoke_viiii, "_fabs": _fabs, "_sin": _sin, "_exp": _exp, "_llvm_pow_f64": _llvm_pow_f64, "_send": _send, "_VBR_encode_frame": _VBR_encode_frame, "_abort": _abort, "___setErrNo": ___setErrNo, "_vfprintf": _vfprintf, "_hip_set_debugf": _hip_set_debugf, "_floor": _floor, "_fflush": _fflush, "_pwrite": _pwrite, "_strerror_r": _strerror_r, "__exit": __exit, "_GetTitleGain": _GetTitleGain, "_emscripten_set_main_loop_timing": _emscripten_set_main_loop_timing, "_fabsf": _fabsf, "_sbrk": _sbrk, "_atan": _atan, "_llvm_pow_f32": _llvm_pow_f32, "_InitGainAnalysis": _InitGainAnalysis, "_emscripten_memcpy_big": _emscripten_memcpy_big, "_fileno": _fileno, "_hip_decode_exit": _hip_decode_exit, "_sysconf": _sysconf, "_cos": _cos, "_mkport": _mkport, "_floorf": _floorf, "_hip_set_errorf": _hip_set_errorf, "__reallyNegative": __reallyNegative, "_write": _write, "_emscripten_set_main_loop": _emscripten_set_main_loop, "_AnalyzeSamples": _AnalyzeSamples, "___errno_location": ___errno_location, "_log": _log, "_init_xrpow_core_sse": _init_xrpow_core_sse, "_hip_decode1_unclipped": _hip_decode1_unclipped, "_fwrite": _fwrite, "_time": _time, "_fprintf": _fprintf, "_strerror": _strerror, "_ceil": _ceil, "__formatString": __formatString, "_sqrt": _sqrt, "_hip_set_msgf": _hip_set_msgf, "_exit": _exit, "_hip_decode_init": _hip_decode_init, "_llvm_sqrt_f64": _llvm_sqrt_f64, "STACKTOP": STACKTOP, "STACK_MAX": STACK_MAX, "tempDoublePtr": tempDoublePtr, "ABORT": ABORT, "cttz_i8": cttz_i8, "_stderr": _stderr };
   // EMSCRIPTEN_START_ASM
   var asm = (function(global, env, buffer) {
     'use asm';
-    
+
     var HEAP8 = new global.Int8Array(buffer);
     var HEAP16 = new global.Int16Array(buffer);
     var HEAP32 = new global.Int32Array(buffer);
@@ -6446,22 +6446,22 @@
     var HEAPU32 = new global.Uint32Array(buffer);
     var HEAPF32 = new global.Float32Array(buffer);
     var HEAPF64 = new global.Float64Array(buffer);
-  
-  
+
+
     var STACKTOP=env.STACKTOP|0;
     var STACK_MAX=env.STACK_MAX|0;
     var tempDoublePtr=env.tempDoublePtr|0;
     var ABORT=env.ABORT|0;
     var cttz_i8=env.cttz_i8|0;
     var _stderr=env._stderr|0;
-  
+
     var __THREW__ = 0;
     var threwValue = 0;
     var setjmpId = 0;
     var undef = 0;
     var nan = global.NaN, inf = global.Infinity;
     var tempInt = 0, tempBigInt = 0, tempBigIntP = 0, tempBigIntS = 0, tempBigIntR = 0.0, tempBigIntI = 0, tempBigIntD = 0, tempValue = 0, tempDouble = 0.0;
-  
+
     var tempRet0 = 0;
     var tempRet1 = 0;
     var tempRet2 = 0;
@@ -6546,7 +6546,7 @@
     var _hip_decode_init=env._hip_decode_init;
     var _llvm_sqrt_f64=env._llvm_sqrt_f64;
     var tempFloat = 0.0;
-  
+
   // EMSCRIPTEN_START_FUNCS
   function stackAlloc(size) {
     size = size|0;
@@ -6554,7 +6554,7 @@
     ret = STACKTOP;
     STACKTOP = (STACKTOP + size)|0;
     STACKTOP = (STACKTOP + 15)&-16;
-  
+
     return ret|0;
   }
   function stackSave() {
@@ -6570,7 +6570,7 @@
     STACKTOP = stackBase;
     STACK_MAX = stackMax;
   }
-  
+
   function setThrew(threw, value) {
     threw = threw|0;
     value = value|0;
@@ -6597,7 +6597,7 @@
     HEAP8[tempDoublePtr+6>>0] = HEAP8[ptr+6>>0];
     HEAP8[tempDoublePtr+7>>0] = HEAP8[ptr+7>>0];
   }
-  
+
   function setTempRet0(value) {
     value = value|0;
     tempRet0 = value;
@@ -6605,7 +6605,7 @@
   function getTempRet0() {
     return tempRet0|0;
   }
-  
+
   function _AddVbrFrame($gfc) {
    $gfc = $gfc|0;
    var $$pre$i = 0, $$pre2$i = 0, $0 = 0, $1 = 0, $10 = 0, $11 = 0, $12 = 0, $13 = 0, $14 = 0, $15 = 0, $16 = 0, $17 = 0, $18 = 0, $19 = 0, $2 = 0, $20 = 0, $21 = 0, $22 = 0, $23 = 0, $24 = 0;
@@ -44265,7 +44265,7 @@
    return ($6|0);
   }
   function runPostSets() {
-  
+
   }
   function _i64Subtract(a, b, c, d) {
       a = a|0; b = b|0; c = c|0; d = d|0;
@@ -44396,7 +44396,7 @@
       if ((ret|0) < 8) return (ret + 16)|0;
       return (((HEAP8[(((cttz_i8)+(x >>> 24))>>0)])|0) + 24)|0;
     }
-  
+
   // ======== compiled code from system/lib/compiler-rt , see readme therein
   function ___muldsi3($a, $b) {
     $a = $a | 0;
@@ -44695,58 +44695,58 @@
     return (tempRet0 = $_0$1, $_0$0) | 0;
   }
   // =======================================================================
-  
-  
-  
-    
+
+
+
+
   function dynCall_iiii(index,a1,a2,a3) {
     index = index|0;
     a1=a1|0; a2=a2|0; a3=a3|0;
     return FUNCTION_TABLE_iiii[index&3](a1|0,a2|0,a3|0)|0;
   }
-  
-  
+
+
   function dynCall_iiiii(index,a1,a2,a3,a4) {
     index = index|0;
     a1=a1|0; a2=a2|0; a3=a3|0; a4=a4|0;
     return FUNCTION_TABLE_iiiii[index&7](a1|0,a2|0,a3|0,a4|0)|0;
   }
-  
-  
+
+
   function dynCall_vii(index,a1,a2) {
     index = index|0;
     a1=a1|0; a2=a2|0;
     FUNCTION_TABLE_vii[index&3](a1|0,a2|0);
   }
-  
-  
+
+
   function dynCall_iii(index,a1,a2) {
     index = index|0;
     a1=a1|0; a2=a2|0;
     return FUNCTION_TABLE_iii[index&1](a1|0,a2|0)|0;
   }
-  
-  
+
+
   function dynCall_viiii(index,a1,a2,a3,a4) {
     index = index|0;
     a1=a1|0; a2=a2|0; a3=a3|0; a4=a4|0;
     FUNCTION_TABLE_viiii[index&7](a1|0,a2|0,a3|0,a4|0);
   }
-  
+
   function b0(p0,p1,p2) { p0 = p0|0;p1 = p1|0;p2 = p2|0; abort(0);return 0; }
   function b1(p0,p1,p2,p3) { p0 = p0|0;p1 = p1|0;p2 = p2|0;p3 = p3|0; abort(1);return 0; }
   function b2(p0,p1) { p0 = p0|0;p1 = p1|0; abort(2); }
   function b3(p0,p1) { p0 = p0|0;p1 = p1|0; abort(3);return 0; }
   function b4(p0,p1,p2,p3) { p0 = p0|0;p1 = p1|0;p2 = p2|0;p3 = p3|0; abort(4); }
   function _init_xrpow_core_sse__wrapper(p0,p1,p2,p3) { p0 = p0|0;p1 = p1|0;p2 = p2|0;p3 = p3|0; _init_xrpow_core_sse(p0|0,p1|0,p2|0,p3|0); }
-  
+
   // EMSCRIPTEN_END_FUNCS
   var FUNCTION_TABLE_iiii = [b0,_sn_write,_choose_table_nonMMX,b0];
   var FUNCTION_TABLE_iiiii = [b1,_count_bit_null,_count_bit_noESC,_count_bit_noESC_from2,_count_bit_noESC_from3,b1,b1,b1];
   var FUNCTION_TABLE_vii = [b2,_fht,_lame_report_def,b2];
   var FUNCTION_TABLE_iii = [b3,_floatcompare];
   var FUNCTION_TABLE_viiii = [b4,_VBR_new_iteration_loop,_VBR_old_iteration_loop,_CBR_iteration_loop,_ABR_iteration_loop,_init_xrpow_core_sse__wrapper,_init_xrpow_core_c,b4];
-  
+
     return { _i64Subtract: _i64Subtract, _lame_set_brate: _lame_set_brate, _lame_encode_buffer_ieee_float: _lame_encode_buffer_ieee_float, _lame_close: _lame_close, _lame_set_in_samplerate: _lame_set_in_samplerate, _i64Add: _i64Add, _lame_set_num_channels: _lame_set_num_channels, _strlen: _strlen, _memset: _memset, _malloc: _malloc, _memcpy: _memcpy, _lame_init: _lame_init, _bitshift64Lshr: _bitshift64Lshr, _free: _free, _lame_init_params: _lame_init_params, _lame_encode_flush: _lame_encode_flush, _bitshift64Shl: _bitshift64Shl, _lame_set_mode: _lame_set_mode, runPostSets: runPostSets, stackAlloc: stackAlloc, stackSave: stackSave, stackRestore: stackRestore, establishStackSpace: establishStackSpace, setThrew: setThrew, setTempRet0: setTempRet0, getTempRet0: getTempRet0, dynCall_iiii: dynCall_iiii, dynCall_iiiii: dynCall_iiiii, dynCall_vii: dynCall_vii, dynCall_iii: dynCall_iii, dynCall_viiii: dynCall_viiii };
   })
   // EMSCRIPTEN_END_ASM
@@ -44776,20 +44776,20 @@
   var dynCall_iii = Module["dynCall_iii"] = asm["dynCall_iii"];
   var dynCall_viiii = Module["dynCall_viiii"] = asm["dynCall_viiii"];
   ;
-  
+
   Runtime.stackAlloc = asm['stackAlloc'];
   Runtime.stackSave = asm['stackSave'];
   Runtime.stackRestore = asm['stackRestore'];
   Runtime.establishStackSpace = asm['establishStackSpace'];
-  
+
   Runtime.setTempRet0 = asm['setTempRet0'];
   Runtime.getTempRet0 = asm['getTempRet0'];
-  
-  
+
+
   // TODO: strip out parts of this we do not need
-  
+
   //======= begin closure i64 code =======
-  
+
   // Copyright 2009 The Closure Library Authors. All Rights Reserved.
   //
   // Licensed under the Apache License, Version 2.0 (the "License");
@@ -44803,18 +44803,18 @@
   // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   // See the License for the specific language governing permissions and
   // limitations under the License.
-  
+
   /**
    * @fileoverview Defines a Long class for representing a 64-bit two's-complement
    * integer value, which faithfully simulates the behavior of a Java "long". This
    * implementation is derived from LongLib in GWT.
    *
    */
-  
+
   var i64Math = (function() { // Emscripten wrapper
     var goog = { math: {} };
-  
-  
+
+
     /**
      * Constructs a 64-bit two's-complement integer, given its low and high 32-bit
      * values as *signed* integers.  See the from* functions below for more
@@ -44844,27 +44844,27 @@
        * @private
        */
       this.low_ = low | 0;  // force into 32 signed bits.
-  
+
       /**
        * @type {number}
        * @private
        */
       this.high_ = high | 0;  // force into 32 signed bits.
     };
-  
-  
+
+
     // NOTE: Common constant values ZERO, ONE, NEG_ONE, etc. are defined below the
     // from* methods on which they depend.
-  
-  
+
+
     /**
      * A cache of the Long representations of small integer values.
      * @type {!Object}
      * @private
      */
     goog.math.Long.IntCache_ = {};
-  
-  
+
+
     /**
      * Returns a Long representing the given (32-bit) integer value.
      * @param {number} value The 32-bit integer in question.
@@ -44877,15 +44877,15 @@
           return cachedObj;
         }
       }
-  
+
       var obj = new goog.math.Long(value | 0, value < 0 ? -1 : 0);
       if (-128 <= value && value < 128) {
         goog.math.Long.IntCache_[value] = obj;
       }
       return obj;
     };
-  
-  
+
+
     /**
      * Returns a Long representing the given value, provided that it is a finite
      * number.  Otherwise, zero is returned.
@@ -44907,8 +44907,8 @@
             (value / goog.math.Long.TWO_PWR_32_DBL_) | 0);
       }
     };
-  
-  
+
+
     /**
      * Returns a Long representing the 64-bit integer that comes by concatenating
      * the given high and low bits.  Each is assumed to use 32 bits.
@@ -44919,8 +44919,8 @@
     goog.math.Long.fromBits = function(lowBits, highBits) {
       return new goog.math.Long(lowBits, highBits);
     };
-  
-  
+
+
     /**
      * Returns a Long representation of the given string, written using the given
      * radix.
@@ -44932,22 +44932,22 @@
       if (str.length == 0) {
         throw Error('number format error: empty string');
       }
-  
+
       var radix = opt_radix || 10;
       if (radix < 2 || 36 < radix) {
         throw Error('radix out of range: ' + radix);
       }
-  
+
       if (str.charAt(0) == '-') {
         return goog.math.Long.fromString(str.substring(1), radix).negate();
       } else if (str.indexOf('-') >= 0) {
         throw Error('number format error: interior "-" character: ' + str);
       }
-  
+
       // Do several (8) digits each time through the loop, so as to
       // minimize the calls to the very expensive emulated div.
       var radixToPower = goog.math.Long.fromNumber(Math.pow(radix, 8));
-  
+
       var result = goog.math.Long.ZERO;
       for (var i = 0; i < str.length; i += 8) {
         var size = Math.min(8, str.length - i);
@@ -44962,12 +44962,12 @@
       }
       return result;
     };
-  
-  
+
+
     // NOTE: the compiler should inline these constant values below and then remove
     // these variables, so there should be no runtime penalty for these.
-  
-  
+
+
     /**
      * Number used repeated below in calculations.  This must appear before the
      * first call to any from* function below.
@@ -44975,96 +44975,96 @@
      * @private
      */
     goog.math.Long.TWO_PWR_16_DBL_ = 1 << 16;
-  
-  
+
+
     /**
      * @type {number}
      * @private
      */
     goog.math.Long.TWO_PWR_24_DBL_ = 1 << 24;
-  
-  
+
+
     /**
      * @type {number}
      * @private
      */
     goog.math.Long.TWO_PWR_32_DBL_ =
         goog.math.Long.TWO_PWR_16_DBL_ * goog.math.Long.TWO_PWR_16_DBL_;
-  
-  
+
+
     /**
      * @type {number}
      * @private
      */
     goog.math.Long.TWO_PWR_31_DBL_ =
         goog.math.Long.TWO_PWR_32_DBL_ / 2;
-  
-  
+
+
     /**
      * @type {number}
      * @private
      */
     goog.math.Long.TWO_PWR_48_DBL_ =
         goog.math.Long.TWO_PWR_32_DBL_ * goog.math.Long.TWO_PWR_16_DBL_;
-  
-  
+
+
     /**
      * @type {number}
      * @private
      */
     goog.math.Long.TWO_PWR_64_DBL_ =
         goog.math.Long.TWO_PWR_32_DBL_ * goog.math.Long.TWO_PWR_32_DBL_;
-  
-  
+
+
     /**
      * @type {number}
      * @private
      */
     goog.math.Long.TWO_PWR_63_DBL_ =
         goog.math.Long.TWO_PWR_64_DBL_ / 2;
-  
-  
+
+
     /** @type {!goog.math.Long} */
     goog.math.Long.ZERO = goog.math.Long.fromInt(0);
-  
-  
+
+
     /** @type {!goog.math.Long} */
     goog.math.Long.ONE = goog.math.Long.fromInt(1);
-  
-  
+
+
     /** @type {!goog.math.Long} */
     goog.math.Long.NEG_ONE = goog.math.Long.fromInt(-1);
-  
-  
+
+
     /** @type {!goog.math.Long} */
     goog.math.Long.MAX_VALUE =
         goog.math.Long.fromBits(0xFFFFFFFF | 0, 0x7FFFFFFF | 0);
-  
-  
+
+
     /** @type {!goog.math.Long} */
     goog.math.Long.MIN_VALUE = goog.math.Long.fromBits(0, 0x80000000 | 0);
-  
-  
+
+
     /**
      * @type {!goog.math.Long}
      * @private
      */
     goog.math.Long.TWO_PWR_24_ = goog.math.Long.fromInt(1 << 24);
-  
-  
+
+
     /** @return {number} The value, assuming it is a 32-bit integer. */
     goog.math.Long.prototype.toInt = function() {
       return this.low_;
     };
-  
-  
+
+
     /** @return {number} The closest floating-point representation to this value. */
     goog.math.Long.prototype.toNumber = function() {
       return this.high_ * goog.math.Long.TWO_PWR_32_DBL_ +
              this.getLowBitsUnsigned();
     };
-  
-  
+
+
     /**
      * @param {number=} opt_radix The radix in which the text should be written.
      * @return {string} The textual representation of this value.
@@ -45074,11 +45074,11 @@
       if (radix < 2 || 36 < radix) {
         throw Error('radix out of range: ' + radix);
       }
-  
+
       if (this.isZero()) {
         return '0';
       }
-  
+
       if (this.isNegative()) {
         if (this.equals(goog.math.Long.MIN_VALUE)) {
           // We need to change the Long value before it can be negated, so we remove
@@ -45091,18 +45091,18 @@
           return '-' + this.negate().toString(radix);
         }
       }
-  
+
       // Do several (6) digits each time through the loop, so as to
       // minimize the calls to the very expensive emulated div.
       var radixToPower = goog.math.Long.fromNumber(Math.pow(radix, 6));
-  
+
       var rem = this;
       var result = '';
       while (true) {
         var remDiv = rem.div(radixToPower);
         var intval = rem.subtract(remDiv.multiply(radixToPower)).toInt();
         var digits = intval.toString(radix);
-  
+
         rem = remDiv;
         if (rem.isZero()) {
           return digits + result;
@@ -45114,27 +45114,27 @@
         }
       }
     };
-  
-  
+
+
     /** @return {number} The high 32-bits as a signed value. */
     goog.math.Long.prototype.getHighBits = function() {
       return this.high_;
     };
-  
-  
+
+
     /** @return {number} The low 32-bits as a signed value. */
     goog.math.Long.prototype.getLowBits = function() {
       return this.low_;
     };
-  
-  
+
+
     /** @return {number} The low 32-bits as an unsigned value. */
     goog.math.Long.prototype.getLowBitsUnsigned = function() {
       return (this.low_ >= 0) ?
           this.low_ : goog.math.Long.TWO_PWR_32_DBL_ + this.low_;
     };
-  
-  
+
+
     /**
      * @return {number} Returns the number of bits needed to represent the absolute
      *     value of this Long.
@@ -45156,26 +45156,26 @@
         return this.high_ != 0 ? bit + 33 : bit + 1;
       }
     };
-  
-  
+
+
     /** @return {boolean} Whether this value is zero. */
     goog.math.Long.prototype.isZero = function() {
       return this.high_ == 0 && this.low_ == 0;
     };
-  
-  
+
+
     /** @return {boolean} Whether this value is negative. */
     goog.math.Long.prototype.isNegative = function() {
       return this.high_ < 0;
     };
-  
-  
+
+
     /** @return {boolean} Whether this value is odd. */
     goog.math.Long.prototype.isOdd = function() {
       return (this.low_ & 1) == 1;
     };
-  
-  
+
+
     /**
      * @param {goog.math.Long} other Long to compare against.
      * @return {boolean} Whether this Long equals the other.
@@ -45183,8 +45183,8 @@
     goog.math.Long.prototype.equals = function(other) {
       return (this.high_ == other.high_) && (this.low_ == other.low_);
     };
-  
-  
+
+
     /**
      * @param {goog.math.Long} other Long to compare against.
      * @return {boolean} Whether this Long does not equal the other.
@@ -45192,8 +45192,8 @@
     goog.math.Long.prototype.notEquals = function(other) {
       return (this.high_ != other.high_) || (this.low_ != other.low_);
     };
-  
-  
+
+
     /**
      * @param {goog.math.Long} other Long to compare against.
      * @return {boolean} Whether this Long is less than the other.
@@ -45201,8 +45201,8 @@
     goog.math.Long.prototype.lessThan = function(other) {
       return this.compare(other) < 0;
     };
-  
-  
+
+
     /**
      * @param {goog.math.Long} other Long to compare against.
      * @return {boolean} Whether this Long is less than or equal to the other.
@@ -45210,8 +45210,8 @@
     goog.math.Long.prototype.lessThanOrEqual = function(other) {
       return this.compare(other) <= 0;
     };
-  
-  
+
+
     /**
      * @param {goog.math.Long} other Long to compare against.
      * @return {boolean} Whether this Long is greater than the other.
@@ -45219,8 +45219,8 @@
     goog.math.Long.prototype.greaterThan = function(other) {
       return this.compare(other) > 0;
     };
-  
-  
+
+
     /**
      * @param {goog.math.Long} other Long to compare against.
      * @return {boolean} Whether this Long is greater than or equal to the other.
@@ -45228,8 +45228,8 @@
     goog.math.Long.prototype.greaterThanOrEqual = function(other) {
       return this.compare(other) >= 0;
     };
-  
-  
+
+
     /**
      * Compares this Long with the given one.
      * @param {goog.math.Long} other Long to compare against.
@@ -45240,7 +45240,7 @@
       if (this.equals(other)) {
         return 0;
       }
-  
+
       var thisNeg = this.isNegative();
       var otherNeg = other.isNegative();
       if (thisNeg && !otherNeg) {
@@ -45249,7 +45249,7 @@
       if (!thisNeg && otherNeg) {
         return 1;
       }
-  
+
       // at this point, the signs are the same, so subtraction will not overflow
       if (this.subtract(other).isNegative()) {
         return -1;
@@ -45257,8 +45257,8 @@
         return 1;
       }
     };
-  
-  
+
+
     /** @return {!goog.math.Long} The negation of this value. */
     goog.math.Long.prototype.negate = function() {
       if (this.equals(goog.math.Long.MIN_VALUE)) {
@@ -45267,8 +45267,8 @@
         return this.not().add(goog.math.Long.ONE);
       }
     };
-  
-  
+
+
     /**
      * Returns the sum of this and the given Long.
      * @param {goog.math.Long} other Long to add to this one.
@@ -45276,17 +45276,17 @@
      */
     goog.math.Long.prototype.add = function(other) {
       // Divide each number into 4 chunks of 16 bits, and then sum the chunks.
-  
+
       var a48 = this.high_ >>> 16;
       var a32 = this.high_ & 0xFFFF;
       var a16 = this.low_ >>> 16;
       var a00 = this.low_ & 0xFFFF;
-  
+
       var b48 = other.high_ >>> 16;
       var b32 = other.high_ & 0xFFFF;
       var b16 = other.low_ >>> 16;
       var b00 = other.low_ & 0xFFFF;
-  
+
       var c48 = 0, c32 = 0, c16 = 0, c00 = 0;
       c00 += a00 + b00;
       c16 += c00 >>> 16;
@@ -45301,8 +45301,8 @@
       c48 &= 0xFFFF;
       return goog.math.Long.fromBits((c16 << 16) | c00, (c48 << 16) | c32);
     };
-  
-  
+
+
     /**
      * Returns the difference of this and the given Long.
      * @param {goog.math.Long} other Long to subtract from this.
@@ -45311,8 +45311,8 @@
     goog.math.Long.prototype.subtract = function(other) {
       return this.add(other.negate());
     };
-  
-  
+
+
     /**
      * Returns the product of this and the given long.
      * @param {goog.math.Long} other Long to multiply with this.
@@ -45324,13 +45324,13 @@
       } else if (other.isZero()) {
         return goog.math.Long.ZERO;
       }
-  
+
       if (this.equals(goog.math.Long.MIN_VALUE)) {
         return other.isOdd() ? goog.math.Long.MIN_VALUE : goog.math.Long.ZERO;
       } else if (other.equals(goog.math.Long.MIN_VALUE)) {
         return this.isOdd() ? goog.math.Long.MIN_VALUE : goog.math.Long.ZERO;
       }
-  
+
       if (this.isNegative()) {
         if (other.isNegative()) {
           return this.negate().multiply(other.negate());
@@ -45340,26 +45340,26 @@
       } else if (other.isNegative()) {
         return this.multiply(other.negate()).negate();
       }
-  
+
       // If both longs are small, use float multiplication
       if (this.lessThan(goog.math.Long.TWO_PWR_24_) &&
           other.lessThan(goog.math.Long.TWO_PWR_24_)) {
         return goog.math.Long.fromNumber(this.toNumber() * other.toNumber());
       }
-  
+
       // Divide each long into 4 chunks of 16 bits, and then add up 4x4 products.
       // We can skip products that would overflow.
-  
+
       var a48 = this.high_ >>> 16;
       var a32 = this.high_ & 0xFFFF;
       var a16 = this.low_ >>> 16;
       var a00 = this.low_ & 0xFFFF;
-  
+
       var b48 = other.high_ >>> 16;
       var b32 = other.high_ & 0xFFFF;
       var b16 = other.low_ >>> 16;
       var b00 = other.low_ & 0xFFFF;
-  
+
       var c48 = 0, c32 = 0, c16 = 0, c00 = 0;
       c00 += a00 * b00;
       c16 += c00 >>> 16;
@@ -45383,8 +45383,8 @@
       c48 &= 0xFFFF;
       return goog.math.Long.fromBits((c16 << 16) | c00, (c48 << 16) | c32);
     };
-  
-  
+
+
     /**
      * Returns this Long divided by the given one.
      * @param {goog.math.Long} other Long by which to divide.
@@ -45396,7 +45396,7 @@
       } else if (this.isZero()) {
         return goog.math.Long.ZERO;
       }
-  
+
       if (this.equals(goog.math.Long.MIN_VALUE)) {
         if (other.equals(goog.math.Long.ONE) ||
             other.equals(goog.math.Long.NEG_ONE)) {
@@ -45418,7 +45418,7 @@
       } else if (other.equals(goog.math.Long.MIN_VALUE)) {
         return goog.math.Long.ZERO;
       }
-  
+
       if (this.isNegative()) {
         if (other.isNegative()) {
           return this.negate().div(other.negate());
@@ -45428,7 +45428,7 @@
       } else if (other.isNegative()) {
         return this.div(other.negate()).negate();
       }
-  
+
       // Repeat the following until the remainder is less than other:  find a
       // floating-point that approximates remainder / other *from below*, add this
       // into the result, and subtract it from the remainder.  It is critical that
@@ -45440,12 +45440,12 @@
         // Approximate the result of division. This may be a little greater or
         // smaller than the actual value.
         var approx = Math.max(1, Math.floor(rem.toNumber() / other.toNumber()));
-  
+
         // We will tweak the approximate result by changing it in the 48-th digit or
         // the smallest non-fractional digit, whichever is larger.
         var log2 = Math.ceil(Math.log(approx) / Math.LN2);
         var delta = (log2 <= 48) ? 1 : Math.pow(2, log2 - 48);
-  
+
         // Decrease the approximation until it is smaller than the remainder.  Note
         // that if it is too large, the product overflows and is negative.
         var approxRes = goog.math.Long.fromNumber(approx);
@@ -45455,20 +45455,20 @@
           approxRes = goog.math.Long.fromNumber(approx);
           approxRem = approxRes.multiply(other);
         }
-  
+
         // We know the answer can't be zero... and actually, zero would cause
         // infinite recursion since we would make no progress.
         if (approxRes.isZero()) {
           approxRes = goog.math.Long.ONE;
         }
-  
+
         res = res.add(approxRes);
         rem = rem.subtract(approxRem);
       }
       return res;
     };
-  
-  
+
+
     /**
      * Returns this Long modulo the given one.
      * @param {goog.math.Long} other Long by which to mod.
@@ -45477,14 +45477,14 @@
     goog.math.Long.prototype.modulo = function(other) {
       return this.subtract(this.div(other).multiply(other));
     };
-  
-  
+
+
     /** @return {!goog.math.Long} The bitwise-NOT of this value. */
     goog.math.Long.prototype.not = function() {
       return goog.math.Long.fromBits(~this.low_, ~this.high_);
     };
-  
-  
+
+
     /**
      * Returns the bitwise-AND of this Long and the given one.
      * @param {goog.math.Long} other The Long with which to AND.
@@ -45494,8 +45494,8 @@
       return goog.math.Long.fromBits(this.low_ & other.low_,
                                      this.high_ & other.high_);
     };
-  
-  
+
+
     /**
      * Returns the bitwise-OR of this Long and the given one.
      * @param {goog.math.Long} other The Long with which to OR.
@@ -45505,8 +45505,8 @@
       return goog.math.Long.fromBits(this.low_ | other.low_,
                                      this.high_ | other.high_);
     };
-  
-  
+
+
     /**
      * Returns the bitwise-XOR of this Long and the given one.
      * @param {goog.math.Long} other The Long with which to XOR.
@@ -45516,8 +45516,8 @@
       return goog.math.Long.fromBits(this.low_ ^ other.low_,
                                      this.high_ ^ other.high_);
     };
-  
-  
+
+
     /**
      * Returns this Long with bits shifted to the left by the given amount.
      * @param {number} numBits The number of bits by which to shift.
@@ -45539,8 +45539,8 @@
         }
       }
     };
-  
-  
+
+
     /**
      * Returns this Long with bits shifted to the right by the given amount.
      * @param {number} numBits The number of bits by which to shift.
@@ -45564,8 +45564,8 @@
         }
       }
     };
-  
-  
+
+
     /**
      * Returns this Long with bits shifted to the right by the given amount, with
      * the new top bits matching the current sign bit.
@@ -45591,15 +45591,15 @@
         }
       }
     };
-  
+
     //======= begin jsbn =======
-  
+
     var navigator = { appName: 'Modern Browser' }; // polyfill a little
-  
+
     // Copyright (c) 2005  Tom Wu
     // All Rights Reserved.
     // http://www-cs-students.stanford.edu/~tjw/jsbn/
-  
+
     /*
      * Copyright (c) 2003-2005  Tom Wu
      * All Rights Reserved.
@@ -45615,9 +45615,9 @@
      * The above copyright notice and this permission notice shall be
      * included in all copies or substantial portions of the Software.
      *
-     * THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND, 
-     * EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY 
-     * WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.  
+     * THE SOFTWARE IS PROVIDED "AS-IS" AND WITHOUT WARRANTY OF ANY KIND,
+     * EXPRESS, IMPLIED OR OTHERWISE, INCLUDING WITHOUT LIMITATION, ANY
+     * WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
      *
      * IN NO EVENT SHALL TOM WU BE LIABLE FOR ANY SPECIAL, INCIDENTAL,
      * INDIRECT OR CONSEQUENTIAL DAMAGES OF ANY KIND, OR ANY DAMAGES WHATSOEVER
@@ -45630,16 +45630,16 @@
      * All redistributions must retain an intact copy of this copyright notice
      * and disclaimer.
      */
-  
+
     // Basic JavaScript BN library - subset useful for RSA encryption.
-  
+
     // Bits per digit
     var dbits;
-  
+
     // JavaScript engine analysis
     var canary = 0xdeadbeefcafe;
     var j_lm = ((canary&0xffffff)==0xefcafe);
-  
+
     // (public) Constructor
     function BigInteger(a,b,c) {
       if(a != null)
@@ -45647,15 +45647,15 @@
         else if(b == null && "string" != typeof a) this.fromString(a,256);
         else this.fromString(a,b);
     }
-  
+
     // return new, unset BigInteger
     function nbi() { return new BigInteger(null); }
-  
+
     // am: Compute w_j += (x*this_i), propagate carries,
     // c is initial carry, returns final carry.
     // c < 3*dvalue, x < 2*dvalue, this_i < dvalue
     // We need to select the fastest one that works in this environment.
-  
+
     // am1: use a single mult and divide to get the high bits,
     // max digit bits should be 26 because
     // max internal value = 2*dvalue^2-2*dvalue (< 2^53)
@@ -45708,16 +45708,16 @@
       BigInteger.prototype.am = am3;
       dbits = 28;
     }
-  
+
     BigInteger.prototype.DB = dbits;
     BigInteger.prototype.DM = ((1<<dbits)-1);
     BigInteger.prototype.DV = (1<<dbits);
-  
+
     var BI_FP = 52;
     BigInteger.prototype.FV = Math.pow(2,BI_FP);
     BigInteger.prototype.F1 = BI_FP-dbits;
     BigInteger.prototype.F2 = 2*dbits-BI_FP;
-  
+
     // Digit conversions
     var BI_RM = "0123456789abcdefghijklmnopqrstuvwxyz";
     var BI_RC = new Array();
@@ -45728,20 +45728,20 @@
     for(vv = 10; vv < 36; ++vv) BI_RC[rr++] = vv;
     rr = "A".charCodeAt(0);
     for(vv = 10; vv < 36; ++vv) BI_RC[rr++] = vv;
-  
+
     function int2char(n) { return BI_RM.charAt(n); }
     function intAt(s,i) {
       var c = BI_RC[s.charCodeAt(i)];
       return (c==null)?-1:c;
     }
-  
+
     // (protected) copy this to r
     function bnpCopyTo(r) {
       for(var i = this.t-1; i >= 0; --i) r[i] = this[i];
       r.t = this.t;
       r.s = this.s;
     }
-  
+
     // (protected) set from integer value x, -DV <= x < DV
     function bnpFromInt(x) {
       this.t = 1;
@@ -45750,10 +45750,10 @@
       else if(x < -1) this[0] = x+DV;
       else this.t = 0;
     }
-  
+
     // return bigint initialized to value
     function nbv(i) { var r = nbi(); r.fromInt(i); return r; }
-  
+
     // (protected) set from string and radix
     function bnpFromString(s,b) {
       var k;
@@ -45792,13 +45792,13 @@
       this.clamp();
       if(mi) BigInteger.ZERO.subTo(this,this);
     }
-  
+
     // (protected) clamp off excess high words
     function bnpClamp() {
       var c = this.s&this.DM;
       while(this.t > 0 && this[this.t-1] == c) --this.t;
     }
-  
+
     // (public) return string representation in given radix
     function bnToString(b) {
       if(this.s < 0) return "-"+this.negate().toString(b);
@@ -45828,13 +45828,13 @@
       }
       return m?r:"0";
     }
-  
+
     // (public) -this
     function bnNegate() { var r = nbi(); BigInteger.ZERO.subTo(this,r); return r; }
-  
+
     // (public) |this|
     function bnAbs() { return (this.s<0)?this.negate():this; }
-  
+
     // (public) return + if this > a, - if this < a, 0 if equal
     function bnCompareTo(a) {
       var r = this.s-a.s;
@@ -45845,7 +45845,7 @@
       while(--i >= 0) if((r=this[i]-a[i]) != 0) return r;
       return 0;
     }
-  
+
     // returns bit length of the integer x
     function nbits(x) {
       var r = 1, t;
@@ -45856,13 +45856,13 @@
       if((t=x>>1) != 0) { x = t; r += 1; }
       return r;
     }
-  
+
     // (public) return the number of bits in "this"
     function bnBitLength() {
       if(this.t <= 0) return 0;
       return this.DB*(this.t-1)+nbits(this[this.t-1]^(this.s&this.DM));
     }
-  
+
     // (protected) r = this << n*DB
     function bnpDLShiftTo(n,r) {
       var i;
@@ -45871,14 +45871,14 @@
       r.t = this.t+n;
       r.s = this.s;
     }
-  
+
     // (protected) r = this >> n*DB
     function bnpDRShiftTo(n,r) {
       for(var i = n; i < this.t; ++i) r[i-n] = this[i];
       r.t = Math.max(this.t-n,0);
       r.s = this.s;
     }
-  
+
     // (protected) r = this << n
     function bnpLShiftTo(n,r) {
       var bs = n%this.DB;
@@ -45895,7 +45895,7 @@
       r.s = this.s;
       r.clamp();
     }
-  
+
     // (protected) r = this >> n
     function bnpRShiftTo(n,r) {
       r.s = this.s;
@@ -45913,7 +45913,7 @@
       r.t = this.t-ds;
       r.clamp();
     }
-  
+
     // (protected) r = this - a
     function bnpSubTo(a,r) {
       var i = 0, c = 0, m = Math.min(a.t,this.t);
@@ -45946,7 +45946,7 @@
       r.t = i;
       r.clamp();
     }
-  
+
     // (protected) r = this * a, r != this,a (HAC 14.12)
     // "this" should be the larger one if appropriate.
     function bnpMultiplyTo(a,r) {
@@ -45959,7 +45959,7 @@
       r.clamp();
       if(this.s != a.s) BigInteger.ZERO.subTo(r,r);
     }
-  
+
     // (protected) r = this^2, r != this (HAC 14.16)
     function bnpSquareTo(r) {
       var x = this.abs();
@@ -45976,7 +45976,7 @@
       r.s = 0;
       r.clamp();
     }
-  
+
     // (protected) divide this by m, quotient and remainder to q, r (HAC 14.20)
     // r != q, this != m.  q or r may be null.
     function bnpDivRemTo(m,q,r) {
@@ -46025,7 +46025,7 @@
       if(nsh > 0) r.rShiftTo(nsh,r);	// Denormalize remainder
       if(ts < 0) BigInteger.ZERO.subTo(r,r);
     }
-  
+
     // (public) this mod a
     function bnMod(a) {
       var r = nbi();
@@ -46033,7 +46033,7 @@
       if(this.s < 0 && r.compareTo(BigInteger.ZERO) > 0) a.subTo(r,r);
       return r;
     }
-  
+
     // Modular reduction using "classic" algorithm
     function Classic(m) { this.m = m; }
     function cConvert(x) {
@@ -46044,13 +46044,13 @@
     function cReduce(x) { x.divRemTo(this.m,null,x); }
     function cMulTo(x,y,r) { x.multiplyTo(y,r); this.reduce(r); }
     function cSqrTo(x,r) { x.squareTo(r); this.reduce(r); }
-  
+
     Classic.prototype.convert = cConvert;
     Classic.prototype.revert = cRevert;
     Classic.prototype.reduce = cReduce;
     Classic.prototype.mulTo = cMulTo;
     Classic.prototype.sqrTo = cSqrTo;
-  
+
     // (protected) return "-1/this % 2^DB"; useful for Mont. reduction
     // justification:
     //         xy == 1 (mod m)
@@ -46075,7 +46075,7 @@
       // we really want the negative inverse, and -DV < y < DV
       return (y>0)?this.DV-y:-y;
     }
-  
+
     // Montgomery reduction
     function Montgomery(m) {
       this.m = m;
@@ -46085,7 +46085,7 @@
       this.um = (1<<(m.DB-15))-1;
       this.mt2 = 2*m.t;
     }
-  
+
     // xR mod m
     function montConvert(x) {
       var r = nbi();
@@ -46094,7 +46094,7 @@
       if(x.s < 0 && r.compareTo(BigInteger.ZERO) > 0) this.m.subTo(r,r);
       return r;
     }
-  
+
     // x/R mod m
     function montRevert(x) {
       var r = nbi();
@@ -46102,7 +46102,7 @@
       this.reduce(r);
       return r;
     }
-  
+
     // x = x/R mod m (HAC 14.32)
     function montReduce(x) {
       while(x.t <= this.mt2)	// pad x so am has enough room later
@@ -46121,22 +46121,22 @@
       x.drShiftTo(this.m.t,x);
       if(x.compareTo(this.m) >= 0) x.subTo(this.m,x);
     }
-  
+
     // r = "x^2/R mod m"; x != r
     function montSqrTo(x,r) { x.squareTo(r); this.reduce(r); }
-  
+
     // r = "xy/R mod m"; x,y != r
     function montMulTo(x,y,r) { x.multiplyTo(y,r); this.reduce(r); }
-  
+
     Montgomery.prototype.convert = montConvert;
     Montgomery.prototype.revert = montRevert;
     Montgomery.prototype.reduce = montReduce;
     Montgomery.prototype.mulTo = montMulTo;
     Montgomery.prototype.sqrTo = montSqrTo;
-  
+
     // (protected) true iff this is even
     function bnpIsEven() { return ((this.t>0)?(this[0]&1):this.s) == 0; }
-  
+
     // (protected) this^e, e < 2^32, doing sqr and mul with "r" (HAC 14.79)
     function bnpExp(e,z) {
       if(e > 0xffffffff || e < 1) return BigInteger.ONE;
@@ -46149,14 +46149,14 @@
       }
       return z.revert(r);
     }
-  
+
     // (public) this^e % m, 0 <= e < 2^32
     function bnModPowInt(e,m) {
       var z;
       if(e < 256 || m.isEven()) z = new Classic(m); else z = new Montgomery(m);
       return this.exp(e,z);
     }
-  
+
     // protected
     BigInteger.prototype.copyTo = bnpCopyTo;
     BigInteger.prototype.fromInt = bnpFromInt;
@@ -46173,7 +46173,7 @@
     BigInteger.prototype.invDigit = bnpInvDigit;
     BigInteger.prototype.isEven = bnpIsEven;
     BigInteger.prototype.exp = bnpExp;
-  
+
     // public
     BigInteger.prototype.toString = bnToString;
     BigInteger.prototype.negate = bnNegate;
@@ -46182,13 +46182,13 @@
     BigInteger.prototype.bitLength = bnBitLength;
     BigInteger.prototype.mod = bnMod;
     BigInteger.prototype.modPowInt = bnModPowInt;
-  
+
     // "constants"
     BigInteger.ZERO = nbv(0);
     BigInteger.ONE = nbv(1);
-  
+
     // jsbn2 stuff
-  
+
     // (protected) convert from radix string
     function bnpFromRadix(s,b) {
       this.fromInt(0);
@@ -46215,24 +46215,24 @@
       }
       if(mi) BigInteger.ZERO.subTo(this,this);
     }
-  
+
     // (protected) return x s.t. r^x < DV
     function bnpChunkSize(r) { return Math.floor(Math.LN2*this.DB/Math.log(r)); }
-  
+
     // (public) 0 if this == 0, 1 if this > 0
     function bnSigNum() {
       if(this.s < 0) return -1;
       else if(this.t <= 0 || (this.t == 1 && this[0] <= 0)) return 0;
       else return 1;
     }
-  
+
     // (protected) this *= n, this >= 0, 1 < n < DV
     function bnpDMultiply(n) {
       this[this.t] = this.am(0,n-1,this,0,0,this.t);
       ++this.t;
       this.clamp();
     }
-  
+
     // (protected) this += n << w words, this >= 0
     function bnpDAddOffset(n,w) {
       if(n == 0) return;
@@ -46244,7 +46244,7 @@
         ++this[w];
       }
     }
-  
+
     // (protected) convert to radix string
     function bnpToRadix(b) {
       if(b == null) b = 10;
@@ -46259,7 +46259,7 @@
       }
       return z.intValue().toString(b) + r;
     }
-  
+
     // (public) return value as integer
     function bnIntValue() {
       if(this.s < 0) {
@@ -46271,7 +46271,7 @@
       // assumes 16 < DB < 32
       return ((this[1]&((1<<(32-this.DB))-1))<<this.DB)|this[0];
     }
-  
+
     // (protected) r = this + a
     function bnpAddTo(a,r) {
       var i = 0, c = 0, m = Math.min(a.t,this.t);
@@ -46304,7 +46304,7 @@
       r.t = i;
       r.clamp();
     }
-  
+
     BigInteger.prototype.fromRadix = bnpFromRadix;
     BigInteger.prototype.chunkSize = bnpChunkSize;
     BigInteger.prototype.signum = bnSigNum;
@@ -46313,9 +46313,9 @@
     BigInteger.prototype.toRadix = bnpToRadix;
     BigInteger.prototype.intValue = bnIntValue;
     BigInteger.prototype.addTo = bnpAddTo;
-  
+
     //======= end jsbn =======
-  
+
     // Emscripten wrapper
     var Wrapper = {
       abs: function(l, h) {
@@ -46392,14 +46392,14 @@
     };
     return Wrapper;
   })();
-  
+
   //======= end closure i64 code =======
-  
-  
-  
+
+
+
   // === Auto-generated postamble setup entry stuff ===
-  
-  
+
+
   function ExitStatus(status) {
     this.name = "ExitStatus";
     this.message = "Program terminated with exit(" + status + ")";
@@ -46407,25 +46407,25 @@
   };
   ExitStatus.prototype = new Error();
   ExitStatus.prototype.constructor = ExitStatus;
-  
+
   var initialStackTop;
   var preloadStartTime = null;
   var calledMain = false;
-  
+
   dependenciesFulfilled = function runCaller() {
     // If run has never been called, and we should call run (INVOKE_RUN is true, and Module.noInitialRun is not false)
     if (!Module['calledRun']) run();
     if (!Module['calledRun']) dependenciesFulfilled = runCaller; // try this again later, after new deps are fulfilled
   }
-  
+
   Module['callMain'] = Module.callMain = function callMain(args) {
     assert(runDependencies == 0, 'cannot call main when async dependencies remain! (listen on __ATMAIN__)');
     assert(__ATPRERUN__.length == 0, 'cannot call main when preRun functions remain to be called');
-  
+
     args = args || [];
-  
+
     ensureInitRuntime();
-  
+
     var argc = args.length+1;
     function pad() {
       for (var i = 0; i < 4-1; i++) {
@@ -46440,14 +46440,14 @@
     }
     argv.push(0);
     argv = allocate(argv, 'i32', ALLOC_NORMAL);
-  
+
     initialStackTop = STACKTOP;
-  
+
     try {
-  
+
       var ret = Module['_main'](argc, argv, 0);
-  
-  
+
+
       // if we're not running an evented main loop, it's time to exit
       exit(ret, /* implicit = */ true);
     }
@@ -46468,45 +46468,45 @@
       calledMain = true;
     }
   }
-  
-  
-  
-  
+
+
+
+
   function run(args) {
     args = args || Module['arguments'];
-  
+
     if (preloadStartTime === null) preloadStartTime = Date.now();
-  
+
     if (runDependencies > 0) {
       return;
     }
-  
+
     preRun();
-  
+
     if (runDependencies > 0) return; // a preRun added a dependency, run will be called later
     if (Module['calledRun']) return; // run may have just been called through dependencies being fulfilled just in this very frame
-  
+
     function doRun() {
       if (Module['calledRun']) return; // run may have just been called while the async setStatus time below was happening
       Module['calledRun'] = true;
-  
-      if (ABORT) return; 
-  
+
+      if (ABORT) return;
+
       ensureInitRuntime();
-  
+
       preMain();
-  
+
       if (ENVIRONMENT_IS_WEB && preloadStartTime !== null) {
         Module.printErr('pre-main prep time: ' + (Date.now() - preloadStartTime) + ' ms');
       }
-  
+
       if (Module['onRuntimeInitialized']) Module['onRuntimeInitialized']();
-  
+
       if (Module['_main'] && shouldRunNow) Module['callMain'](args);
-  
+
       postRun();
     }
-  
+
     if (Module['setStatus']) {
       Module['setStatus']('Running...');
       setTimeout(function() {
@@ -46520,24 +46520,24 @@
     }
   }
   Module['run'] = Module.run = run;
-  
+
   function exit(status, implicit) {
     if (implicit && Module['noExitRuntime']) {
       return;
     }
-  
+
     if (Module['noExitRuntime']) {
     } else {
-  
+
       ABORT = true;
       EXITSTATUS = status;
       STACKTOP = initialStackTop;
-  
+
       exitRuntime();
-  
+
       if (Module['onExit']) Module['onExit'](status);
     }
-  
+
     if (ENVIRONMENT_IS_NODE) {
       // Work around a node.js bug where stdout buffer is not flushed at process exit:
       // Instead of process.exit() directly, wait for stdout flush event.
@@ -46560,9 +46560,9 @@
     throw new ExitStatus(status);
   }
   Module['exit'] = Module.exit = exit;
-  
+
   var abortDecorators = [];
-  
+
   function abort(what) {
     if (what !== undefined) {
       Module.print(what);
@@ -46571,12 +46571,12 @@
     } else {
       what = '';
     }
-  
+
     ABORT = true;
     EXITSTATUS = 1;
-  
+
     var extra = '\nIf this abort() is unexpected, build with -s ASSERTIONS=1 which can give more information.';
-  
+
     var output = 'abort(' + what + ') at ' + stackTrace() + extra;
     if (abortDecorators) {
       abortDecorators.forEach(function(decorator) {
@@ -46586,36 +46586,36 @@
     throw output;
   }
   Module['abort'] = Module.abort = abort;
-  
+
   // {{PRE_RUN_ADDITIONS}}
-  
+
   if (Module['preInit']) {
     if (typeof Module['preInit'] == 'function') Module['preInit'] = [Module['preInit']];
     while (Module['preInit'].length > 0) {
       Module['preInit'].pop()();
     }
   }
-  
+
   // shouldRunNow refers to calling main(), not run().
   var shouldRunNow = true;
   if (Module['noInitialRun']) {
     shouldRunNow = false;
   }
-  
-  
+
+
   run();
-  
+
   // {{POST_RUN_ADDITIONS}}
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
   // {{MODULE_ADDITIONS}}
-  
-  
-  
+
+
+
     var NUM_CH = 2,
         HEAPU8 = Module.HEAPU8,
         malloc = Module._malloc,
@@ -46629,7 +46629,7 @@
         lame_encode_buffer_ieee_float = Module._lame_encode_buffer_ieee_float,
         lame_encode_flush = Module._lame_encode_flush,
         lame_close = Module._lame_close;
-  
+
     var Encoder = function(sampleRate, bitRate) {
       this.gfp = lame_init();
       lame_set_mode(this.gfp, 1/*JOINT_STEREO*/);
@@ -46640,21 +46640,23 @@
       this.allocBuffers(8192);
       this.mp3Buffers = [];
     };
-  
+
     Encoder.prototype.encode = function(buffers) {
       var length = buffers[0].length;
       if (length > this.srcLen) {
         this.freeBuffers();
         this.allocBuffers(length);
       }
-      for (var ch = 0; ch < NUM_CH; ++ch)
-        this.srcBuf[ch].set(buffers[ch]);
+      for (var ch = 0; ch < NUM_CH; ++ch) {
+        this.srcBuf[ch].set(buffers[ch])
+        document.getElementById('error').innerHTML = ch
+      }
       var nBytes = lame_encode_buffer_ieee_float(
         this.gfp, this.srcPtr[0], this.srcPtr[1], length,
         this.dstPtr, this.dstSz);
       this.mp3Buffers.push(new Uint8Array(this.dstBuf.subarray(0, nBytes)));
     };
-  
+
     Encoder.prototype.finish = function(mimeType) {
       var nBytes = lame_encode_flush(this.gfp, this.dstPtr, this.dstSz);
       this.mp3Buffers.push(new Uint8Array(this.dstBuf.subarray(0, nBytes)));
@@ -46662,14 +46664,14 @@
       this.cleanup();
       return blob;
     };
-  
+
     Encoder.prototype.cancel = Encoder.prototype.cleanup = function() {
       lame_close(this.gfp);
       delete this.gfp;
       delete this.mp3Buffers;
       this.freeBuffers();
     };
-  
+
     Encoder.prototype.allocBuffers = function(srcLen) {
       this.srcLen = srcLen;
       this.srcPtr = [];
@@ -46683,7 +46685,7 @@
       this.dstPtr = malloc(this.dstSz);
       this.dstBuf = new Uint8Array(HEAPU8.buffer, this.dstPtr, this.dstSz);
     };
-  
+
     Encoder.prototype.freeBuffers = function() {
       delete this.dstBuf;
       delete this.srcBuf;
@@ -46693,8 +46695,7 @@
       delete this.dstPtr;
       delete this.srcPtr;
     };
-  
+
     self.Mp3LameEncoder = Encoder;
   })(self);
-  
-  
+
