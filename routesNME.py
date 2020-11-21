@@ -221,12 +221,13 @@ def nme_mov(movie, part):
 
     model = None
     for a in entries:
-        print(a)
-        movieData = json.loads(a.Ans01)
-        for name in movieData['names']:
-            print(name)
-            if name == current_user.username:
-                model = a
+        if a.username != 'payload':
+            print(a)
+            movieData = json.loads(a.Ans01)
+            for name in movieData['names']:
+                print(name)
+                if name == current_user.username:
+                    model = a
     if model:
         movieData = model.Ans01
     else:
