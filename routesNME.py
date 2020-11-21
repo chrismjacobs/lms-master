@@ -213,7 +213,7 @@ def nme_mov(movie, part):
     db.session.add(moviePayload)
     db.session.commit()
 
-    movieData = movieDict[movie].query.filter_by(username='paylad').first()
+    movieData = movieDict[movie].query.filter_by(username='payload').first()
     mString = movieData.Ans01
 
     print(movie)
