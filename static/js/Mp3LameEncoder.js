@@ -46649,7 +46649,6 @@
       }
       for (var ch = 0; ch < NUM_CH; ++ch) {
         this.srcBuf[ch].set(buffers[ch])
-        document.getElementById('error').innerHTML = ch
       }
       var nBytes = lame_encode_buffer_ieee_float(
         this.gfp, this.srcPtr[0], this.srcPtr[1], length,
