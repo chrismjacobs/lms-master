@@ -81,6 +81,9 @@ def nme_dash():
 
 movieDict = {
         1: U013U, # lionking
+        2: U014U, # gifted
+        3: U023U,
+        4: U024U,
     }
 
 
@@ -201,9 +204,17 @@ def nme_mov(movie, part):
         return (redirect (url_for('nme_movies')))
 
 
+
+
     mDict = getMovieData(int(movie))
-    print(mDict)
-    mString = json.dumps(mDict)
+    data = json.dumps(mDict)
+
+    moviePayload = movieDict[movie](username="payload", Ans01=data)
+    db.session.add(moviePayload)
+    db.session.commit()
+
+    movieData = movieDict[movie].query.filter_by(username='paylad').first()
+    mString = movieData.Ans01
 
     print(movie)
     entries = movieDict[int(movie)].query.all()
