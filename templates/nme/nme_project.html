@@ -1,0 +1,199 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div id="vue-app">
+
+
+<div class="content-section">
+        <h1> Movie Project: Team [[team]] </h1>
+
+</div>
+
+<div class="content-section">
+  <legend class="border-bottom mb-4"> Movie Details: </legend>
+
+
+    {% if current_user.id == 1 %}
+
+    Trailer: <input style="text"  v-model="movieData.trailer"></input>
+    <br>
+    <br>
+    Clip: <input style="text"  v-model="movieData.clip"></input>
+    <br>
+    <br>
+    Subtitle: <input style="text"  v-model="movieData.subtitles"></input>
+    <br>
+    <br>
+    {% endif  %}
+
+
+    Title: <input style="text" v-model="movieData.title"></input>
+    <br>
+    <br>
+
+    Intro: <textarea style="text" v-model="movieData.intro"></textarea>
+    <br>
+    <br>
+
+    Warm Up Question 1: <textarea style="text" v-model="movieData.q01"></textarea>
+    <br>
+    <br>
+
+    Warm Up Question 2: <textarea style="text" v-model="movieData.q02"></textarea>
+    <br>
+    <br>
+
+    <h3> Main Idea: </h3>
+
+    Clip Description: <textarea style="text" v-model="movieData.description"></textarea>
+    <br>
+    <br>
+
+    First Listen Q1: <textarea style="text" v-model="movieData.q11"></textarea>
+    <br>
+    <br>
+
+    First Listen Q2: <textarea style="text" v-model="movieData.q12"></textarea>
+    <br>
+    <br>
+
+    <hr>
+    <h3>Details:</h3>
+
+    Second Listen Q1: <textarea style="text" v-model="movieData.q21"></textarea>
+    <br>
+    <br>
+
+    Second Listen Q2: <textarea style="text" v-model="movieData.q22"></textarea>
+    <br>
+    <br>
+
+    Second Listen Q3: <textarea style="text" v-model="movieData.q23"></textarea>
+    <br>
+    <br>
+
+    <hr>
+    <h3>Script: </h3>
+
+    <div v-for="(line, key) in movieData.script">
+        <div>
+          <textarea style="text"  v-model="movieData.script[key]"></textarea>
+        </div>
+    </div>
+
+    <hr>
+
+    <h3>Vocab</h3>
+
+    Vocab 1: <input style="text" v-model="movieData.vocab[1].v"></input>
+    Question: <textarea style="text" v-model="movieData.vocab[1].q"></textarea>
+    <br>
+    <br>
+    Vocab 2: <input style="text" v-model="movieData.vocab[2].v"></input>
+    Question: <textarea style="text" v-model="movieData.vocab[2].q"></textarea>
+    <br>
+    <br>
+    Vocab 3: <input style="text" v-model="movieData.vocab[3].v"></input>
+    Question: <textarea style="text" v-model="movieData.vocab[3].q"></textarea>
+
+
+
+
+
+    <div>
+      <button class="btn btn-info"><a style="color:white" @click="submitAnswers()">Submit Answers</a></button>
+    </div>
+
+</div>
+
+
+
+</div>
+
+<span id="user" style="display:none">{{current_user.username}}</span>
+<span id="mData" style="display:none">{{mData}}</span>
+<span id="team" style="display:none">{{team}}</span>
+
+</div> <!-- end of Vue app -->
+
+
+{% endblock %}
+
+{% block script %}
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+
+<script type="text/javascript" >
+
+
+var mData = document.getElementById('mData').innerHTML
+console.log(mData)
+
+var team = document.getElementById('team').innerHTML
+console.log(team)
+
+var movieData = JSON.parse(mData)
+console.log('movieData', movieData);
+
+
+
+
+
+var str = window.location.href
+
+startVue()
+
+function startVue(){ new Vue({
+
+    el: '#vue-app',
+    delimiters: ['[[', ']]'],
+    mounted: function(){
+    },
+    data: {
+        movieData: movieData,
+        team: team,
+    },
+    methods: {
+        goTo: function(task, index) {
+
+          let name = document.getElementById('user').innerHTML
+
+          var str = window.location.href
+
+          let url = (str).split('nme_')[0] + 'nme_movies'
+          console.log('goTO', url);
+            window.location = url
+            console.log('DONE');
+        },
+        submitAnswers: function () {
+          console.log('update via AJAX');
+          let _this = this
+            $.ajax({
+              data : {
+                team: this.team,
+                movieData: JSON.stringify(this.movieData),
+              },
+              type : 'POST',
+              url : '/addProject',
+            })
+            .done(function(data) {
+              alert('project updated')
+              // _this.goTo()
+            })
+            .fail(function(){
+              alert('an error has occured')
+              console.log('error has occurred');
+            });
+        },
+    }
+})// end NEW VUE
+
+
+
+}// endFunction
+
+</script>
+
+{% endblock %}
+

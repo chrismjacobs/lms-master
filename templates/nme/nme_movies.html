@@ -6,35 +6,56 @@
 
 <div class="content-section">
         <h1> Movie Projects </h1>
-    </div>
-    <div class="content-section">
-    <div class="embed-responsive embed-responsive-4by3">
-            <iframe id="questions_embed" src="https://docs.google.com/presentation/d/e/2PACX-1vSGKLyLYZRgqs6P9vMUi5iOjRsZhJW8tXGx6CmtwmXU-RvHPDQSsvS1D8JFvNqMIbyZDHXQfhjjdTXv/embed"
-            allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
-	        </iframe>
-    </div>
+
+        <div class="embed-responsive embed-responsive-4by3">
+                <iframe id="questions_embed" src="https://docs.google.com/presentation/d/e/2PACX-1vSGKLyLYZRgqs6P9vMUi5iOjRsZhJW8tXGx6CmtwmXU-RvHPDQSsvS1D8JFvNqMIbyZDHXQfhjjdTXv/embed"
+                allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
+                </iframe>
+        </div>
 
 </div>
 
 <div class="content-section">
+
   <legend class="border-bottom mb-4"> Your Projects: </legend>
 
-  <button class="btn btn-info" @click="goTo('nme_mov', 1, 0)"> Warm Up </button>
-  <br>
-  <br>
-  <button class="btn btn-info" @click="goTo('nme_mov', 1, 1)"> 1st Listen - Main Idea </button>
-  <br>
-  <br>
-  <button class="btn btn-info" @click="goTo('nme_mov', 1, 2)">  2nd Listen - Details </button>
-  <br>
-  <br>
-  <button class="btn btn-info" @click="goTo('nme_mov', 1, 3)"> 3rd Listen - Comprehension </button>
-  <br>
-  <br>
-  <button class="btn btn-info" @click="goTo('nme_mov', 1, 4)"> Post Listen - Dubbing </button>
-  <br>
-  <br>
-  <button class="btn btn-danger" @click="goTo('nme_mov', 1, 5)"> Test </button>
+
+  <div style="overflow-x:auto;">
+      <table class="table table-sm">
+        <thead>
+            <tr>
+              <th scope="col" >Movie</th>
+              <th scope="col" >WU</th>
+              <th scope="col" >1stL</th>
+              <th scope="col" >2ndL</th>
+              <th scope="col" >3rdL</th>
+              <th scope="col" >Dub</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <template v-for="(movie, number) in mObj">
+                <tr>
+                  <td> [[movie]] </td>
+                  <td> <button class="btn btn-info btn-sm" @click="goTo('nme_mov', number, 0)"> 0 </button></td>
+                  <td> <button class="btn btn-info btn-sm" @click="goTo('nme_mov', number, 1)"> 1 </button></td>
+                  <td> <button class="btn btn-info btn-sm" @click="goTo('nme_mov', number, 2)"> 2 </button></td>
+                  <td> <button class="btn btn-info btn-sm" @click="goTo('nme_mov', number, 3)"> 3 </button></td>
+                  <td>
+                  <button class="btn btn-info btn-sm" @click="goTo('nme_mov', number, 4)"> Dub </button>
+                  {% if current_user.id == 1 %}
+                    <button class="btn btn-danger" @click="goTo('nme_mov', number, 5)"> Test </button>
+                {% endif  %}
+                  </td>
+                </tr>
+            </template>
+        </tbody>
+
+      </table>
+    </div>
+
+
+  </div>
 
 
 </div>

@@ -8,11 +8,12 @@
 
 <div class="content-section">
         <h1> Movie Projects </h1>
-
 </div>
 
 <div class="content-section">
+  <div class="sticky">
    <audio controls id="handler"> </audio>
+  </div>
 
     <div style="overflow-x:auto;">
       <table class="table table-sm">
@@ -30,8 +31,10 @@
 
         <tbody>
         <template v-for="(movie, key) in projectOBJ" :key="key">
+          <button class="btn btn-warning" @click="show = key"> [[key]] </button>
+
           <template  v-for="(proj, team) in movie" :key="team">
-          <tr>
+          <tr v-if="show == key">
               <td>
               [[team]]
               </td>
@@ -97,7 +100,7 @@ function startVue(OBJ){ new Vue({
     delimiters: ['[[', ']]'],
     data: {
         projectOBJ: OBJ,
-        showSums: null
+        show: null
     },
     methods: {
         goTo: function(key) {

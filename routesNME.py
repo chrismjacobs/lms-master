@@ -82,7 +82,7 @@ def nme_dash():
 movieDict = {
         1: U013U, # lionking
         2: U014U, # gifted
-        3: U023U,
+        3: U023U, # intern
         4: U024U,
     }
 
@@ -104,7 +104,10 @@ def nme_dubdash():
         for entry in data:
             print(entry)
             movieData = json.loads(entry.Ans01)
-            nmeDict[mov][movieData['team']] = movieData
+            try:
+                nmeDict[mov][movieData['team']] = movieData
+            except:
+                print('payload')
 
     pprint (nmeDict)
 
@@ -120,7 +123,10 @@ def nme_movies():
 
     users = User.query.all()
 
-    mDict = {}
+    mDict = {
+        1 : 'The Lion King',
+        2 : 'Gifted',
+    }
 
     mString = json.dumps(mDict)
 
@@ -185,6 +191,60 @@ def getMovieData(arg):
 
     return selection[arg]
 
+def getMovieDict():
+    selection = {
+          'title': '',
+          'trailer': '',
+          'intro': '',
+          'q01': '',
+          'q02': '',
+          'clip': '',
+          'description': '',
+          'q11':'',
+          'q12':'',
+          'q21':'',
+          'q22':'',
+          'q23':'',
+          'subtitles': '',
+          'script': {
+                1: '',
+                2: '',
+                3: '',
+                4: '',
+                5: '',
+                6: '',
+                7: '',
+                8: '',
+                9: '',
+                10: '',
+                11: '',
+                12: '',
+                13: '',
+                14: '',
+                15: '',
+                16: '',
+                17: '',
+                18: '',
+                19: '',
+                20: '',
+                21: '',
+                22: '',
+          },
+          'vocab': {
+              1: { 'v':'',
+                   'q' : ''
+              },
+              2: { 'v':'',
+                   'q' : ''
+              },
+              3: { 'v':'',
+                   'q' : ''
+              },
+          }
+        }
+
+    return json.dumps(selection)
+
 
 @app.route("/nme_mov/<string:movie>/<string:part>", methods = ['GET', 'POST'])
 @login_required
@@ -195,7 +255,10 @@ def nme_mov(movie, part):
     #     flash('Not open yet', 'danger')
     #     return (redirect (url_for('nme_movies')))
 
-    if int(part) <= check.u1:
+    if check.u1 == 10:
+        flash('Closed during class time', 'danger')
+        return (redirect (url_for('nme_movies')))
+    elif int(part) <= check.u1:
         pass
     elif current_user.username == 'Chris':
         pass
@@ -203,15 +266,6 @@ def nme_mov(movie, part):
         flash('Not open yet', 'danger')
         return (redirect (url_for('nme_movies')))
 
-
-
-
-    mDict = getMovieData(int(movie))
-    data = json.dumps(mDict)
-
-    moviePayload = movieDict[int(movie)](username="payload", Ans01=data)
-    db.session.add(moviePayload)
-    db.session.commit()
 
     movieData = movieDict[int(movie)].query.filter_by(username='payload').first()
     mString = movieData.Ans01
@@ -248,6 +302,25 @@ def nme_mov(movie, part):
     return render_template('nme/nme_mov' + part + '.html', uString=uString, mString=mString, mData=movieData)
 
 
+@app.route("/nme_project/", methods = ['GET', 'POST'])
+@login_required
+def nme_project():
+
+    team = current_user.extra
+
+    project = movieDict[int(team)].query.filter_by(username='payload').first()
+
+    if not project:
+        dictionary = getMovieDict()
+        newProject = movieDict[int(team)](username='payload', Ans01=dictionary)
+        db.session.add(newProject)
+        db.session.commit()
+    else:
+        dictionary = project.Ans01
+
+    return render_template('nme/nme_project.html', mData=dictionary, team=team)
+
+
 
 @app.route('/dubUpload', methods=['POST', 'GET'])
 def dubUpload(audio_string, team, movie):
@@ -266,6 +339,26 @@ def dubUpload(audio_string, team, movie):
     return link
 
 
+
+@app.route('/addProject', methods=['POST', 'GET'])
+def addProject():
+
+    team = request.form ['team']
+    data = request.form ['movieData']
+    print(data)
+
+    movieData = json.loads(data)
+
+    model = movieDict[int(team)]
+    payload = model.query.filter_by(username="payload").first()
+    payload.Ans01 = data
+    db.session.commit()
+
+
+
+    return jsonify({'result' : True })
+
+
 @app.route('/addMovie', methods=['POST', 'GET'])
 def addMovie():
 
@@ -279,9 +372,6 @@ def addMovie():
     team = movieData['team']
     names = movieData['names']
     link = 'None'
-
-
-
 
     model = movieDict[int(movie)]
     print(names, type(names))
@@ -298,8 +388,6 @@ def addMovie():
     if part == '4':
         link = dubUpload(audio_string, team, movie)
         movieData['audio'] = link
-
-
 
     details.Ans01 = json.dumps(movieData)
     db.session.commit()
