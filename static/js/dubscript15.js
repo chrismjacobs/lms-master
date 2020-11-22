@@ -142,17 +142,13 @@ window.globalFunc = function (action){
           encoder = new Mp3LameEncoder(audioContext.sampleRate, 160); //bitRate set to 160
           /** Give the node a function to process audio events **/
 
-          let marker = true
 
+          video = document.getElementById('vid')
+          video.play()
           // let marker = true
           processor.onaudioprocess = function(event) {
               encoder.encode(getBuffers(event));
               console.log('MP3 encoding');
-              if (marker) {
-                video = document.getElementById('vid')
-                video.play()
-                marker = false
-              }
           };
 
 
@@ -449,6 +445,17 @@ function startVue(){
         if (device == 'I') {
           navigator.mediaDevices.getUserMedia({ audio: true, video: false })
         }
+        video.onended = function() {
+          // alert('video ended')
+          console.log('stopping video')
+          // console.log(vue.mediaRecorder.state)
+          if (vue.device == 'A' && vue.mediaRecorder.state == 'recording') {
+            vue.stop()
+          } else if (vue.device == 'I') {
+            vue.stop()
+          }
+        }
+
       },
       playRec : function (arg) {
         video = document.getElementById('vid')
@@ -494,16 +501,6 @@ function startVue(){
         if (arg == 'start') {
           video.muted = true
           vue.start()
-        }
-        video.onended = function() {
-          // alert('video ended')
-          console.log('stopping video')
-          // console.log(vue.mediaRecorder.state)
-          if (vue.device == 'A' && vue.mediaRecorder.state == 'recording') {
-            vue.stop()
-          } else if (vue.device == 'I') {
-            vue.stop()
-          }
         }
       }
     } // end methods
