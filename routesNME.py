@@ -319,7 +319,7 @@ def dubUpload(audio_string, team, movie, device):
     print(audio_string[0:10])
     seq = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm']
     audio = base64.b64decode(audio_string)
-    filename = 'dubbing/' + movie + '/' + team + '_' + device + random.choice(seq) +  '.mp3'
+    filename = 'dubbing/' + movie + '/' + team + '_' + random.choice(seq) +  '.mp3'
     link = S3_LOCATION + filename
     s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=audio)
 
