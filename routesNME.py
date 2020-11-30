@@ -82,8 +82,24 @@ def nme_dash():
 movieDict = {
         1: U013U, # lionking
         2: U014U, # gifted
-        3: U023U, # intern
-        4: U024U,
+        3: U023U, # jobs
+        4: U024U, # intern
+        5: U033U, # Ginny Amanda
+        6: U034U, # Elisha, Tina, Jessica
+        7: U043U, # Bobby Leo William
+        8: U044U, # Tracy Judy Tiffany
+        9: U053U, # Fiona Abby Winnie
+        10: U054U, # Jimmy Robin
+        11: U063U, # Alex Wayne Daniel
+    }
+
+mDict = {
+        1 : 'The Lion King',
+        2 : 'Gifted',
+        3 : 'Jobs',
+        # 4 : 'Intern',
+        # 5 : 'Unknown',
+        # 6 : 'Wonder'
     }
 
 
@@ -97,24 +113,43 @@ def nme_dubdash():
 
     nmeDict = {}
 
+    payloadDict = {}
+
     for mov in movieDict:
         data = movieDict[mov].query.all()
         print('DATA', data)
         nmeDict[mov] = {}
         for entry in data:
-            print(entry)
-            movieData = json.loads(entry.Ans01)
-            try:
+            if entry.username == 'payload':
+                payloadDict[mov] = json.loads(entry.Ans01)
+            else:
+                movieData = json.loads(entry.Ans01)
                 nmeDict[mov][movieData['team']] = movieData
-            except:
-                print('payload')
 
     pprint (nmeDict)
 
-    return render_template('nme/nme_dubdash.html', legend='NME Dash', nmeString = json.dumps(nmeDict))
+    return render_template('nme/nme_dubdash.html', legend='NME Dash', nmeString = json.dumps(nmeDict), payString = json.dumps(payloadDict) )
 
 
+def getStudentDict():
+    studentDict = {}
 
+    for movie in mDict:
+        studentDict[movie] = -1
+        entries = movieDict[int(movie)].query.all()
+        for a in entries:
+            if a.username == 'payload':
+                print(a)
+            else:
+                movieData = json.loads(a.Ans01)
+                for name in movieData['names']:
+                    print(name)
+                    if name == current_user.username:
+                        try:
+                            studentDict[movie] = movieData['status']
+                        except:
+                            studentDict[movie] = 4
+    return studentDict
 
 
 @app.route ("/nme_movies", methods=['GET','POST'])
@@ -123,15 +158,10 @@ def nme_movies():
 
     users = User.query.all()
 
-    mDict = {
-        1 : 'The Lion King',
-        2 : 'Gifted',
-    }
-
     mString = json.dumps(mDict)
+    sString = json.dumps(getStudentDict())
 
-
-    return render_template('nme/nme_movies.html', mString=mString, legend='NME Movies')
+    return render_template('nme/nme_movies.html', mString=mString, sString=sString, legend='NME Movies')
 
 
 def getMovieData(arg):
@@ -255,15 +285,15 @@ def nme_mov(movie, part):
     #     flash('Not open yet', 'danger')
     #     return (redirect (url_for('nme_movies')))
 
-    if check.u1 == 10:
-        flash('Closed during class time', 'danger')
-        return (redirect (url_for('nme_movies')))
-    elif int(part) <= check.u1:
+
+    sDict = getStudentDict()
+    print('sDict', sDict)
+    print('sDict',  sDict[int(movie)])
+
+    if current_user.username == 'Chris':
         pass
-    elif current_user.username == 'Chris':
-        pass
-    else:
-        flash('Not open yet', 'danger')
+    elif int(part) > sDict[int(movie)] + 1:
+        flash('First finish earlier parts', 'danger')
         return (redirect (url_for('nme_movies')))
 
 
@@ -275,8 +305,9 @@ def nme_mov(movie, part):
 
     model = None
     for a in entries:
-        if a.username != 'payload':
+        if a.username == 'payload':
             print(a)
+        else:
             movieData = json.loads(a.Ans01)
             for name in movieData['names']:
                 print(name)
@@ -309,8 +340,10 @@ def nme_project():
     team = current_user.extra
 
     project = movieDict[int(team)].query.filter_by(username='payload').first()
+    print(project)
 
     if not project:
+        print('not')
         dictionary = getMovieDict()
         newProject = movieDict[int(team)](username='payload', Ans01=dictionary)
         db.session.add(newProject)
@@ -323,7 +356,7 @@ def nme_project():
 
 
 @app.route('/dubUpload', methods=['POST', 'GET'])
-def dubUpload(audio_string, team, movie):
+def dubUpload(audio_string, team, movie, device):
 
 
     title = str(movie) + '-' + str(team)
@@ -331,7 +364,7 @@ def dubUpload(audio_string, team, movie):
     print(audio_string[0:10])
     seq = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm']
     audio = base64.b64decode(audio_string)
-    filename = 'dubbing/' + movie + '/' + team + '_' + random.choice(seq) +  '.mp3'
+    filename = 'dubbing/' + movie + '/' + team + '_' + device + random.choice(seq) +  '.mp3'
     link = S3_LOCATION + filename
     s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=audio)
 
@@ -363,6 +396,7 @@ def addProject():
 def addMovie():
 
     audio_string = request.form ['base64']
+    device = request.form ['device']
     part = request.form ['part']
     data = request.form ['movieData']
     movie = request.form ['movie']
@@ -386,7 +420,7 @@ def addMovie():
             return jsonify({'result' : True})
 
     if part == '4':
-        link = dubUpload(audio_string, team, movie)
+        link = dubUpload(audio_string, team, movie, device)
         movieData['audio'] = link
 
     details.Ans01 = json.dumps(movieData)
