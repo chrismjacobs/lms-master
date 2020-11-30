@@ -357,6 +357,11 @@ def addMovie():
     movie = request.form ['movie']
     print(data)
 
+    if device:
+        pass
+    else:
+        device = 'N'
+
     movieData = json.loads(data)
     team = movieData['team']
     names = movieData['names']
