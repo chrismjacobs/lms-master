@@ -99,6 +99,7 @@ console.log('uList', uList);
 if (!movieData['team']) {
   movieData = {
           team: null,
+          status: 0,
           names: [null, null, null],
           q01: null,
           q02: null,
@@ -154,7 +155,8 @@ function startVue(){ new Vue({
                 movie: this.movie,
                 part: 0,
                 movieData: JSON.stringify(this.movieData),
-                base64: 'none'
+                base64: 'none',
+                device : 'none'
               },
               type : 'POST',
               url : '/addMovie',

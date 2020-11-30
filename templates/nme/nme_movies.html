@@ -16,6 +16,11 @@
 </div>
 
 <div class="content-section">
+        <h1> Final Project </h1>
+        <button class="btn btn-success btn-sm" @click="goTo('nme_project')"> Start Project </button>
+</div>
+
+<div class="content-section">
 
   <legend class="border-bottom mb-4"> Your Projects: </legend>
 
@@ -37,14 +42,12 @@
             <template v-for="(movie, number) in mObj">
                 <tr>
                   <td> [[movie]] </td>
-                  <td> <button class="btn btn-info btn-sm" @click="goTo('nme_mov', number, 0)"> 0 </button></td>
-                  <td> <button class="btn btn-info btn-sm" @click="goTo('nme_mov', number, 1)"> 1 </button></td>
-                  <td> <button class="btn btn-info btn-sm" @click="goTo('nme_mov', number, 2)"> 2 </button></td>
-                  <td> <button class="btn btn-info btn-sm" @click="goTo('nme_mov', number, 3)"> 3 </button></td>
+                  <td> <button :class="getClass(number, 0)" @click="goTo('nme_mov', number, 0)"> 0 </button></td>
+                  <td> <button :class="getClass(number, 1)" @click="goTo('nme_mov', number, 1)"> 1 </button></td>
+                  <td> <button :class="getClass(number, 2)" @click="goTo('nme_mov', number, 2)"> 2 </button></td>
+                  <td> <button :class="getClass(number, 3)" @click="goTo('nme_mov', number, 3)"> 3 </button></td>
                   <td>
-                  <button class="btn btn-info btn-sm" @click="goTo('nme_mov', number, 4)"> Dub </button>
-
-                  <button class="btn btn-danger btn-sm" @click="goTo('nme_mov', number, 5)"> iPhone(?) </button>
+                  <button :class="getClass(number, 3)" @click="goTo('nme_mov', number, 4)"> Dub </button>
 
                   </td>
                 </tr>
@@ -62,6 +65,7 @@
 
 <span id="user" style="display:none">{{current_user.username}}</span>
 <span id="mString" style="display:none">{{mString}}</span>
+<span id="sString" style="display:none">{{sString}}</span>
 
 </div> <!-- end of Vue app -->
 
@@ -75,9 +79,12 @@
 <script type="text/javascript" >
 
 var mString = document.getElementById('mString').innerHTML
+var sString = document.getElementById('sString').innerHTML
 
 var mObj = JSON.parse(mString)
+var sObj = JSON.parse(sString)
 console.log('mObj', mObj);
+console.log('sObj', sObj);
 
 
 startVue()
@@ -90,6 +97,7 @@ function startVue(){ new Vue({
     },
     data: {
         mObj: mObj,
+        sObj: sObj,
     },
     methods: {
         goTo: function(task, part, movie ) {
@@ -97,12 +105,27 @@ function startVue(){ new Vue({
           let name = document.getElementById('user').innerHTML
 
           var str = window.location.href
+          let url = null
 
-          let url = (str).split('nme_')[0] + task + '/' + part + '/' + movie
-          console.log('goTO', url);
+          if (part) {
+            let url = (str).split('nme_')[0] + task + '/' + part + '/' + movie
             window.location = url
-            console.log('DONE');
-        }
+          } else {
+            let url = (str).split('nme_')[0] + task
+            window.location = url
+          }
+
+          console.log('goTO', url);
+          console.log('DONE');
+        },
+        getClass: function (number, part) {
+          if (sObj[number] >= part) {
+            return 'btn btn-success btn-sm'
+          } else {
+            return 'btn btn-info btn-sm'
+          }
+
+        },
     }
 })// end NEW VUE
 

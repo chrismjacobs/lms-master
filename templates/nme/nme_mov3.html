@@ -103,6 +103,7 @@ function startVue(){ new Vue({
             console.log('DONE');
         },
         submitAnswers: function () {
+          this.movieData.status = 3
           console.log('update via AJAX');
           let _this = this
             $.ajax({
@@ -110,7 +111,8 @@ function startVue(){ new Vue({
                 part: 2,
                 movie: this.movie,
                 movieData: JSON.stringify(this.movieData),
-                base64: 000
+                base64: 000,
+                device : 'none'
               },
               type : 'POST',
               url : '/addMovie',
