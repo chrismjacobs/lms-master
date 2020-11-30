@@ -373,12 +373,14 @@ function startVue(){
         if (this.device == 'I'){
           vue.base64data = b64d
         }
+        this.movieData.status = 4
         $.ajax({
           data : {
               part: 4,
               movie: vue.movie,
               movieData: JSON.stringify(vue.movieData),
               base64 : vue.base64data,
+              device : device
           },
           type : 'POST',
           url : '/addMovie'
