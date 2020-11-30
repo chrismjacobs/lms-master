@@ -97,7 +97,7 @@ mDict = {
         1 : 'The Lion King',
         2 : 'Gifted',
         3 : 'Jobs',
-        # 4 : 'Intern',
+        4 : 'Intern'
         # 5 : 'Unknown',
         # 6 : 'Wonder'
     }
@@ -161,65 +161,16 @@ def nme_movies():
     mString = json.dumps(mDict)
     sString = json.dumps(getStudentDict())
 
-    return render_template('nme/nme_movies.html', mString=mString, sString=sString, legend='NME Movies')
+    check = Units.query.all()
 
+    movies = {}
 
-def getMovieData(arg):
-    print(arg)
-    selection = {
-        1: {
-          'trailer': 'https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/1-0.mp4',
-          'intro': 'This movie is about a young lion who has to learn how to be king of the animals',
-          'q01': 'What do you know about lions? (3 things)',
-          'q02': 'In what ways should a father help his son? (3 things)',
-          'clip': 'https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/1-1.mp4',
-          'description': 'In this scene, Mufusa is giving advice to Simba about being king someday.',
-          'q11':'Do you think Simba is excited about being king? Why?',
-          'q12':'Why do you think Mufasa chooses this time to talk to Simba about being king?',
-          'q21':'Which part is their kingdom?',
-          'q22':'What "rises and falls like sun"?',
-          'q23':'Which part is the one Simba should never go to?',
-          'subtitles': 'https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/1-4.mp4',
-          'script': {
-                1: 'Mufasa: Look, Simba. Everything the light touches is our kingdom.',
-                2: 'Simba: Wow.',
-                3: 'Mufasa: A king`s time as ruler rises and falls like the sun. One day, Simba, the sun will set on my time here, and will rise with you as the new king.',
-                4: 'Simba: And this will all be mine?',
-                5: 'Mufasa: Everything.',
-                6: 'Simba: Everything the light touches... What about that shadowy place?',
-                7: 'Mufasa: That`s beyond our borders. You must never go there, Simba.',
-                8: 'Simba: But I thought a king can do whatever he wants.',
-                9: 'Mufasa: Oh, there`s more to being king than getting your way all the time.',
-                10: 'Simba: There`s more?',
-                11: 'Mufasa: Simba.'
-          },
-          'vocab': {
-              1: { 'v':'borders',
-                   'q' : 'Which countries have borders with Taiwan?'
-              },
-              2: { 'v':'kingdom',
-                   'q' : 'If a kingdom is ruled by a king, what is it called when a queen rules?'
-              },
-              3: { 'v':'getting your way',
-                   'q' : 'How do some young kids `get there way` all the time?'
-              },
-          }
-        },
+    for u in check:
+        movies[u.unit] = u.u1
 
-        10: {
-          'trailer': 'https://drive.google.com/file/d/17IAdV7e5uDY6sQY8pPkTYj7B48jNNVt2/preview',
-          'intro': 'This movie shows the early life of Apple CEO, Steve Jobs. How he started the company and developed the Apple vision.',
-          'q01': 'Write down everything your team knows about steve jobs? (maybe 3 things):',
-          'q02': 'What things do people negotiate (協商 ) about? (maybe 3 things):',
-          'clip': 'https://drive.google.com/file/d/1EnTb5IVKk1Z7JVdu66H46W7qbDRF_wcV/preview',
-          'description': 'In this scene, the young Steve Jobs is negotiating with an electronics store.',
-          'q11':'Do you think they have met before? Why?',
-          'q12':'Do you think Steve is selling or buying computers? Why?',
-          'q13':'Do you think the store owner wants to make a deal or not? Why?'
-        },
-    }
+    movies=json.dumps(movies)
 
-    return selection[arg]
+    return render_template('nme/nme_movies.html', mString=mString, sString=sString, legend='NME Movies', movies=movies)
 
 def getMovieDict():
     selection = {
@@ -285,13 +236,17 @@ def nme_mov(movie, part):
     #     flash('Not open yet', 'danger')
     #     return (redirect (url_for('nme_movies')))
 
-
     sDict = getStudentDict()
     print('sDict', sDict)
     print('sDict',  sDict[int(movie)])
 
+    print('CHECK', check.u1)
+
     if current_user.username == 'Chris':
         pass
+    elif check and int(check.u1) == 0:
+        flash('Not open yet', 'danger')
+        return (redirect (url_for('nme_movies')))
     elif int(part) > sDict[int(movie)] + 1:
         flash('First finish earlier parts', 'danger')
         return (redirect (url_for('nme_movies')))

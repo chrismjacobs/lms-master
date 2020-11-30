@@ -40,15 +40,21 @@
 
         <tbody>
             <template v-for="(movie, number) in mObj">
-                <tr>
+                <tr v-if="checkMovie(number)">
                   <td> [[movie]] </td>
                   <td> <button :class="getClass(number, 0)" @click="goTo('nme_mov', number, 0)"> 0 </button></td>
                   <td> <button :class="getClass(number, 1)" @click="goTo('nme_mov', number, 1)"> 1 </button></td>
                   <td> <button :class="getClass(number, 2)" @click="goTo('nme_mov', number, 2)"> 2 </button></td>
                   <td> <button :class="getClass(number, 3)" @click="goTo('nme_mov', number, 3)"> 3 </button></td>
                   <td>
-                  <button :class="getClass(number, 3)" @click="goTo('nme_mov', number, 4)"> Dub </button>
+                  <button :class="getClass(number, 4)" @click="goTo('nme_mov', number, 4)"> Dub </button>
 
+                  </td>
+                </tr>
+                <tr v-else>
+                  <td> [[movie]] </td>
+                  <td> [[movies]] </td>
+                  <td> [[number]]</td>
                   </td>
                 </tr>
             </template>
@@ -66,6 +72,7 @@
 <span id="user" style="display:none">{{current_user.username}}</span>
 <span id="mString" style="display:none">{{mString}}</span>
 <span id="sString" style="display:none">{{sString}}</span>
+<span id="movies" style="display:none">{{movies}}</span>
 
 </div> <!-- end of Vue app -->
 
@@ -80,11 +87,14 @@
 
 var mString = document.getElementById('mString').innerHTML
 var sString = document.getElementById('sString').innerHTML
+var movies = document.getElementById('movies').innerHTML
 
 var mObj = JSON.parse(mString)
 var sObj = JSON.parse(sString)
+var movies = JSON.parse(movies)
 console.log('mObj', mObj);
 console.log('sObj', sObj);
+console.log('movies', movies);
 
 
 startVue()
@@ -98,6 +108,7 @@ function startVue(){ new Vue({
     data: {
         mObj: mObj,
         sObj: sObj,
+        movies: movies
     },
     methods: {
         goTo: function(task, part, movie ) {
@@ -124,6 +135,16 @@ function startVue(){ new Vue({
           } else {
             return 'btn btn-info btn-sm'
           }
+
+        },
+        checkMovie: function (number) {
+          console.log(number)
+          if (number in this.movies) {
+            return true
+          } else {
+            return false
+          }
+
 
         },
     }
