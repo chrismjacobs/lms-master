@@ -234,6 +234,7 @@ function startVue(){ new Vue({
           audio.currentTime = 0
 
           let video = document.getElementById('vid')
+          video.muted = true
           video.src = this.payOBJ[mov].subtitles
           video.pause()
           video.currentTime = 0

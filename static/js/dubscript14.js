@@ -448,6 +448,9 @@ function startVue(){
         video.currentTime = 0
         audio.currentTime = 0
         vue.rec1.load = false
+        if (device == 'I') {
+          navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+        }
       },
       playRec : function (arg) {
         video = document.getElementById('vid')
