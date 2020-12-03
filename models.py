@@ -332,6 +332,23 @@ if BaseConfig.SCHEMA == 6:
         id = db.Column(db.Integer, primary_key=True)
     modDictUnits['09'].append(U094U)
 
+    class U101U(BaseUnits):
+        id = db.Column(db.Integer, primary_key=True)
+    modDictUnits['10']=[None]
+    modDictUnits['10'].append(U101U)
+
+    class U102U(BaseUnits):
+        id = db.Column(db.Integer, primary_key=True)
+    modDictUnits['10'].append(U102U)
+
+    class U103U(BaseUnits):
+        id = db.Column(db.Integer, primary_key=True)
+    modDictUnits['10'].append(U103U)
+
+    class U104U(BaseUnits):
+        id = db.Column(db.Integer, primary_key=True)
+    modDictUnits['10'].append(U104U)
+
 
 
 
@@ -389,6 +406,16 @@ modDictAss['07'] = A07A
 class A08A (BaseAss):
     id = db.Column(db.Integer, primary_key=True)
 modDictAss['08'] = A08A
+
+if BaseConfig.SCHEMA == 6:
+
+    class A09A (BaseAss):
+        id = db.Column(db.Integer, primary_key=True)
+    modDictAss['09'] = A09A
+
+    class A10A (BaseAss):
+        id = db.Column(db.Integer, primary_key=True)
+    modDictAss['10'] = A10A
 
 ##############################################
 

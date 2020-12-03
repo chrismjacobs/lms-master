@@ -135,12 +135,14 @@ def dashboard():
     ## intro edit
     if SCHEMA == 6:
         midterm = ['01', '02', '03', '04', '05']
+        final = ['06', '07', '08', '09', '10']
     else:
         midterm = ['01', '02', '03', '04']
+        final = ['05', '06', '07', '08']
 
     # final = ['05', '06', '07', '08']
 
-    period = midterm
+    period = final
 
     totalDict = {}
     allStudents = User.query.all()
