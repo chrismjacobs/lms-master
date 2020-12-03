@@ -380,7 +380,7 @@ function startVue(){
               movie: vue.movie,
               movieData: JSON.stringify(vue.movieData),
               base64 : vue.base64data,
-              device : device
+              device : vue.device
           },
           type : 'POST',
           url : '/addMovie'

@@ -75,7 +75,7 @@
 
 
   <div class="content-section">
-    <legend class="border-bottom mb-4"> Movie Details: </legend>
+    <legend class="border-bottom mb-4"> Movie Details: Team [[md]]</legend>
 
     <div v-for="(movieData, key) in payOBJ">
     <div v-if="md == key">
@@ -164,7 +164,7 @@
       Question: <textarea style="text" v-model="movieData.vocab[3].q"></textarea>
 
       <div>
-        <button class="btn btn-info"><a style="color:white" @click="submitAnswers()">Submit Answers</a></button>
+        <button class="btn btn-info"><a style="color:white" @click="submitAnswers(md)">Submit Answers</a></button>
       </div>
 
       <br>
@@ -213,7 +213,7 @@ function startVue(){ new Vue({
         projectOBJ: OBJ,
         payOBJ: PAY,
         show: null,
-        md: null
+        md: 6
     },
     methods: {
         goTo: function(key) {
@@ -241,6 +241,26 @@ function startVue(){ new Vue({
 
           audio.play()
           video.play()
+        },
+        submitAnswers: function (team) {
+          console.log('update via AJAX');
+          let _this = this
+            $.ajax({
+              data : {
+                team: team,
+                movieData: JSON.stringify(_this.payOBJ[team]),
+              },
+              type : 'POST',
+              url : '/addProject',
+            })
+            .done(function(data) {
+              alert('project updated')
+              // _this.goTo()
+            })
+            .fail(function(){
+              alert('an error has occured')
+              console.log('error has occurred');
+            });
         },
 
     }
