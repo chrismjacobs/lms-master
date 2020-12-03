@@ -172,21 +172,21 @@ def nme_movies():
 
     return render_template('nme/nme_movies.html', mString=mString, sString=sString, legend='NME Movies', movies=movies)
 
-def getMovieDict():
+def getMovieDict(team):
     selection = {
           'title': '',
-          'trailer': '',
+          'trailer': 'https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/' + str(team) + '-0.mp4',
           'intro': '',
           'q01': '',
           'q02': '',
-          'clip': '',
+          'clip': 'https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/' + str(team) + '-1.mp4',
           'description': '',
           'q11':'',
           'q12':'',
           'q21':'',
           'q22':'',
           'q23':'',
-          'subtitles': '',
+          'subtitles': 'https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/' + str(team) + '-2.mp4',
           'script': {
                 1: '',
                 2: '',
@@ -299,7 +299,7 @@ def nme_project():
 
     if not project:
         print('not')
-        dictionary = getMovieDict()
+        dictionary = getMovieDict(team)
         newProject = movieDict[int(team)](username='payload', Ans01=dictionary)
         db.session.add(newProject)
         db.session.commit()
