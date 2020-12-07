@@ -130,6 +130,29 @@ def nme_dubdash():
 
     return render_template('nme/nme_dubdash.html', legend='NME Dash', nmeString = json.dumps(nmeDict), payString = json.dumps(payloadDict) )
 
+@app.route ("/nme_dubs", methods=['GET','POST'])
+@login_required
+def nme_dubs():
+
+    nmeDict = {}
+
+    payloadDict = {}
+
+    for mov in movieDict:
+        data = movieDict[mov].query.all()
+        print('DATA', data)
+        nmeDict[mov] = {}
+        for entry in data:
+            if entry.username == 'payload':
+                payloadDict[mov] = json.loads(entry.Ans01)
+            else:
+                movieData = json.loads(entry.Ans01)
+                nmeDict[mov][movieData['team']] = movieData
+
+    pprint (nmeDict)
+
+    return render_template('nme/nme_dubs.html', legend='NME Dubs', nmeString = json.dumps(nmeDict), payString = json.dumps(payloadDict) )
+
 
 def getStudentDict():
     studentDict = {}
