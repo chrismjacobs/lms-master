@@ -30,9 +30,11 @@
                <h3 style="color:white" >[[ key ]]</h3>
                </div>
 
-                <span v-if="grade < 5"> [[  answerSet['word']  ]] </span> <br>
-                <span v-if="grade < 4"> [[  answerSet['sentence']  ]] </span> <br>
+                <span v-if="grade < 6"> [[  answerSet['word']  ]] <br> </span>
+                <span v-if="grade < 5"> [[  answerSet['sentence']  ]] <br> </span>
                 <img class="rounded img-fluid" alt="No file yet" style="width: 100%"  :src="answerSet.imageLink">
+                <br>
+                <br>
               </td>
               <td style="background:lightgrey">
               <div align="right">
@@ -117,7 +119,7 @@ function startVue(){
         snlOBJ: snlOBJ,
         orderOBJ: orderOBJ,
         errorCount : 0,
-        grade : 5
+        grade : 6
     },
     methods: {
         goTo: function(key, state) {
