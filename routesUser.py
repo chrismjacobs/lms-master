@@ -601,16 +601,16 @@ def grades_final():
     practices = Exams.query.all()
     for practice in practices:
         reviewData = ast.literal_eval(practice.j1)
-        if len(reviewData['5-6']) > 2:
-            gradesDict[practice.username]['tries1'] = reviewData['5-6'][2]
-        if len(reviewData['7-8']) > 2:
-            gradesDict[practice.username]['tries2'] = reviewData['7-8'][2]
+        if len(reviewData['1-5-6']) > 2:
+            gradesDict[practice.username]['tries1'] = reviewData['1-5-6'][2]
+        if len(reviewData['1-7-8']) > 2:
+            gradesDict[practice.username]['tries2'] = reviewData['1-7-8'][2]
 
         examData =  ast.literal_eval(practice.j2)
-        if len(examData['5-6']) > 0 :
-            gradesDict[practice.username]['exam1'] = round( (examData['5-6'][0] + examData['5-6'][1])/2 )
-        if len(examData['7-8']) > 0 :
-            gradesDict[practice.username]['exam2'] = round( (examData['7-8'][0] + examData['7-8'][1])/2 )
+        if len(examData['1-5-6']) > 0 :
+            gradesDict[practice.username]['exam1'] = round( (examData['1-5-6'][0] + examData['1-5-6'][1])/2 )
+        if len(examData['1-7-8']) > 0 :
+            gradesDict[practice.username]['exam2'] = round( (examData['1-7-8'][0] + examData['1-7-8'][1])/2 )
 
 
         print('exam_list_data_checked')
