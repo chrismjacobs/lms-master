@@ -6,11 +6,25 @@
 
 <div id="vue-app">
 
-<div class="content-section">
+<div class="content-section sticky">
+    <div style="display:inline-block">
     <h1> Dashboard </h1>
-    <div class="sticky">
-      <audio controls autoplay id="instructorPlayer"></audio>
+    <audio controls autoplay id="instructorPlayer"></audio>
+    Details:
+    [[ studentName ]] [[ studentUnit]]
     </div>
+    <div style="display:inline-block">
+        <div v-for="(part, key) in comment">
+            <select v-model="comment[key]">
+              <option v-for="option in options[key]" :value="option.value">[[option.value]]</option>
+            </select>
+            <button @click="addComment(key)"> Add </button>
+        </div>
+    </div>
+    <button @click="addComment(studentName, studentUnit)"> Update </button>
+
+
+
 </div>
 
 
@@ -47,15 +61,9 @@
                 <td style="width: 45px; word-wrap: break-word"><div  class="noScrollBar" style="overflow:scroll;width:210px;height:110px">[[  item.T2  ]] </div></td>
                 <td> [[  item.G  ]] </td>
                 <td> <textarea type="text" :style="commentStyle(item.C)" :id="user+key" v-model="item.C" required> </textarea></td>
-                <td> <button @click="commentSet(user,key)"> Update </button>
-                  <button v-if="showNotes != user+key" @click="showNotes = user+key"> Notes </button>
-                  <button style="background:coral" @click="item.C = ''"> Clear </button>
-                  <select v-if="showNotes == user+key" size="8" v-model="comment">
-                    <option v-for="option in options" :value="option.value">[[option.value]]</option>
-                  </select>
-                  <br>
-                  <button v-if="showNotes == user+key" @click="item.C += comment"> Add </button>
-                  </td>
+                <td> <button @click="commentSet(user,key)"> Up </button>
+                  <button style="background:coral" @click="setComment(key, user), item.C = ''"> Cl </button>
+                  <button style="background:coral" @click="setComment(key, user)"> Set </button>                  </td>
 
               </tr>
             </template>
@@ -98,34 +106,67 @@ function startVue(){
 
     data: {
         ansOBJ: OBJ,
-        options: [
+        nComment: null,
+        options: {
+          intro: [
         {value: 'Great start,', text:'test'},
         {value: 'Good assignment,', text:'test'},
+        {value: 'Great assignment,', text:'test'},
         {value: 'I like this assignment,', text:'test'},
         {value: 'Great work,', text:'test'},
-        {value: 'Nice work,', text:'test'},
-        {value: ' I like this narrative,', text:'test'},
-        {value: " it's a good narrative, ", text:'test'},
-        {value: ' your narrative is very good,', text:'test'},
+        {value: 'Nice work,', text:'test'}
+        ],
+        speak: [
+        {value: ' speaking is good, lots of detail, ', text:'test'},
+        {value: ' speaking could have more detail,', text:'test'},
+        {value: ' you share good opinions in your speaking,', text:'test'},
+        {value: ' speaking practice is important,', text:'test'},
+        {value: ' next times speak out a bit longer, add more detail if you can ', text:'test'}
+        ],
+        pron: [
         {value: ' excellent pronunciation, ', text:'test'},
-        {value: ' pronunciation is clear', text:'test'},
-        {value: ' pronunciation practice is good', text:'test'},
-        {value: ' your pronunciation is improving', text:'test'},
+        {value: ' pronunciation is clear,', text:'test'},
+        {value: ' pronunciation practice is good,', text:'test'},
+        {value: ' your pronunciation is improving,', text:'test'},
         {value: ' give these words some extra practice: ', text:'test'},
         {value: ' try these words again: ', text:'test'},
         {value: ' watch out for the (th) sound like (think),', text:'test'},
-        {value: ' grammar sentences look good', text:'test'},
-        {value: ' writing part is well done', text:'test'},
-        {value: ' no grammar problems', text:'test'},
+        {value: ' watch out for ', text:'test'}
+        ],
+        write: [
+        {value: ' writing part looks good, ', text:'test'},
+        {value: ' excellent sentences, ', text:'test'},
+        {value: ' good use of grammar, ', text:'test'},
+        {value: ' grammar sentences look good, ', text:'test'},
+        {value: ' writing part is well done, ', text:'test'},
+        {value: ' no grammar problems, ', text:'test'},
         {value: ' Grammar Tip: ', text:'test'},
         ],
+        extra: [
+        {value: ' I like this narrative,', text:'test'},
+        {value: " it's a good narrative, ", text:'test'},
+        {value: ' your narrative is very good,', text:'test'}
+        ]
+        },
         showNotes: null,
-        comment: null
+        comment: {
+          intro: null,
+          speak: null,
+          pron: null,
+          write: null,
+          extra: null
+        },
+        studentName: null,
+        studentUnit: null
 
     },
     methods: {
-        headStyle: function(){
-
+        setComment: function(key, user){
+          this.studentName = user
+          this.studentUnit = key
+        },
+        addComment: function(key){
+          this.ansOBJ[this.studentName][this.studentUnit].C += this.comment[key]
         },
         play: function(audio){
           document.getElementById('instructorPlayer').src = audio
