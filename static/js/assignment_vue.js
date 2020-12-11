@@ -29,7 +29,7 @@ else if (report.includes('Android')){
     notice = 'Recording in Android'
 }
 else if (report.includes('Macintosh')){
-    device = 'A'
+    device = 'I'
     notice = 'Recording on Mac'
 }
 else if (report.includes('iPad')){
