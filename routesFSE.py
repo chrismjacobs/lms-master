@@ -177,12 +177,13 @@ def get_tests(unit, team):
     user = midtermGrades()
     print('USER', user)
 
-    qna = json.loads(user.j1)
-    snl = json.loads(user.j2)
+
+    #qna = json.loads(user.j1)
+    #snl = json.loads(user.j2)
     rp = json.loads(user.j3)
-    #qna = json.loads(user.j3)
-    #snl = json.loads(user.j4)
-    print(qna)
+    qna = json.loads(user.j3)
+    snl = json.loads(user.j4)
+    #print(qna)
 
     qnaCount = 0
     for test in qna:
@@ -248,6 +249,8 @@ def fse_list():
 
     examDict = {}
 
+    '''
+
     for src in srcDict:
         if int(src) < 7: # change to match number of units
             pass
@@ -310,6 +313,8 @@ def fse_list():
         except:
             print('FAIL QNA')
 
+
+    '''
 
 
     source = srcDict['01']['M2']
@@ -702,6 +707,7 @@ def updateGrades():
     for entry in examDict:
         if examDict[entry]['team'] == team and examDict[entry]['unit'] == unit:
             entryChecker = False
+            print("entryChecker False")
 
     if entryChecker:
         count = len(examDict)
