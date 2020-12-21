@@ -103,8 +103,8 @@ mDict = {
         7: 'Thor',
         8: 'Moana',
         9: 'Devil Wears Prada',
-       # 10: 'White Chicks',
-        # 11: 'Key and Peele'
+        10: 'White Chicks',
+        11: 'Key and Peele'
     }
 
 
@@ -271,7 +271,10 @@ def nme_mov(movie, part):
     print('CHECK', check.u1)
 
     team = int(current_user.extra)
-    movieList = [1,2,3,4, team]
+    movieList = [1,2,3,4,6]
+
+    if team not in movieList:
+        movieList.append(team)
 
     if current_user.username == 'Chris':
         pass
