@@ -73,6 +73,7 @@
 <span id="mString" style="display:none">{{mString}}</span>
 <span id="uString" style="display:none">{{uString}}</span>
 <span id="mData" style="display:none">{{mData}}</span>
+<span id="team" style="display:none">{{team}}</span>
 
 </div> <!-- end of Vue app -->
 
@@ -88,6 +89,7 @@
 var mString = document.getElementById('mString').innerHTML
 var uString = document.getElementById('uString').innerHTML
 var mData = document.getElementById('mData').innerHTML
+var team = document.getElementById('team').innerHTML
 console.log(mData)
 
 var mObj = JSON.parse(mString)
@@ -119,6 +121,10 @@ console.log(movieData, movieData.length)
 
 var str = window.location.href
 let movie = str.split('nme_mov/')[1][0]
+
+if (parseInt(movie) > 4) {
+  movieData.team = team
+}
 
 startVue()
 

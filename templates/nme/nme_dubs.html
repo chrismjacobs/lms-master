@@ -105,12 +105,12 @@ function startVue(){ new Vue({
         },
         stopAudio: function () {
           let audio = document.getElementById('handler')
-          audio.stop()
+          audio.pause()
           audio.currentTime = 0
 
           let video = document.getElementById('vid')
           video.muted = true
-          video.stop()
+          video.pause()
           video.currentTime = 0
 
         },

@@ -97,9 +97,14 @@ mDict = {
         1 : 'The Lion King',
         2 : 'Gifted',
         3 : 'Jobs',
-        4 : 'Intern'
-        # 5 : 'Unknown',
-        # 6 : 'Wonder'
+        4 : 'Intern',
+        5 : 'Finding Nemo',
+        6 : 'Wonder',
+        7: 'Thor',
+        8: 'Moana',
+        9: 'Devil Wears Prada',
+       # 10: 'White Chicks',
+        # 11: 'Key and Peele'
     }
 
 
@@ -265,10 +270,16 @@ def nme_mov(movie, part):
 
     print('CHECK', check.u1)
 
+    team = int(current_user.extra)
+    movieList = [1,2,3,4, team]
+
     if current_user.username == 'Chris':
         pass
     elif check and int(check.u1) == 0:
         flash('Not open yet', 'danger')
+        return (redirect (url_for('nme_movies')))
+    elif int(movie) not in movieList:
+        flash('Not in movie list yet', 'danger')
         return (redirect (url_for('nme_movies')))
     elif int(part) > sDict[int(movie)] + 1:
         flash('First finish earlier parts', 'danger')
@@ -308,7 +319,7 @@ def nme_mov(movie, part):
         print(uString)
 
 
-    return render_template('nme/nme_mov' + part + '.html', uString=uString, mString=mString, mData=movieData)
+    return render_template('nme/nme_mov' + part + '.html', uString=uString, mString=mString, mData=movieData, team=team)
 
 
 @app.route("/nme_project/", methods = ['GET', 'POST'])
