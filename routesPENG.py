@@ -266,13 +266,13 @@ def peng_proj(MTFN, page_stage):
 def get_all_values(nested_dictionary):
     detected = 0
     for key, value in nested_dictionary.items():
-        if type(value) is dict:
+        if type(value) is dict and key != 'Cues':
             #print ('DICT FOUND', value)
             if get_all_values(value) != 0:
                 detected += get_all_values(value)
         else:
-            if value == None or value == "" :
-                #print(key, value)
+            if value == None or value == "":
+                print(key, value)
                 detected += 1
 
     return detected
