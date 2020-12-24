@@ -20,7 +20,7 @@
 <template v-for="(ansOBJ, student) in fullOBJ">
 
     <div v-if="ansOBJ['stage'] > 1">
-        <span :style="style('dt')"> [[ student ]] </span>
+        <span :style="style('dt')" @click="viewWork = student"> [[ student ]] </span>
 
         <span :style="style('Intro')"> [[ ansOBJ['ProductName'] ]] </span>
         <br>
@@ -43,11 +43,12 @@
         <br>
             <img class="rounded img-fluid" id="final_image" alt="need to update" style="max-width:50%;max-height:200px"  :src="ansOBJ['Image']">
         <br>
+
     </div>
     <br>
     <br>
 
-    <div v-if="viewWork == 'show'">
+    <div v-if="viewWork == student">
 
         <template v-for="(item, key) in ansOBJ['Intro']">
         <h4 >  Point [[ key ]]  </h4>
