@@ -30,7 +30,7 @@ else if (report.includes('Android')){
 }
 else if (report.includes('Macintosh')){
     device = 'I'
-    notice = 'Recording on Mac'
+    notice = 'Recording on Mac, recording may not work on this computer'
 }
 else if (report.includes('iPad')){
     notice = 'Recording on iPad may not work; please upload file or use a phone/computer'
@@ -58,7 +58,7 @@ else if (report.includes('iPhone OS 15')){
 }
 else {
   device = 'U'
-  notice = 'Your iOS may not work; if so try upload a file, share a link, or use a computer'
+  notice = 'Your OS may not work; if so try upload a file, share a link, or use a computer'
 }
 console.log('DEVICE', device);
 
