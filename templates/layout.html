@@ -35,7 +35,7 @@
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('admin') }}", target="_blank">Admin</a>
                             {% if SCHEMA < 3 or SCHEMA == 6 %}
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('dashboard')}}", target="_blank">Dashboard</a>
-                            <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('grades_midterm')}}", target="_blank">Grades</a>
+                            <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('grades_final')}}", target="_blank">Grades</a>
                             {% elif SCHEMA == 3 %}
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('abc_dash')}}", target="_blank">Dashboard</a>
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('abc_grades')}}", target="_blank">Grades</a>

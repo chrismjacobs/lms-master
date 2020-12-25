@@ -483,6 +483,11 @@ def exam_list_final():
         ex78 = round(   (examData['1-7-8'][0] + examData['1-7-8'][1])   /2  )
 
 
+    if SCHEMA == 6:
+        midterm = 100
+    else:
+        midterm = grades_midterm ()[current_user.username]['Total']
+
     examDict = {
         'total' : 0,
         'units' : 0,
@@ -491,7 +496,7 @@ def exam_list_final():
         'tries78' : str(tries78) + '/20% - tries: ' + str(reviewData['1-7-8'][2]),
         'ex56' : ex56,
         'ex78' : ex78,
-        'midterm' : grades_midterm ()[current_user.username]['Total']
+        'midterm' : midterm
     }
 
     grades = get_grades(True, True)
