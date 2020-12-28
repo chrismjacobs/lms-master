@@ -80,6 +80,7 @@ def nme_dash():
 '''### movies '''
 
 movieDict = {
+    # note - team 10 does not work
         1: U013U, # lionking
         2: U014U, # gifted
         3: U023U, # jobs
@@ -89,7 +90,7 @@ movieDict = {
         7: U043U, # Bobby Leo William
         8: U044U, # Tracy Judy Tiffany
         9: U053U, # Fiona Abby Winnie
-        10: U054U, # Jimmy Robin
+        12: U054U, # Jimmy Robin
         11: U063U, # Alex Wayne Daniel
     }
 
@@ -103,7 +104,7 @@ mDict = {
         7: 'Thor',
         8: 'Moana',
         9: 'Devil Wears Prada',
-        10: 'White Chicks',
+        12: 'White Chicks',
         11: 'Key and Peele'
     }
 
