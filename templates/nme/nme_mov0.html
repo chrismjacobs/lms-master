@@ -120,7 +120,9 @@ if (!movieData['team']) {
 console.log(movieData, movieData.length)
 
 var str = window.location.href
-let movie = str.split('nme_mov/')[1][0]
+let movie = str.split('nme_mov/')[1].split('/')[0]
+
+console.log(movie)
 
 if (parseInt(movie) > 4) {
   movieData.team = team
