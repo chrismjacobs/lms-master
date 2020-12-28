@@ -69,8 +69,10 @@ console.log('mObj', mObj);
 console.log('mData', movieData);
 
 var str = window.location.href
-let movie = str.split('nme_mov/')[1][0]
+var str = window.location.href
+let movie = str.split('nme_mov/')[1].split('/')[0]
 
+console.log(movie)
 startVue()
 
 function startVue(){ new Vue({
@@ -98,6 +100,7 @@ function startVue(){ new Vue({
             console.log('DONE');
         },
         submitAnswers: function () {
+          console.log(this.movie, this.movieData)
           this.movieData.status = 1
           console.log('update via AJAX');
           let _this = this

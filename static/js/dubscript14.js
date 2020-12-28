@@ -216,7 +216,9 @@ console.log('mObj', mObj);
 console.log('mData', movieData);
 
 var str = window.location.href
-let movie = str.split('nme_mov/')[1][0]
+let movie = str.split('nme_mov/')[1].split('/')[0]
+
+console.log(movie)
 
 var subtitles = mObj['subtitles']
 console.log('subs', subtitles)

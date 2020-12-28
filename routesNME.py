@@ -80,7 +80,6 @@ def nme_dash():
 '''### movies '''
 
 movieDict = {
-    # note - team 10 does not work
         1: U013U, # lionking
         2: U014U, # gifted
         3: U023U, # jobs
@@ -406,7 +405,6 @@ def addMovie():
     link = 'None'
 
     model = movieDict[int(movie)]
-    print(names, type(names))
     details = model.query.filter_by(username=json.dumps(names)).first()
 
 
