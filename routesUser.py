@@ -525,10 +525,11 @@ def exam_list_final():
     'title' : 'Exams',
     'theme' : DESIGN['titleColor'],
     'examString' : json.dumps(examDict),
-    'setString' : json.dumps(setDict)
+    'setString' : json.dumps(setDict),
+    'SCHEMA' : SCHEMA
     }
 
-    return render_template('units/exam_list_final.html', **context )
+    return render_template('units/exam_list_final.html', **context)
 
 
 @app.route ("/setStatus", methods=['POST'])
