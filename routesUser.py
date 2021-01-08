@@ -483,10 +483,8 @@ def exam_list_final():
         ex78 = round(   (examData['1-7-8'][0] + examData['1-7-8'][1])   /2  )
 
 
-    if SCHEMA == 6:
-        midterm = 100
-    else:
-        midterm = grades_midterm ()[current_user.username]['Total']
+
+    midterm = grades_midterm ()[current_user.username]['Total']
 
     examDict = {
         'total' : 0,
@@ -637,6 +635,7 @@ def grades_final():
         gradesDict[entry]['Total'] = gradesDict[entry]['uP'] + gradesDict[entry]['aP'] + gradesDict[entry]['exam1'] + gradesDict[entry]['exam2']
 
     MTgrades = grades_midterm ()
+    print(MTgrades)
     for mt_student in MTgrades:
         gradesDict[mt_student]['MT'] = MTgrades[mt_student]['Total']
 
@@ -686,7 +685,7 @@ def grades_midterm ():
             maxU += total*2
             maxA += un.uA*2
             total_units += 1
-        elif un.unit == '05':
+        else:
             print('Midterm Term Set')## we are now in final mode so ...
             total_units = 4
             maxU = 32
