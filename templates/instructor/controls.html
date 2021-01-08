@@ -8,12 +8,12 @@
 <span id="team_string" style="display:none">{{team_list}}</span>
 <span id="set_string" style="display:none">{{setString}}</span>
 
-<div class="content-section">
+<div class="content-section" :style="controlStyle()">
      <legend class="border-bottom mb-4">Controls</legend>
 
 
-<button class="btn btn-outline-warning" @click="setAtt()"> Set Att </button>
-Notice <input type="text" class="textAss" id="notice" style="margin-left:5px"></input>
+<button class="btn btn-info" @click="setAtt()"> Set Att </button>
+Notice <input type="text" class="textAss" id="notice" style="margin-left:5px" v-model="setOBJ.Notice"></input>
 &nbsp&nbsp&nbsp
 Unit
 <select id="unit" name="units">
@@ -21,7 +21,7 @@ Unit
     <option :value="i">[[i]]</option>
 </template>
 </select>
-&nbsp&nbsp&nbsp
+&nbsp[[setOBJ.Unit]]&nbsp&nbsp
 Set:
 <select id="set" name="cars">
     <option value="97">Closed</option>
@@ -31,24 +31,23 @@ Set:
     <option value="51">Review Late</option>
     <option value="100">Clear</option>
 </select>
-&nbsp&nbsp&nbsp
+&nbsp[[setOBJ.Set_mode]]&nbsp&nbsp
 Teamcount
 <select id="teamcount" name="cars">
 <template v-for="i in team_list">
     <option :value="i">[[i]]</option>
 </template>
 </select>
-&nbsp&nbsp&nbsp
+&nbsp[[setOBJ.Count]]&nbsp&nbsp
 Teamsize
 <select id="teamsize" name="cars">
 <template v-for="i in size_list">
     <option :value="i">[[i]]</option>
 </template>
 </select>
-&nbsp&nbsp&nbsp
+&nbsp[[setOBJ.Size]]&nbsp&nbsp
 
 <br>
-[[ setOBJ ]]
 <br>
 <a href='https://affairs.just.edu.tw/TeacherStuApp/Default.aspx'> Attendance</a>
 &nbsp
@@ -174,11 +173,18 @@ let vue = new Vue({
         setOBJ : setOBJ,
         deleteMode : false,
         unit_list : ['RR','00', '01','02','03','04','05','06','07','08','09', '10'],
-        size_list : ['4','0', '3','5'] ,
-        team_list : ['5','6', '7','8','9', '10','11','12','13','14','15','16','17','18','19','20'],
+        size_list : ['4','0','3','5'] ,
+        team_list : ['3', '4', '5','6', '7','8','9', '10','11','12','13','14','15','16','17','18','19','20'],
         recordOBJ : {}
     },
     methods: {
+        controlStyle: function () {
+          if (this.setOBJ.Set_mode == '97') {
+            return "background:gold"
+          } else {
+            return "background:lightgreen"
+          }
+        },
         attOBJ: function(schema) {
 
           if (schema == 6){

@@ -632,12 +632,13 @@ def grades_final():
             gradesDict[entry]['aP'] = round(percent, 1)
 
     for entry in gradesDict:
-        gradesDict[entry]['Total'] = gradesDict[entry]['uP'] + gradesDict[entry]['aP'] + gradesDict[entry]['exam1'] + gradesDict[entry]['exam2']
+        sumTotal = gradesDict[entry]['uP'] + gradesDict[entry]['aP'] + gradesDict[entry]['exam1'] + gradesDict[entry]['exam2']
+        gradesDict[entry]['Total'] = round(sumTotal, 1)
 
     MTgrades = grades_midterm ()
     print(MTgrades)
     for mt_student in MTgrades:
-        gradesDict[mt_student]['MT'] = MTgrades[mt_student]['Total']
+        gradesDict[mt_student]['MT'] = round(MTgrades[mt_student]['Total'], 1)
 
     return render_template('instructor/grades.html', ansString=json.dumps(gradesDict))
 
@@ -749,7 +750,8 @@ def grades_midterm ():
             gradesDict[entry]['aP'] = round(percent, 1)
 
     for entry in gradesDict:
-        gradesDict[entry]['Total'] = gradesDict[entry]['uP'] + gradesDict[entry]['aP'] + gradesDict[entry]['exam1'] + gradesDict[entry]['exam2']
+        sumTotal = gradesDict[entry]['uP'] + gradesDict[entry]['aP'] + gradesDict[entry]['exam1'] + gradesDict[entry]['exam2']
+        gradesDict[entry]['Total'] = round(sumTotal, 1)
 
 
     if MT_marker:
