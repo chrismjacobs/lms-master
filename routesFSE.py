@@ -249,7 +249,7 @@ def fse_list():
 
     examDict = {}
 
-    '''
+    #'''
 
     for src in srcDict:
         if int(src) < 7: # change to match number of units
@@ -314,7 +314,7 @@ def fse_list():
             print('FAIL QNA')
 
 
-    '''
+    #'''
 
 
     source = srcDict['01']['M2']
