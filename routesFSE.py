@@ -33,6 +33,18 @@ unitDict = {
         '10' : U041U,
         '11' : U042U,
         '12' : U043U,
+        '13' : U051U,
+        '14' : U052U,
+        '15' : U053U,
+        '16' : U061U,
+        '17' : U062U,
+        '18' : U063U,
+        '19' : U071U,
+        '20' : U072U,
+        '21' : U073U,
+        '22' : U081U,
+        '23' : U082U,
+        '24' : U083U
 }
 
 
@@ -165,10 +177,10 @@ def get_projects():
                 projectDict[unitNumber]['M1'] = section['M1']
                 projectDict[unitNumber]['M2'] = section['M2']
         except:
-            #print('except', sDict[week]['Unit'])
+            print('except', sDict[week]['Unit'])
             pass
 
-    #pprint(projectDict)
+    pprint(projectDict)
 
     return projectDict
 
@@ -209,9 +221,10 @@ def fse_list():
     srcDict = get_projects()
     print('srcDict', srcDict)
 
-    #unitList = []
+    unitList = []
     #unitList = ['04', '05', '06', '07','08']
-    unitList = ['01', '02', '03', '04','05', '06']
+    #unitList = ['01', '02', '03', '04','05', '06']
+    #unitList = ['01', '02', '03', '04','05', '06']
     fseDict = {}
     for src in srcDict:
         # check sources against open units in model
@@ -315,9 +328,7 @@ def fse_list():
 
 
     #'''
-
-
-    source = srcDict['01']['M2']
+    source = srcDict['13']['M2']
 
     return render_template('fse/fse_list.html', legend='FSE Projects', source=source, fseDict=json.dumps(fseDict),  examDict=json.dumps(examDict))
 
