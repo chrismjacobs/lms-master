@@ -16,6 +16,25 @@ SCHEMA = BaseConfig.SCHEMA
 DESIGN = BaseConfig.DESIGN
 
 
+def putData():
+
+    students = {}
+
+    for user in User.query.all():
+        students[user.username] = user.studentID
+
+    with open('student.json', 'r') as json_file:
+        sDict = json.load(json_file)
+
+    sDict.update(students)
+
+    print(len(sDict))
+
+    with open('student.json', 'w') as json_file:
+        json.dump(sDict, json_file)
+
+
+
 def get_schedule():
     content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/sources.json' )
     file_content = content_object.get()['Body'].read().decode('utf-8')
