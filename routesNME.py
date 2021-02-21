@@ -20,6 +20,11 @@ DESIGN = BaseConfig.DESIGN
 DEBUG = BaseConfig.DEBUG
 
 
+'''
+NOTES for next time - make movie teams at the beginning and keep it the same number and team names
+
+'''
+
 projectDict = {
         '01' : U011U,
         '02' : U021U,
@@ -425,12 +430,7 @@ def addMovie():
     return jsonify({'result' : True, 'link': link })
 
 
-
-
 '''### novels '''
-
-
-
 
 @app.route ("/nme_novels", methods=['GET','POST'])
 @login_required
