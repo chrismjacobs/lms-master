@@ -43,7 +43,7 @@
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('fse_dash')}}", target="_blank">Dashboard</a>
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('fse_grades')}}", target="_blank">Grades</a>
                             {% elif SCHEMA == 4 %}
-                            <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('peng_dash', MTFN='FS')}}", target="_blank">Dashboard</a>
+                            <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('peng_dash', MTFN='MT')}}", target="_blank">Dashboard</a>
                             {% elif SCHEMA == 5 %}
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('food_FN')}}", target="_blank">Dashboard</a>
                             {% elif SCHEMA == 7 %}
@@ -71,6 +71,7 @@
                                   <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('abc_list') }}">My Projects</a>
                                 {% elif SCHEMA == 4 %}
                                   <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('peng_list') }}">My Presentations</a>
+                                  <a class="nav-item nav-link" style="color:white;background:steelblue" href="https://vocab-lms.herokuapp.com/", target="_blank">My Vocab</a>
                                 {% elif SCHEMA == 5 %}
                                   <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('food_list') }}">My Presentations</a>
                                 {% elif SCHEMA == 7 %}

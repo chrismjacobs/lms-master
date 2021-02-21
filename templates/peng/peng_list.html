@@ -12,7 +12,7 @@
     </div>
     <div class="content-section">
         <div class="embed-responsive embed-responsive-4by3">
-                <iframe id="questions_embed" src="https://docs.google.com/presentation/d/e/2PACX-1vRmZdMtaw-WS-khw0XXNhxOAuVs98GHxdxMUfmgUL2vhfLT4_gcDoIRFYvUUmOeTYZNq_GIILZTEHOt/embed"
+                <iframe id="questions_embed" src={{source}}
                 allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
               </iframe>
         </div>
@@ -24,16 +24,16 @@
       <legend class="border-bottom mb-4"> Progress: You are on stage {{stage}} </legend>
 
 
-      <span :style="linkStyle(1)" @click="goToFH('1')"> Stage 1: Choose Product </span>
+      <span :style="linkStyle(1)" @click="goToMT('1')"> Stage 1: Choose Product </span>
       <br>
       <br>
-      <span v-if="stage > 1" :style="linkStyle(2)" @click="goToFH('2')"> Stage 2: Prepare Plan </span>
+      <span v-if="stage > 1" :style="linkStyle(2)" @click="goToMT('2')"> Stage 2: Prepare Plan </span>
       <br>
       <br>
-      <span v-if="stage > 3" :style="linkStyle(3)" @click="goToFH('3')"> Stage 3: Practice Speaking </span>
+      <span v-if="stage > 3" :style="linkStyle(3)" @click="goToMT('3')"> Stage 3: Practice Speaking </span>
       <br>
       <br>
-      <span v-if="stage > 4" :style="linkStyle(4)" @click="goToFH('6')"> Stage 4: Practice with Cue Cards </span>
+      <span v-if="stage > 4" :style="linkStyle(4)" @click="goToMT('6')"> Stage 4: Practice with Cue Cards </span>
       <br>
       <br>
       <span v-if="stage > 5" :style="linkStyle(5)" > CONGRATULATIONS - YOU ARE READY!! </span>

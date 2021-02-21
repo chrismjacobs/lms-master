@@ -25,7 +25,8 @@ def get_peng_projects():
     file_content = content_object.get()['Body'].read().decode('utf-8')
     sDict = json.loads(file_content)  # json loads returns a dictionary
     #source = sDict['1']['M2']
-    source = sDict['1']['M3']
+    source = sDict['1']['M2']
+
     return source
 
 startDict = {
@@ -95,26 +96,7 @@ startDict = {
         }
 
 
-
-
-
-@app.route ("/peng_list", methods=['GET','POST'])
-@login_required
-def peng_list():
-
-    setup = 'MT'
-    source = get_peng_projects()
-
-    projectData = {
-        'MT' : U011U,
-        'FH' : U011U,
-        'FN' : U021U
-    }
-
-    if projectData[setup].query.filter_by(username=current_user.username).first():
-        pass
-    elif setup == 'MT':
-        highDict = {
+highDict = {
             'ProductName' : None,
             'Features' : None,
             'Materials' : None,
@@ -172,7 +154,92 @@ def peng_list():
                 }
             },
         }
-        start = U011U(username=current_user.username, Ans01=json.dumps(highDict), Grade=0, Comment='0')
+
+
+@app.route ("/peng_list", methods=['GET','POST'])
+@login_required
+def peng_list():
+
+    setup = 'MT'
+    source = get_peng_projects()
+
+    projectData = {
+        'MT' : U011U,
+        'FH' : U011U, # Fu Hsin
+        'FN' : U021U
+    }
+
+    startDict = {
+            'Product' : None,
+            'Brand' : None,
+            'Why' : None,
+            'Image' : None,
+            'Intro' : {
+                1 : None,
+                2 : None,
+                3 : None
+                },
+            'Parts' : {
+                'Product' : {
+                1 : None,
+                2 : None,
+                3 : None
+                },
+                'Features' : {
+                1 : None,
+                2 : None,
+                3 : None
+                },
+                'Demo' : {
+                1 : None,
+                2 : None,
+                3 : None
+                },
+                'Extra' : {
+                1 : None,
+                2 : None,
+                3 : None
+                },
+                'Close' : {
+                1 : None,
+                2 : None,
+                3 : None
+                },
+            },
+            'Cues' : {
+                'Product' : {
+                1 : None,
+                2 : None,
+                3 : None
+                },
+                'Features' : {
+                1 : None,
+                2 : None,
+                3 : None
+                },
+                'Demo' : {
+                1 : None,
+                2 : None,
+                3 : None
+                },
+                'Extra' : {
+                1 : None,
+                2 : None,
+                3 : None
+                },
+                'Close' : {
+                1 : None,
+                2 : None,
+                3 : None
+                },
+            },
+        }
+
+    if projectData[setup].query.filter_by(username=current_user.username).first():
+        pass
+    elif setup == 'MT':
+
+        start = U011U(username=current_user.username, Ans01=json.dumps(startDict), Grade=0, Comment='0')
         db.session.add(start)
         db.session.commit()
     elif setup == 'FN':
@@ -199,6 +266,7 @@ def peng_list():
     ansDict = project.Ans01
     grade = project.Grade
     stage = project.Comment
+    print(source)
 
     return render_template('peng/peng_list.html', legend='Presentation Projects', source=source, stage=stage, grade=grade)
 
