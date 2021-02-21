@@ -585,7 +585,14 @@ def grades_final():
 
     model_check = total_units*4 ## 4 units for each unit
 
-    for model in Info.unit_mods_list[16:(16 + model_check)]:
+    if SCHEMA == 6:
+        uStart = 20
+        aStart = 5
+    else:
+        uStart = 16
+        aStart = 4
+
+    for model in Info.unit_mods_list[uStart:(uStart + model_check)]:
         rows = model.query.all()
         unit = str(model).split('U')[1]
         for row in rows:
@@ -595,8 +602,9 @@ def grades_final():
 
     model_check = total_units
 
-    for model in Info.ass_mods_list[4:(4+ model_check)]:
+    for model in Info.ass_mods_list[aStart:(aStart+ model_check)]:
         unit = str(model).split('A')[1]
+        print(unit)
         rows = model.query.all()
         for row in rows:
             gradesDict[row.username]['asses'] += row.Grade
@@ -636,7 +644,7 @@ def grades_final():
         gradesDict[entry]['Total'] = round(sumTotal, 1)
 
     MTgrades = grades_midterm ()
-    print(MTgrades)
+    # print(MTgrades)
     for mt_student in MTgrades:
         gradesDict[mt_student]['MT'] = round(MTgrades[mt_student]['Total'], 1)
 
