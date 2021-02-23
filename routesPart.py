@@ -17,7 +17,8 @@ SCHEMA = BaseConfig.SCHEMA
 DESIGN = BaseConfig.DESIGN
 
 def get_vocab():
-    content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/vocab.json' )
+    ## change to 'json_files/vocab.json' for semester 1
+    content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/vocab2.json' )
     file_content = content_object.get()['Body'].read().decode('utf-8')
     VOCAB = json.loads(file_content)  # json loads returns a dictionary
     SOURCES =  None
