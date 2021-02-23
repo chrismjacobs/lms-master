@@ -22,6 +22,7 @@
               <th scope="col" >Team</th>
               <th scope="col" >Q&A</th>
               <th scope="col" >S&L</th>
+              <th scope="col" >RP</th>
 
             </tr>
         </thead>
@@ -49,6 +50,9 @@
               <td>
               <span  class="unit-span" style="background:mediumseagreen;padding:3px"> &nbsp;[[ teams.SNL ]]&nbsp; </span>
               </td>
+              <td>
+              <span  class="unit-span" style="background:mediumseagreen;padding:3px"> &nbsp;[[ teams.RP ]]&nbsp; </span>
+              </td>
             </tr>
            </template>
 
@@ -74,9 +78,9 @@
 <script type="text/javascript" >
 
 var projectDict = document.getElementById('projectDict').innerHTML
-console.log('projecDict', projectDict);
+console.log('projectDict', projectDict);
 var OBJ = JSON.parse(projectDict)
-console.log('projecDict', OBJ);
+console.log('projectDict', OBJ);
 
 
 startVue(OBJ)
@@ -86,7 +90,7 @@ function startVue(OBJ){ new Vue({
     el: '#vue-app',
     delimiters: ['[[', ']]'],
     mounted: function(){
-        console.log('projecDict', OBJ);
+        console.log('projectDict', OBJ);
     },
     data: {
         projectOBJ: OBJ,

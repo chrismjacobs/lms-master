@@ -93,7 +93,7 @@ def project_teams(unit, number):
     manualTeams = {
 
         #10: ['Fiona', 'Ann', 'Penny Lai', 'Yui'],
-        1 : ['Chris'],
+        20 : ['Chris'],
 
     }
 
@@ -190,11 +190,13 @@ def get_tests(unit, team):
     print('USER', user)
 
 
-    #qna = json.loads(user.j1)
-    #snl = json.loads(user.j2)
+    qna = json.loads(user.j1)
+    snl = json.loads(user.j2)
     rp = json.loads(user.j3)
-    qna = json.loads(user.j3)
-    snl = json.loads(user.j4)
+    #qna = json.loads(user.j4)
+    #snl = json.loads(user.j5)
+    #rp = json.loads(user.j6)
+
     #print(qna)
 
     qnaCount = 0
@@ -262,10 +264,10 @@ def fse_list():
 
     examDict = {}
 
-    #'''
+    '''
 
     for src in srcDict:
-        if int(src) < 7: # change to match number of units
+        if int(src) > 12 and int(src) < 19: # change to match number of units
             pass
         else:
             examDict[src] = {}
@@ -299,10 +301,12 @@ def fse_list():
 
 
     user = midtermGrades()
-    # qna = json.loads(user.j1)
-    # snl = json.loads(user.j2)
-    qna = json.loads(user.j3)
-    snl = json.loads(user.j4)
+    qna = json.loads(user.j1)
+    snl = json.loads(user.j2)
+    rp = json.loads(user.j3)
+    #qna = json.loads(user.j4)
+    #snl = json.loads(user.j5)
+    #rp = json.loads(user.j6)
     #print (qna)
     #print (snl)
 
@@ -583,7 +587,8 @@ def fse_dash():
             for proj in projects:
                 fseDict[src]['Teams'][proj.teamnumber] = {'team' : proj.username,
                                                           'QNA' : proj.Ans04,
-                                                          'SNL' : proj.Ans05
+                                                          'SNL' : proj.Ans05,
+                                                          'RP' : proj.Ans06
                                                           }
 
     pprint (fseDict)
@@ -614,6 +619,8 @@ def fse_check(unit):
             'qna_score' : proj.Ans04,
             'snl_list' : json.loads(proj.Ans02),
             'snl_score' : proj.Ans05,
+            'rp_list' : json.loads(proj.Ans03),
+            'rp_score' : proj.Ans06,
             }
 
     pprint (checkDict)
@@ -652,6 +659,8 @@ def fse_exam(qORs, unit, team):
     qnaDict = json.loads(data.Ans01)
     snlString = data.Ans02
     snlDict = json.loads(data.Ans02)
+    rpString = data.Ans03
+    rpDict = json.loads(data.Ans03)
 
     orderList = ['1','2','3','4','5','6']
     random.shuffle(orderList)
@@ -673,17 +682,19 @@ def fse_exam(qORs, unit, team):
 
     if qORs == 'qna':
         html = 'fse/fse_exam_qna.html'
-    else:
+    elif qORs == 'snl' :
         html = 'fse/fse_exam_snl.html'
+    else:
+        html = 'fse/fse_exam_rp.html'
 
-    return render_template(html, legend='FSE Exam', title=unit, meta=meta, orderDict=json.dumps(orderDict), qnaString=json.dumps(newDict), snlString=snlString)
+    return render_template(html, legend='FSE Exam', title=unit, meta=meta, orderDict=json.dumps(orderDict), qnaString=json.dumps(newDict), snlString=snlString, rpString=rpString)
 # exam format
 
 def midtermGrades():
     try:
         checkUser = Exams.query.filter_by(username=current_user.username).first().username
     except:
-        user = Exams(username=current_user.username, j1='{}', j2='{}', j3='{}', j4='{}')
+        user = Exams(username=current_user.username, j1='{}', j2='{}', j3='{}', j4='{}', j5='{}', j6='{}')
         db.session.add(user)
         db.session.commit()
 
@@ -702,13 +713,13 @@ def updateGrades():
     user = midtermGrades()
 
     if qORs == 'qna':
-        #examDict = json.loads(user.j1)
-        examDict = json.loads(user.j3)
+        examDict = json.loads(user.j1)
+        #examDict = json.loads(user.j3)
     elif qORs == 'snl':
-        #examDict = json.loads(user.j2)
-        examDict = json.loads(user.j4)
+        examDict = json.loads(user.j2)
+        #examDict = json.loads(user.j4)
     elif qORs == 'rp':
-        #xamDict = json.loads(user.j3)
+        examDict = json.loads(user.j3)
         #examDict = json.loads(user.j4)
         pass
 
@@ -729,18 +740,18 @@ def updateGrades():
             }
 
         if qORs == 'qna':
-            #user.j1 = json.dumps(examDict)
-            user.j3 = json.dumps(examDict)
+            user.j1 = json.dumps(examDict)
+            #user.j4 = json.dumps(examDict)
             db.session.commit()
             print('qnaCommit')
         elif qORs == 'snl':
-            #user.j2 = json.dumps(examDict)
-            user.j4 = json.dumps(examDict)
+            user.j2 = json.dumps(examDict)
+            #user.j5 = json.dumps(examDict)
             db.session.commit()
             print('snlCommit')
         elif qORs == 'rp':
-            #user.j2 = json.dumps(examDict)
             user.j3 = json.dumps(examDict)
+            #user.j6 = json.dumps(examDict)
             db.session.commit()
             print('rpCommit')
 
@@ -764,59 +775,77 @@ def fse_grades():
                 'id' : user.studentID,
                 'Status' : user.extra
              },
-            '07' : {
+            '13' : {
                 'team' : 0,
                 'QNA' : 0,
                 'SNL' : 0,
+                'RP' : 0,
                 'QNA_check' : 0,
                 'SNL_check' : 0,
+                'RP_check' : 0,
                 'QNA_grades' : [],
-                'SNL_grades' : []
+                'SNL_grades' : [],
+                'RP_grades' : []
             },
-            '08' : {
+            '14' : {
                 'team' : 0,
                 'QNA' : 0,
                 'SNL' : 0,
+                'RP' : 0,
                 'QNA_check' : 0,
                 'SNL_check' : 0,
+                'RP_check' : 0,
                 'QNA_grades' : [],
-                'SNL_grades' : []
+                'SNL_grades' : [],
+                'RP_grades' : []
             },
-            '09' : {
+            '15' : {
                 'team' : 0,
                 'QNA' : 0,
                 'SNL' : 0,
+                'RP' : 0,
                 'QNA_check' : 0,
                 'SNL_check' : 0,
+                'RP_check' : 0,
                 'QNA_grades' : [],
-                'SNL_grades' : []
+                'SNL_grades' : [],
+                'RP_grades' : []
             },
-            '10' : {
+            '16' : {
                 'team' : 0,
                 'QNA' : 0,
                 'SNL' : 0,
+                'RP' : 0,
                 'QNA_check' : 0,
                 'SNL_check' : 0,
+                'RP_check' : 0,
                 'QNA_grades' : [],
-                'SNL_grades' : []
+                'SNL_grades' : [],
+                'RP_grades' : []
             },
-            '11' : {
+            '17' : {
                 'team' : 0,
                 'QNA' : 0,
                 'SNL' : 0,
+                'RP' : 0,
                 'QNA_check' : 0,
                 'SNL_check' : 0,
+                'RP_check' : 0,
                 'QNA_grades' : [],
-                'SNL_grades' : []
+                'SNL_grades' : [],
+                'RP_grades' : []
             },
-            '12' : {
+            '18' : {
                 'team' : 0,
                 'QNA' : 0,
                 'SNL' : 0,
+                'RP' : 0,
                 'QNA_check' : 0,
                 'SNL_check' : 0,
+                'RP_check' : 0,
                 'QNA_grades' : [],
-                'SNL_grades' : []
+                'SNL_grades' : [],
+                'RP_grades' : []
             },
 
         }
@@ -833,12 +862,13 @@ def fse_grades():
                 for stu in team:
                     gradesDict[stu][model]['QNA'] = proj.Ans04
                     gradesDict[stu][model]['SNL'] = proj.Ans05
+                    gradesDict[stu][model]['RP'] = proj.Ans06
                     gradesDict[stu][model]['team'] = str(proj.teamnumber)
 
     for exam in exams:
         #break
-        #QNA = json.loads(exam.j1)
-        QNA = json.loads(exam.j3)
+        QNA = json.loads(exam.j1)
+        #QNA = json.loads(exam.j3)
         for record in QNA:
             entry = QNA[record]
             print(exam.username, entry)
@@ -847,8 +877,8 @@ def fse_grades():
             else:
                 gradesDict[exam.username][ entry['unit'] ]['QNA_grades'].append(entry['grade'])
 
-        #SNL = json.loads(exam.j2)
-        SNL = json.loads(exam.j4)
+        SNL = json.loads(exam.j2)
+        #SNL = json.loads(exam.j4)
         for record in SNL:
             entry = SNL[record]
             print(exam.username, entry)
@@ -856,6 +886,16 @@ def fse_grades():
                 gradesDict[exam.username][entry['unit']]['SNL_check'] = 1
             else:
                 gradesDict[exam.username][ entry['unit'] ]['SNL_grades'].append(entry['grade'])
+
+        RP = json.loads(exam.j3)
+        #RP = json.loads(exam.j6)
+        for record in RP:
+            entry = RP[record]
+            print(exam.username, entry)
+            if entry['team'] == gradesDict[exam.username][entry['unit']]['team']:
+                gradesDict[exam.username][entry['unit']]['RP_check'] = 1
+            else:
+                gradesDict[exam.username][ entry['unit'] ]['RP_grades'].append(entry['grade'])
 
 
     return render_template('fse/fse_grades.html', ansString=json.dumps(gradesDict))

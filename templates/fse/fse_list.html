@@ -33,10 +33,7 @@
               <th scope="col" >Team</th>
               <th scope="col" >Q&A</th>
               <th scope="col" >S&L</th>
-              <!--
-                <th scope="col" >RP</th>
-                -->
-
+              <th scope="col" >RP</th>
             </tr>
         </thead>
 
@@ -58,7 +55,7 @@
                        <br>
                        <br>
 
-                      <span v-if="proj.QTotal >= 6" @click="goToExam(unit, proj.Number, 'qna', proj.QTest)" class="unit-span" :style="buttonStyle(proj.QTest, 'qna', 'check')">check/[[proj.QTest]]</span>
+                      <span v-if="proj.QTotal >= 6" @click="goToExam(unit, proj.Number, 'qna', proj.QTest)" class="unit-span" :style="buttonStyle(proj.QTest, 'qna', 'check')">ch/[[proj.QTest]]</span>
                        <br>
                   </td>
                   <td>
@@ -67,20 +64,19 @@
                        <br>
                        <br>
 
-                      <span v-if="proj.STotal >= 6" @click="goToExam(unit, proj.Number, 'snl', proj.STest)" class="unit-span" :style="buttonStyle(proj.STest, 'snl', 'check')">check/[[proj.STest]]</span>
+                      <span v-if="proj.STotal >= 6" @click="goToExam(unit, proj.Number, 'snl', proj.STest)" class="unit-span" :style="buttonStyle(proj.STest, 'snl', 'check')">ch/[[proj.STest]]</span>
                        </td>
                        <br>
-                  <!--
                     <td>
                       <span v-if="proj.Number == 0"> </span>  &nbsp;
                       <span v-else @click="goTo(unit, proj.Number, 'R')" class="unit-span" :style="buttonStyle(proj.RTotal, 'rp', 'edit')"> &nbsp;[[proj.RTotal]]/4&nbsp; </span>
                        <br>
                        <br>
 
-                      <span v-if="proj.RTotal >= 4" @click="goToExam(unit, proj.Number, 'rp', proj.RTest)" class="unit-span" :style="buttonStyle(proj.RTest, 'snl', 'check')">check/[[proj.RTest]]</span>
+                      <span v-if="proj.RTotal >= 4" @click="goToExam(unit, proj.Number, 'rp', proj.RTest)" class="unit-span" :style="buttonStyle(proj.RTest, 'snl', 'check')">ch/[[proj.RTest]]</span>
                   </td>
                        <br>
-                    -->
+
                 </tr>
             </template>
         </tbody>
@@ -90,7 +86,7 @@
 
 </div>
 
-<div class="content-section">
+<div class="content-section" style="display:none">
 
 <h3> Exam Test Board </h3>
 

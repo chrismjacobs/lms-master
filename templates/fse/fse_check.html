@@ -78,6 +78,40 @@
 
               </td>
             </tr>
+
+            <tr>
+              <td>
+              <span class="unit-span" style="background:silver;padding:3px"> [[ key ]] </span>
+              </td>
+
+              <td>
+                RP
+              </td>
+              <td>
+                 [[ answerSet.rp_score]]
+                <audio v-if="answerSet.rp_list['rpAudio']" controls style="width: 150px">
+                 <source :src="answerSet.rp_list['rpAudio']" type="audio/mpeg" >
+                 <source :src="answerSet.rp_list['rpAudio']" type="audio/x-m4a" >
+               </audio>
+              </td>
+
+             <td v-for="(n, set) in answerSet.rp_list" colspan="2">
+              <div v-if="typeof(n) !== 'string'">
+                  <div v-for="line, number) in n">
+                      <div v-if="number === 'answer'">
+                        <div v-for="a in line"> [[a]] </div>
+                      </div>
+                      <div v-else>
+                        [[line]]
+                      </div>
+                  </div>
+              </div>
+              </td>
+
+
+
+
+            </tr>
         </template>
 
         </tbody>
