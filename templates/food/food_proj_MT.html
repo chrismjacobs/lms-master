@@ -5,7 +5,7 @@
 <span id="ansString" style="display:none">{{ansString}}</span>
 <span id="name" style="display:none">{{current_user.username}}</span>
 
-<div class="content-section">    
+<div class="content-section">
         <h1> Project: <br> {{title}} </h1>
     </div>
     <div class="content-section">
@@ -13,17 +13,17 @@
             <iframe id="questions_embed" src="{{source}}"
             allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
 	</iframe>
-    </div> 
-      
+    </div>
+
 </div>
 
 
 <div id="vue-app">
 
-<div class="content-section" v-if="project == 'ND'">    
+<div class="content-section" v-if="project == 'ND'">
 
    <h3> <a href="https://drive.google.com/open?id=1djGSzFuFEyCyCwu-pSBbcPx1EmXJu2KR">Example Form</a></h3>
-      
+
 </div>
 
 <div class="content-section">
@@ -32,74 +32,84 @@
 
 
 <span :style="style('Intro')"> Dish </span>
-<input type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Dish']"></input> 
-<br>  
+<input type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Dish']"></input>
+<br>
 
 <span v-if="project == 'CV'" :style="style('Intro')"> Link </span>
-<input v-if="project == 'CV'" type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Link']"></input> 
-<br> 
+<input v-if="project == 'CV'" type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Link']"></input>
+<br>
 
 
 <template v-for="(reason, num) in ansOBJ['Reasons']">
 <span :style="style('Reasons')"> Reason [[num]] </span>
-<input type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Reasons'][num]"></input> 
-<br>    
-<br>    
-</template>       
+<input type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Reasons'][num]"></input>
+<br>
+<br>
+</template>
 
-<template v-for="(item, key) in ansOBJ['Parts']"> 
+<div v-if="updateReady">
+    <button  class="btn btn-danger" style="margin-right:5px" @click="updatePlan()">Update Part 1 (March 26)</button>
+</div>
+
+<br>
+
+<div v-if="partOne()">
+
+<template v-for="(item, key) in ansOBJ['Parts']">
 <h4 v-if="project == 'ND'" > Part [[ key ]] - [[ ansOBJ['Reasons'][key] ]] </h4>
 <h4 v-else-if="key == '1'" > Ingredients </h4>
 <h4 v-else-if="key == '2'" > Cooking Methods </h4>
 <h4 v-else-if="key == '3'" > Description </h4>
-        <div v-for="(point, order) in ansOBJ['Parts'][key]['kw']">                
+        <div v-for="(point, order) in ansOBJ['Parts'][key]['kw']">
                 <span :style="style('dt')"> Sentence [[order]] </span>
-                <textarea :id="point + key" type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Parts'][key]['dt'][order]" @blur="wordCount(point + key)"></textarea> 
+                <textarea :id="point + key" type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Parts'][key]['dt'][order]" @blur="wordCount(point + key)"></textarea>
                 <br>
                 <span :style="style('kw')"> Key words [[order]] --> </span>
-                <input type="text" class="textAss" style="margin-left:5px; width:80%" v-model="ansOBJ['Parts'][key]['kw'][order]"></input> 
+                <input type="text" class="textAss" style="margin-left:5px; width:80%" v-model="ansOBJ['Parts'][key]['kw'][order]"></input>
                 <br>
                 <br>
         </div>
 <br>
-</template>  
+</template>
 
 <span :style="style('Intro')"> Final Comment </span>
-<textarea  type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Final']"></textarea> 
-<br>  
-<br>  
- 
+<textarea  type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Final']"></textarea>
+<br>
+<br>
 
-<div v-if="updateReady">				
-    <button  class="btn btn-dark" style="margin-right:5px" @click="updatePlan()">Update Plan</button>
-</div> 
-<br>  
+<div v-if="updateReady">
+    <button  class="btn btn-dark" style="margin-right:5px" @click="updatePlan()">Update Plan (Apr 2)</button>
+</div>
+<br>
 
-<div v-if="updateReady">				
+<div v-if="updateReady">
     <button  class="btn btn-danger" style="margin-right:5px" @click="createPPT()">Create PPT</button>
-</div> 
+</div>
+
+
+</div>
 
 <br>
 
-<div v-if="pptLink">				
+<div v-if="pptLink">
     <a :href="pptLink" download>Download PPT</a>
-</div> 
+</div>
 
 
-</div> 
+</div>
 
-<div class="content-section">    
+<div class="content-section">
     <legend class="border-bottom mb-4"> Script and Notes </legend>
 
         <h5 style="color:red">Introduction</h5>
         <h5>[[ script[project][1] ]]  [[ ansOBJ['Dish'] ]]</h5>
-        
+
 <br>
-        <h5>[[ script[project][2] ]]</h5>        
+        <h5>[[ script[project][2] ]]</h5>
         <h5 v-for="r in ansOBJ['Reasons']">[[ r ]]</h5>
 <br>
         <h5 v-if="project == 'ND'" style="color:red"> [[ansOBJ['Reasons'][1] ]]: <span v-for="phrase in ansOBJ['Parts'][1]['kw']"> [[ phrase ]], </span></h5>
-        <h5>[[ script[project][3] ]]</h5>        
+        <h5>[[ script[project][3] ]]</h5>
         <h5 v-for="r in ansOBJ['Parts'][1]['dt']">[[ r ]]</h5>
 <br>
         <h5 v-if="project == 'ND'"  style="color:red"> [[ansOBJ['Reasons'][2] ]]: <span v-for="phrase in ansOBJ['Parts'][2]['kw']"> [[ phrase ]], </span></h5>
@@ -114,7 +124,7 @@
         <h5 style="color:red">Final Comments</h5>
         <h5> [[ ansOBJ['Final'] ]]</h5>
 
-      
+
 </div>
 
 
@@ -123,7 +133,7 @@
 
 {% endblock %}
 
-{% block script %}   
+{% block script %}
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 <script type="text/javascript" >
@@ -137,42 +147,49 @@ var name = document.getElementById('name').innerHTML
 
 startVue(ansOBJ)
 
-function startVue(ansOBJ){ 
-  
-  let vue = new Vue({   
+function startVue(ansOBJ){
+
+  let vue = new Vue({
 
     el: '#vue-app',
-    delimiters: ['[[', ']]'],   
-    mounted: function () {        
-    },    
-    data: {                        
+    delimiters: ['[[', ']]'],
+    mounted: function () {
+    },
+    data: {
         ansOBJ: ansOBJ,
         name : name,
         updateReady : true,
         pptLink : false,
-        blurblocker : null, 
-        project: (window.location.href).split('/food/')[1],       
+        blurblocker : null,
+        project: (window.location.href).split('/food/')[1],
         script: {
             ND : {
-                1 : 'If Taiwan were going to vote for a national dish I would choose ', 
-                2 : 'This is for three reasons', 
-                3 : 'First of all,', 
-                4 : 'The next reason is', 
+                1 : 'If Taiwan were going to vote for a national dish I would choose ',
+                2 : 'This is for three reasons',
+                3 : 'First of all,',
+                4 : 'The next reason is',
                 5 : 'The last point is',
-            },        
+            },
             CV : {
-                1 : 'Today I want to share with you a recipe for ', 
-                2 : 'I choose this video because', 
-                3 : 'Some important ingredients are...', 
-                4 : 'To prepare this dish you will need...', 
-                5 : 'This recipe is...',  
-            },        
+                1 : 'Today I want to share with you a recipe for ',
+                2 : 'I choose this video because',
+                3 : 'Some important ingredients are...',
+                4 : 'To prepare this dish you will need...',
+                5 : 'This recipe is...',
+            },
         },
-        
-    }, 
-    methods: {  
-        wordCount : function(mark) { 
-            console.log(mark); 
+
+    },
+    methods: {
+        partOne: function () {
+            if (ansOBJ['Dish'] && ansOBJ['Reasons'][1] && ansOBJ['Reasons'][2] && ansOBJ['Reasons'][3]) {
+                return true
+            } else {
+                return false
+            }
+        },
+        wordCount : function(mark) {
+            console.log(mark);
             var wc = (document.getElementById(mark).value).split(' ')
             console.log(wc.length);
             if (wc.length < 8) {
@@ -183,30 +200,30 @@ function startVue(ansOBJ){
                     alert('This sentence seems too short - try making it longer with conjunction phrases (but/so/when/if/because..)')
                     vue.blurblocker = mark
                 }
-                
-            }            
+
+            }
 
             return true
         },
-        style : function(mark) { 
+        style : function(mark) {
             if (mark.includes('kw')){
                 var bg = 'silver'
             }
             else if (mark.includes('dt')){
                 var bg = 'darkorange'
-            }           
+            }
             else if (mark.includes('Rea')){
                 var bg = 'PALEVIOLETRED'
-            }           
+            }
             else if (mark.includes('Int')){
                 var bg = 'DARKCYAN'
-            }           
+            }
 
             return {padding:'4px', 'font-size':'15px', background:bg, color:'white', border:'1px sold white', 'border-radius':'5px', width:'20%'}
 
         },
-        updatePlan : function() { 
-            vue.ansOBJ['Writer'] = name 
+        updatePlan : function() {
+            vue.ansOBJ['Writer'] = name
             console.log('update via AJAX');
             console.log(this.ansOBJ);
             //return false
@@ -214,52 +231,52 @@ function startVue(ansOBJ){
             $.ajax({
               data : {
                 proj : this.project,
-                ansOBJ : JSON.stringify(this.ansOBJ)  
+                ansOBJ : JSON.stringify(this.ansOBJ)
               },
               type : 'POST',
-              url : '/updateFood',               
+              url : '/updateFood',
             })
-            .done(function(data) { 
-                alert('Your FORM has been updated')                
+            .done(function(data) {
+                alert('Your FORM has been updated')
             })
             .fail(function(){
                 alert('error has occurred');
             });
-        },     
-        createPPT : function() { 
-            console.log('CreatePPT');            
+        },
+        createPPT : function() {
+            console.log('CreatePPT');
 
             $.ajax({
               data : {
                 proj : this.project,
                 name : this.name,
-                ansOBJ : JSON.stringify(this.ansOBJ)  
+                ansOBJ : JSON.stringify(this.ansOBJ)
               },
               type : 'POST',
-              url : '/createPPT',               
+              url : '/createPPT',
             })
-            .done(function(data) { 
+            .done(function(data) {
                 if(data.error){
                     alert('There has been an error. Please check that your FORM is complete or see your instructor');
                 }
                 else{
-                    alert('Your ppt has been created') 
+                    alert('Your ppt has been created')
                     vue.pptLink = data.pptLink
                 }
-                               
+
             })
             .fail(function(){
                 alert('There has been an error. Please check that your FORM is complete or see your instructor');
             });
-        }      
-    }, // end methods        
-    
-    
-    
+        }
+    }, // end methods
+
+
+
 })// end NEW VUE
 
-}// endFunction 
+}// endFunction
 </script>
 
-{% endblock %} 
+{% endblock %}
 
