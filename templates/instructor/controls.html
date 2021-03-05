@@ -16,14 +16,14 @@
 Notice <input type="text" class="textAss" id="notice" style="margin-left:5px" v-model="setOBJ.Notice"></input>
 &nbsp&nbsp&nbsp
 Unit
-<select id="unit" name="units">
+<select id="unit" name="units" v-model="setOBJ.Unit">
 <template v-for="i in unit_list">
     <option :value="i">[[i]]</option>
 </template>
 </select>
 &nbsp[[setOBJ.Unit]]&nbsp&nbsp
 Set:
-<select id="set" name="cars">
+<select id="set" name="cars" v-model="setOBJ.Set_mode">
     <option value="97">Closed</option>
     <option value="98">Open</option>
     <option value="99">Late</option>
@@ -33,14 +33,14 @@ Set:
 </select>
 &nbsp[[setOBJ.Set_mode]]&nbsp&nbsp
 Teamcount
-<select id="teamcount" name="cars">
+<select id="teamcount" name="cars" v-model="setOBJ.Count">
 <template v-for="i in team_list">
     <option :value="i">[[i]]</option>
 </template>
 </select>
 &nbsp[[setOBJ.Count]]&nbsp&nbsp
 Teamsize
-<select id="teamsize" name="cars">
+<select id="teamsize" name="cars" v-model="setOBJ.Size">
 <template v-for="i in size_list">
     <option :value="i">[[i]]</option>
 </template>
@@ -64,6 +64,10 @@ Teamsize
 <br>
 <br>
 <button class="btn btn-outline-secondary" @click="attOBJ({{SCHEMA}})"> GET RECORDS </button>
+<br>
+[[varString]]
+<br>
+[[forString]]
 
 </div>
 
@@ -93,7 +97,7 @@ Teamsize
               <td> [[ key ]] </td>
               <td :style="attStyle(user.att)"> [[ user.att ]] </td>
               <td> <a :href="user.eml">Email</a> </td>
-              <td>  <span class="unit-span" v-for="i in 4" @click="studentRemove(user.nme, i)" > [[ i]] </span> </td>
+              <td>  <span class="unit-span" v-for="i in 4" @click="studentRemove(user.nme, i)" > [[i]] </span> </td>
 
             </tr>
         </template>
@@ -175,7 +179,9 @@ let vue = new Vue({
         unit_list : ['RR','00', '01','02','03','04','05','06','07','08','09', '10'],
         size_list : ['4','0','3','5'] ,
         team_list : ['3', '4', '5','6', '7','8','9', '10','11','12','13','14','15','16','17','18','19','20'],
-        recordOBJ : {}
+        recordOBJ : {},
+        varString : null,
+        forString : null
     },
     methods: {
         controlStyle: function () {
@@ -211,12 +217,9 @@ let vue = new Vue({
               vue.recordOBJ[student] = ['DDList' + student + time1, 'DDList' + student + time2]
             }
           }
+          this.varString = 'var obj =' + JSON.stringify(vue.recordOBJ)
+          this.forString = 'for (var student in obj){ if (document.getElementById(obj[student][0])){ document.getElementById(obj[student][0]).checked=true; document.getElementById(obj[student][1]).checked=true}}'
 
-          console.log('var obj =' + JSON.stringify(vue.recordOBJ));
-          var string = 'for (var student in obj){ if (document.getElementById(obj[student][0])){ document.getElementById(obj[student][0]).checked=true; document.getElementById(obj[student][1]).checked=true}}'
-          console.log(string);
-          localStorage.obj = vue.recordOBJ
-          alert(string)
         },
         setAtt: function() {
 
