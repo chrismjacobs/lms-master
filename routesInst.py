@@ -161,7 +161,7 @@ def dashboard():
 
     # final = ['05', '06', '07', '08']
 
-    period = final
+    period = midterm
 
     totalDict = {}
     allStudents = User.query.all()
