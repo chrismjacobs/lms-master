@@ -396,9 +396,10 @@ def updatePENG():
     if int(stage) == 1:
 
         stage1_checklist = [
-            ansDict['ProductName'],
-            ansDict['Features'],
-            ansDict['Materials'],
+            ansDict['Product'],
+            ansDict['Brand'],
+            ansDict['Why'],
+            ansDict['Image'],
         ]
 
         '''
