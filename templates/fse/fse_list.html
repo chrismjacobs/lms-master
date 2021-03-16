@@ -90,7 +90,7 @@
 
 <h3> Exam Test Board </h3>
 
-<h4 style="background:blue;color:white;padding:10px"> You need 9 points from each box to get 100 (there are 9 boxes) </h4>
+<h4 style="background:blue;color:white;padding:10px"> QNA box 9 point - SNL box 8 points - RP box 6 points </h4>
 <h4 style="background:purple;color:white;padding:10px"> If you missed a unit then get more points </h4>
 
     <div style="overflow-x:auto;">
@@ -109,9 +109,24 @@
 
         <tbody>
             <template v-for="(part, unit) in examOBJ"  >
-              <tr style="background:grey">
-                  <td v-if="unit != '00'" colspan="7">
+              <tr v-if="unit != '00'" style="background:grey">
+                  <td>
                     <span class="unit-span" style="background:tomato;padding:3px"> [[ unit ]] </span>
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                     [[getTotal(part)]]
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                     [[getTotal(part)]]
+                  </td>
+                  <td>
+                  </td>
+                  <td>
+                     [[getTotal(part)]]
                   </td>
               </tr>
                 <template v-if="unit != '00'"  v-for="(exam, team) in part" >
@@ -186,6 +201,9 @@ function startVue(OBJ){
 
     },
     methods: {
+        getTotal: function (part) {
+          console.log(part)
+        },
         buttonStyle: function(total, mode, style) {
           if (style == 'edit') {
             if (total >= 6 && mode != 'rp'){
