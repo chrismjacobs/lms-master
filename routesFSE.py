@@ -264,10 +264,9 @@ def fse_list():
 
     examDict = {}
 
-    '''
 
     for src in srcDict:
-        if int(src) > 12 and int(src) < 19: # change to match number of units
+        if int(src) < 12 and int(src) > 16: # change to match number of units
             pass
         else:
             examDict[src] = {}
@@ -295,8 +294,10 @@ def fse_list():
                         examDict[src][proj.teamnumber] = {
                             'QTotal' : proj.Ans04,
                             'STotal' : proj.Ans05,
+                            'RTotal' : proj.Ans06,
                             'Qscore' : 0,
                             'Sscore' : 0,
+                            'Rscore' : 0,
                             }
 
 
@@ -330,8 +331,18 @@ def fse_list():
         except:
             print('FAIL QNA')
 
+    for entry in rp:
+        unit = rp[entry]['unit']
+        team = rp[entry]['team']
+        grade = rp[entry]['grade']
+        try:
+            #print(examDict[unit][int(team)]['Sscore'])
+            examDict[unit][int(team)]['Rscore'] = grade
+        except:
+            print('FAIL RP')
 
-    #'''
+
+    #
     source = srcDict['13']['M2']
 
     return render_template('fse/fse_list.html', legend='FSE Projects', source=source, fseDict=json.dumps(fseDict),  examDict=json.dumps(examDict))
@@ -855,7 +866,7 @@ def fse_grades():
     models = unitDict # at top of page
 
     for model in models:
-        if int(model) > 6:
+        if int(model) > 12:
             projects = models[model].query.all()
             for proj in projects:
                 team = ast.literal_eval(proj.username)

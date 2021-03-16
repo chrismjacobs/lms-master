@@ -86,12 +86,12 @@
 
 </div>
 
-<div class="content-section" style="display:none">
+<div class="content-section">
 
 <h3> Exam Test Board </h3>
 
-<!-- <h4 style="background:blue;color:white;padding:10px"> FIRST: do 1 QNA and 1 SNL from each section </h4>
-<h4 style="background:purple;color:white;padding:10px"> NEXT: do one more from each section to improve your grade </h4> -->
+<h4 style="background:blue;color:white;padding:10px"> You need 9 points from each box to get 100 </h4>
+<h4 style="background:purple;color:white;padding:10px"> If you missed a unit then get more points </h4>
 
     <div style="overflow-x:auto;">
       <table class="table table-sm">
@@ -102,15 +102,15 @@
               <th scope="col" >Grade</th>
               <th scope="col" >S&L</th>
               <th scope="col" >Grade</th>
-              <!--<th scope="col" >RP</th>
-              <th scope="col" >Grade</th>-->
+             <th scope="col" >RP</th>
+              <th scope="col" >Grade</th>
             </tr>
         </thead>
 
         <tbody>
             <template v-for="(part, unit) in examOBJ"  >
               <tr style="background:grey">
-                  <td v-if="unit != '00'" colspan="5">
+                  <td v-if="unit != '00'" colspan="7">
                     <span class="unit-span" style="background:tomato;padding:3px"> [[ unit ]] </span>
                   </td>
               </tr>
@@ -133,6 +133,13 @@
                   </td>
                   <td>
                     <span :style="gradeStyle(exam.Sscore)">&nbsp;[[ exam.Sscore ]]&nbsp;</span>
+                  </td>
+                  <td>
+                    <span v-if="exam.RTotal > 3"  @click="goToExam(unit, team, 'rp', exam.Rscore)"  class="unit-span" :style="buttonStyle(exam.Sscore, 'rp', 'check')"> &nbsp;RP&nbsp; </span>
+                    <span v-else @click="" class="unit-span" style="background:lightgrey;padding:3px"> N/A </span>
+                  </td>
+                  <td>
+                    <span :style="gradeStyle(exam.Rscore)">&nbsp;[[ exam.Rscore ]]&nbsp;</span>
                   </td>
 
                 </tr>
@@ -201,7 +208,7 @@ function startVue(OBJ){
           }
         },
         gradeStyle: function(grade) {
-          if (grade > 4) {
+          if (grade > 3) {
               return { background: 'springgreen', padding:'3px'}
             }
             else if (grade == 0){
