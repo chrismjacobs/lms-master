@@ -353,11 +353,17 @@ def exam_list_midterm():
         examData = json.loads(user.j2)
         print('exam_list_data_checked')
     except:
+        # reviewDict = {
+        #         '1-1-2' : [],
+        #         '1-3-4' : [],
+        #         '1-5-6' : [],
+        #         '1-7-8' : []
+        #     }
         reviewDict = {
-                '1-1-2' : [],
-                '1-3-4' : [],
-                '1-5-6' : [],
-                '1-7-8' : []
+                '2-1-2' : [],
+                '2-3-4' : [],
+                '2-5-6' : [],
+                '2-7-8' : []
             }
         entry = Exams(username=current_user.username, j1=json.dumps(reviewDict), j2=json.dumps(reviewDict))
         db.session.add(entry)
@@ -368,22 +374,22 @@ def exam_list_midterm():
         examData = json.loads(user.j2)
 
     try:
-        tries12 = round(   (reviewData['1-1-2'][0] + reviewData['1-1-2'][1])   /2  )
+        tries12 = round(   (reviewData['2-1-2'][0] + reviewData['2-1-2'][1])   /2  )
     except:
         tries12 = 0
-        reviewData['1-1-2'] = [0,0,0]
+        reviewData['2-1-2'] = [0,0,0]
     try:
-        tries34 = round(   (reviewData['1-3-4'][0] + reviewData['1-3-4'][1])   /2  )
+        tries34 = round(   (reviewData['2-3-4'][0] + reviewData['2-3-4'][1])   /2  )
     except:
         tries34 = 0
-        reviewData['1-3-4'] = [0,0,0]
+        reviewData['2-3-4'] = [0,0,0]
 
     ex12 = 0
     ex34 = 0
-    if len(examData['1-1-2']) > 0:
-        ex12 = round(   (examData['1-1-2'][0] + examData['1-1-2'][1])   /2  )
-    if len(examData['1-3-4']) > 0:
-        ex34 = round(   (examData['1-3-4'][0] + examData['1-3-4'][1])   /2  )
+    if len(examData['2-1-2']) > 0:
+        ex12 = round(   (examData['2-1-2'][0] + examData['2-1-2'][1])   /2  )
+    if len(examData['2-3-4']) > 0:
+        ex34 = round(   (examData['2-3-4'][0] + examData['2-3-4'][1])   /2  )
 
 
 
@@ -393,8 +399,8 @@ def exam_list_midterm():
         'asses' : 0,
         'tScore12': tries12,
         'tScore34': tries34,
-        'tries12' : str(tries12) + '/20% - tries: ' + str(reviewData['1-1-2'][2]),
-        'tries34' : str(tries34) + '/20% - tries: ' + str(reviewData['1-3-4'][2]),
+        'tries12' : str(tries12) + '/20% - tries: ' + str(reviewData['2-1-2'][2]),
+        'tries34' : str(tries34) + '/20% - tries: ' + str(reviewData['2-3-4'][2]),
         'ex12' : ex12,
         'ex34' : ex34,
     }
