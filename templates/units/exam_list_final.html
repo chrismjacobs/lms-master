@@ -71,6 +71,8 @@
 
 <span id="examString" style="display:none">{{examString}}</span>
 <span id="setString" style="display:none">{{setString}}</span>
+<span id="semester" style="display:none">{{semester}}</span>
+
 
 {% endblock %}
 
@@ -84,6 +86,10 @@
 var examString = document.getElementById('examString').innerHTML
 var examOBJ = JSON.parse(examString)
 console.log('exam', examOBJ);
+
+var semester = document.getElementById('semester').innerHTML
+console.log('semester', semester);
+
 var setString = document.getElementById('setString').innerHTML
 var setOBJ = JSON.parse(setString)
 console.log('set', setOBJ);
@@ -106,7 +112,7 @@ function startVue(){
         goTo: function(unit, test){
           var str = window.location.href
 
-          let url = (str).split('exam_list')[0] + 'exams/' + test + '/' + unit
+          let url = (str).split('exam_list')[0] + 'exams/' + test + '/' + semester + unit
           console.log('goTO', url);
           window.location = url
 

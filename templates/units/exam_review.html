@@ -105,13 +105,11 @@ function startVue(){
     },
     methods: {
         goTo: function() {
-          reDirectOBJ1 = {
+          reDirectOBJ = {
             '1-1-2': 'exam_list_midterm',
             '1-3-4': 'exam_list_midterm',
             '1-5-6': 'exam_list_final',
-            '1-7-8': 'exam_list_final'
-          }
-          reDirectOBJ2 = {
+            '1-7-8': 'exam_list_final',
             '2-1-2': 'exam_list_midterm',
             '2-3-4': 'exam_list_midterm',
             '2-5-6': 'exam_list_final',
@@ -119,7 +117,7 @@ function startVue(){
           }
 
           var str = window.location.href
-          let url = str.split('exams')[0] + reDirectOBJ2[unit]
+          let url = str.split('exams')[0] + reDirectOBJ[unit]
           console.log('goTO', url);
           window.location = url
         },
