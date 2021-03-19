@@ -424,6 +424,7 @@ def food_MT():
     for answer in project_answers:
         proj = None
         data = {}
+        dish = None
         ndDict = json.loads(answer.Ans01)
         cvDict = json.loads(answer.Ans02)
         print(get_all_values(ndDict))
@@ -437,9 +438,6 @@ def food_MT():
             dish = cvDict['Dish']
             data = cvDict
             proj = 'CV'
-        else:
-            project_result = 'Unknown'
-            dish = 'Unknown'
 
         if dish and answer.Grade == 0:
             tGrade = 1
