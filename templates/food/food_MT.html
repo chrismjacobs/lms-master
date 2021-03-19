@@ -4,21 +4,21 @@
 
 <span id="ansString" style="display:none">{{ansString}}</span>
 
-<div class="content-section">    
+<div class="content-section">
 
     <div class="embed-responsive embed-responsive-4by3">
         <iframe id="questions_embed" src="{{source1}}"
             allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
 	</iframe>
-    </div> 
+    </div>
     <br>
     <br>
     <div class="embed-responsive embed-responsive-4by3">
         <iframe id="questions_embed" src="{{source2}}"
             allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
 	</iframe>
-    </div> 
-      
+    </div>
+
 </div>
 
 
@@ -30,69 +30,69 @@
 <div v-if="!nameOBJ.ID.includes(1208)">
             [[nameOBJ.ID]]
 
-        <span :style="style(nameOBJ.Grade + 'test')" @click="view = name"> [[name]] -- [[nameOBJ.Grade]] </span>     
+        <span :style="style(nameOBJ.Grade + 'test')" @click="view = name"> [[name]] -- [[nameOBJ.Grade]] </span>
 
         <br>
         <br>
-        
+
             <div v-if="view == name">
 
                     <span :style="style('Intro')"> Dish </span>
-                    <input type="text" class="textAss" style="margin-left:5px" v-model="nameOBJ.Data['Dish']"></input> 
-                    <br>  
+                    <input type="text" class="textAss" style="margin-left:5px" v-model="nameOBJ.Data['Dish']"></input>
+                    <br>
 
                     <span v-if="nameOBJ.Proj == 'CV'" :style="style('Intro')"> Link </span>
-                    <input v-if="nameOBJ.Proj == 'CV'" type="text" class="textAss" style="margin-left:5px" v-model="nameOBJ.Data['Link']"></input> 
-                    <br> 
+                    <input v-if="nameOBJ.Proj == 'CV'" type="text" class="textAss" style="margin-left:5px" v-model="nameOBJ.Data['Link']"></input>
+                    <br>
 
 
                     <template v-for="(reason, num) in nameOBJ.Data['Reasons']">
                     <span :style="style('Reasons')"> Reason [[num]] </span>
-                    <input type="text" class="textAss" style="margin-left:5px" v-model="nameOBJ.Data['Reasons'][num]"></input> 
-                    <br>    
-                    <br>    
-                    </template>       
+                    <input type="text" class="textAss" style="margin-left:5px" v-model="nameOBJ.Data['Reasons'][num]"></input>
+                    <br>
+                    <br>
+                    </template>
 
-                    <template v-for="(item, key) in nameOBJ.Data['Parts']"> 
+                    <template v-for="(item, key) in nameOBJ.Data['Parts']">
                     <h4 v-if="nameOBJ.Proj == 'ND'" > Part [[ key ]] - [[ nameOBJ.Data['Reasons'][key] ]] </h4>
                     <h4 v-else-if="key == '1'" > Ingredients </h4>
                     <h4 v-else-if="key == '2'" > Cooking Methods </h4>
                     <h4 v-else-if="key == '3'" > Description </h4>
-                            <div v-for="(point, order) in nameOBJ.Data['Parts'][key]['kw']">                
+                            <div v-for="(point, order) in nameOBJ.Data['Parts'][key]['kw']">
                                     <span :style="style('dt')"> Sentence [[order]] </span>
-                                    <textarea :id="point + key" type="text" class="textAss" style="margin-left:5px" v-model="nameOBJ.Data['Parts'][key]['dt'][order]"></textarea> 
+                                    <textarea :id="point + key" type="text" class="textAss" style="margin-left:5px" v-model="nameOBJ.Data['Parts'][key]['dt'][order]"></textarea>
                                     <br>
                                     <span :style="style('kw')"> Key words [[order]] --> </span>
-                                    <input type="text" class="textAss" style="margin-left:5px; width:80%" v-model="nameOBJ.Data['Parts'][key]['kw'][order]"></input> 
+                                    <input type="text" class="textAss" style="margin-left:5px; width:80%" v-model="nameOBJ.Data['Parts'][key]['kw'][order]"></input>
                                     <br>
                                     <br>
                             </div>
                     <br>
-                    </template>  
+                    </template>
 
                     <span :style="style('Intro')"> Final Comment </span>
-                    <textarea  type="text" class="textAss" style="margin-left:5px" v-model="nameOBJ['Data']['Final']"></textarea> 
-                    <br>  
-                    <br>  
-                    
-
-                    <div >				
-                        <button  class="btn btn-dark" style="margin-right:5px" @click="updatePlan(name, 4)">Update 4</button>
-                    </div> 
+                    <textarea  type="text" class="textAss" style="margin-left:5px" v-model="nameOBJ['Data']['Final']"></textarea>
                     <br>
-                    <div >				
-                        <button  class="btn btn-success" style="margin-right:5px" @click="updatePlan(name, 5)">Update 5</button>
-                    </div> 
+                    <br>
 
-            </div> 
+
+                    <div >
+                        <button  class="btn btn-dark" style="margin-right:5px" @click="updatePlan(name, 4)">Update 4</button>
+                    </div>
+                    <br>
+                    <div >
+                        <button  class="btn btn-success" style="margin-right:5px" @click="updatePlan(name, 5)">Update 5</button>
+                    </div>
+
+            </div>
 <br>
-</div> 
+</div>
 
 
 </template>
 <br>
 
-</div> 
+</div>
 
 
 </div> <!-- end of Vue app -->
@@ -100,7 +100,7 @@
 
 {% endblock %}
 
-{% block script %}   
+{% block script %}
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 
@@ -112,98 +112,101 @@ console.log('mtOBJ', mtOBJ);
 
 startVue()
 
-function startVue(){ 
-  
-  let vue = new Vue({   
+function startVue(){
+
+  let vue = new Vue({
 
     el: '#vue-app',
-    delimiters: ['[[', ']]'],   
-    mounted: function () {        
-    },    
-    data: {                        
-        mtOBJ: mtOBJ,   
-        view : null,                          
+    delimiters: ['[[', ']]'],
+    mounted: function () {
+    },
+    data: {
+        mtOBJ: mtOBJ,
+        view : null,
         script: {
             ND : {
-                1 : 'If Taiwan were going to vote for a national dish I would choose ', 
-                2 : 'This is for three reasons', 
-                3 : 'First of all,', 
-                4 : 'The next reason is', 
+                1 : 'If Taiwan were going to vote for a national dish I would choose ',
+                2 : 'This is for three reasons',
+                3 : 'First of all,',
+                4 : 'The next reason is',
                 5 : 'The last point is',
-            },        
+            },
             CV : {
-                1 : 'Today I want to share with you a recipe for ', 
-                2 : 'I choose this video because', 
-                3 : 'Some important ingredients are...', 
-                4 : 'To prepare this dish you will need...', 
-                5 : 'This recipe is...',  
-            }, 
-            
+                1 : 'Today I want to share with you a recipe for ',
+                2 : 'I choose this video because',
+                3 : 'Some important ingredients are...',
+                4 : 'To prepare this dish you will need...',
+                5 : 'This recipe is...',
+            },
+
         },
-        
-    }, 
-    methods: { 
-        style : function(mark) { 
+
+    },
+    methods: {
+        style : function(mark) {
             if (mark.includes('kw')){
                 var bg = 'silver'
             }
             else if (mark.includes('dt')){
                 var bg = 'darkorange'
-            }           
+            }
             else if (mark.includes('Rea')){
                 var bg = 'PALEVIOLETRED'
-            }           
+            }
             else if (mark.includes('Int')){
                 var bg = 'DARKCYAN'
-            }           
+            }
             else if (mark.includes('0')){
                 var bg = 'coral'
-            }           
+            }
+            else if (mark.includes('1')){
+                var bg = 'lightblue'
+            }
             else if (mark.includes('4')){
                 var bg = 'purple'
-            }           
+            }
             else if (mark.includes('5')){
                 var bg = 'seagreen'
-            }           
+            }
 
             return {padding:'4px', 'font-size':'15px', background:bg, color:'white', border:'1px sold white', 'border-radius':'5px', width:'20%'}
 
         },
-        updatePlan : function(name, grade) { 
+        updatePlan : function(name, grade) {
             nameOBJ = vue.mtOBJ[name]
             console.log('update via AJAX');
             console.log(nameOBJ['Proj']);
             console.log(nameOBJ['Data']);
-            
+
             //return false
 
             $.ajax({
-              data : {                  
+              data : {
                 proj : nameOBJ['Proj'],
                 ansOBJ : JSON.stringify(nameOBJ['Data']),
                 grade :  grade,
                 name : name
               },
               type : 'POST',
-              url : '/updateFood',               
+              url : '/updateFood',
             })
-            .done(function(data) { 
-                alert('Your FORM has been updated')                
+            .done(function(data) {
+                alert('Your FORM has been updated')
             })
             .fail(function(){
                 alert('error has occurred');
             });
-        },     
-         
-    }, // end methods        
-    
-    
-    
+        },
+
+    }, // end methods
+
+
+
 })// end NEW VUE
 
-}// endFunction 
+}// endFunction
 
 </script>
 
-{% endblock %} 
+{% endblock %}
 

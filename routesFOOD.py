@@ -1,16 +1,16 @@
 import sys, boto3, random, base64, os, secrets, time, datetime, json
 from sqlalchemy import asc, desc, func, or_
-from flask import render_template, url_for, flash, redirect, request, abort, jsonify  
+from flask import render_template, url_for, flash, redirect, request, abort, jsonify
 from app import app, db, bcrypt, mail
 from flask_login import login_user, current_user, logout_user, login_required
-from forms import * 
-from models import * 
-import ast 
+from forms import *
+from models import *
+import ast
 from pprint import pprint
 from routesUser import get_grades, get_sources
 
-from meta import BaseConfig   
-s3_resource = BaseConfig.s3_resource  
+from meta import BaseConfig
+s3_resource = BaseConfig.s3_resource
 S3_LOCATION = BaseConfig.S3_LOCATION
 S3_BUCKET_NAME = BaseConfig.S3_BUCKET_NAME
 SCHEMA = BaseConfig.SCHEMA
@@ -19,25 +19,25 @@ DESIGN = BaseConfig.DESIGN
 
 def get_food_projects():
     content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/sources.json' )
-    file_content = content_object.get()['Body'].read().decode('utf-8')    
-    sDict = json.loads(file_content)  # json loads returns a dictionary       
+    file_content = content_object.get()['Body'].read().decode('utf-8')
+    sDict = json.loads(file_content)  # json loads returns a dictionary
     ##print(sDict)
     return sDict
 
 
 @app.route ("/food_list", methods=['GET','POST'])
 @login_required
-def food_list(): 
+def food_list():
 
-    sDict = get_food_projects() 
-    source = sDict['1']['M2']     
-        
+    sDict = get_food_projects()
+    source = sDict['1']['M2']
+
     return render_template('food/food_list.html', legend='Food Projects', source=source)
 
 
 def get_all_values(nested_dictionary):
     detected = 0
-    for key, value in nested_dictionary.items():        
+    for key, value in nested_dictionary.items():
         if type(value) is dict:
             print ('DICT FOUND', value)
             if get_all_values(value) != 0:
@@ -46,48 +46,48 @@ def get_all_values(nested_dictionary):
             if value == None or value == "":
                 print('CHECK', key, value)
                 detected += 1
-                
-    return detected 
+
+    return detected
 
 @app.route('/updateFood', methods=['POST'])
-def updateFood():  
+def updateFood():
     proj = request.form ['proj']
     ansOBJ = request.form ['ansOBJ']
 
     ansDict = json.loads(ansOBJ)
     print(proj, ansDict)
-    try: 
+    try:
         ## instructor update
         grade = request.form ['grade']
         name = request.form ['name']
-    except:   
-        name = current_user.username 
-        if get_all_values(ansDict) == 0:        
+    except:
+        name = current_user.username
+        if get_all_values(ansDict) == 0:
             grade = 4
         else:
             print ('GET_ALL', get_all_values(ansDict))
-            grade = 0 
+            grade = 0
 
-    print('GRADE', grade)     
+    print('GRADE', grade)
 
-    
+
     if proj == 'ND':
-        project_answers = U011U.query.filter_by(username=name).first() 
+        project_answers = U011U.query.filter_by(username=name).first()
         project_answers.Ans01 = json.dumps(ansDict)
     if proj == 'CV':
-        project_answers = U011U.query.filter_by(username=name).first() 
+        project_answers = U011U.query.filter_by(username=name).first()
         project_answers.Ans02 = json.dumps(ansDict)
     if proj == 'RR':
-        project_answers = U021U.query.filter_by(username=name).first() 
+        project_answers = U021U.query.filter_by(username=name).first()
         project_answers.Ans01 = json.dumps(ansDict)
-       
-    project_answers.Grade = grade 
-    db.session.commit()   
-    
+
+    project_answers.Grade = grade
+    db.session.commit()
+
     return jsonify({'grade' : grade})
 
 @app.route('/createPPT', methods=['POST'])
-def createPPT():  
+def createPPT():
     proj = request.form ['proj']
     ansOBJ = request.form ['ansOBJ']
 
@@ -98,10 +98,10 @@ def createPPT():
         head = 'National Dish'
     if proj == 'CV':
         head = 'Cooking Video'
-    
-    if get_all_values(ansDict) != 0: 
+
+    if get_all_values(ansDict) != 0:
         print('ERROR')
-        return jsonify({'error' : 100})    
+        return jsonify({'error' : 100})
 
     from pptx import Presentation
 
@@ -121,7 +121,7 @@ def createPPT():
     title_shape = shapes.title
     body_shape = shapes.placeholders[1]
     title_shape.text = head + ': ' + ansDict['Dish']
-    
+
     tf = body_shape.text_frame
     tf.text = 'Reasons'
     for r in ansDict['Reasons']:
@@ -137,15 +137,15 @@ def createPPT():
         title_shape = shapes.title
         body_shape = shapes.placeholders[1]
         title_shape.text = 'Reason ' + str(count)
-        
+
         tf = body_shape.text_frame
-        tf.text = ansDict['Reasons'][part]        
+        tf.text = ansDict['Reasons'][part]
         for r in ansDict['Parts'][part]['kw']:
-            p = tf.add_paragraph()            
+            p = tf.add_paragraph()
             p.text = ansDict['Parts'][part]['kw'][r]
             p.level = 1
-        
-        count +=1    
+
+        count +=1
 
     bullet_slide_layout = prs.slide_layouts[1]
     slide = prs.slides.add_slide(bullet_slide_layout)
@@ -156,37 +156,37 @@ def createPPT():
     tf = body_shape.text_frame
     tf.text = ansDict['Final']
 
-    print('PROCESSING PPT') 
+    print('PROCESSING PPT')
     filename = current_user.username + proj + '.pptx'
     try:
         os.remove(filename)
     except:
         print('No OS File')
-    prs.save(filename) 
+    prs.save(filename)
     data = open(filename, 'rb')
     aws_filename = 'MT/' + filename
-    pptLink = S3_LOCATION + aws_filename   
-                         
+    pptLink = S3_LOCATION + aws_filename
+
     s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=aws_filename, Body=data)
-    print(filename)  
-    
+    print(filename)
+
     return jsonify({'pptLink' : pptLink})
 
 
 @app.route('/createPPT_RR', methods=['POST'])
-def createPPT_RR(): 
-    
-    ansOBJ = request.form ['ansOBJ']    
+def createPPT_RR():
+
+    ansOBJ = request.form ['ansOBJ']
     ansDict = json.loads(ansOBJ)
     print(ansDict)
-        
-    if get_all_values(ansDict) != 0: 
+
+    if get_all_values(ansDict) != 0:
         print('ERROR')
-        return jsonify({'error' : 100})    
+        return jsonify({'error' : 100})
 
     from pptx import Presentation
     from pptx.util import Inches
-    
+
     prs = Presentation()
     title_slide_layout = prs.slide_layouts[0]
     slide = prs.slides.add_slide(title_slide_layout)
@@ -203,9 +203,9 @@ def createPPT_RR():
             shapes = slide.shapes
             title_shape = shapes.title
             body_shape = shapes.placeholders[1]
-            title_shape.text = entry 
+            title_shape.text = entry
             tf = body_shape.text_frame
-            tf.text = 'Restaurant Details' 
+            tf.text = 'Restaurant Details'
 
             p = tf.add_paragraph()
             p.text = ansDict[entry]['Name']
@@ -222,40 +222,40 @@ def createPPT_RR():
 
 
             pf = shapes.add_picture('static/images/add_image.png', Inches(6), Inches(2) )
-            
+
         else:
             bullet_slide_layout = prs.slide_layouts[1]
             slide = prs.slides.add_slide(bullet_slide_layout)
             shapes = slide.shapes
             title_shape = shapes.title
             body_shape = shapes.placeholders[1]
-            title_shape.text = entry 
+            title_shape.text = entry
 
-            tf = body_shape.text_frame 
+            tf = body_shape.text_frame
             tf.text = 'Key Words:'
-            for word in ansDict[entry]['key words'].split('/'):                 
+            for word in ansDict[entry]['key words'].split('/'):
                 p = tf.add_paragraph()
                 p.text = word
                 p.level = 1
 
             pf = shapes.add_picture('static/images/add_image.png', Inches(6), Inches(2) )
 
-    
 
-    print('PROCESSING PPT') 
+
+    print('PROCESSING PPT')
     filename = current_user.username + 'RR' + '.pptx'
     try:
         os.remove(filename)
     except:
         print('No OS File')
-    prs.save(filename) 
+    prs.save(filename)
     data = open(filename, 'rb')
     aws_filename = 'MT/' + filename
-    pptLink = S3_LOCATION + aws_filename   
-                         
+    pptLink = S3_LOCATION + aws_filename
+
     s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=aws_filename, Body=data)
-    print(filename)  
-    
+    print(filename)
+
     return jsonify({'pptLink' : pptLink})
 
 
@@ -268,17 +268,17 @@ def startDictGlobal(sd):
 
     if sd in midterm:
         startDictGlobal = {
-            'Dish' : None,             
-            'Link' : 'Video Link',             
+            'Dish' : None,
+            'Link' : 'Video Link',
             'Image' : 'Image Link',
             'Final' : None,
-            'Writer' : None, 
+            'Writer' : None,
             'Reasons' : {
-                1 : None, 
-                2 : None, 
+                1 : None,
+                2 : None,
                 3 : None
             },
-            'Parts' : { 
+            'Parts' : {
                 1 : {
                     'kw' : {
                         1 : None,
@@ -317,46 +317,46 @@ def startDictGlobal(sd):
                 },
             }
         }
-    else: 
+    else:
         startDictGlobal = {
             'Intro' : {
-                'Name' : None, 
-                'Style' : None, 
-                'Location' : None, 
+                'Name' : None,
+                'Style' : None,
+                'Location' : None,
                 'When' : None
             },
             'Menu' : {
-                'Sentence 1' : None, 
-                'Sentence 2' : None, 
-                'Sentence 3' : None, 
-                'key words' : None 
+                'Sentence 1' : None,
+                'Sentence 2' : None,
+                'Sentence 3' : None,
+                'key words' : None
             },
             'Food' : {
-                'Sentence 1' : None, 
-                'Sentence 2' : None, 
-                'Sentence 3' : None, 
-                'key words' : None 
+                'Sentence 1' : None,
+                'Sentence 2' : None,
+                'Sentence 3' : None,
+                'key words' : None
             },
             'Decor' : {
-                'Sentence 1' : None, 
-                'Sentence 2' : None, 
-                'Sentence 3' : None, 
-                'key words' : None 
+                'Sentence 1' : None,
+                'Sentence 2' : None,
+                'Sentence 3' : None,
+                'key words' : None
             },
             'Atmosphere' : {
-                'Sentence 1' : None, 
-                'Sentence 2' : None, 
-                'Sentence 3' : None, 
-                'key words' : None 
+                'Sentence 1' : None,
+                'Sentence 2' : None,
+                'Sentence 3' : None,
+                'key words' : None
             },
             'Rating' : {
-                'Sentence 1' : None, 
-                'Sentence 2' : None, 
-                'Sentence 3' : None, 
-                'key words' : None 
-            }   
+                'Sentence 1' : None,
+                'Sentence 2' : None,
+                'Sentence 3' : None,
+                'key words' : None
+            }
         }
-    
+
     return startDictGlobal
 
 @app.route ("/food/<string:proj>", methods=['GET','POST'])
@@ -366,18 +366,18 @@ def food_proj(proj):
     sDict = get_food_projects()
     if proj == 'ND':
         title = 'National Dish'
-        source = sDict['1']['M3'] 
-        model = U011U 
+        source = sDict['1']['M3']
+        model = U011U
     elif proj == 'CV':
         source = sDict['1']['M4']
-        title = 'Cooking Video' 
-        model = U011U 
+        title = 'Cooking Video'
+        model = U011U
     else:
         source = sDict['1']['MA']
-        title = 'Restaurant Review' 
-        model = U021U 
+        title = 'Restaurant Review'
+        model = U021U
 
-    
+
     if model.query.filter_by(username=current_user.username).first():
         pass
     else:
@@ -386,7 +386,7 @@ def food_proj(proj):
         db.session.add(start)
         db.session.commit()
 
-    project = model.query.filter_by(username=current_user.username).first() 
+    project = model.query.filter_by(username=current_user.username).first()
     if proj == 'ND':
         ansDict = project.Ans01
         html = 'food/food_proj_MT.html'
@@ -396,16 +396,16 @@ def food_proj(proj):
     if proj == 'RR':
         ansDict = project.Ans01
         html = 'food/food_proj_RR.html'
-    
-    
-    return render_template(html, legend='Food Project', 
+
+
+    return render_template(html, legend='Food Project',
     source=source, title=title, ansString=ansDict)
 
 
 
 @app.route ("/food_MT", methods=['GET','POST'])
 @login_required
-def food_MT(): 
+def food_MT():
 
     users = User.query.all()
 
@@ -418,76 +418,82 @@ def food_MT():
             'Grade' : 0,
             'Data' : startDictGlobal('ND')
         }
-    
+
     project_answers = U011U.query.all()
 
     for answer in project_answers:
+        proj = None
+        data = {}
         ndDict = json.loads(answer.Ans01)
         cvDict = json.loads(answer.Ans02)
         print(get_all_values(ndDict))
-        print(get_all_values(cvDict))        
-        
-        if get_all_values(ndDict) < get_all_values(cvDict):            
+        print(get_all_values(cvDict))
+
+        if get_all_values(ndDict) < get_all_values(cvDict):
             dish = ndDict['Dish']
             data = ndDict
             proj = 'ND'
-        elif get_all_values(ndDict) > get_all_values(cvDict):            
+        elif get_all_values(ndDict) > get_all_values(cvDict):
             dish = cvDict['Dish']
             data = cvDict
             proj = 'CV'
-        else: 
+        else:
             project_result = 'Unknown'
             dish = 'Unknown'
 
+        if dish and answer.Grade == 0:
+            tGrade = 1
+        else:
+            tGrade = answer.Grade
 
         mtDict[answer.username]['Dish'] = dish
         mtDict[answer.username]['Proj'] = proj
-        mtDict[answer.username]['Grade'] = answer.Grade
+        mtDict[answer.username]['Grade'] = tGrade
         mtDict[answer.username]['Data'] = data
-    
+
     pprint(mtDict)
 
-    sDict = get_food_projects()    
-    source1 = sDict['1']['M3'] 
+    sDict = get_food_projects()
+    source1 = sDict['1']['M3']
     source2 = sDict['1']['M4']
-        
 
-    return render_template('food/food_MT.html', legend='Food Project', 
+
+    return render_template('food/food_MT.html', legend='Food Project',
     source1=source1, source2=source2, ansString=json.dumps(mtDict)  )
 
 
 
 @app.route ("/food_FN", methods=['GET','POST'])
 @login_required
-def food_FN(): 
+def food_FN():
 
     users = User.query.all()
 
     fnDict = {}
     for user in users:
         fnDict[user.username] = {
-            'ID' : user.studentID,            
+            'ID' : user.studentID,
             'Grade' : 0,
             'Data' : startDictGlobal('RR')
         }
-    
+
     project_answers = U021U.query.all()
 
     for answer in project_answers:
-        rrDict = json.loads(answer.Ans01)       
-        print(get_all_values(rrDict))        
-        
-                
+        rrDict = json.loads(answer.Ans01)
+        print(get_all_values(rrDict))
+
+
         fnDict[answer.username]['Grade'] = answer.Grade
         fnDict[answer.username]['Data'] = rrDict
-    
+
     pprint(fnDict)
 
-    sDict = get_food_projects()    
-    source = sDict['1']['M2'] 
-    
+    sDict = get_food_projects()
+    source = sDict['1']['M2']
 
-    return render_template('food/food_FN.html', legend='Food Project', 
+
+    return render_template('food/food_FN.html', legend='Food Project',
     source=source, ansString=json.dumps(fnDict)  )
 
 
