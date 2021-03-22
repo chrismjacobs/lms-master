@@ -86,7 +86,7 @@
 
 </div>
 
-<div class="content-section">
+<div class="content-section" style="display:none">
 
 <h3> Exam Test Board </h3>
 
@@ -116,17 +116,15 @@
                   <td>
                   </td>
                   <td>
-                     [[getTotal(part)]]
+                     [[getTotal(part, 'Qscore')]]/9
                   </td>
                   <td>
                   </td>
                   <td>
-                     [[getTotal(part)]]
                   </td>
                   <td>
                   </td>
                   <td>
-                     [[getTotal(part)]]
                   </td>
               </tr>
                 <template v-if="unit != '00'"  v-for="(exam, team) in part" >
@@ -201,8 +199,24 @@ function startVue(OBJ){
 
     },
     methods: {
-        getTotal: function (part) {
+        getTotal: function (part, type) {
           console.log(part)
+
+          let totals = {
+             Qtotal: 0,
+              Rtotal: 0,
+              Stotal: 0
+          }
+
+
+          if (part) {
+            for (let n in part) {
+              totals.Qtotal += part[n].Qscore
+              totals.Stotal += part[n].Sscore
+              totals.Rtotal += part[n].Rscore
+            }
+          }
+          return totals.type
         },
         buttonStyle: function(total, mode, style) {
           if (style == 'edit') {
