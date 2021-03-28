@@ -4,41 +4,39 @@
 
 <span id="ansString" style="display:none">{{ansString}}</span>
 
-<div class="content-section">    
+<div class="content-section">
 <h1> Midterm Presentation: <br> Product Demonstration </h1>
-  
+
     <div class="embed-responsive embed-responsive-4by3">
         <iframe id="questions_embed" src="{{source}}"
             allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
 	</iframe>
-    </div> 
-      
+    </div>
+
 </div>
 
 <div id="vue-app">
 
 <div class="content-section">
 
-
-
 <legend class="border-bottom mb-4"> Dashboard </legend>
 
 <template v-for="(ansOBJ, student) in fullOBJ">
-        
+
     <div v-if="ansOBJ['stage'] > 1">
         <span :style="style('dt')"> [[ ansOBJ['stage'] ]] </span>
 
-        <span :style="style('Intro')"> [[ ansOBJ['Presenter'] ]] </span>
-       
+        <span :style="style('Intro')"> [[ student ]] </span>
+
         <span :style="style('kw')"> [[ ansOBJ['Product'] ]] </span>
-        
-        <span :style="style('kw')"> [[ ansOBJ['Brand'] ]] </span>      
+
+        <span :style="style('kw')"> [[ ansOBJ['Brand'] ]] </span>
 
         <audio v-if="ansOBJ['Audio5']" controls>
-                <source  :src="ansOBJ['Audio5']" type="audio/mpeg" >               
+                <source  :src="ansOBJ['Audio5']" type="audio/mpeg" >
         </audio>
         <audio v-else-if="ansOBJ['Audio6']" controls>
-                <source  :src="ansOBJ['Audio6']" type="audio/mpeg" >               
+                <source  :src="ansOBJ['Audio6']" type="audio/mpeg" >
         </audio>
 
         <br>
@@ -49,47 +47,48 @@
     <br>
     <br>
 
-        <h4>   <span :style="style('Check')"  v-if="ansOBJ['stage'] > 2" @click="viewWork = ansOBJ['Presenter']"> Intro </span>  </h4>
-    <div v-if="viewWork == ansOBJ['Presenter']">
-        
-        <template v-for="(item, key) in ansOBJ['Intro']"> 
+    <h4>   <span :style="style('Check')"  v-if="ansOBJ['stage'] > 2" @click="viewWork = student"> Intro </span>  </h4>
+
+    <div v-if="viewWork == student">
+
+        <template v-for="(item, key) in ansOBJ['Intro']">
         <h4 >  Point [[ key ]]  </h4>
 
                 <span :style="style('dt')">Sentence </span>
-                <textarea type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Intro'][key]" @on-blur="wordCount()"></textarea> 
+                <textarea type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Intro'][key]" @on-blur="wordCount()"></textarea>
                 <br>
-                <br>  
+                <br>
 
-        </template>  
-               
+        </template>
 
-        <template v-for="(section, key) in ansOBJ['Parts']"> 
+
+        <template v-for="(section, key) in ansOBJ['Parts']">
         <h4 >  [[ key ]]  </h4>
                 <div v-for="(point, order) in ansOBJ['Parts'][key]">
                         <span :style="style('kw')">Point [[order]]: CC word(s) --> </span>
-                        <input type="text" class="textAss" style="margin-left:5px; width:80%" v-model="ansOBJ['Cues'][key][order]"></input> 
+                        <input type="text" class="textAss" style="margin-left:5px; width:80%" v-model="ansOBJ['Cues'][key][order]"></input>
                         <br>
                         <span :style="style('dt')"> Sentence </span>
-                        <textarea type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Parts'][key][order]" @on-blur="wordCount()"></textarea> 
+                        <textarea type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Parts'][key][order]" @on-blur="wordCount()"></textarea>
                         <br>
                         <br>
                 </div>
         <br>
-        </template>  
+        </template>
 
-        <div>				
+        <div>
             <button  class="btn btn-dark" style="margin-right:5px" @click="updatePlan(student, 3)">Update Plan</button>
             <button  class="btn btn-success" style="margin-right:5px" @click="updatePlan(student, 4)">Update Plan</button>
-        </div> 
+        </div>
         <br>
 
 
-        </div> 
-    </div> 
+        </div>
+    </div>
 <br>
-<br>  
-</template>  
-   
+<br>
+</template>
+
 </div>
 
 
@@ -98,7 +97,7 @@
 
 {% endblock %}
 
-{% block script %}   
+{% block script %}
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 <script type="text/javascript">
@@ -110,29 +109,29 @@ console.log('ansOBJ', fullOBJ);
 
 startVue()
 
-function startVue(){ 
-  
-  let vue = new Vue({   
+function startVue(){
+
+  let vue = new Vue({
 
     el: '#vue-app',
-    delimiters: ['[[', ']]'],   
-    mounted: function () {        
-    },    
-    data: {                        
+    delimiters: ['[[', ']]'],
+    mounted: function () {
+    },
+    data: {
         fullOBJ: fullOBJ,
-        viewWork: null,  
+        viewWork: null,
         blurblocker: null,
-        script: {            
-            Product : "What is this product", 
-            Features : "First, I would like to talk about some product features", 
-            Demo : "Now, for the demonstration", 
-            Extra : "Finally, what are some extra benefits of this product?", 
-        }  
+        script: {
+            Product : "What is this product",
+            Features : "First, I would like to talk about some product features",
+            Demo : "Now, for the demonstration",
+            Extra : "Finally, what are some extra benefits of this product?",
+        }
 
-    }, 
-    methods: {  
-        wordCount : function(mark) { 
-            console.log(mark); 
+    },
+    methods: {
+        wordCount : function(mark) {
+            console.log(mark);
             var wc = (document.getElementById(mark).value).split(' ')
             console.log(wc.length);
             if (wc.length < 8) {
@@ -143,46 +142,46 @@ function startVue(){
                     alert('This sentence seems too short - try making it longer with conjunction phrases (but/so/when/if/because..)')
                     vue.blurblocker = mark
                 }
-                
-            }           
+
+            }
 
             return true
-        },        
-        style : function(mark) { 
+        },
+        style : function(mark) {
             if (mark.includes('kw')){
                 var bg = 'silver'
             }
             else if (mark.includes('dt')){
                 var bg = 'darkorange'
-            }           
+            }
             else if (mark.includes('Rea')){
                 var bg = 'PALEVIOLETRED'
-            }           
+            }
             else if (mark.includes('Int')){
                 var bg = 'DARKCYAN'
-            }           
+            }
             else if (mark.includes('Che')){
                 var bg = 'TOMATO'
-            }           
+            }
 
             return {padding:'4px', 'font-size':'25px', background:bg, color:'white', border:'1px sold white', 'border-radius':'5px', width:'20%', height:'30px'}
 
         },
-        updatePlan : function(student, key) {  
-            alert('Please wait, your plan is being updated')           
+        updatePlan : function(student, key) {
+            alert('Please wait, your plan is being updated')
 
             $.ajax({
-              data : {                               
-                ansOBJ : JSON.stringify(this.fullOBJ[student]), 
+              data : {
+                ansOBJ : JSON.stringify(this.fullOBJ[student]),
                 image_b64 : null,
                 audio_b64 : null,
-                proj : 'MT', 
-                stage : key, 
-                user : student               
-                  
+                proj : 'MT',
+                stage : key,
+                user : student
+
               },
               type : 'POST',
-              url : '/updatePENG',               
+              url : '/updatePENG',
             })
             .done(function(data) {
                 if (data.fail){
@@ -190,21 +189,21 @@ function startVue(){
                 }
                 else{
                     alert('Your FORM has been updated: stage', data.stage)
-                }                  
-                               
+                }
+
             })
             .fail(function(){
                 alert('error has occurred');
             });
-        }, 
-            
+        },
+
     },
-        
+
 })// end NEW VUE
 
-}// endFunction 
+}// endFunction
 
 </script>
 
-{% endblock %} 
+{% endblock %}
 
