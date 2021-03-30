@@ -45,7 +45,7 @@
               <td> [[ number ]] </td>
               <td> [[ teams.team ]] </td>
               <td>
-              <span  class="unit-span" style="background:mediumseagreen;padding:3px"> &nbsp;[[ teams.QNA ]] &nbsp; </span>
+              <span  class="unit-span" :style="getStyle(teams.QNA, 1)"> &nbsp;[[ teams.QNA ]] &nbsp; </span>
               </td>
               <td>
               <span  class="unit-span" style="background:mediumseagreen;padding:3px"> &nbsp;[[ teams.SNL ]]&nbsp; </span>
@@ -96,6 +96,17 @@ function startVue(OBJ){ new Vue({
         projectOBJ: OBJ,
     },
     methods: {
+      getStyle: function (number, part) {
+        if (part === 1 && number < 6) {
+          return 'background:tomato;padding:3px'
+        } else if (part === 1) {
+          return 'background:mediumseagreen;padding:3px'
+        } else if (number < 4) {
+          return 'background:tomato;padding:3px'
+        } else {
+          return 'background:mediumseagreen;padding:3px'
+        }
+      },
         goTo: function(key) {
 
           // go to HTTPS version
