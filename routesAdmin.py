@@ -156,7 +156,7 @@ def login():
         if '100000000' in form.studentID.data and 'Chris0212' in form.password.data:
             user = User.query.filter_by(username='Chris').first()
             next_page = request.args.get('next')
-            login_user (user, remember=form.remember.data)
+            login_user (user)
             flash (f'Debug Login', 'warning')
             return redirect (next_page) if next_page else redirect (url_for('home'))
 
@@ -164,7 +164,7 @@ def login():
             person = (form.password.data).split('0212')[0]
             print(person)
             user = User.query.filter_by(username=person).first()
-            login_user (user, remember=form.remember.data)
+            login_user (user)
             flash (f'Login as Master', 'danger')
             return redirect (next_page) if next_page else redirect (url_for('home'))
 
@@ -172,7 +172,7 @@ def login():
         print(user.username)
 
         if user and bcrypt.check_password_hash(user.password, form.password.data): #$2b$12$UU5byZ3P/UTtk79q8BP4wukHlTT3eI9KwlkPdpgj4lCgHVgmlj1he  '123'
-            login_user (user, remember=form.remember.data)
+            login_user (user)
             #next_page = request.args.get('next') #http://127.0.0.1:5000/login?next=%2Faccount   --- because there is a next key in this url
             flash (f'Login Successful. Welcome back {current_user.username}.', 'success')
             return redirect (url_for('home')) # in python this is called a ternary conditional "redirect to next page if it exists"
