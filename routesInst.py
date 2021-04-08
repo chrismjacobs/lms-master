@@ -76,7 +76,7 @@ def att_log():
     for c in course_dates:
         print(c)
         ### special set up for the Food calendar
-        if SCHEMA == 5:
+        if SCHEMA == 10:
             date_string1 = course_dates[c]['Wed']
             dateList.append(date_string1)
             date_string2 = course_dates[c]['Thurs']
