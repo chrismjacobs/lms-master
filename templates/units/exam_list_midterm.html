@@ -38,7 +38,7 @@
           <tr  style="height:30px">
             <td>
               <span v-if="setOBJ['ex'] == 3"> Exam 1-2 Practice</span>
-              <span v-else-if="setOBJ['12'] == 1" @click="goTo('-1-2', 'review')" class="unit-span" style="background:{{theme}}; height:40px"> Exam 1-2 Practice </span>
+              <span v-else-if="setOBJ['12'] == 1" @click="goTo('-1-2', 'review')" class="unit-span" style="background:hotpink; height:40px"> Exam 1-2 Practice </span>
               <span v-else> Exam 1-2 Practice</span>
             </td>
             <td style="color:hotpink"> [[examOBJ.tries12]]</td>
@@ -46,7 +46,7 @@
           <tr>
             <td>
               <span v-if="setOBJ['ex'] == 3"> Exam 3-4 Practice</span>
-              <span v-else-if="setOBJ['34'] == 1" @click="goTo('-3-4', 'review')" class="unit-span" style="background:{{theme}}; height:40px"> Exam 3-4 Practice </span>
+              <span v-else-if="setOBJ['34'] == 1" @click="goTo('-3-4', 'review')" class="unit-span" style="background:hotpink; height:40px"> Exam 3-4 Practice </span>
               <span v-else> Exam 3-4 Practice</span>
             </td>
             <td style="color:hotpink"> [[examOBJ.tries34]]</td>
