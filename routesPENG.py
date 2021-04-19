@@ -25,7 +25,7 @@ def get_peng_projects():
     file_content = content_object.get()['Body'].read().decode('utf-8')
     sDict = json.loads(file_content)  # json loads returns a dictionary
     #source = sDict['1']['M2']
-    source = sDict['1']['M2']
+    source = sDict['1']['M3']
 
     return source
 
@@ -160,7 +160,7 @@ highDict = {
 @login_required
 def peng_list():
 
-    setup = 'MT'
+    setup = 'FN'
     source = get_peng_projects()
 
     projectData = {
