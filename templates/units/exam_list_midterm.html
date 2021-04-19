@@ -117,11 +117,14 @@ function startVue(){
           if (grade < 60) {
             return { 'background': 'lightsalmon'}
           }
+          else if (grade < 70){
+            return { 'background': 'violet'}
+          }
           else if (grade < 80){
             return { 'background': 'gold'}
           }
           else if (grade < 90){
-            return { 'background': 'mediumseagreen'}
+            return { 'background': 'lime'}
           }
           else if (grade < 101){
             return { 'background': 'aqua'}
