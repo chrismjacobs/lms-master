@@ -481,7 +481,7 @@ function startVue(ansOBJ, device){
             }
 
             vue.rec1.count += 1
-            if (vue.rec1.count == 91){
+            if (vue.rec1.count == 121){
                 vue.stop(task)
                 console.log('timer_terminated');
             }
