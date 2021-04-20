@@ -150,7 +150,7 @@
                     <span :style="gradeStyle(exam.Sscore)">&nbsp;[[ exam.Sscore ]]&nbsp;</span>
                   </td>
                   <td>
-                    <span v-if="exam.RTotal > 3"  @click="goToExam(unit, team, 'rp', exam.Rscore)"  class="unit-span" :style="buttonStyle(exam.Sscore, 'rp', 'check')"> &nbsp;RP&nbsp; </span>
+                    <span v-if="exam.RTotal > 3"  @click="goToExam(unit, team, 'rp', exam.Rscore)"  class="unit-span" :style="buttonStyle(exam.Rscore, 'rp', 'check')"> &nbsp;RP&nbsp; </span>
                     <span v-else @click="" class="unit-span" style="background:lightgrey;padding:3px"> N/A </span>
                   </td>
                   <td>
@@ -202,7 +202,7 @@ function startVue(OBJ){
     },
     methods: {
         getTotal: function (part, type) {
-          console.log('getTotal', part, type)
+          // console.log('getTotal', part, type)
 
           let grades = {
             Qscore : 9,
@@ -215,12 +215,12 @@ function startVue(OBJ){
           if (part) {
             for (let n in part) {
               total += parseInt(part[n][type])
-              console.log(parseInt(part[n][type]))
-              console.log(total)
+              // console.log(parseInt(part[n][type]))
+              // console.log(total)
             }
           }
 
-          console.log(total)
+          // console.log(total)
 
           let background = 'color:white'
 
@@ -230,11 +230,14 @@ function startVue(OBJ){
           return [total, background]
         },
         buttonStyle: function(total, mode, style) {
+          if (mode == 'rp' && style == 'check') {
+
+          }
           if (style == 'edit') {
-            if (total >= 6 && mode != 'rp'){
+            if (parseInt(total) >= 6 && mode != 'rp'){
               return { background: 'mediumseagreen', padding:'3px'}
             }
-            else if (total >= 4) {
+            else if (parseInt(total) >= 5) {
               return { background: 'mediumseagreen', padding:'3px'}
             }
             else{
@@ -242,7 +245,7 @@ function startVue(OBJ){
             }
           }
           else if (style == 'check'){
-            if (total > 0 ){
+            if (parseInt(total) > 0 ){
               return { background: 'mediumseagreen', padding:'3px'}
             }
             else{
