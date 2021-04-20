@@ -86,7 +86,7 @@
 
 </div>
 
-<div class="content-section" style="display:none">
+<div class="content-section">
 
 <h3> Exam Test Board </h3>
 
@@ -115,16 +115,18 @@
                   </td>
                   <td>
                   </td>
-                  <td>
-                     [[getTotal(part, 'Qscore')]]/9
+                  <td :style="getTotal(part, 'Qscore')[1]" >
+                     [[  getTotal(part, 'Qscore')[0]  ]]/9
                   </td>
                   <td>
                   </td>
-                  <td>
+                  <td  :style="getTotal(part, 'Sscore')[1]" >
+                    [[  getTotal(part, 'Sscore')[0] ]]/8
                   </td>
                   <td>
                   </td>
-                  <td>
+                  <td :style="getTotal(part, 'Rscore')[1]" >
+                   [[  getTotal(part, 'Rscore')[0] ]]/6
                   </td>
               </tr>
                 <template v-if="unit != '00'"  v-for="(exam, team) in part" >
@@ -200,23 +202,32 @@ function startVue(OBJ){
     },
     methods: {
         getTotal: function (part, type) {
-          console.log(part)
+          console.log('getTotal', part, type)
 
-          let totals = {
-             Qtotal: 0,
-              Rtotal: 0,
-              Stotal: 0
+          let grades = {
+            Qscore : 9,
+            Sscore : 8,
+            Rscore : 6
           }
 
+          let total = 0
 
           if (part) {
             for (let n in part) {
-              totals.Qtotal += part[n].Qscore
-              totals.Stotal += part[n].Sscore
-              totals.Rtotal += part[n].Rscore
+              total += parseInt(part[n][type])
+              console.log(parseInt(part[n][type]))
+              console.log(total)
             }
           }
-          return totals.type
+
+          console.log(total)
+
+          let background = 'color:white'
+
+          if (total >= grades[type]) {
+            background = 'background:mediumseagreen;color:white'
+          }
+          return [total, background]
         },
         buttonStyle: function(total, mode, style) {
           if (style == 'edit') {
