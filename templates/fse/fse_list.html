@@ -227,6 +227,12 @@ function startVue(OBJ){
           if (total >= grades[type]) {
             background = 'background:mediumseagreen;color:white'
           }
+          else if (total >= 3) {
+            background = 'background:gold;color:white'
+          }
+          else {
+            background = 'background:lightcoral;color:white'
+          }
           return [total, background]
         },
         buttonStyle: function(total, mode, style) {
