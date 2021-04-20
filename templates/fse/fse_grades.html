@@ -97,6 +97,9 @@ let vue = new Vue({
 
         },
         updateGrade: function(name, head, data) {
+          if (name == 'Cyan') {
+            console.log(head, data)
+          }
           if (!gradesOBJ[name]['Student'][head + 'G']) {
             gradesOBJ[name]['Student'][head + 'G'] = 0
           }
@@ -136,7 +139,10 @@ let vue = new Vue({
             }
           }
           if (head == 'QNAG') {
-            if (item > 5){
+            if (item > 53){
+                return { background:'aqua'}
+            }
+            else if (item > 40){
                 return { background:'mediumseagreen'}
             }
             else{
@@ -144,7 +150,10 @@ let vue = new Vue({
             }
           }
           if (head == 'SNLG') {
-            if (item > 5){
+            if (item > 47){
+                return { background:'aqua'}
+            }
+            else if (item > 36){
                 return { background:'mediumseagreen'}
             }
             else{
@@ -152,7 +161,10 @@ let vue = new Vue({
             }
           }
           if (head == 'RPG') {
-            if (item > 3){
+            if (item > 35){
+                return { background:'aqua'}
+            }
+            else if (item > 25){
                 return { background:'mediumseagreen'}
             }
             else{
