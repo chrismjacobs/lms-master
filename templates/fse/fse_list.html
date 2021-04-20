@@ -251,7 +251,7 @@ function startVue(OBJ){
             }
           }
           else if (style == 'check'){
-            if (parseInt(total) > 0 ){
+            if (!Number.isInteger(total)){
               return { background: 'mediumseagreen', padding:'3px'}
             }
             else{
@@ -260,14 +260,17 @@ function startVue(OBJ){
           }
         },
         gradeStyle: function(grade) {
+          console.log(grade)
           if (grade > 3) {
               return { background: 'springgreen', padding:'3px'}
             }
-            else if (grade == 0){
-              return false
+            else if (grade == 0 &&　!Number.isInteger(grade)){
+              return { background: 'lightcoral', padding:'3px'}
             }
-            else{
+            else if (grade > 0){
               return { background: 'darkseagreen', padding:'3px'}
+            } else {
+              return { color: 'white', padding:'3px'}
             }
 
         },
