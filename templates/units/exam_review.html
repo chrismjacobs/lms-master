@@ -198,6 +198,13 @@ function startVue(){
           console.log(array);
           return array
         },
+    },
+    created () {
+    let _this = this
+    window.onblur = function () {
+        alert('Warning! If you leave this page your exam will be reset')
+        _this.goTo()
+      }
     }
 })// end NEW VUE
 
