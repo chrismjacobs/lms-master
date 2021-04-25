@@ -86,7 +86,7 @@
 
 </div>
 
-<div class="content-section">
+<div class="content-section" style="display:none">
 
 <h3> Exam Test Board </h3>
 
@@ -224,7 +224,9 @@ function startVue(OBJ){
 
           let background = 'color:white'
 
-          if (total >= grades[type]) {
+          if (total >= (grades[type]*4)-4) {
+            background = 'background:aqua;color:black'
+          } else if (total >= grades[type]) {
             background = 'background:mediumseagreen;color:white'
           }
           else if (total >= 3) {
