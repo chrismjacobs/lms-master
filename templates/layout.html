@@ -45,7 +45,7 @@
                             {% elif SCHEMA == 4 %}
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('peng_dash', MTFN='FN')}}", target="_blank">Dashboard</a>
                             {% elif SCHEMA == 5 %}
-                            <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('food_MT')}}", target="_blank">Dashboard</a>
+                            <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('food_FN')}}", target="_blank">Dashboard</a>
                             {% elif SCHEMA == 7 %}
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('nme_dubdash')}}", target="_blank">Dashboard</a>
                             {% endif %}
@@ -65,8 +65,8 @@
                           <a class="nav-item nav-link" href="{{ url_for ('course') }}">My Course</a>
                                 {% if SCHEMA < 3 or SCHEMA == 6 %}
                                   <a class="nav-item nav-link" href="{{ url_for ('unit_list') }}">My Units</a>
-                                  <a class="nav-item nav-link" href="{{ url_for ('assignment_list') }}">My Assignments </a>
-                                <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('exam_list_midterm') }}">My Exams</a>
+                                <a class="nav-item nav-link" href="{{ url_for ('assignment_list') }}">My Assignments </a>
+                                <!-- <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('exam_list_midterm') }}">My Exams</a> -->
                                 {% elif SCHEMA == 3 %}
                                   <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('abc_list') }}">My Projects</a>
                                 {% elif SCHEMA == 4 %}
