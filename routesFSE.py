@@ -264,6 +264,8 @@ def fse_list():
 
     examDict = {}
 
+    '''
+
     for src in srcDict:
         if int(src) < 12 and int(src) > 16: # change to match number of units
             pass
@@ -341,6 +343,7 @@ def fse_list():
             print('FAIL RP')
 
 
+    '''
 
     source = srcDict['13']['M2']
 
