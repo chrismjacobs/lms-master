@@ -190,12 +190,12 @@ def get_tests(unit, team):
     print('USER', user)
 
 
-    qna = json.loads(user.j1)
-    snl = json.loads(user.j2)
-    rp = json.loads(user.j3)
-    #qna = json.loads(user.j4)
-    #snl = json.loads(user.j5)
-    #rp = json.loads(user.j6)
+    #qna = json.loads(user.j1)
+    #snl = json.loads(user.j2)
+    #rp = json.loads(user.j3)
+    qna = json.loads(user.j4)
+    snl = json.loads(user.j5)
+    rp = json.loads(user.j6)
 
     #print(qna)
 
@@ -303,12 +303,12 @@ def fse_list():
 
 
     user = midtermGrades()
-    qna = json.loads(user.j1)
-    snl = json.loads(user.j2)
-    rp = json.loads(user.j3)
-    #qna = json.loads(user.j4)
-    #snl = json.loads(user.j5)
-    #rp = json.loads(user.j6)
+    #qna = json.loads(user.j1)
+    #snl = json.loads(user.j2)
+    #rp = json.loads(user.j3)
+    qna = json.loads(user.j4)
+    snl = json.loads(user.j5)
+    rp = json.loads(user.j6)
     #print (qna)
     #print (snl)
 
@@ -726,14 +726,14 @@ def updateGrades():
     user = midtermGrades()
 
     if qORs == 'qna':
-        examDict = json.loads(user.j1)
-        #examDict = json.loads(user.j3)
+        #examDict = json.loads(user.j1)
+        examDict = json.loads(user.j4)
     elif qORs == 'snl':
-        examDict = json.loads(user.j2)
-        #examDict = json.loads(user.j4)
+        #examDict = json.loads(user.j2)
+        examDict = json.loads(user.j5)
     elif qORs == 'rp':
-        examDict = json.loads(user.j3)
-        #examDict = json.loads(user.j4)
+        #examDict = json.loads(user.j3)
+        examDict = json.loads(user.j6)
         pass
 
     print('before', examDict)
@@ -753,18 +753,18 @@ def updateGrades():
             }
 
         if qORs == 'qna':
-            user.j1 = json.dumps(examDict)
-            #user.j4 = json.dumps(examDict)
+            #user.j1 = json.dumps(examDict)
+            user.j4 = json.dumps(examDict)
             db.session.commit()
             print('qnaCommit')
         elif qORs == 'snl':
-            user.j2 = json.dumps(examDict)
-            #user.j5 = json.dumps(examDict)
+            #user.j2 = json.dumps(examDict)
+            user.j5 = json.dumps(examDict)
             db.session.commit()
             print('snlCommit')
         elif qORs == 'rp':
-            user.j3 = json.dumps(examDict)
-            #user.j6 = json.dumps(examDict)
+            #user.j3 = json.dumps(examDict)
+            user.j6 = json.dumps(examDict)
             db.session.commit()
             print('rpCommit')
 
@@ -880,8 +880,8 @@ def fse_grades():
 
     for exam in exams:
         #break
-        QNA = json.loads(exam.j1)
-        #QNA = json.loads(exam.j3)
+        #QNA = json.loads(exam.j1)
+        QNA = json.loads(exam.j3)
         for record in QNA:
             entry = QNA[record]
             print(exam.username, entry)
@@ -890,8 +890,8 @@ def fse_grades():
             else:
                 gradesDict[exam.username][ entry['unit'] ]['QNA_grades'].append(entry['grade'])
 
-        SNL = json.loads(exam.j2)
-        #SNL = json.loads(exam.j4)
+        #SNL = json.loads(exam.j2)
+        SNL = json.loads(exam.j4)
         for record in SNL:
             entry = SNL[record]
             print(exam.username, entry)
@@ -900,8 +900,8 @@ def fse_grades():
             else:
                 gradesDict[exam.username][ entry['unit'] ]['SNL_grades'].append(entry['grade'])
 
-        RP = json.loads(exam.j3)
-        #RP = json.loads(exam.j6)
+        #RP = json.loads(exam.j3)
+        RP = json.loads(exam.j6)
         for record in RP:
             entry = RP[record]
             print(exam.username, entry)

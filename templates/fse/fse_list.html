@@ -238,11 +238,8 @@ function startVue(OBJ){
           return [total, background]
         },
         buttonStyle: function(total, mode, style) {
-          if (mode == 'rp' && style == 'check') {
-
-          }
           if (style == 'edit') {
-            if (parseInt(total) >= 6 && mode != 'rp'){
+            if (parseInt(total) >= 4 && mode === 'rp'){
               return { background: 'mediumseagreen', padding:'3px'}
             }
             else if (parseInt(total) >= 5) {
@@ -253,7 +250,7 @@ function startVue(OBJ){
             }
           }
           else if (style == 'check'){
-            if (!Number.isInteger(total)){
+            if (Number.isInteger(total) && total != 0){
               return { background: 'mediumseagreen', padding:'3px'}
             }
             else{

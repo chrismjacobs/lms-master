@@ -121,7 +121,7 @@ function startVue(){
           window.location = url
         },
         checkQNA: function() {
-          console.log(this.answerSet)
+          console.log('answerSet', this.answerSet)
           let grade = 0
           for (let q in qnaOBJ) {
             if (this.answerSet[q] === qnaOBJ[q].answer ) {
