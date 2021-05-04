@@ -65,7 +65,14 @@ def get_grades(ass, unt):
     maxU = maxU*2
     maxA = maxA*2
 
-    MTFN = 'MT'
+    MTFN = 'NON SET'
+
+    if Units.query.filter_by(unit='01').first():
+        MTFN = 'MT'
+    else:
+        MTFN = 'FN'
+
+    print('MTFN set = ', MTFN)
     # set number for counting throught the lists of units and asses
     if MTFN == 'MT' and SCHEMA < 3:
         unit_start = 0

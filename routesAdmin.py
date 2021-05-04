@@ -6,7 +6,7 @@ from flask import render_template, url_for, flash, redirect, request, abort, jso
 from app import app, db, bcrypt, mail
 from flask_login import login_user, current_user, logout_user, login_required
 from forms import ForgotForm, PasswordResetForm, RegistrationForm, LoginForm, UpdateAccountForm
-from models import User, ChatBox, Info
+from models import User, ChatBox, Info, Units
 from flask_mail import Message
 
 from meta import BaseConfig
@@ -37,7 +37,14 @@ def inject_user():
         #print('EXCEPT')
         bodyColor = DESIGN['bodyColor']
 
-    return dict(SCHEMA=SCHEMA, titleColor=DESIGN['titleColor'] , bodyColor=bodyColor, headTitle=DESIGN['headTitle'], headLogo=DESIGN['headLogo'] )
+    MTFN = None
+
+    if Units.query.filter_by(uA='1').count() == 2 and Units.query.filter_by(unit='01').first():
+        MTFN = 'MT'
+    elif Units.query.filter_by(uA='1').count() == 2 and Units.query.filter_by(unit='05').first():
+        MTFN = 'FN'
+
+    return dict(MTFN=MTFN, SCHEMA=SCHEMA, titleColor=DESIGN['titleColor'] , bodyColor=bodyColor, headTitle=DESIGN['headTitle'], headLogo=DESIGN['headLogo'] )
 
 @app.errorhandler(404)
 def error_404(error):

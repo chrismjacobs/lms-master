@@ -35,7 +35,11 @@
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('admin') }}", target="_blank">Admin</a>
                             {% if SCHEMA < 3 or SCHEMA == 6 %}
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('dashboard')}}", target="_blank">Dashboard</a>
-                            <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('grades_midterm')}}", target="_blank">Grades</a>
+                                {% if MTFN == 'MT' %}
+                                  <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('grades_midterm')}}", target="_blank">Grades</a>
+                                {% else %}
+                                  <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('grades_final')}}", target="_blank">Grades</a>
+                                {% endif %}
                             {% elif SCHEMA == 3 %}
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('abc_dash')}}", target="_blank">Dashboard</a>
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('abc_grades')}}", target="_blank">Grades</a>
@@ -66,7 +70,11 @@
                                 {% if SCHEMA < 3 or SCHEMA == 6 %}
                                   <a class="nav-item nav-link" href="{{ url_for ('unit_list') }}">My Units</a>
                                 <a class="nav-item nav-link" href="{{ url_for ('assignment_list') }}">My Assignments </a>
-                                <!-- <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('exam_list_midterm') }}">My Exams</a> -->
+                                  {% if MTFN == 'MT' %}
+                                    <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('exam_list_midterm') }}">My Exams</a>
+                                  {% elif  MTFN == 'FN' %}
+                                    <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('exam_list_final') }}">My Exams</a>
+                                  {% endif %}
                                 {% elif SCHEMA == 3 %}
                                   <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('abc_list') }}">My Projects</a>
                                 {% elif SCHEMA == 4 %}
