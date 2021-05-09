@@ -63,7 +63,7 @@ def error_500(error):
 @login_required
 def admin():
 
-    mainList = ['user', 'chatbox', 'attendance', 'course']
+    mainList = ['user', 'chatbox', 'attendance', 'units', 'exams']
 
     unitsDict = Info.unit_mods_dict
     unitsKeys = list(unitsDict.keys())
