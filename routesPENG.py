@@ -395,22 +395,21 @@ def updatePENG():
     ### check stage 1
     if int(stage) == 1:
 
-        stage1_checklist = [
-            ansDict['Product'],
-            ansDict['Brand'],
-            ansDict['Why'],
-            ansDict['Image'],
-        ]
-
-        '''
-        stage1_checklist = [
-            ansDict['Video Title'],
-            ansDict['Video Length'],
-            ansDict['Video Views'],
-            ansDict['Video Link'],
-            ansDict['Video Point'],
+        if proj == 'MT':
+            stage1_checklist = [
+                ansDict['Product'],
+                ansDict['Brand'],
+                ansDict['Why'],
+                ansDict['Image'],
             ]
-        '''
+        else:
+            stage1_checklist = [
+                ansDict['Video Title'],
+                ansDict['Video Length'],
+                ansDict['Video Views'],
+                ansDict['Video Link'],
+                ansDict['Video Point'],
+                ]
 
 
         if int(project_answers.Comment) > 1 :

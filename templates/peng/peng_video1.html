@@ -4,23 +4,23 @@
 
 <span id="ansString" style="display:none">{{ansString}}</span>
 
-<div class="content-section">    
+<div class="content-section">
 <h3> FN Presentation: <br> Share a Viral Video </h3>
-  
+
     <div class="embed-responsive embed-responsive-4by3">
         <iframe id="questions_embed" src="{{source}}"
             allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
 	</iframe>
-    </div> 
-      
+    </div>
+
 </div>
 
-<div class="content-section">   
-  
+<div class="content-section">
+
     <h3> <a href="https://drive.google.com/open?id=1ePFM7qDeleT3RImcmPX-yBT1cdYo4TPUf0usRwjpULA"> Example: Kangaroo </a> </h3>
     <h3> <a href="https://docs.google.com/presentation/d/1pcBPs6EgTRET54It7RmH1FADncACwXrIMAvOzW-EmO8/edit?usp=sharing"> Example: Body Image </a> </h3>
     <h3> <a href="https://docs.google.com/presentation/d/e/2PACX-1vRVBp1VEW8AwfztUAVOWjvdtgcJhMCcyNwiIERfM1DyJsdghiJdMoxc7i2rtOLe8GCu7taOf8bISXF8/pub?start=false&loop=false&delayms=3000"> Class Examples </a> </h3>
-      
+
 </div>
 
 <div id="vue-app">
@@ -37,33 +37,33 @@
             something creative (not made by a professional<br>
             something that give us something interesting to think about<br>
             homevideo / motivational / sport / activity / nature / parody / ....</span>
-            <br>  
-            <br>  
+            <br>
+            <br>
 
             <span :style="style('Intro')"> Video Length</span>
             <input type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Video Length']"></input> <br>
             <span style="color:green">*Note if the video is very long remember we can only see aboout 2 mins of it <br>
-            <br>  
+            <br>
 
             <span :style="style('Intro')"> Video Views</span>
             <input type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Video Views']"></input> <br>
             <span style="color:green">*Note a viral video should have over 1 million (1,000,000) views - write your number in millions eg 1.3 million / 7.4 million <br>
-            <br>  
-            
+            <br>
+
             <span :style="style('Intro')"> Video Link</span>
-            <input type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Video Link']"></input> 
-            <br>  
-            <br>  
+            <input type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Video Link']"></input>
+            <br>
+            <br>
 
             <span :style="style('Intro')"> Video Purpose</span>
             <textarea type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Video Point']"></textarea> <br>
             <span style="color:green">*Why did you choose this video? There should be special reason, something it can teach us or something we can think about<br>
-            <br>  
-            
-            <div>				
+            <br>
+
+            <div>
                 <button  class="btn btn-dark" style="margin-right:5px" @click="updatePlan()">Update Plan</button>
-            </div> 
-            <br>  
+            </div>
+            <br>
 
     </div>
 
@@ -75,7 +75,7 @@
 
 {% endblock %}
 
-{% block script %}   
+{% block script %}
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 <script type="text/javascript">
@@ -90,48 +90,48 @@ let stage = (str).split('peng/')[1].split('/')[1]
 
 startVue(ansOBJ)
 
-function startVue(ansOBJ){ 
-  
-  let vue = new Vue({   
+function startVue(ansOBJ){
+
+  let vue = new Vue({
 
     el: '#vue-app',
-    delimiters: ['[[', ']]'],   
-    mounted: function () {        
-    },    
-    data: {                        
-        ansOBJ: ansOBJ,       
-        stage : stage,         
-        project: (window.location.href).split('/peng/')[1].split('/')[0],   
-    }, 
-    methods: { 
-        style : function(mark) { 
+    delimiters: ['[[', ']]'],
+    mounted: function () {
+    },
+    data: {
+        ansOBJ: ansOBJ,
+        stage : stage,
+        project: (window.location.href).split('/peng/')[1].split('/')[0],
+    },
+    methods: {
+        style : function(mark) {
             if (mark.includes('kw')){
                 var bg = 'silver'
             }
             else if (mark.includes('dt')){
                 var bg = 'darkorange'
-            }           
+            }
             else if (mark.includes('Rea')){
                 var bg = 'PALEVIOLETRED'
-            }           
+            }
             else if (mark.includes('Int')){
                 var bg = 'DARKCYAN'
-            }           
+            }
 
             return {padding:'4px', 'font-size':'15px', background:bg, color:'white', border:'1px sold white', 'border-radius':'5px', width:'20%'}
 
         },
-        updatePlan : function() {  
-            alert('Please wait, your plan is being updated')           
+        updatePlan : function() {
+            alert('Please wait, your plan is being updated')
 
             $.ajax({
               data : {
                 proj : this.project,
                 stage: this.stage,
-                ansOBJ : JSON.stringify(this.ansOBJ)  
+                ansOBJ : JSON.stringify(this.ansOBJ)
               },
               type : 'POST',
-              url : '/updatePENG',               
+              url : '/updatePENG',
             })
             .done(function(data) {
                 if (data.fail){
@@ -140,23 +140,27 @@ function startVue(ansOBJ){
                 else{
                     vue.ansOBJ = JSON.parse(data.ansString)
                     console.log(vue.ansOBJ)
-                    alert('Your FORM has been updated')   
-                }  
-                
-                               
+                    alert('Your FORM has been updated')
+                    var str = window.location.href
+                    let url = (str).split('peng')[0] + 'peng_list'
+                    console.log('goTO', url);
+                    window.location = url
+                }
+
+
             })
             .fail(function(){
                 alert('error has occurred');
             });
-        }, 
-    }  
-    
+        },
+    }
+
 })// end NEW VUE
 
-}// endFunction 
+}// endFunction
 
 
 </script>
 
-{% endblock %} 
+{% endblock %}
 
