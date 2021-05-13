@@ -57,7 +57,7 @@
                     <span @click="goTo(key, 'Instructor' )" class="unit-span" style="background:silver;padding:3px; margin-left:5px"> Instructor </span>
                     <span @click="openUnit(key, number)" v-if="opens[key] == false" class="unit-span" style="background:royalblue;padding:3px; margin-left:10px"> Open </span>
                   {% else %}
-                    <span style="">[[  unit.Comment  ]] </span>
+                    <span style="">[[  getComment(unit.Comment)  ]] </span>
                   {% endif %}
                   </td>
 
@@ -176,6 +176,18 @@ function startVue(unitOBJ, colorFloat, prevs, options, opens){
 
     },
     methods: {
+        getComment: function (jString) {
+          if (jString.includes('{')) {
+            let obj = JSON.parse(jString)
+            if (obj['status']) {
+              return obj['status']
+            } else {
+              return ''
+            }
+          } else {
+            return ''
+          }
+        },
         headStyle: function(){
             if (colorFloat < .4) {
                 var background ='salmon';

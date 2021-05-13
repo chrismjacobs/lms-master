@@ -298,13 +298,14 @@ def shareUpload():
     find = model.query.filter_by(teamnumber=teamnumber).count()
     if find == 0:
         if int(question) == 0: ## team start
-            entry = model(username=str(nameRange), teamnumber=teamnumber, Grade=0, Comment='in progress..')
+            contribution = {'status': 'in progress...'}
+            entry = model(username=str(nameRange), teamnumber=teamnumber, Grade=0, Comment=json.dumps(contribution))
         else: ## writer start
             if int(qs) == 1:
                 print('Only one question..')
                 entry = model(username=str(nameRange), teamnumber=teamnumber, Grade=2, Comment='Done', Ans01=answer)
             else:
-                entry = model(username=str(nameRange), teamnumber=teamnumber, Grade=0, Comment='in progress..', Ans01=answer)
+                entry = model(username=str(nameRange), teamnumber=teamnumber, Grade=0, Ans01=answer, Comment='in progress....')
 
         db.session.add(entry)
         db.session.commit()
@@ -354,9 +355,22 @@ def shareUpload():
                 entry.Ans08 = answer
                 qDict[8] = answer
 
+
+            contribution = None
+
+            if int(teamnumber) < 30:
+                contribution = json.loads(entry.Comment)
+
+                if current_user.username in contribution:
+                    contribution[current_user.username] += '/' + question
+                else:
+                    contribution[current_user.username] = question
+
+                entry.Comment = json.dumps(contribution)
+
             ## DO NOT ALLOW update of usernames
             ##entry.username = str(nameRange)
-            print('commit???', question, answer)
+            print('commit???', question, answer, contribution)
             db.session.commit()
             ## check if last answer given
 
@@ -368,8 +382,15 @@ def shareUpload():
             if qMarker:
                 if entry.Grade > 0 :
                     pass
-                elif  datetime.now() < deadline:
-                    comList = ['Nice work', 'Done', 'Complete', 'Great', 'Finshed']
+                elif datetime.now() < deadline and int(teamnumber) < 30:
+                    contribution = json.loads(entry.Comment)
+                    comList = ['Done', 'Complete', 'Finshed', 'Ready']
+                    entry.Grade = 2  # completed on time
+                    contribution['status'] = random.choice(comList)
+                    entry.Comment = json.dumps(contribution)
+                    db.session.commit()
+                elif datetime.now() < deadline:
+                    comList = ['Done', 'Complete', 'Finshed', 'Ready']
                     entry.Grade = 2  # completed on time
                     entry.Comment = random.choice(comList)
                     db.session.commit()
