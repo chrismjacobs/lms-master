@@ -159,9 +159,11 @@ def dashboard():
         midterm = ['01', '02', '03', '04']
         final = ['05', '06', '07', '08']
 
-    # final = ['05', '06', '07', '08']
 
     period = midterm
+
+    if Units.query.filter_by(unit='05').count() > 0:
+        period = final
 
     totalDict = {}
     allStudents = User.query.all()
