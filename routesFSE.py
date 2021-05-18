@@ -227,6 +227,7 @@ def fse_list():
     #unitList = ['04', '05', '06', '07','08']
     #unitList = ['01', '02', '03', '04','05', '06']
     #unitList = ['01', '02', '03', '04','05', '06']
+    unitList = ['13', '14', '15', '16','17', '18']
     fseDict = {}
     for src in srcDict:
         # check sources against open units in model
@@ -264,7 +265,7 @@ def fse_list():
 
     examDict = {}
 
-    '''
+    #'''
 
     for src in srcDict:
         if int(src) < 12 and int(src) > 16: # change to match number of units
@@ -343,7 +344,7 @@ def fse_list():
             print('FAIL RP')
 
 
-    '''
+    #'''
 
     source = srcDict['13']['M2']
 
