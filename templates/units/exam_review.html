@@ -10,6 +10,13 @@
 </div>
 
 <div class="content-section">
+        <h3 style="color:red"> WARNING: <h3>
+        <h3> If you leave the test it will be reset. Please stay on the page until it is complete </h3>
+    <br>
+  <h3 style="color:green"> Tries: <span id="tryMarker"> </span>/3</h3>
+</div>
+
+<div class="content-section">
 
     <div style="overflow-x:auto;">
       <table class="table table-sm">
@@ -104,7 +111,7 @@ function startVue(){
         tries : 0
     },
     methods: {
-        goTo: function() {
+       goTo: function() {
           reDirectOBJ = {
             '1-1-2': 'exam_list_midterm',
             '1-3-4': 'exam_list_midterm',
@@ -141,10 +148,12 @@ function startVue(){
               }
           }
 
+          vue.tries += 1
+          document.getElementById('tryMarker').innerHTML = vue.tries
+
           if (vue.errorCount > 0){
-              vue.tries += 1
               console.log('x', vue.tries);
-              alert('Sorry, you have ' + vue.errorCount + ' incorrect answers. Please try again')
+              // alert('Sorry, you have ' + vue.errorCount + ' incorrect answers. Please try again')
               var floatGrade = (vue.questionCount - vue.errorCount)*20/vue.questionCount
               var percentGrade = Math.round(floatGrade)
               vue.errorCount = 0
@@ -152,8 +161,7 @@ function startVue(){
               vue.updateGrades(percentGrade)
           }
           else{
-              alert('Great, all answers are correct')
-              vue.tries += 1
+              // alert('Great, all answers are correct')
               vue.updateGrades(20)
           }
         },
@@ -170,10 +178,11 @@ function startVue(){
               url : '/updateExam',
             })
             .done(function(data) {
+              window.scrollTo(0,0)
               vue.tries = parseInt(data.tries)
               console.log('tries', vue.tries);
-              if (vue.tries > 3){
-                alert('too many tries - grade updated')
+              if (vue.tries > 2){
+                // alert('too many tries - grade updated')
                 vue.goTo()
               }
               else if (percentGrade == 20 ){
@@ -202,7 +211,8 @@ function startVue(){
     created () {
     let _this = this
     window.onblur = function () {
-        alert('Warning! If you leave this page your exam will be reset')
+        window.scrollTo(0,0)
+        // alert('Warning! If you leave this page your exam will be reset')
         _this.goTo()
       }
     }
