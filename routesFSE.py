@@ -92,9 +92,17 @@ def project_teams(unit, number):
 
     manualTeams = {
 
+        1: ['Kai','June','Marcelo','Kaylin'],
+        2:['Xavia','Sunny','Gwen','Jessy'],
+        3:['Anita','Bly','TY','Mac'],
+        4:['Clyde','James','Yuri','Linda'],
+        5:['Beatrix','Sean','Vivian','Bee'],
+        6:['Cris','Holy','Frederick','Wendy'],
+        7:['Bris','Laura','Fay','Iris','Maris'],
+        8:['Jasper','Luna','Nelly','Cyan'],
+        9:['Jelf','Helen ','Mioly','Layla']
         #10: ['Fiona', 'Ann', 'Penny Lai', 'Yui'],
-        20 : ['Chris'],
-
+        #20 : ['Chris'],
     }
 
     '''control which teams are added'''
@@ -220,6 +228,13 @@ def get_tests(unit, team):
 @app.route ("/fse_list", methods=['GET','POST'])
 @login_required
 def fse_list():
+
+    '''
+    for user in User.query.all():
+        user.extra = 3
+        db.session.commit()
+    '''
+
     srcDict = get_projects()
     print('srcDict', srcDict)
 
@@ -265,7 +280,7 @@ def fse_list():
 
     examDict = {}
 
-    #'''
+    '''
 
     for src in srcDict:
         if int(src) < 12 and int(src) > 16: # change to match number of units
@@ -344,7 +359,7 @@ def fse_list():
             print('FAIL RP')
 
 
-    #'''
+    '''
 
     source = srcDict['13']['M2']
 
@@ -782,87 +797,29 @@ def fse_grades():
 
     users = User.query.all()
 
+    units = ['13','14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24']
+
     for user in users:
         gradesDict[user.username] = {
             'Student' : {
                 'name' :user.username,
                 'id' : user.studentID,
                 'Status' : user.extra
-             },
-            '13' : {
-                'team' : 0,
-                'QNA' : 0,
-                'SNL' : 0,
-                'RP' : 0,
-                'QNA_check' : 0,
-                'SNL_check' : 0,
-                'RP_check' : 0,
-                'QNA_grades' : [],
-                'SNL_grades' : [],
-                'RP_grades' : []
-            },
-            '14' : {
-                'team' : 0,
-                'QNA' : 0,
-                'SNL' : 0,
-                'RP' : 0,
-                'QNA_check' : 0,
-                'SNL_check' : 0,
-                'RP_check' : 0,
-                'QNA_grades' : [],
-                'SNL_grades' : [],
-                'RP_grades' : []
-            },
-            '15' : {
-                'team' : 0,
-                'QNA' : 0,
-                'SNL' : 0,
-                'RP' : 0,
-                'QNA_check' : 0,
-                'SNL_check' : 0,
-                'RP_check' : 0,
-                'QNA_grades' : [],
-                'SNL_grades' : [],
-                'RP_grades' : []
-            },
-            '16' : {
-                'team' : 0,
-                'QNA' : 0,
-                'SNL' : 0,
-                'RP' : 0,
-                'QNA_check' : 0,
-                'SNL_check' : 0,
-                'RP_check' : 0,
-                'QNA_grades' : [],
-                'SNL_grades' : [],
-                'RP_grades' : []
-            },
-            '17' : {
-                'team' : 0,
-                'QNA' : 0,
-                'SNL' : 0,
-                'RP' : 0,
-                'QNA_check' : 0,
-                'SNL_check' : 0,
-                'RP_check' : 0,
-                'QNA_grades' : [],
-                'SNL_grades' : [],
-                'RP_grades' : []
-            },
-            '18' : {
-                'team' : 0,
-                'QNA' : 0,
-                'SNL' : 0,
-                'RP' : 0,
-                'QNA_check' : 0,
-                'SNL_check' : 0,
-                'RP_check' : 0,
-                'QNA_grades' : [],
-                'SNL_grades' : [],
-                'RP_grades' : []
-            },
-
+             }
         }
+        for u in units:
+            gradesDict[user.username][u] = {
+                'team' : 0,
+                'QNA' : 0,
+                'SNL' : 0,
+                'RP' : 0,
+                'QNA_check' : 0,
+                'SNL_check' : 0,
+                'RP_check' : 0,
+                'QNA_grades' : [],
+                'SNL_grades' : [],
+                'RP_grades' : []
+            }
 
     exams = Exams.query.all()
 
