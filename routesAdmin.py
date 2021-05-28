@@ -39,11 +39,12 @@ def inject_user():
 
     MTFN = None
 
-    if Units.query.filter_by(uA='1').count() == 2 and Units.query.filter_by(unit='01').first():
+    if Units.query.filter_by(uA='1').count() >= 2 and Units.query.filter_by(unit='01').first():
         MTFN = 'MT'
-    elif Units.query.filter_by(uA='1').count() == 2 and Units.query.filter_by(unit='05').first():
+    elif Units.query.filter_by(uA='1').count() >= 2 and Units.query.filter_by(unit='05').first():
         MTFN = 'FN'
 
+    print('MTFN (Admin) = ', MTFN)
     return dict(MTFN=MTFN, SCHEMA=SCHEMA, titleColor=DESIGN['titleColor'] , bodyColor=bodyColor, headTitle=DESIGN['headTitle'], headLogo=DESIGN['headLogo'] )
 
 @app.errorhandler(404)
