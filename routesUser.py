@@ -491,9 +491,9 @@ def completeStatus(time):
     for model in Info.unit_mods_list[16:32]:
         print (model)
         rows = model.query.all()
+        block = False
         for row in rows:
-            block = False
-            if current_user.username in ast.literal_eval(row.username) and block == False:
+            if current_user.username in ast.literal_eval(row.username) and block == False and int(row.Grade) > 0:
                 uCount +=1
                 block = True
 
