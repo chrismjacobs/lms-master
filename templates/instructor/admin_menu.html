@@ -9,70 +9,70 @@
 <br>
 
 <div class="content-section">
-    <legend class="border-bottom mb-4">Main</legend>    
-    <table class="table" style="width:100pt">  
+    <legend class="border-bottom mb-4">Main</legend>
+    <table class="table" style="width:100pt">
         <tbody>
         {% for i in  [0,3,6] %}
         <tr>
-        {% for j in range (0, 3) %} 
-              <td> 
-            <button type="button" class="btn btn-outline-secondary" style="width:100pt"><a href="/admin/{{mainList[i+j]}}", target="_blank">{{mainList[i+j]}}</a></button>  
-            </td>   
+        {% for j in range (0, 3) %}
+            <td>
+            <button type="button" class="btn btn-outline-secondary" style="width:100pt"><a href="/admin/{{mainList[i+j]}}", target="_blank">{{mainList[i+j]}}</a></button>
+            </td>
         {% endfor %}
         </tr>
-        {% endfor %} 
+        {% endfor %}
         </tbody>
-        
-      </table>     
+
+      </table>
 </div>
 
 
 
 
 <div class="content-section">
-    <legend class="border-bottom mb-4">Units</legend>    
-    <table class="table" style="width:200pt">  
+    <legend class="border-bottom mb-4">Units</legend>
+    <table class="table" style="width:200pt">
         <tbody>
         {% for i in  [1,5,9] %}
         <tr>
-        {% for j in range (0, 4) %} 
-              <td> 
-                <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle" 
+        {% for j in range (0, 4) %}
+              <td>
+                <button id="btnGroupDrop1" type="button" class="btn btn-outline-secondary dropdown-toggle"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Units {{unitsKeys[j+i]}}
                 </button>
             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
             {% for k in range (1, 5) %}
-                <button type="button" class="btn btn-outline-secondary"><a href="/admin/u{{unitsKeys[j+i]}}{{k}}u", target="_blank">{{unitsKeys[j+i]}}-{{k}}</a></button>  
+                <button type="button" class="btn btn-outline-secondary"><a href="/admin/u{{unitsKeys[j+i]}}{{k}}u", target="_blank">{{unitsKeys[j+i]}}-{{k}}</a></button>
             {% endfor %}
             </div>
-            </td>   
+            </td>
         {% endfor %}
         </tr>
-        {% endfor %} 
+        {% endfor %}
         </tbody>
-        
-      </table>     
+
+      </table>
 </div>
 
 <div class="content-section">
-    <legend class="border-bottom mb-4">Assignments</legend>    
-    <table class="table" style="width:100pt">  
+    <legend class="border-bottom mb-4">Assignments</legend>
+    <table class="table" style="width:100pt">
         <tbody>
         {% for i in  [1,5,9] %}
         <tr>
-        {% for j in range (0, 4) %} 
-              <td> <button type="button" class="btn btn-outline-secondary"><a href="/admin/ass{{assKeys[j+i]}}", target="_blank">{{assKeys[j+i]}}</a></button></td>   
+        {% for j in range (0, 4) %}
+              <td> <button type="button" class="btn btn-outline-secondary"><a href="/admin/ass{{assKeys[j+i]}}", target="_blank">{{assKeys[j+i]}}</a></button></td>
         {% endfor %}
         </tr>
-        {% endfor %} 
+        {% endfor %}
         </tbody>
-        
-      </table>     
+
+      </table>
 </div>
 
 
-    
+
 
 
 
