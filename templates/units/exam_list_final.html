@@ -64,6 +64,30 @@
   </div>
 </div>
 
+<div class="content-section">
+<legend class="border-bottom mb-4">Exam Status</legend>
+
+<ul>
+  <li>
+  <span v-if="aCount > 2" style="background:lightgreen">Assignments:  [[aCount]]/4</span>
+  <span v-else style="background:lightcoral">Assignments:  [[aCount]]/4</span>
+  </li>
+  <li>Participation: [[uCount]]/16</li>
+  <li>
+  <span v-if="getTries() == 2" style="background:lightgreen">Practice: [[getTries()]]/2</span>
+  <span v-else style="background:lightcoral">Practice: [[getTries()]]/2</span>
+  </li>
+</ul>
+
+
+<div>
+    <button v-if="!getOpen()" class="btn btn-danger" @click="alert('Make sure you have done all participation, assignments, and practices')">Exam: Closed</button>
+    <button v-else class="btn btn-info" @click="openExam()">Exam: Open</button>
+</div>
+
+
+<div>
+
 
 </div> <!-- end of Vue app -->
 
@@ -71,6 +95,8 @@
 <span id="examString" style="display:none">{{examString}}</span>
 <span id="setString" style="display:none">{{setString}}</span>
 <span id="semester" style="display:none">{{semester}}</span>
+<span id="aCount" style="display:none">{{aCount}}</span>
+<span id="uCount" style="display:none">{{uCount}}</span>
 
 
 {% endblock %}
@@ -93,6 +119,12 @@ var setString = document.getElementById('setString').innerHTML
 var setOBJ = JSON.parse(setString)
 console.log('set', setOBJ);
 
+var aCount = document.getElementById('aCount').innerHTML
+console.log('set', aCount);
+
+var uCount = document.getElementById('uCount').innerHTML
+console.log('set', uCount);
+
 
 startVue()
 
@@ -106,8 +138,50 @@ function startVue(){
     data: {
         examOBJ: examOBJ,
         setOBJ: setOBJ,
+        aCount: aCount,
+        uCount: uCount
     },
     methods: {
+        getTries: function () {
+          let arg1 = this.examOBJ.tries56
+          let arg2 = this.examOBJ.tries78
+          if (arg1.substring(0, 1) == '0/' && arg2.substring(0, 1) == '0/') {
+            return 0
+          } else if (arg1.substring(0, 1) == '0/' || arg2.substring(0, 1) == '0/' ) {
+            return 1
+          } else {
+            return 2
+          }
+        },
+        getOpen: function () {
+          console.log(this.aCount + this.uCount + this.getTries())
+          if ((parseInt(this.aCount) + parseInt(this.uCount) + this.getTries()) == 22)  {
+            return true
+          } else {
+            return false
+          }
+        },
+        openExam: function () {
+
+
+
+          $.ajax({
+              data : {},
+              type : 'POST',
+              url : '/openExam',
+            })
+            .done(function(data) {
+              if (data['status'] == 3) {
+                alert('Your exam will be open now - click again to close the exam')
+              } else {
+                alert('Your exam will be closed now - you may continue to practice')
+              }
+              location.reload()
+            })
+            .fail(function(){
+                alert('error has occurred');
+            });
+        },
         goTo: function(unit, test){
           var str = window.location.href
 

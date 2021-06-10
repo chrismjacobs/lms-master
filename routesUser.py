@@ -349,6 +349,20 @@ def updateExam():
     return jsonify({'unit' : unit, 'tries' : tries})
 
 
+@app.route ("/openExam", methods=['POST', 'GET'])
+@login_required
+def openExam():
+
+    u = User.query.filter_by(username=current_user.username).first()
+    if u.extra != 3:
+        u.extra = 3
+    else:
+        u.extra = 0
+    db.session.commit()
+
+    return jsonify({'status': u.extra})
+
+
 @app.route ("/exam_list_midterm", methods=['GET','POST'])
 @login_required
 def exam_list_midterm():
@@ -457,6 +471,38 @@ def exam_list_midterm():
     return render_template('units/exam_list_midterm.html', **context )
 
 
+
+def completeStatus(time):
+
+    assignments = {
+        'FN': ['05', '06', '07', '08']
+    }
+
+    aCount = 0
+    uCount = 0
+
+    for model in Info.ass_mods_dict:
+        if model in assignments[time]:
+            aCount += Info.ass_mods_dict[model].query.filter_by(username=current_user.username).count()
+
+    print(Info.unit_mods_list)
+
+    ## set up for final only
+    for model in Info.unit_mods_list[16:32]:
+        print (model)
+        rows = model.query.all()
+        for row in rows:
+            block = False
+            if current_user.username in ast.literal_eval(row.username) and block == False:
+                uCount +=1
+                block = True
+
+    print('status', aCount, uCount)
+    return [aCount, uCount]
+
+
+
+
 @app.route ("/exam_list_final", methods=['GET','POST'])
 @login_required
 def exam_list_final():
@@ -547,13 +593,17 @@ def exam_list_final():
     if Units.query.filter_by(unit='08').first():
         setDict['78'] = Units.query.filter_by(unit='08').first().uA
 
+    counts = completeStatus('FN')
+
     context = {
     'title' : 'Exams',
     'theme' : DESIGN['titleColor'],
     'examString' : json.dumps(examDict),
     'setString' : json.dumps(setDict),
     'SCHEMA' : SCHEMA,
-    'semester' : semester
+    'semester' : semester,
+    'aCount': counts[0],
+    'uCount': counts[1]
     }
 
     return render_template('units/exam_list_final.html', **context)
