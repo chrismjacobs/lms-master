@@ -472,7 +472,7 @@ def exam_list_midterm():
 
 
 
-def completeStatus(time):
+def completeStatus(time, name):
 
     assignments = {
         'FN': ['05', '06', '07', '08']
@@ -483,9 +483,8 @@ def completeStatus(time):
 
     for model in Info.ass_mods_dict:
         if model in assignments[time]:
-            aCount += Info.ass_mods_dict[model].query.filter_by(username=current_user.username).count()
-
-    print(Info.unit_mods_list)
+            if Info.ass_mods_dict[model].query.filter_by(username=name).first() and Info.ass_mods_dict[model].query.filter_by(username=name).first().Grade > 0:
+                aCount += 1
 
     ## set up for final only
     for model in Info.unit_mods_list[16:32]:
@@ -493,7 +492,7 @@ def completeStatus(time):
         rows = model.query.all()
         block = False
         for row in rows:
-            if current_user.username in ast.literal_eval(row.username) and block == False and int(row.Grade) > 0:
+            if name in ast.literal_eval(row.username) and block == False and int(row.Grade) > 0:
                 uCount +=1
                 block = True
 
@@ -593,7 +592,7 @@ def exam_list_final():
     if Units.query.filter_by(unit='08').first():
         setDict['78'] = Units.query.filter_by(unit='08').first().uA
 
-    counts = completeStatus('FN')
+    counts = completeStatus('FN', current_user.username)
 
     context = {
     'title' : 'Exams',
@@ -634,6 +633,7 @@ def grades_final():
     semester = 2
 
     gradesDict = {}
+    completeDict = {}
 
     users = User.query.all()
 
@@ -652,6 +652,8 @@ def grades_final():
             'exam1' : 0,
             'exam2' : 0
         }
+        completeDict[user.username] = completeStatus('FN', user.username)
+
 
     ### set max grades
     total_units = 0
@@ -729,7 +731,8 @@ def grades_final():
     for mt_student in MTgrades:
         gradesDict[mt_student]['MT'] = round(MTgrades[mt_student]['Total'], 1)
 
-    return render_template('instructor/grades.html', ansString=json.dumps(gradesDict))
+
+    return render_template('instructor/grades.html', ansString=json.dumps(gradesDict), compString =json.dumps(completeDict))
 
 
 @app.route ("/grades_midterm", methods=['GET','POST'])
