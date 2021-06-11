@@ -145,9 +145,10 @@ function startVue(){
         getTries: function () {
           let arg1 = this.examOBJ.tries56
           let arg2 = this.examOBJ.tries78
-          if (arg1.substring(0, 1) == '0/' && arg2.substring(0, 1) == '0/') {
+          console.log(arg1.substring(0, 2), arg2.substring(0, 2))
+          if (arg1.substring(0, 2) == '0/' && arg2.substring(0, 2) == '0/') {
             return 0
-          } else if (arg1.substring(0, 1) == '0/' || arg2.substring(0, 1) == '0/' ) {
+          } else if (arg1.substring(0, 2) == '0/' || arg2.substring(0, 2) == '0/' ) {
             return 1
           } else {
             return 2
