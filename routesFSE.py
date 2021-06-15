@@ -92,15 +92,15 @@ def project_teams(unit, number):
 
     manualTeams = {
 
-        1: ['Kai','June','Marcelo','Kaylin'],
+        1: ['KAI','June','Marcelo','KayLin'],
         2:['Xavia','Sunny','Gwen','Jessy'],
-        3:['Anita','Bly','TY','Mac'],
+        3:['Anita','Bly','T.Y','MAC'],
         4:['Clyde','James','Yuri','Linda'],
-        5:['Beatrix','Sean','Vivian','Bee'],
-        6:['Cris','Holy','Frederick','Wendy'],
-        7:['Bris','Laura','Fay','Iris','Maris'],
+        5:['Beatrix','SEAN','Vivian','Bee'],
+        6:['Cris','Holly','Frederick','Wendy'],
+        7:['Bris','laura','Fay','Iris','Maris'],
         8:['Jasper','Luna','Nelly','Cyan'],
-        9:['Jelf','Helen ','Mioly','Layla']
+        9:['JELF','Helen ','Mioly','Layla']
         #10: ['Fiona', 'Ann', 'Penny Lai', 'Yui'],
         #20 : ['Chris'],
     }
@@ -280,7 +280,6 @@ def fse_list():
 
     examDict = {}
 
-    '''
 
     for src in srcDict:
         if int(src) < 12 and int(src) > 16: # change to match number of units
@@ -359,7 +358,7 @@ def fse_list():
             print('FAIL RP')
 
 
-    '''
+    #'''
 
     source = srcDict['13']['M2']
 
