@@ -53,7 +53,7 @@
 
             <template v-for="(item, key) in ansOBJ[user]">
               <tr v-if="item.idNum">
-                <td > <button @click="edit(item.idNum, key)"> [[  key ]] </button> </td>
+                <td > <button @click="edit(item.idNum, key)"> [[  key ]] </button> <br> [[ item.date.substr(5, 6) ]]</td>
                 <td> <button @click="play(item.A1)"> [[  item.L1  ]] </button> </td>
                 <td> <button @click="play(item.A2)"> [[  item.L2  ]] </button> </td>
                 <td style="width: 45px; word-wrap: break-word"> <div v-if="item.Notes" class="noScrollBar" style="overflow:scroll;width:210px;height:110px">[[  item.Notes ]] </div></td>

@@ -69,10 +69,15 @@
 
 <ul>
   <li>
-  <span v-if="aCount > 2" style="background:lightgreen">Assignments:  [[aCount]]/4</span>
+  <span v-if="aCount > 3" style="background:lightgreen">Assignments:  [[aCount]]/4</span>
   <span v-else style="background:lightcoral">Assignments:  [[aCount]]/4</span>
   </li>
-  <li>Participation: [[uCount]]/16</li>
+
+  <li>
+  <span v-if="uCount > 15" style="background:lightgreen">Participation: [[uCount]]/16</span>
+  <span v-else>Participation: [[uCount]]/16</span>
+  </li>
+
   <li>
   <span v-if="getTries() == 2" style="background:lightgreen">Practice: [[getTries()]]/2</span>
   <span v-else style="background:lightcoral">Practice: [[getTries()]]/2</span>

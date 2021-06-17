@@ -195,6 +195,7 @@ def dashboard():
         answers = model.query.order_by(desc(model.Grade)).all()
         for item in answers:
             totalDict[item.username][unit] = {
+                'date' : str(item.date_posted),
                 'user' : item.username,
                 'idNum' : item.id,
                 'A1' : item.AudioDataOne,

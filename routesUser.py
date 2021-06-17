@@ -488,7 +488,7 @@ def completeStatus(time, name):
 
     ## set up for final only
     for model in Info.unit_mods_list[16:32]:
-        print (model)
+        #print (model)
         rows = model.query.all()
         block = False
         for row in rows:
@@ -624,6 +624,24 @@ def setStatus():
         db.session.commit()
 
     return jsonify({'student' : username, 'set' : student.extra})
+
+@app.route ("/participation_check", methods=['GET','POST'])
+@login_required
+def participation_check():
+
+    checkDict = {}
+    for model in Info.unit_mods_list[16:32]:
+        rows = model.query.all()
+        m = str(model).split('U')[1]
+        if m not in checkDict:
+            checkDict[m] = {}
+        for row in rows:
+            if len(ast.literal_eval(row.username)) == 1:
+                checkDict[m][row.username] = [ row.id, row.Grade, row.Ans01, row.Ans02, row.Ans03, row.Ans04, row.Ans05, row.Ans06, row.Ans07, row.Ans08]
+
+    return render_template('instructor/check.html', checkString=json.dumps(checkDict))
+
+
 
 
 @app.route ("/grades_final", methods=['GET','POST'])
