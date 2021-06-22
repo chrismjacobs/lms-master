@@ -67,7 +67,7 @@
 <div class="content-section" style="display:visible">
 <legend class="border-bottom mb-4">Exam Status</legend>
 
-<ul>
+<ul style="display:none" >
   <li>
   <span v-if="aCount > 3" style="background:lightgreen">Assignments:  [[aCount]]/4</span>
   <span v-else style="background:lightcoral">Assignments:  [[aCount]]/4</span>
@@ -86,8 +86,8 @@
 
 
 <div>
-    <button v-if="!getOpen()" class="btn btn-danger" @click="alert('Make sure you have done all participation, assignments, and practices')">Exam: Closed</button>
-    <button v-else class="btn btn-info" @click="openExam()">Exam: Open</button>
+   <!--<button v-if="!getOpen()" class="btn btn-danger" @click="alert('Make sure you have done all participation, assignments, and practices')">Exam: Closed</button> -->
+    <button class="btn btn-info" @click="openExam()">Exam: Open</button>
 </div>
 
 
