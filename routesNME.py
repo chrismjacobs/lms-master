@@ -611,6 +611,8 @@ def nme_reading():
 
         splitsO = textDict[tex].split('.')
 
+
+
         splitsR = textDict[tex].split('.')
         random.shuffle(splitsR)
 
@@ -624,9 +626,11 @@ def nme_reading():
         for e in splitsO:
             blanks.append(None)
 
+        splitsLen = len(splitsO)
 
         rearrDict[tex] = {
             'first': splitsO[0],
+            'last': splitsO[splitsLen-1],
             'order': splitsO,
             'reorder': splitsR,
             'blanks': blanks

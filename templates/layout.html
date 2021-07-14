@@ -51,7 +51,8 @@
                             {% elif SCHEMA == 5 %}
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('food_FN')}}", target="_blank">Dashboard</a>
                             {% elif SCHEMA == 7 %}
-                            <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('nme_dubdash')}}", target="_blank">Dashboard</a>
+                            <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('nme_dubdash')}}", target="_blank">Movie Dash</a>
+                            <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('nme_dash')}}", target="_blank">Novels Dash</a>
                             {% endif %}
                           </div>
                         {% endif %}
@@ -83,11 +84,16 @@
                                 {% elif SCHEMA == 5 %}
                                   <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('food_list') }}">My Presentations</a>
                                 {% elif SCHEMA == 7 %}
-                                  <!--<a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('nme_exams')}}">My Exam</a>
-                                  <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('nme_novels')}}">My Novels</a>
-                                  <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('nme_effort')}}">My Performance</a> -->
-                                   <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('nme_movies') }}">My Movies</a>
-                                   <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('nme_dubs') }}">Dubs</a>
+                                  {% if current_user.username in USERS %}
+                                  <a class="nav-item nav-link" style="color:{{titleColor}};background:peachpuff" href="{{ url_for ('nme_exams')}}">My Exam</a>
+                                  <a class="nav-item nav-link" style="color:{{titleColor}};background:peachpuff" href="{{ url_for ('nme_novels')}}">My Novels</a>
+                                  <a class="nav-item nav-link" style="color:{{titleColor}};background:peachpuff" href="{{ url_for ('nme_effort')}}">My Performance</a>
+                                   <a class="nav-item nav-link" style="color:{{titleColor}};background:honeydew" href="{{ url_for ('nme_movies') }}">My Movies</a>
+                                   <a class="nav-item nav-link" style="color:{{titleColor}};background:honeydew" href="{{ url_for ('nme_dubs') }}">Class Dubs</a>
+                                   {% else %}
+                                    <a class="nav-item nav-link" style="color:{{titleColor}};background:peachpuff" href="{{ url_for ('nme_novels')}}">My Novels</a>
+                                    <a class="nav-item nav-link" style="color:{{titleColor}};background:peachpuff" href="{{ url_for ('nme_effort')}}">My Performance</a>
+                                   {% endif %}
                                 {% elif SCHEMA == 8 %}
                                   <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('fse_list') }}">My Projects</a>
                                 {% endif %}
