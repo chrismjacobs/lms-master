@@ -85,9 +85,6 @@
                                   <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('food_list') }}">My Presentations</a>
                                 {% elif SCHEMA == 7 %}
                                   {% if current_user.username in USERS %}
-                                  <a class="nav-item nav-link" style="color:{{titleColor}};background:peachpuff" href="{{ url_for ('nme_exams')}}">My Exam</a>
-                                  <a class="nav-item nav-link" style="color:{{titleColor}};background:peachpuff" href="{{ url_for ('nme_novels')}}">My Novels</a>
-                                  <a class="nav-item nav-link" style="color:{{titleColor}};background:peachpuff" href="{{ url_for ('nme_effort')}}">My Performance</a>
                                    <a class="nav-item nav-link" style="color:{{titleColor}};background:honeydew" href="{{ url_for ('nme_movies') }}">My Movies</a>
                                    <a class="nav-item nav-link" style="color:{{titleColor}};background:honeydew" href="{{ url_for ('nme_dubs') }}">Class Dubs</a>
                                    {% else %}
