@@ -214,6 +214,23 @@ def dashboard():
 
     return render_template('instructor/dashboard.html', ansString=json.dumps(totalDict), title='dashboard')
 
+@app.route ("/dashboardTest")
+def dashboardTest():
+
+    fileName = '0ICC_assignments'
+
+    if SCHEMA == 1:
+        fileName = '0FRD_assignments'
+    if SCHEMA == 2:
+        fileName = '0WPE_assignments'
+
+
+    with open(fileName + '.json', 'r') as json_file:
+        totalDict = json.load(json_file)
+
+
+        return render_template('instructor/dashboardTest.html', ansString=json.dumps(totalDict), title='dashboard')
+
 
 @app.route("/refreshAttend", methods = ['POST'])
 def get_attend_list():

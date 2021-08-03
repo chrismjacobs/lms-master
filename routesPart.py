@@ -209,8 +209,6 @@ def scoreCheck():
     return jsonify({'percent' : percent, 'scoreDict' : scoreDict, 'qNum' : qNum })
 
 
-
-
 @app.route('/getPdata', methods=['POST'])
 def getPdata():
 
@@ -482,6 +480,30 @@ def participation(unit_num,part_num,state):
     }
 
     return render_template('units/part_vue.html', **context)
+
+
+@app.route ("/participationTest", methods=['GET','POST'])
+def participationTest():
+    fileName = '0ICC_part'
+
+    if SCHEMA == 1:
+        fileName = '0FRD_part'
+    if SCHEMA == 2:
+        fileName = '0WPE_part'
+
+
+    with open(fileName + '.json', 'r') as json_file:
+        dataDict = json.load(json_file)
+
+    context = {
+        'title' : 'participationTest',
+        'dataDict': json.dumps(dataDict),
+        'qDict' : json.dumps(get_vocab()),
+        'DESIGN' : DESIGN
+    }
+    return render_template('units/part_vue_test.html', **context)
+
+
 
 
 @app.route('/studentRemove', methods=['POST'])
