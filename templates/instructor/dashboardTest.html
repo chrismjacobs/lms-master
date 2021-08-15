@@ -103,7 +103,9 @@ function startVue(){
           this.ansOBJ[this.studentName][this.studentUnit].C += this.comment[key]
         },
         play: function(audio){
-          document.getElementById('instructorPlayer').src = audio
+          let strings = audio.split('assignments')
+          newAudio = strings[0] + 'old/assignments' + strings[1]
+          document.getElementById('instructorPlayer').src = newAudio
         },
         edit: function(key, unit){
           let url = (window.location.href).split('dashboard')[0] + 'admin/' + 'a' + unit + 'a/edit/?id=' + key
