@@ -52,7 +52,7 @@ def about():
 
 
 @app.route("/course", methods = ['GET', 'POST'])
-@login_required
+#@login_required
 def course():
     # json dumps returns a string
     course = json.dumps(get_schedule())
