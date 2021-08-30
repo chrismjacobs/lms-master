@@ -5,6 +5,7 @@ from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextA
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, InputRequired
 from models import User
 from meta import BaseConfig
+from app import bcrypt
 SCHEMA = BaseConfig.SCHEMA
 
 
@@ -46,6 +47,7 @@ class Chat(FlaskForm):
 
 
 bookcodeID = None
+loginID = None
 
 bookcodeList = {
                 "120454000":"2400",
@@ -242,6 +244,25 @@ class LoginForm(FlaskForm):
             pass
         except:
             raise ValidationError('This should be your ID with no `s`')
+        try:
+            int(User.query.filter_by(studentID=studentID.data).first().studentID)
+            pass
+        except:
+            raise ValidationError('This ID has not been registered yet')
+
+        global loginID
+        loginID = studentID.data
+
+    # def validate_password(self, password):
+    #     try:
+    #         user = User.query.filter_by(studentID=loginID).first()
+    #         print('USER', user)
+    #         print('Password', password.data)
+    #         print('Password', user.password)
+    #         print(bcrypt.check_password_hash(user.password, password.data))
+    #         pass
+    #     except:
+    #         raise ValidationError('There is a problem with this password')
 
 
 
