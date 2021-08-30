@@ -19,14 +19,12 @@ from models import U061U, U062U, U063U, U064U
 from models import U071U, U072U, U073U, U074U
 from models import U081U, U082U, U083U, U084U
 
-#from models import U091U, U092U, U093U, U094U
-#from models import U101U, U102U, U103U, U104U
-#from models import U111U, U112U, U113U, U114U
-#from models import U121U, U122U, U123U, U124U
+from models import U091U, U092U, U093U, U094U
+from models import U101U, U102U, U103U, U104U
 
 
 from models import A01A, A02A, A03A, A04A, A05A, A06A, A07A, A08A
-#from models import A09A, A10A, A11A, A12A
+from models import A09A, A10A, A11A, A12A
 
 db.create_all()
 
