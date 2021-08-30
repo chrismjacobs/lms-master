@@ -30,7 +30,8 @@ jList = ['None',
         'food-lms',
         'icc-lms',
         'nme-lms',
-        'fse-lms'
+        'fse-lms',
+        'culture-lms',
         ]
 
 
