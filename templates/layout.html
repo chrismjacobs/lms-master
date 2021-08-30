@@ -59,15 +59,16 @@
 
 
                         <div class="navbar-nav mr-auto">
-                          <a class="nav-item nav-link" href= "{{ url_for ('home') }}">Home - {{current_user.username}} </a>
                           <a class="nav-item nav-link" href= "{{ url_for ('about') }}">About</a>
+                          <a class="nav-item nav-link" href="{{ url_for ('course') }}">Course</a>
                         </div>
 
 
                         {% if current_user.is_authenticated %}
                         <div class="navbar-nav">
+                          <a class="nav-item nav-link" href= "{{ url_for ('home') }}">Home - {{current_user.username}} </a>
                           <a class="nav-item nav-link" href= "{{ url_for ('att_team') }}">Attendance</a>
-                          <a class="nav-item nav-link" href="{{ url_for ('course') }}">My Course</a>
+
                                 {% if SCHEMA < 3 or SCHEMA == 6 %}
                                   <a class="nav-item nav-link" href="{{ url_for ('unit_list') }}">My Units</a>
                                 <a class="nav-item nav-link" href="{{ url_for ('assignment_list') }}">My Assignments </a>
