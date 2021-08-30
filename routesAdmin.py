@@ -204,7 +204,7 @@ def login():
             flash (f'Login with Skeleton Keys', 'secondary')
             return redirect (url_for('home'))
         else:
-            flash (f'Login Unsuccessful. Please check {form.studentID.data} and your password.', 'danger')
+            flash (f'Login Unsuccessful. Password is incorrect.', 'danger')
             return redirect (url_for('login'))
     return render_template('admin/login.html', title='Login', form=form)
 
