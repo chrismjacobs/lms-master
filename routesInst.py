@@ -48,7 +48,14 @@ def about():
     ## src explaining this course
     srcs = get_schedule()
     intro = srcs['1']['M1']
-    return render_template('instructor/about.html', intro=intro, SCHEMA=SCHEMA)
+    video = srcs['1']['M2']
+
+    videoSet = False
+
+    if video:
+        videoSet = True
+
+    return render_template('instructor/about.html', intro=intro, SCHEMA=SCHEMA, video=video, videoSet=videoSet)
 
 
 @app.route("/course", methods = ['GET', 'POST'])
