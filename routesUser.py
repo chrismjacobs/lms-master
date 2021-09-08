@@ -215,7 +215,7 @@ def home():
         form.response.data = ""
         form.chat.data = ""
         image_file = S3_LOCATION + current_user.image_file
-        image_chris = S3_LOCATION + User.query.filter_by(id=1).first().image_file
+        image_chris = S3_LOCATION + User.query.filter_by(username="Chris").first().image_file
 
 
     ''' deal with attendance '''
