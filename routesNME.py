@@ -26,9 +26,9 @@ NOTES for next time - make movie teams at the beginning and keep it the same num
 '''
 
 projectDict = {
-        '01' : U011U,
-        '02' : U021U,
-        '03' : U031U
+        '01' : U012U,
+        '02' : U022U,
+        '03' : U032U
     }
 
 
@@ -140,6 +140,25 @@ def nme_dubdash():
 
     return render_template('nme/nme_dubdash.html', legend='NME Dash', nmeString = json.dumps(nmeDict), payString = json.dumps(payloadDict) )
 
+@app.route ("/nme_dubs_sample", methods=['GET','POST'])
+def nme_dubs_sample():
+
+    # with open('0NME_dict' + '.json', 'w') as json_file:
+    #     json.dump(nmeDict, json_file)
+
+    # with open('0NME_payload' + '.json', 'w') as json_file:
+    #     json.dump(nmeDict, json_file)
+
+    with open('0NME_dict'  + '.json', 'r') as json_file:
+        nmeDict = json.load(json_file)
+
+    with open('0NME_payload'  + '.json', 'r') as json_file:
+        payloadDict = json.load(json_file)
+
+
+    return render_template('nme/nme_dubs.html', legend='NME Dubs', nmeString = json.dumps(nmeDict), payString = json.dumps(payloadDict) )
+
+
 @app.route ("/nme_dubs", methods=['GET','POST'])
 @login_required
 def nme_dubs():
@@ -160,6 +179,9 @@ def nme_dubs():
                 nmeDict[mov][movieData['team']] = movieData
 
     pprint (nmeDict)
+
+    with open('0NME_payload' + '.json', 'w') as json_file:
+         json.dump(payloadDict, json_file)
 
     return render_template('nme/nme_dubs.html', legend='NME Dubs', nmeString = json.dumps(nmeDict), payString = json.dumps(payloadDict) )
 
@@ -432,9 +454,17 @@ def addMovie():
 
 '''### novels '''
 
+def getTeam():
+    user = User.query.filter_by(username=current_user.username).first()
+    team = user.extra
+    if not team:
+        team = 100
+    return team
+
 @app.route ("/nme_novels", methods=['GET','POST'])
 @login_required
 def nme_novels():
+    print('TEAM', getTeam())
 
     novels = ['01', '02', '03']
 
@@ -442,7 +472,7 @@ def nme_novels():
     nCount = 0
     nDict = {}
     for n in novels:
-        project = projectDict[n].query.filter_by(username=current_user.username).first()
+        project = projectDict[n].query.filter_by(teamnumber=getTeam()).first()
         if project:
             nCount +=1
             nDict[n] = {}
@@ -535,8 +565,6 @@ def nme_reading_score():
     return jsonify({ 'result': 'good'})
 
 
-
-
 @app.route ("/nme_vocab", methods=['GET','POST'])
 @login_required
 def nme_vocab():
@@ -574,6 +602,7 @@ def nme_vocab():
 
 
     return render_template('nme/nme_vocab.html', vString=vString, legend='NME Vocab Test')
+
 
 @app.route ("/nme_reading", methods=['GET','POST'])
 @login_required
@@ -653,10 +682,10 @@ def nme_reading():
     ## pprint(newDict)
     return render_template('nme/nme_reading.html', rString=rString, legend='NME Rearrange Test')
 
+
 @app.route ("/nme_listening", methods=['GET','POST'])
 @login_required
 def nme_listening():
-    print(U041U, type(U041U))
 
     texts = U041U.query.all()
 
@@ -798,6 +827,7 @@ def nme_summary():
 
     return render_template('nme/nme_summary.html', sString=sString, legend='NME Summary Test')
 
+
 @app.route ("/addNovel", methods=['GET','POST'])
 @login_required
 def addNovel():
@@ -813,13 +843,13 @@ def addNovel():
     recs = {1:{}, 2:{}, 3:{}}
     feeds = {}
 
-    check = PROJECT.query.filter_by(username=current_user.username).first()
+    check = PROJECT.query.filter_by(teamnumber=getTeam()).first()
 
     if check:
         check.Ans01 = novel
         db.session.commit()
     else:
-        entry = PROJECT(username=current_user.username, Ans01=novel, Ans02=json.dumps(sums), Ans03=json.dumps(recs), Ans04=json.dumps(feeds))
+        entry = PROJECT(username=current_user.username, teamnumber=getTeam(), Ans01=novel, Ans02=json.dumps(sums), Ans03=json.dumps(recs), Ans04=json.dumps(feeds))
         db.session.add(entry)
         db.session.commit()
 
@@ -931,7 +961,7 @@ def addRec():
 @login_required
 def nme_effort_dash():
 
-    eList = U012U.query.all()
+    eList = U001U.query.all()
 
     eDict = {}
 

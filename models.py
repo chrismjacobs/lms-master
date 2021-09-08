@@ -498,31 +498,53 @@ if BaseConfig.SCHEMA < 3 or BaseConfig.SCHEMA == 6:
 
 
 elif BaseConfig.SCHEMA == 7: # movies
+    '''
     admin.add_view(MyModelView(Exams, db.session))
     admin.add_view(MyModelView(U001U, db.session))
+
     admin.add_view(MyModelView(U013U, db.session))
     admin.add_view(MyModelView(U014U, db.session))
+
     admin.add_view(MyModelView(U023U, db.session))
     admin.add_view(MyModelView(U024U, db.session))
+
     admin.add_view(MyModelView(U033U, db.session))
     admin.add_view(MyModelView(U034U, db.session))
+
     admin.add_view(MyModelView(U043U, db.session))
     admin.add_view(MyModelView(U044U, db.session))
+
     admin.add_view(MyModelView(U053U, db.session))
     admin.add_view(MyModelView(U054U, db.session))
+
     admin.add_view(MyModelView(U063U, db.session))
     admin.add_view(MyModelView(U064U, db.session))
 
     '''
-    admin.add_view(MyModelView(U011U, db.session))
+    # projects - 1
+    # admin.add_view(MyModelView(U011U, db.session))
+    # admin.add_view(MyModelView(U021U, db.session))
+    # admin.add_view(MyModelView(U031U, db.session))
+
+    # projects - 2
     admin.add_view(MyModelView(U012U, db.session))
-    admin.add_view(MyModelView(U021U, db.session))
-    admin.add_view(MyModelView(U031U, db.session))
+    admin.add_view(MyModelView(U022U, db.session))
+    admin.add_view(MyModelView(U032U, db.session))
+
+    # effort regard
+    admin.add_view(MyModelView(U001U, db.session))
+
+    # listening - 1
     admin.add_view(MyModelView(U041U, db.session))
+
+    # summary - 1
     admin.add_view(MyModelView(U051U, db.session))
+
+    # reading test - 1
     admin.add_view(MyModelView(U061U, db.session))
-    admin.add_view(MyModelView(U071U, db.session))
-    '''
+
+
+
 
 elif BaseConfig.SCHEMA == 3:
     admin.add_view(MyModelView(Exams, db.session))

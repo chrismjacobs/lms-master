@@ -57,6 +57,12 @@
                           </div>
                         {% endif %}
 
+                        {% if current_user.is_authenticated %}
+                          <div class="navbar-nav">
+                            <a class="nav-item nav-link" href= "{{ url_for ('home') }}">Home: {{current_user.username}} </a>
+                          </div>
+                        {% endif %}
+
 
                         <div class="navbar-nav mr-auto">
                           <a class="nav-item nav-link" href= "{{ url_for ('about') }}">About</a>
@@ -66,9 +72,7 @@
 
                         {% if current_user.is_authenticated %}
                         <div class="navbar-nav">
-                          <a class="nav-item nav-link" href= "{{ url_for ('home') }}">Home - {{current_user.username}} </a>
                           <a class="nav-item nav-link" href= "{{ url_for ('att_team') }}">Attendance</a>
-
                                 {% if SCHEMA < 3 or SCHEMA == 6 %}
                                   <a class="nav-item nav-link" href="{{ url_for ('unit_list') }}">My Units</a>
                                 <a class="nav-item nav-link" href="{{ url_for ('assignment_list') }}">My Assignments </a>
@@ -77,6 +81,8 @@
                                   {% elif  MTFN == 'FN' %}
                                     <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('exam_list_final') }}">My Exams</a>
                                   {% endif %}
+                                {% elif SCHEMA == 9 %}
+                                  <a class="nav-item nav-link" href="{{ url_for ('teamwork_list') }}"> Team Work </a>
                                 {% elif SCHEMA == 3 %}
                                   <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('abc_list') }}">My Projects</a>
                                 {% elif SCHEMA == 4 %}

@@ -19,16 +19,19 @@
 <div class="content-section" v-if="completed >= nCount || editNovel">
   <legend class="border-bottom mb-4"> Novel Details: </legend>
 
-    Number: <input style="text" id="number" disabled v-model="novel.number"></input>
+    Project Number (1/2/3): <input style="number" id="number" v-model="novel.number"></input>
+    <br>
+    <br>
+    Team Number: <input style="number" id="team number" v-model="novel.team"></input>
+    <br>
+    <br>
+    Name(s): <input style="text" id="names" v-model="novel.names"></input>
     <br>
     <br>
     Title: <input style="text" id="title" v-model="novel.title"></input>
     <br>
     <br>
     Author: <input style="text" id="author" v-model="novel.author"></input>
-    <br>
-    <br>
-    Publisher: <input style="text" id="publisher" v-model="novel.publisher"></input>
     <br>
     <br>
     Chapters: <input style="number" id="chapters" v-model="novel.chapters"></input>
@@ -116,11 +119,12 @@ function startVue(){ new Vue({
         nObj: nObj,
         nCount: nCount,
         novel: {
-          number: parseInt(this.completed) + 1,
+          number: null,
+          team: null,
+          names: null,
           title: null,
           author: null,
           chapters: null,
-          publisher: null,
           level: null
         }
     },
@@ -168,6 +172,7 @@ function startVue(){ new Vue({
               location.reload()
             })
             .fail(function(){
+              alert('Error: Check Info')
                 console.log('error has occurred');
             });
         },
