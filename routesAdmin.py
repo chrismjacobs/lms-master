@@ -45,7 +45,7 @@ def inject_user():
         MTFN = 'FN'
 
     print('MTFN (Admin) = ', MTFN)
-    return dict(USERS= ['Chris', 'Abby'], MTFN=MTFN, SCHEMA=SCHEMA, titleColor=DESIGN['titleColor'] , bodyColor=bodyColor, headTitle=DESIGN['headTitle'], headLogo=DESIGN['headLogo'] )
+    return dict(USERS= ['Abby'], MTFN=MTFN, SCHEMA=SCHEMA, titleColor=DESIGN['titleColor'] , bodyColor=bodyColor, headTitle=DESIGN['headTitle'], headLogo=DESIGN['headLogo'] )
 
 @app.errorhandler(404)
 def error_404(error):
