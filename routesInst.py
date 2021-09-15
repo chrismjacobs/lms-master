@@ -327,7 +327,7 @@ def controls():
 
     attend_list = get_attend_list()
     team_list = get_team_list()
-
+    print('ATTEND_LIST', attend_list)
     openData = Attendance.query.filter_by(username='Chris').first()
 
     setDict = {
