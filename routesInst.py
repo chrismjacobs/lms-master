@@ -252,7 +252,12 @@ def get_attend_list():
                 'img' : None,
                 'eml' : None,
                 'att' : 'Unregistered',
+                'count' : None
             }
+
+    ignore = ['Chris', 'Test']
+    count = 1
+
 
     students = User.query.order_by(asc(User.studentID)).all()
     for student in students:
@@ -270,6 +275,9 @@ def get_attend_list():
         sDict[student.studentID]['img'] = S3_LOCATION + student.image_file
         sDict[student.studentID]['eml'] = student.email
         sDict[student.studentID]['att'] = 'Absent'
+        if student.username not in ignore:
+            sDict[student.studentID]['count'] = count
+            count += 1
 
     #### attend todays attendance
     attendance = Attendance.query.all()

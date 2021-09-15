@@ -81,6 +81,7 @@ Teamsize
         <thead>
             <tr>
               <th scope="col" >Img</th>
+              <th scope="col" >Num</th>
               <th scope="col" >Name</th>
               <th scope="col" >ID</th>
               <th scope="col" >att</th>
@@ -93,8 +94,9 @@ Teamsize
         <template v-for="(user, key) in attendOBJ">
             <tr>
               <td> <img class="rounded-circle small-img" :src="user.img"></td>
+              <td> [[ user.count ]] </td>
               <td> [[ user.nme ]] </td>
-              <td> [[ key ]] </td>
+              <td :style="idStyle(key)"> [[ key ]] </td>
               <td :style="attStyle(user.att)"> [[ user.att ]] </td>
               <td> <a :href="user.eml">Email</a> </td>
               <td>  <span class="unit-span" v-for="i in 4" @click="studentRemove(user.nme, i)" > [[i]] </span> </td>
@@ -259,6 +261,24 @@ let vue = new Vue({
           else if (att == 'Late') {
             return { background:'lightgrey'}
           }
+        },
+        idStyle: function(id) {
+          if (id.includes('1208')) {
+            return { background:'pink'}
+          }
+          else if (id.includes('105')) {
+            return { background:'mediumseagreen'}
+          }
+          else if (id.includes('095')) {
+            return { background:'orange'}
+          }
+          else if (id.includes('085')) {
+            return { background:'aqua'}
+          }
+          else if (id.includes('065')) {
+            return { background:'grey'}
+          }
+
         },
         deleteStudent: function(mem) {
           if (this.deleteMode){
