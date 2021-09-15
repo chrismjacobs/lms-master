@@ -7,6 +7,7 @@ from flask_admin.contrib.sqla import ModelView
 # verify token
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from meta import BaseConfig
+SCHEMA = BaseConfig.SCHEMA
 
 modDictUnits = {}
 modDictAss = {}
@@ -138,20 +139,24 @@ class BaseUnits(db.Model):
 
 class U001U(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-#modDictUnits['00']=[None]
-#modDictUnits['00'].append(U001U)
+
 
 class U002U(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-#modDictUnits['00'].append(U002U)
 
 class U003U(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-#modDictUnits['00'].append(U003U)
 
 class U004U(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-#modDictUnits['00'].append(U004U)
+
+
+if SCHEMA == 1:
+    modDictUnits['00']=[None]
+    modDictUnits['00'].append(U001U)
+    modDictUnits['00'].append(U002U)
+    modDictUnits['00'].append(U003U)
+    modDictUnits['00'].append(U004U)
 
 ########################################
 
@@ -373,7 +378,8 @@ class A00A (BaseAss):
     id = db.Column(db.Integer, primary_key=True)
 ### remove after first class
 ## intro edit
-#modDictAss['00'] = A00A
+if SCHEMA == 1:
+    modDictAss['00'] = A00A
 
 class A01A (BaseAss):
     id = db.Column(db.Integer, primary_key=True)
