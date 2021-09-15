@@ -18,7 +18,11 @@ DESIGN = BaseConfig.DESIGN
 
 def get_vocab():
     ## change to 'json_files/vocab.json' for semester 1
-    content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/vocab2.json' )
+    if Units.query.filter_by(unit='00').first() or Units.query.filter_by(unit='01').first():
+        vocabJSON = 'json_files/vocab.json'
+    else:
+        vocabJSON = 'json_files/vocab2.json'
+    content_object = s3_resource.Object( S3_BUCKET_NAME, vocabJSON )
     file_content = content_object.get()['Body'].read().decode('utf-8')
     VOCAB = json.loads(file_content)  # json loads returns a dictionary
     SOURCES =  None
@@ -54,10 +58,13 @@ def unit_list():
     unitDict = {}
 
     for us in Units.query.all():
+        print('US', us)
         unitDict[us.unit] = {}
 
     for unit in recs:
+        print('UNIT', unit)
         unit2c = unit[0:2] # string 011 --> 01
+        print('UNIT2', unit2c)
         part = unit[2]
 
         checkOpen = Units.query.filter_by(unit=unit2c).first()
