@@ -245,8 +245,11 @@ class LoginForm(FlaskForm):
         except:
             raise ValidationError('This should be your ID with no `s`')
         try:
-            int(User.query.filter_by(studentID=studentID.data).first().studentID)
-            pass
+            if '000000' in studentID.data:
+                pass
+            else:
+                int(User.query.filter_by(studentID=studentID.data).first().studentID)
+                pass
         except:
             raise ValidationError('This ID has not been registered yet')
 
