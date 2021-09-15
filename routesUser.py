@@ -67,7 +67,9 @@ def get_grades(ass, unt):
 
     MTFN = 'NON SET'
 
-    if Units.query.filter_by(unit='01').first():
+    if Units.query.filter_by(unit='00').first():
+        MTFN = 'MT'
+    elif Units.query.filter_by(unit='01').first():
         MTFN = 'MT'
     else:
         MTFN = 'FN'
