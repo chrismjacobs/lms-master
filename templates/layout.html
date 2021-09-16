@@ -101,6 +101,10 @@
                                 {% elif SCHEMA == 8 %}
                                   <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('fse_list') }}">My Projects</a>
                                 {% endif %}
+                                {% if SCHEMA == 2 %}
+                                  <a class="nav-item nav-link" style="color:white;background:steelblue" href="https://vocab-lms.herokuapp.com/", target="_blank">My Vocab</a>
+                                {% endif %}
+
                           <a class="nav-item nav-link" href="{{ url_for ('account') }}">My Account</a>
                           <a class="nav-item nav-link" href="{{ url_for ('logout') }}">Logout</a>
                         {% else %}
