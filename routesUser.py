@@ -477,7 +477,8 @@ def exam_list_midterm():
 def completeStatus(time, name):
 
     assignments = {
-        'FN': ['05', '06', '07', '08']
+        'FN': ['05', '06', '07', '08'],
+        'MT': ['01', '02', '03', '04']
     }
 
     aCount = 0
@@ -489,7 +490,16 @@ def completeStatus(time, name):
                 aCount += 1
 
     ## set up for final only
-    for model in Info.unit_mods_list[16:32]:
+
+    partList = []
+
+    if time == 'FN':
+        partList = Info.unit_mods_list[16:32]
+    elif partList == 'MT':
+        partList = Info.unit_mods_list[0:15]
+
+
+    for model in partList:
         #print (model)
         rows = model.query.all()
         block = False

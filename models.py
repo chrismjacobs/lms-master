@@ -151,6 +151,7 @@ class U004U(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
 
 
+## use this for introduction class
 if SCHEMA == 1:
     modDictUnits['00']=[None]
     modDictUnits['00'].append(U001U)
@@ -376,6 +377,8 @@ class BaseAss(db.Model):
 
 class A00A (BaseAss):
     id = db.Column(db.Integer, primary_key=True)
+
+
 ### remove after first class
 ## intro edit
 if SCHEMA == 1:

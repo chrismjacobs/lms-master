@@ -37,11 +37,9 @@ def inject_user():
         #print('EXCEPT')
         bodyColor = DESIGN['bodyColor']
 
-    MTFN = None
+    MTFN = 'MT'
 
-    if Units.query.filter_by(uA='1').count() >= 2 and Units.query.filter_by(unit='01').first():
-        MTFN = 'MT'
-    elif Units.query.filter_by(uA='1').count() >= 2 and Units.query.filter_by(unit='05').first():
+    if Units.query.filter_by(uA='1').count() >= 2 and Units.query.filter_by(unit='05').first():
         MTFN = 'FN'
 
     print('MTFN (Admin) = ', MTFN)
