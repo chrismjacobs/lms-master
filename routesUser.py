@@ -25,7 +25,7 @@ def get_sources():
     unitDict = {}
     for week in sDict:
         try:
-            if int(sDict[week]['Unit']) > 0 or SCHEMA == 1: ## this or condition will add unit 00 for the reading class practice
+            if int(sDict[week]['Unit']) > 0 or SCHEMA < 3: ## this or condition will add unit 00 for the reading class practice
                 unitNumber = sDict[week]['Unit']
                 unitDict[unitNumber] = {}
                 section = sDict[week]
