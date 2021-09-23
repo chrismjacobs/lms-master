@@ -167,7 +167,7 @@ def dashboard():
         final = ['05', '06', '07', '08']
 
     ## remove after intro class
-    if SCHEMA == 1:
+    if SCHEMA == 1 or SCHEMA == 2:
         midterm = ['00', '01', '02', '03', '04']
 
 
