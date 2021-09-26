@@ -17,7 +17,8 @@
       <table class="table table-sm">
         <thead>
             <tr>
-              <th scope="col" >U</th>
+              <th scope="col" >User</th>
+              <th scope="col" >Team</th>
               <th scope="col" >Title</th>
               <th scope="col" >Chap</th>
               <th scope="col" >Sums</th>
@@ -33,6 +34,9 @@
               <span @click="showSums = name+key" class="unit-span" style="background:orange;padding:3px">
               [[ name ]]
               </span>
+              </td>
+              <td>
+              [[ student.novel.team]]
               </td>
               <td>
               [[ student.novel.title]]
@@ -91,7 +95,7 @@
 
 var projectDict = document.getElementById('projectDict').innerHTML
 var OBJ = JSON.parse(projectDict)
-console.log('projecDict', OBJ);
+console.log('projectDict', OBJ);
 
 
 startVue(OBJ)
