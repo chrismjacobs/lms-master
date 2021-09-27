@@ -472,7 +472,7 @@ def nme_novels():
     nCount = 0
     nDict = {}
     for n in novels:
-        project = projectDict[n].query.filter_by(grade=getTeam(), username=current_user.username).first()
+        project = projectDict[n].query.filter_by(Grade=getTeam(), username=current_user.username).first()
         if project:
             nCount +=1
             nDict[n] = {}
@@ -847,7 +847,7 @@ def addNovel():
     recs = {1:{}, 2:{}, 3:{}}
     feeds = {}
 
-    check = PROJECT.query.filter_by(grade=getTeam(), username=current_user.username).first()
+    check = PROJECT.query.filter_by(Grade=getTeam(), username=current_user.username).first()
 
     if check:
         print('CHECK')
@@ -855,7 +855,7 @@ def addNovel():
         db.session.commit()
     else:
         print('ENTRY')
-        entry = PROJECT(username=current_user.username, grade=getTeam(), Ans01=novel, Ans02=json.dumps(sums), Ans03=json.dumps(recs), Ans04=json.dumps(feeds))
+        entry = PROJECT(username=current_user.username, Grade=getTeam(), Ans01=novel, Ans02=json.dumps(sums), Ans03=json.dumps(recs), Ans04=json.dumps(feeds))
         db.session.add(entry)
         db.session.commit()
 
