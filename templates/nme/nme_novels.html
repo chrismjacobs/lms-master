@@ -19,7 +19,7 @@
 <div class="content-section" v-if="completed >= nCount || editNovel">
   <legend class="border-bottom mb-4"> Novel Details: </legend>
 
-    Project Number (1/2/3): <input style="number" id="number" v-model="novel.number"></input>
+    Project Number (1/2/3): <input style="number" id="number" v-model="novel.number" disabled></input>
     <br>
     <br>
     Team Number: <input style="number" id="team number" v-model="novel.team"></input>
@@ -37,7 +37,7 @@
     Chapters: <input style="number" id="chapters" v-model="novel.chapters"></input>
     <br>
     <br>
-    Level: <input style="text" id="level" v-model="novel.level"></input>
+    Level: <input style="text" id="level" v-model="novel.level" disabled></input>
     <br>
     <br>
 
@@ -116,6 +116,8 @@ function startVue(){ new Vue({
     el: '#vue-app',
     delimiters: ['[[', ']]'],
     mounted: function(){
+      this.novel.number = 1
+      this.novel.level = 2
     },
     data: {
         completed: completed,
