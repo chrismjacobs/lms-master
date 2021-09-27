@@ -472,7 +472,7 @@ def nme_novels():
     nCount = 0
     nDict = {}
     for n in novels:
-        project = projectDict[n].query.filter_by(teamnumber=getTeam()).first()
+        project = projectDict[n].query.filter_by(teamnumber=getTeam(), username=current_user.username).first()
         if project:
             nCount +=1
             nDict[n] = {}
@@ -861,6 +861,7 @@ def addNovel():
 @app.route ("/sum/<string:index>", methods=['GET','POST'])
 @login_required
 def nme_sum(index):
+
 
     project = projectDict[index].query.filter_by(username=current_user.username).first()
     novel = json.loads(project.Ans01)
