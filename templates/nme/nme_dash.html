@@ -8,6 +8,9 @@
 
 <div class="content-section">
         <h1> Novel Projects </h1>
+         <span @click="filter = 'all'" class="unit-span" style="background:grey;padding:3px">
+              Reset
+              <span>
 
 </div>
 
@@ -29,22 +32,24 @@
         <tbody>
         <template v-for="(proj, key) in projectOBJ" :key="key">
           <template  v-for="(student, name) in proj" :key="name">
-          <tr :style="rowStyle(student.novel.chapters, sumsLength(name, key), key)">
+          <tr v-if="filter == 'all' || filter == student.novel.team":style="rowStyle(student.novel.chapters, sumsLength(name, key), key)">
               <td>
               <span @click="showSums = name+key" class="unit-span" style="background:orange;padding:3px">
               [[ name ]]
               </span>
               </td>
               <td>
-              [[ student.novel.team]]
+              <span @click="filter = student.novel.team" class="unit-span" style="background:grey;padding:3px">
+              [[ student.novel.team ]]
+              <span>
               </td>
               <td>
-              [[ student.novel.title]]
+              [[ student.novel.title ]]
               </td>
               <td>
-              [[ student.novel.chapters]]
+              [[ student.novel.chapters ]]
               </td>
-              <td>
+              <td :style="getSumStyle(sumsLength(name, key))">
               [[ sumsLength(name, key) ]]
               </td>
               <td>
@@ -101,14 +106,24 @@ console.log('projectDict', OBJ);
 startVue(OBJ)
 
 function startVue(OBJ){ new Vue({
-
     el: '#vue-app',
     delimiters: ['[[', ']]'],
     data: {
         projectOBJ: OBJ,
-        showSums: null
+        showSums: null,
+        filter: 'all'
     },
     methods: {
+        getSumStyle: function (len) {
+          if (len == 0) {
+            return 'background:coral'
+          } else if ( len == 1) {
+            return 'background:aqua'
+          } else {
+            return 'background:lime'
+          }
+
+        },
         goTo: function(key) {
 
           // go to HTTPS version
