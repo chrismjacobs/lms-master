@@ -8,9 +8,9 @@
 
 <div class="content-section">
         <h1> Novel Projects </h1>
-         <span @click="filter = 'all'" class="unit-span" style="background:grey;padding:3px">
-              Reset
-              <span>
+         <span @click="filter = 'all', showSums = null" class="unit-span" style="background:grey;padding:3px">
+            Reset
+          <span>
 
 </div>
 
@@ -34,7 +34,7 @@
           <template  v-for="(student, name) in proj" :key="name">
           <tr v-if="filter == 'all' || filter == student.novel.team":style="rowStyle(student.novel.chapters, sumsLength(name, key), key)">
               <td>
-              <span @click="showSums = name+key" class="unit-span" style="background:orange;padding:3px">
+              <span @click="showSums = student.novel.team" class="unit-span" style="background:orange;padding:3px">
               [[ name ]]
               </span>
               </td>
@@ -56,12 +56,8 @@
               [[ recsLength(name, key)]]
               </td>
             </tr>
-            <tr v-if="showSums == name+key">
+            <tr v-if="showSums == student.novel.team">
               <td colspan="4">
-              <div v-for="rec in student.recs">
-              [[rec]]
-              <audio :src="rec.audio" controls></audio>
-              </div>
               <br>
               <br>
               <template v-for="(sum, num) in student.sums" :key="num">
@@ -73,6 +69,11 @@
                 <span > [[sum.newWords]] </span>
                 <hr>
                 </template>
+              <br>
+              <div v-if="showRecs == student.novel.team" v-for="rec in student.recs">
+              [[rec]]
+              <audio :src="rec.audio" controls></audio>
+              </div>
               </td>
             </tr>
 
@@ -111,6 +112,7 @@ function startVue(OBJ){ new Vue({
     data: {
         projectOBJ: OBJ,
         showSums: null,
+        showRecs: null,
         filter: 'all'
     },
     methods: {
