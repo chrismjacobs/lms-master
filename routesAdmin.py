@@ -8,6 +8,9 @@ from flask_login import login_user, current_user, logout_user, login_required
 from forms import ForgotForm, PasswordResetForm, RegistrationForm, LoginForm, UpdateAccountForm
 from models import User, ChatBox, Info, Units
 from flask_mail import Message
+import json
+
+
 
 from meta import BaseConfig
 
@@ -19,7 +22,85 @@ DESIGN = BaseConfig.DESIGN
 SCHEMA = BaseConfig.SCHEMA
 DEBUG = BaseConfig.DEBUG
 
+def redisCheck():
+    import redis
+    from app import redisData
+    vct = {"Alex":274,
+            "Amber":320,
+            "Anderson":296,
+            "Andy":312,
+            "Anita":286,
+            "Ann":291,
+            "Aurora":288,
+            "Ben":284,
+            "Brian":302,
+            "Bruce":299,
+            "Carrie":294,
+            "Charlie":295,
+            "CharlieLee":300,
+            "Cindy":304,
+            "Connor":271,
+            "Debbie":308,
+            "Emmy":279,
+            "Eric":309,
+            "Guan Yu":298,
+            "Jason":293,
+            "Jerry":305,
+            "Julia":297,
+            "Ken":289,
+            "Kevin":321,
+            "Kuan-Ting Chen":313,
+            "Lena":273,
+            "Liily":282,
+            "Mandy":283,
+            "LinPinSyuan":307,
+            "Mavis":272,
+            "Max":311,
+            "Nina":276,
+            "Nina Chen":275,
+            "Oscar":303,
+            "Patty":180,
+            "Penny":301,
+            "Saka":287,
+            "TOBY":306,
+            "Victor":277,
+            "Vivian":314,
+            "WendyLiao":280,
+            "Wendy":285,
+            "West":281,
+            }
 
+    vocabDict = {
+        2: 'tourism'
+    }
+
+    rData = {}
+
+    try:
+        rData = redisData.hgetall(vct[current_user.username])
+        print('redis', rData.keys())
+    except:
+        print('no current_user')
+
+    userRecord = {}
+
+
+
+    wordTotal = []
+    typeTotal = 0
+
+    try:
+        userRecord = json.loads(rData['vocab_tourism'])
+        for key in userRecord:
+            for word in userRecord[key]:
+                if word not in wordTotal:
+                    wordTotal.append(word)
+        typeTotal = len(userRecord['typeTest'])
+    except:
+        print('no userRecord found')
+
+
+    return [len(wordTotal), typeTotal]
 
 @app.context_processor
 def inject_user():
@@ -43,7 +124,17 @@ def inject_user():
         MTFN = 'FN'
 
     print('MTFN (Admin) = ', MTFN)
-    return dict(USERS= ['Abby'], MTFN=MTFN, SCHEMA=SCHEMA, titleColor=DESIGN['titleColor'] , bodyColor=bodyColor, headTitle=DESIGN['headTitle'], headLogo=DESIGN['headLogo'] )
+
+    VOCAB = None
+    TYPE = None
+
+    if SCHEMA == 2:
+        VOCAB = redisCheck()[0]
+        TYPE = redisCheck()[1]
+
+
+
+    return dict(USERS= ['Abby'], VOCAB=VOCAB, TYPE=TYPE, MTFN=MTFN, SCHEMA=SCHEMA, titleColor=DESIGN['titleColor'] , bodyColor=bodyColor, headTitle=DESIGN['headTitle'], headLogo=DESIGN['headLogo'] )
 
 @app.errorhandler(404)
 def error_404(error):

@@ -10,6 +10,7 @@ try:
     SQLALCHEMY_DATABASE_URI = KEYS.SQLALCHEMY_DATABASE_URI
     MAIL_PASSWORD = KEYS.MAIL_PASSWORD
     SECRET_KEY = KEYS.SECRET_KEY
+    REDIS_PASSWORD = KEYS.REDIS_PASSWORD
     DEBUG = True
 
 
@@ -21,6 +22,11 @@ except:
     MAIL_PASSWORD = os.environ['MAIL_PASSWORD']
     SECRET_KEY = os.environ['SECRET_KEY']
     DEBUG = False
+    try:
+        REDIS_PASSWORD = os.environ['REDIS_PASSWORD']
+    except:
+        REDIS_PASSWORD = NONE
+
 
 jList = ['None',
         'reading-lms',
@@ -67,6 +73,7 @@ class BaseConfig:
     SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI
     MAIL_PASSWORD = MAIL_PASSWORD
     SECRET_KEY = SECRET_KEY
+    REDIS_PASSWORD = REDIS_PASSWORD
 
     IDLIST = META['C']
 

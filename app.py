@@ -7,6 +7,7 @@ from meta import BaseConfig
 
 SCHEMA = BaseConfig.SCHEMA
 
+
 app = Flask(__name__)
 app.config.from_object('meta.BaseConfig')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -30,6 +31,17 @@ app.config.update(dict(
 
 
 mail = Mail(app)
+
+if SCHEMA == 2:
+    import redis
+    REDIS_PASSWORD = BaseConfig.REDIS_PASSWORD
+    redisData = redis.Redis(
+        host = 'redis-12011.c54.ap-northeast-1-2.ec2.cloud.redislabs.com',
+        port = 12011,
+        password = REDIS_PASSWORD,
+        decode_responses = True # get python freiendlt format
+    )
+
 
 from routesInst import *
 from routesAdmin import *
