@@ -25,7 +25,7 @@ except:
     try:
         REDIS_PASSWORD = os.environ['REDIS_PASSWORD']
     except:
-        REDIS_PASSWORD = NONE
+        REDIS_PASSWORD = None
 
 
 jList = ['None',
