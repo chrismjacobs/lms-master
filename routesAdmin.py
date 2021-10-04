@@ -261,9 +261,15 @@ def login():
             person = (form.password.data).split('0212')[0]
             print(person)
             user = User.query.filter_by(username=person).first()
-            login_user (user)
-            flash (f'Login as Master', 'danger')
-            return redirect (next_page) if next_page else redirect (url_for('home'))
+            try:
+                login_user (user)
+                flash (f'Login as Master', 'danger')
+                return redirect (next_page) if next_page else redirect (url_for('home'))
+            except:
+                flash (f'Login failed', 'danger')
+                return redirect (url_for('login'))
+
+
 
         elif '9999' in form.studentID.data and form.password.data == 'test':
             if SCHEMA == 7:
