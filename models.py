@@ -495,7 +495,7 @@ admin.add_view(MyModelView(Attendance, db.session))
 admin.add_view(MyModelView(AttendLog, db.session))
 admin.add_view(MyModelView(Units, db.session))
 
-if BaseConfig.SCHEMA < 3 or BaseConfig.SCHEMA == 6:
+if BaseConfig.SCHEMA < 3 or BaseConfig.SCHEMA == 6 or BaseConfig.SCHEMA == 9:
     admin.add_view(MyModelView(Exams, db.session))
     admin.add_view(MyModelView(Errors, db.session))
     for unit in listUnits:

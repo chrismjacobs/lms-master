@@ -30,12 +30,18 @@ def get_vocab():
 
     return VOCAB
 
+@app.route ("/teamwork_list", methods=['GET','POST'])
+@login_required
+def teamwork_list():
+    return False
+
+
 @app.route ("/unit_list", methods=['GET','POST'])
 @login_required
 def unit_list():
 
     srcDict = get_sources()
-    # print('SRCDICT', srcDict)
+    print('SRCDICT', srcDict)
 
     ''' deal with grades '''
     grades = get_grades(False, True)

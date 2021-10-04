@@ -71,6 +71,8 @@ def get_grades(ass, unt):
         MTFN = 'MT'
     elif Units.query.filter_by(unit='01').first():
         MTFN = 'MT'
+    elif Units.query.filter_by(unit='02').first():
+        MTFN = 'MT'
     else:
         MTFN = 'FN'
 
@@ -81,7 +83,7 @@ def get_grades(ass, unt):
         ass_start = 0
         unit_check = total_units*4
         ass_check = total_units
-    elif MTFN == 'MT' and SCHEMA == 6:
+    elif MTFN == 'MT' and SCHEMA == 9:
         unit_start = 0
         ass_start = 0
         unit_check = total_units*4
@@ -91,7 +93,7 @@ def get_grades(ass, unt):
         ass_start = 4
         unit_check = unit_start + total_units*4
         ass_check = ass_start + total_units
-    elif MTFN == 'FN' and SCHEMA == 6:
+    elif MTFN == 'FN' and SCHEMA == 9:
         unit_start = 20
         ass_start = 5
         unit_check = unit_start + total_units*4
@@ -698,7 +700,7 @@ def grades_final():
 
     model_check = total_units*4 ## 4 units for each unit
 
-    if SCHEMA == 6:
+    if SCHEMA == 9:
         uStart = 20
         aStart = 5
     else:
@@ -796,7 +798,7 @@ def grades_midterm ():
     ### set max grades
 
     total_units = 0
-    if SCHEMA == 6:
+    if SCHEMA == 9:
         midterm_unit_list = ['01', '02', '03', '04', '05']
     else:
         midterm_unit_list = ['01', '02', '03', '04']

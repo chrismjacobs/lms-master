@@ -3,6 +3,7 @@
 {% block content %}
 
 <span id="Table" style="display:none">{{Dict}}</span>
+<span id="Schema" style="display:none">{{SCHEMA}}</span>
 <span id="max" style="display:none">{{max}}</span>
 <span id="Grade" style="display:none">{{Grade}}</span>
 <span id="unit" style="display:none">{{todays_unit}}</span>
@@ -10,13 +11,23 @@
 
 <div id="vue-app">
 
-<div class="content-section" :style="headStyle()">
+<div class="content-section" :style="headStyle()" v-if="schema !=9">
 <h3 style="display: inline-block"> Participation: {{Grade}}/{{max}} </h3>
 
   <div>
     <h5> Join a team in class to do the work or complete by yourself before the deadline</h5>
     <h5> (30% of final grade)</h5>
   </div>
+
+</div>
+
+<div class="content-section" v-else>
+
+  <div>
+    <h5> Join a team in class to do the work or complete by yourself before the deadline</h5>
+    <h5> (30% of final grade)</h5>
+  </div>
+
 </div>
 
 <div class="content-section">
@@ -118,6 +129,8 @@
 var Table = document.getElementById('Table').innerHTML
 var todays_unit = document.getElementById('unit').innerHTML
 console.log(unit);
+var Schema = document.getElementById('Schema').innerHTML
+console.log(Schema);
 var attend = document.getElementById('attend').innerHTML
 console.log(attend);
 var OBJ = JSON.parse(Table)
@@ -126,6 +139,10 @@ var max = parseInt(document.getElementById('max').innerHTML)
 var Grade = parseInt(document.getElementById('Grade').innerHTML)
 
 
+if (Schema == 9 && OBJ['01']) {
+  delete OBJ['01']
+  console.log('LNC course has unit 01 deleted')
+}
 console.log(navigator.userAgent);
 
 if (Grade > 0){
@@ -165,6 +182,7 @@ function startVue(unitOBJ, colorFloat, prevs, options, opens){
         }
     },
     data: {
+        schema: Schema,
         unitOBJ: unitOBJ,
         colorFloat: colorFloat,
         show: false,
