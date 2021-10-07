@@ -35,6 +35,7 @@
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('admin') }}", target="_blank">Admin</a>
                             {% if SCHEMA < 3 or SCHEMA == 6 %}
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('dashboard')}}", target="_blank">Dashboard</a>
+                            <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('classwork')}}", target="_blank">Classwork</a>
                                 {% if MTFN == 'MT' %}
                                   <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('grades_midterm')}}", target="_blank">Grades</a>
                                 {% else %}
