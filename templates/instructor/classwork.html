@@ -6,57 +6,52 @@
 
 <span id="ansString" style="display:none">{{ansString}}</span>
 
-<div class="content-section">    
+<div class="content-section">
      <legend class="border-bottom mb-4">Classwork</legend>
-  
-   
+
+
     <br>
     <br>
-    <div style="overflow-x:auto;width:80%">
+    <div style="overflow-x:auto;width:100%">
       <table class="table table-sm">
-        <thead>
-            <tr>
-              <th scope="col" >ID</th>  
-              <th scope="col" >Names</th>  
-              <th scope="col" >Team</th>                                  
-              <th scope="col" >1</th>                       
-              <th scope="col" >2</th>                       
-              <th scope="col" >3</th>  
-              <th scope="col" >4</th>                       
-              <th scope="col" >5</th>  
-              <th scope="col" >6</th>  
-              <th scope="col" >7</th>  
-              <th scope="col" >8</th>                
-              <th scope="col" >C</th>             
-              <th scope="col" >G</th>             
-            </tr>
-        </thead> 
-        
+
         <tbody>
-        <template v-for="(part, key) in cwOBJ">   
-            <tr> <h3 style="background:grey; color: white"> [[ key ]] </h3> </tr>  
-            <template v-for="(entry, team) in part"> 
-            <tr>                         
-              <td v-for="item in entry"> [[ item ]] </td>     
-                  
-            </tr>  
-          </template>                 
-        </template>                 
-        </tbody>   
-   
+        <template v-for="(part, key) in cwOBJ">
+            <tr> <h3 style="background:grey; color: white" @click="if (show == key) {show = null} else {show = key}"> [[ key ]] </h3> </tr>
+            <div v-if="show == key">
+            <template v-for="(entry, team) in part">
+              <tr>
+                <td> [[ entry['team'] ]] </td>
+                <td  style="width:15%"> <div v-for="n in entry['names']"><button :style="seeEffort(n, entry.Comment, 'c' )" @click="nameAction(n, key, entry['team'])">[[n]] [[seeEffort(n, entry.Comment, 'q' )]]</button><br><br></div></td>
+                <td> <button :style="gradeStyle(entry.Grade)" @click="nameAction('grade', key, entry['team'])">[[ entry['Grade'] ]]</button> </td>
+                <td> [[ seeEffort('', entry['Comment'], 's') ]] </td>
+                <td> <span style="background:grey;color:white; padding:1pt"> 1 : </span> [[ entry['1'] ]] </td>
+                <td> <span style="background:grey;color:white; padding:1pt"> 2 : </span> [[ entry['2'] ]] </td>
+                <td> <span style="background:grey;color:white; padding:1pt"> 3 : </span> [[ entry['3'] ]] </td>
+                <td> <span style="background:grey;color:white; padding:1pt"> 4 : </span> [[ entry['4'] ]] </td>
+                <td> <span style="background:grey;color:white; padding:1pt"> 5 : </span> [[ entry['5'] ]] </td>
+                <td> <span style="background:grey;color:white; padding:1pt"> 6 : </span> [[ entry['6'] ]] </td>
+                <td> <span style="background:grey;color:white; padding:1pt"> 7 : </span> [[ entry['7'] ]] </td>
+                <td> <span style="background:grey;color:white; padding:1pt"> 8 : </span> [[ entry['8'] ]] </td>
+              </tr>
+            </template>
+            </div>
+        </template>
+        </tbody>
+
       </table>
     </div>
 
-</div> 
+</div>
 
-   
+
 
 </div> <!-- end of Vue app -->
 
 
 {% endblock %}
 
-{% block script %}   
+{% block script %}
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 
@@ -69,33 +64,72 @@ console.log('OBJ', cwOBJ);
 
 startVue()
 
-function startVue(){  
+function startVue(){
 
-let vue = new Vue({ 
+let vue = new Vue({
 
     el: '#vue-app',
     delimiters: ['[[', ']]'],
     mounted: function(){
-        
+
     },
     data: {
-        cwOBJ: cwOBJ, 
-           
-    }, 
-    methods: {                         
-        gStyle: function(head, g) {
-          
-        }
-    }                  
-        
+        cwOBJ: cwOBJ,
+        show: null
+    },
+    methods: {
+        gradeStyle: function(grade) {
+          if (grade == 2) {
+            return 'background:lightgreen'
+          } else if (grade == 0) {
+            return 'background:coral'
+          }
+
+        },
+        seeEffort: function (name, dict, mode) {
+          console.log(name, dict)
+          if (dict.includes('"')) {
+            newDict = JSON.parse(dict)
+            if (mode == 'q') {
+              return newDict[name]
+            } else if (mode == 'c' && newDict[name] == "") {
+              return "background:red"
+            } else if (mode == 's') {
+              return newDict['status']
+            }
+          } else if (mode == 's') {
+            return dict
+          }
+
+        },
+        nameAction: function (name, unit, team) {
+          console.log(name, unit, team)
+          $.ajax({
+              data : {
+                name : name,
+                unit : unit,
+                team : team
+              },
+              type : 'POST',
+              url : '/updateClasswork',
+            })
+            .done(function(data) {
+              alert(data)
+            })
+            .fail(function(){
+                alert('error has occurred');
+            });
+        },
+    }
+
 })// end NEW VUE
 
 
 
-}// endFunction 
+}// endFunction
 
-</script> 
+</script>
 
 
-{% endblock %} 
+{% endblock %}
 
