@@ -17,7 +17,7 @@
 
         <tbody>
         <template v-for="(part, key) in cwOBJ">
-            <tr> <h3 style="background:grey; color: white" @click="if (show == key) {show = null} else {show = key}"> [[ key ]] </h3> </tr>
+            <tr> <h3 style="background:grey; color: white" @click="tabCheck(key)"> [[ key ]] </h3> </tr>
             <div v-if="show == key">
             <template v-for="(entry, team) in part">
               <tr>
@@ -71,13 +71,24 @@ let vue = new Vue({
     el: '#vue-app',
     delimiters: ['[[', ']]'],
     mounted: function(){
-
+      console.log(localStorage)
+      if (localStorage['tab']) {
+        this.show = localStorage['tab']
+      }
     },
     data: {
         cwOBJ: cwOBJ,
         show: null
     },
     methods: {
+        tabCheck: function(key) {
+          if (this.show == key) {
+            this.show = null
+          } else {
+            this.show = key
+          }
+          localStorage.setItem('tab', key)
+        },
         gradeStyle: function(grade) {
           if (grade == 2) {
             return 'background:lightgreen'
@@ -87,7 +98,7 @@ let vue = new Vue({
 
         },
         seeEffort: function (name, dict, mode) {
-          console.log(name, dict)
+          //console.log(name, dict)
           if (dict.includes('"')) {
             newDict = JSON.parse(dict)
             if (mode == 'q') {
@@ -100,7 +111,6 @@ let vue = new Vue({
           } else if (mode == 's') {
             return dict
           }
-
         },
         nameAction: function (name, unit, team) {
           console.log(name, unit, team)
