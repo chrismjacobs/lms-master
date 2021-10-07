@@ -19,6 +19,7 @@
                         {{ form.studentID(class="form-control form-control-lg") }}
                     {% endif %}
                 </div>
+                <h3 style="background:lime" id="lineNote"> </h3>
                 <div class="form-group">
                     {{ form.password.label(class="form-control-label") }}
                     {% if form.password.errors %}
@@ -53,3 +54,21 @@
     </div>
 
 {% endblock content %}
+
+
+{% block script %}
+
+<script type="text/javascript" >
+
+var report = navigator.userAgent
+console.log(report)
+
+if (navigator.userAgent.includes('Line')){
+    alert('WARNING: It looks like you are using Line App to view this website. Please switch to Chrome or Safari browser')
+    document.getElementById('lineNote').innerHTML = 'Switch browser from LINE to Chrome/Safari/Brave'
+}
+
+</script>
+
+
+{% endblock %}
