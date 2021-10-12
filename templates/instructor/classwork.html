@@ -98,12 +98,12 @@ let vue = new Vue({
 
         },
         seeEffort: function (name, dict, mode) {
-          //console.log(name, dict)
+          console.log(name, dict)
           if (dict.includes('"')) {
             newDict = JSON.parse(dict)
             if (mode == 'q') {
               return newDict[name]
-            } else if (mode == 'c' && newDict[name] == "") {
+            } else if (mode == 'c' && !newDict[name]) {
               return "background:red"
             } else if (mode == 's') {
               return newDict['status']

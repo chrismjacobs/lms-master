@@ -771,7 +771,7 @@ def grades_final():
 @login_required
 def grades_midterm ():
 
-    semester = 2
+    semester = 1
 
     gradesDict = {}
 
@@ -879,26 +879,82 @@ def grades_midterm ():
         sumTotal = gradesDict[entry]['uP'] + gradesDict[entry]['aP'] + gradesDict[entry]['exam1'] + gradesDict[entry]['exam2']
         gradesDict[entry]['Total'] = round(sumTotal, 1)
 
+    print(gradesDict)
 
     if MT_marker:
         return gradesDict
     else:
-        return render_template('instructor/grades.html', ansString=json.dumps(gradesDict))
+        return render_template('instructor/grades.html', ansString=json.dumps(gradesDict), compString=json.dumps({}))
+
+
+@app.route ("/updateClasswork", methods=['POST', 'GET'])
+@login_required
+def updateClasswork():
+    unit = request.form ['unit']
+    name = request.form ['name']
+    team = request.form ['team']
+
+    print(unit, name, team)
+
+    print(Info.unit_mods_dict[unit[0:2]])
+
+    model = Info.unit_mods_dict[unit[0:2]][int(unit[2])]
+
+    data = model.query.filter_by(teamnumber=team).first()
+
+    comment = None
+    cDict = False
+
+    try:
+        comment = json.loads(data.Comment)
+        cDict = True
+    except:
+        comment = data.Comment
+
+    if name == 'grade' and cDict:
+        if data.Grade == 0:
+            data.Grade = 2
+            comment['status'] = "Updated"
+            data.Comment = json.dumps(comment)
+            db.session.commit()
+
+    elif name == 'grade' and not cDict:
+        if data.Grade > 0:
+            data.Grade = 0
+            data.Comment = 'Not completed correctly'
+            db.session.commit()
+        elif data.Grade == 0:
+            data.Grade = 2
+            data.Comment = 'Done'
+            db.session.commit()
+
+    else:
+        teamArray = ast.literal_eval(data.username)
+        if name in teamArray:
+            teamArray.remove(name)
+        else:
+            teamArray.append(name)
+        data.username = json.dumps(teamArray)
+        db.session.commit()
+
+    return jsonify({'unit' : unit, 'name' : name})
+
 
 
 @app.route ("/classwork", methods=['GET','POST'])
 @login_required
-def classwork ():
+def classwork():
 
     cwDict = {}
 
     users = User.query.all()
 
 
-    unit_list = ['05', '06', '07', '08']
+    #unit_list = ['05', '06', '07', '08']
+    unit_list = ['01', '02', '03', '04']
 
-    #for model in Info.unit_mods_list[0:16]:
-    for model in Info.unit_mods_list[16:32]:
+    for model in Info.unit_mods_list[0:16]:
+    #for model in Info.unit_mods_list[16:32]:
         rows = model.query.all()
         unit = str(model).split('U')[1]
         cwDict[unit] = {}
@@ -906,7 +962,12 @@ def classwork ():
         for row in rows:
             cwDict[unit][row.id] = {}
             cwDict[unit][row.id]['ID'] = row.id
-            cwDict[unit][row.id]['names'] = row.username
+            try:
+                cwDict[unit][row.id]['names'] = ast.literal_eval(row.username)
+                print('TRY', cwDict[unit][row.id]['names'])
+            except:
+                cwDict[unit][row.id]['names'] = [row.username]
+
             cwDict[unit][row.id]['team'] = row.teamnumber
             cwDict[unit][row.id]['1'] = row.Ans01
             cwDict[unit][row.id]['2'] = row.Ans02
