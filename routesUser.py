@@ -268,7 +268,7 @@ def review_random(originalDict):
 @login_required
 def exams(test, unit):
 
-    content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/exam2.json' )
+    content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/exam.json' )
     file_content = content_object.get()['Body'].read().decode('utf-8')
     examAWS = json.loads(file_content)
 
