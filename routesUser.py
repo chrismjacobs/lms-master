@@ -371,7 +371,7 @@ def openExam():
 @login_required
 def exam_list_midterm():
 
-    semester = 2
+    semester = 1
 
     ''' set exam practice '''
     try:
@@ -415,10 +415,12 @@ def exam_list_midterm():
 
     ex12 = 0
     ex34 = 0
-    if len(examData['2-1-2']) > 0:
-        ex12 = round(   (examData['2-1-2'][0] + examData['2-1-2'][1])   /2  )
-    if len(examData['2-3-4']) > 0:
-        ex34 = round(   (examData['2-3-4'][0] + examData['2-3-4'][1])   /2  )
+
+
+    if len(examData[str(semester) + '-1-2']) > 0:
+        ex12 = round(   (examData[str(semester) + '-1-2'][0] + examData[str(semester) + '-1-2'][1])   /2  )
+    if len(examData[str(semester) + '-3-4']) > 0:
+        ex34 = round(   (examData[str(semester) + '-3-4'][0] + examData[str(semester) + '-3-4'][1])   /2  )
 
 
 
@@ -520,7 +522,7 @@ def completeStatus(time, name):
 @login_required
 def exam_list_final():
 
-    semester = 2
+    semester = 1
 
     ''' set exam practice '''
     try:
