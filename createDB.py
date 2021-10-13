@@ -29,7 +29,10 @@ from models import A09A, A10A, A11A, A12A
 db.create_all()
 
 def main():
-    host = User(username='Chris', studentID='100000000', email='cjx02121981@gmail.com', image_file='profiles/Chris.jpg', password=dbpassword, device='Heroku')
+
+    semester = str(1)
+
+    host = User(username='Chris', studentID='100000000', email='cjx02121981@gmail.com', image_file='profiles/Chris.jpg', password=dbpassword, device=semester)
     db.session.add(host)
     db.session.commit()
 

@@ -268,7 +268,15 @@ def review_random(originalDict):
 @login_required
 def exams(test, unit):
 
-    content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/exam.json' )
+    semester = int(User.query.filter_by(username='Chris').first().device)
+
+    if semester == 1:
+        examString = 'json_files/exam.json'
+    else:
+        examString = 'json_files/exam2.json'
+
+
+    content_object = s3_resource.Object( S3_BUCKET_NAME, examString )
     file_content = content_object.get()['Body'].read().decode('utf-8')
     examAWS = json.loads(file_content)
 
@@ -371,7 +379,7 @@ def openExam():
 @login_required
 def exam_list_midterm():
 
-    semester = 1
+    semester = int(User.query.filter_by(username='Chris').first().device)
 
     ''' set exam practice '''
     try:
@@ -402,16 +410,18 @@ def exam_list_midterm():
         reviewData = json.loads(user.j1)
         examData = json.loads(user.j2)
 
+
+
     try:
-        tries12 = round(   (reviewData['2-1-2'][0] + reviewData['2-1-2'][1])   /2  )
+        tries12 = round(   (reviewData[str(semester) + '-1-2'][0] + reviewData[str(semester) + '-1-2'][1])   /2  )
     except:
         tries12 = 0
-        reviewData['2-1-2'] = [0,0,0]
+        reviewData[str(semester) + '-1-2'] = [0,0,0]
     try:
-        tries34 = round(   (reviewData['2-3-4'][0] + reviewData['2-3-4'][1])   /2  )
+        tries34 = round(   (reviewData[str(semester) + '-3-4'][0] + reviewData[str(semester) + '-3-4'][1])   /2  )
     except:
         tries34 = 0
-        reviewData['2-3-4'] = [0,0,0]
+        reviewData[str(semester) + '-3-4'] = [0,0,0]
 
     ex12 = 0
     ex34 = 0
@@ -430,8 +440,8 @@ def exam_list_midterm():
         'asses' : 0,
         'tScore12': tries12,
         'tScore34': tries34,
-        'tries12' : str(tries12) + '/20% - tries: ' + str(reviewData['2-1-2'][2]),
-        'tries34' : str(tries34) + '/20% - tries: ' + str(reviewData['2-3-4'][2]),
+        'tries12' : str(tries12) + '/20% - tries: ' + str(reviewData[str(semester) + '-1-2'][2]),
+        'tries34' : str(tries34) + '/20% - tries: ' + str(reviewData[str(semester) + '-3-4'][2]),
         'ex12' : ex12,
         'ex34' : ex34,
     }
@@ -522,7 +532,7 @@ def completeStatus(time, name):
 @login_required
 def exam_list_final():
 
-    semester = 1
+    semester = int(User.query.filter_by(username='Chris').first().device)
 
     ''' set exam practice '''
     try:
@@ -664,7 +674,7 @@ def participation_check():
 @login_required
 def grades_final():
 
-    semester = 2
+    semester = int(User.query.filter_by(username='Chris').first().device)
 
     gradesDict = {}
     completeDict = {}
@@ -773,7 +783,7 @@ def grades_final():
 @login_required
 def grades_midterm ():
 
-    semester = 1
+    semester = int(User.query.filter_by(username='Chris').first().device)
 
     gradesDict = {}
 

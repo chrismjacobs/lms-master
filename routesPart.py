@@ -17,8 +17,10 @@ SCHEMA = BaseConfig.SCHEMA
 DESIGN = BaseConfig.DESIGN
 
 def get_vocab():
+
+    semester = int(User.query.filter_by(username='Chris').first().device)
     ## change to 'json_files/vocab.json' for semester 1
-    if Units.query.filter_by(unit='00').first() or Units.query.filter_by(unit='01').first():
+    if semester == 1:
         vocabJSON = 'json_files/vocab.json'
     else:
         vocabJSON = 'json_files/vocab2.json'
