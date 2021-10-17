@@ -19,7 +19,12 @@
 <div class="content-section" v-if="completed >= nCount || editNovel">
   <legend class="border-bottom mb-4"> Novel Details: </legend>
 
-    Project Number (1/2/3): <input style="number" id="number" v-model="novel.number" disabled></input>
+    Project Number (1/2/3):
+    <select  name="project" v-model="project">
+    <!--<option value="one">First Project</option>-->
+    <option value="2">Second Project</option>
+    </select>
+
     <br>
     <br>
     Team Number: <input style="number" id="team number" v-model="novel.team"></input>
@@ -28,16 +33,23 @@
     Name(s): <input style="text" id="names" v-model="novel.names"></input>
     <br>
     <br>
-    Title: <input style="text" id="title" v-model="novel.title"></input>
+    Book:
+    <select  type="text"  name="titles" v-model="book">
+        <option v-for="option in level3" :value="option">[[option]]</option>
+    </select>
+
     <br>
     <br>
-    Author: <input style="text" id="author" v-model="novel.author"></input>
+    Title: <input style="text" id="title" v-model="book[0]" disabled></input>
     <br>
     <br>
-    Chapters: <input style="number" id="chapters" v-model="novel.chapters"></input>
+    Author: <input style="text" id="author" v-model="book[3]" disabled></input>
     <br>
     <br>
-    Level: <input style="text" id="level" v-model="novel.level" disabled></input>
+    Chapters: <input style="number" id="chapters" v-model="book[2]" disabled></input>
+    <br>
+    <br>
+    Level: <input style="text" id="level" v-model="book[1]" disabled></input>
     <br>
     <br>
 
@@ -102,12 +114,23 @@
 var completed = document.getElementById('completed').innerHTML
 var nString = document.getElementById('nString').innerHTML
 var nCount = document.getElementById('nCount').innerHTML
-
 var nObj = JSON.parse(nString)
 console.log('nObj', nObj);
 console.log('nCount', nCount);
 console.log('completed', completed);
 
+
+var level3 = {
+  //'The Bronte Story' : [3, 10, ''],
+  'None' : [null, 0, 0, null],
+  'On the Edge' : ['On the Edge', 3, 10, 'Gillian Cross'],
+  'The Crown of Violet' :	['On the Edge', 3, 8, '??'],
+  "Wyatt's Hurricane" : ["Wyatt's Hurricane", 3, 10, 'Desond Bagley'],
+  'The Star Zoo' : ['The Star Zoo', 3, 10, 'The Star Zoo'],
+  'The Card'	: ['The Card', 3, 7, 'Arnold Bennett'],
+  'The Railway Children': ['The Railway Children', 3, 9, 'Edith Nesbit'],
+  'The Secret Garden': ['The Secret Garden', 3, 8, 'Frances Burnett']
+}
 
 startVue()
 
@@ -120,7 +143,11 @@ function startVue(){ new Vue({
       this.novel.level = 2
     },
     data: {
+        status: status,
+        project: null,
+        book: [null, 0, 0, null],
         completed: completed,
+        'level3': level3,
         editNovel: false,
         nObj: nObj,
         nCount: nCount,
@@ -155,6 +182,13 @@ function startVue(){ new Vue({
         },
         submitNovel: function () {
           console.log('update via AJAX');
+          console.log(this.novel)
+
+          this.novel.number = this.project
+          this.novel.title = this.book[0]
+          this.novel.level = this.book[1]
+          this.novel.chapters = this.book[2]
+          this.novel.author = this.book[3]
           let _this = this
             $.ajax({
               data : {

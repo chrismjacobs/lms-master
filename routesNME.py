@@ -478,11 +478,12 @@ def nme_novels():
             nDict[n] = {}
             nDict[n]['novel'] = json.loads(project.Ans01)
             nDict[n]['sums'] = 0
+            nDict[n]['status'] = project.Comment
 
             for c in json.loads(project.Ans02):
                 nDict[n]['sums'] += 1
 
-            if nDict[n]['sums'] >= int(nDict[n]['novel']['chapters']):
+            if nDict[n]['sums'] >= int(nDict[n]['novel']['chapters']) and project.Comment == '2':
                 completed += 1
 
             nDict[n]['recs'] = 0
