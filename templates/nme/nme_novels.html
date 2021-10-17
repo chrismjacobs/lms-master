@@ -19,23 +19,25 @@
 <div class="content-section" v-if="completed >= nCount || editNovel">
   <legend class="border-bottom mb-4"> Novel Details: </legend>
 
-    Project Number (1/2/3):
+    Project Number:
     <select  name="project" v-model="project">
-    <!--<option value="one">First Project</option>-->
+    <option value="1">First Project</option>
     <option value="2">Second Project</option>
     </select>
 
+    [[project]]
+
     <br>
     <br>
-    Team Number: <input style="number" id="team number" v-model="novel.team"></input>
+    Team Number: <input style="number" id="team number" v-model="novel.team" disabled></input>
     <br>
     <br>
-    Name(s): <input style="text" id="names" v-model="novel.names"></input>
+    Name(s): <input style="text" id="names" v-model="novel.names" disabled></input>
     <br>
     <br>
     Book:
     <select  type="text"  name="titles" v-model="book">
-        <option v-for="option in level3" :value="option">[[option]]</option>
+        <option v-for="option in getLevel()" :value="option">[[option]]</option>
     </select>
 
     <br>
@@ -96,9 +98,11 @@
 </div>
 
 <span id="user" style="display:none">{{current_user.username}}</span>
+<span id="extra" style="display:none">{{current_user.extra}}</span>
 <span id="completed" style="display:none">{{completed}}</span>
 <span id="nString" style="display:none">{{nString}}</span>
 <span id="nCount" style="display:none">{{nCount}}</span>
+<span id="nameList" style="display:none">{{names}}</span>
 
 </div> <!-- end of Vue app -->
 
@@ -114,8 +118,12 @@
 var completed = document.getElementById('completed').innerHTML
 var nString = document.getElementById('nString').innerHTML
 var nCount = document.getElementById('nCount').innerHTML
+var extra = document.getElementById('extra').innerHTML
+var names = document.getElementById('nameList').innerHTML
 var nObj = JSON.parse(nString)
+console.log('extra', extra);
 console.log('nObj', nObj);
+console.log('names', names);
 console.log('nCount', nCount);
 console.log('completed', completed);
 
@@ -130,6 +138,12 @@ var level3 = {
   'The Card'	: ['The Card', 3, 7, 'Arnold Bennett'],
   'The Railway Children': ['The Railway Children', 3, 9, 'Edith Nesbit'],
   'The Secret Garden': ['The Secret Garden', 3, 8, 'Frances Burnett']
+}
+
+var level2 = {
+  //'The Bronte Story' : [3, 10, ''],
+  'None' : [null, 0, 0, null],
+  'Huckleberry Finn' : ['Huckleberry Finn', 2, 5, 'Mark Twain']
 }
 
 startVue()
@@ -148,13 +162,14 @@ function startVue(){ new Vue({
         book: [null, 0, 0, null],
         completed: completed,
         'level3': level3,
+        'level2': level2,
         editNovel: false,
         nObj: nObj,
         nCount: nCount,
         novel: {
           number: null,
-          team: null,
-          names: null,
+          team: extra,
+          names: names,
           title: null,
           author: null,
           chapters: null,
@@ -162,6 +177,15 @@ function startVue(){ new Vue({
         }
     },
     methods: {
+        getLevel: function () {
+          if (this.project == '1') {
+            return this.level2
+          } else if (this.project == '2') {
+            return this.level3
+          } else {
+            return { null : [null, 0, 0, null]}
+          }
+        },
         goTo: function(task, index) {
 
           let name = document.getElementById('user').innerHTML

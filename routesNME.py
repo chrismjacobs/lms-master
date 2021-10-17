@@ -467,6 +467,11 @@ def nme_novels():
     print('TEAM', getTeam())
 
     novels = ['01', '02', '03']
+    names = []
+
+    for u in User.query.filter_by(extra=getTeam()).all():
+        print(u.username)
+        names.append(u.username)
 
     completed = 0
     nCount = 0
@@ -509,7 +514,9 @@ def nme_novels():
 
     nString = json.dumps(nDict)
 
-    return render_template('nme/nme_novels.html', completed=completed, nCount=nCount, nString=nString, legend='NME Projects')
+    print(json.dumps(names))
+
+    return render_template('nme/nme_novels.html', completed=completed, nCount=nCount, nString=nString, names=json.dumps(names), legend='NME Projects')
 
 
 @app.route ("/nme_exams", methods=['GET','POST'])
