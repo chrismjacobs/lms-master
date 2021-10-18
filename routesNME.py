@@ -74,7 +74,8 @@ def nme_dash():
             nmeDict[proj][entry.username] = {
                 'novel' : json.loads(entry.Ans01),
                 'sums' : json.loads(entry.Ans02),
-                'recs' : json.loads(entry.Ans03)
+                'recs' : json.loads(entry.Ans03),
+                'c' : entry.Comment
                 }
 
     ## pprint (nmeDict)
@@ -488,7 +489,7 @@ def nme_novels():
             for c in json.loads(project.Ans02):
                 nDict[n]['sums'] += 1
 
-            if nDict[n]['sums'] >= int(nDict[n]['novel']['chapters']) and project.Comment == '2':
+            if project.Comment == '2':
                 completed += 1
 
             nDict[n]['recs'] = 0
@@ -927,6 +928,20 @@ def updateSum():
     sums[str(number)]['summary'] = summary
     entry.Ans02 = json.dumps(sums)
     entry.Ans03 = '{"1": {}, "2": {}}'
+    db.session.commit()
+
+    return jsonify({'success' : True})
+
+@app.route ("/updateComment", methods=['GET','POST'])
+@login_required
+def updateComment():
+    print('UPDATE_COMM')
+    name = request.form ['name']
+    novel = request.form ['novel']
+
+    ## get student data
+    entry = projectDict[novel].query.filter_by(username=name).first()
+    entry.Comment = '2'
     db.session.commit()
 
     return jsonify({'success' : True})

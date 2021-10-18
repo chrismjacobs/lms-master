@@ -26,6 +26,7 @@
               <th scope="col" >Chap</th>
               <th scope="col" >Sums</th>
               <th scope="col" >Recs</th>
+              <th scope="col" >C</th>
             </tr>
         </thead>
 
@@ -52,8 +53,11 @@
               <td :style="getSumStyle(sumsLength(name, key))">
               [[ sumsLength(name, key) ]]
               </td>
-              <td>
+              <td @click="showRecs = student.novel.team ">
               [[ recsLength(name, key)]]
+              </td>
+              <td @click="updateComment(name, key)">
+              [[ student.c]]
               </td>
             </tr>
             <tr v-if="showSums == student.novel.team">
@@ -177,6 +181,24 @@ function startVue(OBJ){ new Vue({
               },
               type : 'POST',
               url : '/updateSum',
+            })
+            .done(function(data) {
+              alert(data.success)
+            })
+            .fail(function(){
+                console.log('error has occurred');
+            });
+        },
+        updateComment: function (name, novel) {
+          console.log('update via AJAX');
+          let _this = this
+            $.ajax({
+              data : {
+                novel: novel,
+                name: name
+              },
+              type : 'POST',
+              url : '/updateComment',
             })
             .done(function(data) {
               alert(data.success)
