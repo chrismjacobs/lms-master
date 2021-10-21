@@ -20,6 +20,9 @@
             </select>
             <button @click="addComment(key)"> Add </button>
         </div>
+        <input type='text' v-model="extra"></input>
+            <button @click="addExtra()"> Add </button>
+
     </div>
     <button @click="addComment(studentName, studentUnit)"> Update </button>
 
@@ -167,7 +170,8 @@ function startVue(){
           extra: null
         },
         studentName: null,
-        studentUnit: null
+        studentUnit: null,
+        extra: ''
 
     },
     methods: {
@@ -177,6 +181,9 @@ function startVue(){
         },
         addComment: function(key){
           this.ansOBJ[this.studentName][this.studentUnit].C += this.comment[key]
+        },
+        addExtra: function(){
+          this.ansOBJ[this.studentName][this.studentUnit].C += (this.extra + ' ')
         },
         play: function(audio){
           document.getElementById('instructorPlayer').src = audio
