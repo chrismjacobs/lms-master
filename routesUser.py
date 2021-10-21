@@ -805,6 +805,11 @@ def grades_midterm ():
             'exam2' : 0
         }
 
+    attendance = Attendance.query.all()
+
+    for a in attendance:
+        if a.username in gradesDict:
+            gradesDict[a.username]['Name'] += ' ='
 
     MT_marker = False
     ### set max grades
@@ -950,6 +955,58 @@ def updateClasswork():
         db.session.commit()
 
     return jsonify({'unit' : unit, 'name' : name})
+
+
+@app.route ("/resetAnswer", methods=['POST', 'GET'])
+@login_required
+def resetAnswer():
+    unit = request.form ['unit']
+    team = request.form ['team']
+    question = request.form ['question']
+
+    print(unit, team, question)
+
+    print(Info.unit_mods_dict[unit[0:2]])
+
+    model = Info.unit_mods_dict[unit[0:2]][int(unit[2])]
+
+    data = model.query.filter_by(teamnumber=team).first()
+
+    listAnswers = [None,
+     data.Ans01,
+     data.Ans02,
+     data.Ans03,
+     data.Ans04,
+     data.Ans05,
+     data.Ans06,
+     data.Ans07,
+     data.Ans08
+    ]
+
+    q = int(question)
+
+    if q == 1:
+        data.Ans01 = None
+    elif q == 2:
+        data.Ans02 = None
+    elif q == 3:
+        data.Ans03 = None
+    elif q == 4:
+        data.Ans04 = None
+    elif q == 5:
+        data.Ans05 = None
+    elif q == 6:
+        data.Ans06 = None
+    elif q == 7:
+        data.Ans07 = None
+    elif q == 8:
+        data.Ans08 = None
+
+    if data.Grade == 2:
+        data.Grade = 0
+    db.session.commit()
+
+    return jsonify({'unit' : unit, 'team' : team, 'questions': question})
 
 
 

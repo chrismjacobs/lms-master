@@ -25,14 +25,14 @@
                 <td  style="width:15%"> <div v-for="n in entry['names']"><button :style="seeEffort(n, entry.Comment, 'c' )" @click="nameAction(n, key, entry['team'])">[[n]] [[seeEffort(n, entry.Comment, 'q' )]]</button><br><br></div></td>
                 <td> <button :style="gradeStyle(entry.Grade)" @click="nameAction('grade', key, entry['team'])">[[ entry['Grade'] ]]</button> </td>
                 <td> [[ seeEffort('', entry['Comment'], 's') ]] </td>
-                <td> <span style="background:grey;color:white; padding:1pt"> 1 : </span> [[ entry['1'] ]] </td>
-                <td> <span style="background:grey;color:white; padding:1pt"> 2 : </span> [[ entry['2'] ]] </td>
-                <td> <span style="background:grey;color:white; padding:1pt"> 3 : </span> [[ entry['3'] ]] </td>
-                <td> <span style="background:grey;color:white; padding:1pt"> 4 : </span> [[ entry['4'] ]] </td>
-                <td> <span style="background:grey;color:white; padding:1pt"> 5 : </span> [[ entry['5'] ]] </td>
-                <td> <span style="background:grey;color:white; padding:1pt"> 6 : </span> [[ entry['6'] ]] </td>
-                <td> <span style="background:grey;color:white; padding:1pt"> 7 : </span> [[ entry['7'] ]] </td>
-                <td> <span style="background:grey;color:white; padding:1pt"> 8 : </span> [[ entry['8'] ]] </td>
+                <td> <button @click="resetAnswer(key, entry['team'], 1)" style="background:grey;color:white; padding:1pt"> 1 : </button> [[ entry['1'] ]] </td>
+                <td> <button @click="resetAnswer(key, entry['team'], 2)" style="background:grey;color:white; padding:1pt"> 2 : </button> [[ entry['2'] ]] </td>
+                <td> <button @click="resetAnswer(key, entry['team'], 3)" style="background:grey;color:white; padding:1pt"> 3 : </button> [[ entry['3'] ]] </td>
+                <td> <button @click="resetAnswer(key, entry['team'], 4)" style="background:grey;color:white; padding:1pt"> 4 : </button> [[ entry['4'] ]] </td>
+                <td> <button @click="resetAnswer(key, entry['team'], 5)" style="background:grey;color:white; padding:1pt"> 5 : </button> [[ entry['5'] ]] </td>
+                <td> <button @click="resetAnswer(key, entry['team'], 6)" style="background:grey;color:white; padding:1pt"> 6 : </button> [[ entry['6'] ]] </td>
+                <td> <button @click="resetAnswer(key, entry['team'], 7)" style="background:grey;color:white; padding:1pt"> 7 : </button> [[ entry['7'] ]] </td>
+                <td> <button @click="resetAnswer(key, entry['team'], 8)" style="background:grey;color:white; padding:1pt"> 8 : </button> [[ entry['8'] ]] </td>
               </tr>
             </template>
             </div>
@@ -98,7 +98,6 @@ let vue = new Vue({
 
         },
         seeEffort: function (name, dict, mode) {
-          console.log(name, dict)
           if (dict.includes('"')) {
             newDict = JSON.parse(dict)
             if (mode == 'q') {
@@ -124,7 +123,26 @@ let vue = new Vue({
               url : '/updateClasswork',
             })
             .done(function(data) {
-              alert(data)
+              alert(JSON.stringify(data))
+            })
+            .fail(function(){
+                alert('error has occurred');
+            });
+        },
+        resetAnswer: function (unit, team, question) {
+          console.log(unit, team, question)
+          $.ajax({
+              data : {
+                unit : unit,
+                team : team,
+                question : question
+              },
+              type : 'POST',
+              url : '/resetAnswer',
+            })
+            .done(function(data) {
+              console.log(data)
+              alert(JSON.stringify(data))
             })
             .fail(function(){
                 alert('error has occurred');
