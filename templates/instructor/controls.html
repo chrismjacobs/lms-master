@@ -197,8 +197,8 @@ let vue = new Vue({
 
           if (schema == 7){
             var time1 = '_2_1'
-            var time1 = '_3_1'
-            var time2 = '_4_1'
+            var time2 = '_3_1'
+            var time3 = '_4_1'
           }
           if (schema == 2){
             var time1 = '_8_1'
@@ -217,12 +217,18 @@ let vue = new Vue({
           console.log(vue.attendOBJ);
 
           for (var student in vue.attendOBJ){
+
             if (vue.attendOBJ[student]['att'] == 'Absent'){
               vue.recordOBJ[student] = ['DDList' + student + time1, 'DDList' + student + time2]
             }
             if (vue.attendOBJ[student]['att']  == 'Unregistered'){
               vue.recordOBJ[student] = ['DDList' + student + time1, 'DDList' + student + time2]
             }
+
+            if (schema == 7) {
+              vue.recordOBJ[student].push('DDList' + student + time3)
+            }
+
           }
           this.varString = 'var obj =' + JSON.stringify(vue.recordOBJ)
           this.forString = 'for (var student in obj){ if (document.getElementById(obj[student][0])){ document.getElementById(obj[student][0]).checked=true; document.getElementById(obj[student][1]).checked=true}}'
