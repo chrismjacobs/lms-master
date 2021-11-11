@@ -139,11 +139,11 @@ function startVue(){
                 var e = document.getElementById(correct_answer)
                   if (e.options[e.selectedIndex].value != correct_answer ) {
                       vue.errorCount += 1
-                      e.setAttribute("style", "height:30px;width:150px;color:white;background:lightcoral")
+                      e.setAttribute("style", "height:30px;width:150px;color:white;background:orangered")
                       console.log(vue.errorCount);
                   }
                   else {
-                    e.setAttribute("style", "height:30px;width:150px;color:white;background:lightseagreen")
+                    e.setAttribute("style", "height:30px;width:150px;color:white;background:seagreen")
                   }
               }
           }
@@ -182,7 +182,7 @@ function startVue(){
               vue.tries = parseInt(data.tries)
               console.log('tries', vue.tries);
               if (vue.tries > 2){
-                // alert('too many tries - grade updated')
+                alert('too many tries - grade updated')
                 vue.goTo()
               }
               else if (percentGrade == 20 ){
@@ -204,16 +204,16 @@ function startVue(){
               array[i] = array[j];
               array[j] = temp;
             }
-          console.log(array);
+          //console.log(array);
           return array
         },
     },
     created () {
     let _this = this
     window.onblur = function () {
-        //window.scrollTo(0,0)
-        // alert('Warning! If you leave this page your exam will be reset')
-       // _this.goTo()
+        window.scrollTo(0,0)
+        alert('Warning! If you leave this page your exam will be reset')
+        this.goTo()
       }
     }
 })// end NEW VUE
