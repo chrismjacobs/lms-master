@@ -296,9 +296,9 @@ def getMovieDict(team):
 def nme_mov(movie, part):
     check = Units.query.filter_by(unit=movie).first()
 
-    if current_user.username != 'Chris':
-        flash('Not open yet', 'danger')
-        return (redirect (url_for('nme_movies')))
+    # if current_user.username != 'Chris':
+    #     flash('Not open yet', 'danger')
+    #     return (redirect (url_for('nme_movies')))
 
     sDict = getStudentDict()
     print('sDict', sDict)
@@ -312,7 +312,7 @@ def nme_mov(movie, part):
     if team not in movieList:
         movieList.append(team)
 
-    if current_user.username == 'Chriss':
+    if current_user.username == 'Chris':
         pass
     elif check and int(check.u1) == 0:
         flash('Not open yet', 'danger')
