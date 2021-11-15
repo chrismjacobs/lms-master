@@ -507,9 +507,8 @@ if BaseConfig.SCHEMA < 3 or BaseConfig.SCHEMA == 6 or BaseConfig.SCHEMA == 9:
 
 
 elif BaseConfig.SCHEMA == 7: # movies
-    '''
     admin.add_view(MyModelView(Exams, db.session))
-    admin.add_view(MyModelView(U001U, db.session))
+
 
     admin.add_view(MyModelView(U013U, db.session))
     admin.add_view(MyModelView(U014U, db.session))
@@ -529,11 +528,10 @@ elif BaseConfig.SCHEMA == 7: # movies
     admin.add_view(MyModelView(U063U, db.session))
     admin.add_view(MyModelView(U064U, db.session))
 
-    '''
     # projects - 1
-    # admin.add_view(MyModelView(U011U, db.session))
-    # admin.add_view(MyModelView(U021U, db.session))
-    # admin.add_view(MyModelView(U031U, db.session))
+    admin.add_view(MyModelView(U011U, db.session))
+    admin.add_view(MyModelView(U021U, db.session))
+    admin.add_view(MyModelView(U031U, db.session))
 
     # projects - 2
     admin.add_view(MyModelView(U012U, db.session))

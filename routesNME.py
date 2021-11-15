@@ -87,6 +87,10 @@ def nme_dash():
 
 movieDict = {
         1: U013U, # lionking
+    }
+
+movieCache = {
+        1: U013U, # lionking
         2: U014U, # gifted
         3: U023U, # jobs
         4: U024U, # intern
@@ -100,6 +104,10 @@ movieDict = {
     }
 
 mDict = {
+        1 : 'The Lion King'
+    }
+
+mDictCache = {
         1 : 'The Lion King',
         2 : 'Gifted',
         3 : 'Jobs',
@@ -304,7 +312,7 @@ def nme_mov(movie, part):
     if team not in movieList:
         movieList.append(team)
 
-    if current_user.username == 'Chris':
+    if current_user.username == 'Chriss':
         pass
     elif check and int(check.u1) == 0:
         flash('Not open yet', 'danger')
