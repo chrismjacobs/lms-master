@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
     "1": {
         "title": "Lion King",
@@ -572,3 +573,6 @@
         }
     }
 }
+=======
+{"1": {"title": "Lion King", "trailer": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/1-0.mp4", "intro": "This movie is about a young lion who has to learn how to be king of the animals", "q01": "What do you know about lions? (3 things)", "q02": "In what ways should a father help his son? (3 things)", "clip": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/1-1.mp4", "description": "In this scene, Mufusa is giving advice to Simba about being king someday.", "q11": "Do you think Simba is excited about being king? Why?", "q12": "Why do you think Mufasa chooses this time to talk to Simba about being king?", "q21": "Which part is their kingdom?", "q22": "What \"rises and falls like sun\"?", "q23": "Which part is the one Simba should never go to?", "subtitles": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/1-4.mp4", "script": {"1": "Mufasa: Look, Simba. Everything the light touches is our kingdom.", "2": "Simba: Wow.", "3": "Mufasa: A king`s time as ruler rises and falls like the sun. One day, Simba, the sun will set on my time here, and will rise with you as the new king.", "4": "Simba: And this will all be mine?", "5": "Mufasa: Everything.", "6": "Simba: Everything the light touches... What about that shadowy place?", "7": "Mufasa: That`s beyond our borders. You must never go there, Simba.", "8": "Simba: But I thought a king can do whatever he wants.", "9": "Mufasa: Oh, there`s more to being king than getting your way all the time.", "10": "Simba: There`s more?", "11": "Mufasa: Simba."}, "vocab": {"1": {"v": "borders", "q": "Which countries have borders with Taiwan?"}, "2": {"v": "kingdom", "q": "If a kingdom is ruled by a king, what is it called when a queen rules?"}, "3": {"v": "getting your way", "q": "How do some young kids `get there way` all the time?"}}}}
+>>>>>>> 34735ce6ec9e1af05b4962b1db86d0eefe80e8e9
