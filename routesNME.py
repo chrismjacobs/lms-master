@@ -189,8 +189,8 @@ def nme_dubs():
 
     pprint (nmeDict)
 
-    with open('0NME_payload' + '.json', 'w') as json_file:
-         json.dump(payloadDict, json_file)
+    # with open('0NME_payload' + '.json', 'w') as json_file:
+    #      json.dump(payloadDict, json_file)
 
     return render_template('nme/nme_dubs.html', legend='NME Dubs', nmeString = json.dumps(nmeDict), payString = json.dumps(payloadDict) )
 
@@ -235,6 +235,43 @@ def nme_movies():
     movies=json.dumps(movies)
 
     return render_template('nme/nme_movies.html', mString=mString, sString=sString, legend='NME Movies', movies=movies)
+
+
+def getMovieTeam():
+
+    teamDict = {
+        20:["Chris", "Test", None],
+        21:["Wendy", "Sakura ", "Amber"],
+        22:["Kai", "Gillian", "Benson"],
+        23:["Bruce", "Kenny", "Bob"],
+        24:["Alina", "Monica", "Emma"],
+        25:["Una", "Sara", "Michelle"],
+        26:["Carol", "Elsa", "Yui"],
+        27:["Felisia", "Disa", "Devi"],
+        28:["Eric", "Rebecca", "Raymond"],
+        29:["Jerry", "Owen", "Max"],
+        30:["Vellna", "Emmy", "Sherry"],
+        31:["Jason", "SamTsai", "Peggy"],
+        32:["William", "Winnie", "Coral"],
+        33:["Teresa", "Connor", "Clare "],
+        34:["Penny", None, None],
+    }
+
+    names = []
+    for user in User.query.all():
+        names.append(user.username)
+    print('names', names)
+
+    for x in teamDict:
+        # print(teamDict[x])
+        # for name in teamDict[x]:
+        #     if name not in names:
+        #         print('NOT PRESENT', name)
+        #     else:
+        #         print('Present', name)
+        if current_user.username in teamDict[x]:
+            return [x, teamDict[x]]
+
 
 def getMovieDict(team):
     selection = {
@@ -294,6 +331,8 @@ def getMovieDict(team):
 @app.route("/nme_mov/<string:movie>/<string:part>", methods = ['GET', 'POST'])
 @login_required
 def nme_mov(movie, part):
+    team = getMovieTeam()
+
     check = Units.query.filter_by(unit=movie).first()
 
     # if current_user.username != 'Chris':
@@ -306,11 +345,9 @@ def nme_mov(movie, part):
 
     print('CHECK', check.u1)
 
-    team = int(current_user.extra)
+    # team = int(current_user.extra)
     movieList = [1,2,3,4,5,6,7,8,9,12,11]
 
-    if team not in movieList:
-        movieList.append(team)
 
     if current_user.username == 'Chris':
         pass
@@ -358,7 +395,7 @@ def nme_mov(movie, part):
         print(uString)
 
 
-    return render_template('nme/nme_mov' + part + '.html', uString=uString, mString=mString, mData=movieData, team=team)
+    return render_template('nme/nme_mov' + part + '.html', uString=uString, mString=mString, mData=movieData, team=team[0], members=json.dumps(team[1]))
 
 
 @app.route("/nme_project/", methods = ['GET', 'POST'])
