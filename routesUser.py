@@ -473,13 +473,16 @@ def exam_list_midterm():
     if Units.query.filter_by(unit='04').first():
         setDict['34'] = Units.query.filter_by(unit='04').first().uA
 
+    counts = completeStatus('MT', current_user.username)
 
     context = {
     'title' : 'Exams',
     'theme' : DESIGN['titleColor'],
     'examString' : json.dumps(examDict),
     'setString' : json.dumps(setDict),
-    'semester' : semester
+    'semester' : semester,
+    'aCount': counts[0],
+    'uCount': counts[1]
     }
 
 
@@ -786,6 +789,7 @@ def grades_midterm ():
     semester = int(User.query.filter_by(username='Chris').first().device)
 
     gradesDict = {}
+    completeDict = {}
 
     users = User.query.all()
 
@@ -804,6 +808,7 @@ def grades_midterm ():
             'exam1' : 0,
             'exam2' : 0
         }
+        completeDict[user.username] = completeStatus('MT', user.username)
 
     attendance = Attendance.query.all()
 
@@ -901,7 +906,7 @@ def grades_midterm ():
     if MT_marker:
         return gradesDict
     else:
-        return render_template('instructor/grades.html', ansString=json.dumps(gradesDict), compString=json.dumps({}))
+        return render_template('instructor/grades.html', ansString=json.dumps(gradesDict), compString=json.dumps(completeDict))
 
 
 @app.route ("/updateClasswork", methods=['POST', 'GET'])
