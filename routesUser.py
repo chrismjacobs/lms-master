@@ -50,6 +50,21 @@ def get_sources():
     return unitDict
 
 
+def get_MTFN():
+
+    MTFN = None
+    if Units.query.filter_by(unit='00').first():
+        MTFN = 'MT'
+    elif Units.query.filter_by(unit='01').first():
+        MTFN = 'MT'
+    elif Units.query.filter_by(unit='02').first():
+        MTFN = 'MT'
+    else:
+        MTFN = 'FN'
+
+    return MTFN
+
+
 def get_grades(ass, unt):
 
     ### set max grades
@@ -65,16 +80,10 @@ def get_grades(ass, unt):
     maxU = maxU*2
     maxA = maxA*2
 
-    MTFN = 'NON SET'
+    MTFN = get_MTFN()
 
-    if Units.query.filter_by(unit='00').first():
-        MTFN = 'MT'
-    elif Units.query.filter_by(unit='01').first():
-        MTFN = 'MT'
-    elif Units.query.filter_by(unit='02').first():
-        MTFN = 'MT'
-    else:
-        MTFN = 'FN'
+
+
 
     print('MTFN set = ', MTFN)
     # set number for counting throught the lists of units and asses
@@ -1023,12 +1032,15 @@ def classwork():
 
     users = User.query.all()
 
+    unitList = []
 
-    unit_list = ['05', '06', '07', '08']
-    #unit_list = ['01', '02', '03', '04']
+    if get_MTFN() == 'MT':
+        unitList = Info.unit_mods_list[0:16]
+    else:
+        unitList = Info.unit_mods_list[16:32]
 
-    for model in Info.unit_mods_list[0:16]:
-    #for model in Info.unit_mods_list[16:32]:
+
+    for model in unitList:
         rows = model.query.all()
         unit = str(model).split('U')[1]
         cwDict[unit] = {}
