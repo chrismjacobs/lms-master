@@ -85,11 +85,12 @@ def nme_dash():
 
 '''### movies '''
 
-movieDict = {
+movieDict2 = {
         1: U013U, # lionking
+        2: U014U  # gifted
     }
 
-movieCache = {
+movieDict = {
         1: U013U, # lionking
         2: U014U, # gifted
         3: U023U, # jobs
@@ -103,11 +104,11 @@ movieCache = {
         11: U063U, # Alex Wayne Daniel
     }
 
-mDict = {
+mDict2 = {
         1 : 'The Lion King'
     }
 
-mDictCache = {
+mDict = {
         1 : 'The Lion King',
         2 : 'Gifted',
         3 : 'Jobs',
@@ -134,6 +135,13 @@ def nme_dubdash():
 
     payloadDict = {}
 
+
+    #get all movies in model
+    movies = []
+    movieUnits = Units.query.all()
+    for m in movieUnits:
+        movies.append(m.unit)
+
     for mov in movieDict:
         data = movieDict[mov].query.all()
         print('DATA', data)
@@ -147,7 +155,7 @@ def nme_dubdash():
 
     pprint (nmeDict)
 
-    return render_template('nme/nme_dubdash.html', legend='NME Dash', nmeString = json.dumps(nmeDict), payString = json.dumps(payloadDict) )
+    return render_template('nme/nme_dubdash.html', legend='NME Dash', nmeString = json.dumps(nmeDict), payString = json.dumps(payloadDict), movies=json.dumps(movies) )
 
 @app.route ("/nme_dubs_sample", methods=['GET','POST'])
 def nme_dubs_sample():
