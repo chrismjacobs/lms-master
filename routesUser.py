@@ -1024,8 +1024,8 @@ def classwork():
     users = User.query.all()
 
 
-    #unit_list = ['05', '06', '07', '08']
-    unit_list = ['01', '02', '03', '04']
+    unit_list = ['05', '06', '07', '08']
+    #unit_list = ['01', '02', '03', '04']
 
     for model in Info.unit_mods_list[0:16]:
     #for model in Info.unit_mods_list[16:32]:
