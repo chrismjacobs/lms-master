@@ -143,15 +143,16 @@ def nme_dubdash():
         movies.append(m.unit)
 
     for mov in movieDict:
-        data = movieDict[mov].query.all()
-        print('DATA', data)
-        nmeDict[mov] = {}
-        for entry in data:
-            if entry.username == 'payload':
-                payloadDict[mov] = json.loads(entry.Ans01)
-            else:
-                movieData = json.loads(entry.Ans01)
-                nmeDict[mov][movieData['team']] = movieData
+        if str(mov) in movies:
+            data = movieDict[mov].query.all()
+            print('DATA', data)
+            nmeDict[mov] = {}
+            for entry in data:
+                if entry.username == 'payload':
+                    payloadDict[mov] = json.loads(entry.Ans01)
+                else:
+                    movieData = json.loads(entry.Ans01)
+                    nmeDict[mov][movieData['team']] = movieData
 
     pprint (nmeDict)
 
@@ -184,16 +185,24 @@ def nme_dubs():
 
     payloadDict = {}
 
+    movies = []
+    movieUnits = Units.query.all()
+    for m in movieUnits:
+        movies.append(m.unit)
+
+    print(movies)
+
     for mov in movieDict:
-        data = movieDict[mov].query.all()
-        print('DATA', data)
-        nmeDict[mov] = {}
-        for entry in data:
-            if entry.username == 'payload':
-                payloadDict[mov] = json.loads(entry.Ans01)
-            else:
-                movieData = json.loads(entry.Ans01)
-                nmeDict[mov][movieData['team']] = movieData
+        if str(mov) in movies:
+            data = movieDict[mov].query.all()
+            print('DATA', data)
+            nmeDict[mov] = {}
+            for entry in data:
+                if entry.username == 'payload':
+                    payloadDict[mov] = json.loads(entry.Ans01)
+                else:
+                    movieData = json.loads(entry.Ans01)
+                    nmeDict[mov][movieData['team']] = movieData
 
     pprint (nmeDict)
 
