@@ -710,6 +710,11 @@ def grades_final():
         }
         completeDict[user.username] = completeStatus('FN', user.username)
 
+    attendance = Attendance.query.all()
+
+    for a in attendance:
+        if a.username in gradesDict:
+            gradesDict[a.username]['Name'] += ' ='
 
     ### set max grades
     total_units = 0
