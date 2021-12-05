@@ -85,23 +85,30 @@ def nme_dash():
 
 '''### movies '''
 
-movieDict2 = {
-        1: U013U, # lionking
-        2: U014U  # gifted
-    }
-
 movieDict = {
         1: U013U, # lionking
         2: U014U, # gifted
         3: U023U, # jobs
         4: U024U, # intern
-        5: U033U, # Ginny Amanda
-        6: U034U, # Elisha, Tina, Jessica
-        7: U043U, # Bobby Leo William
-        8: U044U, # Tracy Judy Tiffany
-        9: U053U, # Fiona Abby Winnie
-        12: U054U, # Jimmy Robin
-        11: U063U, # Alex Wayne Daniel
+        5: U033U, # Nemo
+        6: U034U, # Wonder
+        7: U043U, # Thor
+        8: U044U, # Moanna
+        9: U053U, # Devil wears Prada
+        20: U013U, # test use lion king
+        21: U042U,
+        22: U071U,
+        23: U072U,
+        24: U073U,
+        25: U074U,
+        26: U054U,
+        27: U081U,
+        28: U082U,
+        29: U083U,
+        30: U084U,
+        31: U001U,
+        32: U063U,
+        33: U064U
     }
 
 mDict2 = {
@@ -117,9 +124,7 @@ mDict = {
         6 : 'Wonder',
         7: 'Thor',
         8: 'Moana',
-        9: 'Devil Wears Prada',
-        12: 'White Chicks',
-        11: 'Key and Peele'
+        9: 'Devil Wears Prada'
     }
 
 
@@ -419,7 +424,7 @@ def nme_mov(movie, part):
 @login_required
 def nme_project():
 
-    team = current_user.extra
+    team = getMovieTeam()[0]
 
     project = movieDict[int(team)].query.filter_by(username='payload').first()
     print(project)
@@ -1053,12 +1058,13 @@ def addRec():
 @login_required
 def nme_effort_dash():
 
-    eList = U001U.query.all()
+    #U001 used for movie dict
+    # eList = U001U.query.all()
 
     eDict = {}
 
-    for e in eList:
-        eDict[e.username] = json.loads(e.Ans01)
+    # for e in eList:
+    #     eDict[e.username] = json.loads(e.Ans01)
 
     html = 'nme/nme_effort_dash.html'
 
