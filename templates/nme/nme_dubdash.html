@@ -16,6 +16,7 @@
   </div>
 
   <div style="overflow-x:auto;">
+  [[teamDict]]
     <table class="table table-sm">
       <thead>
           <tr>
@@ -181,6 +182,7 @@
 </div>
 
 <span id="projectDict" style="display:none">{{nmeString}}</span>
+<span id="project" style="display:none">{{project}}</span>
 <span id="payloadDict" style="display:none">{{payString}}</span>
 
 
@@ -197,10 +199,12 @@
 
 var projectDict = document.getElementById('projectDict').innerHTML
 var payloadDict = document.getElementById('payloadDict').innerHTML
+var project = document.getElementById('project').innerHTML
 var OBJ = JSON.parse(projectDict)
 var PAY = JSON.parse(payloadDict)
-console.log('projecDict', OBJ);
+console.log('projectDict', OBJ);
 console.log('payloadDict', PAY);
+
 
 
 startVue()
@@ -213,7 +217,24 @@ function startVue(){ new Vue({
         projectOBJ: OBJ,
         payOBJ: PAY,
         show: null,
-        md: 6
+        md: project,
+        teamDict:  {
+        20:["Chris", "Test"],
+        21:["Wendy", "Sakura ", "Amber"],
+        22:["Kai", "Gillian", "Benson"],
+        23:["Bruce", "Kenny", "Bob"],
+        24:["Alina", "Monica", "Emma"],
+        25:["Una", "Sara", "Michelle"],
+        26:["Carol", "Elsa", "Yui"],
+        27:["Felisia", "Disa", "Devi"],
+        28:["Eric", "Rebecca", "Raymond"],
+        29:["Jerry", "Owen", "Max"],
+        30:["Vellna", "Emmy", "Sherry"],
+        31:["Jason", "SamTsai", "Peggy"],
+        32:["William", "Winnie", "Coral"],
+        33:["Teresa", "Connor", "Clare "],
+        34:["Penny"]
+      }
     },
     methods: {
         goTo: function(key) {

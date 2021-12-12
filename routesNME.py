@@ -128,9 +128,9 @@ mDict = {
     }
 
 
-@app.route ("/nme_dubdash", methods=['GET','POST'])
+@app.route ("/nme_dubdash/<int:project>", methods=['GET','POST'])
 @login_required
-def nme_dubdash():
+def nme_dubdash(project):
     taList = ['Chris']
 
     if current_user.username not in taList:
@@ -148,7 +148,7 @@ def nme_dubdash():
         movies.append(m.unit)
 
     for mov in movieDict:
-        if str(mov) in movies:
+        if mov in movieDict: # str(mov) in movies (see above)
             data = movieDict[mov].query.all()
             print('DATA', data)
             nmeDict[mov] = {}
@@ -161,7 +161,7 @@ def nme_dubdash():
 
     pprint (nmeDict)
 
-    return render_template('nme/nme_dubdash.html', legend='NME Dash', nmeString = json.dumps(nmeDict), payString = json.dumps(payloadDict), movies=json.dumps(movies) )
+    return render_template('nme/nme_dubdash.html', legend='NME Dash', project = project, nmeString = json.dumps(nmeDict), payString = json.dumps(payloadDict), movies=json.dumps(movies) )
 
 @app.route ("/nme_dubs_sample", methods=['GET','POST'])
 def nme_dubs_sample():
