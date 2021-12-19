@@ -124,7 +124,20 @@ mDict = {
         6 : 'Wonder',
         7: 'Thor',
         8: 'Moana',
-        9: 'Devil Wears Prada'
+        9: 'Devil Wears Prada',
+        21: 'The Intern',
+        22: 'Paw Patrol',
+        23: 'Toy Story',
+        24: 'Sponge Bob 1',
+        25: 'Zootopia 1',
+        26: 'Aladdin',
+        27: 'Zootopia 2',
+        28: 'Frozen',
+        29: 'Wreck it Ralph',
+        30: 'Sponge Bob 2',
+        31: 'Brave',
+        32: 'Friends',
+        33: 'Despicable Me'
     }
 
 
