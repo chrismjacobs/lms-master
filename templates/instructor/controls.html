@@ -255,11 +255,21 @@ let vue = new Vue({
               url : '/updateSet',
             })
             .done(function(data) {
+              var _this = this
               vue.setOBJ = JSON.parse(data.setString)
-              alert('Attendance Updated: STATUS ' + data.set_mode)
+              if (data.set_mode == 98) {
+                let url = (window.location.href).split('controls')[0] + 'att_team'
+
+                console.log('goTO', url);
+                // action
+                window.location = url
+              } else {
+                alert('Attendance Updated: STATUS ' + data.set_mode)
+              }
             })
             .fail(function(){
                 alert('error has occurred');
+
             });
         },
         attStyle: function(att) {
