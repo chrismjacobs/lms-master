@@ -381,7 +381,7 @@ def nme_mov(movie, part):
     print('CHECK', check.u1)
 
     # team = int(current_user.extra)
-    movieList = [1,2,3,4,5,6,7,8,9,12,11,25]
+    movieList = [1,2,3,4,5,6,7,8,9,12,11, 25]
 
 
     if current_user.username == 'Chris':
@@ -389,7 +389,7 @@ def nme_mov(movie, part):
     elif check and int(check.u1) == 0:
         flash('Not open yet', 'danger')
         return (redirect (url_for('nme_movies')))
-    elif int(movie) not in movieList:
+    elif int(movie) not in mDict:
         flash('Not in movie list yet', 'danger')
         return (redirect (url_for('nme_movies')))
     elif int(part) > sDict[int(movie)] + 1:
