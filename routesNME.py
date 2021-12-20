@@ -381,7 +381,7 @@ def nme_mov(movie, part):
     print('CHECK', check.u1)
 
     # team = int(current_user.extra)
-    movieList = [1,2,3,4,5,6,7,8,9,12,11]
+    movieList = [1,2,3,4,5,6,7,8,9,12,11,25]
 
 
     if current_user.username == 'Chris':
