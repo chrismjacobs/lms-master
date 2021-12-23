@@ -4,6 +4,7 @@ from random import randint
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, abort, jsonify
 from app import app, db, bcrypt, mail
+from routesUser import get_MTFN
 from flask_login import login_user, current_user, logout_user, login_required
 from forms import ForgotForm, PasswordResetForm, RegistrationForm, LoginForm, UpdateAccountForm
 from models import User, ChatBox, Info, Units
@@ -22,6 +23,7 @@ DESIGN = BaseConfig.DESIGN
 SCHEMA = BaseConfig.SCHEMA
 DEBUG = BaseConfig.DEBUG
 
+'''
 def redisCheck():
     import redis
     from app import redisData
@@ -101,6 +103,7 @@ def redisCheck():
 
 
     return [len(wordTotal), typeTotal]
+'''
 
 @app.context_processor
 def inject_user():
@@ -118,21 +121,16 @@ def inject_user():
         #print('EXCEPT')
         bodyColor = DESIGN['bodyColor']
 
-    MTFN = 'MT'
-
-    if Units.query.filter_by(uA='1').count() >= 2 and Units.query.filter_by(unit='05').first():
-        MTFN = 'FN'
+    MTFN = get_MTFN()
 
     print('MTFN (Admin) = ', MTFN)
 
     VOCAB = None
     TYPE = None
 
-    if SCHEMA == 2:
-        VOCAB = redisCheck()[0]
-        TYPE = redisCheck()[1]
-
-
+    # if SCHEMA == 2:
+    #     VOCAB = redisCheck()[0]
+    #     TYPE = redisCheck()[1]
 
     return dict(USERS= ['Abby'], VOCAB=VOCAB, TYPE=TYPE, MTFN=MTFN, SCHEMA=SCHEMA, titleColor=DESIGN['titleColor'] , bodyColor=bodyColor, headTitle=DESIGN['headTitle'], headLogo=DESIGN['headLogo'] )
 

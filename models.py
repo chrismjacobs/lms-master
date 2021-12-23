@@ -151,13 +151,13 @@ class U004U(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
 
 
-## remove after intro class
-# if SCHEMA == 1 or SCHEMA == 2:
-#     modDictUnits['00']=[None]
-#     modDictUnits['00'].append(U001U)
-#     modDictUnits['00'].append(U002U)
-#     modDictUnits['00'].append(U003U)
-#     modDictUnits['00'].append(U004U)
+# remove after intro class
+if SCHEMA == 1 or SCHEMA == 2:
+    modDictUnits['00']=[None]
+    modDictUnits['00'].append(U001U)
+    modDictUnits['00'].append(U002U)
+    modDictUnits['00'].append(U003U)
+    modDictUnits['00'].append(U004U)
 
 ########################################
 

@@ -83,10 +83,8 @@ def get_grades(ass, unt):
     MTFN = get_MTFN()
 
 
-
-
     print('MTFN set = ', MTFN)
-    # set number for counting throught the lists of units and asses
+    # set number for counting through the lists of units and asses
     if MTFN == 'MT' and SCHEMA < 3:
         unit_start = 0
         ass_start = 0
