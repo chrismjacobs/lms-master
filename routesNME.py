@@ -126,18 +126,18 @@ mDict = {
         8: 'Moana',
         9: 'Devil Wears Prada',
         21: 'The Intern (2/3)',
-        22: 'Paw Patrol (2/3)',
-        23: 'Toy Story (2/3)',
-        24: 'Sponge Bob 1',
-        25: 'Zootopia: 1',
-        26: 'Aladdin',
-        27: 'Zootopia: 2',
-        28: 'Frozen',
-        29: 'Wreck it Ralph',
-        30: 'Sponge Bob (2/3)',
-        31: 'Brave',
-        32: 'Friends',
-        33: 'Despicable Me'
+        22: 'Paw Patrol (3)',
+        23: 'Toy Story (3)',
+        24: 'Sponge Bob (3)',
+        25: 'Zootopia (2)',
+        26: 'Aladdin (2)',
+        27: 'Zootopia  (2)',
+        28: 'Frozen (2)',
+        29: 'Wreck it Ralph (2)',
+        30: 'Sponge Bob (2)',
+        31: 'Brave (2)',
+        32: 'Friends (2)',
+        33: 'Despicable Me (2)'
     }
 
 
@@ -381,7 +381,7 @@ def nme_mov(movie, part):
     print('CHECK', check.u1)
 
     # team = int(current_user.extra)
-    movieList = [1,2,3,4,5,6,7,8,9,12,11,25,21,22,25,26,27,29,31,]
+    # movieList = [1,2,3,4,5,6,7,8,9,12,11,25,21,22,25,26,27,29,31]
 
 
     if current_user.username == 'Chris':
