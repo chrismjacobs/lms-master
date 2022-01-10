@@ -69,6 +69,8 @@
 
 
 <span id="dictString" style="display:none">{{Dict}}</span>
+<span id="exceptions" style="display:none">{{exceptions}}</span>
+<span id="userName" style="display:none">{{current_user.username}}</span>
 
 {% endblock %}
 
@@ -82,6 +84,12 @@
 var OBJ = document.getElementById('dictString').innerHTML
 var examOBJ = JSON.parse(OBJ)
 console.log('Exam', examOBJ);
+var excep = document.getElementById('exceptions').innerHTML
+console.log(excep)
+var exceptions = JSON.parse(excep)
+console.log('Exceptions', exceptions);
+var user = document.getElementById('userName').innerHTML
+console.log('user', user);
 
 var str = window.location.href
 var browser_info = str.split('exams/')[1]
@@ -108,7 +116,9 @@ function startVue(){
         questionCount : 0,
         exam : 'mock',
         grade : 0,
-        tries : 0
+        tries : 0,
+        exceptions: exceptions,
+        user: user
     },
     methods: {
        goTo: function() {
@@ -210,11 +220,19 @@ function startVue(){
     },
     created () {
     let _this = this
-    window.onblur = function () {
+    console.log('created',_this.user, _this.exceptions)
+
+    if (_this.exceptions.includes(_this.user)) {
+      console.log('window blur exception')
+    } else {
+      console.log('window blur set')
+      window.onblur = function () {
         window.scrollTo(0,0)
         alert('Warning! If you leave this page your exam will be reset')
         _this.goTo()
       }
+    }
+
     }
 })// end NEW VUE
 

@@ -297,8 +297,11 @@ def exams(test, unit):
 
     theme=DESIGN['titleColor']
 
+    exceptionList = ['TOBY']
+
+
     return render_template(html, legend='Exams',
-    Dict=json.dumps(examDict), title=unit, theme=theme)
+    Dict=json.dumps(examDict), title=unit, theme=theme, exceptions=json.dumps(exceptionList))
 
 
 @app.route ("/updateExam", methods=['POST', 'GET'])
@@ -683,6 +686,8 @@ def participation_check():
 @app.route ("/grades_final", methods=['GET','POST'])
 @login_required
 def grades_final():
+    if current_user.id != 1:
+        return redirect(url_for('home'))
 
     semester = int(User.query.filter_by(username='Chris').first().device)
 
@@ -797,6 +802,7 @@ def grades_final():
 @app.route ("/grades_midterm", methods=['GET','POST'])
 @login_required
 def grades_midterm ():
+
 
     semester = int(User.query.filter_by(username='Chris').first().device)
 
@@ -918,7 +924,10 @@ def grades_midterm ():
     if MT_marker:
         return gradesDict
     else:
-        return render_template('instructor/grades.html', ansString=json.dumps(gradesDict), compString=json.dumps(completeDict))
+        if current_user.id != 1:
+            return redirect(url_for('home'))
+        else:
+            return render_template('instructor/grades.html', ansString=json.dumps(gradesDict), compString=json.dumps(completeDict))
 
 
 @app.route ("/updateClasswork", methods=['POST', 'GET'])
