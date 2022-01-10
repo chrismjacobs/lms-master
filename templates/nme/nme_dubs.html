@@ -14,6 +14,9 @@
   <div >
    <audio controls id="handler" style="display:inline"> </audio>  <button class="btn btn-danger" @click="stopAudio()"> Stop </button>
   </div>
+  <div >
+    Delay (1000 = 1 sec) <input style='integer' v-model="milli"> </input>
+  </div>
 
   <div style="overflow-x:auto;">
     <table class="table table-sm">
@@ -24,9 +27,12 @@
           <td>
            [[ payOBJ[key].title ]]
           </td>
-         <template  v-for="(proj, team) in movie" :key="team">
-            <td>
-            <button v-if="proj.audio" class="btn btn-info" @click="playAudio(proj.audio, key)"> [[team]] </button>
+         <template  v-for="(n, team) in teamDict" :key="team">
+            <td v-if="movie[team] && movie[team]['audio']">
+            <button class="btn btn-info" @click="playAudio(movie[team]['audio'], key)"> [[team]]</button>
+            </td>
+            <td v-else="movie[team]">
+            <button class="btn btn-danger"> [[team]] </button>
             </td>
       </template>
       </tr>
@@ -36,6 +42,8 @@
 
     </table>
   </div>
+
+  [[teamDict]]
 
 
 
@@ -74,7 +82,23 @@ function startVue(){ new Vue({
         projectOBJ: OBJ,
         payOBJ: PAY,
         show: null,
-        md: 6
+        milli: null,
+        md: 6,
+        teamDict:  {
+          21:["Wendy", "Sakura ", "Amber"],
+          22:["Kai", "Gillian", "Benson"],
+          23:["Bruce", "Kenny", "Bob"],
+          24:["Alina", "Monica", "Emma"],
+          25:["Una", "Sara", "Michelle"],
+          26:["Carol", "Elsa", "Yui"],
+          27:["Felisia", "Disa", "Devi"],
+          28:["Eric", "Rebecca", "Raymond"],
+          29:["Jerry", "Owen", "Max"],
+          30:["Vellna", "Emmy", "Sherry"],
+          31:["Jason", "SamTsai", "Peggy"],
+          32:["William", "Winnie", "Coral"],
+          33:["Teresa", "Connor", "Clare "]
+        }
     },
     methods: {
         goTo: function(key) {
@@ -99,9 +123,10 @@ function startVue(){ new Vue({
           video.src = this.payOBJ[mov].subtitles
           video.pause()
           video.currentTime = 0
-
           audio.play()
-          video.play()
+
+          setTimeout(func, this.milli)
+                function func(){video.play()}
         },
         stopAudio: function () {
           let audio = document.getElementById('handler')
