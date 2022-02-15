@@ -111,7 +111,8 @@ def inject_user():
         #print('COLOR TEST')
         signal = current_user.extra
         print(current_user.extra)
-        if current_user.extra == 1 and SCHEMA < 3:
+        sList = [1,2,10]
+        if current_user.extra == 1 and SCHEMA in sList:
             bodyColor = 'lightpink'
             print('IF')
         else:
@@ -211,19 +212,23 @@ def register():
         return redirect(url_for('home')) # now register or log in link just go back home
     form = RegistrationForm()
     if form.validate_on_submit():
+
+        parent = User.query.filter_by(username='Chris').first()
+        IDList = json.loads(parent.device)
+
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
 
-        ext = 0
-        if SCHEMA < 3:
-            if form.bookcode.data == '9009':
-                ext = 1
-            else:
-                pass
-        elif form.studentID.data not in BaseConfig.IDLIST:
-            ext = 2
+        # ext = 0
+        # if SCHEMA < 3:
+        #     if form.bookcode.data == '9009':
+        #         ext = 1
+        #     else:
+        #         pass
+        # elif form.studentID.data not in BaseConfig.IDLIST:
+        #     ext = 2
 
         user = User(username=form.username.data, studentID = form.studentID.data, email = form.email.data,
-        password = hashed_password, device = form.device.data, extra=ext)
+        password = hashed_password, device = form.device.data, extra=IDList[form.studentID.data])
         db.session.add(user)
 
         chat = ChatBox(username=form.username.data, chat="", response=f'Hi {form.username.data}. Welcome to the course! If you have any questions then please use this private chat.')

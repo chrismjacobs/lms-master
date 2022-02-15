@@ -38,6 +38,7 @@ jList = ['None',
         'nme-lms',
         'fse-lms',
         'culture-lms',
+        'vietnam-lms'
         ]
 
 

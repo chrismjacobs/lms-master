@@ -17,6 +17,7 @@ S3_BUCKET_NAME = BaseConfig.S3_BUCKET_NAME
 SCHEMA = BaseConfig.SCHEMA
 DESIGN = BaseConfig.DESIGN
 
+sList = [1,2,10]
 
 def get_sources():
     content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/sources.json' )
@@ -25,7 +26,7 @@ def get_sources():
     unitDict = {}
     for week in sDict:
         try:
-            if int(sDict[week]['Unit']) > 0 or SCHEMA < 3: ## this or condition will add unit 00 for the reading class practice
+            if int(sDict[week]['Unit']) > 0 or SCHEMA in sList: ## this or condition will add unit 00 for the reading class practice
                 unitNumber = sDict[week]['Unit']
                 unitDict[unitNumber] = {}
                 section = sDict[week]
@@ -85,7 +86,7 @@ def get_grades(ass, unt):
 
     print('MTFN set = ', MTFN)
     # set number for counting through the lists of units and asses
-    if MTFN == 'MT' and SCHEMA < 3:
+    if MTFN == 'MT' and SCHEMA in sList:
         unit_start = 0
         ass_start = 0
         unit_check = total_units*4
@@ -95,7 +96,7 @@ def get_grades(ass, unt):
         ass_start = 0
         unit_check = total_units*4
         ass_check = total_units
-    elif MTFN == 'FN' and SCHEMA < 3:
+    elif MTFN == 'FN' and SCHEMA in sList:
         unit_start = 16
         ass_start = 4
         unit_check = unit_start + total_units*4
@@ -275,13 +276,15 @@ def review_random(originalDict):
 @login_required
 def exams(test, unit):
 
-    semester = int(User.query.filter_by(username='Chris').first().device)
+    semester = User.query.filter_by(username='Chris').first().extra
 
     if semester == 1:
         examString = 'json_files/exam.json'
     else:
         examString = 'json_files/exam2.json'
 
+    if SCHEMA == 10:
+        S3_BUCKET_NAME = 'workplace-lms'
 
     content_object = s3_resource.Object( S3_BUCKET_NAME, examString )
     file_content = content_object.get()['Body'].read().decode('utf-8')

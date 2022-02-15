@@ -152,7 +152,7 @@ class U004U(BaseUnits):
 
 
 # # remove after intro class
-# if SCHEMA == 1 or SCHEMA == 2:
+# if SCHEMA == 1 or SCHEMA == 2 or SCHEMA == 10:
 #     modDictUnits['00']=[None]
 #     modDictUnits['00'].append(U001U)
 #     modDictUnits['00'].append(U002U)
@@ -381,7 +381,7 @@ class A00A (BaseAss):
 
 ### remove after intro class
 ## intro edit
-# if SCHEMA == 1 or SCHEMA == 2:
+# if SCHEMA == 1 or SCHEMA == 2 or SCHEMA == 10:
 #     modDictAss['00'] = A00A
 
 class A01A (BaseAss):
@@ -495,7 +495,8 @@ admin.add_view(MyModelView(Attendance, db.session))
 admin.add_view(MyModelView(AttendLog, db.session))
 admin.add_view(MyModelView(Units, db.session))
 
-if BaseConfig.SCHEMA < 3 or BaseConfig.SCHEMA == 6 or BaseConfig.SCHEMA == 9:
+sList = [1,2,10,6,9]
+if BaseConfig.SCHEMA in sList:
     admin.add_view(MyModelView(Exams, db.session))
     admin.add_view(MyModelView(Errors, db.session))
     for unit in listUnits:

@@ -33,7 +33,7 @@
                           <div class="navbar-nav mr-auto">
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('controls') }}", target="_blank">Controls</a>
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('admin') }}", target="_blank">Admin</a>
-                            {% if SCHEMA < 3 or SCHEMA == 6 %}
+                            {% if SCHEMA < 3 or SCHEMA == 6 or SCHEMA == 10 %}
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('dashboard')}}", target="_blank">Dashboard</a>
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('classwork')}}", target="_blank">Classwork</a>
                                 {% if MTFN == 'MT' %}
@@ -74,7 +74,7 @@
                         {% if current_user.is_authenticated %}
                         <div class="navbar-nav">
                           <a class="nav-item nav-link" href= "{{ url_for ('att_team') }}">Attendance</a>
-                                {% if SCHEMA < 3 or SCHEMA == 6 %}
+                                {% if SCHEMA < 3 or SCHEMA == 6 or SCHEMA == 10 %}
                                   <a class="nav-item nav-link" href="{{ url_for ('unit_list') }}">My Units</a>
                                 <a class="nav-item nav-link" href="{{ url_for ('assignment_list') }}">My Assignments </a>
 

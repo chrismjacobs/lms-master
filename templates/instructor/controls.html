@@ -99,7 +99,8 @@ Teamsize
               <td :style="idStyle(key)"> [[ key ]] </td>
               <td :style="attStyle(user.att)"> [[ user.att ]] </td>
               <td> <a :href="user.eml">Email</a> </td>
-              <td>  <span class="unit-span" v-for="i in 4" @click="studentRemove(user.nme, i)" > [[i]] </span> </td>
+              <td> <span class="unit-span" @click="studentAdd(key)" > &nbsp [[getMark(key)]] &nbsp </span> </td>
+              <!-- <td>  <span class="unit-span" v-for="i in 4" @click="studentRemove(user.nme, i)" > [[i]] </span> </td> -->
 
             </tr>
         </template>
@@ -171,7 +172,7 @@ let vue = new Vue({
     el: '#vue-app',
     delimiters: ['[[', ']]'],
     mounted: function(){
-
+      this.studentAdd(100000000)
     },
     data: {
         attendOBJ : attendOBJ,
@@ -183,7 +184,8 @@ let vue = new Vue({
         team_list : ['3', '4', '5','6', '7','8','9', '10','11','12','13','14','15','16','17','18','19','20'],
         recordOBJ : {},
         varString : null,
-        forString : null
+        forString : null,
+        marks : {}
     },
     methods: {
         controlStyle: function () {
@@ -195,22 +197,35 @@ let vue = new Vue({
         },
         attOBJ: function(schema) {
 
-          if (schema == 7){
-            var time1 = '_2_1'
-            var time2 = '_3_1'
-            var time3 = '_4_1'
-          }
-          if (schema == 2){
-            var time1 = '_8_1'
-            var time2 = '_9_1'
-          }
           if (schema == 1){
+            var time1 = '_3_1'
+            var time2 = '_4_1'
+          }
+
+          if (schema == 2){
+            var time1 = '_6_1'
+            var time2 = '_7_1'
+          }
+
+          if (schema == 4){
             var time1 = '_8_1'
             var time2 = '_9_1'
           }
+
+          if (schema == 5){
+            var time1 = '_6_1'
+            var time2 = '_7_1'
+          }
+
           if (schema == 9){
             var time1 = '_6_1'
             var time2 = '_7_1'
+          }
+
+          if (schema == 10){
+            var time1 = '_6_1'
+            var time2 = '_7_1'
+            var time3 = '_8_1'
           }
 
           console.log('start', schema);
@@ -225,7 +240,7 @@ let vue = new Vue({
               vue.recordOBJ[student] = ['DDList' + student + time1, 'DDList' + student + time2]
             }
 
-            if (schema == 7) {
+            if (schema == 10) {
               vue.recordOBJ[student].push('DDList' + student + time3)
             }
 
@@ -363,7 +378,36 @@ let vue = new Vue({
           .fail(function(){
                 alert('error has occurred');
           });
-        }
+        },
+        studentAdd: function(id) {
+          _this = this
+          console.log('student add', id)
+          $.ajax({
+              data : {
+                id : id
+              },
+              type : 'POST',
+              url : '/studentAdd'
+          })
+		      .done(function(data) {
+            console.log(data)
+            _this.marks = JSON.parse(data.marks)
+            console.log(_this.marks)
+		      })
+          .fail(function(){
+                alert('error has occurred');
+          });
+        },
+        getMark: function (id) {
+          console.log(this.marks[id])
+          if (this.marks[id] == 0) {
+            return this.marks[id]
+          } else if (this.marks[id]) {
+            return this.marks[id]
+          } else {
+            return 'Not Listed'
+          }
+        },
       },
       computed : {
       deleteClass: function() {

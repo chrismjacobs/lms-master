@@ -16,14 +16,20 @@ S3_BUCKET_NAME = BaseConfig.S3_BUCKET_NAME
 SCHEMA = BaseConfig.SCHEMA
 DESIGN = BaseConfig.DESIGN
 
-def get_vocab():
+def get_vocab(a):
 
-    semester = int(User.query.filter_by(username='Chris').first().device)
+    ## a is to get josn for different semester if neccessary for the test page
+
+    semester = User.query.filter_by(username='Chris').first().extra
     ## change to 'json_files/vocab.json' for semester 1
-    if semester == 1:
+    if semester == 1 or a == 1:
         vocabJSON = 'json_files/vocab.json'
-    else:
+    elif semester == 2 or a == 2:
         vocabJSON = 'json_files/vocab2.json'
+
+    if SCHEMA == 10:
+        S3_BUCKET_NAME = 'workplace-lms'
+
     content_object = s3_resource.Object( S3_BUCKET_NAME, vocabJSON )
     file_content = content_object.get()['Body'].read().decode('utf-8')
     VOCAB = json.loads(file_content)  # json loads returns a dictionary
@@ -461,7 +467,7 @@ def participation(unit_num,part_num,state):
     print(srcDict[unit_num]['Materials'])
 
     #vocab
-    vDict = get_vocab()
+    vDict = get_vocab(0)
     #questions
     qDict = vDict[unit_num][part_num]
     qs = len(qDict)
@@ -513,7 +519,7 @@ def participationTest():
     context = {
         'title' : 'participationTest',
         'dataDict': json.dumps(dataDict),
-        'qDict' : json.dumps(get_vocab()),
+        'qDict' : json.dumps(get_vocab(2)),
         'DESIGN' : DESIGN
     }
     return render_template('units/part_vue_test.html', **context)

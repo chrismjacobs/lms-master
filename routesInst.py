@@ -167,7 +167,7 @@ def dashboard():
         final = ['05', '06', '07', '08']
 
     ## remove after intro class
-    # if SCHEMA == 1 or SCHEMA == 2:
+    # if SCHEMA == 1 or SCHEMA == 2 or SCHEMA == 10:
     #     midterm = ['00', '01', '02', '03', '04']
 
 
@@ -368,7 +368,7 @@ def updateSet():
         db.session.query(Attendance).delete()
         db.session.commit()
         attendance = Attendance(username = 'Chris',
-        attend='Notice', teamnumber=97, studentID='100000000')
+        attend='Notice', teamnumber=97,  teamsize=4, teamcount=10, studentID='100000000')
         db.session.add(attendance)
         db.session.commit()
     else:
@@ -406,7 +406,7 @@ def inchat(user_name):
     email = User.query.filter_by(username=user_name).first().email
     print (email)
     dialogues = ChatBox.query.filter_by(username=user_name).all()
-    websites = ['blank', 'READING', 'WORKPLACE', 'ABC', 'PENG', 'FOOD', 'ICC', 'NME', 'FSE' ]
+    websites = ['blank', 'READING', 'WORKPLACE', 'ABC', 'PENG', 'FOOD', 'ICC', 'NME', 'FSE', 'blank', 'vietnam' ]
     website = 'https://' + websites[int(SCHEMA)] + '-lms.herokuapp.com'
     messText = 'New message for ' + websites[int(SCHEMA)] + ' English class'
     if form.validate_on_submit():
@@ -558,3 +558,43 @@ def att_team():
 
     return render_template('instructor/att_team.html', legend=legend, count=count, fields=fields,
     teamcount=teamcount, form=form, notice=notice, users=users)
+
+
+@app.route('/studentAdd', methods=['POST'])
+def studentAdd():
+    if current_user.id != 1:
+        return abort(403)
+
+    IDLIST = BaseConfig.IDLIST
+
+    actionID = request.form ['id']
+    print(actionID)
+
+    marks = {}
+
+    parent = User.query.filter_by(username='Chris').first()
+
+    if parent.device == '"{}"':
+        for idNum in IDLIST:
+            marks[idNum] = 0
+            marks[100000000] = 0
+    else:
+        marks = json.loads(parent.device)
+
+    print(marks)
+
+
+    if marks[actionID] == 0:
+        marks[actionID] = 1
+
+    elif marks[actionID] == 1:
+        marks[actionID] = 2
+
+    elif marks[actionID] == 2:
+        marks[actionID] = 0
+
+
+    parent.device = json.dumps(marks)
+    db.session.commit()
+
+    return jsonify({'marks' : json.dumps(marks)})

@@ -19,20 +19,21 @@ from models import U061U, U062U, U063U, U064U
 from models import U071U, U072U, U073U, U074U
 from models import U081U, U082U, U083U, U084U
 
-from models import U091U, U092U, U093U, U094U
-from models import U101U, U102U, U103U, U104U
+# from models import U091U, U092U, U093U, U094U
+# from models import U101U, U102U, U103U, U104U
 
 
 from models import A01A, A02A, A03A, A04A, A05A, A06A, A07A, A08A
-from models import A09A, A10A, A11A, A12A
+# from models import A09A, A10A, A11A, A12A
 
 db.create_all()
 
 def main():
 
-    semester = str(1)
+    semester = str(2)
+    ''' change jMaker global as well '''
 
-    host = User(username='Chris', studentID='100000000', email='cjx02121981@gmail.com', image_file='profiles/Chris.jpg', password=dbpassword, device=semester)
+    host = User(username='Chris', studentID='100000000', email='cjx02121981@gmail.com', image_file='profiles/Chris.jpg', password=dbpassword, device=json.dumps('{}'), extra=semester)
     db.session.add(host)
     db.session.commit()
 
@@ -40,7 +41,7 @@ def main():
     db.session.add(test)
     db.session.commit()
 
-    att = Attendance(username='Chris', studentID='100000000', teamnumber=97, teamcount=10, unit='01')
+    att = Attendance(username='Chris', studentID='100000000', teamnumber=97, teamsize=4, teamcount=10, unit='01')
     db.session.add(att)
     db.session.commit()
 

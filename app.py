@@ -46,7 +46,8 @@ if SCHEMA == 2:
 from routesInst import *
 from routesAdmin import *
 
-if SCHEMA < 3 or SCHEMA == 6:
+sList = [1,2,10]
+if SCHEMA in sList:
     from routesUser import *
     from routesPart import *
 if SCHEMA == 3:
