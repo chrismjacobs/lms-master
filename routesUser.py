@@ -51,17 +51,19 @@ def get_sources():
     return unitDict
 
 
-def get_MTFN():
+def get_MTFN(t):
 
     MTFN = None
-    if Units.query.filter_by(unit='00').first():
+
+    if t == 'layout':
+        if Units.query.filter_by(unit='02').first():
+            MTFN = 'MT'
+        elif Units.query.filter_by(unit='06').first():
+            MTFN = 'FN'
+    elif t == 'grades':
         MTFN = 'MT'
-    elif Units.query.filter_by(unit='01').first():
-        MTFN = 'MT'
-    elif Units.query.filter_by(unit='02').first():
-        MTFN = 'MT'
-    else:
-        MTFN = 'FN'
+        if Units.query.filter_by(unit='05').first():
+            MTFN = 'FN'
 
     return MTFN
 
@@ -81,7 +83,7 @@ def get_grades(ass, unt):
     maxU = maxU*2
     maxA = maxA*2
 
-    MTFN = get_MTFN()
+    MTFN = get_MTFN('grades')
 
 
     print('MTFN set = ', MTFN)

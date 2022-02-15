@@ -122,7 +122,7 @@ def inject_user():
         #print('EXCEPT')
         bodyColor = DESIGN['bodyColor']
 
-    MTFN = get_MTFN()
+    MTFN = get_MTFN('layout')
 
     print('MTFN (Admin) = ', MTFN)
 
