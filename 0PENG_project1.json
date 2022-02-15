@@ -1,0 +1,1517 @@
+{
+    "Judy": {
+        "Product": "simple ace camera",
+        "Brand": "Fuji",
+        "Why": "Because he is easy to carry and, and it can\u2019t check the image immediately, every photo are very precious",
+        "Image": "https://peng-lms.s3.ap-northeast-1.amazonaws.com/MT/Judy.png",
+        "Intro": {
+            "1": "Good afternoon everyone, thank you for your time today.",
+            "2": "First, let me introduce myself.",
+            "3": "My name is Judy and I\u2019m here to talk about the Fujifilm camera."
+        },
+        "Parts": {
+            "Product": {
+                "1": "It\u2019s very easy to carry, whether its weight or volume are very light.\nSo you can put it in your packet, very convenient and unburdened.",
+                "2": "Basically, most of the film cameras are second-hand. So its price will be cheaper than digital \u4f4e\u8209\u6296camera.\nAlthough this camera is not second-hand, but it doesn't have many functions, so its price is between 350-400 dollars.",
+                "3": "This camera is more easier than other film cameras.\nIt's easy to get started, I recommend this for everyone who is rookie of film cameras."
+            },
+            "Features": {
+                "1": "Generally, digital camera can check the photo or delete it after you taking the photo, but film camera can\u2019t. This is a big feature of the film camera, so every photo are very precious.",
+                "2": "Fuji's film camera is different from other film camera, it only can take 24 photos. You will think about the whole communication and perspective carefully.",
+                "3": "Lastly, its color is very cute with black, yellow and green and the size is small so you can take it out to dinner or parties and makes for a novel gift"
+            },
+            "Demo": {
+                "1": "First, you need to find the composition you wanted and keep a distance of more than one meter, otherwise the photo will be overexposed. Because the photos taken cannot be deleted. You will be make everything ok.",
+                "2": "You need to turn on the flash, especially when you are indoors or meet the bad weather, otherwise the photo will be too dark.",
+                "3": "You don't need adjust the aperture or set the shutter speed, just press the shutter to take a photo successfully."
+            },
+            "Extra": {
+                "1": "Depending on the environment, the effect of the photo will be very different. Most of the photos will have feeling of old school.",
+                "2": "After a roll of film completed, the photo studio will develop the photos which takes time so You will look forward to the results of the photos.",
+                "3": "The film camera is very suitable for novices learning photography\u5426\u4ed6\u500b\u3108\u3127\u02c7, because its cheap and disposable but you can still get the feeling of Analog/natural photography"
+            },
+            "Close": {
+                "1": "That\u2019s all for my presentation today.",
+                "2": "This camera is very common. Almost every photo studio will sell.",
+                "3": "If you have any questions let me know."
+            }
+        },
+        "Cues": {
+            "Product": {
+                "1": "Easy to carry",
+                "2": "Cheap",
+                "3": "Easy to use"
+            },
+            "Features": {
+                "1": "precious",
+                "2": "disposable",
+                "3": "Design/ color / size"
+            },
+            "Demo": {
+                "1": "focus the lens ",
+                "2": "Turn on the flash lamp",
+                "3": "Press the shutter"
+            },
+            "Extra": {
+                "1": "vintage",
+                "2": "Expectation/ look forwards",
+                "3": "novices/cheap/analag"
+            },
+            "Close": {
+                "1": "That\u2019s all ",
+                "2": "The photo studio",
+                "3": "Question "
+            }
+        },
+        "stage": "3"
+    },
+    "Chris": {
+        "Product": null,
+        "Brand": null,
+        "Why": null,
+        "Image": null,
+        "Intro": {
+            "1": null,
+            "2": null,
+            "3": null
+        },
+        "Parts": {
+            "Product": {
+                "1": null,
+                "2": null,
+                "3": null
+            },
+            "Features": {
+                "1": null,
+                "2": null,
+                "3": null
+            },
+            "Demo": {
+                "1": null,
+                "2": null,
+                "3": null
+            },
+            "Extra": {
+                "1": null,
+                "2": null,
+                "3": null
+            },
+            "Close": {
+                "1": null,
+                "2": null,
+                "3": null
+            }
+        },
+        "Cues": {
+            "Product": {
+                "1": null,
+                "2": null,
+                "3": null
+            },
+            "Features": {
+                "1": null,
+                "2": null,
+                "3": null
+            },
+            "Demo": {
+                "1": null,
+                "2": null,
+                "3": null
+            },
+            "Extra": {
+                "1": null,
+                "2": null,
+                "3": null
+            },
+            "Close": {
+                "1": null,
+                "2": null,
+                "3": null
+            }
+        }
+    },
+    "Tina": {
+        "Product": "stapler",
+        "Brand": "SDI",
+        "Why": "Because it is easy to carry, not very heavy, and it is convenient to use.",
+        "Image": "https://peng-lms.s3.ap-northeast-1.amazonaws.com/MT/Tina.png",
+        "Intro": {
+            "1": "Good afternoon everyone, thank you for your time. ",
+            "2": "First, let me introduce myself ",
+            "3": "My name is Tina and my product today is the SDI stapler. "
+        },
+        "Parts": {
+            "Product": {
+                "1": "This product is a practical stationary in daily life. ",
+                "2": "The stapler is designed to be light and easy to use.",
+                "3": "The company is famous for making stationary. "
+            },
+            "Features": {
+                "1": "\nOne great feature is it is  very light, so it is easy to carry, and does not take up space.",
+                "2": "The next feature is the no staple technology size, it can staple up to 6 pages without a  staple so you don't need to worry about running out or buying more staples",
+                "3": "Last is the size, this is general but there is  also mini size for convenient use and large sizes for doing more pages.\n"
+            },
+            "Demo": {
+                "1": "To use the stapler, first you choose the correct size",
+                "2": "Then use the stapler see if it fits your paper choice",
+                "3": "Then push down quickly and firmly - you check the result"
+            },
+            "Extra": {
+                "1": "Firstly, the price is not expensive and only needs sixty dollars, which most students  can afford. ",
+                "2": "Also because you can use it easily and without staple, it won't be dangerous, especially good for young children",
+                "3": "Lastly, there are many other designs from this company and colors you can choose to suit your requirements"
+            },
+            "Close": {
+                "1": "So that's all for my presentation today. ",
+                "2": "If you want to buy this product any stationary store sells it.",
+                "3": "If you have any questions, just let me know. "
+            }
+        },
+        "Cues": {
+            "Product": {
+                "1": "Practical/daily life",
+                "2": " Light /easy/use",
+                "3": " Company/famous /making stationary"
+            },
+            "Features": {
+                "1": " Light/ carry/ not take up space",
+                "2": " no staple technology / 5-6",
+                "3": "general /mini convenient /large more papers"
+            },
+            "Demo": {
+                "1": " Choose",
+                "2": "Use ",
+                "3": " Many choices"
+            },
+            "Extra": {
+                "1": "Not expensive /sixty dollars/afford",
+                "2": " Use / easily / safety / children",
+                "3": "Shapes/colors/what you like/ requirements"
+            },
+            "Close": {
+                "1": "That's all",
+                "2": "Any stationary",
+                "3": "Questions"
+            }
+        },
+        "stage": "3"
+    },
+    "Robin ": {
+        "Product": "Taiger SV-1 Waterproof black bomber jacket",
+        "Brand": "Taiger Sportswear ",
+        "Why": "I love small brands with potentials",
+        "Image": "https://peng-lms.s3.ap-northeast-1.amazonaws.com/MT/Robin .png",
+        "Intro": {
+            "1": "Hello everyone, welcome back from the break. ",
+            "2": "My name is Robin and the merchandise I brought today will blow your mind. ",
+            "3": "Please allow me to introduce my favorite jacket on the market - the Taiger bomber  jacket"
+        },
+        "Parts": {
+            "Product": {
+                "1": "Taiger sportswear has strictly followed our main principle which is to design all products to fulfill the needs of functional ability when exercising and daily clothing selection for fitness enthusiasts",
+                "2": "The Taiger bomber jacket is one of the best vintage edition of the year, which is recognized by consumers with its unique 3M reflective logo and Taiger reflective logo.",
+                "3": "Brand safety is important and Taiger is most proud of its return policy which they are confident about their goods, Taiger will cover the shipping fees if the customer wishes to return and get a refund and  compensation for customers who has received defected products accidentally. "
+            },
+            "Features": {
+                "1": "This jacket is designed to wear both in and outside of the gym with  4 pockets on the exterior and upgraded all zippers to waterproof level. ",
+                "2": "The jacket is made of 100% polyester for its exterior featuring with water proof and high cold resistance degree. ",
+                "3": "You can also notice the distinct reflective logo which shows you have a unique quality brand that is functional and stylish"
+            },
+            "Demo": {
+                "1": "Use a laundry bags and cold wash when washing this item",
+                "2": "Since the bomber jacket is designed sightly oversize, so wear an oversized tshirt inside might go well with the jacket.",
+                "3": "Zip up your jacket while riding your motorcycle on a rainy day to keep the rain from soaking up your shirt. "
+            },
+            "Extra": {
+                "1": "One of the featuring criteria of Taiger which separates us from other brands is that we deliver worldwide with free shipping all times. ",
+                "2": "Taiger used anti pull fiber for all cotton parts of this jacket in order to extend and maximize its capacity. ",
+                "3": "The jacket uses water proof material to maintain the shape while wearing it, therefore it keeps the classic masculine shape of the original bomber jackets for pilot during world war 2. "
+            },
+            "Close": {
+                "1": "That's all for my introduction. ",
+                "2": "This jacket costs about 3990 nt. ",
+                "3": "This jacket is a perfect fit for both in and out of the gym."
+            }
+        },
+        "Cues": {
+            "Product": {
+                "1": "functional sportswear principle/ multiple pockets/water proof zipper/",
+                "2": "vintage edition/3M reflective logo/Taiger reflective logo",
+                "3": "Brand Safety"
+            },
+            "Features": {
+                "1": "gym / function",
+                "2": "polyester/water proof/cold resistance",
+                "3": "Logo"
+            },
+            "Demo": {
+                "1": "laundry guide",
+                "2": "Recommended dressing guide ",
+                "3": "zipper"
+            },
+            "Extra": {
+                "1": "shipping/free shipping/world wide delivering/  ",
+                "2": "anti pill fiber/ extend its life",
+                "3": "water proof material/ masculine "
+            },
+            "Close": {
+                "1": "End of introduction ",
+                "2": "3990 nt",
+                "3": "Perfect fit in and out of the gym "
+            }
+        },
+        "stage": "3"
+    },
+    "Bobby": {
+        "Product": "Jogging shoes ",
+        "Brand": "Nike",
+        "Why": "It has a flexible material protect knee. ",
+        "Image": "https://peng-lms.s3.ap-northeast-1.amazonaws.com/MT/Bobby.png",
+        "Intro": {
+            "1": "Welcome to my presentation.",
+            "2": "Let me show you my product.\n",
+            "3": "I\u2019m Bobby. My product is jogging shoes."
+        },
+        "Parts": {
+            "Product": {
+                "1": "It is designed by Nike for people who love jogging like me\n",
+                "2": "The product is very popular for marathon runners because they are comfortable for a long running session",
+                "3": "Nike is famous for creating innovative new products for us"
+            },
+            "Features": {
+                "1": "The shoes are made from rubber foam and light weight mesh material for comfort",
+                "2": "If you find the suitable shoe size they will fit your fit perfectly for a great jogging experience",
+                "3": "It is designed to help your jogging skills, for example using good form to protect your knees"
+            },
+            "Demo": {
+                "1": "Open the shoes tongue and put your foot in.",
+                "2": "Move your foot in a good position.",
+                "3": "Tie your shoelace tight but not too tight, maybe just space for two fingers"
+            },
+            "Extra": {
+                "1": "Nike always sells a fashion product so you can use these shoes casually as well as for sport",
+                "2": "Nike invited famous player's endorse their brand especially some famous Olympic runners",
+                "3": "The prize is not too much  between two or three thousand dollars, and you can find good deals"
+            },
+            "Close": {
+                "1": "You can buy this product on Nike website.",
+                "2": "If you have any questions, you can ask me.",
+                "3": "Thank you for coming."
+            }
+        },
+        "Cues": {
+            "Product": {
+                "1": "designed/ Jogging ",
+                "2": "Marathon runner/ long session",
+                "3": "Famous  / innovative"
+            },
+            "Features": {
+                "1": "Material / rubber / mesh / comfort",
+                "2": "suitable Size / great experience",
+                "3": "Design / jogging skills / good form / knees"
+            },
+            "Demo": {
+                "1": "tongue",
+                "2": "Position ",
+                "3": "Shoelace "
+            },
+            "Extra": {
+                "1": "Fashion ",
+                "2": "Reason ",
+                "3": "Price"
+            },
+            "Close": {
+                "1": "website ",
+                "2": "Question ",
+                "3": "Coming "
+            }
+        },
+        "stage": "3"
+    },
+    "William": {
+        "Product": "vivo3 watch",
+        "Brand": "Garmin",
+        "Why": "men's necessity",
+        "Image": "https://peng-lms.s3.ap-northeast-1.amazonaws.com/MT/William.png",
+        "Intro": {
+            "1": "Good morning thank you for attending ",
+            "2": "I'll introduce myself first",
+            "3": "my name is William and I'll talk about this watch"
+        },
+        "Parts": {
+            "Product": {
+                "1": "This product is for outdoor people mostly, to help track the time or exercise activity",
+                "2": "It is made by Garmin, who are famous for sports accessories with GPS.",
+                "3": "It's made in Taiwan so you don't have to worry about getting it fixed"
+            },
+            "Features": {
+                "1": "As a sports watch it is totally water proof, so you don't have to worry about it being damaged in the rain. Plus it is able to tell you the weather anytime",
+                "2": "It has built in device to track blood pressure, stress level and Athletes are able to take VO2 to understand their O2 uptake",
+                "3": "Also, you can customize your workout preference to suit your needs, for example swimming test, running timer"
+            },
+            "Demo": {
+                "1": "The watch is touch screen and it is easy to swipe by finger.",
+                "2": "For example, hold down to get the menu and this feature helps you to bring up the setting, there you can do many things.",
+                "3": "As you can see, it's compact and really easy to wear on your wrist, just use the buckle to adjust the right size"
+            },
+            "Extra": {
+                "1": "If you somehow lost your phone you can call it by using the watch to help you locate the sound.",
+                "2": "It can be a fashion accessory but doesn't come with bright colors, just dark like black, blue and purple",
+                "3": "The last important feature is you can connect to your phone to understand extra details with their APP"
+            },
+            "Close": {
+                "1": "This is the end of my presentation",
+                "2": "you can get it online by their website and it's not cheap but worth it in my opinion",
+                "3": "Their website have tons more details so you can do research before buying"
+            }
+        },
+        "Cues": {
+            "Product": {
+                "1": "outdoor/time/exercise",
+                "2": "Garmin Product",
+                "3": "Taiwan/fixed"
+            },
+            "Features": {
+                "1": "water proof",
+                "2": "blood pressure/ stress",
+                "3": "customize"
+            },
+            "Demo": {
+                "1": "touch screen / swipe",
+                "2": "hold down / menu / setting",
+                "3": "compact / wear / buckle "
+            },
+            "Extra": {
+                "1": "phone / call",
+                "2": "colors / blue / purple",
+                "3": "connect / extra details"
+            },
+            "Close": {
+                "1": "end",
+                "2": "website",
+                "3": "details"
+            }
+        },
+        "stage": "3"
+    },
+    "Andy": {
+        "Product": "Microphone ",
+        "Brand": "SHURE",
+        "Why": "Because I used everyday ",
+        "Image": "https://peng-lms.s3.ap-northeast-1.amazonaws.com/MT/Andy.png",
+        "Intro": {
+            "1": "hello everyone thanks for y'all coming",
+            "2": "First  let me introduce myself",
+            "3": "I\u2019m Andy and my product today is the SHURE microphone"
+        },
+        "Parts": {
+            "Product": {
+                "1": "This product can be used for recording singing",
+                "2": "It is also a great product for live music performances",
+                "3": "It is an Amercan brand that is popular with performers all over the world"
+            },
+            "Features": {
+                "1": "This microphone is suitable for recording low frequencies which is more suitable for male singers",
+                "2": "It uses a Cardioid polar pattern  to reduce pickup of sounds from the sides and rear, ",
+                "3": "It use special technology to make you voice more clear, sounds from lips and teeth will not be picked up"
+            },
+            "Demo": {
+                "1": "To turn on the power to use ",
+                "2": "have to use 6.3 audio cable Then connect to the music interface",
+                "3": "It's best to use a stand for better sound and it can be about 20cm away"
+            },
+            "Extra": {
+                "1": "It is small and comes with a carry bag making it suitable for small performance occasions",
+                "2": "This product has a one-year warranty, they will replace it with any problems",
+                "3": "Because the price is cheap it is very suitable for musicians who are just starting to make music"
+            },
+            "Close": {
+                "1": "thanks for y'all time ",
+                "2": "if you got any question let me know ",
+                "3": "Hope this helps people who want to make music"
+            }
+        },
+        "Cues": {
+            "Product": {
+                "1": "recording",
+                "2": "performance",
+                "3": "SHURE"
+            },
+            "Features": {
+                "1": "frequencies",
+                "2": "Cardioid polar pattern",
+                "3": " articulate vocal technology"
+            },
+            "Demo": {
+                "1": "turn on",
+                "2": "6.3 audio cable",
+                "3": "music interface"
+            },
+            "Extra": {
+                "1": "small performance / case",
+                "2": "warranty",
+                "3": "musicians / beginner / cheap"
+            },
+            "Close": {
+                "1": "time ",
+                "2": "question",
+                "3": "make music"
+            }
+        },
+        "stage": "3"
+    },
+    "Alex": {
+        "Product": "Phone case ",
+        "Brand": "RHINOSHIELD",
+        "Why": "Because it\u2019s useful.",
+        "Image": "https://peng-lms.s3.ap-northeast-1.amazonaws.com/MT/Alex.png",
+        "Intro": {
+            "1": "Good morning everyone, thank you for your time.",
+            "2": "My name is Alex.",
+            "3": "I\u2019m here to talk about the RHINO SHIELD phone case"
+        },
+        "Parts": {
+            "Product": {
+                "1": "The product is for people who use cellphones regular",
+                "2": "It is designed for protection and long term use",
+                "3": "RHINOSHIELD is a famous brand that is trustworthy for you phone"
+            },
+            "Features": {
+                "1": "One great feature is the color, you can choose the style make your own style on the website",
+                "2": "The next is function, it can protect your cellphone from any damage with the rubber rim and raised edge.",
+                "3": "Lastly, shape is great, because it is fit for cellphone, and won\u2019t fall off easily"
+            },
+            "Demo": {
+                "1": "To use the cellphone case, put it on the cellphone.",
+                "2": "Throwing to the ground.",
+                "3": "Pick up and check any damage or not."
+            },
+            "Extra": {
+                "1": "This design is quite good for people who want display there phone style, because it doesn't cover the back and you can still notice the phone brand and design",
+                "2": "It\u2019s convenient to order, you can let them send to your home or the convenience store nearby.",
+                "3": "It is strong, because it was designed for protect cellphone, you can use the product for long time"
+            },
+            "Close": {
+                "1": "It\u2019s all for my presentation, thank you for coming.",
+                "2": "If you want buy one you can search it by google, it is easy to find.",
+                "3": "If you have any questions you can ask me now."
+            }
+        },
+        "Cues": {
+            "Product": {
+                "1": "Cellphone ",
+                "2": "........",
+                "3": "Brand "
+            },
+            "Features": {
+                "1": "Color/ choose/own",
+                "2": "Function /damage.",
+                "3": "Shape / fit/ take off"
+            },
+            "Demo": {
+                "1": "Put it on",
+                "2": "Throwing ",
+                "3": "Damage"
+            },
+            "Extra": {
+                "1": "Design",
+                "2": "Convenient/ send to home",
+                "3": "Strong/ designed/ long time "
+            },
+            "Close": {
+                "1": "It\u2019s all",
+                "2": "Search it ",
+                "3": "Question "
+            }
+        },
+        "stage": "3"
+    },
+    "Michael": {
+        "Product": "Water bottle ",
+        "Brand": "UPSTYLE",
+        "Why": "I use it everyday !",
+        "Image": "https://peng-lms.s3.ap-northeast-1.amazonaws.com/MT/Michael.png",
+        "Intro": {
+            "1": "Good morning everyone. ",
+            "2": "Welcome to my presentation.",
+            "3": "I\u2019m Michael, I\u2019m gonna introduce the UPSTYLE water bottle."
+        },
+        "Parts": {
+            "Product": {
+                "1": "This product is for people who needs water regularly",
+                "2": "It is designed for easy carrying and sport use",
+                "3": "It is a product especially good for someone always breaks things."
+            },
+            "Features": {
+                "1": "This water bottle has very large capacity, 1000cc, so you can easily get your daily water",
+                "2": "The outside of the bottle is made of robber, so it can prevent cracking and scratching from falling",
+                "3": "And there is a lockable lid of the bottle, so it can prevent leaking in you bag"
+            },
+            "Demo": {
+                "1": "To use it is very easy, there\u2019s two style that you can choose. To drink or not to drink ",
+                "2": "If you want to drink, first you need to open the lock of the bottle. And then just open you mouth drink as much as possible .",
+                "3": "For filling and washing just unscrew the top, it should be hand washed only"
+            },
+            "Extra": {
+                "1": "The bottle has a very good price. Just need 350 dollars! A good price for a product that can last a long time",
+                "2": "There is screen in the top so if you add tea you can take it on the go",
+                "3": "Lastly, the style is very simple, not many colors to choose, but its very practical and there are other sizes depending on what you need"
+            },
+            "Close": {
+                "1": "Thank you for listening.",
+                "2": "If you want to buy , go to shopping (\u8766\u76ae\uff09",
+                "3": "If you have any questions, just ask me ."
+            }
+        },
+        "Cues": {
+            "Product": {
+                "1": "People / needs / water",
+                "2": " Design / easy carrying /sport ",
+                "3": "Product / someone / break"
+            },
+            "Features": {
+                "1": "large capacity/ 1000cc / daily water ",
+                "2": "Outside robber/ prevent cracking and scratching",
+                "3": "Lockable lid /prevent leaking"
+            },
+            "Demo": {
+                "1": "Very easy / two styles / to drink or not ",
+                "2": "If you want / first /lock",
+                "3": "filling/ washing / unscrew/hand washing "
+            },
+            "Extra": {
+                "1": "Good price / 350 / last",
+                "2": "tea screen / on the go",
+                "3": "Style/ simple/ practical / other sizes"
+            },
+            "Close": {
+                "1": "Thanks",
+                "2": "If you want / shopping (\u8766\u76ae\uff09",
+                "3": "Question / ask me"
+            }
+        },
+        "stage": "3"
+    },
+    "Amanda": {
+        "Product": "Wallet",
+        "Brand": "Charles&amp;amp;amp;Keith",
+        "Why": "I think it is a good product.",
+        "Image": "https://peng-lms.s3.ap-northeast-1.amazonaws.com/MT/Amanda.png",
+        "Intro": {
+            "1": "Hello, everyone I\u2019m Amanda, thank you all for being here.",
+            "2": "Today I wanna introduce my wallet, the brand is Charles&amp;amp;amp;amp;Keith.",
+            "3": "Now Let\u2019s get start with my presentation"
+        },
+        "Parts": {
+            "Product": {
+                "1": "It is a wallet that will keep your cards and coins.",
+                "2": "It is designed for put in the money and take it out when you need it",
+                "3": "The company is famous for bags and shoes, it is a singapore fashion brand"
+            },
+            "Features": {
+                "1": "The material of this wallet is real leather, so it is easy to clean.",
+                "2": "The wallet has a lot of slots to separate it, so you can arrange your credit card easily.",
+                "3": "In particular you can store a lot of coins, and shape will not deform and still look good"
+            },
+            "Demo": {
+                "1": "To open the wallet, just zip It open ",
+                "2": "To put in the money, open the slot. And put it in order",
+                "3": "To take the money, open the slot, take the moneys"
+            },
+            "Extra": {
+                "1": "The material that is very durable, with good maintenance it should last a few years",
+                "2": "There many colors available, this is grey, but if you want more color choices, you can go to their website to look for more.",
+                "3": "Even though it is a quality product, it is very affordable."
+            },
+            "Close": {
+                "1": "Thank you all for listening!",
+                "2": "If anyone want this wallet, you can find it in Charles &amp;amp;amp;amp; Keith store.",
+                "3": "If there is any more questions, feels free to ask."
+            }
+        },
+        "Cues": {
+            "Product": {
+                "1": "card/coin",
+                "2": "designed/put in/take it out",
+                "3": "famous/brand"
+            },
+            "Features": {
+                "1": "material/leather/clean",
+                "2": "slot/separate",
+                "3": "store/coins/deformed"
+            },
+            "Demo": {
+                "1": "zip",
+                "2": "open/slot",
+                "3": "money"
+            },
+            "Extra": {
+                "1": "material/durable",
+                "2": "colors/available/choices",
+                "3": "quality/affordable"
+            },
+            "Close": {
+                "1": "Thanks ",
+                "2": "want/find",
+                "3": "any/questions/free"
+            }
+        },
+        "stage": "3"
+    },
+    "Raye": {
+        "Product": "skin care products",
+        "Brand": "Bffect",
+        "Why": "really useful/not expensive/ very easy to buy",
+        "Image": "https://peng-lms.s3.ap-northeast-1.amazonaws.com/MT/Raye.png",
+        "Intro": {
+            "1": "Welcome to my demonstaration, thank you all for being here.",
+            "2": "First, let me introduce myself ",
+            "3": "My name is Raye and today I'm here to talk about Bffect, the skincare product."
+        },
+        "Parts": {
+            "Product": {
+                "1": "This brand is known for its price which is not too expensive, also there's plenty of Taiwanese celebrity recommend this brand.",
+                "2": "The brand product's ingredient is pretty clear because it is on the outside of the bottle so that you can tell what it uses for.",
+                "3": "I think it is a perfect brand for you to buy if you are a novice and don't know how to choose a product."
+            },
+            "Features": {
+                "1": "One great thing is this brand you can buy on the internet, without getting a chance to caught COV-19.",
+                "2": "The next is if you were worried about when should you use it, it has schedule stickers within it.",
+                "3": "Lastly, it is made in Taiwan, so we need to spread this brand to the global market, Taiwan No.1!!!!"
+            },
+            "Demo": {
+                "1": "To use the skincare product, you have to wash your face first.",
+                "2": "Then you can start with toner, it is the key to make your skin take in water.",
+                "3": "After all the moisturizing, you can start your whitening\u3001anti-aging\u3001anti-acne something like that."
+            },
+            "Extra": {
+                "1": "First,Bffect's products were all in a small bottle, each bottle is for a month, so it is easy to record if it expired or not.",
+                "2": "There are plenty of skincare brands, like \"The Ordinary\" but that is a foreign brand so it is not easy to buy in Taiwan, also it's much more expensive than Bffect.",
+                "3": "Last, of all, the product is very effective, I only use it for like 2 weeks to notice my skin just turns to a different level."
+            },
+            "Close": {
+                "1": "So that's all for my presentation today.",
+                "2": "The product is on their website if you're interested you can go and take a look, maybe you'll find something you like.",
+                "3": "If you have any questions, you could message them, they are willing to answer your question."
+            }
+        },
+        "Cues": {
+            "Product": {
+                "1": "expensive/celebrity recommend ",
+                "2": "ingredient / outside / know use",
+                "3": "perfect / novice user"
+            },
+            "Features": {
+                "1": "internet/caught",
+                "2": "stickers / schedule",
+                "3": " spread/global"
+            },
+            "Demo": {
+                "1": " wash your face",
+                "2": " toner",
+                "3": "moisturizing/anti-aging/anti-acne"
+            },
+            "Extra": {
+                "1": "small bottle",
+                "2": " why choose Bffect? / easy to buy ",
+                "3": "very effective/a different level."
+            },
+            "Close": {
+                "1": "presentation",
+                "2": " take a look,",
+                "3": "willing to answer"
+            }
+        },
+        "stage": "3"
+    },
+    "Wayne": {
+        "Product": "shoes",
+        "Brand": "Storror",
+        "Why": "suitable for beginners",
+        "Image": "https://peng-lms.s3.ap-northeast-1.amazonaws.com/MT/Wayne.png",
+        "Intro": {
+            "1": "Good morning everyone,  thank you for your time today.",
+            "2": "First, let me introduce myself.",
+            "3": "I'm Wayne and my product today is a parkour shoes"
+        },
+        "Parts": {
+            "Product": {
+                "1": "This product is for people who like to get outside and practice parkour or freerunning",
+                "2": "(this is because) The storror tens is specially designed to be easy to jump and land",
+                "3": "It is a perfect training shoes for child and beginner."
+            },
+            "Features": {
+                "1": "First of all, this is a shoe designed and tested by the world-class parkour team in UK, they know what exactly a parkour trainer need.",
+                "2": "Second of all, the sole is made from a thick rubber so it helps a lot for people who having trouble with safety roll. ",
+                "3": "Third of all, the size is tight fit so you would have to choose a size that larger than your normal shoe size."
+            },
+            "Demo": {
+                "1": "To use the storror tens, first you put your shoes on and run.",
+                "2": "Then find some obstacle to do the wall run",
+                "3": "Do the safety roll when you want to get down."
+            },
+            "Extra": {
+                "1": "Firstly, the price of the shoes is very cheap, it cost 60 pounds only, that's about __________NT",
+                "2": "Secondly, it is water-resistant so you don't have to worry about the sprinkle from rain or puddles",
+                "3": "Lastly, there is a word storror on it, it might be a really cool stuff for the storror fans."
+            },
+            "Close": {
+                "1": "I have done my presentation, thank you for your attention.",
+                "2": "You can get this product at the storror store",
+                "3": "Let me know If you have any questions."
+            }
+        },
+        "Cues": {
+            "Product": {
+                "1": "Outside / parkour / freerunning",
+                "2": "Designed / jump / land",
+                "3": "Perfect / child / beginner"
+            },
+            "Features": {
+                "1": "First of all / designed / world-class",
+                "2": "Second of all / thick rubber / safety roll",
+                "3": "Third of all / size / larger"
+            },
+            "Demo": {
+                "1": "Run",
+                "2": "Wall run",
+                "3": "Safety roll"
+            },
+            "Extra": {
+                "1": "Cheap / pounds",
+                "2": "Water-resistant / sprinkle",
+                "3": "Word / cool"
+            },
+            "Close": {
+                "1": "Attention",
+                "2": "Store",
+                "3": "Questions "
+            }
+        },
+        "stage": "3"
+    },
+    "Tracy": {
+        "Product": "Sport Shoes ",
+        "Brand": "Adidas",
+        "Why": "Because it\u2019s my favorite shoes",
+        "Image": "https://peng-lms.s3.ap-northeast-1.amazonaws.com/MT/Tracy.png",
+        "Intro": {
+            "1": "Welcome everyone to my demonstration, thank you all for being here.",
+            "2": "First, let me introduce myself.",
+            "3": "I\u2019m Tracy and my product today is the adidas campus shoes."
+        },
+        "Parts": {
+            "Product": {
+                "1": "These shoes are for people who want a fashionable classic style",
+                "2": "They are designed for skateboarding and casual use.",
+                "3": "Adidas is a famous brand that many people like and use"
+            },
+            "Features": {
+                "1": "Firstly, when you put it on, it\u2019s comfortable and can suit for every cloths and pants. ",
+                "2": "They are made using suede leather so these are very durable ",
+                "3": "It is very recognizable As you can see, classic style has a flat sole with stitching the famous addias three strips on the side"
+            },
+            "Demo": {
+                "1": "Put your feet in it then tie your shoelaces.",
+                "2": "Remember to tie up shoelaces or your shoes will not drop from your feet",
+                "3": "undo your shoelaces and you can easy to take off this shoes"
+            },
+            "Extra": {
+                "1": "This shoe has long history going back to the 1980s, when you could see it American culture like music",
+                "2": "It has many colors like yellow, black, pink, green....., and it\u2019s like the hip hop style shoes.",
+                "3": "This nice shoes is cheap!!!!!! If you go to outlet, you can cost only 2000nt to get this pretty shoes."
+            },
+            "Close": {
+                "1": "So that\u2019s all my presentation today.",
+                "2": "You can learn more about this shoes and its history online",
+                "3": "If you have any questions, please let me know."
+            }
+        },
+        "Cues": {
+            "Product": {
+                "1": "Pretty",
+                "2": "Light",
+                "3": "brand"
+            },
+            "Features": {
+                "1": "Comfortable  / suit",
+                "2": "Durable / suede",
+                "3": "recognizable / flat sole / stitching / three strips"
+            },
+            "Demo": {
+                "1": "How to wear",
+                "2": "Shoelaces",
+                "3": "Take off"
+            },
+            "Extra": {
+                "1": "history",
+                "2": "styles / classic / colors",
+                "3": "the price"
+            },
+            "Close": {
+                "1": "That\u2019s all",
+                "2": "learn more",
+                "3": "Questions "
+            }
+        },
+        "stage": "3"
+    },
+    "Penny": {
+        "Product": "Hand cream",
+        "Brand": "Michael design works",
+        "Why": "Cause it is a thing a use in daily life",
+        "Image": "https://peng-lms.s3.ap-northeast-1.amazonaws.com/MT/Penny.png",
+        "Intro": {
+            "1": "Hello, thank you for being here today",
+            "2": "First let me introduce myself",
+            "3": "I'm Penny, and I'll be showing you my handcream today"
+        },
+        "Parts": {
+            "Product": {
+                "1": "This is a product designed for people who has dry hands Or those who wants to have soft hands",
+                "2": "It is designed by Michel design work, which was founded about 30 years ago",
+                "3": "And if need to moisturize your hands a lot, I can recommend this product"
+            },
+            "Features": {
+                "1": "It is a product designed for daily use",
+                "2": " It is small, easy to carry around in a bag or pocket, just put it in and you won't even notice it",
+                "3": "Unlike other brands, It smells good doesn\u2019t make you feel sick"
+            },
+            "Demo": {
+                "1": "First you open the lid, Then you squeeze a little amount in your palm",
+                "2": "Last you spread it and cover your hands with it",
+                "3": "You can do this several times a day, after washing or before bed, one bottle lasts about a month"
+            },
+            "Extra": {
+                "1": "It costs about 250 a bottle, this is average price for this kind of product",
+                "2": "It is available in many department stores, there are not many Michel stores but other stores have it",
+                "3": "It comes in 8 different fragrances, there are many choices such as.................................."
+            },
+            "Close": {
+                "1": "That\u2019s all of my presentation",
+                "2": "Thank you all for your time",
+                "3": "And I wish you all a pleasant day"
+            }
+        },
+        "Cues": {
+            "Product": {
+                "1": "Dry hands",
+                "2": "Michel",
+                "3": "moisturize"
+            },
+            "Features": {
+                "1": "Daily use",
+                "2": "Small, easy to carry",
+                "3": "Smells good"
+            },
+            "Demo": {
+                "1": "Open ",
+                "2": "Spread, cover",
+                "3": "Time, washing, before bed, a month "
+            },
+            "Extra": {
+                "1": "250",
+                "2": "Department store",
+                "3": "8 fragrances"
+            },
+            "Close": {
+                "1": "That\u2019s all",
+                "2": "Time",
+                "3": "Pleasant day"
+            }
+        },
+        "stage": "3"
+    },
+    "Yui": {
+        "Product": "prepaid transportation card sharp of cat paws",
+        "Brand": "Park at.com.tw",
+        "Why": "At first, I have the supernatural power to erase things instantly. Most of my transportation is by bus, Then I have to take a card and put immediately when I get on or off the bus. However, because of my supernatural powers, When getting on and off does not go smoothly every time, then my emotion is so However, Before I get this product, because of my supernatural powers, getting on and off does not go smoothly every time, then I get annoyed every time, Why does it disappear instantly after every ride? Did I put it to the bag? Did I put it to my backpack pocket? every time like that. Why does it disappear instantly after every ride? Did you put it in the bag? Did you put it in your backpack pocket?  After having this product it all settled.  This product has a bell, so if it disappears, I can find it by shaking the bag.  This product is small and has a key ring so I can put it on my finger when I go out. Other women puts rings on her finger, and Me? put catpaw, lol. Of course when bus arrives, I can get on and off smoothly, Now there is no stress.  And above all, I'm very happy when I have it.  This product was sent by a friend as a birthday gift. So it's suitable as gift!",
+        "Image": "https://peng-lms.s3.ap-northeast-1.amazonaws.com/MT/Yui.png",
+        "Intro": {
+            "1": "Welcome everyone to my demonstration, Thank you all being here.",
+            "2": "Let me begin with an introduction",
+            "3": "I'm Yui, and The product that I gonna introduce to you guys is a cat paw shaped prepaid transportation card "
+        },
+        "Parts": {
+            "Product": {
+                "1": "This product extremely suitable for people who lose prepaid card very often when taking tranportation, like bus, MRT. ",
+                "2": "It is very novel because most people don't have one, but I think many will in the future",
+                "3": "This product was sent by a friend as a birthday present. So I think it makes a great gift idea!"
+            },
+            "Features": {
+                "1": "It's nice to travel smoothly right? This product has a bell, if it disappears when you need to use, You can find it by shaking your pockets or bag",
+                "2": "This product is small and has a key ring so I can put it on my finger when I go out. ",
+                "3": "sometimes smart cards break, but If you drop this on the ground carelessly, this product is soft, so hard to break can last a long time"
+            },
+            "Demo": {
+                "1": "I always have this put on my finger, like putting on a ring. It's ok just put on device softly.",
+                "2": "This size is just that baby or pet can't be swallowed.",
+                "3": "Just use it like any smart card getting onto transport or buying things in convenience stores and adding money"
+            },
+            "Extra": {
+                "1": "Looks is so cute, so I'm happy when having.",
+                "2": "There are many different types, You also can have them in different colors with your friends.",
+                "3": "If you want to have, or give present for someone, this costs about 450 NTD on online shop."
+            },
+            "Close": {
+                "1": "So That's all for my presentation today",
+                "2": "All of This kind of product is sell on online shop, about 3 days to 1 week to receive.",
+                "3": "If you have any question, just let me know."
+            }
+        },
+        "Cues": {
+            "Product": {
+                "1": "hard to lose ",
+                "2": "novel",
+                "3": "present / gift idea"
+            },
+            "Features": {
+                "1": "smoothly / bell / shaking ",
+                "2": "small/easy to carry",
+                "3": "rubber casing / last a long tim e"
+            },
+            "Demo": {
+                "1": "carrying style ",
+                "2": "Safety/can't swallowed",
+                "3": "general use"
+            },
+            "Extra": {
+                "1": "fashion",
+                "2": "style",
+                "3": "price / 450 NTD on online shop"
+            },
+            "Close": {
+                "1": "That's all",
+                "2": "how to get",
+                "3": "Question"
+            }
+        },
+        "stage": "3"
+    },
+    "Abby": {
+        "Product": "Polaroid",
+        "Brand": "Fujifilm ",
+        "Why": "This product can help you remember the beautiful memories.",
+        "Image": "https://peng-lms.s3.ap-northeast-1.amazonaws.com/MT/Abby.png",
+        "Intro": {
+            "1": "Welcome everyone to my demonstration, thank you all for being here.",
+            "2": "First,Let me introduce myself.",
+            "3": "My name is Abby, and I\u2019m here to talk about Fuji Film Polaroid."
+        },
+        "Parts": {
+            "Product": {
+                "1": "This camera lets you Take beautiful photos quickly and easily.",
+                "2": "Clear people and bright pictures can be taken in any scene.",
+                "3": "As you can see, the appearance of the product is cute and fun"
+            },
+            "Features": {
+                "1": "Selfie photo is super easy, you just pull out the lens and immediately switch to selfie mode",
+                "2": "Close-up photos are more prominent in the selfie mode, you can shoot subjects as close as 30-50 centimeters.",
+                "3": "It has lenses to focus quickly and take clear photos anywhere"
+            },
+            "Demo": {
+                "1": "Install the battery first (open the battery cover by pressing)",
+                "2": "Open the film packet and load the film, align correctly using the yellow dot and gently put in.",
+                "3": "Turn on.(Press the buttom next to the lens ,and the lens will automatically come out, which means it is on and you can take a picture right away"
+            },
+            "Extra": {
+                "1": "The feeling is totally different with take a picture by phone, the photo is instant and one of a kind, and it makes a nice gift to share",
+                "2": "The visual output and photo tone of Polaroid camera are very popular among young people because it is more natural then phone cameras",
+                "3": "When buying the film you can choose special designs to add more fun"
+            },
+            "Close": {
+                "1": "So that\u2019s all for my presentation today.",
+                "2": "If you want to buy it ,just go to their website or store.",
+                "3": "If there\u2019s any questions,just let me know.\nThank you for your listing."
+            }
+        },
+        "Cues": {
+            "Product": {
+                "1": "Beautiful / easily",
+                "2": "Clear / Bright ",
+                "3": "Cute"
+            },
+            "Features": {
+                "1": "Selfie / immediately ",
+                "2": "Prominent ",
+                "3": "Focus"
+            },
+            "Demo": {
+                "1": "Install",
+                "2": "Load /aluminum ",
+                "3": "Automatically "
+            },
+            "Extra": {
+                "1": "Feeling / instant / one of a kind / gift",
+                "2": "image tone",
+                "3": "Cute designs"
+            },
+            "Close": {
+                "1": "That\u2019s all",
+                "2": "Buy",
+                "3": "Question "
+            }
+        },
+        "stage": "3"
+    },
+    "Ginny": {
+        "Product": "Waist bag",
+        "Brand": "FILA",
+        "Why": "It\u2019s useful.",
+        "Image": "https://peng-lms.s3.ap-northeast-1.amazonaws.com/MT/Ginny.png",
+        "Intro": {
+            "1": " Welcome everyone to participate in my presentation today.",
+            "2": "First, Let me introduce myself.",
+            "3": "My name is Ginny and I will demonstrate the item the FILA waist bag"
+        },
+        "Parts": {
+            "Product": {
+                "1": "This item is suitable for the people who don\u2019t have much things to carry.",
+                "2": "The Waist bag is designed to be convenient to carry and access",
+                "3": "It also suitable for who need a bag for exercise and sport"
+            },
+            "Features": {
+                "1": "One great feature is the design. It\u2019s look casual and  pretty. And it\u2019s light.",
+                "2": "The next is the space. The bag looks small but it can put a lot of things inside like wallet, pen, lipstick, air pods, candy, and keys",
+                "3": "Lastly , the logo looks beautiful. I like the logo on the bag , it looks casual and relaxed. It appears on the front and along the strap"
+            },
+            "Demo": {
+                "1": "First, pick out the color you like.",
+                "2": "Then put your belongings in the bag. Make sure all items are placed safely",
+                "3": "Finally put on your bag  adjust the strap size and you can go out."
+            },
+            "Extra": {
+                "1": "First, the bag is fashionable. FILA is a classic Italian sports brand that never gets old. ",
+                "2": "Also the price is not too expensive . If you shop around you can get discounts",
+                "3": "Lastly it great to quickly access personal items such as wallets and mobile phones, and it even has pocket on the front small handy items like pens"
+            },
+            "Close": {
+                "1": "That\u2019s my presentation today.",
+                "2": "I bought it at a discount, about 700 NT dollars.",
+                "3": "If you have any questions please let me know."
+            }
+        },
+        "Cues": {
+            "Product": {
+                "1": "suitable/much things/carry",
+                "2": "Waist bag/ designed/convenient  / access",
+                "3": "suitable/sport"
+            },
+            "Features": {
+                "1": "design/ casual/ light ",
+                "2": "Space/ small/proximity card",
+                "3": "logo/ casual/ relax / front / strap"
+            },
+            "Demo": {
+                "1": "pick up/ color ",
+                "2": "belongings ",
+                "3": "Go out"
+            },
+            "Extra": {
+                "1": "fashion / italian / classic",
+                "2": "prices ",
+                "3": "access"
+            },
+            "Close": {
+                "1": "That\u2019s all ",
+                "2": "700 NT dollars ",
+                "3": "Any questions "
+            }
+        },
+        "stage": "3"
+    },
+    "Lin": {
+        "Product": "Ointment ",
+        "Brand": "Lucas Papaw",
+        "Why": "It\u2019s good for you health and personal care.",
+        "Image": "https://peng-lms.s3.ap-northeast-1.amazonaws.com/MT/Lin.png",
+        "Intro": {
+            "1": "Hello everyone, I\u2019m Lin.",
+            "2": "Thank you for being here.",
+            "3": "My product today is Lucas Papaw ointment."
+        },
+        "Parts": {
+            "Product": {
+                "1": "This product is commonly used to treat minor open wounds.",
+                "2": "You can also use it to smooth your broken skin or heal your sun burn.",
+                "3": "This famous product is from Australia and very good for everyone"
+            },
+            "Features": {
+                "1": "For the features part, Placing the ointment over your wound can be used as a thin barrier for the affected areas.",
+                "2": "It is made from papaw fruit and petroleum jelly.",
+                "3": "Using Lucas Papaw Ointment on wounds will speed up the healing process allowing your skin to recover more quickly."
+            },
+            "Demo": {
+                "1": "It\u2019s your choice to buy a red jar which is handy at home or just a tube to carry it with you everywhere.",
+                "2": "Depending on the area, take an amount and Gently place over your skin",
+                "3": "If its a wound put on a clean dressing such as a Band-Aid."
+            },
+            "Extra": {
+                "1": "First, this product is also good for sensitive babies with nappy rash so many mothers use it",
+                "2": "Second, it also can be used for regular moisture of dry skin",
+                "3": "In conclusion, it is very versatile and everyone should keep some when travelling or in the home"
+            },
+            "Close": {
+                "1": "That\u2019s all for my introduction.",
+                "2": "You can get this product at a pharmacy or online that cost about 200NT.",
+                "3": "Thanks for today."
+            }
+        },
+        "Cues": {
+            "Product": {
+                "1": "Commonly/treat/wounds",
+                "2": "Smooth/skin/sun burn",
+                "3": "Product/good/everyone"
+            },
+            "Features": {
+                "1": "ointment/wound/barrier",
+                "2": "Papaw fruit/petroleum jelly",
+                "3": "speed up/healing process/recover"
+            },
+            "Demo": {
+                "1": "red jar/handy/home/tube/everywhere ",
+                "2": "Gently/place/skin",
+                "3": "Clean dressing/Band-Aid"
+            },
+            "Extra": {
+                "1": "Good/sensitive/babies/nappy rash",
+                "2": "Regular/moisture ",
+                "3": "Conclusion/versatile/everyone/keep/traveling/home"
+            },
+            "Close": {
+                "1": "That\u2019s all",
+                "2": "Pharmacy/online/200NT",
+                "3": "Thanks "
+            }
+        },
+        "stage": "3"
+    },
+    "Fiona": {
+        "Product": "Side backpack ",
+        "Brand": "Tory Burch ",
+        "Why": "It is convenient ",
+        "Image": "https://peng-lms.s3.ap-northeast-1.amazonaws.com/MT/Fiona.png",
+        "Intro": {
+            "1": "Good morning everyone!",
+            "2": "First, let me introduce myself.",
+            "3": "I\u2019m Fiona and my product today is a side purse bag"
+        },
+        "Parts": {
+            "Product": {
+                "1": "The bag is for people who don\u2019t need to carry too many things.",
+                "2": "It is made of leather so it feels soft.",
+                "3": "It\u2019s a big brand from American, it has the brand\u2019s quality assurance."
+            },
+            "Features": {
+                "1": "It looks small but it can put lots of stuff in it, like purse, charger, keys, and even phone",
+                "2": "The bag\u2019s color is black, so it can match with any kind of outfits.",
+                "3": "Because it leather its a little water proof when it is drizzling you don\u2019t have to be afraid."
+            },
+            "Demo": {
+                "1": "Open the bag and put any small stuff you want to bring outdoor.",
+                "2": "Try on the bag and adjust the strap.",
+                "3": "There is a magnet lock so just wear across your body to keep it safe"
+            },
+            "Extra": {
+                "1": "It's famous with some celebrities so you can be fashionable as they are",
+                "2": "This type of bag is now stopped being produced so it is quite unique",
+                "3": "It cost 4500, it\u2019s actually not too expensive for a good quality bag."
+            },
+            "Close": {
+                "1": "So that\u2019s all for my presentation.",
+                "2": "If you have any question let me know.",
+                "3": "Thank you all for listening!"
+            }
+        },
+        "Cues": {
+            "Product": {
+                "1": "Don\u2019t carry too many things ",
+                "2": "leather/soft",
+                "3": "Big brand/ quality assurance "
+            },
+            "Features": {
+                "1": "Small/fit lots of thing",
+                "2": "Black/ fit any outfit",
+                "3": "Water proof/ drizzling "
+            },
+            "Demo": {
+                "1": "Put any small stuff/ bring outdoor ",
+                "2": "Try/ adjust the trap",
+                "3": "wear it across"
+            },
+            "Extra": {
+                "1": "Same bag with the celebrity ",
+                "2": "Stop producing/ not easy to have same bag",
+                "3": "4500/ not expensive/ good quality "
+            },
+            "Close": {
+                "1": "That\u2019s all",
+                "2": "Question ",
+                "3": "Thank you"
+            }
+        },
+        "stage": "3"
+    },
+    "Winnie": {
+        "Product": "Watch",
+        "Brand": "G-SHOCK",
+        "Why": "Because I have been wearing this watch for six years. It\u2019s a strong watch.",
+        "Image": "https://peng-lms.s3.ap-northeast-1.amazonaws.com/MT/Winnie.png",
+        "Intro": {
+            "1": "Good afternoon everyone, thank you for your time today.",
+            "2": "First, let me introduce myself.",
+            "3": "I\u2019m Winnie and my product today is the G-shock watch."
+        },
+        "Parts": {
+            "Product": {
+                "1": "It is a product not only for keeping time but also alarms and timers.",
+                "2": "The company is famous for electronics, and this this brand of watch is very popular now",
+                "3": "It is also designed for active people who do sport or exercise"
+            },
+            "Features": {
+                "1": "One great feature is the strap, the resin material is very waterproof and durable",
+                "2": "The next feature is the surface, the mineral glass material is not easy to break.",
+                "3": "Lastly, there are hundreds of different styles for this watch to suit any kind of person."
+            },
+            "Demo": {
+                "1": "Press the first button for 5 seconds, you can adjust the time.",
+                "2": "Press the third button, the surface light will be on for 1 second, you can watch the time at night.",
+                "3": "Press the third button for 3 seconds, the light turn on when you raise your hand which is good for night time"
+            },
+            "Extra": {
+                "1": "Firstly, the price is a little high, but the battery can last for 6-7 years, and there is one year warranty",
+                "2": "Also, you can store 4 different country time zone, so its good for business and travel",
+                "3": "Last of all, you can set 5 alarms everyday, so you can always be on time"
+            },
+            "Close": {
+                "1": "So that\u2019s all for my presentation today.",
+                "2": "If you want to buy it, you can get it online or in department store.",
+                "3": "If you have any question, you can call them."
+            }
+        },
+        "Cues": {
+            "Product": {
+                "1": "Time",
+                "2": "electronics",
+                "3": "Sport"
+            },
+            "Features": {
+                "1": "Resin material",
+                "2": "mineral glass",
+                "3": "style"
+            },
+            "Demo": {
+                "1": "Time",
+                "2": "Light",
+                "3": "Light"
+            },
+            "Extra": {
+                "1": "Price/ 6-7 years / warranty",
+                "2": "time zones / business / travel",
+                "3": "Alarms / on time"
+            },
+            "Close": {
+                "1": "That\u2019s all",
+                "2": "Buy it",
+                "3": "Question"
+            }
+        },
+        "stage": "3"
+    },
+    "Mavis": {
+        "Product": "Vaseline Petroleum Jelly ",
+        "Brand": "Vaseline",
+        "Why": "multipurpose, cheap, everywhere",
+        "Image": "https://peng-lms.s3.ap-northeast-1.amazonaws.com/MT/Mavis.png",
+        "Intro": {
+            "1": "Hello everyone! I\u2019m so glad you guys can be here today.",
+            "2": "First, let me introduce myself",
+            "3": "I'm Mavis and my product today is Vaseline."
+        },
+        "Parts": {
+            "Product": {
+                "1": "Is an American brand by British-Dutch company Unilever used for more than 140 years as a healing balm ",
+                "2": "It has many uses, including personal care, baby care, and beauty and ointment for wounds, burns, and chafed skin. ",
+                "3": "It is a household name and most people have it around the home and today I'll explain why."
+            },
+            "Features": {
+                "1": "One great feature is It's made with 100% pure petroleum jelly, so there are no dangerous chemicals inside",
+                "2": "It is handy and light, and it has different size you can choose from very small jars to large containers.",
+                "3": "Lastly, the price is good for everyone to buy it, also it's easy to buy and every shop had sell it."
+            },
+            "Demo": {
+                "1": "Use your finger or cotton bud to grab a little jelly, and put it on where you want then spread evenly.",
+                "2": "It's quite safe so don't worry about eyes or mouth but if it touches your clothes it might leave a stain, so be careful",
+                "3": "Seal tightly after each use and keep it in a cool and dry place, avoid damp or sunlight."
+            },
+            "Extra": {
+                "1": "If you go to travel, and forget to bring the cleansing oil. You can use Vaseline to remove makeup.",
+                "2": "If you like to paint your nails at home, it can prevent skin stains from hair dye or nail polish",
+                "3": "Also, if you have a new tattoo, you can use it to cover the tattoo. It can avoid you feel itchy on your skin."
+            },
+            "Close": {
+                "1": "So as you can see this product is very useful, but you also need to check the product is good for your skin.",
+                "2": "I suggest everyone keeps some handy with you or at home",
+                "3": "Thanks, I can answer any question if you have them. "
+            }
+        },
+        "Cues": {
+            "Product": {
+                "1": "American/Company/British/unilever",
+                "2": "Uses",
+                "3": "household name"
+            },
+            "Features": {
+                "1": "100% / every different skin can use",
+                "2": "Handy/light/ sizes",
+                "3": "Price-cheap/ everywhere"
+            },
+            "Demo": {
+                "1": "Finger/evenly",
+                "2": "safety/clothes/ careful",
+                "3": "Tightly/ dry place/ avoid"
+            },
+            "Extra": {
+                "1": "Travel/Remove makeup",
+                "2": "DIY/ prevent",
+                "3": "Tattoo/ itchy"
+            },
+            "Close": {
+                "1": "Different way/Check",
+                "2": "handy / home",
+                "3": "questions"
+            }
+        },
+        "stage": "3"
+    },
+    "Jimmy": {
+        "Product": "Cigarettes ",
+        "Brand": "Caster",
+        "Why": "Because I smoke everyday",
+        "Image": "https://peng-lms.s3.ap-northeast-1.amazonaws.com/MT/Jimmy.png",
+        "Intro": {
+            "1": "This is a product that cost you much money.",
+            "2": "You will addicted to this product.",
+            "3": "It\u2019s harmful to you but can release your pressure."
+        },
+        "Parts": {
+            "Product": {
+                "1": "This product can help those people who has many pressures to release their stress.",
+                "2": "If you feel so bored you can go to smoke a cigarette to feel not so bored.",
+                "3": "You can build relationships with classmates when you are smoking with them during break time."
+            },
+            "Features": {
+                "1": "The box of cigarette is easy and light to carry.",
+                "2": "The range of price is wide for you to choose. ",
+                "3": "Maybe somebody find person who smokes is cooler."
+            },
+            "Demo": {
+                "1": "Use your lighter to ignite your cigarette.",
+                "2": "Put a cigarette into your mouth after you ignited the cigarette.",
+                "3": "All the preparations are done. Just enjoy the time with cigarette."
+            },
+            "Extra": {
+                "1": "You can carry the cigarette during the vacation.",
+                "2": "Somebody might find the cigarette smells not good.",
+                "3": "Cigarettes should  be dry otherwise it can\u2019t be smoked."
+            },
+            "Close": {
+                "1": "Thank you for participation.",
+                "2": "Is my pleasure to introduce this product to you.",
+                "3": "If you want to know more information please tell me without hesitation."
+            }
+        },
+        "Cues": {
+            "Product": {
+                "1": "For people who has many pressures.",
+                "2": "Make people have something to do",
+                "3": "Build relationships with others."
+            },
+            "Features": {
+                "1": "Easy to carry.",
+                "2": "Can be cheap or be expensive ",
+                "3": "Make you look cooler."
+            },
+            "Demo": {
+                "1": "Take out your lighter first.",
+                "2": "Put into your mouth",
+                "3": "And then just smoke"
+            },
+            "Extra": {
+                "1": "You can carry the cigarette with you to everywhere you go.",
+                "2": "It smells not that good...",
+                "3": "No water-proof "
+            },
+            "Close": {
+                "1": "Participation",
+                "2": "Pleasure",
+                "3": "Hesitation"
+            }
+        }
+    },
+    "Falline": {
+        "Product": "waterbottle",
+        "Brand": "starbucks",
+        "Why": "because this product is useful",
+        "Image": "https://peng-lms.s3.ap-northeast-1.amazonaws.com/MT/Falline.png",
+        "Intro": {
+            "1": "Hi ! everyone Welcome to my demonstration.",
+            "2": " I'm faline and my product is water bottle from starbucks",
+            "3": "My product is the STARBUCKS water bottle, Let's get started."
+        },
+        "Parts": {
+            "Product": {
+                "1": "First, This product is good for environment protection. because It can be reused.",
+                "2": "Second, Starbucks's are very good at creating beautiful designs",
+                "3": "This productt is good for people who want convenience, you can take your bottle to fill water in metro, library etc."
+            },
+            "Features": {
+                "1": "Starbuck's bottle are mostly made by stainless steel.",
+                "2": "My product has a simple style like all white , all black , no pattern etc. This is great because I love simple.",
+                "3": "This bottle has a lot of sizes.you can choose the size you want to use."
+            },
+            "Demo": {
+                "1": "you can use it to fill water.",
+                "2": "When you do some exercise, it is easy to carry.",
+                "3": "I will take water bottle to hold the drink like chocolate, juice etc."
+            },
+            "Extra": {
+                "1": "Starbuck's water bottle are high prices. However it is useful for customers and it can last a long time.",
+                "2": "If you take your bottle to the convenience store to buy coffee, you can get a 4% discount, so it's economical to own this product",
+                "3": "Lastly, there are many colors to choose from such as blue, sakura ,white etc."
+            },
+            "Close": {
+                "1": "My presentatio is over.",
+                "2": "Thank you for coming.",
+                "3": "If you have any questions, I can answer for you"
+            }
+        },
+        "Cues": {
+            "Product": {
+                "1": "Environmental protection",
+                "2": "beauty",
+                "3": "convenient "
+            },
+            "Features": {
+                "1": "stainless steel",
+                "2": "simple style",
+                "3": "Large capacity"
+            },
+            "Demo": {
+                "1": "fill water",
+                "2": "exercise/easy to carry",
+                "3": "hold the drink"
+            },
+            "Extra": {
+                "1": "high price/useful",
+                "2": " convenient store have 4%off",
+                "3": "many color choose"
+            },
+            "Close": {
+                "1": "over",
+                "2": "thank you",
+                "3": "questions"
+            }
+        }
+    }
+}
