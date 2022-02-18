@@ -151,13 +151,14 @@ class U004U(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
 
 
-# # remove after intro class
-# if SCHEMA == 1 or SCHEMA == 2 or SCHEMA == 10:
-#     modDictUnits['00']=[None]
-#     modDictUnits['00'].append(U001U)
-#     modDictUnits['00'].append(U002U)
-#     modDictUnits['00'].append(U003U)
-#     modDictUnits['00'].append(U004U)
+# remove after intro class
+if Units.query.filter_by(unit='00').first():
+    if SCHEMA == 1 or SCHEMA == 2 or SCHEMA == 10:
+        modDictUnits['00']=[None]
+        modDictUnits['00'].append(U001U)
+        modDictUnits['00'].append(U002U)
+        modDictUnits['00'].append(U003U)
+        modDictUnits['00'].append(U004U)
 
 ########################################
 
@@ -381,8 +382,10 @@ class A00A (BaseAss):
 
 ### remove after intro class
 ## intro edit
-# if SCHEMA == 1 or SCHEMA == 2 or SCHEMA == 10:
-#     modDictAss['00'] = A00A
+if Units.query.filter_by(unit='00').first():
+    if SCHEMA == 1 or SCHEMA == 2 or SCHEMA == 10:
+        modDictAss['00'] = A00A
+        print('MOD DICTS INC 00')
 
 class A01A (BaseAss):
     id = db.Column(db.Integer, primary_key=True)

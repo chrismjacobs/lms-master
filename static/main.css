@@ -73,6 +73,17 @@ body {
     width: 70%
 }
 
+  .input2 {
+    outline: none !important;
+    background-color : rgb(95, 104, 116);
+    border: 0 none white ;
+    color: whitesmoke;
+    font-size: 18px;
+    border-radius: 15px;
+    padding: 10px;
+    width: 70%
+}
+
   .content-section {
     background: #ffffff;
     padding: 12px;

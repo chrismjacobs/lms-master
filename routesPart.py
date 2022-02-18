@@ -21,6 +21,8 @@ def get_vocab(a):
     ## a is to get josn for different semester if neccessary for the test page
 
     semester = User.query.filter_by(username='Chris').first().extra
+
+    print(semester, type(semester))
     ## change to 'json_files/vocab.json' for semester 1
     if semester == 1 or a == 1:
         vocabJSON = 'json_files/vocab.json'
@@ -88,6 +90,7 @@ def unit_list():
             3 : checkOpen.u3,
             4 : checkOpen.u4
         }
+        print('checkDict', checkDict)
 
         if checkDict[int(part)] == 0:
             access = 0

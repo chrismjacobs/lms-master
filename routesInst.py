@@ -577,7 +577,7 @@ def studentAdd():
     if parent.device == '"{}"':
         for idNum in IDLIST:
             marks[idNum] = 0
-            marks[100000000] = 0
+            marks['100000000'] = 0
     else:
         marks = json.loads(parent.device)
 

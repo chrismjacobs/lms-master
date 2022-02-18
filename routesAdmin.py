@@ -124,7 +124,7 @@ def inject_user():
 
     MTFN = get_MTFN('layout')
 
-    print('MTFN (Admin) = ', MTFN)
+    print('MTFN (Admin) = ', MTFN, DESIGN)
 
     VOCAB = None
     TYPE = None
