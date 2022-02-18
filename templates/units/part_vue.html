@@ -22,6 +22,9 @@
         <h1> Participation <span id="un">{{unit_num}}</span>-<span id="pn">{{part_num}}</span> </h1>
         <h3> <span id="qs">{{qs}}</span> Questions </h3>
         <h3> <span id="mode">{{state}}</span> Mode </h3>
+        <div v-if="mode == 'Instructor'">
+            <button class="btn btn-outline-secondary btn-sm" style="border: 1px solid {{DESIGN['titleColor']}}" type="button" @click="openPart()"> Open </button>
+        </div>
 
         <h2 v-model="seeAnswers"></h3>
     </div>
@@ -57,19 +60,59 @@
             </iframe>
         </div>
         <h4 style="" > [[ qn.x ]] </h4>
-        <h4 style="background:{{DESIGN['titleColor']}}; color:{{DESIGN['bodyColor']}}; border: 1px solid white; border-radius:10px">  [[ qn.q ]]  </h4>
-        <div v-for="choice in qn.c">
-            <h4> [[ choice ]] </h4>
-        </div>
+        <h4 v-if="qn.q" style="background:{{DESIGN['titleColor']}}; color:{{DESIGN['bodyColor']}}; border: 1px solid white; border-radius:10px">  <span v-for="q in qn.q.split('/')"> [[ q ]] <br></span> </h4>
+
 
         <h3 v-if="mode == 'Team' && ansOBJ != null" style="color:mediumpurple;background:lightgrey;border: 1px solid white; border-radius:10px">
         [[ TEAMNAMES[key - 1] ]]: <span v-if="ansOBJ[key] != null" style="color:dodgerblue"> [[ ansOBJ[key] ]]</span>
         <span v-else style="color:tomato"> Waiting.... </span> </h3>
 
         <div v-if="btnToggle[key]">
-            <textarea class="input1" :id="key"> </textarea>
-            <br>
-            <button class="btn btn-outline-secondary btn-sm" style="border: 1px solid {{DESIGN['titleColor']}}" type="button" @click="shareAnswer(key)"> Share Answer </button>
+            <div v-if="qn.t == 'mc' || qn.t == 'tf'">
+                <div v-for="x in qn.c">
+                    <input type="radio" :id="key + x" :name="'mc' + key" :value="x">
+                    <label v-for="key + x"><h5>[[x]]</h5></label>
+                </div>
+                <br>
+                <button class="btn btn-outline-secondary btn-sm" style="border: 1px solid {{DESIGN['titleColor']}}" type="button" @click="shareMC(key)"> Share Answer </button>
+            </div>
+            <div v-else-if="qn.t == 'set'">
+                <div v-for="x in qn.c">
+                    <span style="font-size:20px"> <b>[[qn.c.indexOf(x) + 1]] &nbsp</b> </span>
+                    <select style="height:30px;width:150px;color:white;background:saddlebrown" :id="'set' + key + (parseInt(qn.c.indexOf(x)) + 1)" :name="'set' + key">
+                        <option :value="0"> -- </option>
+                          <template v-for="o in qn.c">
+                                <option :value="[[ o ]]">[[ o ]]</option>
+                          </template>
+                    </select>
+                    <br>
+                    <br>
+                </div>
+                <br>
+                <button class="btn btn-outline-secondary btn-sm" style="border: 1px solid {{DESIGN['titleColor']}}" type="button" @click="shareSet(key)"> Share Answer </button>
+            </div>
+            <div v-else-if="qn.t == 'in'">
+                <div v-for="x in qn.c">
+                    <h4 style="background:{{DESIGN['titleColor']}}; color:{{DESIGN['bodyColor']}}; border: 1px solid white; border-radius:10px"> [[ x ]] </h4>
+                    <textarea class="input1" :id="key + x" :name="'input' + key" value=''> </textarea>
+                </div>
+                <br>
+                <button class="btn btn-outline-secondary btn-sm" style="border: 1px solid {{DESIGN['titleColor']}}" type="button" @click="shareInputs(key)"> Share Answers </button>
+            </div>
+            <div v-else-if="qn.t == 'sp'">
+                <div v-for="x in qn.c">
+                    <span style="font-size:20px"> <b>[[x]]</b> </span> <br>
+                    <input type="text" class="input2" :style="getBG(key, qn.c.indexOf(x))" :id="key + x" :name="'spAns'" v-model="spelling[qn.c.indexOf(x)]"> </input>
+                </div>
+                <br>
+                <button v-if="getSpellBTN(key)" class="btn btn-outline-secondary btn-sm" style="border: 1px solid {{DESIGN['titleColor']}}" type="button" @click="shareAnswer(key, 'perfect')"> Share Answers </button>
+            </div>
+            <div v-else>
+                <textarea class="input1" :id="key"> </textarea>
+                <br>
+                <button class="btn btn-outline-secondary btn-sm" style="border: 1px solid {{DESIGN['titleColor']}}" type="button" @click="shareAnswer(key)"> Share Answer </button>
+            </div>
+
         </div>
     </div>
 
@@ -82,7 +125,6 @@
     <template v-for="(qn, key) in qOBJ">
 
     <div class="content-section" align="center">
-
 
             <h2 style="color:blue" > [[key]]: [[qn.w]] <h2>
             <h4 style="color:{{DESIGN['titleColor']}}" > [[ qn.e ]] </h4>
@@ -97,9 +139,11 @@
                 </iframe>
             </div>
             <h4 style="" > [[ qn.x ]] </h4>
-            <h4 style="background:{{DESIGN['titleColor']}}; color:{{DESIGN['bodyColor']}}; border: 1px solid white; border-radius:10px">  [[ qn.q ]]  </h4>
-            <div v-for="choice in qn.c">
-                <h4> [[ choice ]] </h4>
+            <h4  v-if="qn.q" style="background:{{DESIGN['titleColor']}}; color:{{DESIGN['bodyColor']}}; border: 1px solid white; border-radius:10px">  <span v-for="q in qn.q.split('/')"> [[ q ]] <br></span> </h4>
+            <div v-if="qn.t == 'mc' || qn.t == 'in'">
+                <div v-for="choice in qn.c">
+                    <h4> [[ choice ]] </h4>
+                </div>
             </div>
         <br>
 
@@ -119,9 +163,14 @@
                             </thead>
 
                             <tbody>
-                                <tr v-if="qn.a" style="color:hotpink">
+                                <tr v-if="qn.a || qn.b" style="color:hotpink">
                                     <td> Answer: </td>
-                                    <td> [[ qn.a ]] </td>
+                                    <td>
+                                        <span v-if="qn.b && qn.t == 'set'"> <span v-for="k in qn.b"> [[ k ]] &nbsp </span>
+                                        <span v-else-if="qn.b"> [[ qn.b ]] <br></span>
+                                        <br>
+                                        <span v-if="qn.a"> <span v-for="a in qn.a.split('/')"> [[ a ]] <br></span>  </span>
+                                    </td>
                                 </tr>
                                 <tr v-for="(ans, teamnum) in classOBJ[key]">
                                 <td scope="col" > [[ teamnum ]] </td>

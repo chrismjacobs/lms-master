@@ -30,6 +30,15 @@
 
 </div>
 
+{% if current_user.id == 1 %}
+<span v-for="u in uList" class="unit-span" @click="openUnit('0005', u)" > &nbsp [[u]] &nbsp </span>
+<br>
+<br>
+{% endif %}
+
+
+
+
 <div class="content-section">
 
     <div style="overflow-x:auto;">
@@ -191,7 +200,7 @@ function startVue(unitOBJ, colorFloat, prevs, options, opens){
         opens: opens,
         todays_unit: todays_unit,
         attend: attend,
-
+        uList: ['00', '01', '02', '03', '04']
     },
     methods: {
         getComment: function (jString) {
@@ -294,7 +303,7 @@ function startVue(unitOBJ, colorFloat, prevs, options, opens){
           url : '/openUnit'
           })
           .done(function(data) {
-            if (key == 'xx-0'){
+            if (key == 'xx-0' || key == '0005'){
               location.reload()
             }
             else{

@@ -5,16 +5,16 @@ console.log('qOBJ', qOBJ)
 
 startVue(qOBJ)
 
-function startVue(qOBJ){ 
-  
-  let vue = new Vue({   
+function startVue(qOBJ){
+
+  let vue = new Vue({
 
     el: '#vue-app',
     delimiters: ['[[', ']]'],
     mounted : function (){
         // start interval for ajax of participation data
         this.ansCheck()
-        this.part_timer = setInterval(this.ansCheck, 30000); 
+        this.part_timer = setInterval(this.ansCheck, 30000);
         if (this.mode == 'Reader'){
           for (var btn in this.btnToggle){
             this.btnToggle[btn] = false
@@ -24,27 +24,27 @@ function startVue(qOBJ){
           }
         }
         if (this.mode == 'Team'){
-          let name_count = (this.teamnames).length 
+          let name_count = (this.teamnames).length
           console.log('name_count', name_count);
-          if (name_count == 1 ){          
-            this.mode = 'Writer'                
-          }   
+          if (name_count == 1 ){
+            this.mode = 'Writer'
+          }
           else{
             this.teamSetUp(name_count)
-            this.shareAnswer(0) 
-          }                   
+            this.shareAnswer(0)
+          }
         }
         if (this.mode == 'Instructor'){
             if (this.userID != 1 ){
               let url = (window.location.href).split('Instructor')[0] + 'Reader'
-              console.log('goTO', url);               
+              console.log('goTO', url);
               window.location = url
             }
-            else{                            
+            else{
               clearInterval(this.part_timer)
               this.classCheck()
               this.class_timer = setInterval(this.classCheck, 10000);
-            } 
+            }
 
         var range = parseInt(this.teamcount) + 1
         for (i = 1; i < range; i++) {
@@ -53,13 +53,49 @@ function startVue(qOBJ){
         }
         console.log('LeaderOBJ-mounted', this.leaderOBJ)
         }
+
+        // deal with choices arrays
+        for (let q in qOBJ) {
+          if (qOBJ[q].t == 'mc') {
+            // deal with MC choices
+            qOBJ[q]['b'] = qOBJ[q].c[0]
+            this.shuffle(qOBJ[q].c)
+          } else if (qOBJ[q].t == 'tf') {
+            // deal with TF choices
+            console.log('TF setting', qOBJ[q].c)
+            const answer = qOBJ[q].c[0]
+            qOBJ[q]['b'] = answer
+            this.setTF(q, qOBJ[q].c[0])
+          } else if (qOBJ[q].t == 'set') {
+            // deal with matching choices
+            var answer = {}
+            for (let ans in qOBJ[q].c) {
+              answer[parseInt(ans) + 1] = qOBJ[q].c[ans]
+            }
+            qOBJ[q]['b'] = answer
+            console.log('MATCH setting', qOBJ[q].c, answer)
+            this.shuffle(qOBJ[q].c)
+          } else if (qOBJ[q].t == 'sp') {
+            // deal with spelling shuffle
+            qOBJ[q].a =  qOBJ[q].c
+
+            var spList  = []
+
+            for (let c in qOBJ[q].c) {
+              spList.push(this.shuffleSpell(qOBJ[q].c[c]))
+            }
+            qOBJ[q].c = spList
+          }
+
+          this.qOBJ = {...this.qOBJ}
+        }
     },
     data: {
       qOBJ : qOBJ,
       ansOBJ : null,
       classOBJ : null,
       leaderBar : {},
-      leaderOBJ : {},  
+      leaderOBJ : {},
       unit : document.getElementById('un').innerHTML,
       part : document.getElementById('pn').innerHTML,
       qs : parseInt(document.getElementById('qs').innerHTML),
@@ -70,12 +106,12 @@ function startVue(qOBJ){
       teamnames : JSON.parse(document.getElementById('teamnames').innerHTML),
       TEAMNAMES : [],
       teamShow : true,
-      stage : 1, 
-      percent : 0, 
+      stage : 1,
+      percent : 0,
       part_timer : null,
       class_timer : null,
-      board_timer : null,  
-      seeAnswers: false,    
+      board_timer : null,
+      seeAnswers: false,
       btnToggle : {
         1 : true,
         2 : true,
@@ -85,7 +121,7 @@ function startVue(qOBJ){
         6 : true,
         7 : true,
         8 : true,
-      }, 
+      },
       show : {
         1 : false,
         2 : false,
@@ -95,39 +131,113 @@ function startVue(qOBJ){
         6 : false,
         7 : false,
         8 : false,
-      },      
-    }, 
-    methods: { 
-      
+      },
+      spelling : {
+        0 : '',
+        1 : '',
+        2 : ''
+      }
+    },
+    methods: {
+      shuffleSpell: function (word) {
+        var a = word.split(""),
+        n = a.length
+
+        for(var i = n - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var tmp = a[i];
+            a[i] = a[j];
+            a[j] = tmp;
+        }
+        return a.join("");
+      },
+      getSpellBTN: function (key) {
+
+        var allow = true
+
+        for (let s in this.spelling) {
+          if (this.spelling[s] != this.qOBJ[key].a[s]) {
+            allow = false
+          }
+        }
+
+        return allow
+
+      },
+      getBG: function (key, s) {
+        var entry = this.spelling[s]
+
+        if (entry.length == 0) {
+          return false
+        }
+
+        let ans = this.qOBJ[key].a
+        var style = 'background:green'
+        for (let i = 0; i < entry.length; i++) {
+          if (this.spelling[s][i] != ans[s][i]) {
+            style = 'background:red'
+          }
+        }
+        return style
+      },
+      setTF: function (q, ans) {
+        let TFset = [ans]
+        let options = [
+          'T T T',
+          'T F F',
+          'T T F',
+          'T F T',
+          'F F F',
+          'F T T',
+          'F F T',
+          'F T F'
+        ]
+        this.shuffle(options)
+        for (let a in options) {
+          if (TFset.length < 4 && options[a] != ans) {
+            TFset.push(options[a])
+          }
+        }
+        this.shuffle(TFset)
+        this.qOBJ[q]['c'] = TFset
+      },
+      shuffle: function (array) {
+        // Fisher-Yates shuffle
+        for (let i = array.length - 1; i > 0; i--) {
+          let j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
+          [array[i], array[j]] = [array[j], array[i]]
+        }
+        return array
+      },
       teamSetUp: function (name_count) {
         let rotator = {
-          1 : { 
+          1 : {
             2 : [0,1,0,1,0,1,0,1],
             3 : [0,1,2,0,1,2,0,1],
             4 : [0,1,2,3,0,1,2,3]
           },
-          2 : { 
+          2 : {
             2 : [1,0,1,0,1,0,1,0],
             3 : [1,2,0,1,2,0,1,2],
             4 : [1,2,3,0,1,2,3,0]
           },
-          3 : { 
+          3 : {
             2 : [0,1,0,1,0,1,0,1],
             3 : [2,0,1,2,0,1,2,0],
             4 : [2,3,0,1,2,3,0,1]
           },
-          4 : { 
+          4 : {
             2 : [1,0,1,0,1,0,1,0],
             3 : [0,2,1,0,2,1,0,2],
             4 : [3,0,1,2,3,0,1,2]
-          }         
+          }
         }
 
         let TEAMNAMES = []
         let teamnames = this.teamnames
 
-        if (name_count == 1 ){          
-            this.mode = 'Writer'                
+        if (name_count == 1 ){
+            this.mode = 'Writer'
         }
         else{
           items = rotator[this.part][name_count]
@@ -138,17 +248,17 @@ function startVue(qOBJ){
         }
 
         this.TEAMNAMES = TEAMNAMES
-         
+
         for (let btn in this.btnToggle){
-          if (this.TEAMNAMES[btn - 1] != this.user){            
+          if (this.TEAMNAMES[btn - 1] != this.user){
             this.btnToggle[btn] = false
           }
-        }  
-        
+        }
+
         console.log('TEAMNAMES ', this.TEAMNAMES);
         console.log('btnToggle ', this.btnToggle);
 
-      },    
+      },
       showAnswers: function (key){
         if (this.show[key] == true){
           for (var s in this.show){
@@ -159,9 +269,9 @@ function startVue(qOBJ){
           for (var s in this.show){
             this.show[s] = false
           }
-          this.show[key] = true            
-        }  
-        console.log('showAnswers pressed');     
+          this.show[key] = true
+        }
+        console.log('showAnswers pressed');
       },
       stageCheck: function (key){
         if (this.mode == 'Reader') {
@@ -173,75 +283,192 @@ function startVue(qOBJ){
         else if (this.mode == 'Instructor') {
           this.seeAnswers = true
           return false
-        }  
+        }
         else if (this.mode == 'Writer') {
           if (key == this.stage) {
             return true
           }
           else{
             return false
-          }     
-        } 
+          }
+        }
         else {
           alert('No Mode Found')
           return false
-        }      
+        }
       },
-      shareAnswer: function (question){
-        console.log('ajax called');        
-        let answer = null
+      shareAnswer: function (question, answer){
+        console.log('ajax called');
         if (question == 0){
           answer = 'start_team'
           console.log(answer);
         }
-        else{          
+        else if (answer == null) {
           answer = document.getElementById(question).value
           if (answer.length < 1){
             alert('answer is empty')
             return false
-          }  
-          this.btnToggle[question] = false      
+          }
+          this.btnToggle[question] = false
+        } else {
+          /// deal with MC answer where answer is given
+          this.btnToggle[question] = false
         }
-        
+
         $.ajax({
           data : {
               unit : this.unit,
               part : this.part,
-              question : question, 
+              question : question,
               answer : answer,
-              qs : this.qs, //qs == number of questions 
-                                     
+              qs : this.qs, //qs == number of questions
+
           },
           type : 'POST',
-          url : '/shareUpload'                    
+          url : '/shareUpload'
           })
           .done(function(data) {
             if (data.action){
-              alert(data.answer + ' Members: ' + vue.teamnames)
+              alert(data.answer + ': Team - ' + vue.teamnames)
+              if (data.answer == 'participation completed') {
+                location.reload()
+              }
             }
             if (data.action == '2'){
               vue.teamShow = false
-            }            
-            vue.stage += 1                              
+            }
+            vue.stage += 1
           })
           .fail(function(){
             alert('Failed, please reload page and try again')
-          });  
+          });
+      },
+      shareMC: function (key){
+        // key is the question number
+        var localKey = this.unit + this.part + key
+        var mce = document.getElementsByName('mc' + key)
+        console.log('shareMC', key, mce, this.qOBJ)
+        var correctAns = this.qOBJ[key].b
+        for (let e in mce) {
+          if (mce[e].checked) {
+            if (mce[e].value ==  correctAns) {
+              alert('Correct! Well done')
+              if(!localStorage.getItem(localKey)) {
+                this.shareAnswer(key, ':)')
+              } else {
+                this.shareAnswer(key, parseInt(localStorage.getItem(localKey)) + 1)
+                localStorage.clear()
+              }
+            }
+            else {
+              if(!localStorage.getItem(localKey)) {
+                var tries = 0
+                localStorage.setItem(localKey, tries)
+                alert("Incorrect - That's one try")
+              } else {
+                var tries = parseInt(localStorage.getItem(localKey)) + 1
+                localStorage.setItem(localKey, tries)
+                alert('Incorrect - ' + tries + ' tries')
+              }
+            }
+          }
+        }
+      },
+      shareInputs: function (key) {
+        var answer = ''
+        var gate = true
+        var inputs = document.getElementsByName('input' + key)
+        console.log('shareInputs', key, inputs)
+        for (let i in inputs) {
+          console.log('logi', inputs[i])
+          if (inputs[i].value != undefined && inputs[i].value.length < 1 ) {
+            alert('Answer Empty: ' + inputs[i].id)
+            gate = false
+          } else if (inputs[i].value != undefined) {
+            answer += inputs[i].value + ' / '
+            const check = answer
+            console.log(check)
+          }
+        }
+        if (gate) {
+          var aList = answer.split('/')
+          aList.pop()
+          this.shareAnswer(key, JSON.stringify(aList))
+        }
+      },
+      shareSet: function (key) {
+
+        var localKey = this.unit + this.part + key
+
+        var answerOBJ = this.qOBJ[key].b
+        var aOBJlen = 0
+
+        for (let k in answerOBJ){
+          console.log(k)
+          aOBJlen += 1
+        }
+
+        var aList = []
+        var message = 'Correct numbers: '
+        var correct = 0
+
+        for (let q in answerOBJ) {
+
+          var e = document.getElementById('set' + key + q)
+
+          console.log(q, key, e.value)
+
+          if (aList.includes(e.value)) {
+            aList.push('duplicate')
+          } else if (e.value == answerOBJ[q]) {
+            aList.push(e.value)
+            message += q + ', '
+            correct += 1
+          } else {
+            aList.push(e.value)
+          }
+        }
+
+
+
+        console.log(aList, correct, answerOBJ.length)
+
+        if (aList.includes('0')) {
+          alert('Please select one answer for each')
+        } else if (aList.includes('duplicate')) {
+          alert('Each answer must be different')
+        } else if (correct < aOBJlen) {
+          if (!localStorage.getItem(localKey)) {
+            localStorage.setItem(localKey, 1)
+          } else {
+            var tries = localStorage.getItem(localKey)
+            localStorage.setItem(localKey, parseInt(tries) + 1)
+          }
+          alert(message)
+        } else {
+          if (!localStorage.getItem(localKey)) {
+            this.shareAnswer(key, 'First try')
+          } else if (parseInt(localStorage.getItem(localKey)) == 1) {
+            this.shareAnswer(key, 'Second try')
+          } else {
+            this.shareAnswer(key, '>2 Tries')
+          }
+        }
       },
       ansCheck : function() {
         $.ajax({
           data : {
             unit : this.unit,
             part : this.part,
-            check : 0  // signal to return one students data (not whole class)              
+            check : 0  // signal to return one students data (not whole class)
           },
           type : 'POST',
-          url : '/getPdata',               
+          url : '/getPdata',
         })
-        .done(function(data) { 
-            console.log(data.dataDict);           
-            vue.ansOBJ = JSON.parse(data.dataDict)            
-            let count = 1 
+        .done(function(data) {
+            console.log(data.dataDict);
+            vue.ansOBJ = JSON.parse(data.dataDict)
+            let count = 1
             for (let ans in vue.ansOBJ){
               if (vue.ansOBJ[ans] != null){
                 console.log(vue.ansOBJ[ans]);
@@ -250,14 +477,14 @@ function startVue(qOBJ){
                 vue.btnToggle[ans] = false
               }
             }
-            // count starts at one and will be greater than qs 
+            // count starts at one and will be greater than qs
             // after last answer submitted
-            if (count > vue.qs){              
+            if (count > vue.qs){
               vue.classCheck()
-              vue.class_timer = setInterval(vue.classCheck, 10000);  
+              vue.class_timer = setInterval(vue.classCheck, 10000);
               vue.seeAnswers = true
               //alert('The participation has been completed by ' + vue.teamnames)
-              clearInterval(vue.part_timer)                           
+              clearInterval(vue.part_timer)
             }
             vue.stage = count
             console.log(count, vue.ansOBJ);
@@ -266,18 +493,34 @@ function startVue(qOBJ){
                   alert('error')
           });
       },
+      openPart : function() {
+        $.ajax({
+          data : {
+            key : this.unit + '-' + this.part,
+            number : this.unit
+          },
+          type : 'POST',
+          url : '/openUnit',
+        })
+        .done(function(data) {
+            location.reload()
+          })
+          .fail(function(){
+            alert('error')
+          });
+      },
       classCheck : function() {
         $.ajax({
           data : {
             unit : this.unit,
             part : this.part,
-            check : 1  // signal to return all class data            
+            check : 1  // signal to return all class data
           },
           type : 'POST',
-          url : '/getPdata',               
+          url : '/getPdata',
         })
-        .done(function(data) { 
-          //console.log('classCheck ', data.dataDict);           
+        .done(function(data) {
+          //console.log('classCheck ', data.dataDict);
           vue.classOBJ = JSON.parse(data.dataDict)
 
           // clear leader obj back to zero
@@ -288,22 +531,22 @@ function startVue(qOBJ){
           console.log('ClassOBJ', vue.classOBJ);
 
 
-          for (let team in vue.leaderOBJ) {                        
+          for (let team in vue.leaderOBJ) {
             for (let qn in vue.classOBJ){
               let answer = vue.classOBJ[qn][team]
               if (answer != null && answer.length > 0 ){
-                vue.leaderOBJ[team].push(vue.classOBJ[qn][team])                
-              }              
+                vue.leaderOBJ[team].push(vue.classOBJ[qn][team])
+              }
             }
-          }             
+          }
           for (let rec in vue.leaderOBJ){
             if (vue.leaderOBJ[rec].length == 0 ){
               var width_percent = '5%'
               var background = 'red'
-            } 
+            }
             else if (vue.leaderOBJ[rec].length == vue.qs) {
               var width_percent = '100%'
-              var background = 'green'              
+              var background = 'green'
             }
             else {
               var width = ((vue.leaderOBJ[rec]).length / vue.qs ) * 100
@@ -313,32 +556,32 @@ function startVue(qOBJ){
             console.log('width ', width_percent);
 
             vue.leaderBar[rec] = { background:background,  height:'30px', width: width_percent, border: '1px solid grey', 'border-radius': '5px'}
-          
-            
+
+
           }
           var total = 0
           for (let team in vue.leaderOBJ){
             for (let answer in vue.leaderOBJ[team]){
-              total += 1              
-            }              
+              total += 1
+            }
           }
-          
+
 
           var percent_float = ( total / (vue.qs * vue.teamcount )  ) *100
           vue.percent = percent_float.toPrecision(4)
-          console.log('%: qs/teamocunt/total/percent', vue.qs, vue.teamcount, total, vue.percent);
-            
+          console.log('%: qs/teamcount/total/percent', vue.qs, vue.teamcount, total, vue.percent);
+
           })
           .fail(function(){
                   alert('error')
           });
-      }      
-          
-    } // end methods    
-    
-    
+      }
+
+    } // end methods
+
+
 })// end NEW VUE
 
-}// endFunction 
+}// endFunction
 
 
