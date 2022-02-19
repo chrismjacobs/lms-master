@@ -19,6 +19,7 @@ DESIGN = BaseConfig.DESIGN
 def get_vocab(a):
 
     ## a is to get josn for different semester if neccessary for the test page
+    S3_BUCKET_NAME = BaseConfig.S3_BUCKET_NAME
 
     semester = User.query.filter_by(username='Chris').first().extra
 
@@ -150,14 +151,28 @@ def openUnit():
         if part == 0:
             Units.query.filter_by(unit=number).delete()
         if part == 1:
-            checkOpen.u1 = 1
+            if checkOpen.u1 == 1:
+                checkOpen.u1 = 0
+            else:
+                checkOpen.u1 = 1
         if part == 2:
-            checkOpen.u2 = 1
+            if checkOpen.u2 == 1:
+                checkOpen.u2 = 0
+            else:
+                checkOpen.u2 = 1
         if part == 3:
-            checkOpen.u3 = 1
+            if checkOpen.u3 == 1:
+                checkOpen.u3 = 0
+            else:
+                checkOpen.u3 = 1
         if part == 4:
-            checkOpen.u4 = 1
-            checkOpen.uA = 1
+            if checkOpen.u4 == 1:
+                checkOpen.u4 = 0
+                checkOpen.uA = 0
+            else:
+                checkOpen.u4 = 1
+                checkOpen.uA = 1
+
         db.session.commit()
     else:
         newUnit = Units(unit=number, u1=0, u2=0, u3=0, u4=0, uA=0)

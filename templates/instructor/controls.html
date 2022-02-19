@@ -69,6 +69,9 @@ Teamsize
 <br>
 [[forString]]
 
+<input type="text" class="textAss" style="margin-left:5px" v-model="addID"></input>
+<button class="btn btn-outline-secondary" @click="studentAdd('model')"> Enter </button>
+
 </div>
 
 <div class="content-section">
@@ -99,7 +102,7 @@ Teamsize
               <td :style="idStyle(key)"> [[ key ]] </td>
               <td :style="attStyle(user.att)"> [[ user.att ]] </td>
               <td> <a :href="user.eml">Email</a> </td>
-              <td> <span class="unit-span" @click="studentAdd(key)" > &nbsp [[getMark(key)]] &nbsp </span> </td>
+              <td> <span :style="getStyle(key)" class="unit-span" @click="studentAdd(key)" > &nbsp [[getMark(key)]] &nbsp </span> </td>
               <!-- <td>  <span class="unit-span" v-for="i in 4" @click="studentRemove(user.nme, i)" > [[i]] </span> </td> -->
 
             </tr>
@@ -178,6 +181,7 @@ let vue = new Vue({
         attendOBJ : attendOBJ,
         teamOBJ : teamOBJ,
         setOBJ : setOBJ,
+        addID : '',
         deleteMode : false,
         unit_list : ['RR','00', '01','02','03','04','05','06','07','08','09', '10'],
         size_list : ['4','0','3','5'] ,
@@ -380,6 +384,9 @@ let vue = new Vue({
           });
         },
         studentAdd: function(id) {
+          if (id == 'model') {
+            id = this.addID
+          }
           _this = this
           console.log('student add', id)
           $.ajax({
@@ -402,10 +409,20 @@ let vue = new Vue({
           console.log(this.marks[id])
           if (this.marks[id] == 0) {
             return this.marks[id]
-          } else if (this.marks[id]) {
+          } else if (this.marks[id] == 1) {
+            return this.marks[id]
+          } else if (this.marks[id] == 2) {
             return this.marks[id]
           } else {
             return 'Not Listed'
+          }
+        },
+        getStyle: function (id) {
+          console.log(this.marks[id])
+          if (this.marks[id] == 1) {
+            return 'background:coral'
+          } else if (this.marks[id] == 2) {
+            return 'background:seagreen'
           }
         },
       },

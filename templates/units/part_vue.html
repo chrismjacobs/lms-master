@@ -23,7 +23,7 @@
         <h3> <span id="qs">{{qs}}</span> Questions </h3>
         <h3> <span id="mode">{{state}}</span> Mode </h3>
         <div v-if="mode == 'Instructor'">
-            <button class="btn btn-outline-secondary btn-sm" style="border: 1px solid {{DESIGN['titleColor']}}" type="button" @click="openPart()"> Open </button>
+            <button class="btn btn-outline-secondary btn-sm" style="border: 1px solid {{DESIGN['titleColor']}}" type="button" @click="openPart()"> Open/Close </button>
         </div>
 
         <h2 v-model="seeAnswers"></h3>
@@ -166,10 +166,11 @@
                                 <tr v-if="qn.a || qn.b" style="color:hotpink">
                                     <td> Answer: </td>
                                     <td>
-                                        <span v-if="qn.b && qn.t == 'set'"> <span v-for="k in qn.b"> [[ k ]] &nbsp </span>
-                                        <span v-else-if="qn.b"> [[ qn.b ]] <br></span>
+                                        <span v-if="qn.b && qn.t == 'set'"> <span v-for="k in qn.b"> [[ k ]] &nbsp </span></span>
+                                        <span v-else-if="qn.b && qn.t == 'sp'"> <span v-for="k in qn.b"> [[ k ]] &nbsp </span></span>
+                                        <span v-else-if="qn.b && qn.t == 'mc'">  [[ qn.b ]] </span>
                                         <br>
-                                        <span v-if="qn.a"> <span v-for="a in qn.a.split('/')"> [[ a ]] <br></span>  </span>
+                                        <span v-if="qn.a">  [[ qn.a ]]   </span>
                                     </td>
                                 </tr>
                                 <tr v-for="(ans, teamnum) in classOBJ[key]">

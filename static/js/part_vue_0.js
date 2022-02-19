@@ -77,7 +77,7 @@ function startVue(qOBJ){
             this.shuffle(qOBJ[q].c)
           } else if (qOBJ[q].t == 'sp') {
             // deal with spelling shuffle
-            qOBJ[q].a =  qOBJ[q].c
+            qOBJ[q].b =  qOBJ[q].c
 
             var spList  = []
 
@@ -156,8 +156,10 @@ function startVue(qOBJ){
         var allow = true
 
         for (let s in this.spelling) {
-          if (this.spelling[s] != this.qOBJ[key].a[s]) {
-            allow = false
+          if (this.spelling[s] > 0) {
+            if (this.spelling[s].toLowerCase() != this.qOBJ[key].b[s].toLowerCase()) {
+              allow = false
+            }
           }
         }
 

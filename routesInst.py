@@ -583,6 +583,8 @@ def studentAdd():
 
     print(marks)
 
+    if actionID not in marks:
+        marks[actionID] = 0
 
     if marks[actionID] == 0:
         marks[actionID] = 1
@@ -592,7 +594,6 @@ def studentAdd():
 
     elif marks[actionID] == 2:
         marks[actionID] = 0
-
 
     parent.device = json.dumps(marks)
     db.session.commit()

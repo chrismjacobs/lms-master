@@ -18,6 +18,12 @@
     <h5> Join a team in class to do the work or complete by yourself before the deadline</h5>
     <h5> (30% of final grade)</h5>
   </div>
+  <br>
+
+  {% if current_user.id == 1 %}
+    <span v-for="u in uList" class="unit-span" @click="openUnit('0005', u)" > &nbsp [[u]] &nbsp </span>
+
+    {% endif %}
 
 </div>
 
@@ -28,13 +34,11 @@
     <h5> (30% of final grade)</h5>
   </div>
 
+
+
 </div>
 
-{% if current_user.id == 1 %}
-<span v-for="u in uList" class="unit-span" @click="openUnit('0005', u)" > &nbsp [[u]] &nbsp </span>
-<br>
-<br>
-{% endif %}
+
 
 
 
@@ -75,7 +79,7 @@
                   <td colspan ="2">
                   {% if current_user.id == 1 %}
                     <span @click="goTo(key, 'Instructor' )" class="unit-span" style="background:silver;padding:3px; margin-left:5px"> Instructor </span>
-                    <span @click="openUnit(key, number)" v-if="opens[key] == false" class="unit-span" style="background:royalblue;padding:3px; margin-left:10px"> Open </span>
+                    <span @click="openUnit(key, number)" v-if="opens[key] == false" class="unit-span" style="background:royalblue;padding:3px; margin-left:10px"> Open/Close </span>
                   {% else %}
                     <span style="">[[  getComment(unit.Comment)  ]] </span>
                   {% endif %}
@@ -200,7 +204,7 @@ function startVue(unitOBJ, colorFloat, prevs, options, opens){
         opens: opens,
         todays_unit: todays_unit,
         attend: attend,
-        uList: ['00', '01', '02', '03', '04']
+        uList: ['00', '01', '02', '03', '04', '05', '06', '07', '08']
     },
     methods: {
         getComment: function (jString) {
@@ -311,6 +315,7 @@ function startVue(unitOBJ, colorFloat, prevs, options, opens){
               vue.opens[data.key] = true
               unitOBJ[number][data.key]['Access'] = 2
               console.log(vue.opens);
+              location.reload()
             }
 
           })
