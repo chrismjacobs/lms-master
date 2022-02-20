@@ -175,7 +175,14 @@
                                 </tr>
                                 <tr v-for="(ans, teamnum) in classOBJ[key]">
                                 <td scope="col" > [[ teamnum ]] </td>
-                                <td scope="col" > [[ ans ]]</td>
+                                    <td scope="col" >
+                                        <span v-if="qn.t == 'in'">
+                                            <span v-for="a in ans.split('/')">
+                                                <span v-if="a.length > 0">[[ a ]] &nbsp <br> </span>
+                                            </span>
+                                        </span>
+                                        <span v-else> [[ ans ]] </span>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

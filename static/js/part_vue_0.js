@@ -153,13 +153,16 @@ function startVue(qOBJ){
       },
       getSpellBTN: function (key) {
 
+        console.log('spell btn', this.spelling, this.qOBJ[key].b)
         var allow = true
 
         for (let s in this.spelling) {
-          if (this.spelling[s] > 0) {
+          if (this.spelling[s].length > 0) {
             if (this.spelling[s].toLowerCase() != this.qOBJ[key].b[s].toLowerCase()) {
               allow = false
             }
+          } else {
+            allow = false
           }
         }
 
@@ -167,16 +170,17 @@ function startVue(qOBJ){
 
       },
       getBG: function (key, s) {
+        console.log('getBG', key, s, this.spelling, this.qOBJ[key].b)
         var entry = this.spelling[s]
 
         if (entry.length == 0) {
           return false
         }
 
-        let ans = this.qOBJ[key].a
+        let ans = this.qOBJ[key].b
         var style = 'background:green'
         for (let i = 0; i < entry.length; i++) {
-          if (this.spelling[s][i] != ans[s][i]) {
+          if (this.spelling[s][i].toLowerCase() != ans[s][i].toLowerCase()) {
             style = 'background:red'
           }
         }
@@ -273,7 +277,7 @@ function startVue(qOBJ){
           }
           this.show[key] = true
         }
-        console.log('showAnswers pressed');
+        console.log('showAnswers pressed')
       },
       stageCheck: function (key){
         if (this.mode == 'Reader') {
@@ -387,15 +391,13 @@ function startVue(qOBJ){
             alert('Answer Empty: ' + inputs[i].id)
             gate = false
           } else if (inputs[i].value != undefined) {
-            answer += inputs[i].value + ' / '
+            answer += ' ' + inputs[i].value + ' /'
             const check = answer
             console.log(check)
           }
         }
         if (gate) {
-          var aList = answer.split('/')
-          aList.pop()
-          this.shareAnswer(key, JSON.stringify(aList))
+          this.shareAnswer(key, answer)
         }
       },
       shareSet: function (key) {
