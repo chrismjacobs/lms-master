@@ -102,7 +102,20 @@
             <div v-else-if="qn.t == 'sp'">
                 <div v-for="x in qn.c">
                     <span style="font-size:20px"> <b>[[x]]</b> </span> <br>
-                    <input type="text" class="input2" :style="getBG(key, qn.c.indexOf(x))" :id="key + x" :name="'spAns'" v-model="spelling[qn.c.indexOf(x)]"> </input>
+                    <input
+                        type="text"
+                        class="input2"
+                        :style="getBG(key, qn.c.indexOf(x))"
+                        :id="key + x"
+                        :name="'spAns'"
+                        v-model="spelling[qn.c.indexOf(x)]"
+                        autocapitalize="none"
+                        autocomplete="off"
+                        autocorrect="off"
+                        spellcheck="false"
+                    >
+                    </input>
+                    [[spelling[qn.c.indexOf(x)].trim().length]] / [[x.length]]
                 </div>
                 <br>
                 <button v-if="getSpellBTN(key)" class="btn btn-outline-secondary btn-sm" style="border: 1px solid {{DESIGN['titleColor']}}" type="button" @click="shareAnswer(key, 'perfect')"> Share Answers </button>

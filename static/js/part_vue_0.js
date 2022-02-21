@@ -157,8 +157,8 @@ function startVue(qOBJ){
         var allow = true
 
         for (let s in this.spelling) {
-          if (this.spelling[s].length > 0) {
-            if (this.spelling[s].toLowerCase() != this.qOBJ[key].b[s].toLowerCase()) {
+          if (this.spelling[s].trim().length > 0) {
+            if (this.spelling[s].trim().toLowerCase() != this.qOBJ[key].b[s].toLowerCase()) {
               allow = false
             }
           } else {
@@ -171,16 +171,18 @@ function startVue(qOBJ){
       },
       getBG: function (key, s) {
         console.log('getBG', key, s, this.spelling, this.qOBJ[key].b)
-        var entry = this.spelling[s]
+        var entry = this.spelling[s].trim()
+        let ans = this.qOBJ[key].b[s]
 
         if (entry.length == 0) {
           return false
+        } else if (entry.length > ans.length) {
+          return 'background:red'
         }
 
-        let ans = this.qOBJ[key].b
         var style = 'background:green'
         for (let i = 0; i < entry.length; i++) {
-          if (this.spelling[s][i].toLowerCase() != ans[s][i].toLowerCase()) {
+          if (entry[i].toLowerCase() != ans[i].toLowerCase()) {
             style = 'background:red'
           }
         }
@@ -360,7 +362,7 @@ function startVue(qOBJ){
             if (mce[e].value ==  correctAns) {
               alert('Correct! Well done')
               if(!localStorage.getItem(localKey)) {
-                this.shareAnswer(key, ':)')
+                this.shareAnswer(key, ':) ' + this.qOBJ[key].b)
               } else {
                 this.shareAnswer(key, parseInt(localStorage.getItem(localKey)) + 1)
                 localStorage.clear()
@@ -413,7 +415,7 @@ function startVue(qOBJ){
         }
 
         var aList = []
-        var message = 'Correct numbers: '
+        var corrAns = []
         var correct = 0
 
         for (let q in answerOBJ) {
@@ -426,7 +428,7 @@ function startVue(qOBJ){
             aList.push('duplicate')
           } else if (e.value == answerOBJ[q]) {
             aList.push(e.value)
-            message += q + ', '
+            corrAns.push(q)
             correct += 1
           } else {
             aList.push(e.value)
@@ -448,7 +450,7 @@ function startVue(qOBJ){
             var tries = localStorage.getItem(localKey)
             localStorage.setItem(localKey, parseInt(tries) + 1)
           }
-          alert(message)
+          alert('You have ' + correct + ' correct answers: ( ' + corrAns + ' )')
         } else {
           if (!localStorage.getItem(localKey)) {
             this.shareAnswer(key, 'First try')
