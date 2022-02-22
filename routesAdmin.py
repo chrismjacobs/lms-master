@@ -227,8 +227,17 @@ def register():
         # elif form.studentID.data not in BaseConfig.IDLIST:
         #     ext = 2
 
+        print('ID', IDList)
+
+        eNumber = 0
+
+        try:
+            eNumber = IDList[form.studentID.data]
+        except:
+            print('except eNumber')
+
         user = User(username=form.username.data, studentID = form.studentID.data, email = form.email.data,
-        password = hashed_password, device = form.device.data, extra=IDList[form.studentID.data])
+        password = hashed_password, device = form.device.data, extra=eNumber)
         db.session.add(user)
 
         chat = ChatBox(username=form.username.data, chat="", response=f'Hi {form.username.data}. Welcome to the course! If you have any questions then please use this private chat.')
