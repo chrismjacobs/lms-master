@@ -166,9 +166,8 @@ def dashboard():
         midterm = ['01', '02', '03', '04']
         final = ['05', '06', '07', '08']
 
-    ## remove after intro class
-    # if SCHEMA == 1 or SCHEMA == 2 or SCHEMA == 10:
-    #     midterm = ['00', '01', '02', '03', '04']
+    if Units.query.filter_by(unit='00').first():
+        midterm = ['00', '01', '02', '03', '04']
 
 
     period = midterm
