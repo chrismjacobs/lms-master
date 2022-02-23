@@ -7,6 +7,7 @@
 <span id="attend_string" style="display:none">{{attend_list}}</span>
 <span id="team_string" style="display:none">{{team_list}}</span>
 <span id="set_string" style="display:none">{{setString}}</span>
+<span id="schema" style="display:none">{{SCHEMA}}</span>
 
 <div class="content-section" :style="controlStyle()">
      <legend class="border-bottom mb-4">Controls</legend>
@@ -69,8 +70,10 @@ Teamsize
 <br>
 [[forString]]
 
+<div v-if="schemaList.includes(SCHEMA)">
 <input type="text" class="textAss" style="margin-left:5px" v-model="addID"></input>
 <button class="btn btn-outline-secondary" @click="studentAdd('model')"> Enter </button>
+</div>
 
 </div>
 
@@ -164,6 +167,8 @@ console.log('teamOBJ', teamOBJ);
 var set_list = document.getElementById('set_string').innerHTML
 var setOBJ = JSON.parse(set_list)
 console.log('setOBJ', setOBJ);
+var SCHEMA = document.getElementById('schema').innerHTML
+console.log('schema', SCHEMA);
 
 
 startVue()
@@ -178,6 +183,8 @@ let vue = new Vue({
       this.studentAdd(100000000)
     },
     data: {
+        SCHEMA : parseInt(SCHEMA),
+        schemaList : [1,2,10],
         attendOBJ : attendOBJ,
         teamOBJ : teamOBJ,
         setOBJ : setOBJ,
