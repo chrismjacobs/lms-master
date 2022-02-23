@@ -94,7 +94,7 @@ class RegistrationForm(FlaskForm):
 
         if SCHEMA in sList:
             if studentID.data in IDList:
-                if IDList[studentID.data] == 0:
+                if IDList[(studentID.data).strip()] == 0:
                     raise ValidationError('See instructor to get a textbook')
             else:
                 raise ValidationError('Contact instructor to join class')
