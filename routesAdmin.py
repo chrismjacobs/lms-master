@@ -106,7 +106,7 @@ def redisCheck():
 '''
 
 
-print(Info.unit_mods_dict)
+
 
 @app.context_processor
 def inject_user():
@@ -128,6 +128,7 @@ def inject_user():
     MTFN = get_MTFN('layout')
 
     print('MTFN (Admin) = ', MTFN, DESIGN)
+    print('INFO MODS DICT', Info.unit_mods_dict)
 
     VOCAB = None
     TYPE = None
