@@ -135,6 +135,17 @@ def inject_user():
 
     return dict(USERS= ['Abby'], VOCAB=VOCAB, TYPE=TYPE, MTFN=MTFN, SCHEMA=SCHEMA, titleColor=DESIGN['titleColor'] , bodyColor=bodyColor, headTitle=DESIGN['headTitle'], headLogo=DESIGN['headLogo'] )
 
+@app.errorhandler(404)
+def error_404(error):
+    return render_template('/admin/errors.html', error = 404 )
+
+@app.errorhandler(403)
+def error_403(error):
+    return render_template('/admin/errors.html', error = 403 )
+
+@app.errorhandler(500)
+def error_500(error):
+    return render_template('/admin/errors.html', error = 500 )
 
 
 @app.route("/admin_menu", methods = ['GET', 'POST'])
