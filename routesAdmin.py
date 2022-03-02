@@ -105,6 +105,9 @@ def redisCheck():
     return [len(wordTotal), typeTotal]
 '''
 
+
+print(Info.unit_mods_dict)
+
 @app.context_processor
 def inject_user():
     try:

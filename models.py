@@ -152,6 +152,9 @@ class U004U(BaseUnits):
 
 
 # remove after intro class
+
+print('Unit Filter', Units.query.filter_by(unit='00').first())
+
 if Units.query.filter_by(unit='00').first():
     if SCHEMA == 1 or SCHEMA == 2 or SCHEMA == 10:
         modDictUnits['00']=[None]
