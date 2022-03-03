@@ -7,7 +7,7 @@ from forms import *
 from models import *
 import ast
 from pprint import pprint
-from routesUser import get_grades, get_sources
+from routesUser import get_grades, get_sources, get_mods
 
 from meta import BaseConfig
 s3_resource = BaseConfig.s3_resource
@@ -15,6 +15,8 @@ S3_LOCATION = BaseConfig.S3_LOCATION
 S3_BUCKET_NAME = BaseConfig.S3_BUCKET_NAME
 SCHEMA = BaseConfig.SCHEMA
 DESIGN = BaseConfig.DESIGN
+
+uModsDict = get_mods()['uModsDict']
 
 def get_vocab(a):
 
@@ -219,7 +221,7 @@ def scoreCheck():
 
     print (type(qNum), part_num, unit_num)
 
-    modDict = Info.unit_mods_dict
+    modDict = uModsDict
     model = modDict[unit_num][int(part_num)]
     answers = model.query.order_by(asc(model.teamnumber)).all()
 
@@ -260,7 +262,7 @@ def getPdata():
     check = request.form ['check']
 
     # get model
-    models = Info.unit_mods_dict[unit] # '01' : [None, mod, mod, mod, mod]
+    models = uModsDict[unit] # '01' : [None, mod, mod, mod, mod]
     model = models[int(part)]
     classData = model.query.all()
 
@@ -328,7 +330,7 @@ def shareUpload():
     print ('deadline: ', deadline)
 
     # get model
-    models = Info.unit_mods_dict[unit] # '01' : [None, mod, mod, mod, mod]
+    models = uModsDict[unit] # '01' : [None, mod, mod, mod, mod]
     model = models[int(part)]
     print(model)
 
@@ -491,7 +493,7 @@ def participation(unit_num,part_num,state):
     qs = len(qDict)
 
     ## Get names
-    models = Info.unit_mods_dict[unit_num] # '01' : [None, mod, mod, mod, mod]
+    models = uModsDict[unit_num] # '01' : [None, mod, mod, mod, mod]
     model = models[int(part_num)]
     print(model)
     nnDict = team_details()
@@ -557,9 +559,9 @@ def studentRemove():
     UNIT = instructor_setup.unit
     TEAM = student_setup.teamnumber
 
-    part_model = Info.unit_mods_dict[UNIT][int(part)]
+    part_model = uModsDict[UNIT][int(part)]
 
-    print( Info.unit_mods_dict)
+    print( uModsDict)
     print('model', part_model)
 
     if part_model:

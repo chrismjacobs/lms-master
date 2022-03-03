@@ -10,7 +10,11 @@ from meta import BaseConfig
 SCHEMA = BaseConfig.SCHEMA
 
 modDictUnits = {}
+zeroDictUnits = {}
+
 modDictAss = {}
+zeroDictAss = {}
+
 
 
 
@@ -155,13 +159,13 @@ class U004U(BaseUnits):
 
 print('Unit Filter', Units.query.filter_by(unit='00').first())
 
-if Units.query.filter_by(unit='00').first():
-    if SCHEMA == 1 or SCHEMA == 2 or SCHEMA == 10:
-        modDictUnits['00']=[None]
-        modDictUnits['00'].append(U001U)
-        modDictUnits['00'].append(U002U)
-        modDictUnits['00'].append(U003U)
-        modDictUnits['00'].append(U004U)
+
+if SCHEMA == 1 or SCHEMA == 2 or SCHEMA == 10:
+    zeroDictUnits['00']=[None]
+    zeroDictUnits['00'].append(U001U)
+    zeroDictUnits['00'].append(U002U)
+    zeroDictUnits['00'].append(U003U)
+    zeroDictUnits['00'].append(U004U)
 
 ########################################
 
@@ -385,10 +389,10 @@ class A00A (BaseAss):
 
 ### remove after intro class
 ## intro edit
-if Units.query.filter_by(unit='00').first():
-    if SCHEMA == 1 or SCHEMA == 2 or SCHEMA == 10:
-        modDictAss['00'] = A00A
-        print('MOD DICTS INC 00')
+
+if SCHEMA == 1 or SCHEMA == 2 or SCHEMA == 10:
+    zeroDictAss['00'] = A00A
+    print('MOD ASS 00')
 
 class A01A (BaseAss):
     id = db.Column(db.Integer, primary_key=True)
@@ -462,15 +466,28 @@ for elements in modDictUnits.values():
         if item != None:
             listUnits.append(item)
 
+zeroAss = []
+for elements in zeroDictAss.values():
+    zeroAss.append(elements)
+
+zeroUnits = []
+for elements in zeroDictUnits.values():
+    for item in elements:
+        if item != None:
+            zeroUnits.append(item)
+
 
 
 class Info ():
     ### for reading and workplace
     ass_mods_dict = modDictAss   #{'01': <class 'models.A01A'>, '02': <class 'models.A02A'>, '03': <class 'models.A03A'>,
     unit_mods_dict = modDictUnits
+    ass_zero_dict = zeroDictAss   #{'01': <class 'models.A01A'>, '02': <class 'models.A02A'>, '03': <class 'models.A03A'>,
+    unit_zero_dict = zeroDictUnits
     unit_mods_list = listUnits
     ass_mods_list = listAss
-    unit_name_list = modDictAss.keys()
+    unit_zero_list = zeroUnits
+    ass_zero_list = zeroAss
 
     ### for ABC
 

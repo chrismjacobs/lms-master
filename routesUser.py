@@ -19,6 +19,10 @@ DESIGN = BaseConfig.DESIGN
 
 sList = [1,2,10]
 
+
+
+
+
 def get_sources():
     content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/sources.json' )
     file_content = content_object.get()['Body'].read().decode('utf-8')
@@ -67,8 +71,35 @@ def get_MTFN(t):
 
     return MTFN
 
+def get_mods():
+    uModsDict = Info.unit_mods_dict
+    aModsDict = Info.ass_mods_dict
+    unit_mods_list = Info.unit_mods_list
+    ass_mods_list = Info.ass_mods_list
+
+    if Units.query.filter_by(unit='00').first():
+        d1 = Info.unit_mods_dict.copy()
+        d2 = Info.unit_zero_dict
+        uModDict = d2.update(d1)
+
+        d3 = Info.ass_mods_dict.copy()
+        d4 = Info.ass_zero_dict
+        uModDict = d4.update(d3)
+
+        unit_mods_list = Info.unit_zero_list  + Info.unit_mods_list
+        ass_mods_list = Info.ass_zero_list  + Info.ass_mods_list
+
+    return {
+        'uModsDict' : uModsDict,
+        'aModsDict' : aModsDict,
+        'unit_mods_list' : unit_mods_list,
+        'ass_mods_list' : ass_mods_list
+    }
 
 def get_grades(ass, unt):
+
+    INFO = get_mods()
+
 
     ### set max grades
     total_units = 0
@@ -115,7 +146,8 @@ def get_grades(ass, unt):
     unitGradRec = {}
     print ('check units: ', unt, maxU)
     if unt == True:
-        for model in Info.unit_mods_list[unit_start:unit_check]: # a list of all units (so MT will be the first 4x4=16 units)
+        print('unit_list', INFO['unit_mods_list'])
+        for model in INFO['unit_mods_list'][unit_start:unit_check]: # a list of all units (so MT will be the first 4x4=16 units)
             rows = model.query.all()
             unit = str(model).split('U')[1]
             unitGradRec[unit] = {
@@ -137,7 +169,7 @@ def get_grades(ass, unt):
     model_check = total_units
     print('model check ', model_check, ass, ass_start, ass_check)
     if ass == True:
-        for model in Info.ass_mods_list[ass_start:ass_check]:
+        for model in INFO['ass_mods_list'][ass_start:ass_check]:
             unit = str(model).split('A')[1]
             rec = model.query.filter_by(username=current_user.username).first()
             if rec:
@@ -516,9 +548,9 @@ def completeStatus(time, name):
     aCount = 0
     uCount = 0
 
-    for model in Info.ass_mods_dict:
+    for model in get_mods()['aModsDict']:
         if model in assignments[time]:
-            if Info.ass_mods_dict[model].query.filter_by(username=name).first() and Info.ass_mods_dict[model].query.filter_by(username=name).first().Grade > 0:
+            if get_mods()['aModsDict'][model].query.filter_by(username=name).first() and get_mods()['aModsDict'].query.filter_by(username=name).first().Grade > 0:
                 aCount += 1
 
     ## set up for final only
@@ -526,9 +558,9 @@ def completeStatus(time, name):
     partList = []
 
     if time == 'FN':
-        partList = Info.unit_mods_list[16:32]
+        partList = get_mods()['uModsDict'][16:32]
     elif partList == 'MT':
-        partList = Info.unit_mods_list[0:15]
+        partList = get_mods()['uModsDict'][0:15]
 
 
     for model in partList:
@@ -674,7 +706,7 @@ def setStatus():
 def participation_check():
 
     checkDict = {}
-    for model in Info.unit_mods_list[16:32]:
+    for model in get_mods()['uModsDict'][16:32]:
         rows = model.query.all()
         m = str(model).split('U')[1]
         if m not in checkDict:
@@ -744,7 +776,7 @@ def grades_final():
         uStart = 16
         aStart = 4
 
-    for model in Info.unit_mods_list[uStart:(uStart + model_check)]:
+    for model in get_mods()['uModsDict'][uStart:(uStart + model_check)]:
         rows = model.query.all()
         unit = str(model).split('U')[1]
         for row in rows:
@@ -754,7 +786,7 @@ def grades_final():
 
     model_check = total_units
 
-    for model in Info.ass_mods_list[aStart:(aStart+ model_check)]:
+    for model in get_mods()['aModsDict'][aStart:(aStart+ model_check)]:
         unit = str(model).split('A')[1]
         print(unit)
         rows = model.query.all()
@@ -869,7 +901,7 @@ def grades_midterm ():
 
     model_check = total_units*4 ## 4 units for each unit
 
-    for model in Info.unit_mods_list[0:model_check]:
+    for model in get_mods()['uModsDict'][0:model_check]:
         rows = model.query.all()
         unit = str(model).split('U')[1]
         for row in rows:
@@ -883,7 +915,7 @@ def grades_midterm ():
 
     model_check = total_units
 
-    for model in Info.ass_mods_list[0:model_check]:
+    for model in get_mods()['aModsDict'][0:model_check]:
         unit = str(model).split('A')[1]
         rows = model.query.all()
         for row in rows:
@@ -944,9 +976,9 @@ def updateClasswork():
 
     print(unit, name, team)
 
-    print(Info.unit_mods_dict[unit[0:2]])
+    print(uModsDict[unit[0:2]])
 
-    model = Info.unit_mods_dict[unit[0:2]][int(unit[2])]
+    model = uModsDict[unit[0:2]][int(unit[2])]
 
     data = model.query.filter_by(teamnumber=team).first()
 
@@ -997,9 +1029,9 @@ def resetAnswer():
 
     print(unit, team, question)
 
-    print(Info.unit_mods_dict[unit[0:2]])
+    print(uModsDict[unit[0:2]])
 
-    model = Info.unit_mods_dict[unit[0:2]][int(unit[2])]
+    model = uModsDict[unit[0:2]][int(unit[2])]
 
     data = model.query.filter_by(teamnumber=team).first()
 
@@ -1052,9 +1084,9 @@ def classwork():
     unitList = []
 
     if get_MTFN() == 'MT':
-        unitList = Info.unit_mods_list[0:16]
+        unitList = unit_mods_list[0:16]
     else:
-        unitList = Info.unit_mods_list[16:32]
+        unitList = unit_mods_list[16:32]
 
 
     for model in unitList:
@@ -1155,7 +1187,7 @@ def audioUpload():
         s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=audio)
 
 
-    model = Info.ass_mods_dict[unit]
+    model = get_mods()['aModsDict'][unit]
     com = 'in progress...'
 
     ## start assignment
@@ -1210,7 +1242,7 @@ def ass(unit):
         flash('This assignment is not open yet', 'danger')
 
     # models update
-    assDict = Info.ass_mods_dict
+    assDict = get_mods()['aModsDict']
     model = assDict[unit]
 
     #model = models[unitInt]
