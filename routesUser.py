@@ -57,7 +57,7 @@ def get_sources():
 
 def get_MTFN(t):
 
-    MTFN = None
+    MTFN = 'MT'
 
     if t == 'layout':
         if Units.query.filter_by(unit='02').first():
@@ -976,9 +976,9 @@ def updateClasswork():
 
     print(unit, name, team)
 
-    print(uModsDict[unit[0:2]])
+    print(get_mods()['uModsDict'][unit[0:2]])
 
-    model = uModsDict[unit[0:2]][int(unit[2])]
+    model = get_mods()['uModsDict'][unit[0:2]][int(unit[2])]
 
     data = model.query.filter_by(teamnumber=team).first()
 
@@ -1029,9 +1029,9 @@ def resetAnswer():
 
     print(unit, team, question)
 
-    print(uModsDict[unit[0:2]])
+    print(get_mods()['uModsDict'][unit[0:2]])
 
-    model = uModsDict[unit[0:2]][int(unit[2])]
+    model = get_mods()['uModsDict'][unit[0:2]][int(unit[2])]
 
     data = model.query.filter_by(teamnumber=team).first()
 
@@ -1083,10 +1083,10 @@ def classwork():
 
     unitList = []
 
-    if get_MTFN() == 'MT':
-        unitList = unit_mods_list[0:16]
+    if get_MTFN('grades') == 'MT':
+        unitList = get_mods()['unit_mods_list'][0:16]
     else:
-        unitList = unit_mods_list[16:32]
+        unitList = get_mods()['unit_mods_list'][16:32]
 
 
     for model in unitList:
