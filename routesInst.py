@@ -594,6 +594,15 @@ def studentAdd():
     elif marks[actionID] == 2:
         marks[actionID] = 0
 
+    try:
+        print('UPDATE STUDENT ACTION', User.query.filter_by(studentID=actionID).first())
+        if User.query.filter_by(studentID=actionID).first():
+            User.query.filter_by(studentID=actionID).first().extra = marks[actionID]
+            db.session.commit()
+    except:
+        print('UPDATE STUDENT EXTRA FAILED')
+
+
     parent.device = json.dumps(marks)
     db.session.commit()
 
