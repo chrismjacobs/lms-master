@@ -351,6 +351,18 @@ function startVue(qOBJ){
             alert('Failed, please reload page and try again')
           });
       },
+      getSetStyle: function (key) {
+        var sStr = 'height:30px;width:100px;color:white;background:saddlebrown'
+
+        var answerOBJ = this.qOBJ[key].b
+        console.log('set style', answerOBJ)
+
+        if (Object.keys(answerOBJ).length > 5) {
+          sStr = 'height:30px;width:220px;color:white;background:saddlebrown'
+        }
+
+        return sStr
+      },
       shareMC: function (key){
         // key is the question number
         var localKey = this.unit + this.part + key

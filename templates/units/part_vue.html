@@ -79,7 +79,7 @@
             <div v-else-if="qn.t == 'set'">
                 <div v-for="x in qn.c">
                     <span style="font-size:20px"> <b>[[qn.c.indexOf(x) + 1]] &nbsp</b> </span>
-                    <select style="height:30px;width:150px;color:white;background:saddlebrown" :id="'set' + key + (parseInt(qn.c.indexOf(x)) + 1)" :name="'set' + key">
+                    <select :style="getSetStyle(key)" :id="'set' + key + (parseInt(qn.c.indexOf(x)) + 1)" :name="'set' + key">
                         <option :value="0"> -- </option>
                           <template v-for="o in qn.c">
                                 <option :value="[[ o ]]">[[ o ]]</option>
