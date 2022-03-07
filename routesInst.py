@@ -569,6 +569,11 @@ def studentAdd():
     actionID = request.form ['id']
     print(actionID)
 
+    if actionID == '100000000':
+        print('cannot change instructor marker')
+        return abort(403)
+
+
     marks = {}
 
     parent = User.query.filter_by(username='Chris').first()
@@ -576,7 +581,7 @@ def studentAdd():
     if parent.device == '"{}"':
         for idNum in IDLIST:
             marks[idNum] = 0
-            marks['100000000'] = 0
+            # marks['100000000'] = 0
     else:
         marks = json.loads(parent.device)
 
