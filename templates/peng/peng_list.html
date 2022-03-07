@@ -4,6 +4,7 @@
 
 <span id="stage" style="display:none">{{stage}}</span>
 <span id="grade" style="display:none">{{grade}}</span>
+<span id="MTFN" style="display:none">{{MTFN}}</span>
 
 <div id="vue-app">
 
@@ -19,25 +20,8 @@
 
     </div>
 
-    <div class="content-section">
-
-    <span :style="linkStyle(1)" @click="goToFN('1')"> Stage 1: Choose Video </span> -- Deadline: May 10
-    <br>
-    <br>
-    <span v-if="stage > 1" :style="linkStyle(2)" @click="goToFN('2')"> Stage 2: Prepare Plan </span>  -- Deadline: May 17
-    <br>
-    <br>
-
-
-
-    </div>
-
-</div> <!-- end of Vue app -->
-
-
-{% endblock %}
-
-    <!--<legend class="border-bottom mb-4"> Progress: You are on stage {{stage}} </legend>
+    <div v-if="MTFN == 'MT'" class="content-section">
+      <legend class="border-bottom mb-4"> Progress: You are on stage {{stage}} </legend>
 
 
       <span :style="linkStyle(1)" @click="goToMT('1')"> Stage 1: Choose Product </span>
@@ -53,7 +37,26 @@
       <br>
       <br>
       <span v-if="stage > 5" :style="linkStyle(5)" > CONGRATULATIONS - YOU ARE READY!! </span>
-       -->
+    </div>
+    <div v-else class="content-section">
+
+    <span :style="linkStyle(1)" @click="goToFN('1')"> Stage 1: Choose Video </span> -- Deadline: May 10
+    <br>
+    <br>
+    <span v-if="stage > 1" :style="linkStyle(2)" @click="goToFN('2')"> Stage 2: Prepare Plan </span>  -- Deadline: May 17
+    <br>
+    <br>
+
+
+    </div>
+
+</div> <!-- end of Vue app -->
+
+
+{% endblock %}
+
+
+
 
 
 {% block script %}
@@ -64,8 +67,10 @@
 
 var stage = document.getElementById('stage').innerHTML
 var grade = document.getElementById('grade').innerHTML
+var MTFN = document.getElementById('MTFN').innerHTML
 
 console.log(stage)
+console.log('MTFN', MTFN)
 
 
 startVue()
@@ -79,6 +84,7 @@ function startVue() { new Vue({
     data: {
         stage: stage,
         grade: grade,
+        MTFN: MTFN,
         status: {
           1 : true,
           2 : false,
@@ -89,7 +95,7 @@ function startVue() { new Vue({
     methods: {
       goToMT: function(link) {
           var str = window.location.href
-          let url = (str).split('_list')[0] + '/MT/' + link
+          let url = (str).split('_list')[0] + '/' + link
           console.log('goTO', url);
           window.location = url
         },
@@ -99,13 +105,13 @@ function startVue() { new Vue({
           // return false
         }
           var str = window.location.href
-          let url = (str).split('_list')[0] + '/FH/' + link
+          let url = (str).split('_list')[0] + '/' + link
           console.log('goTO', url);
           window.location = url
         },
       goToFN: function(link) {
           var str = window.location.href
-          let url = (str).split('_list')[0] + '/FN/' + link
+          let url = (str).split('_list')[0] + '/' + link
           console.log('goTO', url);
           window.location = url
         },

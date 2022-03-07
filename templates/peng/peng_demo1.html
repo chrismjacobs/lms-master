@@ -4,15 +4,15 @@
 
 <span id="ansString" style="display:none">{{ansString}}</span>
 
-<div class="content-section">    
+<div class="content-section">
 <h3> MT Presentation: <br> Product Demonstration </h3>
-  
+
     <div class="embed-responsive embed-responsive-4by3">
         <iframe id="questions_embed" src="{{source}}"
             allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
 	</iframe>
-    </div> 
-      
+    </div>
+
 </div>
 
 <div id="vue-app">
@@ -23,15 +23,15 @@
 
 
             <span :style="style('Intro')"> Product</span>
-            <input type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Product']"></input> 
+            <input type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Product']"></input>
             *you cannot choose phones, laptops, tablet or airpods - try and think of something more interesting
-            <br>  
-            <br>  
+            <br>
+            <br>
 
             <span :style="style('Intro')"> Brand</span>
-            <input type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Brand']"></input> 
-            <br>  
-            <br>  
+            <input type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Brand']"></input>
+            <br>
+            <br>
 
             <br>
                 <img class="rounded img-fluid" id="final_image" alt="need to update" style="max-width:80%"  :src="imageCheck">
@@ -47,14 +47,14 @@
 
             <span :style="style('Intro')"> Why did you choose this product?</span>
             <br>
-            <input type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Why']"></input> 
-            <br> 
-            <br> 
+            <input type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Why']"></input>
+            <br>
+            <br>
 
-            <div v-if="updateReady">				
+            <div v-if="updateReady">
                 <button  class="btn btn-dark" style="margin-right:5px" @click="updatePlan()">Update Plan</button>
-            </div> 
-            <br>  
+            </div>
+            <br>
 
     </div>
 
@@ -66,7 +66,7 @@
 
 {% endblock %}
 
-{% block script %}   
+{% block script %}
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 <script type="text/javascript">
@@ -76,30 +76,29 @@ var ansOBJ = JSON.parse(ansString)
 console.log('ansOBJ', ansOBJ);
 
 var str = window.location.href
-let stage = (str).split('peng/')[1].split('/')[1]
+let stage = (str).split('peng/')[1]
 
 
 startVue(ansOBJ)
 
-function startVue(ansOBJ){ 
-  
-  let vue = new Vue({   
+function startVue(ansOBJ){
+
+  let vue = new Vue({
 
     el: '#vue-app',
-    delimiters: ['[[', ']]'],   
-    mounted: function () {        
-    },    
-    data: {                        
-        ansOBJ: ansOBJ,       
+    delimiters: ['[[', ']]'],
+    mounted: function () {
+    },
+    data: {
+        ansOBJ: ansOBJ,
         stage : stage,
-        updateReady : true,   
-        blurblocker : null,    
-        image_b64 : null,        
-        project: (window.location.href).split('/peng/')[1].split('/')[0],   
-    }, 
-    methods: {  
-        wordCount : function(mark) { 
-            console.log(mark); 
+        updateReady : true,
+        blurblocker : null,
+        image_b64 : null
+    },
+    methods: {
+        wordCount : function(mark) {
+            console.log(mark);
             var wc = (document.getElementById(mark).value).split(' ')
             console.log(wc.length);
             if (wc.length < 8) {
@@ -110,41 +109,40 @@ function startVue(ansOBJ){
                     alert('This sentence seems too short - try making it longer with conjunction phrases (but/so/when/if/because..)')
                     vue.blurblocker = mark
                 }
-                
-            }           
+
+            }
 
             return true
-        },        
-        style : function(mark) { 
+        },
+        style : function(mark) {
             if (mark.includes('kw')){
                 var bg = 'silver'
             }
             else if (mark.includes('dt')){
                 var bg = 'darkorange'
-            }           
+            }
             else if (mark.includes('Rea')){
                 var bg = 'PALEVIOLETRED'
-            }           
+            }
             else if (mark.includes('Int')){
                 var bg = 'DARKCYAN'
-            }           
+            }
 
             return {padding:'4px', 'font-size':'15px', background:bg, color:'white', border:'1px sold white', 'border-radius':'5px', width:'20%'}
 
         },
-        updatePlan : function() {  
-            alert('Please wait, your plan is being updated')           
+        updatePlan : function() {
+            alert('Please wait, your plan is being updated')
 
             $.ajax({
               data : {
-                proj : this.project,
                 stage: this.stage,
                 image_b64 : this.image_b64,
                 audio_b64 : null,
-                ansOBJ : JSON.stringify(this.ansOBJ)  
+                ansOBJ : JSON.stringify(this.ansOBJ)
               },
               type : 'POST',
-              url : '/updatePENG',               
+              url : '/updatePENG',
             })
             .done(function(data) {
                 if (data.fail){
@@ -155,60 +153,60 @@ function startVue(ansOBJ){
                     vue.image_b64 = null
                     console.log(vue.ansOBJ)
                     document.getElementById('final_image').src = vue.ansOBJ['Image']
-                    alert('Your FORM has been updated')   
-                }  
-                
-                               
+                    alert('Your FORM has been updated')
+                }
+
+
             })
             .fail(function(){
                 alert('error has occurred');
             });
-        }, 
-        imageValidation : function() {                     
-            var fileInput = document.getElementById('image');  
+        },
+        imageValidation : function() {
+            var fileInput = document.getElementById('image');
             var allowedExtensions = /(\.jpeg|\.png|\.jpg)$/i;
             var filePath = fileInput.value;
-        
+
           if(fileInput.files[0].size > 4400000){
-              alert("File is too big!"); 
-              fileInput.value = '';             
-              return false;        
+              alert("File is too big!");
+              fileInput.value = '';
+              return false;
           }
           else if(!allowedExtensions.exec(filePath)){
               alert('Please upload image: .jpeg/.png only.');
               fileInput.value = '';
               return false;
-          }    
-          else{            
-              console.dir( fileInput.files[0] );    
-              var url = window.URL.createObjectURL(fileInput.files[0]);        
+          }
+          else{
+              console.dir( fileInput.files[0] );
+              var url = window.URL.createObjectURL(fileInput.files[0]);
               fetch(url)
               .then(function(res){
                   return res.blob();
                   })
               .then(function(savedBlob){
                   var reader = new FileReader();
-                  reader.readAsDataURL(savedBlob);          
+                  reader.readAsDataURL(savedBlob);
                   reader.onloadend = function() {
-                      vue.image_b64 = reader.result.split(',')[1];                                       
-                } 
-              })  
-          }//end else   
+                      vue.image_b64 = reader.result.split(',')[1];
+                }
+              })
+          }//end else
             return true
-        },    
+        },
     },
     computed : {
-        imageCheck : function() { 
+        imageCheck : function() {
             return this.ansOBJ['Image']
         },
-    } // end methods    
-    
+    } // end methods
+
 })// end NEW VUE
 
-}// endFunction 
+}// endFunction
 
 
 </script>
 
-{% endblock %} 
+{% endblock %}
 

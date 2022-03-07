@@ -5,25 +5,25 @@
 <span id="ansString" style="display:none">{{ansString}}</span>
 <span id="name" style="display:none">{{current_user.username}}</span>
 
-<div class="content-section">    
+<div class="content-section">
 <h1> Midterm Presentation: <br> Product Demonstration </h1>
-  
+
     <div class="embed-responsive embed-responsive-4by3">
         <iframe id="questions_embed" src="https://docs.google.com/presentation/d/e/2PACX-1vTa0AjKFeKUtKj5Dcj-G6b7gwyvuDDzI07JzrnVdGzv_xJjmmxKC-a5oYJ-RL2HNMIf9zOiMs3yNZzR/embed"
             allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
 	</iframe>
-    </div> 
-      
+    </div>
+
 </div>
 
 <div id="vue-app">
 
-<div class="content-section">   
+<div class="content-section">
         <audio id="audioPlayer"  controls>
                 <source  :src="ansOBJ['Audio6']" type="audio/mpeg" >
                 <source  :src="ansOBJ['Audio6']" type="audio/x-m4a" >
         </audio>
-        
+
 <br>
 <br>
         <div>
@@ -31,7 +31,7 @@
             <div>
             <input type="file" id="audio" accept="audio/*" @change="audioValidation()"> </input> <button class="btn btn-secondary btn-sm"> Select </button>
             </div>
-            <br>                        
+            <br>
             <div v-if="audio_b64">
             <button  class="btn btn-danger btn-sm" @click="updatePlan()">Upload</button>
             </div>
@@ -39,7 +39,7 @@
 
 </div>
 
-<div class="content-section">    
+<div class="content-section">
 
 <legend class="border-bottom mb-4"> Practice Script with Notes </legend>
 
@@ -49,7 +49,7 @@
 
 <div style="border: 0.5px solid purple;border-radius: 3px; padding: 5px">
 
-<h4 style="color:purple" >  Introduction </h4>  
+<h4 style="color:purple" >  Introduction </h4>
 
 <button class="btn btn-sm btn-info" @click="intro=!intro"> Check :Introduction </button>
 <br>
@@ -57,20 +57,20 @@
 <div v-if="intro">
     <h5>[[  ansOBJ['Intro'][1]  ]]</h5>
     <h5>[[  ansOBJ['Intro'][2]  ]]</h5>
-    <h5>[[  ansOBJ['Intro'][3]  ]]</h5>   
+    <h5>[[  ansOBJ['Intro'][3]  ]]</h5>
     <br>
 
-</div>  
+</div>
 </div>
 
 <br>
 <br>
 
 
-<template v-for="(section, key) in ansOBJ['Parts']" :key="key"> 
+<template v-for="(section, key) in ansOBJ['Parts']" :key="key">
 
         <div style="border: 0.5px solid purple;border-radius: 3px; padding: 5px">
-        <h4 style="color:purple" >  [[ key ]]  </h4>       
+        <h4 style="color:purple" >  [[ key ]]  </h4>
         <ul>
            <li>[[  ansOBJ['Cues'][key][1]  ]]</li>
            <li>[[  ansOBJ['Cues'][key][2]  ]]</li>
@@ -87,10 +87,10 @@
 
         </div>
         <br>
-        
-        
+
+
 <br>
-</template>  
+</template>
 
 
 
@@ -107,7 +107,7 @@
 
 {% endblock %}
 
-{% block script %}   
+{% block script %}
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 <script type="text/javascript" >
@@ -122,24 +122,23 @@ let stage = (str).split('peng/')[1].split('/')[1]
 
 startVue(ansOBJ)
 
-function startVue(ansOBJ){ 
-  
-  let vue = new Vue({   
+function startVue(ansOBJ){
+
+  let vue = new Vue({
 
     el: '#vue-app',
-    delimiters: ['[[', ']]'],   
-    mounted: function () {        
-    },    
-    data: {                        
-        ansOBJ: ansOBJ,       
-        stage : stage,         
-        project: (window.location.href).split('/peng/')[1].split('/')[0], 
+    delimiters: ['[[', ']]'],
+    mounted: function () {
+    },
+    data: {
+        ansOBJ: ansOBJ,
+        stage : stage,
         audio_b64: null,
-        script: {            
-            Product : "What is this product?", 
-            Features : "First, let me explain some product features", 
-            Demo : "Now, for the demonstration", 
-            Extra : "Finally, what are some extra benefits?", 
+        script: {
+            Product : "What is this product?",
+            Features : "First, let me explain some product features",
+            Demo : "Now, for the demonstration",
+            Extra : "Finally, what are some extra benefits?",
         },
         intro : false,
         view :{
@@ -149,22 +148,21 @@ function startVue(ansOBJ){
             Demo : false ,
             Close : false ,
         }
-        
-    }, 
-    methods: {         
-        updatePlan : function() {  
-            alert('Please wait, your plan is being updated')           
+
+    },
+    methods: {
+        updatePlan : function() {
+            alert('Please wait, your plan is being updated')
 
             $.ajax({
               data : {
-                proj : this.project,
                 stage: this.stage,
                 image_b64 : null,
                 audio_b64 : vue.audio_b64,
-                ansOBJ : JSON.stringify(this.ansOBJ)  
+                ansOBJ : JSON.stringify(this.ansOBJ)
               },
               type : 'POST',
-              url : '/updatePENG',               
+              url : '/updatePENG',
             })
             .done(function(data) {
                 if (data.fail){
@@ -173,60 +171,60 @@ function startVue(ansOBJ){
                 else{
                     vue.ansOBJ = JSON.parse(data.ansString)
                     document.getElementById('audioPlayer').src = vue.ansOBJ['Audio']
-                    console.log(vue.ansOBJ)                    
-                    alert('Your FORM has been updated')   
-                }  
-                
-                               
+                    console.log(vue.ansOBJ)
+                    alert('Your FORM has been updated')
+                }
+
+
             })
             .fail(function(){
                 alert('error has occurred');
             });
-        },  
-        audioValidation : function(){ 
-            console.log('audio1', vue.audio_b64);   
-            var fileInput = document.getElementById('audio');        
+        },
+        audioValidation : function(){
+            console.log('audio1', vue.audio_b64);
+            var fileInput = document.getElementById('audio');
             console.log('file', fileInput)
             var filePath = fileInput.value;
             var allowedExtensions = /(\.mp3|\.m4a)$/i;
-        
+
             if(fileInput.files[0].size > 4400000){
                 alert("File is too big!");
                 location.reload()
-                return false;        
+                return false;
             }
             else if(!allowedExtensions.exec(filePath)){
                 alert('Please upload audio file: .mp3/.m4a only.');
                 fileInput.value = '';
                 return false;
-            }    
-            else{            
-                console.dir( fileInput.files[0] );    
-                var url = window.URL.createObjectURL(fileInput.files[0]);        
+            }
+            else{
+                console.dir( fileInput.files[0] );
+                var url = window.URL.createObjectURL(fileInput.files[0]);
                 fetch(url)
                 .then(function(res){
                     return res.blob();
                     })
-                .then(function(savedBlob){                  
-            
+                .then(function(savedBlob){
+
                 var reader = new FileReader();
-                reader.readAsDataURL(savedBlob);          
+                reader.readAsDataURL(savedBlob);
                 reader.onloadend = function() {
-                        vue.audio_b64 = reader.result.split(',')[1];     
-                        console.log('audio2', vue.audio_b64);                 
+                        vue.audio_b64 = reader.result.split(',')[1];
+                        console.log('audio2', vue.audio_b64);
                     }
                 })// end then function
-            }//end else  
-            
-          },//end audioValidation  
+            }//end else
+
+          },//end audioValidation
     }// end methods
-      
-    
+
+
 })// end NEW VUE
 
-}// endFunction 
+}// endFunction
 
 </script>
 
-{% endblock %} 
+{% endblock %}
 

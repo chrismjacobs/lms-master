@@ -24,10 +24,23 @@ def get_peng_projects():
     content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/sources.json' )
     file_content = content_object.get()['Body'].read().decode('utf-8')
     sDict = json.loads(file_content)  # json loads returns a dictionary
-    #source = sDict['1']['M2']
-    source = sDict['1']['M3']
+
+    source = sDict['1']['M2']
+    if getMTFN() == 'FN':
+        source = sDict['1']['M3']
 
     return source
+
+
+def getMTFN():
+    check = User.query.filter_by(username='Chris').first()
+    checkInt = int(check.extra)
+    MTFN = 'MT'
+    print('checkInt', checkInt)
+    if checkInt == 2:
+        MTFN = 'FN'
+
+    return MTFN
 
 startDict = {
             'Product' : None,
@@ -160,7 +173,7 @@ highDict = {
 @login_required
 def peng_list():
 
-    setup = 'FN'
+    setup = getMTFN()
     source = get_peng_projects()
 
     projectData = {
@@ -268,11 +281,14 @@ def peng_list():
     stage = project.Comment
     print(source)
 
-    return render_template('peng/peng_list.html', legend='Presentation Projects', source=source, stage=stage, grade=grade)
+    return render_template('peng/peng_list.html', legend='Presentation Projects', source=source, stage=stage, grade=grade, setup=setup)
 
-@app.route ("/peng_dash/<string:MTFN>", methods=['GET','POST'])
+
+@app.route ("/peng_dash", methods=['GET','POST'])
 @login_required
-def peng_dash(MTFN):
+def peng_dash():
+    MTFN = getMTFN()
+
     source = get_peng_projects()
 
     projDict = {}
@@ -306,11 +322,14 @@ def peng_dash(MTFN):
 
 
 
-@app.route ("/peng/<string:MTFN>/<string:page_stage>", methods=['GET','POST'])
+@app.route ("/peng/<string:page_stage>", methods=['GET','POST'])
 @login_required
-def peng_proj(MTFN, page_stage):
+def peng_proj(page_stage):
     source = get_peng_projects()
     # midterm or final
+
+    MTFN = getMTFN()
+
     if MTFN == 'MT':
         project = U011U.query.filter_by(username=current_user.username).first()
         html = 'peng/peng_demo'
@@ -347,7 +366,7 @@ def get_all_values(nested_dictionary):
 
 @app.route('/updatePENG', methods=['POST'])
 def updatePENG():
-    proj = request.form ['proj']
+    proj = getMTFN()
     ansOBJ = request.form ['ansOBJ']
     stage = request.form ['stage']
     try:

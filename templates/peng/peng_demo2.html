@@ -5,18 +5,18 @@
 <span id="ansString" style="display:none">{{ansString}}</span>
 <span id="name" style="display:none">{{current_user.username}}</span>
 
-<div class="content-section">    
+<div class="content-section">
 <h1> Midterm Presentation: <br> Product Demonstration </h1>
-  
+
     <div class="embed-responsive embed-responsive-4by3">
         <iframe id="questions_embed" src="{{source}}"
             allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
 	</iframe>
-    </div> 
-      
+    </div>
+
 </div>
 
-<div class="content-section">    
+<div class="content-section">
 <h1> <a href="https://drive.google.com/open?id=1P2xxPRhDTzSHEioslKpJtHAByL8GQQAI"> Example: Aerobie Disc </a> </h1>
 </div>
 
@@ -37,50 +37,50 @@
 <br>
 
 <h4 >  Intro  </h4>
-<template v-for="(item, key) in ansOBJ['Intro']"> 
+<template v-for="(item, key) in ansOBJ['Intro']">
 <h4 >  Point [[ key ]]  </h4>
 
         <span :style="style('dt')">Sentence </span>
-        <textarea type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Intro'][key]" @on-blur="wordCount()"></textarea> 
+        <textarea type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Intro'][key]" @on-blur="wordCount()"></textarea>
         <br>
-        <br>  
+        <br>
 
-</template>  
- 
-   
+</template>
 
-<template v-for="(section, key) in ansOBJ['Parts']"> 
+
+
+<template v-for="(section, key) in ansOBJ['Parts']">
 <h4 >  [[ key ]]  </h4>
         <div v-for="(point, order) in ansOBJ['Parts'][key]">
                 <span :style="style('kw')">Point [[order]]: CC word(s) --> </span>
-                <input type="text" class="textAss" style="margin-left:5px; width:80%" v-model="ansOBJ['Cues'][key][order]"></input> 
+                <input type="text" class="textAss" style="margin-left:5px; width:80%" v-model="ansOBJ['Cues'][key][order]"></input>
                 <br>
                 <span :style="style('dt')"> Sentence </span>
-                <textarea type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Parts'][key][order]" @on-blur="wordCount()"></textarea> 
+                <textarea type="text" class="textAss" style="margin-left:5px" v-model="ansOBJ['Parts'][key][order]" @on-blur="wordCount()"></textarea>
                 <br>
                 <br>
         </div>
 <br>
-</template>  
+</template>
 
-<div v-if="updateReady">				
+<div v-if="updateReady">
     <button  class="btn btn-dark" style="margin-right:5px" @click="updatePlan()">Update Plan</button>
-</div> 
-<br> 
+</div>
+<br>
 
 
 
 
-</div> 
+</div>
 
-<div class="content-section">    
+<div class="content-section">
     <legend class="border-bottom mb-4"> Script and Notes </legend>
 
-<template v-for="(section, key) in ansOBJ['Parts']"> 
+<template v-for="(section, key) in ansOBJ['Parts']">
 
 
         <div style="border: 0.5px solid purple;border-radius: 3px; padding: 5px">
-        <h4 style="color:purple" >  [[ key ]]  </h4>       
+        <h4 style="color:purple" >  [[ key ]]  </h4>
         <ul>
            <li>[[  ansOBJ['Cues'][key][1]  ]]</li>
            <li>[[  ansOBJ['Cues'][key][2]  ]]</li>
@@ -95,11 +95,11 @@
 
 
 
-        
-<br>
-</template>  
 
-      
+<br>
+</template>
+
+
 </div>
 
 
@@ -108,7 +108,7 @@
 
 {% endblock %}
 
-{% block script %}   
+{% block script %}
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 <script type="text/javascript" >
@@ -123,31 +123,30 @@ let stage = (str).split('peng/')[1].split('/')[1]
 
 startVue(ansOBJ)
 
-function startVue(ansOBJ){ 
-  
-  let vue = new Vue({   
+function startVue(ansOBJ){
+
+  let vue = new Vue({
 
     el: '#vue-app',
-    delimiters: ['[[', ']]'],   
-    mounted: function () {        
-    },    
-    data: {                        
-        ansOBJ: ansOBJ,       
+    delimiters: ['[[', ']]'],
+    mounted: function () {
+    },
+    data: {
+        ansOBJ: ansOBJ,
         stage : stage,
-        updateReady : true,   
-        blurblocker:null,    
-        project: (window.location.href).split('/peng/')[1].split('/')[0], 
-        script: {            
-            Product : "What is this product?", 
-            Features : "First, let me explain some product features", 
-            Demo : "Now, for the demonstration", 
-            Extra : "Finally, what are some extra benefits?", 
-        }  
+        updateReady : true,
+        blurblocker:null,
+        script: {
+            Product : "What is this product?",
+            Features : "First, let me explain some product features",
+            Demo : "Now, for the demonstration",
+            Extra : "Finally, what are some extra benefits?",
+        }
 
-    }, 
-    methods: {  
-        wordCount : function(mark) { 
-            console.log(mark); 
+    },
+    methods: {
+        wordCount : function(mark) {
+            console.log(mark);
             var wc = (document.getElementById(mark).value).split(' ')
             console.log(wc.length);
             if (wc.length < 8) {
@@ -158,67 +157,66 @@ function startVue(ansOBJ){
                     alert('This sentence seems too short - try making it longer with conjunction phrases (but/so/when/if/because..)')
                     vue.blurblocker = mark
                 }
-                
-            }            
+
+            }
 
             return true
-        },        
-        style : function(mark) { 
+        },
+        style : function(mark) {
             if (mark.includes('kw')){
                 var bg = 'silver'
             }
             else if (mark.includes('dt')){
                 var bg = 'darkorange'
-            }           
+            }
             else if (mark.includes('Rea')){
                 var bg = 'PALEVIOLETRED'
-            }           
+            }
             else if (mark.includes('Int')){
                 var bg = 'DARKCYAN'
-            }           
+            }
 
             return {padding:'4px', 'font-size':'15px', background:bg, color:'white', border:'1px sold white', 'border-radius':'5px', width:'20%'}
 
         },
-        updatePlan : function() {  
-            alert('Please wait, your plan is being updated')           
+        updatePlan : function() {
+            alert('Please wait, your plan is being updated')
 
             $.ajax({
               data : {
-                proj : this.project,
                 stage: this.stage,
                 image_b64 : null,
                 audio_b64 : null,
-                ansOBJ : JSON.stringify(this.ansOBJ)  
+                ansOBJ : JSON.stringify(this.ansOBJ)
               },
               type : 'POST',
-              url : '/updatePENG',               
+              url : '/updatePENG',
             })
             .done(function(data) {
                 if (data.fail){
                     alert('Your FORM is NOT complete yet')
                 }
                 else{
-                    vue.ansOBJ = JSON.parse(data.ansString)                    
-                    alert('Your FORM has been updated')   
-                }          
+                    vue.ansOBJ = JSON.parse(data.ansString)
+                    alert('Your FORM has been updated')
+                }
             })
             .fail(function(){
                 alert('error has occurred');
             });
-        },   
+        },
     },
     computed : {
-        imageCheck : function() { 
+        imageCheck : function() {
             return this.ansOBJ['Image']
         },
-    } // end methods    
-    
+    } // end methods
+
 })// end NEW VUE
 
-}// endFunction 
+}// endFunction
 
 </script>
 
-{% endblock %} 
+{% endblock %}
 
