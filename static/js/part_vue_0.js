@@ -81,8 +81,19 @@ function startVue(qOBJ){
 
             var spList  = []
 
-            for (let c in qOBJ[q].c) {
-              spList.push(this.shuffleSpell(qOBJ[q].c[c]))
+            for (let w in qOBJ[q].c) {
+              let word = qOBJ[q].c[w].trim()
+              console.log('sp word', word)
+              if (word.includes(' ')) {
+                let target = ''
+                let spaces = word.split(' ')
+                for (let nw in spaces) {
+                  target += this.shuffleSpell(spaces[nw]) + ' '
+                }
+                spList.push(target)
+              } else {
+                spList.push(this.shuffleSpell(word))
+              }
             }
             qOBJ[q].c = spList
           }
@@ -158,7 +169,7 @@ function startVue(qOBJ){
 
         for (let s in this.spelling) {
           if (this.spelling[s].trim().length > 0) {
-            if (this.spelling[s].trim().toLowerCase() != this.qOBJ[key].b[s].toLowerCase()) {
+            if (this.spelling[s].trim().toLowerCase() != this.qOBJ[key].b[s].trim().toLowerCase()) {
               allow = false
             }
           } else {
@@ -350,6 +361,13 @@ function startVue(qOBJ){
           .fail(function(){
             alert('Failed, please reload page and try again')
           });
+      },
+      getInSplit: function (ans) {
+        let rAns = []
+        if (ans != null) {
+          rAns = ans.split('/')
+        }
+        return rAns
       },
       getSetStyle: function (key) {
         var sStr = 'height:30px;width:100px;color:white;background:saddlebrown'

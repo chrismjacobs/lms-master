@@ -115,7 +115,7 @@
                         spellcheck="false"
                     >
                     </input>
-                    [[spelling[qn.c.indexOf(x)].trim().length]] / [[x.length]]
+                    [[spelling[qn.c.indexOf(x)].trim().length]] / [[x.trim().length]]
                 </div>
                 <br>
                 <button v-if="getSpellBTN(key)" class="btn btn-outline-secondary btn-sm" style="border: 1px solid {{DESIGN['titleColor']}}" type="button" @click="shareAnswer(key, 'perfect')"> Share Answers </button>
@@ -190,7 +190,7 @@
                                 <td scope="col" > [[ teamnum ]] </td>
                                     <td scope="col" >
                                         <span v-if="qn.t == 'in'">
-                                            <span v-for="a in ans.split('/')">
+                                            <span v-for="a in getInSplit(ans)">
                                                 <span v-if="a.length > 0">[[ a ]] &nbsp <br> </span>
                                             </span>
                                         </span>
