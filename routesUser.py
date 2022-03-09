@@ -426,7 +426,7 @@ def openExam():
 @login_required
 def exam_list_midterm():
 
-    semester = int(User.query.filter_by(username='Chris').first().device)
+    semester = int(User.query.filter_by(username='Chris').first().extra)
 
     ''' set exam practice '''
     try:
@@ -582,7 +582,7 @@ def completeStatus(time, name):
 @login_required
 def exam_list_final():
 
-    semester = int(User.query.filter_by(username='Chris').first().device)
+    semester = int(User.query.filter_by(username='Chris').first().extra)
 
     ''' set exam practice '''
     try:
@@ -726,7 +726,7 @@ def grades_final():
     if current_user.id != 1:
         return redirect(url_for('home'))
 
-    semester = int(User.query.filter_by(username='Chris').first().device)
+    semester = int(User.query.filter_by(username='Chris').first().extra)
 
     gradesDict = {}
     completeDict = {}
@@ -841,7 +841,7 @@ def grades_final():
 def grades_midterm ():
 
 
-    semester = int(User.query.filter_by(username='Chris').first().device)
+    semester = int(User.query.filter_by(username='Chris').first().extra)
 
     gradesDict = {}
     completeDict = {}
