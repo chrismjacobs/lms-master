@@ -181,7 +181,7 @@ def get_grades(ass, unt):
             else:
                 assGradRec[unit] = {
                     'Grade' : 0,
-                    'Comment' : 'Not started yet'
+                    'Comment' : 'Open to start...'
                 }
 
     return {
