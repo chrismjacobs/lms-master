@@ -12,50 +12,50 @@
 <h3 style="display: inline-block"> Assignments: {{Grade}}/{{max}} </h3>
 
   <div>
-    <h5> Complete assignments before the deadline to get maximum points</h5> 
-    <h5> (30% of final grade)</h5>  
+    <h5> Complete assignments before the deadline to get maximum points</h5>
+    <h5> (30% of final grade)</h5>
   </div>
 </div>
 
-<div class="content-section">        
-    
+<div class="content-section">
+
     <div style="overflow-x:auto;">
       <table class="table table-sm">
         <thead>
             <tr>
-              <th scope="col" ></th>  
               <th scope="col" ></th>
-              <th scope="col" ></th>                       
+              <th scope="col" ></th>
+              <th scope="col" ></th>
             </tr>
-        </thead> 
-        
+        </thead>
+
         <tbody>
-        <template v-for="(unit, key) in assOBJ"  :key="key" > 
+        <template v-for="(unit, key) in assOBJ"  :key="key" >
             <tr>
-              <td style="background:whitesmoke;width:60%"> <span @click="goTo(key)" class="unit-span" style="background:{{theme}}; padding:3px">[[  key  ]]:[[  unit.Title  ]]</span> </td>  
+              <td style="background:whitesmoke;width:60%"> <span @click="goTo(key)" class="unit-span" style="background:{{theme}}; padding:3px">[[  key  ]]:[[  unit.Title  ]]</span> </td>
               <td> [[  unit.Deadline  ]] </td>
-              <td> [[  unit.Grade  ]] </td>                
-            </tr> 
-            <tr :bgcolor="bgStyle(unit.Grade)">                 
-              <td colspan ="3" :style="commentStyle(unit.Comment)"> [[  unit.Comment  ]] </td>  
+              <td> [[  unit.Grade  ]] </td>
             </tr>
-             
-            </template>     
-            
-        </tbody>   
-   
+            <tr :bgcolor="bgStyle(unit.Grade)">
+              <td colspan ="3" :style="commentStyle(unit.Comment)"> [[  unit.Comment  ]] </td>
+            </tr>
+
+            </template>
+
+        </tbody>
+
       </table>
     </div>
 
-</div>   
-   
+</div>
+
 
 </div> <!-- end of Vue app -->
 
 
 {% endblock %}
 
-{% block script %}   
+{% block script %}
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 
@@ -81,22 +81,22 @@ else{
 
 startVue(OBJ, colorFloat)
 
-function startVue(assOBJ, colorFloat){ new Vue({   
+function startVue(assOBJ, colorFloat){ new Vue({
 
     el: '#vue-app',
     delimiters: ['[[', ']]'],
 
     data: {
-        assOBJ: assOBJ,              
-        colorFloat: colorFloat                       
-    }, 
+        assOBJ: assOBJ,
+        colorFloat: colorFloat
+    },
     methods: {
         commentStyle: function(comment){
           console.log(comment);
           if(comment.includes("on time")){
             return {width:'100%', 'background-color':'pink', height: '30px !important'}
           }
-          if(comment.includes("Not started")){
+          if(comment.includes("Open to")){
             return {width:'100%', 'background-color':'lightcoral', height: '30px !important'}
           }
           else if(comment.includes("check..")){
@@ -110,25 +110,25 @@ function startVue(assOBJ, colorFloat){ new Vue({
           }
           else{
             return {width:'100%', 'background-color':'lightgreen', height: '110px !important'}
-          }                   
-        }, 
-        headStyle: function(){           
-            if (colorFloat < .4) {
-                var background ='salmon'; 
-              } else if (colorFloat < .6 ) {
-                var background ='lightpink'; 
-              } else if (colorFloat < .8 ) {
-                var background ='peachpuff'; 
-              } else if (colorFloat < 1) {
-                var background ='lemonchiffon'; 
-              } else {
-                var background ='honeydew'; 
-              } 
-            console.log('color', background);            
-            return {background : background }        
+          }
         },
-        bgStyle: function(grade){ 
-          
+        headStyle: function(){
+            if (colorFloat < .4) {
+                var background ='salmon';
+              } else if (colorFloat < .6 ) {
+                var background ='lightpink';
+              } else if (colorFloat < .8 ) {
+                var background ='peachpuff';
+              } else if (colorFloat < 1) {
+                var background ='lemonchiffon';
+              } else {
+                var background ='honeydew';
+              }
+            console.log('color', background);
+            return {background : background }
+        },
+        bgStyle: function(grade){
+
             if (grade == 1) {
                 background = "lightblue";
               }
@@ -138,26 +138,26 @@ function startVue(assOBJ, colorFloat){ new Vue({
               else {
                 background = "mistyrose";
               }
-            console.log(background, grade);         
-            return background         
-        }, 
+            console.log(background, grade);
+            return background
+        },
         goTo: function(key){
           var str = window.location.href
-          
+
           let url = (str).split('assignments')[0] + 'ass/' + key
           console.log('goTO', url);
             window.location = url
             console.log('DONE');
         }
-                  
-    }         
+
+    }
 })// end NEW VUE
 
 
 
-}// endFunction 
+}// endFunction
 
-</script>  
+</script>
 
-{% endblock %} 
+{% endblock %}
 
