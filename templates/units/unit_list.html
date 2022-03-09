@@ -21,6 +21,7 @@
   <br>
 
   {% if current_user.id == 1 %}
+  <button class="btn btn-outline-secondary" @click="gotoAdmin('units')">User</button>
     <span v-for="u in uList" class="unit-span" @click="openUnit('0005', u)" > &nbsp [[u]] &nbsp </span>
 
     {% endif %}
@@ -207,6 +208,12 @@ function startVue(unitOBJ, colorFloat, prevs, options, opens){
         uList: ['00', '01', '02', '03', '04', '05', '06', '07', '08']
     },
     methods: {
+        gotoAdmin: function (target) {
+          let breaker = 'admin/'
+          var str = window.location.href
+          let url = (str).split('controls')[0] + breaker + target
+          window.open(url, '_blank')
+        },
         getComment: function (jString) {
           if (jString.includes('{')) {
             let obj = JSON.parse(jString)

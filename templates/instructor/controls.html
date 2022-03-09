@@ -52,16 +52,10 @@ Teamsize
 <br>
 <a href='https://affairs.just.edu.tw/TeacherStuApp/Default.aspx'> Attendance</a>
 &nbsp
-&nbsp
-<a href='http://deane.just.edu.tw/teacher/Default.aspx'>Syllabus</a>
-&nbsp
-&nbsp
-<a href='https://md.just.edu.tw/login/index.php'>Moodle</a>
-&nbsp
-&nbsp
-<a href='https://hrapp.just.edu.tw/hr_personal/Default.aspx'>Personnel</a>
-&nbsp
-&nbsp
+<button class="btn btn-outline-secondary" @click="gotoAdmin('user')">User</button>
+<button class="btn btn-outline-secondary" @click="gotoAdmin('attendlog')">AttLog</button>
+<button class="btn btn-outline-secondary" @click="gotoAdmin('attendance')">Attendance</button>
+<button class="btn btn-outline-secondary" @click="gotoAdmin('att_log')">Log</button>
 <br>
 <br>
 <button class="btn btn-outline-secondary" @click="attOBJ({{SCHEMA}})"> GET RECORDS </button>
@@ -92,7 +86,7 @@ Teamsize
               <th scope="col" >ID</th>
               <th scope="col" >att</th>
               <th scope="col" >email</th>
-              <th scope="col" >remove</th>
+              <th v-if="schemaList.includes(SCHEMA)" scope="col" >remove</th>
             </tr>
         </thead>
 
@@ -105,7 +99,7 @@ Teamsize
               <td :style="idStyle(key)"> [[ key ]] </td>
               <td :style="attStyle(user.att)"> [[ user.att ]] </td>
               <td> <a :href="user.eml">Email</a> </td>
-              <td> <span :style="getStyle(key)" class="unit-span" @click="studentAdd(key)" > &nbsp [[getMark(key)]] &nbsp </span> </td>
+              <td v-if="schemaList.includes(SCHEMA)" > <span :style="getStyle(key)" class="unit-span" @click="studentAdd(key)" > &nbsp [[getMark(key)]] &nbsp </span> </td>
               <!-- <td>  <span class="unit-span" v-for="i in 4" @click="studentRemove(user.nme, i)" > [[i]] </span> </td> -->
 
             </tr>
@@ -180,7 +174,9 @@ let vue = new Vue({
     el: '#vue-app',
     delimiters: ['[[', ']]'],
     mounted: function(){
-      this.studentAdd('111111111')
+      if (this.schemaList.includes(this.SCHEMA)) {
+        this.studentAdd('111111111')
+      }
     },
     data: {
         SCHEMA : parseInt(SCHEMA),
@@ -199,6 +195,15 @@ let vue = new Vue({
         marks : {}
     },
     methods: {
+        gotoAdmin: function (target) {
+          let breaker = ''
+          if (target != 'att_log') {
+            breaker = 'admin/'
+          }
+          var str = window.location.href
+          let url = (str).split('controls')[0] + breaker + target
+          window.open(url, '_blank')
+        },
         controlStyle: function () {
           if (this.setOBJ.Set_mode == '97') {
             return "background:gold"
