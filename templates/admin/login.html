@@ -1,46 +1,59 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div class="content-section">
 
-        <form method="POST" action="">
-            {{ form.hidden_tag() }}
-            <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Log In</legend>
+    <div class="content-section" id="vue-app">
+
+        <legend class="border-bottom mb-4">Log In</legend>
+
+        <h3 style="background:lime" id="lineNote"> </h3>
+
+        <div v-if="!line">
+
+            <form method="POST" action="">
+                {{ form.hidden_tag() }}
+                <fieldset class="form-group">
+
+                    <div class="form-group">
+                        {{ form.studentID.label(class="form-control-label") }}
+                        {% if form.studentID.errors %}
+                            {{ form.studentID(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.studentID.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.studentID(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+
+
+
+                    <div class="form-group">
+                        {{ form.password.label(class="form-control-label") }}
+                        {% if form.password.errors %}
+                            {{ form.password(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.password.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.password(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                </fieldset>
                 <div class="form-group">
-                    {{ form.studentID.label(class="form-control-label") }}
-                    {% if form.studentID.errors %}
-                        {{ form.studentID(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.studentID.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.studentID(class="form-control form-control-lg") }}
-                    {% endif %}
+                    {{ form.submit(class="btn btn-outline-secondary") }}
                 </div>
-                <h3 style="background:lime" id="lineNote"> </h3>
-                <div class="form-group">
-                    {{ form.password.label(class="form-control-label") }}
-                    {% if form.password.errors %}
-                        {{ form.password(class="form-control form-control-lg is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.password.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ form.password(class="form-control form-control-lg") }}
-                    {% endif %}
-                </div>
-            </fieldset>
-            <div class="form-group">
-                {{ form.submit(class="btn btn-outline-secondary") }}
-            </div>
 
 
-        </form>
+            </form>
+        </div>
+
     </div>
+
+
     <div class='content-section'>
         <div>
         <button class="btn btn-info"><a style="color:white" href="{{ url_for ('register') }}">New Student</a></button>
@@ -58,15 +71,46 @@
 
 {% block script %}
 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+
+
 <script type="text/javascript" >
 
 var report = navigator.userAgent
 console.log(report)
 
+var line = false
+
 if (navigator.userAgent.includes('Line')){
-    alert('WARNING: It looks like you are using Line App to view this website. Please switch to Chrome or Safari browser')
+    line = true
+    alert('WARNING: It looks like you are using Line App to view this website. Please switch to Chrome or Safari browser to log in')
     document.getElementById('lineNote').innerHTML = 'Switch browser from LINE to Chrome/Safari/Brave'
 }
+
+
+startVue(line)
+
+
+function startVue(line){
+
+let vue = new Vue({
+
+    el: '#vue-app',
+    delimiters: ['[[', ']]'],
+    mounted: function(){
+
+    },
+    data: {
+       line: line,
+    },
+    methods: {
+
+    }
+
+})// end NEW VUE
+
+}
+
 
 </script>
 
