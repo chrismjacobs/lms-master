@@ -6,6 +6,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 from forms import *
 from models import *
 import ast
+from routesUser import get_MTFN
 from pprint import pprint
 from routesUser import get_grades, get_sources
 
@@ -26,21 +27,11 @@ def get_peng_projects():
     sDict = json.loads(file_content)  # json loads returns a dictionary
 
     source = sDict['1']['M2']
-    if getMTFN() == 'FN':
+    if get_MTFN('layout') == 'FN':
         source = sDict['1']['M3']
 
     return source
 
-
-def getMTFN():
-    check = User.query.filter_by(username='Chris').first()
-    checkInt = int(check.extra)
-    MTFN = 'MT'
-    print('checkInt', checkInt)
-    if checkInt == 2:
-        MTFN = 'FN'
-
-    return MTFN
 
 startDict = {
             'Product' : None,
@@ -173,7 +164,7 @@ highDict = {
 @login_required
 def peng_list():
 
-    setup = getMTFN()
+    setup = get_MTFN('layout')
     source = get_peng_projects()
 
     projectData = {
@@ -287,7 +278,7 @@ def peng_list():
 @app.route ("/peng_dash", methods=['GET','POST'])
 @login_required
 def peng_dash():
-    MTFN = getMTFN()
+    MTFN = get_MTFN('layout')
 
     source = get_peng_projects()
 
@@ -328,7 +319,7 @@ def peng_proj(page_stage):
     source = get_peng_projects()
     # midterm or final
 
-    MTFN = getMTFN()
+    MTFN = get_MTFN('layout')
 
     if MTFN == 'MT':
         project = U011U.query.filter_by(username=current_user.username).first()
@@ -366,7 +357,7 @@ def get_all_values(nested_dictionary):
 
 @app.route('/updatePENG', methods=['POST'])
 def updatePENG():
-    proj = getMTFN()
+    proj = get_MTFN('layout')
     ansOBJ = request.form ['ansOBJ']
     stage = request.form ['stage']
     try:
