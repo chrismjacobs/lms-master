@@ -508,7 +508,7 @@ def att_team():
             attendLog = AttendLog(
                 username = form.name.data,
                 attend=form.attend.data,teamnumber=form.teamnumber.data,
-                studentID=form.studentID.data, attScore=attScore
+                studentID=form.studentID.data, attScore=attScore,
                 )
             db.session.add(attendLog)
             # commit both
@@ -548,7 +548,20 @@ def att_team():
             for key in teamDict:
                 # search each group until one needs to be filled
                 if teamDict[key] > teamDict[key+1]:
-                    fields.teamnumber = key+1
+                    tn = key+1
+                    fields.teamnumber = tn
+                    try:
+                        print('TRY ATTLOG')
+                        logs = AttendLog.query.filter_by(username=current_user.username).all()
+                        logID = []
+                        for log in logs:
+                            logID.append(log.id)
+                        update = AttendLog.query.filter_by(id=max(logID)).first()
+                        update.teamnumber = tn
+                    except:
+                        print("ATTLOG FAIL")
+
+
                     db.session.commit()
                     flash('Your attendance has been recorded', 'info')
                     return redirect(url_for('att_team'))
