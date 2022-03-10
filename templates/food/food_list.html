@@ -30,9 +30,24 @@
 <div class="content-section">
   <legend class="border-bottom mb-4"> Your Project: </legend>
 
-    <div style="display:none">
+    {% if MTFN == 'FN' %}
+
+    <div>
       <button  class="btn btn-danger" @click="goTo('RR')">Restaurant Review</button>
     </div>
+
+    {% elif MTFN == 'MT' %}
+
+    <h5 style="color:red"> Update Part 1 (Mar 14)
+    <br>
+    <br>
+    Update Plan  (Mar 21)
+    <br>
+    <br>
+    15/30%
+    <br>
+    <br>
+    </h5>
 
     <div >
       <button  class="btn btn-danger" @click="goTo('ND')">National Dish</button>
@@ -44,6 +59,12 @@
     <div >
       <button  class="btn btn-danger" @click="goTo('CV')">Cooking Video</button>
     </div>
+
+    {% else %}
+
+    Project not set yet
+
+    {% endif %}
 
 </div>
 

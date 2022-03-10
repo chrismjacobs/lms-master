@@ -52,10 +52,11 @@ Teamsize
 <br>
 <a href='https://affairs.just.edu.tw/TeacherStuApp/Default.aspx'> Attendance</a>
 &nbsp
-<button class="btn btn-outline-secondary" @click="gotoAdmin('user')">User</button>
+<button class="btn btn-outline-secondary" @click="gotoAdmin('user')">User: Semester: {{current_user.extra}}</button>
 <button class="btn btn-outline-secondary" @click="gotoAdmin('attendlog')">AttLog</button>
 <button class="btn btn-outline-secondary" @click="gotoAdmin('attendance')">Attendance</button>
 <button class="btn btn-outline-secondary" @click="gotoAdmin('att_log')">Log</button>
+<button class="btn btn-outline-secondary" @click="gotoAdmin('units')">Mode: {{MTFN}}</button>
 <br>
 <br>
 <button class="btn btn-outline-secondary" @click="attOBJ({{SCHEMA}})"> GET RECORDS </button>

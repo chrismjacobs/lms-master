@@ -49,7 +49,11 @@
                             {% elif SCHEMA == 4 %}
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('peng_dash')}}", target="_blank">Dashboard</a>
                             {% elif SCHEMA == 5 %}
-                            <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('food_FN')}}", target="_blank">Dashboard</a>
+                              {% if MTFN == 'FN' %}
+                                <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('food_FN')}}", target="_blank">Dashboard</a>
+                              {% elif MTFN == 'MT' %}
+                                <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('food_MT')}}", target="_blank">Dashboard</a>
+                              {% endif %}
                             {% elif SCHEMA == 7 %}
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('nme_dubdash', project=0)}}", target="_blank">Movie Dash</a>
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('nme_dash')}}", target="_blank">Novels Dash</a>
