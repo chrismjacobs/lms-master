@@ -80,21 +80,26 @@ def get_mods():
     if Units.query.filter_by(unit='00').first():
         d1 = Info.unit_mods_dict.copy()
         d2 = Info.unit_zero_dict
-        uModDict = d2.update(d1)
+        uModsDict = d2.update(d1)
 
         d3 = Info.ass_mods_dict.copy()
         d4 = Info.ass_zero_dict
-        uModDict = d4.update(d3)
+        uModsDict = d4.update(d3)
 
         unit_mods_list = Info.unit_zero_list  + Info.unit_mods_list
         ass_mods_list = Info.ass_zero_list  + Info.ass_mods_list
 
-    return {
+    returnDict = {
         'uModsDict' : uModsDict,
         'aModsDict' : aModsDict,
         'unit_mods_list' : unit_mods_list,
         'ass_mods_list' : ass_mods_list
     }
+
+    # for p in returnDict:
+    #     print("RETURN DICT", p, returnDict[p])
+
+    return returnDict
 
 def get_grades(ass, unt):
 
@@ -544,6 +549,8 @@ def exam_list_midterm():
 
 def completeStatus(time, name):
 
+    print('COMPLETE STATUS', time, name)
+
     assignments = {
         'FN': ['05', '06', '07', '08'],
         'MT': ['01', '02', '03', '04']
@@ -554,7 +561,7 @@ def completeStatus(time, name):
 
     for model in get_mods()['aModsDict']:
         if model in assignments[time]:
-            if get_mods()['aModsDict'][model].query.filter_by(username=name).first() and get_mods()['aModsDict'].query.filter_by(username=name).first().Grade > 0:
+            if get_mods()['aModsDict'][model].query.filter_by(username=name).first() and get_mods()['aModsDict'][model].query.filter_by(username=name).first().Grade > 0:
                 aCount += 1
 
     ## set up for final only
