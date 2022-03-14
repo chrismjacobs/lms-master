@@ -369,14 +369,21 @@ function startVue(qOBJ){
         }
         return rAns
       },
-      getSetStyle: function (key) {
-        var sStr = 'height:30px;width:100px;color:white;background:saddlebrown'
+      getSetStyle: function (key, check) {
+
+        var bg = 'background:saddlebrown'
+
+        if (check) {
+          bg = 'background:green'
+        }
+
+        var sStr = 'height:30px;width:100px;color:white;' + bg
 
         var answerOBJ = this.qOBJ[key].b
-        console.log('set style', answerOBJ)
+        // console.log('set style', answerOBJ)
 
         if (Object.keys(answerOBJ).length > 5) {
-          sStr = 'height:30px;width:220px;color:white;background:saddlebrown'
+          sStr = 'height:30px;width:220px;color:white;' + bg
         }
 
         return sStr
@@ -437,6 +444,7 @@ function startVue(qOBJ){
         var localKey = this.unit + this.part + key
 
         var answerOBJ = this.qOBJ[key].b
+
         var aOBJlen = 0
 
         for (let k in answerOBJ){
@@ -465,8 +473,6 @@ function startVue(qOBJ){
           }
         }
 
-
-
         console.log(aList, correct, answerOBJ.length)
 
         if (aList.includes('0')) {
@@ -481,7 +487,17 @@ function startVue(qOBJ){
             localStorage.setItem(localKey, parseInt(tries) + 1)
           }
           alert('You have ' + correct + ' correct answers: ( ' + corrAns + ' )')
+
+          var setDrops = document.getElementsByName('set' + key)
+          for (let sd in setDrops) {
+            //console.log('aOBJ', sd+1, answerOBJ, answerOBJ[1])
+
+            console.log('sd', sd, setDrops[sd].value, answerOBJ[parseInt(sd)+1])
+            setDrops[sd].style = this.getSetStyle(key, setDrops[sd].value == answerOBJ[parseInt(sd)+1])
+          }
+
         } else {
+          alert('CORRECT!')
           if (!localStorage.getItem(localKey)) {
             this.shareAnswer(key, 'First try')
           } else if (parseInt(localStorage.getItem(localKey)) == 1) {
