@@ -117,7 +117,8 @@ var ansOBJ = JSON.parse(ansString)
 console.log('ansOBJ', ansOBJ);
 
 var str = window.location.href
-let stage = (str).split('peng/')[1].split('/')[1]
+let stage = (str).split('peng/')[1]
+console.log(stage)
 
 
 startVue(ansOBJ)
