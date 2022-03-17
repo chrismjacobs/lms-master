@@ -569,9 +569,9 @@ def completeStatus(time, name):
     partList = []
 
     if time == 'FN':
-        partList = get_mods()['uModsDict'][16:32]
+        partList = get_mods()['unit_mods_list'][16:32]
     elif partList == 'MT':
-        partList = get_mods()['uModsDict'][0:15]
+        partList = get_mods()['unit_mods_list'][0:15]
 
 
     for model in partList:
@@ -717,7 +717,7 @@ def setStatus():
 def participation_check():
 
     checkDict = {}
-    for model in get_mods()['uModsDict'][16:32]:
+    for model in get_mods()['unit_mods_list'][16:32]:
         rows = model.query.all()
         m = str(model).split('U')[1]
         if m not in checkDict:
@@ -787,7 +787,7 @@ def grades_final():
         uStart = 16
         aStart = 4
 
-    for model in get_mods()['uModsDict'][uStart:(uStart + model_check)]:
+    for model in get_mods()['unit_mods_list'][uStart:(uStart + model_check)]:
         rows = model.query.all()
         unit = str(model).split('U')[1]
         for row in rows:
@@ -797,7 +797,7 @@ def grades_final():
 
     model_check = total_units
 
-    for model in get_mods()['aModsDict'][aStart:(aStart+ model_check)]:
+    for model in get_mods()['ass_mods_list'][aStart:(aStart+ model_check)]:
         unit = str(model).split('A')[1]
         print(unit)
         rows = model.query.all()
@@ -912,7 +912,9 @@ def grades_midterm ():
 
     model_check = total_units*4 ## 4 units for each unit
 
-    for model in get_mods()['uModsDict'][0:model_check]:
+    print('modelCheck ', model_check, get_mods()['unit_mods_list'] )
+
+    for model in get_mods()['unit_mods_list'][0:model_check]:
         rows = model.query.all()
         unit = str(model).split('U')[1]
         for row in rows:
@@ -926,7 +928,7 @@ def grades_midterm ():
 
     model_check = total_units
 
-    for model in get_mods()['aModsDict'][0:model_check]:
+    for model in get_mods()['ass_mods_list'][0:model_check]:
         unit = str(model).split('A')[1]
         rows = model.query.all()
         for row in rows:
