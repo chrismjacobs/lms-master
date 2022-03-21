@@ -71,9 +71,18 @@ def get_peng_jData():
 
 
     #pprint(blankDict)
-    with open('0PENG_project2.json', 'w') as json_file:
+    with open('PENG_project2.json', 'w') as json_file:
         json.dump(blankDict, json_file)
 
 
-get_peng_jData()
+def getj():
+
+    with open('static\\example_data\\ICC_part.json') as j:
+        t = json.load(j)
+
+
+    print(t)
+
+
+getj()
 

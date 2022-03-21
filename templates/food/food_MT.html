@@ -27,7 +27,7 @@
 <div class="content-section">
 
 <template v-for="(nameOBJ, name) in mtOBJ">
-<div v-if="!nameOBJ.ID.includes(1208)">
+<div>
             [[nameOBJ.ID]]
 
         <span :style="style(nameOBJ.Grade + 'test')" @click="view = name"> [[name]] -- [[nameOBJ.Grade]] </span>

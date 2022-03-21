@@ -179,16 +179,18 @@ def nme_dubdash(project):
 @app.route ("/nme_dubs_sample", methods=['GET','POST'])
 def nme_dubs_sample():
 
-    # with open('0NME_dict' + '.json', 'w') as json_file:
+    # with open('NME_dict' + '.json', 'w') as json_file:
     #     json.dump(nmeDict, json_file)
 
-    # with open('0NME_payload' + '.json', 'w') as json_file:
+    # with open('NME_payload' + '.json', 'w') as json_file:
     #     json.dump(nmeDict, json_file)
 
-    with open('0NME_dict'  + '.json', 'r') as json_file:
+    static = "static\\example_data\\"
+
+    with open(static + 'NME_dict'  + '.json', 'r') as json_file:
         nmeDict = json.load(json_file)
 
-    with open('0NME_payload'  + '.json', 'r') as json_file:
+    with open(static + 'NME_payload'  + '.json', 'r') as json_file:
         payloadDict = json.load(json_file)
 
 
@@ -224,7 +226,7 @@ def nme_dubs():
 
     pprint (nmeDict)
 
-    # with open('0NME_payload' + '.json', 'w') as json_file:
+    # with open('NME_payload' + '.json', 'w') as json_file:
     #      json.dump(payloadDict, json_file)
 
     return render_template('nme/nme_dubs.html', legend='NME Dubs', nmeString = json.dumps(nmeDict), payString = json.dumps(payloadDict) )

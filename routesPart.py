@@ -525,15 +525,16 @@ def participation(unit_num,part_num,state):
 
 @app.route ("/participationTest", methods=['GET','POST'])
 def participationTest():
-    fileName = '0ICC_part'
+    fileName = 'ICC_part'
 
     if SCHEMA == 1:
-        fileName = '0FRD_part'
+        fileName = 'FRD_part'
     if SCHEMA == 2:
-        fileName = '0WPE_part'
+        fileName = 'WPE_part'
 
+    static = "static\\example_data\\"
 
-    with open(fileName + '.json', 'r') as json_file:
+    with open(static + fileName + '.json', 'r') as json_file:
         dataDict = json.load(json_file)
 
     context = {

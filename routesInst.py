@@ -227,15 +227,17 @@ def dashboard():
 @app.route ("/dashboardTest")
 def dashboardTest():
 
-    fileName = '0ICC_assignments'
+    fileName = 'ICC_assignments'
 
     if SCHEMA == 1:
-        fileName = '0FRD_assignments'
+        fileName = 'FRD_assignments'
     if SCHEMA == 2:
-        fileName = '0WPE_assignments'
+        fileName = 'WPE_assignments'
+
+    static = "static\\example_data\\"
 
 
-    with open(fileName + '.json', 'r') as json_file:
+    with open(static + fileName + '.json', 'r') as json_file:
         totalDict = json.load(json_file)
 
 
