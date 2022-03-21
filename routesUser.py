@@ -543,7 +543,7 @@ def exam_list_midterm():
 
 
     #return examDict['total']
-    return render_template('units/exam_list_midterm.html', **context )
+    return render_template('units/exam_list_midterm.html', title="Exam List" **context )
 
 
 
@@ -692,7 +692,7 @@ def exam_list_final():
     'uCount': counts[1]
     }
 
-    return render_template('units/exam_list_final.html', **context)
+    return render_template('units/exam_list_final.html', **context, title='Exam List')
 
 
 @app.route ("/setStatus", methods=['POST'])
@@ -844,7 +844,7 @@ def grades_final():
         gradesDict[mt_student]['MT'] = round(MTgrades[mt_student]['Total'], 1)
 
 
-    return render_template('instructor/grades.html', ansString=json.dumps(gradesDict), compString =json.dumps(completeDict))
+    return render_template('instructor/grades.html', ansString=json.dumps(gradesDict), compString =json.dumps(completeDict), title="Grades")
 
 
 @app.route ("/grades_midterm", methods=['GET','POST'])
@@ -977,7 +977,7 @@ def grades_midterm ():
         if current_user.id != 1:
             return redirect(url_for('home'))
         else:
-            return render_template('instructor/grades.html', ansString=json.dumps(gradesDict), compString=json.dumps(completeDict))
+            return render_template('instructor/grades.html', title='Grades', ansString=json.dumps(gradesDict), compString=json.dumps(completeDict))
 
 
 @app.route ("/updateClasswork", methods=['POST', 'GET'])
@@ -1130,7 +1130,7 @@ def classwork():
 
 
 
-    return render_template('instructor/classwork.html', ansString=json.dumps(cwDict))
+    return render_template('instructor/classwork.html', ansString=json.dumps(cwDict), title='Classwork')
 
 
 
@@ -1340,6 +1340,6 @@ def ass(unit):
         'title' : 'Unit_' + unit
     }
 
-    return render_template('units/assignment_vue.html', **context)
+    return render_template('units/assignment_vue.html', **context, title=str(unit))
 
 
