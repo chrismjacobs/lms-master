@@ -77,7 +77,7 @@ function startVue(qOBJ){
             this.shuffle(qOBJ[q].c)
           } else if (qOBJ[q].t == 'sp') {
             // deal with spelling shuffle
-            qOBJ[q].b =  qOBJ[q].c
+            qOBJ[q].b = qOBJ[q].c
 
             var spList  = []
 
@@ -146,7 +146,8 @@ function startVue(qOBJ){
       spelling : {
         0 : '',
         1 : '',
-        2 : ''
+        2 : '',
+        3 : ''
       }
     },
     methods: {
@@ -167,12 +168,12 @@ function startVue(qOBJ){
         console.log('spell btn', this.spelling, this.qOBJ[key].b)
         var allow = true
 
-        for (let s in this.spelling) {
-          if (this.spelling[s].trim().length > 0) {
-            if (this.spelling[s].trim().toLowerCase() != this.qOBJ[key].b[s].trim().toLowerCase()) {
-              allow = false
-            }
-          } else {
+        for (let b in this.qOBJ[key].b) {
+          if (this.spelling[b] == '') {
+            console.log('false ""')
+            allow = false
+          } else if (this.spelling[b].replace(/\s/g, '').toLowerCase() != this.qOBJ[key].b[b].replace(/\s/g, '').toLowerCase()) {
+            console.log(this.spelling[b], this.qOBJ[key].b[b])
             allow = false
           }
         }
@@ -182,22 +183,38 @@ function startVue(qOBJ){
       },
       getBG: function (key, s) {
         console.log('getBG', key, s, this.spelling, this.qOBJ[key].b)
-        var entry = this.spelling[s].trim()
-        let ans = this.qOBJ[key].b[s]
 
-        if (entry.length == 0) {
+        var entry = this.spelling[s].toLowerCase()
+
+        if (entry.length > 0) {
+          entry = entry.replace(/\s/g, '')
+        } else {
           return false
-        } else if (entry.length > ans.length) {
+        }
+
+        let ans = this.qOBJ[key].b[s].replace(/\s/g, '').toLowerCase()
+
+        if (entry.length > ans.length) {
           return 'background:red'
         }
 
         var style = 'background:green'
         for (let i = 0; i < entry.length; i++) {
-          if (entry[i].toLowerCase() != ans[i].toLowerCase()) {
+          if (entry[i] != ans[i]) {
             style = 'background:red'
           }
         }
         return style
+      },
+      getCount: function (a, b) {
+
+        var c = a
+
+        if (a != '') {
+          c = a.replace(/\s/g, '')
+        }
+
+        return c.length + '/' + b.replace(/\s/g, '').length
       },
       setTF: function (q, ans) {
         let TFset = [ans]
@@ -317,6 +334,14 @@ function startVue(qOBJ){
         }
       },
       shareAnswer: function (question, answer){
+        if (answer == 'perfect') {
+          this.spelling = {
+            0 : '',
+            1 : '',
+            2 : '',
+            3 : ''
+          }
+        }
         console.log('ajax called');
         if (question == 0){
           answer = 'start_team'

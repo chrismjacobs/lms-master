@@ -115,7 +115,7 @@
                         spellcheck="false"
                     >
                     </input>
-                    [[spelling[qn.c.indexOf(x)].trim().length]] / [[x.trim().length]]
+                    [[getCount(spelling[qn.c.indexOf(x)], x)]]
                 </div>
                 <br>
                 <button v-if="getSpellBTN(key)" class="btn btn-outline-secondary btn-sm" style="border: 1px solid {{DESIGN['titleColor']}}" type="button" @click="shareAnswer(key, 'perfect')"> Share Answers </button>
