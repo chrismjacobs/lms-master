@@ -65,7 +65,7 @@ def course():
     course = json.dumps(get_schedule())
     color = json.dumps(DESIGN)
 
-    return render_template('instructor/course.html', course=course, color=color)
+    return render_template('instructor/course.html', title='Course', course=course, color=color)
 
 
 @app.route ("/att_log", methods = ['GET', 'POST'])
