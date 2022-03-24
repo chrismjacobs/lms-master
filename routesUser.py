@@ -1340,6 +1340,6 @@ def ass(unit):
         'title' : 'Unit_' + unit
     }
 
-    return render_template('units/assignment_vue.html', **context, title=str(unit))
+    return render_template('units/assignment_vue.html', **context)
 
 
