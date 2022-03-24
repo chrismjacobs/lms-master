@@ -543,7 +543,7 @@ def exam_list_midterm():
 
 
     #return examDict['total']
-    return render_template('units/exam_list_midterm.html', title="Exam List" **context )
+    return render_template('units/exam_list_midterm.html', **context )
 
 
 
@@ -692,7 +692,7 @@ def exam_list_final():
     'uCount': counts[1]
     }
 
-    return render_template('units/exam_list_final.html', **context, title='Exam List')
+    return render_template('units/exam_list_final.html', **context)
 
 
 @app.route ("/setStatus", methods=['POST'])
