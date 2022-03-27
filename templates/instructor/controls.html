@@ -60,10 +60,10 @@ Teamsize
 <br>
 <br>
 <button class="btn btn-outline-secondary" @click="attOBJ({{SCHEMA}})"> GET RECORDS </button>
+<button class="btn btn-outline-secondary" @click="getCopy()"> COPY </button>
 <br>
-[[varString]]
-<br>
-[[forString]]
+<span id="getFor">[[varString]]
+[[forString]]</span>
 
 <div v-if="schemaList.includes(SCHEMA)">
 <input type="text" class="textAss" style="margin-left:5px" v-model="addID"></input>
@@ -212,6 +212,12 @@ let vue = new Vue({
             return "background:lightgreen"
           }
         },
+        getCopy: function () {
+          var copyText = document.getElementById('getFor')
+          console.log(copyText)
+          navigator.clipboard.writeText(copyText.innerHTML)
+          alert("Copied the text: " + copyText.innerHTML)
+        },
         attOBJ: function(schema) {
 
           if (schema == 1){
@@ -264,6 +270,7 @@ let vue = new Vue({
           }
           this.varString = 'var obj =' + JSON.stringify(vue.recordOBJ)
           this.forString = 'for (var student in obj){ if (document.getElementById(obj[student][0])){ document.getElementById(obj[student][0]).checked=true; document.getElementById(obj[student][1]).checked=true}}'
+
 
         },
         setAtt: function() {
