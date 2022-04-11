@@ -54,7 +54,7 @@ function startVue(ansOBJ){
 
         var allowedExtensions = /(\.jpeg|\.png|\.jpg)$/i;
 
-          if(fileInput.files[0].size > 300000000){
+          if(fileInput.files[0].size > 100000000){
               alert("File is too big!");
               fileInput.value = '';
               return false;
