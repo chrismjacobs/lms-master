@@ -1010,6 +1010,11 @@ def updateClasswork():
             comment['status'] = "Updated"
             data.Comment = json.dumps(comment)
             db.session.commit()
+        if data.Grade == 2:
+            data.Grade = 0
+            comment['status'] = "Reopened"
+            data.Comment = json.dumps(comment)
+            db.session.commit()
 
     elif name == 'grade' and not cDict:
         if data.Grade > 0:
