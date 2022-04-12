@@ -386,7 +386,7 @@ def updatePENG():
     if audio_b64:
         print('PROCESSING AUDIO')
         audio = base64.b64decode(audio_b64)
-        filename = proj + '/' + user + '.mp3'
+        filename = proj + '/' + user + stage + '.mp3'
         audioLink = S3_LOCATION + filename
         s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=audio)
         ansDict['Audio'+ stage] = audioLink
