@@ -8,12 +8,13 @@
 
 <div class="content-section sticky">
     <div style="display:inline-block">
-    <h1> Dashboard </h1>
+    <h1 @click="anon = !anon"> Dashboard </h1>
     <audio controls autoplay id="instructorPlayer"></audio>
-    Details:
-    [[ studentName ]] [[ studentUnit]]
+    <span v-if="!anon"> Details:
+     [[ studentName ]] [[ studentUnit]]
+    </span>
     </div>
-    <div style="display:inline-block">
+    <div v-if="!anon" style="display:inline-block">
         <div v-for="(part, key) in comment">
             <select v-model="comment[key]">
               <option v-for="option in options[key]" :value="option.value">[[option.value]]</option>
@@ -23,9 +24,9 @@
         <input type='text' v-model="extra"></input>
             <button @click="addExtra()"> Add </button>
 
-    </div>
+    <br>
     <button @click="addComment(studentName, studentUnit)"> Update </button>
-
+    </div>
 
 
 </div>
@@ -50,7 +51,7 @@
         <tbody>
         <template v-for="(userList, user) in ansOBJ" >
           <tr style="background:wheat">
-              <td style="font-weight:14pt" colspan=9> [[  user ]] </td>
+              <td style="font-weight:14pt" colspan=9> <span v-if="anon"> user </span><span v-else> [[ user ]]  </td>
 
           </tr>
 
@@ -110,6 +111,7 @@ function startVue(){
     data: {
         ansOBJ: OBJ,
         nComment: null,
+        anon: true,
         options: {
           intro: [
         {value: 'Great start,', text:'test'},

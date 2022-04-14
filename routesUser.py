@@ -755,7 +755,9 @@ def grades_final():
             'asses' : 0,
             'aP' : 0,
             'tries1' : 0,
+            'pscore1' : 0,
             'tries2' : 0,
+            'pscore2' : 0,
             'exam1' : 0,
             'exam2' : 0
         }
@@ -810,8 +812,12 @@ def grades_final():
         reviewData = ast.literal_eval(practice.j1)
         if len(reviewData[str(semester) + '-5-6']) > 2:
             gradesDict[practice.username]['tries1'] = reviewData[str(semester) + '-5-6'][2]
+            gradesDict[practice.username]['pscore1'] = (reviewData[str(semester) + '-5-6'][0] + reviewData[str(semester) + '-5-6'][1])/2
+
         if len(reviewData[str(semester) + '-7-8']) > 2:
             gradesDict[practice.username]['tries2'] = reviewData[str(semester) + '-7-8'][2]
+            gradesDict[practice.username]['pscore2'] = (reviewData[str(semester) + '-7-8'][0] + reviewData[str(semester) + '-7-8'][1])/2
+
 
         examData =  ast.literal_eval(practice.j2)
         if len(examData[str(semester) + '-5-6']) > 0 :
@@ -870,7 +876,9 @@ def grades_midterm ():
             'asses' : 0,
             'aP' : 0,
             'tries1' : 0,
+            'pscore1' : 0,
             'tries2' : 0,
+            'pscore2' : 0,
             'exam1' : 0,
             'exam2' : 0
         }
@@ -941,8 +949,11 @@ def grades_midterm ():
         reviewData = ast.literal_eval(practice.j1)
         if len(reviewData[str(semester) + '-1-2']) > 2:
             gradesDict[practice.username]['tries1'] = reviewData[str(semester) + '-1-2'][2]
+            gradesDict[practice.username]['pscore1'] = (reviewData[str(semester) + '-1-2'][0] + reviewData[str(semester) + '-1-2'][1])/2
         if len(reviewData[str(semester) + '-3-4']) > 2:
             gradesDict[practice.username]['tries2'] = reviewData[str(semester) + '-3-4'][2]
+            gradesDict[practice.username]['pscore2'] = (reviewData[str(semester) + '-3-4'][0] + reviewData[str(semester) + '-3-4'][1])/2
+
 
         examData =  ast.literal_eval(practice.j2)
         if len(examData[str(semester) + '-1-2']) > 0 :

@@ -8,6 +8,8 @@
 
 <div class="content-section">
      <legend class="border-bottom mb-4">Grades</legend>
+     <button class="btn btn-outline-secondary" @click="gotoAdmin('exams')">Exams</button>
+     <button class="btn btn-outline-secondary" @click="exdata = !exdata">Data</button>
 
 
     <br>
@@ -35,7 +37,9 @@
         <template v-for="(user, key) in gradesOBJ">
             <tr>
               <td v-for="(data, head) in user" :style="gStyle(head, data)" @click="setStatus(head, key)"> [[ data ]] </td>
+              <td :style="gStyle('p', 1)"> [[ compOBJ[key] ]] </td>
             </tr>
+
         </template>
         </tbody>
 
@@ -79,9 +83,23 @@ let vue = new Vue({
     },
     data: {
         gradesOBJ: gradesOBJ,
-
+        compOBJ: compOBJ,
+        exdata: false
     },
     methods: {
+        gotoAdmin: function (target) {
+          let breaker = 'admin/'
+          var str = window.location.href
+          let url = ''
+          console.log((str).split('grades_midterm')[0], str.includes('midterm'))
+          if (str.includes('midterm')) {
+            url = (str).split('grades_midterm')[0] + breaker + target
+          } else {
+            url = (str).split('grades_final')[0] + breaker + target
+          }
+
+          window.open(url, '_blank')
+        },
         gStyle: function(head, g) {
           if (head == 'Status'){
             if (g == 3) {
@@ -118,6 +136,11 @@ let vue = new Vue({
               return { background:'pink'}
             } else {
               return { background:'hotpink'}
+            }
+          }
+          else if (head[0] == 'p') {
+            if (!this.exdata) {
+              return { display:'none'}
             }
           }
 
