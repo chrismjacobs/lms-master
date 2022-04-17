@@ -343,7 +343,7 @@ def exams(test, unit):
 
     theme=DESIGN['titleColor']
 
-    exceptionList = ['TOBY']
+    exceptionList = ['TOBY', 'Evelyn']
 
 
     return render_template(html, legend='Exams',
