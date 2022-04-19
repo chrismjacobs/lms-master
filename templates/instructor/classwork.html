@@ -84,12 +84,14 @@ let vue = new Vue({
       getBar: function (str, key, part) {
         let c = 'grey'
 
+        console.log(key, part)
+
         for(let x in part){
-          if (part[x].Grade == 0) {
+          if (part[x].Grade == 0 && part[x].names.length > 1) {
             c = 'blue'
           }
         }
-        console.log(key, part)
+
 
         return str + c
       },
