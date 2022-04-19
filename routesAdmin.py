@@ -240,15 +240,21 @@ def register():
         except:
             print('except eNumber')
 
-        user = User(username=form.username.data, studentID = form.studentID.data, email = form.email.data,
+        ## edit student name
+
+        stripName = form.username.data.strip()
+        titleName = stripName.title()
+
+
+        user = User(username=titleName, studentID = form.studentID.data, email = form.email.data,
         password = hashed_password, device = form.device.data, extra=eNumber)
         db.session.add(user)
 
-        chat = ChatBox(username=form.username.data, chat="", response=f'Hi {form.username.data}. Welcome to the course! If you have any questions then please use this private chat.')
+        chat = ChatBox(username=titleName, chat="", response=f'Hi {titleName}. Welcome to the course! If you have any questions then please use this private chat.')
         db.session.add(chat)
 
         db.session.commit()
-        flash(f'Account created for {form.username.data}!, please login', 'success')
+        flash(f'Account created for {titleName}!, please login', 'success')
         #'f' is because passing in a variable
         return redirect (url_for('login'))
 
