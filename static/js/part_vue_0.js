@@ -349,7 +349,8 @@ function startVue(qOBJ){
         }
         else if (answer == null) {
           answer = document.getElementById(question).value
-          if (answer.length < 1){
+          // remove all white space
+          if (answer.replace(/\s/g, '').length < 1){
             alert('answer is empty')
             return false
           }
