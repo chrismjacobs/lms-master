@@ -499,7 +499,7 @@ def exam_list_midterm():
         'tries12' : str(tries12) + '/20% - tries: ' + str(reviewData[str(semester) + '-1-2'][2]),
         'tries34' : str(tries34) + '/20% - tries: ' + str(reviewData[str(semester) + '-3-4'][2]),
         'ex12' : ex12,
-        'ex34' : ex34,
+        'ex34' : ex34
     }
 
 
@@ -538,7 +538,8 @@ def exam_list_midterm():
     'setString' : json.dumps(setDict),
     'semester' : semester,
     'aCount': counts[0],
-    'uCount': counts[1]
+    'uCount': counts[1],
+    'Practice' : User.query.filter_by(username='Test').first().extra
     }
 
 
@@ -1012,16 +1013,21 @@ def updateClasswork():
     try:
         comment = json.loads(data.Comment)
         cDict = True
+        print('cDICT = True', data.Comment)
     except:
         comment = data.Comment
+        print('cDICT = False', data.Comment)
+
+    print(name, data.Grade, cDict)
 
     if name == 'grade' and cDict:
         if data.Grade == 0:
             data.Grade = 2
             comment['status'] = "Updated"
             data.Comment = json.dumps(comment)
+            print('commit')
             db.session.commit()
-        if data.Grade == 2:
+        elif data.Grade == 2:
             data.Grade = 0
             comment['status'] = "Reopened"
             data.Comment = json.dumps(comment)
@@ -1096,6 +1102,7 @@ def resetAnswer():
 
     if data.Grade == 2:
         data.Grade = 0
+        ## change comment {} status?
     db.session.commit()
 
     return jsonify({'unit' : unit, 'team' : team, 'questions': question})

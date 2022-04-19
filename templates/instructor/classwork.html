@@ -21,8 +21,8 @@
             <div v-if="show == key">
             <template v-for="(entry, team) in part">
               <tr>
-                <td> [[ entry['team'] ]] </td>
-                <td  style="width:15%"> <div v-for="n in entry['names']"><button :style="seeEffort(n, entry.Comment, 'c' )" @click="nameAction(n, key, entry['team'])">[[n]] [[seeEffort(n, entry.Comment, 'q' )]]</button><br><br></div></td>
+                <td> <button class="btn btn-outline-secondary" @click="gotoAdmin(key)">[[ entry['team'] ]]</button> </td>
+                <td  style="width:15%"> <div v-for="n in entry['names']"><button class="btn-sm btn-outline-secondary" :style="seeEffort(n, entry.Comment, 'c' )" @click="nameAction(n, key, entry['team'])">[[n]] [[seeEffort(n, entry.Comment, 'q' )]]</button><br></div></td>
                 <td> <button :style="gradeStyle(entry.Grade)" @click="nameAction('grade', key, entry['team'])">[[ entry['Grade'] ]]</button> </td>
                 <td> [[ seeEffort('', entry['Comment'], 's') ]] </td>
                 <td> <button @click="resetAnswer(key, entry['team'], 1)" style="background:grey;color:white; padding:1pt"> 1 : </button> [[ entry['1'] ]] </td>
@@ -81,6 +81,14 @@ let vue = new Vue({
         show: null
     },
     methods: {
+        gotoAdmin: function (target) {
+          let breaker = 'admin/u'
+          var str = window.location.href
+          let url = (str).split('classwork')[0] + breaker + target + 'u'
+
+          console.log(url)
+          window.open(url, '_blank')
+        },
         tabCheck: function(key) {
           if (this.show == key) {
             this.show = null
