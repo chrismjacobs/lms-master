@@ -38,18 +38,24 @@
           <tr  style="height:30px">
             <td>
               <span v-if="setOBJ['ex'] == 3"> Exam 1-2 Practice</span>
-              <span v-else-if="setOBJ['12'] == 1" @click="goTo('-1-2', 'review')" class="unit-span" style="background:hotpink; height:40px"> Exam 1-2 Practice </span>
+              <span v-else-if="setOBJ['12'] == 1" @click="goTo('-1-2', 'review')" class="unit-span" :style="getPractice('height:40px; background:')"> Exam 1-2 Practice </span>
               <span v-else> Exam 1-2 Practice</span>
             </td>
-            <td style="color:hotpink"> [[examOBJ.tries12]]</td>
+            <td :style="getPractice('color:')"> [[examOBJ.tries12]]</td>
           </tr>
           <tr>
             <td>
               <span v-if="setOBJ['ex'] == 3"> Exam 3-4 Practice</span>
-              <span v-else-if="setOBJ['34'] == 1" @click="goTo('-3-4', 'review')" class="unit-span" style="background:hotpink; height:40px"> Exam 3-4 Practice </span>
+              <span v-else-if="setOBJ['34'] == 1" @click="goTo('-3-4', 'review')" class="unit-span" :style="getPractice('height:40px; background:')"> Exam 3-4 Practice </span>
               <span v-else> Exam 3-4 Practice</span>
             </td>
-            <td style="color:hotpink"> [[examOBJ.tries34]]</td>
+            <td :style="getPractice('color:')"> [[examOBJ.tries34]]</td>
+          </tr>
+          <tr>
+            <td>
+              <h6 style="color:red"> Notice: Practice exam will be closed one day before exams (make notes to help you learn) </h6>
+            </td>
+
           </tr>
           <tr v-if="setOBJ['34'] == 1" style="color:hotpink">
             <td>
@@ -69,6 +75,7 @@
 <span id="examString" style="display:none">{{examString}}</span>
 <span id="setString" style="display:none">{{setString}}</span>
 <span id="semester" style="display:none">{{semester}}</span>
+<span id="Practice" style="display:none">{{Practice}}</span>
 
 {% endblock %}
 
@@ -85,6 +92,9 @@ console.log('exam', examOBJ);
 
 var semester = document.getElementById('semester').innerHTML
 console.log('semester', semester);
+
+var Practice = document.getElementById('Practice').innerHTML
+console.log('Practice', Practice);
 
 var setString = document.getElementById('setString').innerHTML
 var setOBJ = JSON.parse(setString)
@@ -103,9 +113,21 @@ function startVue(){
     data: {
         examOBJ: examOBJ,
         setOBJ: setOBJ,
+        Practice: Practice
     },
     methods: {
+        getPractice: function (a) {
+          let s = a + "hotpink"
+          if (this.Practice == '3') {
+            s = a + "lightcoral"
+          }
+          return s
+        },
         goTo: function(unit, test){
+          if (this.Practice == '3') {
+            alert('Practice exams are closed one day before exams - please refer to your notes')
+            return false
+          }
           var str = window.location.href
 
           let url = (str).split('exam_list')[0] + 'exams/' + test + '/' + semester + unit
