@@ -12,6 +12,7 @@
 <div class="content-section">
         <h3 style="color:red"> WARNING: <h3>
         <h3> If you leave the test it will be reset. Please stay on the page until it is complete </h3>
+        <h4> If this is causing a problem on your phone then please contact the teacher as soon as possible </h4>
     <br>
   <h3 style="color:green"> Tries: <span id="tryMarker"> </span>/3</h3>
 </div>
@@ -182,7 +183,8 @@ function startVue(){
                 test : test,
                 unit : unit,
                 grade : percentGrade,
-                tries : vue.tries
+                tries : vue.tries,
+                block : false
               },
               type : 'POST',
               url : '/updateExam',
@@ -228,7 +230,10 @@ function startVue(){
       console.log('window blur set')
       window.onblur = function () {
         window.scrollTo(0,0)
-        alert('Warning! If you leave this page your exam will be reset')
+        if (!_this.block) {
+          alert('Warning! If you leave this page your exam will be reset')
+        }
+        _this.block = true
         _this.goTo()
       }
     }
