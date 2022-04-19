@@ -17,7 +17,7 @@
 
         <tbody>
         <template v-for="(part, key) in cwOBJ">
-            <tr> <h3 style="background:grey; color: white" @click="tabCheck(key)"> [[ key ]] </h3> </tr>
+            <tr> <h3 :style="getBar('color: white; background:', key, part)" @click="tabCheck(key)"> [[ key ]] </h3> </tr>
             <div v-if="show == key">
             <template v-for="(entry, team) in part">
               <tr>
@@ -81,6 +81,18 @@ let vue = new Vue({
         show: null
     },
     methods: {
+      getBar: function (str, key, part) {
+        let c = 'grey'
+
+        for(let x in part){
+          if (part[x].Grade == 0) {
+            c = 'blue'
+          }
+        }
+        console.log(key, part)
+
+        return str + c
+      },
         gotoAdmin: function (target) {
           let breaker = 'admin/u'
           var str = window.location.href
