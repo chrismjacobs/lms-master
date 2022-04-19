@@ -112,9 +112,6 @@ let vue = new Vue({
             return { background:'gold'}
             }
             }
-          else if (g == 0) {
-            return { background:'lightcoral'}
-          }
           else if (head == 'MT'){
             return { background:'lightskyblue'}
           }
@@ -142,6 +139,9 @@ let vue = new Vue({
             if (!this.exdata) {
               return { display:'none'}
             }
+          }
+          else if (g == 0) {
+            return { background:'lightcoral'}
           }
 
         },
