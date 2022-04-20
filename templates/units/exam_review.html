@@ -227,15 +227,7 @@ function startVue(){
     if (_this.exceptions.includes(_this.user)) {
       console.log('window blur exception')
     } else {
-      console.log('window blur set')
-      window.onblur = function () {
-        window.scrollTo(0,0)
-        if (!_this.block) {
-          alert('Warning! If you leave this page your exam will be reset')
-        }
-        _this.block = true
-        _this.goTo()
-      }
+
     }
 
     }
