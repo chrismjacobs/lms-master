@@ -82,7 +82,6 @@
                                 <a class="nav-item nav-link" href="{{ url_for ('assignment_list') }}">My Assignments </a>
 
                                   {% if MTFN == 'MT' %}
-                                    <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('exam_list_midterm') }}">My Exams</a>
                                   {% elif  MTFN == 'FN' %}
                                     <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('exam_list_final') }}">My Exams</a>
                                   {% endif %}
