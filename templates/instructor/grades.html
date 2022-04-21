@@ -10,6 +10,7 @@
      <legend class="border-bottom mb-4">Grades</legend>
      <button class="btn btn-outline-secondary" @click="gotoAdmin('exams')">Exams</button>
      <button class="btn btn-outline-secondary" @click="exdata = !exdata">Data</button>
+     <button class="btn btn-outline-secondary" @click="resetAll()">Reset all</button>
 
 
     <br>
@@ -165,6 +166,25 @@ let vue = new Vue({
             })
             .done(function(data) {
               gradesOBJ[key]['Status'] = data.set
+            })
+            .fail(function(){
+                alert('error has occurred');
+            });
+          }
+
+        },
+        resetAll: function() {
+          if (true) {
+            $.ajax({
+              data : {
+              },
+              type : 'POST',
+              url : '/resetAll',
+            })
+            .done(function(data) {
+              alert(data)
+              console.log(data)
+
             })
             .fail(function(){
                 alert('error has occurred');
