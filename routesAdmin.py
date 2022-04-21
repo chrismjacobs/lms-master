@@ -272,9 +272,24 @@ def loginElite():
         flash (f'Elite Login', 'warning')
         return redirect (url_for('home'))
 
+@app.route("/login/<string:student>", methods=['GET','POST'])
+@login_required
+def loginExtra(student):
+    if current_user.username == 'Chris':
+        logout_user ()
+        user = User.query.filter_by(username=student).first()
+        login_user (user)
+        flash (f'Elite Login', 'warning')
+        return redirect (url_for('home'))
+    else:
+        flash (f'Failed Login', 'warning')
+        return redirect (url_for('home'))
+
 
 @app.route("/login", methods=['GET','POST'])
 def login():
+
+
     if current_user.is_authenticated:
         return redirect(url_for('home')) # now register or log in link just go back homeform = LoginForm()
     form = LoginForm()
@@ -339,6 +354,7 @@ def login():
 
 @app.route("/logout")
 def logout():
+
     logout_user ()
     return redirect(url_for('home'))
 
