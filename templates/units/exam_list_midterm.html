@@ -126,8 +126,8 @@ function startVue(){
           return s
         },
         goTo: function(unit, test){
-          if (this.Practice == '3') {
-            alert('Practice exams are closed one day before exams - please refer to your notes')
+          if (this.Practice == '3' && test == 'reivew') {
+            alert('Practice exams are closed one hour before exams - please refer to your notes')
             return false
           }
           var str = window.location.href
