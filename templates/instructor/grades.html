@@ -115,12 +115,19 @@ let vue = new Vue({
           else if (head == 'MT'){
             return { background:'lightskyblue'}
           }
+          else if (head == 'Total') {
+            if (g < 60) {
+              return { background:'lightpink'}
+            }
+          }
           else if (head == 'uP' || head == 'aP') {
             if (g == 30) {
               return { background:'lightgreen'}
             }
             else if (g > 20) {
               return { background:'yellow'}
+            } else if (g < 5) {
+              return { background:'lightcoral'}
             } else {
               return { background:'orange'}
             }
@@ -131,6 +138,8 @@ let vue = new Vue({
           else if (head[0] == 't') {
             if (g == 1 ) {
               return { background:'pink'}
+            } if (g == 0 ) {
+              return { background:'lightcoral'}
             } else {
               return { background:'hotpink'}
             }
