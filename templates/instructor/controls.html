@@ -55,7 +55,7 @@ Teamsize
 <button class="btn btn-outline-secondary" @click="gotoAdmin('user')">User: Semester: {{current_user.extra}}</button>
 <button class="btn btn-outline-secondary" @click="gotoAdmin('attendlog')">AttLog</button>
 <button class="btn btn-outline-secondary" @click="gotoAdmin('attendance')">Attendance</button>
-<button class="btn btn-outline-secondary" @click="gotoAdmin('att_log')">Log</button>
+<button class="btn btn-outline-secondary" @click="gotoAdmin('att_log')">Log Chart</button>
 <button class="btn btn-outline-secondary" @click="gotoAdmin('units')">Mode: {{MTFN}}</button>
 <br>
 <br>
@@ -99,7 +99,7 @@ Teamsize
               <td> [[ user.nme ]] </td>
               <td :style="idStyle(key)"> [[ key ]] </td>
               <td :style="attStyle(user.att)"> [[ user.att ]] </td>
-              <td> <a :href="user.eml">Email</a> </td>
+              <td> <a :href="user.eml">Email</a> <a @click="gotoIncog(user.nme)">Log</a></td>
               <td v-if="schemaList.includes(SCHEMA)" > <span :style="getStyle(key)" class="unit-span" @click="studentAdd(key)" > &nbsp [[getMark(key)]] &nbsp </span> </td>
               <!-- <td>  <span class="unit-span" v-for="i in 4" @click="studentRemove(user.nme, i)" > [[i]] </span> </td> -->
 
@@ -203,6 +203,10 @@ let vue = new Vue({
           }
           var str = window.location.href
           let url = (str).split('controls')[0] + breaker + target
+          window.open(url, '_blank')
+        },
+        gotoIncog: function (student) {
+          let url = (str).split('/')[0] + 'login/' + student
           window.open(url, '_blank')
         },
         controlStyle: function () {
