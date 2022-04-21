@@ -713,6 +713,24 @@ def setStatus():
 
     return jsonify({'student' : username, 'set' : student.extra})
 
+@app.route ("/resetAll", methods=['POST'])
+@login_required
+def resetAll():
+
+    users = User.query.all()
+
+    for u in users:
+        if u.username != 'Chris':
+            if u.extra == 3:
+                u.extra = 0
+            elif u.extra == 0:
+                u.extra = 3
+
+            db.session.commit()
+
+
+    return jsonify({'result' : True})
+
 @app.route ("/participation_check", methods=['GET','POST'])
 @login_required
 def participation_check():
