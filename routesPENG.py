@@ -6,7 +6,6 @@ from flask_login import login_user, current_user, logout_user, login_required
 from forms import *
 from models import *
 import ast
-from routesUser import get_MTFN
 from pprint import pprint
 from routesUser import get_grades, get_sources
 
@@ -365,7 +364,9 @@ def get_all_values(nested_dictionary):
 
 @app.route('/updatePENG', methods=['POST'])
 def updatePENG():
-    proj = get_MTFN('layout')
+    MTFN = 'MT'
+    if User.query.filter_by(username='Chris').first().extra == 2:
+        MTFN = 'FN'
     ansOBJ = request.form ['ansOBJ']
     stage = request.form ['stage']
     try:
@@ -380,28 +381,28 @@ def updatePENG():
     except:
         user = current_user.username
 
-    print (proj, stage, user, ansOBJ)
+    print (stage, user, ansOBJ)
 
     ansDict = json.loads(ansOBJ)
 
     if image_b64:
         print('PROCESSING IMAGE')
         image = base64.b64decode(image_b64)
-        filename = proj + '/' + user + '.png'
+        filename = MTFN + '/' + user + '.png'
         imageLink = S3_LOCATION + filename
         s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=image)
         ansDict['Image'] = imageLink
     if audio_b64:
         print('PROCESSING AUDIO')
         audio = base64.b64decode(audio_b64)
-        filename = proj + '/' + user + stage + '.mp3'
+        filename = MTFN + '/' + user + stage + '.mp3'
         audioLink = S3_LOCATION + filename
         s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=audio)
         ansDict['Audio'+ stage] = audioLink
 
-    if proj == 'MT' or proj == 'FH':
+    if MTFN == 'MT' or MTFN == 'FH':
         project_answers = U011U.query.filter_by(username=user).first()
-    if proj == 'FN':
+    if MTFN == 'FN':
         print('FN_done')
         print(ansOBJ)
         project_answers = U021U.query.filter_by(username=user).first()
@@ -413,7 +414,7 @@ def updatePENG():
     ### check stage 1
     if int(stage) == 1:
 
-        if proj == 'MT':
+        if MTFN == 'MT':
             stage1_checklist = [
                 ansDict['Product'],
                 ansDict['Brand'],

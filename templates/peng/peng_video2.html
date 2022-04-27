@@ -4,21 +4,21 @@
 
 <span id="ansString" style="display:none">{{ansString}}</span>
 
-<div class="content-section">    
+<div class="content-section">
 <h3> FN Presentation: <br> Share a Viral Video </h3>
-  
+
     <div class="embed-responsive embed-responsive-4by3">
         <iframe id="questions_embed" src="{{source}}"
             allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
 	</iframe>
-    </div> 
-      
+    </div>
+
 </div>
 
-<div class="content-section">   
-  
+<div class="content-section">
+
     <h3> <a href="https://drive.google.com/open?id=1ePFM7qDeleT3RImcmPX-yBT1cdYo4TPUf0usRwjpULA"> Example: Kangaroo </a> </h3>
-      
+
 </div>
 
 
@@ -30,85 +30,85 @@
 
 
             <span :style="style('Intro')"> Video Title</span>
-            <span> [[ ansOBJ['Video Title'] ]] </span> 
+            <span> [[ ansOBJ['Video Title'] ]] </span>
             <br>
             <br>
-      
+
             <span :style="style('Intro')"> Video Length</span>
-            <span> [[ ansOBJ['Video Length'] ]] </span> 
+            <span> [[ ansOBJ['Video Length'] ]] </span>
             <br>
             <br>
-            
+
             <span :style="style('Intro')"> Video Views</span>
-            <span> [[ ansOBJ['Video Views'] ]] </span> 
+            <span> [[ ansOBJ['Video Views'] ]] </span>
             <br>
             <br>
-        
+
             <span :style="style('Intro')"> Video Link</span>
-            <span> <a :href="[[ ansOBJ['Video Title'] ]]"> Link </a> </span> 
+            <span> <a :href="[[ ansOBJ['Video Title'] ]]"> Link </a> </span>
             <br>
             <br>
-           
+
             <span :style="style('Intro')"> Video Purpose</span>
-            <span> [[ ansOBJ['Video Point'] ]] </span> 
+            <span> [[ ansOBJ['Video Point'] ]] </span>
             <br>
             <br>
-         
+
 
             <legend class="border-bottom mb-4"> Warm Up Question</legend>
 
             <span :style="style('Intro')"> Question</span>
-            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Warm Up Question']"></input>            
+            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Warm Up Question']"></input>
             <span style="color:green">*you can choose a question that will make people think, but also something they can answer</span>
             <span style="color:green">** if your question is yes/no question than you should ask 'why?' </span>
-            <br>  
-            <br>  
+            <br>
+            <br>
             <span :style="style('Intro')"> Your answer </span>
-            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Your Answer']"></input>            
+            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Your Answer']"></input>
             <span style="color:green">*this shows that can answer your own question</span>
-            <br>  
-            <br>  
+            <br>
+            <br>
             <legend class="border-bottom mb-4"> Video Description</legend>
-            <span style="color:green">* describe the video using pictures</span>           
+            <span style="color:green">* describe the video using pictures</span>
             <br>
             <br>
             <span :style="style('dt')"> more than 70 words</span>
-            <textarea id="70" type="text" class="textAss" style="margin-left:5px;width:100%;height:200px" v-model="ansOBJ['Description']" @blur="wordCount(70)"></textarea>            
-            <br>  
+            <textarea id="70" type="text" class="textAss" style="margin-left:5px;width:100%;height:200px" v-model="ansOBJ['Description']" @blur="wordCount(70)"></textarea>
+            <br>
             <span :style="style('kw')"> Key Words for Presentation</span>
-            <h6> Use '/' to separate key words eg "word / another / last" <h6> 
-            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Description Key Words']"></input>            
-            <br>  
-            <br>  
-            <br>  
-            
+            <h6> Use '/' to separate key words eg "word / another / last" <h6>
+            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Description Key Words']"></input>
+            <br>
+            <br>
+            <br>
+
 
             <legend class="border-bottom mb-4"> Video Comments</legend>
-            <span style="color:green">*give your comments the video, interesting things to think about, what can we learn?</span>             
+            <span style="color:green">*give your comments the video, interesting things to think about, what can we learn?</span>
             <br>
             <br>
             <span :style="style('dt')">more than 60 words</span>
-            <textarea id="60" type="text" class="textAss" style="margin-left:5px;width:100%;height:200px" v-model="ansOBJ['Comments']" @blur="wordCount(60)"></textarea>            
-            <br>  
+            <textarea id="60" type="text" class="textAss" style="margin-left:5px;width:100%;height:200px" v-model="ansOBJ['Comments']" @blur="wordCount(60)"></textarea>
+            <br>
             <span :style="style('kw')">Key Words for Presentation</span>
-            <h6> Use '/' to separate key words eg "word / another / last" <h6> 
-            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Comments Key Words']"></input>            
-            <br>  
-            <br> 
-            
-            <div>				
+            <h6> Use '/' to separate key words eg "word / another / last" <h6>
+            <input type="text" class="textAss" style="margin-left:5px;width:100%" v-model="ansOBJ['Comments Key Words']"></input>
+            <br>
+            <br>
+
+            <div>
                 <button  class="btn btn-dark" style="margin-right:5px;width:100%" @click="updatePlan()">Update Plan</button>
-            </div> 
-            <br>  
-            <div v-if="updateReady">				
+            </div>
+            <br>
+            <div v-if="updateReady">
                 <button  class="btn btn-danger" style="margin-right:5px" @click="createPPT()">Create PPT</button>
-            </div> 
+            </div>
 
             <br>
 
-            <div v-if="pptLink">				
+            <div v-if="pptLink">
                 <a :href="pptLink" download>Download PPT</a>
-            </div> 
+            </div>
 
     </div>
 
@@ -120,7 +120,7 @@
 
 {% endblock %}
 
-{% block script %}   
+{% block script %}
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 <script type="text/javascript">
@@ -130,29 +130,28 @@ var ansOBJ = JSON.parse(ansString)
 console.log('ansOBJ', ansOBJ);
 
 var str = window.location.href
-let stage = (str).split('peng/')[1].split('/')[1]
-
+let stage = (str).split('peng/')[1]
 
 startVue(ansOBJ)
 
-function startVue(ansOBJ){ 
-  
-  let vue = new Vue({   
+function startVue(ansOBJ){
+
+  let vue = new Vue({
 
     el: '#vue-app',
-    delimiters: ['[[', ']]'],   
-    mounted: function () {        
-    },    
-    data: {   
-        updateReady: true,                      
-        pptLink: null,                      
-        ansOBJ: ansOBJ,       
-        stage : stage,         
-        project: (window.location.href).split('/peng/')[1].split('/')[0],   
-    }, 
-    methods: { 
+    delimiters: ['[[', ']]'],
+    mounted: function () {
+    },
+    data: {
+        updateReady: true,
+        pptLink: null,
+        ansOBJ: ansOBJ,
+        stage : stage,
+        project: (window.location.href).split('/peng/')[1].split('/')[0],
+    },
+    methods: {
         wordCount : function(textarea) {
-            console.log(wc); 
+            console.log(wc);
             var wc = (document.getElementById(textarea).value).split(' ')
             console.log(wc.length);
             if (wc.length < textarea) {
@@ -161,38 +160,38 @@ function startVue(ansOBJ){
                 }
                 if (textarea == 60){
                     alert('This is too short - you need more than 60 words - Explain more about why this video is important, what can we learn or think about because of this video?')
-                }                
+                }
             }
             return true
         },
-        style : function(mark) { 
+        style : function(mark) {
             if (mark.includes('kw')){
                 var bg = 'silver'
             }
             else if (mark.includes('dt')){
                 var bg = 'darkorange'
-            }           
+            }
             else if (mark.includes('Rea')){
                 var bg = 'PALEVIOLETRED'
-            }           
+            }
             else if (mark.includes('Int')){
                 var bg = 'DARKCYAN'
-            }           
+            }
 
             return {padding:'4px', 'font-size':'15px', background:bg, color:'white', border:'1px sold white', 'border-radius':'5px', width:'20%'}
 
         },
-        updatePlan : function() {  
-            alert('Please wait, your plan is being updated')           
+        updatePlan : function() {
+            alert('Please wait, your plan is being updated')
 
             $.ajax({
               data : {
                 proj : this.project,
                 stage: this.stage,
-                ansOBJ : JSON.stringify(this.ansOBJ)  
+                ansOBJ : JSON.stringify(this.ansOBJ)
               },
               type : 'POST',
-              url : '/updatePENG',               
+              url : '/updatePENG',
             })
             .done(function(data) {
                 if (data.fail){
@@ -201,49 +200,49 @@ function startVue(ansOBJ){
                 else{
                     vue.ansOBJ = JSON.parse(data.ansString)
                     console.log(vue.ansOBJ)
-                    alert('Your FORM has been updated')   
-                }  
-                
-                               
+                    alert('Your FORM has been updated')
+                }
+
+
             })
             .fail(function(){
                 alert('error has occurred');
             });
         },
-        createPPT : function() { 
-            console.log('CreatePPT');            
+        createPPT : function() {
+            console.log('CreatePPT');
 
             $.ajax({
               data : {
                 proj : 'VV',
                 //name : this.name,
-                ansOBJ : JSON.stringify(this.ansOBJ)  
+                ansOBJ : JSON.stringify(this.ansOBJ)
               },
               type : 'POST',
-              url : '/createPPT_VV',               
+              url : '/createPPT_VV',
             })
-            .done(function(data) { 
+            .done(function(data) {
                 if(data.error){
                     alert('There has been an error. Please check that your FORM is complete or see your instructor');
                 }
                 else{
-                    alert('Your ppt has been created') 
+                    alert('Your ppt has been created')
                     vue.pptLink = data.pptLink
                 }
-                               
+
             })
             .fail(function(){
                 alert('There has been an error. Please check that your FORM is complete or see your instructor');
             });
-        }       
-    }  
-    
+        }
+    }
+
 })// end NEW VUE
 
-}// endFunction 
+}// endFunction
 
 
 </script>
 
-{% endblock %} 
+{% endblock %}
 

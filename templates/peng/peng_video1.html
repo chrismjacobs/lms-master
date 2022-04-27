@@ -18,8 +18,9 @@
 <div class="content-section">
 
     <h3> <a href="https://drive.google.com/open?id=1ePFM7qDeleT3RImcmPX-yBT1cdYo4TPUf0usRwjpULA"> Example: Kangaroo </a> </h3>
-    <h3> <a href="https://docs.google.com/presentation/d/1pcBPs6EgTRET54It7RmH1FADncACwXrIMAvOzW-EmO8/edit?usp=sharing"> Example: Body Image </a> </h3>
-    <h3> <a href="https://docs.google.com/presentation/d/e/2PACX-1vRVBp1VEW8AwfztUAVOWjvdtgcJhMCcyNwiIERfM1DyJsdghiJdMoxc7i2rtOLe8GCu7taOf8bISXF8/pub?start=false&loop=false&delayms=3000"> Class Examples </a> </h3>
+    <h3 style="display:none"> <a href="https://docs.google.com/presentation/d/1pcBPs6EgTRET54It7RmH1FADncACwXrIMAvOzW-EmO8/edit?usp=sharing"> Example: Body Image </a> </h3>
+    <h3 style="display:none"> <a href="https://docs.google.com/presentation/d/e/2PACX-1vRVBp1VEW8AwfztUAVOWjvdtgcJhMCcyNwiIERfM1DyJsdghiJdMoxc7i2rtOLe8GCu7taOf8bISXF8/pub?start=false&loop=false&delayms=3000"> Class Examples </a> </h3>
+
 
 </div>
 
@@ -87,7 +88,7 @@ var ansOBJ = JSON.parse(ansString)
 console.log('ansOBJ', ansOBJ);
 
 var str = window.location.href
-let stage = (str).split('peng/')[1].split('/')[1]
+let stage = (str).split('peng/')[1]
 
 
 startVue(ansOBJ)
