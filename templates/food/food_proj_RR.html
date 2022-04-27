@@ -5,7 +5,7 @@
 <span id="ansString" style="display:none">{{ansString}}</span>
 <span id="name" style="display:none">{{current_user.username}}</span>
 
-<div class="content-section">    
+<div class="content-section">
         <h1> Project: <br> {{title}} </h1>
     </div>
     <div class="content-section">
@@ -13,67 +13,69 @@
             <iframe id="questions_embed" src="{{source}}"
             allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
 	</iframe>
-    </div> 
-      
+    </div>
+
 </div>
 
 
 <div id="vue-app">
 
-<div class="content-section" v-if="project == 'RR'">    
 
-   <h3> <a href="">Example Form</a></h3>
-      
-</div>
 
 <div class="content-section">
 
 <legend class="border-bottom mb-4"> {{title}} Set Up </legend>
 
- 
 
-        <template v-for="(item, part) in ansOBJ"> 
+
+        <template v-for="(item, part) in ansOBJ">
 
                 <span :style="style('main')"> [[ part ]] </span>
                 <br>
                 <br>
+                <h6 v-if="part == 'Menu'" style="background:yellow"> <a href="https://docs.google.com/document/d/1dLFskJzwL4aDju8fvqGtjdl8WXl5V-kfjmGvsP4Dfq8/edit?usp=sharing">[[part]] Examples</a></h6>
+                <h6 v-if="part == 'Atmosphere'" style="background:yellow"> <a href="https://docs.google.com/document/d/1S6nXB6_osepK-YPnBq2hU7rdwatPdQDIanr0NmIxhJg/edit?usp=sharing">[[part]] Examples</a></h6>
+                <h6 v-if="part == 'Decor'" style="background:yellow"> <a href="https://docs.google.com/document/d/1vwHPj6gcZDG7_hAq52I6o33D4jShUkxrpKEp1_g1igY/edit?usp=sharing">[[part]] Examples</a></h6>
+                <h6 v-if="part == 'Food'" style="background:yellow"> <a href="https://docs.google.com/document/d/15_Gvyu9Yo7b_dvvTUQVtKH9IevuIi97mzle6PPua0Vg/edit?usp=sharing">[[part]] Examples</a></h6>
+
+
                 <h6> [[ script['RR'][part][0] ]] </h6>
                 <h6 style="color:purple"> [[ script['RR'][part][1] ]] </h6>
-                
+
                 <br>
-                        <template v-for="(line, head) in item">  
+                        <template v-for="(line, head) in item">
 
                         <span :style="style(head)"> [[ head ]] --> </span>
-                        <br> 
-                        <h6 v-if="head == 'key words'"> Use '/' to separate key words eg "word / another / last" <h6>                      
-                        <textarea :id="part + head" type="text" class="textAss" style="margin-left:5px; width:100%" v-model="ansOBJ[part][head]" @blur="wordCount(part, head)"></textarea> 
+                        <br>
+                        <h6 v-if="head == 'key words'"> Use '/' to separate key words eg "word / another / last" <h6>
+                        <textarea :id="part + head" type="text" class="textAss" style="margin-left:5px; width:100%" v-model="ansOBJ[part][head]" @blur="wordCount(part, head)"></textarea>
                         <br>
                         <br>
-                        
-                        </template>        
-            
+
+                        </template>
+
         <br>
-        </template>  
+        </template>
 
 
 
-<div>				
+<div>
     <button  class="btn btn-dark" style="margin-right:5px" @click="updatePlan()">Update Plan</button>
-</div> 
-<br>  
+</div>
+<br>
 
-<div v-if="updateReady">				
+<div v-if="updateReady">
     <button  class="btn btn-danger" style="margin-right:5px" @click="createPPT()">Create PPT</button>
-</div> 
+</div>
 
 <br>
 
-<div v-if="pptLink">				
+<div v-if="pptLink">
     <a :href="pptLink" download>Download PPT</a>
-</div> 
+</div>
 
 
-</div> 
+</div>
 
 
 
@@ -82,7 +84,7 @@
 
 {% endblock %}
 
-{% block script %}   
+{% block script %}
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 <script type="text/javascript" >
@@ -96,34 +98,34 @@ var name = document.getElementById('name').innerHTML
 
 startVue(ansOBJ)
 
-function startVue(ansOBJ){ 
-  
-  let vue = new Vue({   
+function startVue(ansOBJ){
+
+  let vue = new Vue({
 
     el: '#vue-app',
-    delimiters: ['[[', ']]'],   
-    mounted: function () {        
-    },    
-    data: {                        
+    delimiters: ['[[', ']]'],
+    mounted: function () {
+    },
+    data: {
         ansOBJ: ansOBJ,
         name : name,
         updateReady : true,
         pptLink : false,
         blurblocker : null,
-        project: (window.location.href).split('/food/')[1],       
+        project: (window.location.href).split('/food/')[1],
         script: {
             RR : {
                 Intro : ['Hello, I am _____. Today I would like to review a restaurant.', 'Describe the name, style of restaurant and where it is and when you go/went there'],
-                Menu : ['Now, let’s talk about the menu:', 'style / variety / price / sets / presentation '], 
-                Food : ['Here we can see the food:', ' order / taste / well-prepared / presentation / complaints'],
-                Decor : ['Moving on to the décor', '(seating / tables / lighting / bathrooms)'],
-                Atmosphere : ['Now for the atmosphere', '(service / busy / music / interesting / fun things)'],
+                Menu : ['Now, let’s talk about the menu:', 'style / variety / price / sets / pictures / drinks / desserts '],
+                Food : ['Here we can see the food:', ' what did you order / well-prepared? / other adjectives for taste / presentation / complaints'],
+                Decor : ['Moving on to the décor', '(seating / tables / lighting / layout / decorations / art / color / theme / maybe bathrooms?)'],
+                Atmosphere : ['Now for the atmosphere', '(service / busy / music / something interesting? / fun things? )'],
                 Rating : ['Lastly, I`ll give it a rating', '(rating, any other complaints and recommendations, final comments)'],
-            },     
+            },
         },
-        
-    }, 
-    methods: {  
+
+    },
+    methods: {
         wordCount : function(part, head) {
             if (part == 'Intro'){
                 console.log('Intro');
@@ -131,7 +133,7 @@ function startVue(ansOBJ){
             else if (head == 'key words') {
                 console.log('key words');
             }
-            else{  
+            else{
                 var wc = (document.getElementById(part + head).value).split(' ')
                 console.log(wc.length);
                 if (wc.length < 7) {
@@ -142,32 +144,33 @@ function startVue(ansOBJ){
                     else{
                         alert('This sentence seems too short - try making it longer with conjunction phrases (but/so/when/if/because..)')
                         vue.blurblocker = part + head
+                        document.getElementById(part + head).style = "margin-left:5px; width:100%; background:lightcoral"
                     }
-                    
-                } 
-            }          
+
+                }
+            }
 
             return true
         },
-        style : function(mark, arg) { 
+        style : function(mark, arg) {
             if (mark.includes('key')){
                 var bg = 'silver'
             }
             else if (mark.includes('Sen')){
                 var bg = 'darkorange'
-            }           
+            }
             else if (mark == 'main') {
-                var bg = 'DARKCYAN'            
-            } 
+                var bg = 'DARKCYAN'
+            }
             else {
                 var bg = 'darkorange'
-            }           
-                
+            }
+
             return {padding:'4px', 'font-size':'15px', background:bg, color:'white', border:'1px sold white', 'border-radius':'5px', width:'20%'}
 
         },
-        updatePlan : function() { 
-            alert('Please wait - Your FORM is being updated')                
+        updatePlan : function() {
+            alert('Please wait - Your FORM is being updated')
             console.log('update via AJAX');
             console.log(this.ansOBJ);
             //return false
@@ -175,58 +178,58 @@ function startVue(ansOBJ){
             $.ajax({
               data : {
                 proj : this.project,
-                ansOBJ : JSON.stringify(this.ansOBJ)  
+                ansOBJ : JSON.stringify(this.ansOBJ)
               },
               type : 'POST',
-              url : '/updateFood',               
+              url : '/updateFood',
             })
-            .done(function(data) { 
+            .done(function(data) {
                 if (data.grade == 0) {
-                    alert('Your FORM is not complete - you can finish it later')    
+                    alert('Your FORM is not complete - you can finish it later')
                 }
                 else{
-                    alert('Your FORM is complete - please wait for feedback') 
+                    alert('Your FORM is complete - please wait for feedback')
                 }
-                            
+
             })
             .fail(function(){
                 alert('error has occurred');
             });
-        },     
-        createPPT : function() { 
-            console.log('CreatePPT');            
+        },
+        createPPT : function() {
+            console.log('CreatePPT');
 
             $.ajax({
               data : {
                 proj : this.project,
                 name : this.name,
-                ansOBJ : JSON.stringify(this.ansOBJ)  
+                ansOBJ : JSON.stringify(this.ansOBJ)
               },
               type : 'POST',
-              url : '/createPPT_RR',               
+              url : '/createPPT_RR',
             })
-            .done(function(data) { 
+            .done(function(data) {
                 if(data.error){
                     alert('There has been an error. Please check that your FORM is complete or see your instructor');
                 }
                 else{
-                    alert('Your ppt has been created') 
+                    alert('Your ppt has been created')
                     vue.pptLink = data.pptLink
                 }
-                               
+
             })
             .fail(function(){
                 alert('There has been an error. Please check that your FORM is complete or see your instructor');
             });
-        }      
-    }, // end methods        
-    
-    
-    
+        }
+    }, // end methods
+
+
+
 })// end NEW VUE
 
-}// endFunction 
+}// endFunction
 </script>
 
-{% endblock %} 
+{% endblock %}
 

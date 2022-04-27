@@ -320,7 +320,7 @@ def startDictGlobal(sd):
     else:
         startDictGlobal = {
             'Intro' : {
-                'Name' : None,
+                'Restaurant Name' : None,
                 'Style' : None,
                 'Location' : None,
                 'When' : None
