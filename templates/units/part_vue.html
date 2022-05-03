@@ -151,8 +151,8 @@
                     allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
                 </iframe>
             </div>
-            <h4 style="" > [[ qn.x ]] </h4>
             <h4  v-if="qn.q" style="background:{{DESIGN['titleColor']}}; color:{{DESIGN['bodyColor']}}; border: 1px solid white; border-radius:10px">  <span v-for="q in qn.q.split('/')"> [[ q ]] <br></span> </h4>
+            <h4 style="" > [[ qn.x ]] </h4>
             <div v-if="qn.t == 'mc' || qn.t == 'in'">
                 <div v-for="choice in qn.c">
                     <h4> [[ choice ]] </h4>
