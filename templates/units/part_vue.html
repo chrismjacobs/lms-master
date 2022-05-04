@@ -141,7 +141,7 @@
 
             <h2 style="color:blue" > [[key]]: [[qn.w]] <h2>
             <h4 style="color:{{DESIGN['titleColor']}}" > [[ qn.e ]] </h4>
-            <h4 style="color:hotpink" > [[ qn.d ]] </h4>
+            <h4 v-if="qn.d" style="color:hotpink"> <span v-for="d in qn.d.split('/')"> [[ d ]] <br></span></h4>
             <div >
                 <img style="max-width:100%"  :src="qn.i">
             </div>
@@ -152,7 +152,7 @@
                 </iframe>
             </div>
             <h4  v-if="qn.q" style="background:{{DESIGN['titleColor']}}; color:{{DESIGN['bodyColor']}}; border: 1px solid white; border-radius:10px">  <span v-for="q in qn.q.split('/')"> [[ q ]] <br></span> </h4>
-            <h4 style="" > <span v-for="x in qn.x.split('/')"> [[ x ]] <br></span></h4>
+            <h4 v-if="qn.x" > <span v-for="x in qn.x.split('/')"> [[ x ]] <br></span></h4>
             <div v-if="qn.t == 'mc' || qn.t == 'in'">
                 <div v-for="choice in qn.c">
                     <h4> [[ choice ]] </h4>
