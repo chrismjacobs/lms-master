@@ -4,14 +4,14 @@
 
 <span id="ansString" style="display:none">{{ansString}}</span>
 
-<div class="content-section">    
+<div class="content-section">
 
     <div class="embed-responsive embed-responsive-4by3">
         <iframe id="questions_embed" src="{{source}}"
             allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
 	    </iframe>
-    </div> 
-     
+    </div>
+
 </div>
 
 
@@ -20,59 +20,59 @@
     <div class="content-section">
 
         <template v-for="(nameOBJ, name) in fnOBJ">
-            <div v-if="nameOBJ.Grade > 0 ">
-                    <span :style="style(nameOBJ.Grade + 'test')" @click="view = name"> [[name]] -- [[nameOBJ.Grade]] </span> [[nameOBJ.ID]]    
+            <div :style="getData(nameOBJ)">
+                    <span :style="style(nameOBJ.Grade + 'test')" @click="view = name"> [[name]] -- [[nameOBJ.Grade]] </span> [[nameOBJ.ID]]
 
                     <br>
                     <br>
-                    
+
                         <div v-if="view == name">
 
-                            <template v-for="(item, part) in nameOBJ.Data">                                                            
+                            <template v-for="(item, part) in nameOBJ.Data">
 
                                 <span :style="style('main')"> [[ part ]] </span>
-                                <br>                                
+                                <br>
                                 <h6> [[ script['RR'][part][0] ]] </h6>
                                 <h6 style="color:purple"> [[ script['RR'][part][1] ]] </h6>
                                 <br>
-                                        <template v-for="(line, head) in item">  
+                                        <template v-for="(line, head) in item">
 
                                         <span :style="style(head)"> [[ head ]] --> </span>
-                                        <br> 
-                                        <h6 v-if="head == 'key words'"> Use '/' to separate key words eg "word / another / last" <h6>                      
-                                        <textarea :id="part + head" type="text" class="textAss" style="margin-left:5px; width:100%" v-model="nameOBJ['Data'][part][head]" @blur="wordCount(part, head)"></textarea> 
+                                        <br>
+                                        <h6 v-if="head == 'key words'"> Use '/' to separate key words eg "word / another / last" <h6>
+                                        <textarea :id="part + head" type="text" class="textAss" style="margin-left:5px; width:100%" v-model="nameOBJ['Data'][part][head]" @blur="wordCount(part, head)"></textarea>
                                         <br>
                                         <br>
-                                        
-                                        </template>      
-                            
-                            </template> 
 
-                        <div>				
+                                        </template>
+
+                            </template>
+
+                        <div>
                             <button  class="btn btn-dark" style="margin-right:5px" @click="updatePlan(name, 4)">Update 4</button>
-                        		
+
                             <button  class="btn btn-success" style="margin-right:5px" @click="updatePlan(name, 5)">Update 5</button>
-                        </div> 
+                        </div>
 
                         <br>
-                        
+
 
 
 
                         </div>
-                
 
-                        
 
-                        </div> 
 
-            </div> 
+
+                        </div>
+
+            </div>
 
 
         </template>
     <br>
 
-    </div> 
+    </div>
 
 
 </div> <!-- end of Vue app -->
@@ -80,7 +80,7 @@
 
 {% endblock %}
 
-{% block script %}   
+{% block script %}
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 
@@ -92,88 +92,106 @@ console.log('fnOBJ', fnOBJ);
 
 startVue()
 
-function startVue(){ 
-  
-  let vue = new Vue({   
+function startVue(){
+
+  let vue = new Vue({
 
     el: '#vue-app',
-    delimiters: ['[[', ']]'],   
-    mounted: function () {        
-    },    
-    data: {                        
-        fnOBJ: fnOBJ,   
-        view : null,                          
+    delimiters: ['[[', ']]'],
+    mounted: function () {
+    },
+    data: {
+        fnOBJ: fnOBJ,
+        view : null,
         script: {
             RR : {
                 Intro : ['Hello, I am _____. Today I would like to review a restaurant.', 'Describe the name, style of restaurant and where it is and when you go/went there'],
-                Menu : ['Now, let’s talk about the menu:', 'What is the style of the menu? / How is the variety? / How is the price? / Do they have intereting sets, drinks, desserts? '], 
+                Menu : ['Now, let’s talk about the menu:', 'What is the style of the menu? / How is the variety? / How is the price? / Do they have intereting sets, drinks, desserts? '],
                 Food : ['Here we can see the food:', ' What did/do you order? / How is the taste? / Is it well-prepared? / How is the presentation? / Any complaints?'],
                 Decor : ['Moving on to the décor', '(What can you say about the seating or tables / Other things to mention are art, color, decorations, lighting, bathrooms...)'],
                 Atmosphere : ['Now for the atmosphere', '(service / busy / music / interesting / fun things)'],
                 Rating : ['Lastly, I`ll give it a rating', '(rating, any other complaints and recommendations, final comments)'],
-            }            
+            }
         },
-        
-    }, 
-    methods: { 
-        style : function(mark) { 
+
+    },
+    methods: {
+        getData: function (obj) {
+            console.log(obj)
+            if (obj.Grade >= 4) {
+                return 'background:lightgreen'
+            } else {
+                let count = 0
+                for (let x in obj.Data.Intro) {
+                    if (obj.Data.Intro[x] != null && obj.Data.Intro[x] != '') {
+                        console.log(obj.Data.Intro[x])
+                        count +=1
+                    }
+                }
+                if (count > 0) {
+                    return 'background:orange'
+                }
+            }
+
+        },
+        style : function(mark) {
 
             if (mark.includes('ords')){
                 var bg = 'silver'
             }
             else if (mark.includes('ent')){
                 var bg = 'darkorange'
-            }         
+            }
             else if (mark.includes('mai')){
                 var bg = 'DARKCYAN'
-            }        
+            }
             else if (mark.includes('4')){
                 var bg = 'purple'
-            }           
+            }
             else if (mark.includes('5')){
                 var bg = 'seagreen'
-            } 
+            }
             else{
                 var bg = 'coral'
-            }           
+            }
 
             return {padding:'4px', 'font-size':'15px', background:bg, color:'white', border:'1px sold white', 'border-radius':'5px', width:'20%'}
 
         },
-        updatePlan : function(name, grade) { 
+        updatePlan : function(name, grade) {
             nameOBJ = vue.fnOBJ[name]
-            console.log('update via AJAX');            
+            console.log('update via AJAX');
             console.log(nameOBJ['Data']);
-            
+
             //return false
 
             $.ajax({
-              data : {                  
+              data : {
                 proj : 'RR',
                 ansOBJ : JSON.stringify(this.fnOBJ[name]['Data']),
                 grade :  grade,
                 name : name
               },
               type : 'POST',
-              url : '/updateFood',               
+              url : '/updateFood',
             })
-            .done(function(data) { 
-                alert('Your FORM has been updated')                
+            .done(function(data) {
+                alert('Your FORM has been updated')
             })
             .fail(function(){
                 alert('error has occurred');
             });
-        },     
-         
-    }, // end methods        
-    
-    
-    
+        },
+
+    }, // end methods
+
+
+
 })// end NEW VUE
 
-}// endFunction 
+}// endFunction
 
 </script>
 
-{% endblock %} 
+{% endblock %}
 
