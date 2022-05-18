@@ -177,7 +177,7 @@
 
                             <tbody>
                                 <tr v-if="qn.a || qn.b" style="color:hotpink">
-                                    <td> Answer: </td>
+                                    <td> Answer ([[qn.t]]): </td>
                                     <td>
                                         <span v-if="qn.b && qn.t == 'set'"> <span v-for="k in qn.b"> [[ k ]] &nbsp </span></span>
                                         <span v-else-if="qn.b && qn.t == 'sp'"> <span v-for="k in qn.b"> [[ k ]] &nbsp </span></span>
