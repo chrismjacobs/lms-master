@@ -208,7 +208,7 @@ def createPPT_RR():
             tf.text = 'Restaurant Details'
 
             p = tf.add_paragraph()
-            p.text = ansDict[entry]['Name']
+            p.text = ansDict[entry]['Restaurant Name']
             p.level = 1
             p = tf.add_paragraph()
             p.text = ansDict[entry]['Style']
