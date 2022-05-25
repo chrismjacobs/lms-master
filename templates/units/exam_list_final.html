@@ -23,22 +23,22 @@
             <td> [[examOBJ.total]]/100%</td>
           </tr>
           <tr>
-            <td> Units</td>
-            <td> [[examOBJ.units]]/30%</td>
+            <td> <span @click="goTo('none', 'unit_list')" class="unit-span" style="background:{{theme}}; height:40px;"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Units &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp </span></td>
+            <td :style=getRed([[examOBJ.units]])> [[examOBJ.units]]/30%</td>
           </tr>
           <tr>
-            <td> Assignments</td>
-            <td> [[examOBJ.asses]]/30%</td>
+            <td> <span @click="goTo('none', 'unit_list')" class="unit-span" style="background:{{theme}}; height:40px; width:100px"> &nbsp Assignments &nbsp </span></td>
+            <td :style=getRed([[examOBJ.asses]])> [[examOBJ.asses]]/30%</td>
           </tr>
            <tr>
             <td>
-              <span v-if="setOBJ['ex'] == 3" @click="goTo('-5-6', 'exam')" class="unit-span" style="background:{{theme}}; height:40px"> Exam 5-6 Grade </span>
+              <span v-if="setOBJ['ex'] == 3" @click="goTo('-5-6', 'exam')" class="unit-span" style="background:{{theme}}; height:40px"> &nbspExam 5-6 Grade&nbsp </span>
               <span v-else> Exam 5-6 Grade </span>
             </td>
             <td> [[examOBJ.ex56]]/20%</td>
           </tr>
           <tr>
-            <td>  <span v-if="setOBJ['ex'] == 3" @click="goTo('-7-8', 'exam')" class="unit-span" style="background:{{theme}}; height:40px"> Exam 7-8 Grade </span>
+            <td>  <span v-if="setOBJ['ex'] == 3" @click="goTo('-7-8', 'exam')" class="unit-span" style="background:{{theme}}; height:40px"> &nbspExam 7-8 Grade&nbsp </span>
               <span v-else> Exam 7-8 Grade </span>
             </td>
             <td> [[examOBJ.ex78]]/20%</td>
@@ -46,7 +46,7 @@
           <tr  style="height:30px">
             <td>
               <span v-if="setOBJ['ex'] == 3"> Exam 5-6 Practice</span>
-              <span v-else-if="setOBJ['56'] == 1" @click="goTo('-5-6', 'review')" class="unit-span" style="background:hotpink; height:40px"> Exam 5-6 Practice </span>
+              <span v-else-if="setOBJ['56'] == 1" @click="goTo('-5-6', 'review')" class="unit-span" style="background:hotpink; height:40px"> &nbspExam 5-6 Practice&nbsp </span>
               <span v-else> Exam 5-6 Practice </span>
             </td>
             <td style="color:hotpink"> [[examOBJ.tries56]]</td>
@@ -54,7 +54,7 @@
           <tr>
             <td>
               <span v-if="setOBJ['ex'] == 3"> Exam 7-8 Practice</span>
-              <span v-else-if="setOBJ['78'] == 1" @click="goTo('-7-8', 'review')" class="unit-span" style="background:hotpink; height:40px"> Exam 7-8 Practice </span>
+              <span v-else-if="setOBJ['78'] == 1" @click="goTo('-7-8', 'review')" class="unit-span" style="background:hotpink; height:40px"> &nbspExam 7-8 Practice&nbsp </span>
               <span v-else> Exam 7-8 Practice </span>
             </td>
             <td style="color:hotpink"> [[examOBJ.tries78]]</td>
@@ -147,6 +147,9 @@ function startVue(){
         uCount: uCount
     },
     methods: {
+        getRed: function (score) {
+          console.log(score)
+        },
         getTries: function () {
           let arg1 = this.examOBJ.tries56
           let arg2 = this.examOBJ.tries78
@@ -193,7 +196,15 @@ function startVue(){
           // return false
           var str = window.location.href
 
-          let url = (str).split('exam_list')[0] + 'exams/' + test + '/' + semester + unit
+          let url
+
+          if (test == 'exam' || test == 'review') {
+            url = (str).split('exam_list')[0] + 'exams/' + test + '/' + semester + unit
+          } else {
+            url = (str).split('exam_list')[0] + test
+          }
+
+
           console.log('goTO', url);
           window.location = url
 
