@@ -20,8 +20,9 @@
     <div class="content-section">
 
         <template v-for="(nameOBJ, name) in fnOBJ">
-            <div :style="getData(nameOBJ)">
-                    <span :style="style(nameOBJ.Grade + 'test')" @click="view = name"> [[name]] -- [[nameOBJ.Grade]] </span> [[nameOBJ.ID]]
+            <div>
+                    <span :style="style(nameOBJ.Grade + 'test', nameOBJ)" @click="view = name"> [[name]] -- [[nameOBJ.Grade]] </span> [[nameOBJ.ID]]
+                    Link: <a :href="nameOBJ.Link" target="_blank">[[nameOBJ.Link]]</a>
 
                     <br>
                     <br>
@@ -37,7 +38,7 @@
                                 <br>
                                         <template v-for="(line, head) in item">
 
-                                        <span :style="style(head)"> [[ head ]] --> </span>
+                                        <span :style="style(head)"> [[ head ]] </span>
                                         <br>
                                         <h6 v-if="head == 'key words'"> Use '/' to separate key words eg "word / another / last" <h6>
                                         <textarea :id="part + head" type="text" class="textAss" style="margin-left:5px; width:100%" v-model="nameOBJ['Data'][part][head]" @blur="wordCount(part, head)"></textarea>
@@ -119,7 +120,7 @@ function startVue(){
         getData: function (obj) {
             console.log(obj)
             if (obj.Grade >= 4) {
-                return 'background:lightgreen'
+                return false
             } else {
                 let count = 0
                 for (let x in obj.Data.Intro) {
@@ -129,30 +130,36 @@ function startVue(){
                     }
                 }
                 if (count > 0) {
-                    return 'background:orange'
+                    return true
                 }
             }
 
         },
-        style : function(mark) {
+        style : function(mark, obj) {
+
+            var bg
 
             if (mark.includes('ords')){
-                var bg = 'silver'
+                bg = 'silver'
             }
             else if (mark.includes('ent')){
-                var bg = 'darkorange'
+                bg = 'darkorange'
             }
             else if (mark.includes('mai')){
-                var bg = 'DARKCYAN'
+                bg = 'DARKCYAN'
             }
             else if (mark.includes('4')){
-                var bg = 'purple'
+                bg = 'purple'
             }
             else if (mark.includes('5')){
-                var bg = 'seagreen'
+                bg = 'seagreen'
             }
             else{
-                var bg = 'coral'
+                if (this.getData(obj)){
+                    bg = 'orange'
+                } else {
+                  bg = 'red'
+                }
             }
 
             return {padding:'4px', 'font-size':'15px', background:bg, color:'white', border:'1px sold white', 'border-radius':'5px', width:'20%'}

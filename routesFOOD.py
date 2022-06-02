@@ -32,7 +32,15 @@ def food_list():
     sDict = get_food_projects()
     source = sDict['1']['M2']
 
-    return render_template('food/food_list.html', legend='Food Projects', source=source)
+    link = ''
+
+    project_answers = U021U.query.filter_by(username=current_user.username).first()
+    if project_answers:
+        link = project_answers.Ans03
+
+
+
+    return render_template('food/food_list.html', legend='Food Projects', source=source, link=link)
 
 
 def get_all_values(nested_dictionary):
@@ -85,6 +93,19 @@ def updateFood():
     db.session.commit()
 
     return jsonify({'grade' : grade})
+
+@app.route('/updateLink', methods=['POST'])
+def updateLink():
+    link = request.form ['link']
+
+
+
+    project_answers = U021U.query.filter_by(username=current_user.username).first()
+    project_answers.Ans03 = link
+
+    db.session.commit()
+
+    return jsonify({'link' : link})
 
 @app.route('/createPPT', methods=['POST'])
 def createPPT():
@@ -472,7 +493,8 @@ def food_FN():
         fnDict[user.username] = {
             'ID' : user.studentID,
             'Grade' : 0,
-            'Data' : startDictGlobal('RR')
+            'Data' : startDictGlobal('RR'),
+            'Link' : ''
         }
 
     project_answers = U021U.query.all()
@@ -484,6 +506,7 @@ def food_FN():
 
         fnDict[answer.username]['Grade'] = answer.Grade
         fnDict[answer.username]['Data'] = rrDict
+        fnDict[answer.username]['Link'] = answer.Ans03
 
     pprint(fnDict)
 

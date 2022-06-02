@@ -3,6 +3,7 @@
 {% block content %}
 
 <span id="user" style="display:none">{{current_user.username}}</span>
+<span id="link" style="display:none">{{link}}</span>
 
 <div id="vue-app">
 
@@ -26,6 +27,44 @@
 
     <div>
       <button  class="btn btn-danger" @click="goTo('RR')">Restaurant Review</button>
+
+      <br>
+      <br>
+
+      <a href=""> How to use screen recorder on Windows </a>
+
+      <br>
+      <br>
+      Macbook use Quicktime
+
+      <br>
+      <br>
+
+      <a href="https://drive.google.com/file/d/1vFHY0kGLKFym69GICDxZOzaAfDOfmQyt/view?usp=sharing"> Example Student Video </a>
+
+      <br>
+      <br>
+      Note 1 : You can see the student and ppt with key words and pictures <br>
+      Note 2 : You hear the student clearly (check our microphone is loud enough) <br>
+      Note 3 : The student is presenting and not just reading <br>
+      <br>
+      * students who are reading will have their video rejected <br>
+      ** it is very easy to know who is just reading so practice more <br>
+      *** Any problems, contact instructor for help  <br>
+
+      <br>
+      <br>
+
+      Youtube Link (Deadline Target June 10 - or send me message): <br>
+
+
+
+
+      <input type="text" id="fname" v-model="link" name="fname">
+      <br>
+      <br>
+      <button  class="btn btn-danger" @click="share()">Share Link</button>
+
     </div>
 
     {% elif MTFN == 'EDIT' %}
@@ -72,9 +111,8 @@
 
 <script type="text/javascript" >
 
-//var projectDict = document.getElementById('projectDict').innerHTML
-//var OBJ = JSON.parse(projectDict)
-//console.log('projecDict', OBJ);
+var link = document.getElementById('link').innerHTML
+console.log('link', link);
 
 
 startVue()
@@ -86,7 +124,7 @@ function startVue(){ new Vue({
     mounted: function(){
     },
     data: {
-        //projectOBJ: OBJ,
+        link: link,
     },
     methods: {
         goTo: function(proj) {
@@ -109,7 +147,24 @@ function startVue(){ new Vue({
           console.log('goTO', url);
             window.location = url
             console.log('DONE');
-        }
+        },
+        share : function() {
+
+          $.ajax({
+            data : {
+              link : this.link
+            },
+            type : 'POST',
+            url : '/updateLink',
+          })
+          .done(function(data) {
+              alert('Your LINK has been updated')
+          })
+          .fail(function(){
+              alert('error has occurred');
+          });
+      },
+
 
     }
 })// end NEW VUE
