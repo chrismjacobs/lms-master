@@ -155,7 +155,9 @@ function startVue(){
                 bg = 'seagreen'
             }
             else{
-                if (this.getData(obj)){
+                if (obj == undefined) {
+                    bg = 'red'
+                } else if (this.getData(obj)){
                     bg = 'orange'
                 } else {
                   bg = 'red'
