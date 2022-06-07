@@ -22,7 +22,14 @@
         <template v-for="(nameOBJ, name) in fnOBJ">
             <div>
                     <span :style="style(nameOBJ.Grade + 'test', nameOBJ)" @click="view = name"> [[name]] -- [[nameOBJ.Grade]] </span> [[nameOBJ.ID]]
-                    Link: <a :href="nameOBJ.Link" target="_blank">[[nameOBJ.Link]]</a>
+                    <span v-if="nameOBJ.Link" style="background:skyblue"  @click="updatePlan(name, 6)">Link:</span> <a :href="nameOBJ.Link" target="_blank">[[nameOBJ.Link]]</a>
+                    <div v-if="nameOBJ.Link" style="width:40%">
+                        <div class="embed-responsive embed-responsive-4by3" >
+                            <iframe :src="getSRC(nameOBJ.Link)"></iframe>
+                        </div>
+                    </div>
+
+
 
                     <br>
                     <br>
@@ -117,6 +124,17 @@ function startVue(){
 
     },
     methods: {
+        getSRC: function (src) {
+
+            console.log(src)
+            if (src && src.length > 3) {
+                let code = src.split('youtu.be/')[1]
+                return "https://www.youtube.com/embed/" + code
+            }
+
+
+
+        },
         getData: function (obj) {
             console.log(obj)
             if (obj.Grade >= 4) {
@@ -153,6 +171,9 @@ function startVue(){
             }
             else if (mark.includes('5')){
                 bg = 'seagreen'
+            }
+            else if (mark.includes('6')){
+                bg = 'lightblue'
             }
             else{
                 if (obj == undefined) {

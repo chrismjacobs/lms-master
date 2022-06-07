@@ -58,12 +58,18 @@
       Youtube Link (Deadline Target June 10 - or send me message): <br>
 
 
-
-
       <input type="text" id="fname" v-model="link" name="fname">
       <br>
       <br>
       <button  class="btn btn-danger" @click="share()">Share Link</button>
+
+      <br>
+      <br>
+
+      <div style="display:none">
+
+      <button  class="btn btn-info" @click="goTo('sharing')">Start Sharing</button>
+      </div>
 
     </div>
 
@@ -131,15 +137,10 @@ function startVue(){ new Vue({
 
           let name = document.getElementById('user').innerHTML
 
-          if (proj == 'ND') {
-            var link = '/ND'
-          }
-          else if (proj == 'CV') {
-            var link = '/CV'
-          }
-          else {
-            var link = '/RR'
-          }
+          var link = '/'
+
+          link += proj
+
           // go to HTTPS version
           var str = window.location.href
 

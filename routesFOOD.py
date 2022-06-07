@@ -43,6 +43,78 @@ def food_list():
     return render_template('food/food_list.html', legend='Food Projects', source=source, link=link)
 
 
+def getShareList():
+    projects = U021U.query.all()
+
+
+    listps = []
+    allps = {}
+
+    for p in projects:
+        if p.Grade == 6:
+            allps[p.username] = p.Ans03
+            listps.append(p.username)
+
+    print(allps)
+
+    random.shuffle(listps)
+
+    shareps = {}
+
+    count = 0
+
+    for k in listps:
+        if count < 4:
+            shareps[k] = {}
+            shareps[k]['link'] = allps[k]
+            shareps[k]['answers'] = {
+                'Restaurant info' : '',
+                'Menu sentence 1' : '',
+                'Menu sentence 2' : '',
+                'Food sentence 1' : '',
+                'Food sentence 2' : '',
+                'Decor sentence 1' : '',
+                'Decor sentence 2' : '',
+                'Atmosphere sentence 1' : '',
+                'Atmosphere sentence 2' : '',
+                'Final comment' : '',
+            }
+            count += 1
+
+    return json.dumps(shareps)
+
+
+@app.route ("/food/sharing", methods=['GET','POST'])
+@login_required
+def food_sharing():
+
+    project_answers = U021U.query.filter_by(username=current_user.username).first()
+
+
+    if project_answers.Ans05 == None or project_answers.Ans05 == '{}' :
+        project_answers.Ans05 = getShareList()
+        db.session.commit()
+
+    share_projects = project_answers.Ans05
+
+
+    return render_template('food/share_list.html', legend='Restaurant Sharing', share_projects=share_projects)
+
+
+@app.route('/updateShare', methods=['POST'])
+def updateShare():
+    print('TEST')
+    obj = request.form ['shareOBJ']
+    print(obj)
+
+    project_answers = U021U.query.filter_by(username=current_user.username).first()
+    project_answers.Ans05 = obj
+
+    db.session.commit()
+
+    return jsonify({'result' : True})
+
+
 def get_all_values(nested_dictionary):
     detected = 0
     for key, value in nested_dictionary.items():

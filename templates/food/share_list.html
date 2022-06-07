@@ -1,0 +1,162 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<span id="shareOBJ" style="display:none">{{share_projects}}</span>
+
+
+
+<div id="vue-app">
+
+    <div class="content-section">
+
+        <template v-for="(content, name) in shareOBJ">
+            <div>
+
+                <legend class="border-bottom mb-4"> <button  class="btn btn-safe" style="margin-right:5px" >[[name]]</button></legend>
+
+
+                <div class="content-section">
+                    <div class="embed-responsive embed-responsive-4by3">
+                        <iframe :src="getSRC(content.link)"></iframe>
+                    </div>
+                    <br>
+                </div>
+
+                Link: <a :href="content.link" target="_blank">[[content.link]]</a>
+
+                <br>
+                <br>
+
+                <div v-for="(line, key) in content.answers">
+
+                <h6 :style="getStyle(key)"> [[key]] </h6>
+                <span style="background:red;color:white" v-if="getSentence(content.answers[key]) < 4"> Full sentence please </span>
+                <textarea type="text" class="textAss" style="margin-left:5px; width:100%" v-model="content.answers[key]"></textarea>
+                <br>
+                <br>
+
+                </div>
+
+            <div>
+                <button  class="btn btn-danger" style="margin-right:5px" @click="updateShare">Update</button>
+            </div>
+
+
+            <br>
+            <br>
+
+
+
+            </div>
+
+
+        </template>
+    <br>
+
+    </div>
+
+
+</div> <!-- end of Vue app -->
+
+
+{% endblock %}
+
+{% block script %}
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+
+<script type="text/javascript">
+var shareOBJstring = document.getElementById('shareOBJ').innerHTML
+var shareOBJ = JSON.parse(shareOBJstring)
+console.log('shareOBJ', shareOBJstring);
+
+
+startVue()
+
+function startVue(){
+
+  let vue = new Vue({
+
+    el: '#vue-app',
+    delimiters: ['[[', ']]'],
+    mounted: function () {
+    },
+    data: {
+        shareOBJ: shareOBJ,
+        link : null
+    },
+    methods: {
+        getSentence: function (sen) {
+            let count = sen.split(' ').length
+            return count
+        },
+        getStyle : function(mark) {
+            console.log(mark)
+
+            var bg
+
+            if (mark.includes('D')){
+                bg = 'darkorange'
+            }
+            else if (mark.includes('A')){
+                bg = 'DARKCYAN'
+            }
+            else if (mark.includes('Fo')){
+                bg = 'purple'
+            }
+            else if (mark.includes('M')){
+                bg = 'seagreen'
+            }
+            else if (mark.includes('Fi')){
+                bg = 'silver'
+            }
+            else if (mark.includes('R')){
+                bg = 'pink'
+            }
+
+            return {padding:'4px', 'font-size':'15px', background:bg, color:'white', border:'1px sold white', 'border-radius':'5px', width:'60%'}
+
+        },
+        getSRC: function (src) {
+            console.log(src)
+            let code
+            if (src.includes('you')) {
+                code = src.split('youtu.be/')[1]
+            }
+
+            return "https://www.youtube.com/embed/" + code
+        },
+        updateShare : function() {
+            console.log('update via AJAX');
+
+            //return false
+
+            $.ajax({
+              data : {
+                shareOBJ : JSON.stringify(this.shareOBJ),
+              },
+              type : 'POST',
+              url : '/updateShare',
+            })
+            .done(function(data) {
+                alert('Your FORM has been updated')
+                location.reload()
+            })
+            .fail(function(){
+                alert('error has occurred');
+            });
+        },
+
+    }, // end methods
+
+
+
+})// end NEW VUE
+
+}// endFunction
+
+</script>
+
+{% endblock %}
+
