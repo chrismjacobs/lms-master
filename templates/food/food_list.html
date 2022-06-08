@@ -4,6 +4,7 @@
 
 <span id="user" style="display:none">{{current_user.username}}</span>
 <span id="link" style="display:none">{{link}}</span>
+<span id="grade" style="display:none">{{grade}}</span>
 
 <div id="vue-app">
 
@@ -61,12 +62,12 @@
       <input type="text" id="fname" v-model="link" name="fname">
       <br>
       <br>
-      <button  class="btn btn-danger" @click="share()">Share Link</button>
+      <button  class="btn btn-danger" @click="share()">Share Youtube Link</button>
 
       <br>
       <br>
 
-      <div style="display:none">
+      <div style="">
 
       <button  class="btn btn-info" @click="goTo('sharing')">Start Sharing</button>
       </div>
@@ -119,6 +120,8 @@
 
 var link = document.getElementById('link').innerHTML
 console.log('link', link);
+var grade = parseInt(document.getElementById('grade').innerHTML)
+console.log('grade', grade);
 
 
 startVue()
@@ -131,9 +134,15 @@ function startVue(){ new Vue({
     },
     data: {
         link: link,
+        grade: grade
     },
     methods: {
         goTo: function(proj) {
+
+          if (proj == 'sharing' && this.grade < 6) {
+            alert('Sharing will be open from week 17 and only after your writing and video have been checked and approved - please contact your instructor if you have any questions')
+            return false
+          }
 
           let name = document.getElementById('user').innerHTML
 

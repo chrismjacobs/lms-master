@@ -31,8 +31,8 @@
                 <div v-for="(line, key) in content.answers">
 
                 <h6 :style="getStyle(key)"> [[key]] </h6>
-                <span style="background:red;color:white" v-if="getSentence(content.answers[key]) < 4"> Full sentence please </span>
-                <textarea type="text" class="textAss" style="margin-left:5px; width:100%" v-model="content.answers[key]"></textarea>
+                <span :id="key" name="full" style="background:red;color:white" v-if="getSentence(content.answers[key]) < 4"> Full sentence please </span>
+                <input type="text" class="textAss" style="margin-left:5px; width:100%" v-model="content.answers[key]"></input>
                 <br>
                 <br>
 
@@ -128,6 +128,19 @@ function startVue(){
             return "https://www.youtube.com/embed/" + code
         },
         updateShare : function() {
+            let el = document.getElementsByName('full')
+            console.log(el)
+            console.log(el.length)
+
+            let updateGrade = false
+
+            if (el.length > 0) {
+                alert('Keep going! - you still have ' + el.length + ' sentences to write')
+            } else {
+                alert('Congratulations - your final exam is complete')
+                updateGrade = true
+            }
+
             console.log('update via AJAX');
 
             //return false
@@ -135,13 +148,14 @@ function startVue(){
             $.ajax({
               data : {
                 shareOBJ : JSON.stringify(this.shareOBJ),
+                updateGrade: updateGrade
               },
               type : 'POST',
               url : '/updateShare',
             })
             .done(function(data) {
                 alert('Your FORM has been updated')
-                location.reload()
+                //location.reload()
             })
             .fail(function(){
                 alert('error has occurred');

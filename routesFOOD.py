@@ -33,14 +33,16 @@ def food_list():
     source = sDict['1']['M2']
 
     link = ''
+    grade = 0
 
     project_answers = U021U.query.filter_by(username=current_user.username).first()
     if project_answers:
         link = project_answers.Ans03
+        grade = project_answers.Grade
 
 
 
-    return render_template('food/food_list.html', legend='Food Projects', source=source, link=link)
+    return render_template('food/food_list.html', legend='Food Projects', source=source, link=link, grade=grade)
 
 
 def getShareList():
@@ -51,7 +53,7 @@ def getShareList():
     allps = {}
 
     for p in projects:
-        if p.Grade == 6:
+        if p.Grade >= 6 and p.username != 'Chris' and p.username != current_user.username:
             allps[p.username] = p.Ans03
             listps.append(p.username)
 
@@ -105,10 +107,14 @@ def food_sharing():
 def updateShare():
     print('TEST')
     obj = request.form ['shareOBJ']
-    print(obj)
+    ug = request.form ['updateGrade']
+    print(obj, ug)
 
     project_answers = U021U.query.filter_by(username=current_user.username).first()
     project_answers.Ans05 = obj
+    if ug:
+        project_answers.Grade = 7
+
 
     db.session.commit()
 
