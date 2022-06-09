@@ -585,6 +585,10 @@ def food_FN():
         fnDict[answer.username]['Grade'] = answer.Grade
         fnDict[answer.username]['Data'] = rrDict
         fnDict[answer.username]['Link'] = answer.Ans03
+        if answer.Ans05:
+            fnDict[answer.username]['answers'] = answer.Ans05
+        else:
+            fnDict[answer.username]['answers'] = json.dumps({})
 
     pprint(fnDict)
 

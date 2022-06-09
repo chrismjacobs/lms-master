@@ -22,6 +22,7 @@
         <template v-for="(nameOBJ, name) in fnOBJ">
             <div>
                     <span :style="style(nameOBJ.Grade + 'test', nameOBJ)" @click="view = name"> [[name]] -- [[nameOBJ.Grade]] </span> [[nameOBJ.ID]]
+                    <span v-if="nameOBJ.Grade == 7" style="background:skyblue" @click="answers = name"> answers </span>
                     <span v-if="nameOBJ.Link" style="background:skyblue"  @click="updatePlan(name, 6)">Link:</span> <a :href="nameOBJ.Link" target="_blank">[[nameOBJ.Link]]</a>
                     <div v-if="nameOBJ.Link && nameOBJ.Grade < 6" style="width:40%">
                         <div class="embed-responsive embed-responsive-4by3" >
@@ -75,6 +76,45 @@
                         </div>
 
             </div>
+            <div v-if="answers == name">
+
+            <template v-for="(content, name) in getAnswers(nameOBJ.answers)">
+                <div>
+
+                    <legend class="border-bottom mb-4"> <button  class="btn btn-safe" style="margin-right:5px" >[[name]]</button></legend>
+
+
+                    <div class="content-section">
+                        <div class="embed-responsive embed-responsive-4by3">
+                            <iframe :src="getSRC(content.link)"></iframe>
+                        </div>
+                        <br>
+                    </div>
+
+                    <br>
+                    <br>
+
+                    <div v-for="(line, key) in content.answers">
+
+                    <h6 :style="getStyle(key)"> [[key]] </h6>
+                    <span :id="key" name="full" style="background:red;color:white" v-if="getSentence(content.answers[key]) < 4"> Full sentence please </span>
+                    <input type="text" class="textAss" style="margin-left:5px; width:100%" v-model="content.answers[key]"></input>
+                    <br>
+                    <br>
+
+                    </div>
+
+
+                <br>
+                <br>
+
+
+
+                </div>
+
+
+            </template>
+        </div>
 
 
         </template>
@@ -111,6 +151,7 @@ function startVue(){
     data: {
         fnOBJ: fnOBJ,
         view : null,
+        answers : null,
         script: {
             RR : {
                 Intro : ['Hello, I am _____. Today I would like to review a restaurant.', 'Describe the name, style of restaurant and where it is and when you go/went there'],
@@ -124,11 +165,57 @@ function startVue(){
 
     },
     methods: {
-        getSRC: function (src) {
+        getAnswers: function (str) {
+            console.log(str)
+            if (str) {
+                return JSON.parse(str)
+            } else {
+                return {}
+            }
 
+
+        },
+        getSentence: function (sen) {
+            let count = sen.split(' ').length
+            return count
+        },
+        getStyle : function(mark) {
+            console.log(mark)
+
+            var bg
+
+            if (mark.includes('D')){
+                bg = 'darkorange'
+            }
+            else if (mark.includes('A')){
+                bg = 'DARKCYAN'
+            }
+            else if (mark.includes('Fo')){
+                bg = 'purple'
+            }
+            else if (mark.includes('M')){
+                bg = 'seagreen'
+            }
+            else if (mark.includes('Fi')){
+                bg = 'silver'
+            }
+            else if (mark.includes('R')){
+                bg = 'pink'
+            }
+
+            return {padding:'4px', 'font-size':'15px', background:bg, color:'white', border:'1px sold white', 'border-radius':'5px', width:'60%'}
+
+        },
+        getSRC: function (src) {
+            let code
             console.log(src)
             if (src && src.length > 3) {
-                let code = src.split('youtu.be/')[1]
+                if (src.includes('youtu.be/')) {
+                    code = src.split('youtu.be/')[1]
+                } else if (src.includes('watch?v=')) {
+                    code = src.split('watch?v=')[1]
+                }
+
                 return "https://www.youtube.com/embed/" + code
             }
 
