@@ -64,10 +64,10 @@
   </div>
 </div>
 
-<div class="content-section" style="display:none">
+<div class="content-section" style="display:visible">
 <legend class="border-bottom mb-4">Exam Status</legend>
 
-<ul style="display:visable" >
+<ul>
   <li>
   <span v-if="aCount > 3" style="background:lightgreen">Assignments:  [[aCount]]/4</span>
   <span v-else style="background:lightcoral">Assignments:  [[aCount]]/4</span>
@@ -75,19 +75,24 @@
 
   <li>
   <span v-if="uCount > 15" style="background:lightgreen">Participation: [[uCount]]/16</span>
-  <span v-else>Participation: [[uCount]]/16</span>
+  <span v-else style="background:lightcoral">Participation: [[uCount]]/16</span>
   </li>
 
   <li>
-  <span v-if="getTries() == 2" style="background:lightgreen">Practice: [[getTries()]]/2</span>
-  <span v-else style="background:lightcoral">Practice: [[getTries()]]/2</span>
+  <span v-if="getTries()[0] == true" style="background:lightgreen">Practice Exams: [[  getTries()[1][0]   ]]/3  &  [[  getTries()[1][1]   ]]/3</span>
+  <span v-else style="background:lightcoral">Practice Exams: [[  getTries()[1][0]   ]] /3  &  [[  getTries()[1][1]   ]]/3</span>
   </li>
 </ul>
 
 
 <div>
-   <!--<button v-if="!getOpen()" class="btn btn-danger" @click="alert('Make sure you have done all participation, assignments, and practices')">Exam: Closed</button> -->
-    <button class="btn btn-info" @click="openExam()">Exam: Open</button>
+
+  <div v-if="!getOpen()">
+    <button class="btn btn-danger" @click="alert('Make sure you have done all participation, assignments, and practices')">Exam: Closed</button>
+  </div>
+  <div v-else>
+    <button class="btn btn-info" @click="openExam()">Exam: Open/Close</button>
+  </div>
 </div>
 
 
@@ -153,18 +158,18 @@ function startVue(){
         getTries: function () {
           let arg1 = this.examOBJ.tries56
           let arg2 = this.examOBJ.tries78
-          console.log(arg1.substring(0, 2), arg2.substring(0, 2))
-          if (arg1.substring(0, 2) == '0/' && arg2.substring(0, 2) == '0/') {
-            return 0
-          } else if (arg1.substring(0, 2) == '0/' || arg2.substring(0, 2) == '0/' ) {
-            return 1
+          let p1 = parseInt(arg1.split('tries: ')[1])
+          let p2 = parseInt(arg2.split('tries: ')[1])
+          console.log(arg1, arg2, p1, p2)
+          if (p1 > 2 && p2 > 2) {
+            return [true, [p1,p2]]
           } else {
-            return 2
+            return [false, [p1,p2]]
           }
         },
         getOpen: function () {
           console.log(this.aCount + this.uCount + this.getTries())
-          if ((parseInt(this.aCount) + parseInt(this.uCount) + this.getTries()) == 22)  {
+          if (parseInt(this.aCount) > 3 && parseInt(this.uCount) > 15 && this.getTries()[0]) {
             return true
           } else {
             return false
