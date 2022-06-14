@@ -10,6 +10,22 @@
 
     <div class="content-section">
 
+        <legend class="border-bottom mb-4"> <h3> Food Culture English: Final Exam Sharing </h3> </legend>
+
+        <h5> Exam Introduction </h5>
+
+        <div class="embed-responsive embed-responsive-4by3">
+        <iframe src="https://www.youtube.com/embed/HfA0hlkZbHk" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+        </div>
+
+    </br>
+
+
+        <h5> Example Sentences </h5>
+        <div class="embed-responsive embed-responsive-4by3">
+        <iframe src="https://drive.google.com/file/d/1o-HEcVVb1TXe7wUdsFLbMh4j9s6jFBqt/preview"></iframe>
+        </div>
+
         <template v-for="(content, name) in shareOBJ">
             <div>
 
@@ -31,7 +47,7 @@
                 <div v-for="(line, key) in content.answers">
 
                 <h6 :style="getStyle(key)"> [[key]] </h6>
-                <span :id="key" name="full" style="background:red;color:white" v-if="getSentence(content.answers[key]) < 4"> Full sentence please </span>
+                <span :id="key" name="full" style="background:red;color:white" v-if="getSentence(content.answers[key]) < 5"> Full sentence please </span>
                 <input type="text" class="textAss" style="margin-left:5px; width:100%" v-model="content.answers[key]"></input>
                 <br>
                 <br>

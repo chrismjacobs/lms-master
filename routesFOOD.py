@@ -52,8 +52,10 @@ def getShareList():
     listps = []
     allps = {}
 
+    exNames = ['Chris', 'Janice', 'Frank', current_user.username]
+
     for p in projects:
-        if p.Grade >= 6 and p.username != 'Chris' and p.username != current_user.username:
+        if p.Grade >= 6 and p.username not in exNames:
             allps[p.username] = p.Ans03
             listps.append(p.username)
 
@@ -66,7 +68,7 @@ def getShareList():
     count = 0
 
     for k in listps:
-        if count < 4:
+        if count < 3:
             shareps[k] = {}
             shareps[k]['link'] = allps[k]
             shareps[k]['answers'] = {
