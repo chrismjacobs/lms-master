@@ -116,6 +116,7 @@ def updateShare():
     project_answers.Ans05 = obj
     if ug:
         project_answers.Grade = 7
+        print('Grade updated')
 
 
     db.session.commit()

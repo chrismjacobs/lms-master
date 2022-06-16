@@ -22,7 +22,7 @@
         <template v-for="(nameOBJ, name) in fnOBJ">
             <div>
                     <span :style="style(nameOBJ.Grade + 'test', nameOBJ)" @click="view = name"> [[name]] -- [[nameOBJ.Grade]] </span> [[nameOBJ.ID]]
-                    <span v-if="nameOBJ.Grade == 7" style="background:skyblue" @click="answers = name"> answers </span>
+                    <span v-if="nameOBJ.Grade >= 6" style="background:skyblue" @click="answers = name"> answers </span>
                     <span v-if="nameOBJ.Link" style="background:skyblue"  @click="updatePlan(name, 6)">Link:</span> <a :href="nameOBJ.Link" target="_blank">[[nameOBJ.Link]]</a>
                     <div v-if="nameOBJ.Link && nameOBJ.Grade < 6" style="width:40%">
                         <div class="embed-responsive embed-responsive-4by3" >
