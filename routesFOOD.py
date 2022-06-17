@@ -52,7 +52,7 @@ def getShareList():
     listps = []
     allps = {}
 
-    exNames = ['Chris', 'Janice', 'Frank', 'Rebbeca', 'Kanny', 'Tim', 'Andy', 'Mandy', 'Yuling ', 'Ivan', 'Katherine', 'Michelle', current_user.username]
+    exNames = ['Chris', 'Janice', 'Frank', 'Rebbeca', 'Kanny', 'Tim', 'Andy', 'Mandy', 'Yuling ', 'Ivan', 'patrick', 'Katherine', 'Michelle', current_user.username]
 
     for p in projects:
         if p.Grade >= 6 and p.username not in exNames:
