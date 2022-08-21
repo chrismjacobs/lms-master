@@ -9,7 +9,7 @@ import json
 
 
 ## neccessary for reading intro class only
-from models import U001U, U002U, U003U, U003U, A00A
+#from models import U001U, U002U, U003U, U003U, A00A
 
 from models import U011U, U012U, U013U, U014U
 from models import U021U, U022U, U023U, U024U

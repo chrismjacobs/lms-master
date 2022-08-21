@@ -79,17 +79,17 @@ def get_mods():
     ass_mods_list = Info.ass_mods_list
 
 
-    if Units.query.filter_by(unit='00').first():
-        d1 = Info.unit_mods_dict.copy()
-        d2 = Info.unit_zero_dict
-        uModsDict = d2.update(d1)
+    # if Units.query.filter_by(unit='00').first():
+    #     d1 = Info.unit_mods_dict.copy()
+    #     d2 = Info.unit_zero_dict
+    #     uModsDict = d2.update(d1)
 
-        d3 = Info.ass_mods_dict.copy()
-        d4 = Info.ass_zero_dict
-        uModsDict = d4.update(d3)
+    #     d3 = Info.ass_mods_dict.copy()
+    #     d4 = Info.ass_zero_dict
+    #     uModsDict = d4.update(d3)
 
-        unit_mods_list = Info.unit_zero_list  + Info.unit_mods_list
-        ass_mods_list = Info.ass_zero_list  + Info.ass_mods_list
+    #     unit_mods_list = Info.unit_zero_list  + Info.unit_mods_list
+    #     ass_mods_list = Info.ass_zero_list  + Info.ass_mods_list
 
     returnDict = {
         'uModsDict' : uModsDict,
