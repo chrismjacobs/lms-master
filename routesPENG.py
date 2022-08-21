@@ -1,11 +1,10 @@
-import sys, boto3, random, base64, os, secrets, time, datetime, json
+import sys, boto3, random, base64, os, secrets, time, datetime, json, ast
 from sqlalchemy import asc, desc, func, or_
 from flask import render_template, url_for, flash, redirect, request, abort, jsonify
 from app import app, db, bcrypt, mail
 from flask_login import login_user, current_user, logout_user, login_required
 from forms import *
 from models import *
-import ast
 from pprint import pprint
 from routesUser import get_grades, get_sources
 

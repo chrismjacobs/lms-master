@@ -5,10 +5,11 @@ from pprint import pprint
 from models import ChatBox, AttendLog, Attendance, User
 from models import Units, Exams, Errors
 from aws import dbpassword
+import json
 
 
 ## neccessary for reading intro class only
-#from models import U001U, U002U, U003U, U003U, A00A
+from models import U001U, U002U, U003U, U003U, A00A
 
 from models import U011U, U012U, U013U, U014U
 from models import U021U, U022U, U023U, U024U
@@ -30,7 +31,7 @@ db.create_all()
 
 def main():
 
-    semester = str(2)
+    semester = str(1)
     ''' change jMaker global as well '''
 
     host = User(username='Chris', studentID='100000000', email='cjx02121981@gmail.com', image_file='profiles/Chris.jpg', password=dbpassword, device=json.dumps('{}'), extra=semester)

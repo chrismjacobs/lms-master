@@ -115,7 +115,7 @@ def inject_user():
         signal = current_user.extra
         print(current_user.extra)
         sList = [1,2,10]
-        if current_user.extra == 1 and SCHEMA in sList:
+        if current_user.extra == 1 and SCHEMA in sList and current_user.id != 1:
             bodyColor = 'lightpink'
             print('IF')
         else:

@@ -78,6 +78,7 @@ def get_mods():
     unit_mods_list = Info.unit_mods_list
     ass_mods_list = Info.ass_mods_list
 
+
     if Units.query.filter_by(unit='00').first():
         d1 = Info.unit_mods_dict.copy()
         d2 = Info.unit_zero_dict
