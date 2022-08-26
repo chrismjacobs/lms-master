@@ -328,7 +328,7 @@ class U084U(BaseUnits):
 modDictUnits['08'].append(U084U)
 
 
-if BaseConfig.SCHEMA == 9:
+if BaseConfig.SCHEMA == 8 or BaseConfig.SCHEMA == 6:
     class U091U(BaseUnits):
         id = db.Column(db.Integer, primary_key=True)
     modDictUnits['09']=[None]
@@ -426,7 +426,7 @@ class A08A (BaseAss):
     id = db.Column(db.Integer, primary_key=True)
 modDictAss['08'] = A08A
 
-if BaseConfig.SCHEMA == 9:
+if BaseConfig.SCHEMA == 8 or BaseConfig.SCHEMA == 6:
 
     class A09A (BaseAss):
         id = db.Column(db.Integer, primary_key=True)
