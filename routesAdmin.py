@@ -272,6 +272,16 @@ def loginElite():
         flash (f'Elite Login', 'warning')
         return redirect (url_for('home'))
 
+@app.route("/login/foodapp", methods=['GET','POST'])
+def loginFoodApp():
+    if current_user.is_authenticated:
+        return redirect(url_for('home')) # now register or log in link just go back homeform = LoginForm()
+    else:
+        user = User.query.filter_by(username='GillianLee').first()
+        login_user (user)
+        flash (f'Login for app demonstration', 'danger')
+        return redirect (url_for('home'))
+
 @app.route("/login/<string:student>", methods=['GET','POST'])
 @login_required
 def loginExtra(student):

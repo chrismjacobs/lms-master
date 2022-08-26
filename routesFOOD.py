@@ -41,8 +41,44 @@ def food_list():
         grade = project_answers.Grade
 
 
-
     return render_template('food/food_list.html', legend='Food Projects', source=source, link=link, grade=grade)
+
+@app.route ("/build_presentation", methods=['GET','POST'])
+@login_required
+def build_presentation():
+
+    sDict = get_food_projects()
+    source = sDict['1']['M2']
+
+    link = ''
+    grade = 0
+
+    project_answers = U021U.query.filter_by(username=current_user.username).first()
+    if project_answers:
+        link = project_answers.Ans03
+        grade = project_answers.Grade
+
+
+    return render_template('food/build_presentation.html', legend='Food Projects', source=source, link=link, grade=grade)
+
+@app.route ("/share_presentation", methods=['GET','POST'])
+@login_required
+def share_presentation():
+
+    sDict = get_food_projects()
+    source = sDict['1']['M2']
+
+    link = ''
+    grade = 0
+
+    project_answers = U021U.query.filter_by(username=current_user.username).first()
+    if project_answers:
+        link = project_answers.Ans03
+        grade = project_answers.Grade
+
+
+
+    return render_template('food_list/sharing.html', legend='Food Projects', source=source, link=link, grade=grade)
 
 
 def getShareList():
@@ -584,14 +620,14 @@ def food_FN():
         rrDict = json.loads(answer.Ans01)
         print(get_all_values(rrDict))
 
-
-        fnDict[answer.username]['Grade'] = answer.Grade
-        fnDict[answer.username]['Data'] = rrDict
-        fnDict[answer.username]['Link'] = answer.Ans03
-        if answer.Ans05:
-            fnDict[answer.username]['answers'] = answer.Ans05
-        else:
-            fnDict[answer.username]['answers'] = json.dumps({})
+        if answer.username in fnDict:
+            fnDict[answer.username]['Grade'] = answer.Grade
+            fnDict[answer.username]['Data'] = rrDict
+            fnDict[answer.username]['Link'] = answer.Ans03
+            if answer.Ans05:
+                fnDict[answer.username]['answers'] = answer.Ans05
+            else:
+                fnDict[answer.username]['answers'] = json.dumps({})
 
     pprint(fnDict)
 

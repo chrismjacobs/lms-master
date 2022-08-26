@@ -31,7 +31,9 @@
                         <div class="navbar-nav">
                         {% if current_user.id == 1 %}
                           <div class="navbar-nav mr-auto">
+                            {% if SCHEMA != 5 %}
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('controls') }}", target="_blank">Controls</a>
+                            {% endif %}
                             {% if SCHEMA < 3 or SCHEMA == 6 or SCHEMA == 10 %}
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('dashboard')}}", target="_blank">Dashboard</a>
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('classwork')}}", target="_blank">Classwork</a>
@@ -48,7 +50,7 @@
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('fse_grades')}}", target="_blank">Grades</a>
                             {% elif SCHEMA == 4 %}
                             <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('peng_dash')}}", target="_blank">Dashboard</a>
-                            {% elif SCHEMA == 5 %}
+                            {% elif SCHEMA == 0 %}
                               {% if MTFN == 'MT' %}
                                 <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('food_FN')}}", target="_blank">Dashboard</a>
                               {% elif MTFN == 'FN' %}
@@ -96,7 +98,10 @@
                                   <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('peng_list') }}">My Presentations</a>
                                   <!---<a class="nav-item nav-link" style="color:white;background:steelblue" href="https://vocab-lms.herokuapp.com/", target="_blank">My Vocab</a>-->
                                 {% elif SCHEMA == 5 %}
-                                  <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('food_list') }}">My Presentations</a>
+                                  <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('food_list') }}">Presentation Building</a>
+                                  <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('food_sharing') }}">Presentation Sharing</a>
+                                  <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('food_FN')}}">See all students Work</a>
+
                                 {% elif SCHEMA == 7 %}
                                    <a class="nav-item nav-link" style="color:{{titleColor}};background:honeydew" href="{{ url_for ('nme_movies') }}">My Movies</a>
                                    <a class="nav-item nav-link" style="color:{{titleColor}};background:honeydew" href="{{ url_for ('nme_dubs') }}">Class Dubs</a>

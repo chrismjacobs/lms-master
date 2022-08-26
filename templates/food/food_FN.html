@@ -7,7 +7,7 @@
 <div class="content-section">
 
     <div class="embed-responsive embed-responsive-4by3">
-        <iframe id="questions_embed" src="{{source}}"
+        <iframe id="questions_embed" src="https://docs.google.com/presentation/d/e/2PACX-1vTMhTRYhPpiCj5l0tYDIhTZmfxjfanr49kxFAbTXQKtrkC49wod3NHR_Q0vb-36EXwXBZqK4YNk5A1Y/embed"
             allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
 	    </iframe>
     </div>
@@ -22,9 +22,9 @@
         <template v-for="(nameOBJ, name) in fnOBJ">
             <div>
                     <span :style="style(nameOBJ.Grade + 'test', nameOBJ)" @click="view = name"> [[name]] -- [[nameOBJ.Grade]] </span> [[nameOBJ.ID]]
-                    <span v-if="nameOBJ.Grade >= 6" style="background:skyblue" @click="answers = name"> answers </span>
+                    <span v-if="nameOBJ.Grade >= 6" style="display:none; background:skyblue" @click="answers = name"> answers </span>
                     <span v-if="nameOBJ.Link" style="background:skyblue"  @click="updatePlan(name, 6)">Link:</span> <a :href="nameOBJ.Link" target="_blank">[[nameOBJ.Link]]</a>
-                    <div v-if="nameOBJ.Link && nameOBJ.Grade < 6" style="width:40%">
+                    <div v-if="nameOBJ.Link" style="width:40%">
                         <div class="embed-responsive embed-responsive-4by3" >
                             <iframe :src="getSRC(nameOBJ.Link)"></iframe>
                         </div>
@@ -35,7 +35,7 @@
                     <br>
                     <br>
 
-                        <div v-if="view == name">
+                        <div v-if="view != name">
 
                             <template v-for="(item, part) in nameOBJ.Data">
 

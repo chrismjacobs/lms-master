@@ -13,7 +13,8 @@
     <div v-bind:style="style(name, val)">
 
         <span v-if="val[0] == '-'" style=""> </span>
-        <span v-else-if=" val.length > 55  " style="">  [[ name ]]: <a :href="val" target="_blank"> Link </a> </span>
+        <span v-else-if="val.includes(''.com')" style="">  [[ name ]]: <a :href="val" target="_blank"> Link </a> </span>
+        <span v-else-if="name == 'deadline' && !week.Unit.isInteger()" style=""> </span>
         <span v-else style="">  [[ name ]]: [[ val ]] </span>
 
     </div>
@@ -44,6 +45,7 @@ let courseSTR = document.getElementById('course').innerHTML
 let course =  JSON.parse(courseSTR)
 let date = new Date().toJSON().slice(0,10)
 console.log(typeof(date));
+console.log(course)
 
 let app =  new Vue({
 
