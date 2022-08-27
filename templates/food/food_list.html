@@ -9,7 +9,7 @@
 <div id="vue-app">
 
 <div class="content-section">
-        <h1> Exam Projects </h1>
+        <h1> Final Exam Projects </h1>
     </div>
     <div class="content-section">
     <div class="embed-responsive embed-responsive-4by3">
@@ -22,15 +22,20 @@
 
 
 <div class="content-section">
-  <legend class="border-bottom mb-4"> Your Project: </legend>
+
 
     {% if MTFN == 'MT' %}
 
+
     <div>
+      <legend class="border-bottom mb-4"> Build Your Project: </legend>
+
       <button  class="btn btn-danger" @click="goTo('RR')">Restaurant Review</button>
 
       <br>
       <br>
+
+      <legend class="border-bottom mb-4"> Project Guidelines: </legend>
 
       <a href="https://drive.google.com/file/d/1o0ytGXkckthDF5_uM7BJrGY2WAZQ4s_n/view?usp=sharing" target="_blank"> How to use screen recorder on Windows </a>
 
@@ -54,7 +59,9 @@
       *** Any problems, contact instructor for help  <br>
 
       <br>
-      <br>
+
+      <legend class="border-bottom mb-4"> Upload Video Presentation: </legend>
+
 
       Youtube Link (Deadline Target June 10 - or send me message): <br>
 
@@ -62,7 +69,7 @@
       <input type="text" id="fname" v-model="link" name="fname">
       <br>
       <br>
-      <button  class="btn btn-danger" @click="share()">Share Youtube Link</button>
+      <button  class="btn btn-danger" @click="share()">Upload</button>
 
       <br>
       <br>
