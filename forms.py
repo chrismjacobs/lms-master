@@ -53,14 +53,14 @@ def getCourseRadios():
         ('1', 'Freshman Reading'),
         ('2', 'Workplace English'),
         ('3', 'Intercultural Communication'),
-        # ('4', 'Presentation English'),
+        ('4', 'Presentation English'),
         ('5', 'Language and Culture'),
         ('6', 'Vietnam Class')
         ]
 
     master = User.query.filter_by(id=1).first()
 
-    print(master, master.extra)
+    print('master', master, master.extra)
 
     if master.extra == 0:
         return [('0', 'No Course')]
@@ -75,7 +75,6 @@ class RegistrationForm(FlaskForm):
     studentID = StringField ('Student ID', validators=[DataRequired(), Length(min=2, max=20)])
     course = RadioField ('Course', validators=[DataRequired()], choices = getCourseRadios() )
     email = StringField('Email', validators=[DataRequired(), Email()] )
-    # bookcode = StringField('bookcode')
     device = RadioField('Main Device', choices = [('Apple', 'Apple iphone'), ('Android', 'Android Phone')])
     password = PasswordField('Password', validators=[DataRequired()] )
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')] )
