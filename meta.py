@@ -53,7 +53,7 @@ def loadJson(SCHEMA):
     content_object = s3_resource.Object(   jList[SCHEMA],    'json_files/meta.json' )
     file_content = content_object.get()['Body'].read().decode('utf-8')
     meta = json.loads(file_content)
-    print('META')
+    # print('META')
     return meta
 
 class BaseConfig:

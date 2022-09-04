@@ -3,211 +3,16 @@ from datetime import datetime, timedelta
 from sqlalchemy import asc, desc, or_
 from flask import render_template, url_for, flash, redirect, request, abort, jsonify
 from app import app, db, bcrypt, mail
-from flask_login import login_user, current_user, logout_user, login_required
+from flask_login import current_user, login_required
 from forms import *
 from models import *
 from flask_mail import Message
 import ast # eval literal for list str
 from pprint import pprint
+from routesGet import get_grades, get_sources, get_mods, get_MTFN
 
-from meta import BaseConfig, loadJson
+from meta import BaseConfig
 s3_resource = BaseConfig.s3_resource
-
-
-SCHEMA = getLocalData()['SCHEMA']
-S3_BUCKET_NAME = getLocalData()['S3_BUCKET_NAME']
-S3_LOCATION = getLocalData()['S3_LOCATION']
-DESIGN = getLocalData()['DESIGN']
-
-Units_ = getModels()['Units_']
-ChatBox_ = getModels()['ChatBox_']
-AttendLog_ = getModels()['AttendLog_']
-
-
-sList = [1,2,3,6]
-
-
-
-def get_sources():
-    S3_BUCKET_NAME = getLocalData()['S3_BUCKET_NAME']
-    SCHEMA = getLocalData()['SCHEMA']
-    content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/sources.json' )
-    file_content = content_object.get()['Body'].read().decode('utf-8')
-    sDict = json.loads(file_content)  # json loads returns a dictionary
-    unitDict = {}
-    for week in sDict:
-        try:
-            if int(sDict[week]['Unit']) > 0 or SCHEMA in sList: ## this or condition will add unit 00 for the reading class practice
-                unitNumber = sDict[week]['Unit']
-                unitDict[unitNumber] = {}
-                section = sDict[week]
-                #unitDict[unitNumber] = sDict[week]
-
-                unitDict[unitNumber]['Title'] = section['Title']
-                unitDict[unitNumber]['Date'] = section['Date']
-                unitDict[unitNumber]['Deadline'] = section['Deadline']
-                unitDict[unitNumber]['Materials'] = {}
-                unitDict[unitNumber]['Materials']['1'] = section['M1']
-                unitDict[unitNumber]['Materials']['2'] = section['M2']
-                unitDict[unitNumber]['Materials']['3'] = section['M3']
-                unitDict[unitNumber]['Materials']['4'] = section['M4']
-                unitDict[unitNumber]['Materials']['A'] = section['MA']
-
-        except:
-            print('except', sDict[week]['Unit'])
-            pass
-
-    pprint(unitDict)
-
-    return unitDict
-
-
-def get_MTFN(t):
-
-    MTFN = 'MT'
-
-    try:
-        if t == 'layout':
-            if getModels()['Units_'].query.filter_by(unit='02').first():
-                MTFN = 'MT'
-            elif getModels()['Units_'].query.filter_by(unit='06').first():
-                MTFN = 'FN'
-        elif t == 'grades':
-            MTFN = 'MT'
-            if getModels()['Units_'].query.filter_by(unit='05').first():
-                MTFN = 'FN'
-    except:
-        MTFN = 'MT'
-
-
-    return MTFN
-
-def get_mods():
-    uModsDict = getInfo()['unit_mods_dict']
-    aModsDict = getInfo()['ass_mods_dict']
-    unit_mods_list = getInfo()['unit_mods_list']
-    ass_mods_list = getInfo()['ass_mods_list']
-
-    if Units_ and Units_.query.filter_by(unit='00').first():
-        d1 = getInfo()['unit_mods_dict'].copy()
-        d2 = getInfo()['unit_zero_dict']
-        uModsDict = d2.update(d1)
-
-        d3 = getInfo()['ass_mods_dict'].copy()
-        d4 = getInfo()['ass_zero_dict']    #
-        uModsDict = d4.update(d3)
-
-        unit_mods_list = getInfo()['unit_zero_list']  + getInfo()['unit_mods_list']
-        ass_mods_list = getInfo()['ass_zero_list'] + getInfo()['ass_mods_list']
-
-
-    returnDict = {
-        'uModsDict' : uModsDict,
-        'aModsDict' : aModsDict,
-        'unit_mods_list' : unit_mods_list,
-        'ass_mods_list' : ass_mods_list
-    }
-
-    # for p in returnDict:
-    #     print("RETURN DICT", p, returnDict[p])
-
-    return returnDict
-
-def get_grades(ass, unt):
-
-    INFO = get_mods()
-    SCHEMA = getLocalData()['SCHEMA']
-
-
-    ### set max grades
-    total_units = 0
-    maxU = 0
-    maxA = 0
-    units = getModels()['Units_'].query.all()
-    for unit in units:
-        total = unit.u1 + unit.u2 + unit.u3 + unit.u4
-        maxU += total
-        maxA += unit.uA
-        total_units += 1
-    maxU = maxU*2
-    maxA = maxA*2
-
-    MTFN = get_MTFN('grades')
-
-    lessUnits = [1,2]
-    moreUnits = [3,6]
-
-
-    print('MTFN set = ', MTFN)
-    # set number for counting through the lists of units and asses
-    if MTFN == 'MT' and SCHEMA in lessUnits:
-        unit_start = 0
-        ass_start = 0
-        unit_check = total_units*4
-        ass_check = total_units
-    elif MTFN == 'FN' and SCHEMA in moreUnits:
-        unit_start = 16
-        ass_start = 4
-        unit_check = unit_start + total_units*4
-        ass_check = ass_start + total_units
-    else:
-        unit_start = 0
-        ass_start = 0
-        unit_check = 0
-        ass_check = 0
-
-
-    unitGrade = 0
-    print ('1', unitGrade)
-    unitGradRec = {}
-    print ('check units: ', unt, maxU)
-    if unt == True:
-        print('unit_list', INFO['unit_mods_list'])
-        for model in INFO['unit_mods_list'][unit_start:unit_check]: # a list of all units (so MT will be the first 4x4=16 units)
-            rows = model.query.all()
-            unit = str(model).split('U')[1]
-            unitGradRec[unit] = {
-                'Grade' : 0,
-                'Comment' : ''
-            }
-
-            for row in rows:
-                names = ast.literal_eval(row.username)
-                if current_user.username in names:
-                    unitGrade += row.Grade
-                    unitGradRec[unit] = {
-                        'Grade' : row.Grade,
-                        'Comment' : row.Comment
-                        }
-    assGrade = 0
-    assGradRec = {}
-
-    model_check = total_units
-    print('model check ', model_check, ass, ass_start, ass_check)
-    if ass == True:
-        for model in INFO['ass_mods_list'][ass_start:ass_check]:
-            unit = str(model).split('A')[1]
-            rec = model.query.filter_by(username=current_user.username).first()
-            if rec:
-                assGrade += rec.Grade
-                assGradRec[unit] = {
-                    'Grade' : rec.Grade,
-                    'Comment' : rec.Comment
-                }
-            else:
-                assGradRec[unit] = {
-                    'Grade' : 0,
-                    'Comment' : 'Open to start...'
-                }
-
-    return {
-        'unitGrade' : unitGrade,
-        'assGrade' : assGrade,
-        'assGradRec' :  assGradRec,
-        'unitGradRec' :  unitGradRec,
-        'maxU' : maxU,
-        'maxA' : maxA
-    }
 
 
 @app.route('/chatCheck', methods=['POST'])
@@ -1172,7 +977,7 @@ def classwork():
             cwDict[unit][row.id]['ID'] = row.id
             try:
                 cwDict[unit][row.id]['names'] = ast.literal_eval(row.username)
-                print('TRY', cwDict[unit][row.id]['names'])
+                print('TRY classwork', cwDict[unit][row.id]['names'])
             except:
                 cwDict[unit][row.id]['names'] = [row.username]
 

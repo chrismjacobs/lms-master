@@ -20,7 +20,7 @@ def getLocalData():
         S3_BUCKET_NAME = BaseConfig.jList[SCHEMA]
         S3_LOCATION = 'https://' + S3_BUCKET_NAME + '.s3.ap-northeast-1.amazonaws.com/'
         DESIGN = loadJson(SCHEMA)['M']['DESIGN']
-        print('CURRENT USER')
+        print('getLocalData - models.py')
     except:
         SCHEMA = 0
 

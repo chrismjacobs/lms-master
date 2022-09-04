@@ -64,7 +64,7 @@
                           <a class="nav-item nav-link" href="{{ url_for ('course') }}">Course</a>
 
                           <a class="nav-item nav-link" href= "{{ url_for ('att_team') }}">Attendance</a>
-                                {% if SCHEMA < 4 or SCHEMA == 6 %}
+                                {% if SCHEMA <= 6 %}
                                   <a class="nav-item nav-link" href="{{ url_for ('unit_list') }}">My Units</a>
                                   <a class="nav-item nav-link" href="{{ url_for ('assignment_list') }}">My Assignments </a>
 

@@ -50,6 +50,7 @@ def get_schedule():
 
 
 @app.route ("/about")
+@login_required
 def about():
     SCHEMA = getLocalData()['SCHEMA']
     ## src explaining this course
@@ -66,7 +67,7 @@ def about():
 
 
 @app.route("/course", methods = ['GET', 'POST'])
-#@login_required
+@login_required
 def course():
     # json dumps returns a string
     course = json.dumps(get_schedule())

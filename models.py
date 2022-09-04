@@ -27,7 +27,7 @@ def getLocalData():
         S3_BUCKET_NAME = BaseConfig.jList[SCHEMA]
         S3_LOCATION = 'https://' + S3_BUCKET_NAME + '.s3.ap-northeast-1.amazonaws.com/'
         DESIGN = loadJson(SCHEMA)['M']['DESIGN']
-        print('CURRENT USER')
+        print('getLocalData(), models.py')
     except:
         SCHEMA = 0
 
@@ -43,7 +43,7 @@ def getLocalData():
 
 def getModels():
     SCHEMA = getLocalData()['SCHEMA']
-    print('getModels', SCHEMA)
+    # print('getModels', SCHEMA)
 
     chatbox = [None, ChatBox_FRD, ChatBox_WPE, ChatBox_ICC, 'ChatBox_PENG', ChatBox_LNC, ChatBox_VTM, 'ChatBox_NME']
     attend = [None, Attendance_FRD, Attendance_WPE, Attendance_ICC, 'Attendance_PENG', Attendance_LNC, Attendance_VTM, 'Attendance_NME']
@@ -85,6 +85,8 @@ class User(db.Model, UserMixin):
     semester = db.Column(db.Integer)
     schema = db.Column(db.Integer)
     extra = db.Column(db.Integer)
+    condition = db.Column(db.Integer, default=0)
+    info = db.Column(db.String(), default='')
 
 
     def get_reset_token(self, expires_sec=1800):
@@ -122,7 +124,7 @@ def getInfo():
     zeroDictAss = infoDict['zda'][SCHEMA]
     zeroDictUnits = infoDict['zdu'][SCHEMA]
 
-    # print('infoDict', SCHEMA, modDictAss, modDictUnits, zeroDictAss, zeroDictUnits)
+    print('infoDict', SCHEMA, modDictUnits) #modDictAss, zeroDictAss, zeroDictUnits
 
     # used for admin rendering
     listAss = []
@@ -131,7 +133,7 @@ def getInfo():
 
     listUnits = []
     for elements in modDictUnits.values():
-        print('elements', elements, modDictUnits.values())
+        # print('elements', elements, modDictUnits.values())
         for item in elements:
             if item != None:
                 listUnits.append(item)

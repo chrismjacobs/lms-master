@@ -323,7 +323,7 @@ class A00A_FRD (BaseAss):
 
 ### recode UNIT 00
 zeroDictAss_FRD['00'] = A00A_FRD
-print('MOD ASS 00')
+# print('MOD ASS FRD 00')
 
 class A01A_FRD (BaseAss):
     id = db.Column(db.Integer, primary_key=True)

@@ -6,7 +6,7 @@ from aws import dbpassword
 import json
 
 
-db.create_all()
+# db.create_all()
 
 def main():
 
@@ -25,7 +25,8 @@ def main():
                 wpe=1,
                 lnc=1,
                 vtm=1,
-                png=1
+                png=1,
+                extra=10
                 )
     db.session.add(host)
     db.session.commit()

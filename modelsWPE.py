@@ -321,7 +321,7 @@ class A00A_WPE (BaseAss):
 
 ### recode UNIT 00
 zeroDictAss_WPE['00'] = A00A_WPE
-print('MOD ASS 00')
+# print('MOD ASS WPE 00')
 
 class A01A_WPE (BaseAss):
     id = db.Column(db.Integer, primary_key=True)

@@ -130,11 +130,11 @@ class U004U_LNC(BaseUnits):
 
 
 
-zeroDictUnits_LNC['00']=[None]
-zeroDictUnits_LNC['00'].append(U001U_LNC)
-zeroDictUnits_LNC['00'].append(U002U_LNC)
-zeroDictUnits_LNC['00'].append(U003U_LNC)
-zeroDictUnits_LNC['00'].append(U004U_LNC)
+modDictUnits_LNC['00']=[None]
+modDictUnits_LNC['00'].append(U001U_LNC)
+modDictUnits_LNC['00'].append(U002U_LNC)
+modDictUnits_LNC['00'].append(U003U_LNC)
+modDictUnits_LNC['00'].append(U004U_LNC)
 
 ########################################
 
@@ -323,7 +323,7 @@ class A00A_LNC (BaseAss):
 
 ### recode UNIT 00
 zeroDictAss_LNC['00'] = A00A_LNC
-print('MOD ASS 00')
+print('MOD ASS LNC 00')
 
 class A01A_LNC (BaseAss):
     id = db.Column(db.Integer, primary_key=True)

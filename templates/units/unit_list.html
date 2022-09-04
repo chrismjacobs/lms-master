@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<span id="Table" style="display:none">{{Dict}}</span>
+<span id="unitDict" style="display:none">{{unitDict}}</span>
 <span id="Schema" style="display:none">{{SCHEMA}}</span>
 <span id="max" style="display:none">{{max}}</span>
 <span id="Grade" style="display:none">{{Grade}}</span>
@@ -40,10 +40,6 @@
 </div>
 
 
-
-
-
-
 <div class="content-section">
 
     <div style="overflow-x:auto;">
@@ -57,7 +53,9 @@
         </thead>
 
         <tbody>
+
         <template v-for="(fullUnit, number) in unitOBJ" >
+
           <tr style="background:khaki">
             <td colspan ="3">
             {% if current_user.id == 1 %}
@@ -140,21 +138,23 @@
 
 <script type="text/javascript">
 
-var Table = document.getElementById('Table').innerHTML
+
 var todays_unit = document.getElementById('unit').innerHTML
 console.log(unit);
 var Schema = document.getElementById('Schema').innerHTML
 console.log(Schema);
 var attend = document.getElementById('attend').innerHTML
 console.log(attend);
-var OBJ = JSON.parse(Table)
-console.log('unitOBJ', OBJ);
+
+var udOBJ = document.getElementById('unitDict').innerHTML
+var unitOBJ = JSON.parse(udOBJ)
+console.log('unitOBJ', unitOBJ);
 var max = parseInt(document.getElementById('max').innerHTML)
 var Grade = parseInt(document.getElementById('Grade').innerHTML)
 
 
-if (Schema == 9 && OBJ['01']) {
-  delete OBJ['01']
+if (Schema == 9 && unitOBJ['01']) {
+  delete unitOBJ['01']
   console.log('LNC course has unit 01 deleted')
 }
 console.log(navigator.userAgent);
@@ -165,23 +165,21 @@ if (Grade > 0){
 }
 else{
   var colorFloat = 0
-  console.log('0', colorFloat);
+  console.log('colorfloat 0', colorFloat);
 }
 
 let prevs = {}
 let options = {}
 let opens = {}
-for (var number in OBJ){
-    for (var key in OBJ[number]){
+for (var number in unitOBJ){
+    for (var key in unitOBJ[number]){
         prevs[key] = false
         options[key] = false
         opens[key] = false
       }
 }
 
-
-startVue(OBJ, colorFloat, prevs, options, opens)
-
+startVue(unitOBJ, colorFloat, prevs, options, opens)
 function startVue(unitOBJ, colorFloat, prevs, options, opens){
 
   let vue = new Vue({

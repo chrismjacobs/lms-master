@@ -6,17 +6,12 @@ from flask_login import current_user, login_required
 from forms import *
 from models import *
 import ast
-from routesUser import get_grades, get_sources, get_mods
+from routesGet import get_grades, get_sources, get_mods
+from pprint import pprint
 
 from meta import BaseConfig, loadJson
 s3_resource = BaseConfig.s3_resource
 
-# SCHEMA = getLocalData()['SCHEMA']
-# S3_BUCKET_NAME = getLocalData()['S3_BUCKET_NAME']
-# S3_LOCATION = getLocalData()['S3_LOCATION']
-# DESIGN = getLocalData()['DESIGN']
-
-uModsDict = get_mods()['uModsDict']
 
 def get_vocab(a):
     SCHEMA = getLocalData()['SCHEMA']
@@ -25,7 +20,7 @@ def get_vocab(a):
     ## a is to get josn for different semester if neccessary for the test page
 
 
-    semester = User.query.filter_by(username='Chris').first().extra
+    semester = User.query.filter_by(username='Chris').first().semester
 
     print(semester, type(semester))
     ## change to 'json_files/vocab.json' for semester 1
@@ -71,15 +66,15 @@ def unit_list():
     try:
         int(todays_unit)
         review = 0
-        print('TRY')
+        print('TRY unit_list todays unit')
     except:
         review = 1
-        print('EXCEPT')
+        print('EXCEPT unit_list todays unit')
 
     unitDict = {}
 
     for us in getModels()['Units_'].query.all():
-        print('US', us)
+        print('Units', us)
         unitDict[us.unit] = {}
 
     for unit in recs:
@@ -121,7 +116,7 @@ def unit_list():
     student_attendance = getModels()['Attendance_'].query.filter_by(username=current_user.username).count()
 
     return render_template('units/unit_list.html', legend='Units Dashboard',
-    Dict=json.dumps(unitDict), Grade=unitGrade, max=maxU, title='Units', todays_unit=todays_unit, student_attendance=student_attendance)
+    unitDict=json.dumps(unitDict), Grade=unitGrade, max=maxU, title='Units', todays_unit=todays_unit, student_attendance=student_attendance)
 
 
 @app.route('/recError', methods=['POST'])
@@ -218,6 +213,7 @@ def team_details ():
 # check the score of teams during participation for the games panel
 @app.route('/partCheck', methods=['POST'])
 def scoreCheck():
+    uModsDict = get_mods()['uModsDict']
 
     qNum = request.form ['qNum']
     part_num = request.form ['part_num']
@@ -256,6 +252,7 @@ def scoreCheck():
 
 @app.route('/getPdata', methods=['POST'])
 def getPdata():
+    uModsDict = get_mods()['uModsDict']
 
     nnDict = team_details ()
     teamnumber = nnDict['teamnumber']
@@ -316,6 +313,7 @@ def getPdata():
 
 @app.route('/shareUpload', methods=['POST'])
 def shareUpload():
+    uModsDict = get_mods()['uModsDict']
 
     nnDict = team_details ()
     teamnumber = nnDict['teamnumber']
@@ -452,6 +450,8 @@ def shareUpload():
 @app.route ("/participation/<string:unit_num>/<string:part_num>/<string:state>", methods=['GET','POST'])
 @login_required
 def participation(unit_num,part_num,state):
+    uModsDict = get_mods()['uModsDict']
+    print('participation', uModsDict)
 
     DESIGN = getLocalData()['DESIGN']
 
@@ -483,7 +483,7 @@ def participation(unit_num,part_num,state):
             if todays_unit  == 'RR':
                 pass
             elif unit_num != todays_unit:
-                print (unit, getModels()['Attendance_'].query.filter_by(username='Chris').first().unit)
+                print ('This task is not open at the moment', getModels()['Attendance_'].query.filter_by(username='Chris').first().unit)
                 flash('This task is not open at the moment(3)', 'danger')
                 return redirect(url_for('unit_list'))
 
@@ -559,6 +559,7 @@ def participationTest():
 
 @app.route('/studentRemove', methods=['POST'])
 def studentRemove():
+    uModsDict = get_mods()['uModsDict']
     if current_user.id != 1:
         return abort(403)
 
@@ -571,7 +572,7 @@ def studentRemove():
 
     part_model = uModsDict[UNIT][int(part)]
 
-    print( uModsDict)
+    print('uModsDict', uModsDict)
     print('model', part_model)
 
     if part_model:
