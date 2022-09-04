@@ -129,11 +129,11 @@ class U004U_ICC(BaseUnits):
 
 
 
-zeroDictUnits_ICC['00']=[None]
-zeroDictUnits_ICC['00'].append(U001U_ICC)
-zeroDictUnits_ICC['00'].append(U002U_ICC)
-zeroDictUnits_ICC['00'].append(U003U_ICC)
-zeroDictUnits_ICC['00'].append(U004U_ICC)
+modDictUnits_ICC['00']=[None]
+modDictUnits_ICC['00'].append(U001U_ICC)
+modDictUnits_ICC['00'].append(U002U_ICC)
+modDictUnits_ICC['00'].append(U003U_ICC)
+modDictUnits_ICC['00'].append(U004U_ICC)
 
 ########################################
 
@@ -359,7 +359,7 @@ class A00A_ICC (BaseAss):
 ## intro edit
 
 ### recode UNIT 00
-zeroDictAss_ICC['00'] = A00A_ICC
+modDictAss_ICC['00'] = A00A_ICC
 
 class A01A_ICC (BaseAss):
     id = db.Column(db.Integer, primary_key=True)

@@ -155,7 +155,7 @@ def commentSet():
     newComment = request.form['comment']
     unit = request.form['unit']
     name = request.form['user']
-    mods = getInfo()['ass_mods_dict']
+    mods = getInfo()['aModsDict']
     studentAns = mods[unit].query.filter_by(username=name).first()
 
     studentAns.Comment = newComment
@@ -216,7 +216,7 @@ def dashboard():
     print(totalDict)
 
     for unit in period:
-        model = getInfo()['ass_mods_dict'][unit]
+        model = getInfo()['aModsDict'][unit]
         answers = model.query.order_by(desc(model.Grade)).all()
         for item in answers:
             totalDict[item.username][unit] = {

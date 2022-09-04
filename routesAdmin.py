@@ -159,10 +159,10 @@ def admin():
 
     mainList = ['user', 'chatbox', 'attendance', 'units', 'exams', 'attendlog']
 
-    unitsDict = getInfo()['unit_mods_dict']
+    unitsDict = getInfo()['uModsDict']
     unitsKeys = list(unitsDict.keys())
 
-    assDict = getInfo()['ass_mods_dict']
+    assDict = getInfo()['aModsDict']
     assKeys = list(assDict.keys())
 
     return render_template('instructor/admin_menu.html', assKeys=assKeys, mainList=mainList, unitsKeys=unitsKeys, title='admin')

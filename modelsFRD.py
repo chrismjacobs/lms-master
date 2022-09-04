@@ -9,10 +9,8 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from meta import BaseConfig
 
 modDictUnits_FRD = {}
-zeroDictUnits_FRD = {}
-
 modDictAss_FRD = {}
-zeroDictAss_FRD = {}
+
 
 
 ''' top of page
@@ -130,11 +128,11 @@ class U004U_FRD(BaseUnits):
 
 
 
-zeroDictUnits_FRD['00']=[None]
-zeroDictUnits_FRD['00'].append(U001U_FRD)
-zeroDictUnits_FRD['00'].append(U002U_FRD)
-zeroDictUnits_FRD['00'].append(U003U_FRD)
-zeroDictUnits_FRD['00'].append(U004U_FRD)
+modDictUnits_FRD['00']=[None]
+modDictUnits_FRD['00'].append(U001U_FRD)
+modDictUnits_FRD['00'].append(U002U_FRD)
+modDictUnits_FRD['00'].append(U003U_FRD)
+modDictUnits_FRD['00'].append(U004U_FRD)
 
 ########################################
 
@@ -322,7 +320,7 @@ class A00A_FRD (BaseAss):
 ## intro edit
 
 ### recode UNIT 00
-zeroDictAss_FRD['00'] = A00A_FRD
+modDictAss_FRD['00'] = A00A_FRD
 # print('MOD ASS FRD 00')
 
 class A01A_FRD (BaseAss):

@@ -6,7 +6,7 @@ from flask_login import current_user, login_required
 from forms import *
 from models import *
 import ast
-from routesGet import get_grades, get_sources, get_mods
+from routesGet import get_grades, get_sources
 from pprint import pprint
 
 from meta import BaseConfig, loadJson
@@ -213,7 +213,7 @@ def team_details ():
 # check the score of teams during participation for the games panel
 @app.route('/partCheck', methods=['POST'])
 def scoreCheck():
-    uModsDict = get_mods()['uModsDict']
+    uModsDict = getInfo()['uModsDict']
 
     qNum = request.form ['qNum']
     part_num = request.form ['part_num']
@@ -252,7 +252,7 @@ def scoreCheck():
 
 @app.route('/getPdata', methods=['POST'])
 def getPdata():
-    uModsDict = get_mods()['uModsDict']
+    uModsDict = getInfo()['uModsDict']
 
     nnDict = team_details ()
     teamnumber = nnDict['teamnumber']
@@ -313,7 +313,7 @@ def getPdata():
 
 @app.route('/shareUpload', methods=['POST'])
 def shareUpload():
-    uModsDict = get_mods()['uModsDict']
+    uModsDict = getInfo()['uModsDict']
 
     nnDict = team_details ()
     teamnumber = nnDict['teamnumber']
@@ -450,7 +450,7 @@ def shareUpload():
 @app.route ("/participation/<string:unit_num>/<string:part_num>/<string:state>", methods=['GET','POST'])
 @login_required
 def participation(unit_num,part_num,state):
-    uModsDict = get_mods()['uModsDict']
+    uModsDict = getInfo()['uModsDict']
     print('participation', uModsDict)
 
     DESIGN = getLocalData()['DESIGN']
@@ -559,7 +559,7 @@ def participationTest():
 
 @app.route('/studentRemove', methods=['POST'])
 def studentRemove():
-    uModsDict = get_mods()['uModsDict']
+    uModsDict = getInfo()['uModsDict']
     if current_user.id != 1:
         return abort(403)
 

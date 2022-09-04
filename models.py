@@ -61,6 +61,62 @@ def getModels():
         'Errors_' : errors[SCHEMA]
     }
 
+
+def getInfo():
+    SCHEMA = getLocalData()['SCHEMA']
+
+    infoDict = {
+        'mda' : [{}, modDictAss_FRD, modDictAss_WPE, modDictAss_ICC, 'modDictAss_PENG', modDictAss_LNC, modDictAss_VTM, 'modDictAss_NME'],
+        'mdu' : [{}, modDictUnits_FRD, modDictUnits_WPE, modDictUnits_ICC, 'modDictUnits_PENG', modDictUnits_LNC, modDictUnits_VTM, 'modDictUnits_NME'],
+    }
+
+
+    modDictAss  = infoDict['mda'][SCHEMA]
+    modDictUnits = infoDict['mdu'][SCHEMA]
+
+    print('mod dict ass', modDictAss)
+
+    if getModels()['Units_'] and not getModels()['Units_'].query.filter_by(unit='00').first():
+        del modDictUnits['00']
+        del modDictAss['00']
+
+
+
+    print('infoDict', SCHEMA, modDictUnits) #modDictAss, zeroDictAss, zeroDictUnits
+
+    # used for admin rendering
+    listAss = []
+    for elements in modDictAss.values():
+        listAss.append(elements)
+
+    listUnits = []
+    for elements in modDictUnits.values():
+        # print('elements', elements, modDictUnits.values())
+        for item in elements:
+            if item != None:
+                listUnits.append(item)
+
+    # zeroAss = []
+    # for elements in zeroDictAss.values():
+    #     zeroAss.append(elements)
+
+    # zeroUnits = []
+    # for elements in zeroDictUnits.values():
+    #     for item in elements:
+    #         if item != None:
+    #             zeroUnits.append(item)
+
+    return {
+        'aModsDict' : modDictAss,
+        'uModsDict' : modDictUnits,
+        'unit_mods_list' : listUnits,
+        'ass_mods_list' : listAss,
+    }
+
+
+
+
+
 #login manager
 @login_manager.user_loader
 def load_user(user_id):
@@ -106,61 +162,6 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):  # double underscore method or dunder method, marks the data, this is how it is printed
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
-
-
-def getInfo():
-    SCHEMA = getLocalData()['SCHEMA']
-
-    infoDict = {
-        'mda' : [{}, modDictAss_FRD, modDictAss_WPE, modDictAss_ICC, 'modDictAss_PENG', modDictAss_LNC, modDictAss_VTM, 'modDictAss_NME'],
-        'mdu' : [{}, modDictUnits_FRD, modDictUnits_WPE, modDictUnits_ICC, 'modDictUnits_PENG', modDictUnits_LNC, modDictUnits_VTM, 'modDictUnits_NME'],
-        'zda' : [{}, zeroDictAss_FRD, zeroDictAss_WPE, zeroDictAss_ICC, 'zeroDictAss_PENG', zeroDictAss_LNC, zeroDictAss_VTM,  'zeroDictAss_NME'],
-        'zdu' : [{}, zeroDictUnits_FRD, zeroDictUnits_WPE, zeroDictUnits_ICC, 'zeroDictUnits_PENG', zeroDictUnits_LNC, zeroDictUnits_VTM, 'zeroDictUnits_NME'],
-    }
-
-
-    modDictAss  = infoDict['mda'][SCHEMA]
-    modDictUnits = infoDict['mdu'][SCHEMA]
-    zeroDictAss = infoDict['zda'][SCHEMA]
-    zeroDictUnits = infoDict['zdu'][SCHEMA]
-
-    print('infoDict', SCHEMA, modDictUnits) #modDictAss, zeroDictAss, zeroDictUnits
-
-    # used for admin rendering
-    listAss = []
-    for elements in modDictAss.values():
-        listAss.append(elements)
-
-    listUnits = []
-    for elements in modDictUnits.values():
-        # print('elements', elements, modDictUnits.values())
-        for item in elements:
-            if item != None:
-                listUnits.append(item)
-
-    zeroAss = []
-    for elements in zeroDictAss.values():
-        zeroAss.append(elements)
-
-    zeroUnits = []
-    for elements in zeroDictUnits.values():
-        for item in elements:
-            if item != None:
-                zeroUnits.append(item)
-
-    return {
-        'ass_mods_dict' : modDictAss,
-        'unit_mods_dict' : modDictUnits,
-        'ass_zero_dict' : zeroDictAss,   #{'01': <class 'models.A01A'>, '02': <class 'models.A02A'>, '03': <class 'models.A03A'>,
-        'unit_zero_dict' : zeroDictUnits,
-        'unit_mods_list' : listUnits,
-        'ass_mods_list' : listAss,
-        'unit_zero_list' : zeroUnits,
-        'ass_zero_list' : zeroAss
-    }
-
-
-
 
 
 class MyModelView(ModelView):

@@ -322,8 +322,7 @@ class A00A_LNC (BaseAss):
 ## intro edit
 
 ### recode UNIT 00
-zeroDictAss_LNC['00'] = A00A_LNC
-print('MOD ASS LNC 00')
+modDictAss_LNC['00'] = A00A_LNC
 
 class A01A_LNC (BaseAss):
     id = db.Column(db.Integer, primary_key=True)

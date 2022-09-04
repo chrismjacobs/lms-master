@@ -7,10 +7,10 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from meta import BaseConfig
 
 modDictUnits_WPE = {}
-zeroDictUnits_WPE = {}
+
 
 modDictAss_WPE = {}
-zeroDictAss_WPE = {}
+
 
 
 ''' top of page
@@ -128,11 +128,11 @@ class U004U_WPE(BaseUnits):
 
 
 
-zeroDictUnits_WPE['00']=[None]
-zeroDictUnits_WPE['00'].append(U001U_WPE)
-zeroDictUnits_WPE['00'].append(U002U_WPE)
-zeroDictUnits_WPE['00'].append(U003U_WPE)
-zeroDictUnits_WPE['00'].append(U004U_WPE)
+modDictUnits_WPE['00']=[None]
+modDictUnits_WPE['00'].append(U001U_WPE)
+modDictUnits_WPE['00'].append(U002U_WPE)
+modDictUnits_WPE['00'].append(U003U_WPE)
+modDictUnits_WPE['00'].append(U004U_WPE)
 
 ########################################
 
@@ -320,7 +320,7 @@ class A00A_WPE (BaseAss):
 ## intro edit
 
 ### recode UNIT 00
-zeroDictAss_WPE['00'] = A00A_WPE
+modDictAss_WPE['00'] = A00A_WPE
 # print('MOD ASS WPE 00')
 
 class A01A_WPE (BaseAss):

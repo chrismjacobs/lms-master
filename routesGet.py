@@ -65,42 +65,42 @@ def get_MTFN(t):
 
     return MTFN
 
-def get_mods():
-    uModsDict = getInfo()['unit_mods_dict']
-    print('CHECK MODS', uModsDict)
-    aModsDict = getInfo()['ass_mods_dict']
-    unit_mods_list = getInfo()['unit_mods_list']
-    ass_mods_list = getInfo()['ass_mods_list']
+# def get_mods():
+#     uModsDict = getInfo()['uModsDict']
+#     print('CHECK MODS', uModsDict)
+#     aModsDict = getInfo()['aModsDict']
+#     unit_mods_list = getInfo()['unit_mods_list']
+#     ass_mods_list = getInfo()['ass_mods_list']
 
-    # first check is Units - won't be there until ogged in
-    if getModels()['Units_'] and getModels()['Units_'].query.filter_by(unit='00').first():
-        d1 = getInfo()['unit_mods_dict'].copy()
-        d2 = getInfo()['unit_zero_dict']
-        uModsDict = d2.update(d1)
+#     # first check is Units - won't be there until ogged in
+#     if getModels()['Units_'] and getModels()['Units_'].query.filter_by(unit='00').first():
+#         d1 = getInfo()['unit_mods_dict'].copy()
+#         d2 = getInfo()['unit_zero_dict']
+#         uModsDict = d2.update(d1)
 
-        d3 = getInfo()['ass_mods_dict'].copy()
-        d4 = getInfo()['ass_zero_dict']    #
-        uModsDict = d4.update(d3)
+#         d3 = getInfo()['ass_mods_dict'].copy()
+#         d4 = getInfo()['ass_zero_dict']    #
+#         uModsDict = d4.update(d3)
 
-        unit_mods_list = getInfo()['unit_zero_list']  + getInfo()['unit_mods_list']
-        ass_mods_list = getInfo()['ass_zero_list'] + getInfo()['ass_mods_list']
+#         unit_mods_list = getInfo()['unit_zero_list']  + getInfo()['unit_mods_list']
+#         ass_mods_list = getInfo()['ass_zero_list'] + getInfo()['ass_mods_list']
 
 
-    returnDict = {
-        'uModsDict' : uModsDict,
-        'aModsDict' : aModsDict,
-        'unit_mods_list' : unit_mods_list,
-        'ass_mods_list' : ass_mods_list
-    }
+#     returnDict = {
+#         'uModsDict' : uModsDict,
+#         'aModsDict' : aModsDict,
+#         'unit_mods_list' : unit_mods_list,
+#         'ass_mods_list' : ass_mods_list
+#     }
 
-    # for p in returnDict:
-    #     print("RETURN DICT", p, returnDict[p])
+#     # for p in returnDict:
+#     #     print("RETURN DICT", p, returnDict[p])
 
-    return returnDict
+#     return returnDict
 
 def get_grades(ass, unt):
 
-    INFO = get_mods()
+    INFO = getInfo()
     SCHEMA = getLocalData()['SCHEMA']
 
 

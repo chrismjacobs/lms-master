@@ -129,11 +129,11 @@ class U004U_VTM(BaseUnits):
 
 
 
-zeroDictUnits_VTM['00']=[None]
-zeroDictUnits_VTM['00'].append(U001U_VTM)
-zeroDictUnits_VTM['00'].append(U002U_VTM)
-zeroDictUnits_VTM['00'].append(U003U_VTM)
-zeroDictUnits_VTM['00'].append(U004U_VTM)
+modDictUnits_VTM['00']=[None]
+modDictUnits_VTM['00'].append(U001U_VTM)
+modDictUnits_VTM['00'].append(U002U_VTM)
+modDictUnits_VTM['00'].append(U003U_VTM)
+modDictUnits_VTM['00'].append(U004U_VTM)
 
 ########################################
 
@@ -359,7 +359,7 @@ class A00A_VTM (BaseAss):
 ## intro edit
 
 ### recode UNIT 00
-zeroDictAss_VTM['00'] = A00A_VTM
+modDictAss_VTM['00'] = A00A_VTM
 
 class A01A_VTM (BaseAss):
     id = db.Column(db.Integer, primary_key=True)
