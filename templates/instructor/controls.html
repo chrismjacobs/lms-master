@@ -195,12 +195,27 @@ let vue = new Vue({
     },
     methods: {
         gotoAdmin: function (target) {
+          let tag
+
+          schemaList = {
+            1 : '_frd',
+            2 : '_wpe',
+            3 : '_icc',
+            4 : '_png',
+            5 : '_lnc',
+            6 : '_vtm'
+          }
+
+          if (target != 'user') {
+            tag = schemaList[this.SCHEMA]
+          }
+
           let breaker = ''
           if (target != 'att_log') {
             breaker = 'admin/'
           }
           var str = window.location.href
-          let url = (str).split('controls')[0] + breaker + target
+          let url = (str).split('controls')[0] + breaker + target + tag
           window.open(url, '_blank')
         },
         gotoIncog: function (student) {

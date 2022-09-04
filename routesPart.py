@@ -1,27 +1,29 @@
-import sys, boto3, random, base64, os, secrets, time, datetime, json
+import random, datetime, json
 from sqlalchemy import asc, desc, func, or_
 from flask import render_template, url_for, flash, redirect, request, abort, jsonify
 from app import app, db, bcrypt, mail
-from flask_login import login_user, current_user, logout_user, login_required
+from flask_login import current_user, login_required
 from forms import *
 from models import *
 import ast
-from pprint import pprint
 from routesUser import get_grades, get_sources, get_mods
 
-from meta import BaseConfig
+from meta import BaseConfig, loadJson
 s3_resource = BaseConfig.s3_resource
-S3_LOCATION = BaseConfig.S3_LOCATION
-S3_BUCKET_NAME = BaseConfig.S3_BUCKET_NAME
-SCHEMA = BaseConfig.SCHEMA
-DESIGN = BaseConfig.DESIGN
+
+# SCHEMA = getLocalData()['SCHEMA']
+# S3_BUCKET_NAME = getLocalData()['S3_BUCKET_NAME']
+# S3_LOCATION = getLocalData()['S3_LOCATION']
+# DESIGN = getLocalData()['DESIGN']
 
 uModsDict = get_mods()['uModsDict']
 
 def get_vocab(a):
+    SCHEMA = getLocalData()['SCHEMA']
+    S3_BUCKET_NAME = getLocalData()['S3_BUCKET_NAME']
 
     ## a is to get josn for different semester if neccessary for the test page
-    S3_BUCKET_NAME = BaseConfig.S3_BUCKET_NAME
+
 
     semester = User.query.filter_by(username='Chris').first().extra
 
@@ -65,7 +67,7 @@ def unit_list():
 
     print ('RECS', recs)
 
-    todays_unit = Attendance.query.filter_by(username='Chris').first().unit
+    todays_unit = getModels()['Attendance_'].query.filter_by(username='Chris').first().unit
     try:
         int(todays_unit)
         review = 0
@@ -76,7 +78,7 @@ def unit_list():
 
     unitDict = {}
 
-    for us in Units.query.all():
+    for us in getModels()['Units_'].query.all():
         print('US', us)
         unitDict[us.unit] = {}
 
@@ -86,7 +88,7 @@ def unit_list():
         print('UNIT2', unit2c)
         part = unit[2]
 
-        checkOpen = Units.query.filter_by(unit=unit2c).first()
+        checkOpen = getModels()['Units_'].query.filter_by(unit=unit2c).first()
         checkDict = {
             1 : checkOpen.u1,
             2 : checkOpen.u2,
@@ -116,7 +118,7 @@ def unit_list():
             'Access' : access
         }
 
-    student_attendance = Attendance.query.filter_by(username=current_user.username).count()
+    student_attendance = getModels()['Attendance_'].query.filter_by(username=current_user.username).count()
 
     return render_template('units/unit_list.html', legend='Units Dashboard',
     Dict=json.dumps(unitDict), Grade=unitGrade, max=maxU, title='Units', todays_unit=todays_unit, student_attendance=student_attendance)
@@ -130,7 +132,7 @@ def recError():
     unit = request.form ['unit']
 
 
-    error = Errors(username=current_user.username, device=current_user.device, mode=mode, unit=unit, err=message)
+    error = getModels('Errors_')(username=current_user.username, device=current_user.device, mode=mode, unit=unit, err=message)
     db.session.add(error)
     db.session.commit()
 
@@ -147,11 +149,11 @@ def openUnit():
     part = int(key[3])
 
 
-    checkOpen = Units.query.filter_by(unit=number).first()
+    checkOpen = getModels()['Units_'].query.filter_by(unit=number).first()
 
     if checkOpen:
         if part == 0:
-            Units.query.filter_by(unit=number).delete()
+            getModels()['Units_'].query.filter_by(unit=number).delete()
         if part == 1:
             if checkOpen.u1 == 1:
                 checkOpen.u1 = 0
@@ -177,7 +179,7 @@ def openUnit():
 
         db.session.commit()
     else:
-        newUnit = Units(unit=number, u1=0, u2=0, u3=0, u4=0, uA=0)
+        newUnit = getModels()['Units_'](unit=number, u1=0, u2=0, u3=0, u4=0, uA=0)
         db.session.add(newUnit)
         db.session.commit()
 
@@ -186,14 +188,15 @@ def openUnit():
 
 
 def team_details ():
+
     # check user has a team number
     try:
-        teamnumber = Attendance.query.filter_by(username=current_user.username).first().teamnumber
+        teamnumber = getModels()['Attendance_'].query.filter_by(username=current_user.username).first().teamnumber
         if teamnumber == 0:
             nameRange = [current_user.username]
         else:
         # confirm names of team
-            names = Attendance.query.filter_by(teamnumber=teamnumber).all()
+            names = getModels()['Attendance_'].query.filter_by(teamnumber=teamnumber).all()
             nameRange = [student.username for student in names]
         #for student in names:
             #nameRange.append(student.username)
@@ -215,6 +218,7 @@ def team_details ():
 # check the score of teams during participation for the games panel
 @app.route('/partCheck', methods=['POST'])
 def scoreCheck():
+
     qNum = request.form ['qNum']
     part_num = request.form ['part_num']
     unit_num = request.form ['unit_num']
@@ -449,16 +453,18 @@ def shareUpload():
 @login_required
 def participation(unit_num,part_num,state):
 
-    chris_attend = Attendance.query.filter_by(username='Chris').first()
+    DESIGN = getLocalData()['DESIGN']
+
+    chris_attend = getModels()['Attendance_'].query.filter_by(username='Chris').first()
     teamcount = chris_attend.teamcount
     print('teamcount', teamcount)
     #check source to see if unit is open yet
-    unit_count = Units.query.filter_by(unit=unit_num).count()
+    unit_count = getModels()['Units_'].query.filter_by(unit=unit_num).count()
 
     # block
     if current_user.id != 1 :
         if unit_count == 1:
-            unit_check = Units.query.filter_by(unit=unit_num).first()
+            unit_check = getModels()['Units_'].query.filter_by(unit=unit_num).first()
             unitChecker = {
                 '1' : unit_check.u1,
                 '2' : unit_check.u2,
@@ -473,11 +479,11 @@ def participation(unit_num,part_num,state):
             flash('This activity is not open at the moment(2)', 'danger')
             return redirect(url_for('unit_list'))
         if chris_attend.teamnumber != 97:
-            todays_unit = Attendance.query.filter_by(username='Chris').first().unit
+            todays_unit = getModels()['Attendance_'].query.filter_by(username='Chris').first().unit
             if todays_unit  == 'RR':
                 pass
             elif unit_num != todays_unit:
-                print (unit, Attendance.query.filter_by(username='Chris').first().unit)
+                print (unit, getModels()['Attendance_'].query.filter_by(username='Chris').first().unit)
                 flash('This task is not open at the moment(3)', 'danger')
                 return redirect(url_for('unit_list'))
 
@@ -525,6 +531,9 @@ def participation(unit_num,part_num,state):
 
 @app.route ("/participationTest", methods=['GET','POST'])
 def participationTest():
+    SCHEMA = getLocalData()['SCHEMA']
+    DESIGN = getLocalData()['DESIGN']
+
     fileName = 'ICC_part'
 
     if SCHEMA == 1:
@@ -555,8 +564,8 @@ def studentRemove():
 
     name = request.form ['name']
     part = request.form ['part']
-    instructor_setup = Attendance.query.filter_by(studentID='100000000').first()
-    student_setup = Attendance.query.filter_by(username=name).first()
+    instructor_setup = getModels()['Attendance_'].query.filter_by(studentID='100000000').first()
+    student_setup = getModels()['Attendance_'].query.filter_by(username=name).first()
     UNIT = instructor_setup.unit
     TEAM = student_setup.teamnumber
 
@@ -575,8 +584,8 @@ def studentRemove():
         db.session.commit()
     else:
         attend_log_id = student_setup.unit
-        Attendance.query.filter_by(username=name).delete()
-        AttendLog.query.filter_by(id=attend_log_id).delete()
+        getModels()['Attendance_'].query.filter_by(username=name).delete()
+        getModels()['AttendLog_'].query.filter_by(id=attend_log_id).delete()
         db.session.commit()
 
     return jsonify({'removed' : name, 'unit' : UNIT})

@@ -5,9 +5,6 @@ from flask_login import LoginManager, current_user #needed for login
 from flask_mail import Mail
 from meta import BaseConfig
 
-SCHEMA = BaseConfig.SCHEMA
-
-
 app = Flask(__name__)
 app.config.from_object('meta.BaseConfig')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -32,37 +29,38 @@ app.config.update(dict(
 
 mail = Mail(app)
 
-if SCHEMA == 2:
-    import redis
-    REDIS_PASSWORD = BaseConfig.REDIS_PASSWORD
-    redisData = redis.Redis(
-        host = 'redis-12011.c54.ap-northeast-1-2.ec2.cloud.redislabs.com',
-        port = 12011,
-        password = REDIS_PASSWORD,
-        decode_responses = True # get python freiendlt format
-    )
+# if SCHEMA == 2:
+#     import redis
+#     REDIS_PASSWORD = BaseConfig.REDIS_PASSWORD
+#     redisData = redis.Redis(
+#         host = 'redis-12011.c54.ap-northeast-1-2.ec2.cloud.redislabs.com',
+#         port = 12011,
+#         password = REDIS_PASSWORD,
+#         decode_responses = True # get python freiendlt format
+#     )
 
 
 from routesInst import *
 from routesAdmin import *
 
-sList = [1,2,10]
-if SCHEMA in sList:
-    from routesUser import *
-    from routesPart import *
-if SCHEMA == 3:
-    from routesABC import *
-if SCHEMA == 4:
-    from routesPENG import *
-if SCHEMA == 5:
-    from routesFOOD import *
-if SCHEMA == 7:
-    from routesNME import *
-if SCHEMA == 8:
-    from routesFSE import *
-if SCHEMA == 9:
-    from routesUser import *
-    from routesPart import *
+
+from routesUser import *
+from routesPart import *
+
+
+# if SCHEMA == 3:
+#     from routesABC import *
+# if SCHEMA == 4:
+#     from routesPENG import *
+# if SCHEMA == 5:
+#     from routesFOOD import *
+# if SCHEMA == 7:
+#     from routesNME import *
+# if SCHEMA == 8:
+#     from routesFSE import *
+# if SCHEMA == 9:
+#     from routesUser import *
+#     from routesPart import *
 
 
 

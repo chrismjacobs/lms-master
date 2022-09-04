@@ -3,11 +3,11 @@ from flask_wtf.file import FileField, FileAllowed, FileRequired
 from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, SelectField, HiddenField, validators, IntegerField, RadioField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, InputRequired
-from models import User
-from meta import BaseConfig
+from models import User, getLocalData
 from app import bcrypt
 import json
-SCHEMA = BaseConfig.SCHEMA
+
+SCHEMA = getLocalData()['SCHEMA']
 
 
 class Attend(FlaskForm):
@@ -55,13 +55,36 @@ bookcodeList = {
             }
 
 
+def getCourseRadios():
+
+    radioList = [
+        ('0', 'No Course'),
+        ('1', 'Freshman Reading'),
+        ('2', 'Workplace English'),
+        ('3', 'Intercultural Communication'),
+        # ('4', 'Presentation English'),
+        ('5', 'Language and Culture'),
+        ('6', 'Vietnam Class')
+        ]
+
+    master = User.query.filter_by(id=1).first()
+
+    print(master, master.extra)
+
+    if master.extra == 0:
+        return [('0', 'No Course')]
+    elif master.extra == 10:
+        return radioList
+    else:
+        return [radioList[0], radioList[master.extra]]
+
+
 class RegistrationForm(FlaskForm):
-
-
     username = StringField ('Name in English', validators=[DataRequired(), Length(min=2, max=20)])
     studentID = StringField ('Student ID', validators=[DataRequired(), Length(min=2, max=20)])
+    course = RadioField ('Course', validators=[DataRequired()], choices = getCourseRadios() )
     email = StringField('Email', validators=[DataRequired(), Email()] )
-    bookcode = StringField('bookcode')
+    # bookcode = StringField('bookcode')
     device = RadioField('Main Device', choices = [('Apple', 'Apple iphone'), ('Android', 'Android Phone')])
     password = PasswordField('Password', validators=[DataRequired()] )
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')] )
@@ -70,12 +93,16 @@ class RegistrationForm(FlaskForm):
     def validate_username(self, username):  # the field is username
         user = User.query.filter_by(username=username.data).first()  #User was imported at the top # first means just find first instance?
         if user:  # meaning if True
-            raise ValidationError('Another student has that username, please add family name')  # ValidationError needs to be imported from wtforms
+            raise ValidationError('Another student is using that username, please change or add family name')  # ValidationError needs to be imported from wtforms
 
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if user:
             raise ValidationError('That email has an account already, did you forget your password?')
+
+    def validate_course(self, course):
+        if int(course.data) == 0:
+            raise ValidationError('If your course is not in the list right now then please contact your teacher or wait for the class to start')
 
 
     def validate_studentID(self, studentID):
@@ -85,19 +112,19 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('Numbers only (no S)')
         user = User.query.filter_by(studentID=studentID.data).first()
         if user:
-            raise ValidationError('That student ID already has an account, did you forget your password?')
+            raise ValidationError('That student ID already has an account, if you are trying to join more than one course please contact your teacher for help')
 
         parent = User.query.filter_by(username='Chris').first()
         IDList = json.loads(parent.device)
 
-        sList = [1,2,10]
+        # sList = [1,2]
 
-        if SCHEMA in sList:
-            if studentID.data in IDList:
-                if IDList[(studentID.data).strip()] == 0:
-                    raise ValidationError('See instructor to get a textbook')
-            else:
-                raise ValidationError('Contact instructor to join class')
+        # if SCHEMA in sList:
+        #     if studentID.data in IDList:
+        #         if IDList[(studentID.data).strip()] == 0:
+        #             raise ValidationError('See instructor to get a textbook')
+        #     else:
+        #         raise ValidationError('Contact instructor to join class')
 
 
         # if SCHEMA < 3:
@@ -118,6 +145,7 @@ class RegistrationForm(FlaskForm):
 
 class LoginForm(FlaskForm):
     studentID = StringField ('Student ID', validators=[DataRequired(), Length(min=2, max=9)])
+    course = RadioField ('Course', validators=[DataRequired()], choices = [('5', 'Language and Culture'), ('1', 'Freshman Reading'), ('2', 'Workplace English'), ('3', 'Intercultural Communication'), ('6', 'Vietnam Class')])
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')

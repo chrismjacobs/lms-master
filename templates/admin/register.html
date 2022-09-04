@@ -67,6 +67,23 @@
                             {% endif %}
                 </div>
 
+                <div class="form-group" style="background:lemonchiffon; padding:20px">
+                    Which course are you joining today?</br></br>
+                            {% for subfield in form.course %}
+                            <tr>
+                                <td>{{ subfield }}</td>
+                                <td>{{ subfield.label }}</td>
+                            </tr></br>
+                            {% endfor %}
+                            {% if form.course.errors %}
+                            <p class="help has-background-warning" style="color:red">
+                                {% for error in form.course.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </p>
+                            {% endif %}
+                </div>
+
                 <div class="form-group">
                     {{ form.password.label (class="form-control-label")}}
                         {% if form.password.errors %}
@@ -95,7 +112,7 @@
                         {% endif %}
 
                 </div>
-                {% if SCHEMA == 1 or SCHEMA == 2 or SCHEMA == 10 %}
+                {% comment %} {% if SCHEMA == 1 or SCHEMA == 2 or SCHEMA == 10 %}
                     <div class="form-group">
                         <h5 style="background:hotpink;color:white"> (before you can register you must see your instructor to get a book 50NT) </h5>
                             <!--{% if form.bookcode.errors %}
@@ -110,7 +127,7 @@
                             {% endif %}
                         -->
                     </div>
-                {% endif %}
+                {% endif %} {% endcomment %}
 
             </fieldset>
             <div class="form-group">

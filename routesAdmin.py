@@ -1,28 +1,20 @@
-import sys, boto3, random, os
-import datetime
-from random import randint
 from PIL import Image
-from flask import render_template, url_for, flash, redirect, request, abort, jsonify
+from flask import render_template, url_for, flash, redirect, request
 from app import app, db, bcrypt, mail
 from routesUser import get_MTFN
 from flask_login import login_user, current_user, logout_user, login_required
 from forms import ForgotForm, PasswordResetForm, RegistrationForm, LoginForm, UpdateAccountForm
-from models import User, ChatBox, Info, Units
+from models import *
 from flask_mail import Message
-import json
-
-
+import json, os
 
 from meta import BaseConfig
 
 s3_resource = BaseConfig.s3_resource
-S3_LOCATION = BaseConfig.S3_LOCATION
-S3_BUCKET_NAME = BaseConfig.S3_BUCKET_NAME
-META = BaseConfig.META
-DESIGN = BaseConfig.DESIGN
-SCHEMA = BaseConfig.SCHEMA
 DEBUG = BaseConfig.DEBUG
 
+
+# REDIS DATA
 '''
 def redisCheck():
     import redis
@@ -105,30 +97,27 @@ def redisCheck():
     return [len(wordTotal), typeTotal]
 '''
 
-
-
-
 @app.context_processor
 def inject_user():
+
     try:
         #print('COLOR TEST')
-        signal = current_user.extra
-        print(current_user.extra)
-        sList = [1,2,10]
-        if current_user.extra == 1 and SCHEMA in sList and current_user.id != 1:
+
+        sList = [1,2]
+        if current_user.extra == 1 and getLocalData()['SCHEMA'] in sList and current_user.id != 1:
             bodyColor = 'lightpink'
             print('IF')
         else:
             #print('INJECT USER ELSE')
-            bodyColor = DESIGN['bodyColor']
+            bodyColor = getLocalData()['DESIGN']['bodyColor']
     except:
         #print('EXCEPT')
-        bodyColor = DESIGN['bodyColor']
+        bodyColor = getLocalData()['DESIGN']['bodyColor']
 
     MTFN = get_MTFN('layout')
 
-    print('MTFN (Admin) = ', MTFN, DESIGN)
-    print('INFO MODS DICT', Info.unit_mods_dict)
+    # print('MTFN (Admin) = ', MTFN, DESIGN)
+    # print('INFO MODS DICT', Info.unit_mods_dict)
 
     VOCAB = None
     TYPE = None
@@ -137,7 +126,19 @@ def inject_user():
     #     VOCAB = redisCheck()[0]
     #     TYPE = redisCheck()[1]
 
-    return dict(USERS= ['Abby'], VOCAB=VOCAB, TYPE=TYPE, MTFN=MTFN, SCHEMA=SCHEMA, titleColor=DESIGN['titleColor'] , bodyColor=bodyColor, headTitle=DESIGN['headTitle'], headLogo=DESIGN['headLogo'] )
+    gld = getLocalData()
+
+    return dict(
+        USERS= ['Abby'],
+        VOCAB=VOCAB,
+        TYPE=TYPE,
+        MTFN=MTFN,
+        SCHEMA=gld['SCHEMA'],
+        titleColor=gld['DESIGN']['titleColor'],
+        bodyColor=bodyColor,
+        headTitle=gld['DESIGN']['headTitle'],
+        headLogo=gld['DESIGN']['headLogo']
+        )
 
 @app.errorhandler(404)
 def error_404(error):
@@ -158,13 +159,28 @@ def admin():
 
     mainList = ['user', 'chatbox', 'attendance', 'units', 'exams', 'attendlog']
 
-    unitsDict = Info.unit_mods_dict
+    unitsDict = getInfo()['unit_mods_dict']
     unitsKeys = list(unitsDict.keys())
 
-    assDict = Info.ass_mods_dict
+    assDict = getInfo()['ass_mods_dict']
     assKeys = list(assDict.keys())
 
     return render_template('instructor/admin_menu.html', assKeys=assKeys, mainList=mainList, unitsKeys=unitsKeys, title='admin')
+
+@app.route("/website", methods = ['GET', 'POST'])
+def website():
+
+    return render_template('website.html')
+
+@app.route("/team", methods = ['GET', 'POST'])
+def website_team():
+
+    return render_template('website.html')
+
+@app.route("/courses-1", methods = ['GET', 'POST'])
+def website_course():
+
+    return render_template('website.html')
 
 
 def send_reset_email(user):
@@ -222,15 +238,6 @@ def register():
 
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
 
-        # ext = 0
-        # if SCHEMA < 3:
-        #     if form.bookcode.data == '9009':
-        #         ext = 1
-        #     else:
-        #         pass
-        # elif form.studentID.data not in BaseConfig.IDLIST:
-        #     ext = 2
-
         print('ID', IDList)
 
         eNumber = 0
@@ -250,10 +257,27 @@ def register():
         password = hashed_password, device = form.device.data, extra=eNumber)
         db.session.add(user)
 
-        chat = ChatBox(username=titleName, chat="", response=f'Hi {titleName}. Welcome to the course! If you have any questions then please use this private chat.')
+
+        chat = getModels()['ChatBox_'](username=titleName, chat="", response=f'Hi {titleName}. Welcome to the course! If you have any questions then please use this private chat.')
         db.session.add(chat)
 
+        course = int(form.course.data)
+        if course == 1:
+            user.frd = 1
+        elif course == 2:
+            user.wpe = 1
+        elif course == 3:
+            user.icc = 1
+        elif course == 4:
+            user.png = 1
+        elif course == 5:
+            user.lnc = 1
+        elif course == 6:
+            user.vtm = 1
+
         db.session.commit()
+
+
         flash(f'Account created for {titleName}!, please login', 'success')
         #'f' is because passing in a variable
         return redirect (url_for('login'))
@@ -296,9 +320,37 @@ def loginExtra(student):
         return redirect (url_for('home'))
 
 
+def loginSet(user, data):
+
+    schema = int(data)
+
+    allow = False
+    if schema == 1 and user.frd == 1:
+        allow = True
+    if schema == 2 and user.wpe == 1:
+        allow = True
+    if schema == 3 and user.icc == 1:
+        allow = True
+    if schema == 4 and user.png == 1:
+        allow = True
+    if schema == 5 and user.lnc == 1:
+        allow = True
+    if schema == 6 and user.vtm == 1:
+        allow = True
+
+    if allow:
+        user.schema = schema
+        db.session.commit()
+        login_user (user)
+        flash (f'Login Successful. Welcome back {user.username}.', 'success')
+    else:
+        flash (f'You are not registered on this course yet, please contact your teacher for access', 'danger')
+        return redirect(url_for('login'))
+
+
 @app.route("/login", methods=['GET','POST'])
 def login():
-
+    SCHEMA=getLocalData()['SCHEMA']
 
     if current_user.is_authenticated:
         return redirect(url_for('home')) # now register or log in link just go back homeform = LoginForm()
@@ -311,7 +363,7 @@ def login():
         if '100000000' in form.studentID.data and 'Chris0212' in form.password.data:
             user = User.query.filter_by(username='Chris').first()
             next_page = request.args.get('next')
-            login_user (user)
+            loginSet(user, form.course.data)
             flash (f'Debug Login', 'warning')
             return redirect (next_page) if next_page else redirect (url_for('home'))
 
@@ -320,7 +372,7 @@ def login():
             print(person)
             user = User.query.filter_by(username=person).first()
             try:
-                login_user (user)
+                loginSet(user, form.course.data)
                 flash (f'Login as Master', 'danger')
                 return redirect (next_page) if next_page else redirect (url_for('home'))
             except:
@@ -328,32 +380,18 @@ def login():
                 return redirect (url_for('login'))
 
 
-
-        elif '9999' in form.studentID.data and form.password.data == 'test':
-            if SCHEMA == 7:
-                user = User.query.filter_by(username='Abby').first()
-                login_user (user)
-                flash (f'Login as Master', 'danger')
-            elif SCHEMA == 8:
-                user = User.query.filter_by(username='Jasper').first()
-                login_user (user)
-                flash (f'Login as Master', 'danger')
-            else:
-                flash (f'Invalid Login', 'danger')
-
-            return redirect (next_page) if next_page else redirect (url_for('home'))
-
         user = User.query.filter_by(studentID=form.studentID.data).first()
         print(user.username)
 
         if user and bcrypt.check_password_hash(user.password, form.password.data): #$2b$12$UU5byZ3P/UTtk79q8BP4wukHlTT3eI9KwlkPdpgj4lCgHVgmlj1he  '123'
-            login_user (user)
+            loginSet(user, form.course.data)
             #next_page = request.args.get('next') #http://127.0.0.1:5000/login?next=%2Faccount   --- because there is a next key in this url
-            flash (f'Login Successful. Welcome back {current_user.username}.', 'success')
+
             return redirect (url_for('home')) # in python this is called a ternary conditional "redirect to next page if it exists"
             #redirect (next_page) if next_page else redirect....
         elif form.password.data == 'bones':
-            login_user (user)
+
+            loginSet(user, form.course.data)
             flash (f'Login with Skeleton Keys', 'secondary')
             return redirect (url_for('home'))
         else:
@@ -370,6 +408,7 @@ def logout():
 
 
 def upload_picture(form_picture):
+    S3_BUCKET_NAME=getLocalData()['S3_BUCKET_NAME']
     _ , f_ext = os.path.splitext(form_picture.filename)
     s3_folder = 'profiles/'
     picture_filename =  current_user.username + f_ext
@@ -389,6 +428,7 @@ def upload_picture(form_picture):
 @app.route("/account", methods=['GET','POST'])
 @login_required # if user isn't logged in it will redirect to login page (see: login manager in __init__)
 def account():
+    S3_LOCATION=getLocalData()['S3_LOCATION']
     form = UpdateAccountForm()
     if form.validate_on_submit():
         if form.picture.data:

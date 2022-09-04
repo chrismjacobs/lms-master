@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<head>
+</head>
+<body>
+
+</body>
+
+<script type="text/javascript" >
+
+var path = window.location.pathname
+
+if (path == '/website') {
+    path = ''
+}
+
+let url = 'https://jinwen-english.info' + path
+console.log('goTO', url);
+
+window.onload = function() {
+    window.location = url
+}
+
+
+</script>

@@ -1,26 +1,30 @@
-import sys, boto3, random, os, json, ast, time
+import json, time
 from sqlalchemy import asc, desc
 from datetime import datetime, timedelta
 from flask import render_template, url_for, flash, redirect, request, abort, jsonify
 from app import app, db, bcrypt, mail
-from flask_login import login_user, current_user, logout_user, login_required
+from flask_login import current_user, login_required
 from forms import *
 from models import *
 from pprint import pprint
 
 from meta import BaseConfig
+
 s3_resource = BaseConfig.s3_resource
-S3_LOCATION = BaseConfig.S3_LOCATION
-S3_BUCKET_NAME = BaseConfig.S3_BUCKET_NAME
-SCHEMA = BaseConfig.SCHEMA
-DESIGN = BaseConfig.DESIGN
+
+SCHEMA = getLocalData()['SCHEMA']
+S3_BUCKET_NAME = getLocalData()['S3_BUCKET_NAME']
+S3_LOCATION = getLocalData()['S3_LOCATION']
+
 
 
 def putData():
+    SCHEMA = getLocalData()['SCHEMA']
+    userList = User.query.filter_by(schema=SCHEMA).all()
 
     students = {}
 
-    for user in User.query.all():
+    for user in userList:
         students[user.username] = user.studentID
 
     with open('student.json', 'r') as json_file:
@@ -36,6 +40,8 @@ def putData():
 
 
 def get_schedule():
+    S3_BUCKET_NAME = getLocalData()['S3_BUCKET_NAME']
+    print('S3', S3_BUCKET_NAME)
     content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/sources.json' )
     file_content = content_object.get()['Body'].read().decode('utf-8')
     SOURCES = json.loads(file_content)  # json loads returns a dictionary
@@ -45,6 +51,7 @@ def get_schedule():
 
 @app.route ("/about")
 def about():
+    SCHEMA = getLocalData()['SCHEMA']
     ## src explaining this course
     srcs = get_schedule()
     intro = srcs['1']['M1']
@@ -63,6 +70,7 @@ def about():
 def course():
     # json dumps returns a string
     course = json.dumps(get_schedule())
+    DESIGN = getLocalData()['DESIGN']
     color = json.dumps(DESIGN)
 
     return render_template('instructor/course.html', title='Course', course=course, color=color)
@@ -71,10 +79,13 @@ def course():
 @app.route ("/att_log", methods = ['GET', 'POST'])
 @login_required
 def att_log():
+    SCHEMA = getLocalData()['SCHEMA']
+    IDLIST = BaseConfig.IDLIST
+
     if current_user.id != 1:
         return abort(403)
 
-    IDLIST = BaseConfig.IDLIST
+
 
     ## create a list of all course dates
     course_dates = get_schedule()
@@ -113,7 +124,7 @@ def att_log():
         }
 
     # add data to user dict
-    logs = AttendLog.query.all()
+    logs = getModels()['AttendLog_'].query.all()
     for log in logs:
 
         date = log.date_posted
@@ -143,7 +154,7 @@ def commentSet():
     newComment = request.form['comment']
     unit = request.form['unit']
     name = request.form['user']
-    mods = Info.ass_mods_dict
+    mods = getInfo()['ass_mods_dict']
     studentAns = mods[unit].query.filter_by(username=name).first()
 
     studentAns.Comment = newComment
@@ -155,28 +166,31 @@ def commentSet():
 @app.route ("/dashboard")
 @login_required
 def dashboard():
+    SCHEMA = getLocalData()['SCHEMA']
+    userList = User.query.filter_by(schema=SCHEMA).all()
+
     if current_user.id != 1:
         return abort(403)
 
     ## intro edit
-    if SCHEMA == 6:
+    if SCHEMA == 6 or SCHEMA == 3:
         midterm = ['01', '02', '03', '04', '05']
         final = ['06', '07', '08', '09', '10']
     else:
         midterm = ['01', '02', '03', '04']
         final = ['05', '06', '07', '08']
 
-    if Units.query.filter_by(unit='00').first():
+    if getModels()['Units_'].query.filter_by(unit='00').first():
         midterm = ['00', '01', '02', '03', '04']
 
 
     period = midterm
 
-    if Units.query.filter_by(unit='05').count() > 0:
+    if getModels()['Units_'].query.filter_by(unit='05').count() > 0:
         period = final
 
     totalDict = {}
-    allStudents = User.query.all()
+    allStudents = userList
     for user in allStudents:
         example = {
                 'idNum' : None,
@@ -201,7 +215,7 @@ def dashboard():
     print(totalDict)
 
     for unit in period:
-        model = Info.ass_mods_dict[unit]
+        model = getInfo()['ass_mods_dict'][unit]
         answers = model.query.order_by(desc(model.Grade)).all()
         for item in answers:
             totalDict[item.username][unit] = {
@@ -226,6 +240,8 @@ def dashboard():
 
 @app.route ("/dashboardTest")
 def dashboardTest():
+    SCHEMA = getLocalData()['SCHEMA']
+
 
     fileName = 'ICC_assignments'
 
@@ -246,11 +262,15 @@ def dashboardTest():
 
 @app.route("/refreshAttend", methods = ['POST'])
 def get_attend_list():
+
     if current_user.id != 1:
         return abort(403)
 
+    SCHEMA = getLocalData()['SCHEMA']
+    IDLIST = loadJson(SCHEMA)['C']
+
     sDict = {}
-    IDLIST = BaseConfig.IDLIST
+
     for s in IDLIST:
         sDict[s] = {
                 'nme' : None,
@@ -260,11 +280,11 @@ def get_attend_list():
                 'count' : None
             }
 
-    ignore = ['Chris', 'Test']
+    ignore = ['Chris', 'Test', 'Duo']
     count = 1
 
 
-    students = User.query.order_by(asc(User.studentID)).all()
+    students = User.query.filter_by(schema=SCHEMA).order_by(asc(User.studentID)).all()
     for student in students:
         if student.studentID not in IDLIST:
             print (student.studentID)
@@ -285,7 +305,7 @@ def get_attend_list():
             count += 1
 
     #### attend todays attendance
-    attendance = Attendance.query.all()
+    attendance = getModels()['Attendance_'].query.all()
     for att in attendance:
         sDict[att.studentID]['att'] = att.attend
 
@@ -297,7 +317,10 @@ def get_attend_list():
 
 @app.route("/refreshTeams", methods = ['POST'])
 def get_team_list():
-    instructor = Attendance.query.filter_by(username='Chris').first()
+
+    print('teamcount', getModels()['Attendance_'])
+
+    instructor = getModels()['Attendance_'].query.filter_by(username='Chris').first()
 
     if instructor.teamcount:
         teamcount = instructor.teamcount
@@ -307,7 +330,7 @@ def get_team_list():
     if teamcount > 0:
         attDict = {}  #  teamnumber = fields, 1,2,3,4 names
         for i in range(1, teamcount+1):
-            teamCall = Attendance.query.filter_by(teamnumber=i).all()
+            teamCall = getModels()['Attendance_'].query.filter_by(teamnumber=i).all()
             print(teamCall)
             teamCall_students = []
             for s in teamCall:
@@ -325,15 +348,124 @@ def get_team_list():
         return teamString
 
 
+@app.route("/updateCourse", methods = ['POST'])
+def updateCourse():
+
+    userData = request.form['userData']
+    course = request.form['course']
+
+    print('userData', userData, course)
+
+    u = User.query.get(userData)
+
+
+    if course == 'frd':
+        if u.frd == 0:
+            u.frd = 1
+        elif u.frd == 1:
+            u.frd = 2
+        elif u.frd == 2:
+            u.frd = 0
+
+    if course == 'wpe':
+        if u.wpe == 0:
+            u.wpe = 1
+        elif u.wpe == 1:
+            u.wpe = 2
+        elif u.wpe == 2:
+            u.wpe = 0
+
+    if course == 'icc':
+        if u.icc == 0:
+            u.icc = 1
+        else:
+            u.icc = 0
+
+    if course == 'lnc':
+        if u.lnc == 0:
+            u.lnc = 1
+        else:
+            u.lnc = 0
+
+    if course == 'vtm' :
+        if u.vtm == 0:
+            u.vtm = 1
+        else:
+            u.vtm  = 0
+
+    if course == 'png' :
+        if u.png == 0:
+            u.png = 1
+        else:
+            u.png  = 0
+
+    db.session.commit()
+
+    uDict = {}
+    uDict['frd'] = u.frd
+    uDict['wpe'] = u.wpe
+    uDict['icc'] = u.icc
+    uDict['lnc'] = u.lnc
+    uDict['vtm'] = u.vtm
+    uDict['png'] = u.png
+
+
+    return jsonify({'userData' : userData, 'uDict' : json.dumps(uDict), 'course' : course})
+
+
+
+
+@app.route ("/master_controls")
+#@login_required
+def master_controls():
+
+    userData = User.query.all()
+
+    sDict = {
+    }
+
+    uDict = {
+    }
+
+    for u in userData:
+        uDict['id'] = u.id
+        uDict['username'] = u.username
+        uDict['studentID'] = u.studentID
+        uDict['frd'] = u.frd
+        uDict['wpe'] = u.wpe
+        uDict['icc'] = u.icc
+        uDict['lnc'] = u.lnc
+        uDict['vtm'] = u.vtm
+        uDict['extra'] = u.extra
+
+        sDict[u.studentID] = uDict.copy()
+
+    idDict = {
+        'frd' : loadJson(1)['C'],
+        'wpe' : loadJson(2)['C'],
+        'icc' : loadJson(3)['C'],
+        'lnc' : loadJson(5)['C'],
+        'vtm' : loadJson(6)['C']
+    }
+
+
+
+
+    setString = json.dumps(sDict)
+    idString = json.dumps(idDict)
+
+
+    return render_template('instructor/master_controls.html', setString=setString, idString=idString, title='Controls')
 
 @app.route ("/controls")
 @login_required
 def controls():
+    SCHEMA = getLocalData()['SCHEMA']
 
     attend_list = get_attend_list()
     team_list = get_team_list()
     print('ATTEND_LIST', attend_list)
-    openData = Attendance.query.filter_by(username='Chris').first()
+    openData = getModels()['Attendance_'].query.filter_by(username='Chris').first()
 
     setDict = {
         'Notice' : openData.attend,
@@ -351,6 +483,7 @@ def controls():
 @app.route("/updateSet", methods = ['POST'])
 @login_required
 def updateSet():
+
     setOBJ = request.form['setOBJ']
 
     setDict = json.loads(setOBJ)
@@ -363,12 +496,12 @@ def updateSet():
     teamsize = setDict['teamsize']
     set_mode = setDict['set_mode']
 
-    openData = Attendance.query.filter_by(username='Chris').first()
+    openData = getModels()['Attendance_'].query.filter_by(username='Chris').first()
 
     if int(set_mode) == 100:
-        db.session.query(Attendance).delete()
+        db.session.query(getModels()['Attendance_']).delete()
         db.session.commit()
-        attendance = Attendance(username = 'Chris',
+        attendance = getModels()['Attendance_'](username = 'Chris',
         attend='Notice', teamnumber=97,  teamsize=4, teamcount=10, studentID='100000000')
         db.session.add(attendance)
         db.session.commit()
@@ -397,21 +530,25 @@ def updateSet():
     return jsonify({'set_mode' : set_mode, 'setString' : setString})
 
 
+
 @app.route ("/inchat/<string:user_name>", methods = ['GET', 'POST'])
 @login_required
 def inchat(user_name):
+
+    S3_LOCATION = getLocalData()['S3_LOCATION']
+
     from flask_mail import Message
     if current_user.id != 1:
         return abort(403)
     form = Chat()
     email = User.query.filter_by(username=user_name).first().email
     print (email)
-    dialogues = ChatBox.query.filter_by(username=user_name).all()
+    dialogues = getModels()['ChatBox_'].query.filter_by(username=user_name).all()
     websites = ['blank', 'READING', 'WORKPLACE', 'ABC', 'PENG', 'FOOD', 'ICC', 'NME', 'FSE', 'blank', 'vietnam' ]
     website = 'https://' + websites[int(SCHEMA)] + '-lms.herokuapp.com'
     messText = 'New message for ' + websites[int(SCHEMA)] + ' English class'
     if form.validate_on_submit():
-        chat = ChatBox(username = user_name, response=form.response.data, chat=form.chat.data)
+        chat = getModels()['ChatBox_'](username = user_name, response=form.response.data, chat=form.chat.data)
         db.session.add(chat)
         db.session.commit()
         msg = Message(messText,
@@ -440,7 +577,7 @@ def att_team():
     legend = 'Attendance: ' + time.strftime('%A %b, %d %Y %H:%M')
 
     # check if attendance is open
-    openData = Attendance.query.filter_by(username='Chris').first()
+    openData = getModels()['Attendance_'].query.filter_by(username='Chris').first()
     if openData:
         openCheck = openData.teamnumber
         if openCheck == 98 or openCheck == 50:  # 98 open in normal state, 50 open in midterm state - all units can be done
@@ -448,9 +585,9 @@ def att_team():
         elif openCheck == 99 or openCheck == 51:  # switch to late form
             form = AttendLate()
         elif openCheck == 100:   # delete all rows
-            db.session.query(Attendance).delete()
+            db.session.query(getModels()['Attendance_']).delete()
             db.session.commit()
-            attendance = Attendance(username = 'Chris',
+            attendance = getModels()['Attendance_'](username = 'Chris',
             attend='Notice', teamnumber=97, studentID='100000000')
             db.session.add(attendance)
             db.session.commit()
@@ -470,8 +607,8 @@ def att_team():
     notice = openData.attend
 
     # set up student data
-    count = Attendance.query.filter_by(username=current_user.username).count()
-    fields = Attendance.query.filter_by(username=current_user.username).first()
+    count = getModels()['AttendLog_'].query.filter_by(username=current_user.username).count()
+    fields = getModels()['AttendLog_'].query.filter_by(username=current_user.username).first()
 
     # set teamnumber to be zero by default (or not Zero in the case of solo classes)
     if teamsize == 0:
@@ -482,7 +619,7 @@ def att_team():
     # set up team info
     users = {}
     if count == 1:
-        teammates = Attendance.query.filter_by(teamnumber=fields.teamnumber).all()
+        teammates = getModels()['Attendance_'].query.filter_by(teamnumber=fields.teamnumber).all()
         for teammate in teammates:
             image = User.query.filter_by(username=teammate.username).first().image_file
             users[teammate.username] = [teammate.username, S3_LOCATION + image]
@@ -493,9 +630,9 @@ def att_team():
     if count == 0:
         if form.validate_on_submit():
             # check last id for AttendLog
-            lastID = AttendLog.query.order_by(desc(AttendLog.id)).first().id
+            lastID = getModels()['AttendLog_'].query.order_by(desc(getModels()['AttendLog_'].id)).first().id
             # team maker
-            attendance = Attendance(username = form.name.data,
+            attendance = getModels()['Attendance_'](username = form.name.data,
             attend=form.attend.data, teamnumber=form.teamnumber.data,
             teamcount=form.teamcount.data, studentID=form.studentID.data, unit=lastID+1)
             db.session.add(attendance)
@@ -507,7 +644,7 @@ def att_team():
                 attScore = 2
             else:
                 attScore = 1
-            attendLog = AttendLog(
+            attendLog = getModels()['AttendLog_'](
                 username = form.name.data,
                 attend=form.attend.data,teamnumber=form.teamnumber.data,
                 studentID=form.studentID.data, attScore=attScore,
@@ -527,7 +664,7 @@ def att_team():
         # { 1 : 1,  2 : 1  ,  3 :  0 }
         teamDict = {}
         for i in range (1,teamcount+1):
-            count = Attendance.query.filter_by(teamnumber=i).count()
+            count = getModels()['Attendance_'].query.filter_by(teamnumber=i).count()
             if count:
                 teamDict[i] = count
             else:
@@ -536,7 +673,7 @@ def att_team():
 
         # check the last team is full eg team 12 == 4 students
         if teamDict[teamcount] == teamsize:
-            countField = Attendance.query.filter_by(username='Chris').first()
+            countField = getModels()['Attendance_'].query.filter_by(username='Chris').first()
             countField.teamcount = teamcount +1
             db.session.commit()
             return redirect(url_for('att_team'))
@@ -554,11 +691,11 @@ def att_team():
                     fields.teamnumber = tn
                     try:
                         print('TRY ATTLOG')
-                        logs = AttendLog.query.filter_by(username=current_user.username).all()
+                        logs = getModels()['AttendLog_'].query.filter_by(username=current_user.username).all()
                         logID = []
                         for log in logs:
                             logID.append(log.id)
-                        update = AttendLog.query.filter_by(id=max(logID)).first()
+                        update = getModels()['AttendLog_'].query.filter_by(id=max(logID)).first()
                         update.teamnumber = tn
                     except:
                         print("ATTLOG FAIL")
@@ -579,7 +716,8 @@ def studentAdd():
     if current_user.id != 1:
         return abort(403)
 
-    IDLIST = BaseConfig.IDLIST
+    SCHEMA = getLocalData()['SCHEMA']
+    IDLIST = loadJson(SCHEMA)['C']
 
     actionID = request.form ['id']
     print(actionID)

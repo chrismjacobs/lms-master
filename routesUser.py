@@ -1,4 +1,4 @@
-import sys, boto3, random, base64, os, time, ast, json
+import random, base64, ast, json
 from datetime import datetime, timedelta
 from sqlalchemy import asc, desc, or_
 from flask import render_template, url_for, flash, redirect, request, abort, jsonify
@@ -10,20 +10,27 @@ from flask_mail import Message
 import ast # eval literal for list str
 from pprint import pprint
 
-from meta import BaseConfig
+from meta import BaseConfig, loadJson
 s3_resource = BaseConfig.s3_resource
-S3_LOCATION = BaseConfig.S3_LOCATION
-S3_BUCKET_NAME = BaseConfig.S3_BUCKET_NAME
-SCHEMA = BaseConfig.SCHEMA
-DESIGN = BaseConfig.DESIGN
-
-sList = [1,2,10]
 
 
+SCHEMA = getLocalData()['SCHEMA']
+S3_BUCKET_NAME = getLocalData()['S3_BUCKET_NAME']
+S3_LOCATION = getLocalData()['S3_LOCATION']
+DESIGN = getLocalData()['DESIGN']
+
+Units_ = getModels()['Units_']
+ChatBox_ = getModels()['ChatBox_']
+AttendLog_ = getModels()['AttendLog_']
+
+
+sList = [1,2,3,6]
 
 
 
 def get_sources():
+    S3_BUCKET_NAME = getLocalData()['S3_BUCKET_NAME']
+    SCHEMA = getLocalData()['SCHEMA']
     content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/sources.json' )
     file_content = content_object.get()['Body'].read().decode('utf-8')
     sDict = json.loads(file_content)  # json loads returns a dictionary
@@ -59,37 +66,40 @@ def get_MTFN(t):
 
     MTFN = 'MT'
 
-    if t == 'layout':
-        if Units.query.filter_by(unit='02').first():
+    try:
+        if t == 'layout':
+            if getModels()['Units_'].query.filter_by(unit='02').first():
+                MTFN = 'MT'
+            elif getModels()['Units_'].query.filter_by(unit='06').first():
+                MTFN = 'FN'
+        elif t == 'grades':
             MTFN = 'MT'
-        elif Units.query.filter_by(unit='06').first():
-            MTFN = 'FN'
-    elif t == 'grades':
+            if getModels()['Units_'].query.filter_by(unit='05').first():
+                MTFN = 'FN'
+    except:
         MTFN = 'MT'
-        if Units.query.filter_by(unit='05').first():
-            MTFN = 'FN'
 
 
     return MTFN
 
 def get_mods():
-    uModsDict = Info.unit_mods_dict
-    aModsDict = Info.ass_mods_dict
-    unit_mods_list = Info.unit_mods_list
-    ass_mods_list = Info.ass_mods_list
+    uModsDict = getInfo()['unit_mods_dict']
+    aModsDict = getInfo()['ass_mods_dict']
+    unit_mods_list = getInfo()['unit_mods_list']
+    ass_mods_list = getInfo()['ass_mods_list']
 
+    if Units_ and Units_.query.filter_by(unit='00').first():
+        d1 = getInfo()['unit_mods_dict'].copy()
+        d2 = getInfo()['unit_zero_dict']
+        uModsDict = d2.update(d1)
 
-    # if Units.query.filter_by(unit='00').first():
-    #     d1 = Info.unit_mods_dict.copy()
-    #     d2 = Info.unit_zero_dict
-    #     uModsDict = d2.update(d1)
+        d3 = getInfo()['ass_mods_dict'].copy()
+        d4 = getInfo()['ass_zero_dict']    #
+        uModsDict = d4.update(d3)
 
-    #     d3 = Info.ass_mods_dict.copy()
-    #     d4 = Info.ass_zero_dict
-    #     uModsDict = d4.update(d3)
+        unit_mods_list = getInfo()['unit_zero_list']  + getInfo()['unit_mods_list']
+        ass_mods_list = getInfo()['ass_zero_list'] + getInfo()['ass_mods_list']
 
-    #     unit_mods_list = Info.unit_zero_list  + Info.unit_mods_list
-    #     ass_mods_list = Info.ass_zero_list  + Info.ass_mods_list
 
     returnDict = {
         'uModsDict' : uModsDict,
@@ -106,13 +116,14 @@ def get_mods():
 def get_grades(ass, unt):
 
     INFO = get_mods()
+    SCHEMA = getLocalData()['SCHEMA']
 
 
     ### set max grades
     total_units = 0
     maxU = 0
     maxA = 0
-    units = Units.query.all()
+    units = getModels()['Units_'].query.all()
     for unit in units:
         total = unit.u1 + unit.u2 + unit.u3 + unit.u4
         maxU += total
@@ -123,29 +134,27 @@ def get_grades(ass, unt):
 
     MTFN = get_MTFN('grades')
 
+    lessUnits = [1,2]
+    moreUnits = [3,6]
+
 
     print('MTFN set = ', MTFN)
     # set number for counting through the lists of units and asses
-    if MTFN == 'MT' and SCHEMA in sList:
+    if MTFN == 'MT' and SCHEMA in lessUnits:
         unit_start = 0
         ass_start = 0
         unit_check = total_units*4
         ass_check = total_units
-    elif MTFN == 'MT' and SCHEMA == 9:
-        unit_start = 0
-        ass_start = 0
-        unit_check = total_units*4
-        ass_check = total_units
-    elif MTFN == 'FN' and SCHEMA in sList:
+    elif MTFN == 'FN' and SCHEMA in moreUnits:
         unit_start = 16
         ass_start = 4
         unit_check = unit_start + total_units*4
         ass_check = ass_start + total_units
-    elif MTFN == 'FN' and SCHEMA == 9:
-        unit_start = 20
-        ass_start = 5
-        unit_check = unit_start + total_units*4
-        ass_check = ass_start + total_units
+    else:
+        unit_start = 0
+        ass_start = 0
+        unit_check = 0
+        ass_check = 0
 
 
     unitGrade = 0
@@ -211,7 +220,7 @@ def chatCheck():
     else:
         chat = '0'
 
-    dialogues = ChatBox.query.filter_by(username=current_user.username).all()
+    dialogues = getModels()['ChatBox_'].query.filter_by(username=current_user.username).all()
     length = len(dialogues)-1
     if length >= 0:
         # parse sqlalchemy bind parameters
@@ -236,6 +245,8 @@ def chatCheck():
 @app.route ("/", methods = ['GET', 'POST'])
 @app.route ("/home", methods = ['GET', 'POST'])
 def home():
+    S3_LOCATION = getLocalData()['S3_LOCATION']
+
     try:
         result = current_user.username
         print ('RESULT', result)
@@ -245,14 +256,14 @@ def home():
 
     ''' deal with chat '''
     form = Chat()
-    dialogues = ChatBox.query.filter_by(username=current_user.username).all()
+    dialogues = getModels()['ChatBox_'].query.filter_by(username=current_user.username).all()
     length = len(dialogues)-1
     if length >= 0:
         chat = dialogues[length]
     else:
         chat = 0
     if form.validate_on_submit():
-            chat = ChatBox(username = current_user.username, chat=form.chat.data, response=form.response.data)
+            chat = getModels()['ChatBox_'](username = current_user.username, chat=form.chat.data, response=form.response.data)
             db.session.add(chat)
             db.session.commit()
             if form.chat.data != "":
@@ -272,7 +283,7 @@ def home():
 
 
     ''' deal with attendance '''
-    attLog = AttendLog.query.filter_by(username=current_user.username).all()
+    attLog = getModels()['AttendLog_'].query.filter_by(username=current_user.username).all()
 
     context = {
     'form' : form,
@@ -316,6 +327,10 @@ def review_random(originalDict):
 @app.route ("/exams/<string:test>/<string:unit>", methods=['GET','POST'])
 @login_required
 def exams(test, unit):
+    DESIGN = getLocalData()['DESIGN']
+    S3_BUCKET_NAME = getLocalData()['S3_BUCKET_NAME']
+    SCHEMA = getLocalData()['SCHEMA']
+
 
     semester = User.query.filter_by(username='Chris').first().extra
 
@@ -325,10 +340,10 @@ def exams(test, unit):
         examString = 'json_files/exam2.json'
 
 
-    if SCHEMA == 10 or SCHEMA == 2:
-        S3_BUCKET_NAME = 'workplace-lms'
-    elif SCHEMA == 1:
-        S3_BUCKET_NAME = 'reading-lms'
+    # if SCHEMA == 10 or SCHEMA == 2:
+    #     S3_BUCKET_NAME = 'workplace-lms'
+    # elif SCHEMA == 1:
+    #     S3_BUCKET_NAME = 'reading-lms'
 
 
     content_object = s3_resource.Object( S3_BUCKET_NAME, examString )
@@ -361,7 +376,7 @@ def updateExam():
     tries = request.form ['tries']
     print(unit, test, grade, tries)
 
-    user = Exams.query.filter_by(username=current_user.username).first()
+    user = getModels()['Exams_'].query.filter_by(username=current_user.username).first()
 
     # no action after 2 tries
     if int(tries) > 2:
@@ -441,7 +456,7 @@ def exam_list_midterm():
 
     ''' set exam practice '''
     try:
-        user = Exams.query.filter_by(username=current_user.username).first()
+        user = getModels()['Exams_'].query.filter_by(username=current_user.username).first()
         reviewData = json.loads(user.j1)
         examData = json.loads(user.j2)
         print('exam_list_data_checked')
@@ -460,11 +475,11 @@ def exam_list_midterm():
                     '2-5-6' : [],
                     '2-7-8' : []
                 }
-        entry = Exams(username=current_user.username, j1=json.dumps(reviewDict), j2=json.dumps(reviewDict))
+        entry = getModels()['Exams_'](username=current_user.username, j1=json.dumps(reviewDict), j2=json.dumps(reviewDict))
         db.session.add(entry)
         db.session.commit()
 
-        user = Exams.query.filter_by(username=current_user.username).first()
+        user = getModels()['Exams_'].query.filter_by(username=current_user.username).first()
         reviewData = json.loads(user.j1)
         examData = json.loads(user.j2)
 
@@ -526,12 +541,14 @@ def exam_list_midterm():
     }
 
 
-    if Units.query.filter_by(unit='02').first():
-        setDict['12'] = Units.query.filter_by(unit='02').first().uA
-    if Units.query.filter_by(unit='04').first():
-        setDict['34'] = Units.query.filter_by(unit='04').first().uA
+    if getModels()['Units_'].query.filter_by(unit='02').first():
+        setDict['12'] = Units_.query.filter_by(unit='02').first().uA
+    if getModels()['Units_'].query.filter_by(unit='04').first():
+        setDict['34'] = Units_.query.filter_by(unit='04').first().uA
 
     counts = completeStatus('MT', current_user.username)
+
+    DESIGN = getLocalData()['DESIGN']
 
     context = {
     'title' : 'Exams',
@@ -600,7 +617,7 @@ def exam_list_final():
 
     ''' set exam practice '''
     try:
-        user = Exams.query.filter_by(username=current_user.username).first()
+        user = getModels()['Exams_'].query.filter_by(username=current_user.username).first()
         reviewData = json.loads(user.j1)
         examData = json.loads(user.j2)
         print('exam_list_data_checked')
@@ -619,11 +636,11 @@ def exam_list_final():
                     '2-5-6' : [],
                     '2-7-8' : []
                 }
-        entry = Exams(username=current_user.username, j1=json.dumps(reviewDict), j2=json.dumps(reviewDict))
+        entry = getModels()['Exams_'](username=current_user.username, j1=json.dumps(reviewDict), j2=json.dumps(reviewDict))
         db.session.add(entry)
         db.session.commit()
 
-        user = Exams.query.filter_by(username=current_user.username).first()
+        user = getModels()['Exams_'].query.filter_by(username=current_user.username).first()
         reviewData = json.loads(user.j1)
         examData = json.loads(user.j2)
 
@@ -677,10 +694,10 @@ def exam_list_final():
         'ex' : current_user.extra
     }
 
-    if Units.query.filter_by(unit='06').first():
-        setDict['56'] = Units.query.filter_by(unit='06').first().uA
-    if Units.query.filter_by(unit='08').first():
-        setDict['78'] = Units.query.filter_by(unit='08').first().uA
+    if getModels()['Units_'].query.filter_by(unit='06').first():
+        setDict['56'] = getModels()['Units_'].query.filter_by(unit='06').first().uA
+    if getModels()['Units_'].query.filter_by(unit='08').first():
+        setDict['78'] = getModels()['Units_'].query.filter_by(unit='08').first().uA
 
     counts = completeStatus('FN', current_user.username)
 
@@ -784,7 +801,7 @@ def grades_final():
         }
         completeDict[user.username] = completeStatus('FN', user.username)
 
-    attendance = Attendance.query.all()
+    attendance = getModels()['Attendance_'].query.all()
 
     for a in attendance:
         if a.username in gradesDict:
@@ -794,7 +811,7 @@ def grades_final():
     total_units = 0
     maxU = 0
     maxA = 0
-    units = Units.query.all()
+    units = getModels()['Units_'].query.all()
     for unit in units:
         total = unit.u1 + unit.u2 + unit.u3 + unit.u4
         maxU += total*2
@@ -828,7 +845,7 @@ def grades_final():
             gradesDict[row.username]['asses'] += row.Grade
 
 
-    practices = Exams.query.all()
+    practices = getModels()['Exams_'].query.all()
     for practice in practices:
         reviewData = ast.literal_eval(practice.j1)
         if len(reviewData[str(semester) + '-5-6']) > 2:
@@ -905,7 +922,7 @@ def grades_midterm ():
         }
         completeDict[user.username] = completeStatus('MT', user.username)
 
-    attendance = Attendance.query.all()
+    attendance = getModels()['Attendance_'].query.all()
 
     for a in attendance:
         if a.username in gradesDict:
@@ -922,7 +939,7 @@ def grades_midterm ():
 
     maxU = 0
     maxA = 0
-    units = Units.query.all()
+    units = getModels()['Units_'].query.all()
     for un in units:
         if un.unit in midterm_unit_list:
             total = un.u1 + un.u2 + un.u3 + un.u4
@@ -965,7 +982,7 @@ def grades_midterm ():
 
 
 
-    practices = Exams.query.all()
+    practices = getModels()['Exams_'].query.all()
     for practice in practices:
         reviewData = ast.literal_eval(practice.j1)
         if len(reviewData[str(semester) + '-1-2']) > 2:
@@ -1211,6 +1228,8 @@ def assignment_list():
 
 @app.route('/audioUpload', methods=['POST', 'GET'])
 def audioUpload():
+    S3_LOCATION = getLocalData()['S3_LOCATION']
+    S3_BUCKET_NAME = getLocalData()['S3_BUCKET_NAME']
 
     unit = request.form ['unit']
     task = request.form ['task']
@@ -1292,7 +1311,7 @@ def ass(unit):
     source = srcDict[unit]['Materials']['A']
 
 
-    setting =  Units.query.filter_by(unit=unit).first().uA
+    setting =  Units_.query.filter_by(unit=unit).first().uA
     if setting != 1:
         return redirect(request.referrer)
         flash('This assignment is not open yet', 'danger')
