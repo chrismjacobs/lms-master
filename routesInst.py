@@ -357,7 +357,7 @@ def updateCourse():
 
     print('userData', userData, course)
 
-    u = User.query.get(userData)
+    u = User.query.filter_by(studentID=userData).first()
 
 
     if course == 'frd':
@@ -433,9 +433,9 @@ def master_controls():
         uDict['username'] = u.username
         uDict['studentID'] = u.studentID
         uDict['frd'] = u.frd
+        uDict['lnc'] = u.lnc
         uDict['wpe'] = u.wpe
         uDict['icc'] = u.icc
-        uDict['lnc'] = u.lnc
         uDict['vtm'] = u.vtm
         uDict['extra'] = u.extra
 

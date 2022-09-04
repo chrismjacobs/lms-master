@@ -256,27 +256,36 @@ def register():
         user = User(username=titleName, studentID = form.studentID.data, email = form.email.data,
         password = hashed_password, device = form.device.data, extra=eNumber)
         db.session.add(user)
+        db.session.commit()
 
 
-        chat = getModels()['ChatBox_'](username=titleName, chat="", response=f'Hi {titleName}. Welcome to the course! If you have any questions then please use this private chat.')
-        db.session.add(chat)
+        chatModel = None
 
         course = int(form.course.data)
         if course == 1:
             user.frd = 1
+            chatModel = ChatBox_FRD
         elif course == 2:
             user.wpe = 1
+            chatModel = ChatBox_WPE
         elif course == 3:
             user.icc = 1
+            chatModel = ChatBox_ICC
         elif course == 4:
             user.png = 1
+            chatModel = 'ChatBox_PNG'
         elif course == 5:
             user.lnc = 1
+            chatModel = ChatBox_LNC
         elif course == 6:
             user.vtm = 1
+            chatModel = ChatBox_VTM
 
         db.session.commit()
 
+        chat = chatModel(username=titleName, chat="", response=f'Hi {titleName}. Welcome to the course! If you have any questions then please use this private chat.')
+        db.session.add(chat)
+        db.session.commit()
 
         flash(f'Account created for {titleName}!, please login', 'success')
         #'f' is because passing in a variable

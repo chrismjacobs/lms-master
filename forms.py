@@ -46,15 +46,6 @@ class Chat(FlaskForm):
     submit = SubmitField('Post Chat')
 
 
-
-bookcodeID = None
-loginID = None
-
-bookcodeList = {
-                "120454000":"2400"
-            }
-
-
 def getCourseRadios():
 
     radioList = [
@@ -114,34 +105,6 @@ class RegistrationForm(FlaskForm):
         if user:
             raise ValidationError('That student ID already has an account, if you are trying to join more than one course please contact your teacher for help')
 
-        parent = User.query.filter_by(username='Chris').first()
-        IDList = json.loads(parent.device)
-
-        # sList = [1,2]
-
-        # if SCHEMA in sList:
-        #     if studentID.data in IDList:
-        #         if IDList[(studentID.data).strip()] == 0:
-        #             raise ValidationError('See instructor to get a textbook')
-        #     else:
-        #         raise ValidationError('Contact instructor to join class')
-
-
-        # if SCHEMA < 3:
-        #     print('BOOKCODE TEST')
-        #     global bookcodeID
-        #     bookcodeID = studentID.data
-
-    # def validate_bookcode(self, bookcode):
-    #     if SCHEMA < 3:
-    #         print(bookcodeID)
-    #         print(bookcode)
-    #         if bookcode.data == '9009':
-    #             pass
-    #         elif bookcodeList[bookcodeID] != bookcode.data:
-    #             raise ValidationError('Incorrect BookCode - please see your instructor')
-    #     else:
-    #         pass
 
 class LoginForm(FlaskForm):
     studentID = StringField ('Student ID', validators=[DataRequired(), Length(min=2, max=9)])
