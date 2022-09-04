@@ -5,6 +5,7 @@
 <div id="vue-app">
 
 <span id="ansString" style="display:none">{{ansString}}</span>
+<span id="schema" style="display:none">{{SCHEMA}}</span>
 
 <div class="content-section">
      <legend class="border-bottom mb-4">Classwork</legend>
@@ -60,7 +61,8 @@
 var ansString = document.getElementById('ansString').innerHTML
 var cwOBJ = JSON.parse(ansString)
 console.log('OBJ', cwOBJ);
-
+var SCHEMA = document.getElementById('schema').innerHTML
+console.log('schema', SCHEMA);
 
 startVue()
 
@@ -78,7 +80,8 @@ let vue = new Vue({
     },
     data: {
         cwOBJ: cwOBJ,
-        show: null
+        show: null,
+        SCHEMA : parseInt(SCHEMA)
     },
     methods: {
       getBar: function (str, key, part) {
@@ -96,9 +99,22 @@ let vue = new Vue({
         return str + c
       },
         gotoAdmin: function (target) {
+          let tag = ''
+
+          schemaList = {
+            1 : '_frd',
+            2 : '_wpe',
+            3 : '_icc',
+            4 : '_png',
+            5 : '_lnc',
+            6 : '_vtm'
+          }
+
+          tag = schemaList[this.SCHEMA]
+
           let breaker = 'admin/u'
           var str = window.location.href
-          let url = (str).split('classwork')[0] + breaker + target + 'u'
+          let url = (str).split('classwork')[0] + breaker + target + 'u' + tag
 
           console.log(url)
           window.open(url, '_blank')

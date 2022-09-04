@@ -237,7 +237,7 @@ def dashboard():
 
     pprint(totalDict)
 
-    return render_template('instructor/dashboard.html', ansString=json.dumps(totalDict), title='dashboard')
+    return render_template('instructor/dashboard.html', ansString=json.dumps(totalDict), title='dashboard', SCHEMA=SCHEMA)
 
 @app.route ("/dashboardTest")
 def dashboardTest():

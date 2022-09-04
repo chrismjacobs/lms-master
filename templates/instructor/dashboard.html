@@ -6,6 +6,8 @@
 
 <div id="vue-app">
 
+<span id="schema" style="display:none">{{SCHEMA}}</span>
+
 <div class="content-section sticky">
     <div style="display:inline-block">
     <h1 @click="anon = !anon"> Dashboard </h1>
@@ -97,7 +99,8 @@
 var ansString = document.getElementById('ansString').innerHTML
 var OBJ = JSON.parse(ansString)
 console.log('unitOBJ', OBJ);
-
+var SCHEMA = document.getElementById('schema').innerHTML
+console.log('schema', SCHEMA);
 
 startVue()
 
@@ -173,7 +176,8 @@ function startVue(){
         },
         studentName: null,
         studentUnit: null,
-        extra: ''
+        extra: '',
+        SCHEMA : parseInt(SCHEMA)
 
     },
     methods: {
@@ -191,7 +195,20 @@ function startVue(){
           document.getElementById('instructorPlayer').src = audio
         },
         edit: function(key, unit){
-          let url = (window.location.href).split('dashboard')[0] + 'admin/' + 'a' + unit + 'a/edit/?id=' + key
+          let tag = ''
+
+          schemaList = {
+            1 : '_frd/',
+            2 : '_wpe/',
+            3 : '_icc/',
+            4 : '_png/',
+            5 : '_lnc/',
+            6 : '_vtm/'
+          }
+
+          tag = schemaList[this.SCHEMA]
+
+          let url = (window.location.href).split('dashboard')[0] + 'admin/' + 'a' + unit + 'a' + tag + 'edit/?id=' + key
 
           console.log('goTO', url);
           // go to new tab...........

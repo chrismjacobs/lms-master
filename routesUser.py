@@ -134,10 +134,8 @@ def review_random(originalDict):
 def exams(test, unit):
     DESIGN = getLocalData()['DESIGN']
     S3_BUCKET_NAME = getLocalData()['S3_BUCKET_NAME']
-    SCHEMA = getLocalData()['SCHEMA']
 
-
-    semester = User.query.filter_by(username='Chris').first().extra
+    semester = User.query.filter_by(username='Chris').first().semester
 
     if semester == 1:
         examString = 'json_files/exam.json'
@@ -257,7 +255,7 @@ def openExam():
 @login_required
 def exam_list_midterm():
 
-    semester = int(User.query.filter_by(username='Chris').first().extra)
+    semester = int(User.query.filter_by(username='Chris').first().semester)
 
     ''' set exam practice '''
     try:
@@ -417,8 +415,9 @@ def completeStatus(time, name):
 @app.route ("/exam_list_final", methods=['GET','POST'])
 @login_required
 def exam_list_final():
+    SCHEMA = getLocalData()['SCHEMA']
 
-    semester = int(User.query.filter_by(username='Chris').first().extra)
+    semester = int(User.query.filter_by(username='Chris').first().semester)
 
     ''' set exam practice '''
     try:
@@ -523,6 +522,7 @@ def exam_list_final():
 @app.route ("/setStatus", methods=['POST'])
 @login_required
 def setStatus():
+
     username = request.form ['username']
 
     student = User.query.filter_by(username=username).first()
@@ -577,10 +577,12 @@ def participation_check():
 @app.route ("/grades_final", methods=['GET','POST'])
 @login_required
 def grades_final():
+    SCHEMA = getLocalData()['SCHEMA']
+
     if current_user.id != 1:
         return redirect(url_for('home'))
 
-    semester = int(User.query.filter_by(username='Chris').first().extra)
+    semester = int(User.query.filter_by(username='Chris').first().semester)
 
     gradesDict = {}
     completeDict = {}
@@ -699,9 +701,9 @@ def grades_final():
 @app.route ("/grades_midterm", methods=['GET','POST'])
 @login_required
 def grades_midterm ():
+    SCHEMA = getLocalData()['SCHEMA']
 
-
-    semester = int(User.query.filter_by(username='Chris').first().extra)
+    semester = int(User.query.filter_by(username='Chris').first().semester)
 
     gradesDict = {}
     completeDict = {}
@@ -837,6 +839,7 @@ def grades_midterm ():
 @app.route ("/updateClasswork", methods=['POST', 'GET'])
 @login_required
 def updateClasswork():
+
     unit = request.form ['unit']
     name = request.form ['name']
     team = request.form ['team']
@@ -900,6 +903,7 @@ def updateClasswork():
 @app.route ("/resetAnswer", methods=['POST', 'GET'])
 @login_required
 def resetAnswer():
+
     unit = request.form ['unit']
     team = request.form ['team']
     question = request.form ['question']
@@ -911,17 +915,6 @@ def resetAnswer():
     model = getInfo()['uModsDict'][unit[0:2]][int(unit[2])]
 
     data = model.query.filter_by(teamnumber=team).first()
-
-    listAnswers = [None,
-     data.Ans01,
-     data.Ans02,
-     data.Ans03,
-     data.Ans04,
-     data.Ans05,
-     data.Ans06,
-     data.Ans07,
-     data.Ans08
-    ]
 
     q = int(question)
 
@@ -954,10 +947,9 @@ def resetAnswer():
 @app.route ("/classwork", methods=['GET','POST'])
 @login_required
 def classwork():
+    SCHEMA = getLocalData()['SCHEMA']
 
     cwDict = {}
-
-    users = User.query.all()
 
     unitList = []
 
@@ -995,7 +987,7 @@ def classwork():
 
 
 
-    return render_template('instructor/classwork.html', ansString=json.dumps(cwDict), title='Classwork')
+    return render_template('instructor/classwork.html', ansString=json.dumps(cwDict), title='Classwork', SCHEMA=SCHEMA)
 
 
 
@@ -1025,7 +1017,7 @@ def assignment_list():
             'Comment' : recs[unit]['Comment']
         }
 
-    theme=DESIGN['titleColor']
+    theme=DESIGN = getLocalData()['DESIGN']
 
     return render_template('units/assignment_list.html', legend='Assignments Dashboard',
     Dict=json.dumps(assDict), Grade=assGrade, max=maxA, title='Assignments', theme=theme)
@@ -1112,14 +1104,16 @@ def audioUpload():
 @login_required
 def ass(unit):
 
+    S3_BUCKET_NAME = getLocalData()['S3_BUCKET_NAME']
+
     srcDict = get_sources()
     source = srcDict[unit]['Materials']['A']
 
 
-    setting =  Units_.query.filter_by(unit=unit).first().uA
+    setting =  getModels()['Units_'].query.filter_by(unit=unit).first().uA
     if setting != 1:
-        return redirect(request.referrer)
         flash('This assignment is not open yet', 'danger')
+        return redirect(request.referrer)
 
     # models update
     assDict = getInfo()['aModsDict']
