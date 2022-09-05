@@ -58,7 +58,7 @@ def main():
     db.session.add(test)
     db.session.commit()
 
-    att = Attendance_FRD(username='Chris', studentID='100000000', teamnumber=97, teamsize=4, teamcount=10, unit='01')
+    att = Attendance_FRD(username='Chris', studentID='100000000', teamnumber=97, teamsize=4, teamcount=10, unit='RR')
     db.session.add(att)
     db.session.commit()
 
@@ -67,7 +67,7 @@ def main():
     db.session.commit()
 
 
-    att = Attendance_WPE(username='Chris', studentID='100000000', teamnumber=97, teamsize=4, teamcount=10, unit='01')
+    att = Attendance_WPE(username='Chris', studentID='100000000', teamnumber=97, teamsize=4, teamcount=10, unit='RR')
     db.session.add(att)
     db.session.commit()
 
@@ -76,7 +76,7 @@ def main():
     db.session.commit()
 
 
-    att = Attendance_ICC(username='Chris', studentID='100000000', teamnumber=97, teamsize=4, teamcount=10, unit='01')
+    att = Attendance_ICC(username='Chris', studentID='100000000', teamnumber=97, teamsize=4, teamcount=10, unit='RR')
     db.session.add(att)
     db.session.commit()
 
@@ -85,7 +85,7 @@ def main():
     db.session.commit()
 
 
-    att = Attendance_LNC(username='Chris', studentID='100000000', teamnumber=97, teamsize=4, teamcount=10, unit='01')
+    att = Attendance_LNC(username='Chris', studentID='100000000', teamnumber=97, teamsize=4, teamcount=10, unit='RR')
     db.session.add(att)
     db.session.commit()
 
@@ -94,7 +94,7 @@ def main():
     db.session.commit()
 
 
-    att = Attendance_VTM(username='Chris', studentID='100000000', teamnumber=97, teamsize=4, teamcount=10, unit='01')
+    att = Attendance_VTM(username='Chris', studentID='100000000', teamnumber=97, teamsize=4, teamcount=10, unit='RR')
     db.session.add(att)
     db.session.commit()
 

@@ -138,7 +138,7 @@ def openUnit():
 
     key = request.form ['key']
     number = request.form ['number']
-    print('KEY', key)
+    print('KEY', key, number)
 
      # 01-1 --> 01
     part = int(key[3])
@@ -146,25 +146,30 @@ def openUnit():
 
     checkOpen = getModels()['Units_'].query.filter_by(unit=number).first()
 
+    print(part, checkOpen)
+
     if checkOpen:
         if part == 0:
             getModels()['Units_'].query.filter_by(unit=number).delete()
         if part == 1:
+            print(checkOpen.u1)
             if checkOpen.u1 == 1:
                 checkOpen.u1 = 0
+                print('set 0')
             else:
                 checkOpen.u1 = 1
-        if part == 2:
+                print('set 1')
+        elif part == 2:
             if checkOpen.u2 == 1:
                 checkOpen.u2 = 0
             else:
                 checkOpen.u2 = 1
-        if part == 3:
+        elif part == 3:
             if checkOpen.u3 == 1:
                 checkOpen.u3 = 0
             else:
                 checkOpen.u3 = 1
-        if part == 4:
+        elif part == 4:
             if checkOpen.u4 == 1:
                 checkOpen.u4 = 0
                 checkOpen.uA = 0

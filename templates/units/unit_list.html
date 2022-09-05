@@ -207,9 +207,20 @@ function startVue(unitOBJ, colorFloat, prevs, options, opens){
     },
     methods: {
         gotoAdmin: function (target) {
+          schemaList = {
+            1 : '_frd',
+            2 : '_wpe',
+            3 : '_icc',
+            4 : '_png',
+            5 : '_lnc',
+            6 : '_vtm'
+          }
+
+          tag = schemaList[this.schema]
+
           let breaker = 'admin/'
           var str = window.location.href
-          let url = (str).split('unit_list')[0] + breaker + target
+          let url = (str).split('unit_list')[0] + breaker + target + tag
           window.open(url, '_blank')
         },
         getComment: function (jString) {
@@ -312,15 +323,16 @@ function startVue(unitOBJ, colorFloat, prevs, options, opens){
           url : '/openUnit'
           })
           .done(function(data) {
+            console.log(data)
             if (key == 'xx-0' || key == '0005'){
-              location.reload()
+              //location.reload()
             }
             else{
               console.log(data.key);
               vue.opens[data.key] = true
               unitOBJ[number][data.key]['Access'] = 2
               console.log(vue.opens);
-              location.reload()
+              //location.reload()
             }
 
           })

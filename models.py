@@ -82,7 +82,7 @@ def getInfo():
 
 
 
-    print('infoDict', SCHEMA, modDictUnits) #modDictAss, zeroDictAss, zeroDictUnits
+    # print('infoDict', SCHEMA, modDictUnits) #modDictAss, zeroDictAss, zeroDictUnits
 
     # used for admin rendering
     listAss = []

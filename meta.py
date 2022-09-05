@@ -71,8 +71,8 @@ class BaseConfig:
     DESIGN = {
             "titleColor": "grey",
             "bodyColor": "lightgrey",
-            "headTitle": "Applied English",
-            "headLogo": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/profiles/favicon.png"
+            "headTitle": "Just Applied English",
+            "headLogo": "https://reading-lms.s3.ap-northeast-1.amazonaws.com/logo.PNG"
         }
 
     # IDLIST = META['C']
