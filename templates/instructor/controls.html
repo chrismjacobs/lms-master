@@ -50,7 +50,8 @@ Teamsize
 
 <br>
 <br>
-<button class="btn btn-outline-secondary" @click="gotoAdmin('user')">User: Semester: {{current_user.extra}}</button>
+<button class="btn btn-outline-secondary" @click="gotoAdmin('master_controls')">Master</button>
+<button class="btn btn-outline-secondary" @click="gotoAdmin('user')">User: Semester: {{current_user.semester}}</button>
 <button class="btn btn-outline-secondary" @click="gotoAdmin('attendlog')">AttLog</button>
 <button class="btn btn-outline-secondary" @click="gotoAdmin('attendance')">Attendance</button>
 <button class="btn btn-outline-secondary" @click="gotoAdmin('att_log')">Log Chart</button>
@@ -206,12 +207,13 @@ let vue = new Vue({
             6 : '_vtm'
           }
 
-          if (target != 'user') {
+
+          if (target != 'user'  || target != 'att_log' || target != 'master_controls') {
             tag = schemaList[this.SCHEMA]
           }
 
           let breaker = ''
-          if (target != 'att_log') {
+          if (target != 'att_log' || target != 'master_controls') {
             breaker = 'admin/'
           }
           var str = window.location.href
