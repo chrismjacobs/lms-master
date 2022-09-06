@@ -49,25 +49,27 @@ class Chat(FlaskForm):
 def getCourseRadios():
 
     radioList = [
-        ('0', 'No Course'),
         ('1', 'Freshman Reading'),
-        ('2', 'Workplace English'),
-        ('3', 'Intercultural Communication'),
-        ('4', 'Presentation English'),
+        # ('2', 'Workplace English'),
+        # ('3', 'Intercultural Communication'),
+        # ('4', 'Presentation English'),
         ('5', 'Language and Culture'),
-        ('6', 'Vietnam Class')
+        # ('6', 'Vietnam Class'),
+        ('0', 'My Course is not on the list'),
         ]
 
-    master = User.query.filter_by(id=1).first()
+    return radioList
 
-    print('master', master, master.extra)
+    # master = User.query.filter_by(id=1).first()
 
-    if master.extra == 0:
-        return [('0', 'No Course')]
-    elif master.extra == 10:
-        return radioList
-    else:
-        return [radioList[0], radioList[master.extra]]
+    # print('master', master, master.extra)
+
+    # if master.extra == 0:
+    #     return [('0', 'No Course')]
+    # elif master.extra == 10:
+    #     return radioList
+    # else:
+    #     return [radioList[0], radioList[master.extra]]
 
 
 class RegistrationForm(FlaskForm):
