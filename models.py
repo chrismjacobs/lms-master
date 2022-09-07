@@ -164,6 +164,21 @@ class User(db.Model, UserMixin):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
 
 
+class Users(db.Model): #import the model
+    id = db.Column(db.Integer, primary_key=True) #kind of value and the key unique to the user
+    date_added = db.Column(db.DateTime, nullable=False, default=datetime.now)
+    username =  db.Column(db.String(20), nullable=False) #must be a unique name and cannot be null
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    studentID = db.Column(db.String(20))
+    vocab = db.Column(db.String(), nullable=False, default='generalW')
+    password = db.Column(db.String(60), nullable=False)
+    school = db.Column(db.String(30))
+    classroom = db.Column(db.String(20))
+    extraStr = db.Column(db.String())
+    extraInfo = db.Column(db.String())
+    extraInt = db.Column(db.Integer())
+
+
 class MyModelView(ModelView):
     def is_accessible(self):
         if BaseConfig.DEBUG == True:
