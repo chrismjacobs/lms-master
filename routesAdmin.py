@@ -169,17 +169,18 @@ def admin():
 
 @app.route("/website", methods = ['GET', 'POST'])
 def website():
-
     return render_template('website.html')
+
+@app.route("/vocab", methods = ['GET', 'POST'])
+def vocab():
+    return render_template('vocab.html')
 
 @app.route("/team", methods = ['GET', 'POST'])
 def website_team():
-
     return render_template('website.html')
 
 @app.route("/courses-1", methods = ['GET', 'POST'])
 def website_course():
-
     return render_template('website.html')
 
 
@@ -233,35 +234,42 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
 
-        parent = User.query.filter_by(username='Chris').first()
-        IDList = json.loads(parent.device)
-
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
 
-        print('ID', IDList)
+        # parent = User.query.filter_by(username='Chris').first()
+        # IDList = json.loads(parent.device)
+        # print('ID', IDList)
+        # eNumber = 0
 
-        eNumber = 0
+        # try:
+        #     eNumber = IDList[form.studentID.data]
+        # except:
+        #     print('except eNumber')
 
-        try:
-            eNumber = IDList[form.studentID.data]
-        except:
-            print('except eNumber')
+
 
         ## edit student name
-
         stripName = form.username.data.strip()
         titleName = stripName.title()
 
-
         user = User(username=titleName, studentID = form.studentID.data, email = form.email.data,
-        password = hashed_password, device = form.device.data, extra=eNumber)
+        password = hashed_password, device = form.device.data)
         db.session.add(user)
         db.session.commit()
 
+        ## Add user to pvqc app
+        vocab_user = Users(username=titleName, studentID = form.studentID.data, email = form.email.data,
+        password = hashed_password, vocab='tourism', classroom='work@pvqc')
+        db.session.add(vocab_user)
+        db.session.commit()
 
         chatModel = None
-
         course = int(form.course.data)
+        print('register course', course)
+
+
+
+
         if course == 1:
             user.frd = 1
             chatModel = ChatBox_FRD

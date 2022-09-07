@@ -420,6 +420,24 @@ def updateCourse():
 #@login_required
 def master_controls():
 
+    idDict = {
+        'frd' : loadJson(1)['C'],
+        'wpe' : loadJson(2)['C'],
+        'icc' : loadJson(3)['C'],
+        'lnc' : loadJson(5)['C'],
+        'vtm' : loadJson(6)['C']
+    }
+
+    idList = {}
+
+    for c in idDict:
+        for s in idDict[c]:
+            idList[s]=0
+
+    master = User.query.get(1)
+    master.device = json.dumps(idList)
+    db.session.commit()
+
     userData = User.query.all()
 
     sDict = {
@@ -427,6 +445,8 @@ def master_controls():
 
     uDict = {
     }
+
+
 
     for u in userData:
         uDict['id'] = u.id
@@ -438,16 +458,12 @@ def master_controls():
         uDict['icc'] = u.icc
         uDict['vtm'] = u.vtm
         uDict['extra'] = u.extra
+        uDict['new'] = 0
+
+        if u.studentID not in idList:
+            uDict['new'] = 1
 
         sDict[u.studentID] = uDict.copy()
-
-    idDict = {
-        'frd' : loadJson(1)['C'],
-        'wpe' : loadJson(2)['C'],
-        'icc' : loadJson(3)['C'],
-        'lnc' : loadJson(5)['C'],
-        'vtm' : loadJson(6)['C']
-    }
 
 
 
@@ -718,6 +734,8 @@ def studentAdd():
         return abort(403)
 
     SCHEMA = getLocalData()['SCHEMA']
+
+
     IDLIST = loadJson(SCHEMA)['C']
 
     actionID = request.form ['id']

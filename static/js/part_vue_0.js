@@ -148,9 +148,44 @@ function startVue(qOBJ){
         1 : '',
         2 : '',
         3 : ''
-      }
+      },
+      image_b64 : null
     },
     methods: {
+      imageValidation : function(key) {
+        let vue = this
+        var fileInput = document.getElementById('image' + key);
+        var allowedExtensions = /(\.jpeg|\.png|\.jpg)$/i;
+        var filePath = fileInput.value;
+
+      if(fileInput.files[0].size > 44000000){
+          alert("File is too big!");
+          fileInput.value = '';
+          return false;
+      }
+      else if(!allowedExtensions.exec(filePath)){
+          alert('Please upload image: .jpeg/.png only.');
+          fileInput.value = '';
+          return false;
+      }
+      else{
+          console.dir( 'FILE', fileInput.files[0] );
+          var url = window.URL.createObjectURL(fileInput.files[0]);
+          fetch(url)
+          .then(function(res){
+              return res.blob();
+              })
+          .then(function(savedBlob){
+              var reader = new FileReader();
+              reader.readAsDataURL(savedBlob);
+              reader.onloadend = function() {
+                  vue.image_b64 = reader.result.split(',')[1];
+                  console.log(vue.image_b64)
+            }
+          })
+      }//end else
+        return true
+    },
       shuffleSpell: function (word) {
         var a = word.split(""),
         n = a.length
@@ -342,6 +377,10 @@ function startVue(qOBJ){
             3 : ''
           }
         }
+
+        if (answer == 'base') {
+          answer = this.image_b64
+        }
         console.log('ajax called');
         if (question == 0){
           answer = 'start_team'
@@ -367,7 +406,6 @@ function startVue(qOBJ){
               question : question,
               answer : answer,
               qs : this.qs, //qs == number of questions
-
           },
           type : 'POST',
           url : '/shareUpload'

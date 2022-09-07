@@ -120,6 +120,17 @@
                 <br>
                 <button v-if="getSpellBTN(key)" class="btn btn-outline-secondary btn-sm" style="border: 1px solid {{DESIGN['titleColor']}}" type="button" @click="shareAnswer(key, 'perfect')"> Share Answers </button>
             </div>
+            <div v-else-if="qn.t == 'pi'">
+                <input type="file" :id="'image' + key" accept="image/*" @change="imageValidation(key)"> </input> <button class="btn btn-secondary btn-sm"> Upload Image </button>
+                <br>
+                <div v-if="image_b64">
+                <span style="color:red"> Image Ready </span>
+                <br>
+                <br>
+                <button class="btn btn-outline-secondary btn-sm" style="border: 1px solid {{DESIGN['titleColor']}}" type="button" @click="shareAnswer(key, 'base')"> Share Answer </button>
+                </div>
+                <br>
+            </div>
             <div v-else>
                 <textarea class="input1" :id="key"> </textarea>
                 <br>
@@ -193,6 +204,9 @@
                                             <span v-for="a in getInSplit(ans)">
                                                 <span v-if="a.length > 0">[[ a ]] &nbsp <br> </span>
                                             </span>
+                                        </span>
+                                        <span v-else-if="qn.t == 'pi'">
+                                            image <img :src="ans" alt="Team Upload" width="100%" height="100%">
                                         </span>
                                         <span v-else> [[ ans ]] </span>
                                     </td>

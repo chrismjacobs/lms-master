@@ -1,4 +1,4 @@
-import random, datetime, json
+import random, datetime, json, base64
 from sqlalchemy import asc, desc, func, or_
 from flask import render_template, url_for, flash, redirect, request, abort, jsonify
 from app import app, db, bcrypt, mail
@@ -329,6 +329,16 @@ def shareUpload():
     answer = request.form ['answer']
     question = request.form ['question']
     qs = request.form ['qs']
+
+    if len(answer) > 1000:
+        S3_LOCATION = getLocalData()['S3_LOCATION']
+        S3_BUCKET_NAME = getLocalData()['S3_BUCKET_NAME']
+        print('PROCESSING IMAGE')
+        image = base64.b64decode(answer)
+        filename = 'participation/' + unit + '/' + str(question) + '/' + str(teamnumber) + '.png'
+        imageLink = S3_LOCATION + filename
+        s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=image)
+        answer = imageLink
 
     srcDict = get_sources()
     date = srcDict[unit]['Date']

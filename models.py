@@ -77,6 +77,7 @@ def getInfo():
     print('mod dict ass', modDictAss)
 
     if getModels()['Units_'] and not getModels()['Units_'].query.filter_by(unit='00').first():
+        print('delete 00')
         del modDictUnits['00']
         del modDictAss['00']
 
@@ -200,6 +201,7 @@ admin = Admin(app, 'Example: Layout-BS3', base_template='admin.html', template_m
 
 
 admin.add_view(MyModelView(User, db.session))
+admin.add_view(MyModelView(Users, db.session))
 
 mList1 = [
             Attendance_FRD, Attendance_WPE, Attendance_ICC, Attendance_LNC, Attendance_VTM,

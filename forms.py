@@ -3,11 +3,11 @@ from flask_wtf.file import FileField, FileAllowed, FileRequired
 from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, SelectField, HiddenField, validators, IntegerField, RadioField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, InputRequired
-from models import User, getLocalData
+from models import User, Users
 from app import bcrypt
 import json
 
-SCHEMA = getLocalData()['SCHEMA']
+
 
 
 class Attend(FlaskForm):
@@ -91,6 +91,10 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user:
             raise ValidationError('That email has an account already, did you forget your password?')
+
+        vocab_app = Users.query.filter_by(email=email.data).first()
+        if vocab_app:
+            raise ValidationError('There is a small problem, please see/contact your instructor')
 
     def validate_course(self, course):
         if int(course.data) == 0:
