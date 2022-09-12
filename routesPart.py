@@ -9,7 +9,7 @@ import ast
 from routesGet import get_grades, get_sources
 from pprint import pprint
 
-from meta import BaseConfig, loadJson
+from meta import BaseConfig
 s3_resource = BaseConfig.s3_resource
 
 

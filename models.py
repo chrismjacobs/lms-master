@@ -8,7 +8,7 @@ from flask_admin.contrib.sqla import ModelView
 
 # verify token
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from meta import BaseConfig, loadJson
+from meta import BaseConfig, loadJson, schemaList
 from modelsFRD import *
 from modelsICC import *
 from modelsLNC import *
@@ -17,6 +17,8 @@ from modelsVTM import *
 
 
 def getLocalData():
+
+
     SCHEMA = 0
     S3_BUCKET_NAME = '-'
     S3_LOCATION = '-'
@@ -24,9 +26,9 @@ def getLocalData():
 
     try:
         SCHEMA = int(current_user.schema)
-        S3_BUCKET_NAME = BaseConfig.jList[SCHEMA]
+        S3_BUCKET_NAME = schemaList[SCHEMA]['S3_BUCKET_NAME']
         S3_LOCATION = 'https://' + S3_BUCKET_NAME + '.s3.ap-northeast-1.amazonaws.com/'
-        DESIGN = loadJson(SCHEMA)['M']['DESIGN']
+        DESIGN = schemaList[SCHEMA]['DESIGN']
         print('getLocalData(), models.py')
     except:
         SCHEMA = 0

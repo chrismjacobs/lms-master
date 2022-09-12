@@ -420,13 +420,18 @@ def updateCourse():
 #@login_required
 def master_controls():
 
-    idDict = {
-        'frd' : loadJson(1)['C'],
-        'wpe' : loadJson(2)['C'],
-        'icc' : loadJson(3)['C'],
-        'lnc' : loadJson(5)['C'],
-        'vtm' : loadJson(6)['C']
-    }
+    ifold = "static/json_files/ids.json"
+
+    with open(ifold, "r") as f:
+        idDict = json.load(f)
+
+    # idDict = {
+    #     'frd' : loadJson(1)['C'],
+    #     'wpe' : loadJson(2)['C'],
+    #     'icc' : loadJson(3)['C'],
+    #     'lnc' : loadJson(5)['C'],
+    #     'vtm' : loadJson(6)['C']
+    # }
 
     idList = {}
 
@@ -434,9 +439,9 @@ def master_controls():
         for s in idDict[c]:
             idList[s]=0
 
-    master = User.query.get(1)
-    master.device = json.dumps(idList)
-    db.session.commit()
+    # master = User.query.get(1)
+    # master.device = json.dumps(idList)
+    # db.session.commit()
 
     userData = User.query.all()
 

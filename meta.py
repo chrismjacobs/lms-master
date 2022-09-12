@@ -47,6 +47,64 @@ jList = ['None',
         'food-lms'
         ]
 
+schemaList = {
+    1 : {
+        "Course": "Reading and Vocab",
+        "S3_BUCKET_NAME": "reading-lms",
+        "DESIGN": {
+            "titleColor": "MEDIUMSEAGREEN",
+            "bodyColor": "MINTCREAM",
+            "titleColor2": "LightSeaGreen",
+            "bodyColor2": "Azure",
+            "headTitle": "Freshman Reading",
+            "headLogo": "https://reading-lms.s3-ap-northeast-1.amazonaws.com/profiles/favicon.png"
+        }
+    },
+    2 : {
+        "Course": "WorkPlace English",
+        "S3_BUCKET_NAME": "workplace-lms",
+        "DESIGN": {
+            "titleColor": "CORAL",
+            "bodyColor": "FLORALWHITE",
+            "headTitle": "Workplace English",
+            "headLogo": "https://writing-lms.s3-ap-northeast-1.amazonaws.com/profiles/icon.png"
+        }
+    },
+
+    3 : {
+        "Course": "Intercultural Communication",
+        "S3_BUCKET_NAME": "icc-lms",
+        "DESIGN": {
+            "titleColor": "dodgerblue",
+            "bodyColor": "powder",
+            "headTitle": "ICC course",
+            "headLogo": "https://icc-lms.s3-ap-northeast-1.amazonaws.com/profiles/logo.png"
+        }
+    },
+
+    5 : {
+        "Course": "Language and Culture",
+        "S3_BUCKET_NAME": "culture-lms",
+        "DESIGN": {
+            "titleColor": "RebeccaPurple",
+            "bodyColor": "whitesmoke",
+            "headTitle": "LNC course",
+            "headLogo": "https://culture-lms.s3-ap-northeast-1.amazonaws.com/profiles/logo.png"
+        }
+    },
+
+    6 : {
+        "Course": "Intercultural Communication",
+        "S3_BUCKET_NAME": "vietnam-lms",
+        "DESIGN": {
+            "titleColor": "darkslateblue",
+            "bodyColor": "powder",
+            "headTitle": "ICC course",
+            "headLogo": "https://icc-lms.s3-ap-northeast-1.amazonaws.com/profiles/logo.png"
+        }
+    },
+
+}
 
 
 def loadJson(SCHEMA):

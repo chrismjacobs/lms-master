@@ -104,9 +104,13 @@ def inject_user():
         #print('COLOR TEST')
 
         sList = [1,2]
-        if current_user.extra == 1 and getLocalData()['SCHEMA'] in sList and current_user.id != 1:
+
+        if getLocalData()['SCHEMA'] == 1 and current_user.frd != 2:
             bodyColor = 'lightpink'
-            print('IF')
+
+        if getLocalData()['SCHEMA'] == 2 and current_user.wpe != 2:
+            bodyColor = 'lightpink'
+
         else:
             #print('INJECT USER ELSE')
             bodyColor = getLocalData()['DESIGN']['bodyColor']
