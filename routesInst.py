@@ -268,6 +268,7 @@ def get_attend_list():
         return abort(403)
 
     SCHEMA = getLocalData()['SCHEMA']
+    S3_LOCATION = getLocalData()['S3_LOCATION']
     IDLIST = loadJson(SCHEMA)['C']
 
     sDict = {}
