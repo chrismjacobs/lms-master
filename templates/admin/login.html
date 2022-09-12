@@ -20,7 +20,7 @@
                                 {% for subfield in form.course %}
                                 <tr>
                                     <td>{{ subfield }}</td>
-                                    <td>{{ subfield.label }}</td>
+                                    <td> {{ subfield.label }}</td>
                                 </tr></br>
                                 {% endfor %}
                                 {% if form.course.errors %}
@@ -101,6 +101,25 @@ if (navigator.userAgent.includes('Line')){
     line = true
     alert('WARNING: It looks like you are using Line App to view this website. Please switch to Chrome or Safari browser to log in')
     document.getElementById('lineNote').innerHTML = 'Switch browser from LINE to Chrome/Safari/Brave'
+}
+
+let labels = document.getElementsByTagName('label')
+console.log(labels)
+
+let colors = {
+    'L' : 'lightpink',
+    'I' : 'lightblue',
+    'F' : 'lightgreen',
+    'W' : 'peachpuff',
+    'V' : 'lightgrey',
+}
+
+for (let e in labels) {
+    let l = labels[e]
+    console.log(l.innerHTML)
+    if (l.innerHTML) {
+        l.style = "background:" + colors[l.innerHTML[0]]
+    }
 }
 
 
