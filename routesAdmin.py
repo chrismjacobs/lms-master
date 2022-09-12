@@ -342,9 +342,9 @@ def loginSet(user, data):
     schema = int(data)
 
     allow = False
-    if schema == 1 and user.frd == 1:
+    if schema == 1 and user.frd >= 1:
         allow = True
-    if schema == 2 and user.wpe == 1:
+    if schema == 2 and user.wpe >= 1:
         allow = True
     if schema == 3 and user.icc == 1:
         allow = True
