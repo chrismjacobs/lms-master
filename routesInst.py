@@ -624,8 +624,8 @@ def att_team():
     notice = openData.attend
 
     # set up student data
-    count = getModels()['AttendLog_'].query.filter_by(username=current_user.username).count()
-    fields = getModels()['AttendLog_'].query.filter_by(username=current_user.username).first()
+    count = getModels()['Attendance_'].query.filter_by(username=current_user.username).count()
+    fields = getModels()['Attendance_'].query.filter_by(username=current_user.username).first()
 
     # set teamnumber to be zero by default (or not Zero in the case of solo classes)
     if teamsize == 0:
