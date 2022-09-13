@@ -606,6 +606,9 @@ def inchat(user_name):
 @login_required
 def att_team():
 
+    SCHEMA = getSchema()
+    S3_LOCATION = schemaList[SCHEMA]['S3_LOCATION']
+
     legend = 'Attendance: ' + time.strftime('%A %b, %d %Y %H:%M')
 
     # check if attendance is open
