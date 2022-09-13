@@ -49,11 +49,11 @@ class Chat(FlaskForm):
 def getCourseRadios():
 
     radioList = [
-        #('1', 'Freshman Reading'),
+        ('1', 'Freshman Reading'),
         #('2', 'Workplace English'),
         # ('3', 'Intercultural Communication'),
         # ('4', 'Presentation English'),
-        ('5', 'Language and Culture'),
+        #('5', 'Language and Culture'),
         # ('6', 'Vietnam Class'),
         ('0', 'My Course is not on the list'),
         ]
