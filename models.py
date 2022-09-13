@@ -8,7 +8,7 @@ from flask_admin.contrib.sqla import ModelView
 
 # verify token
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from meta import BaseConfig, schemaList
+from meta import *
 from modelsFRD import *
 from modelsICC import *
 from modelsLNC import *

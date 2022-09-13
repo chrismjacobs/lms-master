@@ -7,8 +7,7 @@ from flask_login import current_user, login_required
 from forms import *
 from models import *
 from pprint import pprint
-from meta import BaseConfig, schemaList
-
+from meta import *
 s3_resource = BaseConfig.s3_resource
 
 
@@ -269,10 +268,14 @@ def get_attend_list():
     S3_LOCATION = schemaList[SCHEMA]['S3_LOCATION']
     courseCode = schemaList[SCHEMA]['courseCode']
 
-    with open("static/json_files/ids.json", "r") as f:
-        idDict = json.load(f)
+    # with open("static/json_files/ids.json", "r") as f:
+    #     idDict = json.load(f)
+
+    idDict  = idList2
+
 
     IDLIST = idDict[courseCode]
+
 
     sDict = {}
 
@@ -425,8 +428,10 @@ def updateCourse():
 def master_controls():
 
 
-    with open("static/json_files/ids.json", "r") as f:
-        idDict = json.load(f)
+    # with open("static/json_files/ids.json", "r") as f:
+    #     idDict = json.load(f)
+
+    idDict  = idList2
 
     # idDict = {
     #     'frd' : loadJson(1)['C'],
@@ -749,8 +754,10 @@ def studentAdd():
 
     courseCode = schemaList[SCHEMA]['courseCode']
 
-    with open("static/json_files/ids.json", "r") as f:
-        idDict = json.load(f)
+    # with open("static/json_files/ids.json", "r") as f:
+    #     idDict = json.load(f)
+
+    idDict  = idList2
 
     IDLIST = idDict[courseCode]
 

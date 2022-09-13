@@ -10,7 +10,7 @@ from flask_mail import Message
 import ast # eval literal for list str
 from routesGet import get_grades, get_sources, get_MTFN
 
-from meta import BaseConfig, schemaList
+from meta import *
 s3_resource = BaseConfig.s3_resource
 
 
