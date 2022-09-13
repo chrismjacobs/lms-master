@@ -9,13 +9,13 @@ import ast
 from routesGet import get_grades, get_sources
 from pprint import pprint
 
-from meta import BaseConfig
+from meta import BaseConfig, schemaList
 s3_resource = BaseConfig.s3_resource
 
 
 def get_vocab(a):
-    SCHEMA = getLocalData()['SCHEMA']
-    S3_BUCKET_NAME = getLocalData()['S3_BUCKET_NAME']
+    SCHEMA = getSchema()
+    S3_BUCKET_NAME = schemaList[SCHEMA]['S3_BUCKET_NAME']
 
     ## a is to get josn for different semester if neccessary for the test page
 
@@ -318,6 +318,7 @@ def getPdata():
 
 @app.route('/shareUpload', methods=['POST'])
 def shareUpload():
+    SCHEMA = getSchema()
     uModsDict = getInfo()['uModsDict']
 
     nnDict = team_details ()
@@ -331,8 +332,8 @@ def shareUpload():
     qs = request.form ['qs']
 
     if len(answer) > 1000:
-        S3_LOCATION = getLocalData()['S3_LOCATION']
-        S3_BUCKET_NAME = getLocalData()['S3_BUCKET_NAME']
+        S3_LOCATION = schemaList[SCHEMA]['S3_LOCATION']
+        S3_BUCKET_NAME = schemaList[SCHEMA]['S3_BUCKET_NAME']
         print('PROCESSING IMAGE')
         image = base64.b64decode(answer)
         filename = 'participation/' + unit + '/' + str(question) + '/' + str(teamnumber) + '.png'
@@ -467,8 +468,8 @@ def shareUpload():
 def participation(unit_num,part_num,state):
     uModsDict = getInfo()['uModsDict']
     print('participation', uModsDict)
-
-    DESIGN = getLocalData()['DESIGN']
+    SCHEMA = getSchema()
+    DESIGN = schemaList[SCHEMA]['DESIGN']
 
     chris_attend = getModels()['Attendance_'].query.filter_by(username='Chris').first()
     teamcount = chris_attend.teamcount
@@ -546,8 +547,8 @@ def participation(unit_num,part_num,state):
 
 @app.route ("/participationTest", methods=['GET','POST'])
 def participationTest():
-    SCHEMA = getLocalData()['SCHEMA']
-    DESIGN = getLocalData()['DESIGN']
+    SCHEMA = getSchema()
+    DESIGN = schemaList[SCHEMA]['DESIGN']
 
     fileName = 'ICC_part'
 

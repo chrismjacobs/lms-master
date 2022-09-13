@@ -8,43 +8,25 @@ from flask_admin.contrib.sqla import ModelView
 
 # verify token
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from meta import BaseConfig, loadJson, schemaList
+from meta import BaseConfig, schemaList
 from modelsFRD import *
 from modelsICC import *
 from modelsLNC import *
 from modelsWPE import *
 from modelsVTM import *
 
-
-def getLocalData():
-
-
+def getSchema():
     SCHEMA = 0
-    S3_BUCKET_NAME = '-'
-    S3_LOCATION = '-'
-    DESIGN = BaseConfig.DESIGN
-
     try:
         SCHEMA = int(current_user.schema)
-        S3_BUCKET_NAME = schemaList[SCHEMA]['S3_BUCKET_NAME']
-        S3_LOCATION = 'https://' + S3_BUCKET_NAME + '.s3.ap-northeast-1.amazonaws.com/'
-        DESIGN = schemaList[SCHEMA]['DESIGN']
-        print('getLocalData(), models.py')
     except:
         SCHEMA = 0
 
-    localDict = {
-                 'SCHEMA' : SCHEMA,
-                 'S3_BUCKET_NAME' : S3_BUCKET_NAME,
-                 'S3_LOCATION' : S3_LOCATION,
-                 'DESIGN' : DESIGN
-                }
-
-    return localDict
+    return SCHEMA
 
 
 def getModels():
-    SCHEMA = getLocalData()['SCHEMA']
+    SCHEMA = getSchema()
     # print('getModels', SCHEMA)
 
     chatbox = [None, ChatBox_FRD, ChatBox_WPE, ChatBox_ICC, 'ChatBox_PENG', ChatBox_LNC, ChatBox_VTM, 'ChatBox_NME']
@@ -65,7 +47,7 @@ def getModels():
 
 
 def getInfo():
-    SCHEMA = getLocalData()['SCHEMA']
+    SCHEMA = getSchema()
 
     infoDict = {
         'mda' : [{}, modDictAss_FRD, modDictAss_WPE, modDictAss_ICC, 'modDictAss_PENG', modDictAss_LNC, modDictAss_VTM, 'modDictAss_NME'],
@@ -79,9 +61,12 @@ def getInfo():
     print('mod dict ass', modDictAss)
 
     if getModels()['Units_'] and not getModels()['Units_'].query.filter_by(unit='00').first():
-        print('delete 00')
-        del modDictUnits['00']
-        del modDictAss['00']
+        try:
+            print('try delete 00')
+            del modDictUnits['00']
+            del modDictAss['00']
+        except:
+            print('delete 00 fail')
 
 
 

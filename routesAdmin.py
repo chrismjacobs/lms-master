@@ -100,23 +100,16 @@ def redisCheck():
 @app.context_processor
 def inject_user():
 
-    try:
-        #print('COLOR TEST')
 
-        sList = [1,2]
+    SCHEMA = getSchema()
+    DESIGN = schemaList[SCHEMA]['DESIGN']
 
-        if getLocalData()['SCHEMA'] == 1 and current_user.frd != 2:
-            bodyColor = 'lightpink'
+    if SCHEMA == 1 and current_user.frd != 2:
+        DESIGN['bodyColor'] = 'lightpink'
 
-        if getLocalData()['SCHEMA'] == 2 and current_user.wpe != 2:
-            bodyColor = 'lightpink'
+    elif SCHEMA == 2 and current_user.wpe != 2:
+        DESIGN['bodyColor'] = 'lightpink'
 
-        else:
-            #print('INJECT USER ELSE')
-            bodyColor = getLocalData()['DESIGN']['bodyColor']
-    except:
-        #print('EXCEPT')
-        bodyColor = getLocalData()['DESIGN']['bodyColor']
 
     MTFN = get_MTFN('layout')
 
@@ -130,18 +123,16 @@ def inject_user():
     #     VOCAB = redisCheck()[0]
     #     TYPE = redisCheck()[1]
 
-    gld = getLocalData()
-
     return dict(
         USERS= ['Abby'],
         VOCAB=VOCAB,
         TYPE=TYPE,
         MTFN=MTFN,
-        SCHEMA=gld['SCHEMA'],
-        titleColor=gld['DESIGN']['titleColor'],
-        bodyColor=bodyColor,
-        headTitle=gld['DESIGN']['headTitle'],
-        headLogo=gld['DESIGN']['headLogo']
+        SCHEMA=SCHEMA,
+        titleColor=DESIGN['titleColor'],
+        bodyColor=DESIGN['bodyColor'],
+        headTitle=DESIGN['headTitle'],
+        headLogo=DESIGN['headLogo']
         )
 
 @app.errorhandler(404)
@@ -371,7 +362,6 @@ def loginSet(user, data):
 
 @app.route("/login", methods=['GET','POST'])
 def login():
-    SCHEMA=getLocalData()['SCHEMA']
 
     if current_user.is_authenticated:
         return redirect(url_for('home')) # now register or log in link just go back homeform = LoginForm()
@@ -429,7 +419,8 @@ def logout():
 
 
 def upload_picture(form_picture):
-    S3_BUCKET_NAME=getLocalData()['S3_BUCKET_NAME']
+    SCHEMA = getSchema()
+    S3_BUCKET_NAME=schemaList[SCHEMA]['S3_BUCKET_NAME']
     _ , f_ext = os.path.splitext(form_picture.filename)
     s3_folder = 'profiles/'
     picture_filename =  current_user.username + f_ext
@@ -449,7 +440,8 @@ def upload_picture(form_picture):
 @app.route("/account", methods=['GET','POST'])
 @login_required # if user isn't logged in it will redirect to login page (see: login manager in __init__)
 def account():
-    S3_LOCATION=getLocalData()['S3_LOCATION']
+    SCHEMA = getSchema()
+    S3_LOCATION=schemaList[SCHEMA]['S3_LOCATION']
     form = UpdateAccountForm()
     if form.validate_on_submit():
         if form.picture.data:

@@ -10,7 +10,9 @@ s3_resource = BaseConfig.s3_resource
 
 
 def get_sources():
-    S3_BUCKET_NAME = getLocalData()['S3_BUCKET_NAME']
+    SCHEMA = getSchema()
+    S3_BUCKET_NAME = schemaList[SCHEMA]['S3_BUCKET_NAME']
+
     content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/sources.json' )
     file_content = content_object.get()['Body'].read().decode('utf-8')
     sDict = json.loads(file_content)  # json loads returns a dictionary
@@ -101,7 +103,7 @@ def get_MTFN(t):
 def get_grades(ass, unt):
 
     INFO = getInfo()
-    SCHEMA = getLocalData()['SCHEMA']
+    SCHEMA = getSchema()
 
 
     ### set max grades

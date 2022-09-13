@@ -7,19 +7,13 @@ from flask_login import current_user, login_required
 from forms import *
 from models import *
 from pprint import pprint
-
-from meta import BaseConfig
+from meta import BaseConfig, schemaList
 
 s3_resource = BaseConfig.s3_resource
 
-SCHEMA = getLocalData()['SCHEMA']
-S3_BUCKET_NAME = getLocalData()['S3_BUCKET_NAME']
-S3_LOCATION = getLocalData()['S3_LOCATION']
-
-
 
 def putData():
-    SCHEMA = getLocalData()['SCHEMA']
+    SCHEMA = getSchema()
     userList = User.query.filter_by(schema=SCHEMA).all()
 
     students = {}
@@ -40,7 +34,8 @@ def putData():
 
 
 def get_schedule():
-    S3_BUCKET_NAME = getLocalData()['S3_BUCKET_NAME']
+    SCHEMA = getSchema()
+    S3_BUCKET_NAME = schemaList[SCHEMA]['S3_BUCKET_NAME']
     print('S3', S3_BUCKET_NAME)
     content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/sources.json' )
     file_content = content_object.get()['Body'].read().decode('utf-8')
@@ -52,7 +47,7 @@ def get_schedule():
 @app.route ("/about")
 @login_required
 def about():
-    SCHEMA = getLocalData()['SCHEMA']
+    SCHEMA = getSchema()
     ## src explaining this course
     srcs = get_schedule()
     intro = srcs['1']['M1']
@@ -71,7 +66,8 @@ def about():
 def course():
     # json dumps returns a string
     course = json.dumps(get_schedule())
-    DESIGN = getLocalData()['DESIGN']
+    SCHEMA = getSchema()
+    DESIGN = schemaList[SCHEMA]['DESIGN']
     color = json.dumps(DESIGN)
 
     return render_template('instructor/course.html', title='Course', course=course, color=color)
@@ -80,7 +76,9 @@ def course():
 @app.route ("/att_log", methods = ['GET', 'POST'])
 @login_required
 def att_log():
-    SCHEMA = getLocalData()['SCHEMA']
+    SCHEMA = getSchema()
+
+    ''' '''
     IDLIST = BaseConfig.IDLIST
 
     if current_user.id != 1:
@@ -167,7 +165,7 @@ def commentSet():
 @app.route ("/dashboard")
 @login_required
 def dashboard():
-    SCHEMA = getLocalData()['SCHEMA']
+    SCHEMA = getSchema()
     userList = User.query.filter_by(schema=SCHEMA).all()
 
     if current_user.id != 1:
@@ -241,7 +239,7 @@ def dashboard():
 
 @app.route ("/dashboardTest")
 def dashboardTest():
-    SCHEMA = getLocalData()['SCHEMA']
+    SCHEMA = getSchema()
 
 
     fileName = 'ICC_assignments'
@@ -267,9 +265,14 @@ def get_attend_list():
     if current_user.id != 1:
         return abort(403)
 
-    SCHEMA = getLocalData()['SCHEMA']
-    S3_LOCATION = getLocalData()['S3_LOCATION']
-    IDLIST = loadJson(SCHEMA)['C']
+    SCHEMA = getSchema()
+    S3_LOCATION = schemaList[SCHEMA]['S3_LOCATION']
+    courseCode = schemaList[SCHEMA]['courseCode']
+
+    with open("static/json_files/ids.json", "r") as f:
+        idDict = json.load(f)
+
+    IDLIST = idDict[courseCode]
 
     sDict = {}
 
@@ -421,9 +424,8 @@ def updateCourse():
 #@login_required
 def master_controls():
 
-    ifold = "static/json_files/ids.json"
 
-    with open(ifold, "r") as f:
+    with open("static/json_files/ids.json", "r") as f:
         idDict = json.load(f)
 
     # idDict = {
@@ -483,7 +485,7 @@ def master_controls():
 @app.route ("/controls")
 @login_required
 def controls():
-    SCHEMA = getLocalData()['SCHEMA']
+    SCHEMA = getSchema()
 
     attend_list = get_attend_list()
     team_list = get_team_list()
@@ -558,7 +560,9 @@ def updateSet():
 @login_required
 def inchat(user_name):
 
-    S3_LOCATION = getLocalData()['S3_LOCATION']
+    SCHEMA = getSchema()
+    S3_LOCATION = schemaList[SCHEMA]['S3_LOCATION']
+
 
     from flask_mail import Message
     if current_user.id != 1:
@@ -739,10 +743,16 @@ def studentAdd():
     if current_user.id != 1:
         return abort(403)
 
-    SCHEMA = getLocalData()['SCHEMA']
 
 
-    IDLIST = loadJson(SCHEMA)['C']
+    SCHEMA = getSchema()
+
+    courseCode = schemaList[SCHEMA]['courseCode']
+
+    with open("static/json_files/ids.json", "r") as f:
+        idDict = json.load(f)
+
+    IDLIST = idDict[courseCode]
 
     actionID = request.form ['id']
     print(actionID)

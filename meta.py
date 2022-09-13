@@ -48,9 +48,22 @@ jList = ['None',
         ]
 
 schemaList = {
+    0 : {
+        "Course": "Applied English",
+        "S3_BUCKET_NAME" : "tester-lms",
+        "S3_LOCATION" : "https://tester-lms.s3.ap-northeast-1.amazonaws.com/",
+        "DESIGN" : {
+            "titleColor": "grey",
+            "bodyColor": "lightgrey",
+            "headTitle": "Just Applied English",
+            "headLogo": "https://reading-lms.s3.ap-northeast-1.amazonaws.com/logo.PNG"
+        }
+    },
     1 : {
         "Course": "Reading and Vocab",
+        "courseCode" : "frd",
         "S3_BUCKET_NAME": "reading-lms",
+        "S3_LOCATION" : "https://reading-lms.s3.ap-northeast-1.amazonaws.com/",
         "DESIGN": {
             "titleColor": "MEDIUMSEAGREEN",
             "bodyColor": "MINTCREAM",
@@ -62,7 +75,9 @@ schemaList = {
     },
     2 : {
         "Course": "WorkPlace English",
+        "courseCode" : "wpe",
         "S3_BUCKET_NAME": "workplace-lms",
+        "S3_LOCATION" : "https://workplace-lms.s3.ap-northeast-1.amazonaws.com/",
         "DESIGN": {
             "titleColor": "CORAL",
             "bodyColor": "FLORALWHITE",
@@ -73,7 +88,9 @@ schemaList = {
 
     3 : {
         "Course": "Intercultural Communication",
+        "courseCode" : "icc",
         "S3_BUCKET_NAME": "icc-lms",
+        "S3_LOCATION" : "https://icc-lms.s3.ap-northeast-1.amazonaws.com/",
         "DESIGN": {
             "titleColor": "dodgerblue",
             "bodyColor": "powder",
@@ -85,6 +102,8 @@ schemaList = {
     5 : {
         "Course": "Language and Culture",
         "S3_BUCKET_NAME": "culture-lms",
+        "courseCode" : "lnc",
+        "S3_LOCATION" : "https://culture-lms.s3.ap-northeast-1.amazonaws.com/",
         "DESIGN": {
             "titleColor": "RebeccaPurple",
             "bodyColor": "whitesmoke",
@@ -96,6 +115,8 @@ schemaList = {
     6 : {
         "Course": "Intercultural Communication",
         "S3_BUCKET_NAME": "vietnam-lms",
+        "courseCode" : "icc",
+        "S3_LOCATION" : "https://vietnam-lms.s3.ap-northeast-1.amazonaws.com/",
         "DESIGN": {
             "titleColor": "darkslateblue",
             "bodyColor": "powder",
@@ -126,12 +147,6 @@ class BaseConfig:
 
     jList = jList
 
-    DESIGN = {
-            "titleColor": "grey",
-            "bodyColor": "lightgrey",
-            "headTitle": "Just Applied English",
-            "headLogo": "https://reading-lms.s3.ap-northeast-1.amazonaws.com/logo.PNG"
-        }
 
     # IDLIST = META['C']
     # SCHEMA = SCHEMA

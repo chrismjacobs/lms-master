@@ -1,17 +1,16 @@
 import random, base64, ast, json
 from datetime import datetime, timedelta
 from sqlalchemy import asc, desc, or_
-from flask import render_template, url_for, flash, redirect, request, abort, jsonify
+from flask import render_template, url_for, flash, redirect, request, jsonify
 from app import app, db, bcrypt, mail
 from flask_login import current_user, login_required
 from forms import *
 from models import *
 from flask_mail import Message
 import ast # eval literal for list str
-from pprint import pprint
 from routesGet import get_grades, get_sources, get_MTFN
 
-from meta import BaseConfig
+from meta import BaseConfig, schemaList
 s3_resource = BaseConfig.s3_resource
 
 
@@ -50,7 +49,8 @@ def chatCheck():
 @app.route ("/", methods = ['GET', 'POST'])
 @app.route ("/home", methods = ['GET', 'POST'])
 def home():
-    S3_LOCATION = getLocalData()['S3_LOCATION']
+    SCHEMA = getSchema()
+    S3_LOCATION = schemaList[SCHEMA]['S3_LOCATION']
 
     try:
         result = current_user.username
@@ -132,8 +132,9 @@ def review_random(originalDict):
 @app.route ("/exams/<string:test>/<string:unit>", methods=['GET','POST'])
 @login_required
 def exams(test, unit):
-    DESIGN = getLocalData()['DESIGN']
-    S3_BUCKET_NAME = getLocalData()['S3_BUCKET_NAME']
+    SCHEMA = getSchema()
+    DESIGN = schemaList[SCHEMA]['DESIGN']
+    S3_BUCKET_NAME = schemaList[SCHEMA]['S3_BUCKET_NAME']
 
     semester = User.query.filter_by(username='Chris').first().semester
 
@@ -345,13 +346,14 @@ def exam_list_midterm():
 
 
     if getModels()['Units_'].query.filter_by(unit='02').first():
-        setDict['12'] = Units_.query.filter_by(unit='02').first().uA
+        setDict['12'] = getModels()['Units_'].query.filter_by(unit='02').first().uA
     if getModels()['Units_'].query.filter_by(unit='04').first():
-        setDict['34'] = Units_.query.filter_by(unit='04').first().uA
+        setDict['34'] = getModels()['Units_'].query.filter_by(unit='04').first().uA
 
     counts = completeStatus('MT', current_user.username)
 
-    DESIGN = getLocalData()['DESIGN']
+    SCHEMA = getSchema()
+    DESIGN = schemaList[SCHEMA]['DESIGN']
 
     context = {
     'title' : 'Exams',
@@ -415,7 +417,7 @@ def completeStatus(time, name):
 @app.route ("/exam_list_final", methods=['GET','POST'])
 @login_required
 def exam_list_final():
-    SCHEMA = getLocalData()['SCHEMA']
+    SCHEMA = getSchema()
 
     semester = int(User.query.filter_by(username='Chris').first().semester)
 
@@ -505,6 +507,8 @@ def exam_list_final():
 
     counts = completeStatus('FN', current_user.username)
 
+    DESIGN = schemaList[SCHEMA]['DESIGN']
+
     context = {
     'title' : 'Exams',
     'theme' : DESIGN['titleColor'],
@@ -577,7 +581,7 @@ def participation_check():
 @app.route ("/grades_final", methods=['GET','POST'])
 @login_required
 def grades_final():
-    SCHEMA = getLocalData()['SCHEMA']
+    SCHEMA = getSchema()
 
     if current_user.id != 1:
         return redirect(url_for('home'))
@@ -701,7 +705,7 @@ def grades_final():
 @app.route ("/grades_midterm", methods=['GET','POST'])
 @login_required
 def grades_midterm ():
-    SCHEMA = getLocalData()['SCHEMA']
+    SCHEMA = getSchema()
 
     semester = int(User.query.filter_by(username='Chris').first().semester)
 
@@ -947,7 +951,7 @@ def resetAnswer():
 @app.route ("/classwork", methods=['GET','POST'])
 @login_required
 def classwork():
-    SCHEMA = getLocalData()['SCHEMA']
+    SCHEMA = getSchema()
 
     cwDict = {}
 
@@ -1017,16 +1021,18 @@ def assignment_list():
             'Comment' : recs[unit]['Comment']
         }
 
-    theme=DESIGN = getLocalData()['DESIGN']
+    SCHEMA = getSchema()
+    DESIGN = schemaList[SCHEMA]['DESIGN']
 
     return render_template('units/assignment_list.html', legend='Assignments Dashboard',
-    Dict=json.dumps(assDict), Grade=assGrade, max=maxA, title='Assignments', theme=theme)
+    Dict=json.dumps(assDict), Grade=assGrade, max=maxA, title='Assignments', theme=DESIGN)
 
 
 @app.route('/audioUpload', methods=['POST', 'GET'])
 def audioUpload():
-    S3_LOCATION = getLocalData()['S3_LOCATION']
-    S3_BUCKET_NAME = getLocalData()['S3_BUCKET_NAME']
+    SCHEMA = getSchema()
+    S3_LOCATION = schemaList[SCHEMA]['S3_LOCATION']
+    S3_BUCKET_NAME = schemaList[SCHEMA]['S3_BUCKET_NAME']
 
     unit = request.form ['unit']
     task = request.form ['task']
@@ -1103,8 +1109,8 @@ def audioUpload():
 @app.route("/ass/<string:unit>", methods = ['GET', 'POST'])
 @login_required
 def ass(unit):
-
-    S3_BUCKET_NAME = getLocalData()['S3_BUCKET_NAME']
+    SCHEMA = getSchema()
+    S3_BUCKET_NAME = schemaList[SCHEMA]['S3_BUCKET_NAME']
 
     srcDict = get_sources()
     source = srcDict[unit]['Materials']['A']
