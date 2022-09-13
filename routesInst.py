@@ -76,9 +76,11 @@ def course():
 @login_required
 def att_log():
     SCHEMA = getSchema()
+    courseCode = schemaList[SCHEMA]['courseCode']
 
-    ''' '''
-    IDLIST = BaseConfig.IDLIST
+    idDict  = idList2
+
+    IDLIST = idDict[courseCode]
 
     if current_user.id != 1:
         return abort(403)
