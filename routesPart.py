@@ -30,7 +30,7 @@ def get_vocab(a):
         vocabJSON = 'json_files/vocab2.json'
 
     if SCHEMA == 6:
-        S3_BUCKET_NAME = 'culture-lms'
+        S3_BUCKET_NAME = 'icc-lms'
 
     content_object = s3_resource.Object( S3_BUCKET_NAME, vocabJSON )
     file_content = content_object.get()['Body'].read().decode('utf-8')
