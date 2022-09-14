@@ -29,8 +29,8 @@ def get_vocab(a):
     elif semester == 2 or a == 2:
         vocabJSON = 'json_files/vocab2.json'
 
-    if SCHEMA == 10:
-        S3_BUCKET_NAME = 'workplace-lms'
+    if SCHEMA == 6:
+        S3_BUCKET_NAME = 'culture-lms'
 
     content_object = s3_resource.Object( S3_BUCKET_NAME, vocabJSON )
     file_content = content_object.get()['Body'].read().decode('utf-8')
