@@ -119,7 +119,7 @@ schemaList = {
         "S3_LOCATION" : "https://vietnam-lms.s3.ap-northeast-1.amazonaws.com/",
         "DESIGN": {
             "titleColor": "darkslateblue",
-            "bodyColor": "powder",
+            "bodyColor": "whitesmoke",
             "headTitle": "ICC course",
             "headLogo": "https://icc-lms.s3-ap-northeast-1.amazonaws.com/profiles/logo.png"
         }
