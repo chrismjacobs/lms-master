@@ -67,6 +67,8 @@ def getInfo():
             del modDictAss['00']
         except:
             print('delete 00 fail')
+    else:
+        print('NO UNIT 00')
 
 
 

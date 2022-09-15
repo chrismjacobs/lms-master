@@ -76,10 +76,15 @@ def course():
 @app.route ("/att_log", methods = ['GET', 'POST'])
 @login_required
 def att_log():
+    if current_user.id != 1:
+        return abort(403)
     SCHEMA = getSchema()
     courseCode = schemaList[SCHEMA]['courseCode']
 
-    idDict  = idList2
+    with open("static\\json_files\\ids.json", "r") as f:
+        idDict = json.load(f)
+
+    # idDict  = idList2
 
     IDLIST = idDict[courseCode]
 
@@ -275,10 +280,10 @@ def get_attend_list():
     S3_LOCATION = schemaList[SCHEMA]['S3_LOCATION']
     courseCode = schemaList[SCHEMA]['courseCode']
 
-    # with open("static/json_files/ids.json", "r") as f:
-    #     idDict = json.load(f)
+    with open("static\\json_files\\ids.json", "r") as f:
+        idDict = json.load(f)
 
-    idDict  = idList2
+    # idDict  = idList2
 
 
     IDLIST = idDict[courseCode]
@@ -435,12 +440,14 @@ def updateCourse():
 @app.route ("/master_controls")
 #@login_required
 def master_controls():
+    if current_user.id != 1:
+        return abort(403)
 
 
-    # with open("static/json_files/ids.json", "r") as f:
-    #     idDict = json.load(f)
+    with open("static\\json_files\\ids.json", "r") as f:
+        idDict = json.load(f)
 
-    idDict  = idList2
+    # idDict  = idList2
 
     idList = {}
 
@@ -491,6 +498,9 @@ def master_controls():
 @app.route ("/controls")
 @login_required
 def controls():
+    if current_user.id != 1:
+        return abort(403)
+
     SCHEMA = getSchema()
 
     attend_list = get_attend_list()
@@ -760,10 +770,10 @@ def studentAdd():
 
     courseCode = schemaList[SCHEMA]['courseCode']
 
-    # with open("static/json_files/ids.json", "r") as f:
-    #     idDict = json.load(f)
+    with open("static\\json_files\\ids.json", "r") as f:
+        idDict = json.load(f)
 
-    idDict  = idList2
+    # idDict  = idList2
 
     IDLIST = idDict[courseCode]
 
