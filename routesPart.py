@@ -13,7 +13,7 @@ from meta import BaseConfig, schemaList
 s3_resource = BaseConfig.s3_resource
 
 
-def get_vocab(a):
+def get_vocab():
     SCHEMA = getSchema()
     S3_BUCKET_NAME = schemaList[SCHEMA]['S3_BUCKET_NAME']
 
@@ -24,9 +24,9 @@ def get_vocab(a):
 
     print(semester, type(semester))
     ## change to 'json_files/vocab.json' for semester 1
-    if semester == 1 or a == 1:
+    if semester == 1:
         vocabJSON = 'json_files/vocab.json'
-    elif semester == 2 or a == 2:
+    elif semester == 2:
         vocabJSON = 'json_files/vocab2.json'
 
     if SCHEMA == 6:
@@ -51,7 +51,8 @@ def teamwork_list():
 def unit_list():
 
     srcDict = get_sources()
-    print('SRCDICT', srcDict)
+    for x in srcDict:
+        print(x)
 
     ''' deal with grades '''
     grades = get_grades(False, True)
@@ -509,7 +510,7 @@ def participation(unit_num,part_num,state):
     print(srcDict[unit_num]['Materials'])
 
     #vocab
-    vDict = get_vocab(0)
+    vDict = get_vocab()
     #questions
     qDict = vDict[unit_num][part_num]
     qs = len(qDict)
@@ -565,7 +566,7 @@ def participationTest():
     context = {
         'title' : 'participationTest',
         'dataDict': json.dumps(dataDict),
-        'qDict' : json.dumps(get_vocab(2)),
+        'qDict' : json.dumps(get_vocab()),
         'DESIGN' : DESIGN
     }
     return render_template('units/part_vue_test.html', **context)
