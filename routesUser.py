@@ -1,7 +1,7 @@
 import random, base64, ast, json
 from datetime import datetime, timedelta
 from sqlalchemy import asc, desc, or_
-from flask import render_template, url_for, flash, redirect, request, jsonify
+from flask import render_template, url_for, flash, redirect, request, jsonify, abort
 from app import app, db, bcrypt, mail
 from flask_login import current_user, login_required
 from forms import *
@@ -953,6 +953,9 @@ def resetAnswer():
 @app.route ("/classwork", methods=['GET','POST'])
 @login_required
 def classwork():
+    if current_user.id != 1:
+        return abort(403)
+
     SCHEMA = getSchema()
 
     cwDict = {}
