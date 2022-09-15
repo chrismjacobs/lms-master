@@ -8,7 +8,7 @@ from forms import *
 from models import *
 from flask_mail import Message
 import ast # eval literal for list str
-from routesGet import get_grades, get_sources, get_MTFN
+from routesGet import get_grades, get_sources, get_MTFN, getUsers
 
 from meta import *
 s3_resource = BaseConfig.s3_resource
@@ -545,7 +545,9 @@ def setStatus():
 @login_required
 def resetAll():
 
-    users = User.query.all()
+
+
+    users = getUsers(getSchema())
 
     for u in users:
         if u.username != 'Chris':

@@ -1,5 +1,5 @@
 import ast, json
-
+from sqlalchemy import asc, desc
 from flask_login import current_user
 from pprint import pprint
 
@@ -7,6 +7,26 @@ from models import *
 
 from meta import BaseConfig
 s3_resource = BaseConfig.s3_resource
+
+
+def getUsers(schema):
+
+    if schema == 1:
+        userList = User.query.filter_by(frd=2).order_by(asc(User.studentID)).all()
+    if schema == 2:
+        userList = User.query.filter_by(wpe=2).order_by(asc(User.studentID)).all()
+    if schema == 3:
+        userList = User.query.filter_by(icc=1).order_by(asc(User.studentID)).all()
+    if schema == 4:
+        userList = User.query.filter_by(peng=1).order_by(asc(User.studentID)).all()
+    if schema == 5:
+        userList = User.query.filter_by(lnc=1).order_by(asc(User.studentID)).all()
+    if schema == 6 :
+        userList = User.query.filter_by(vtm=1).order_by(asc(User.studentID)).all()
+
+    print('getUsers', userList)
+
+    return userList
 
 
 def get_sources():

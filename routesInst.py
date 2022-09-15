@@ -8,6 +8,7 @@ from forms import *
 from models import *
 from pprint import pprint
 from meta import *
+from routesGet import getUsers
 s3_resource = BaseConfig.s3_resource
 
 
@@ -163,11 +164,15 @@ def commentSet():
     return jsonify({'comment' : newComment})
 
 
+
 @app.route ("/dashboard")
 @login_required
 def dashboard():
     SCHEMA = getSchema()
-    userList = User.query.filter_by(schema=SCHEMA).all()
+
+    userList = getUsers(SCHEMA)
+
+
 
     if current_user.id != 1:
         return abort(403)
@@ -277,6 +282,7 @@ def get_attend_list():
 
 
     IDLIST = idDict[courseCode]
+    print(IDLIST, SCHEMA, courseCode)
 
 
     sDict = {}
@@ -293,26 +299,27 @@ def get_attend_list():
     ignore = ['Chris', 'Test', 'Duo']
     count = 1
 
+    students = getUsers(SCHEMA)
 
-    students = User.query.filter_by(schema=SCHEMA).order_by(asc(User.studentID)).all()
     for student in students:
         if student.studentID not in IDLIST:
             print (student.studentID)
+            print(student.username)
             sDict[student.studentID] = {
                 'nme' : None,
                 'img' : None,
                 'eml' : None,
                 'att' : 'Unregistered',
             }
-        print(student.username)
         sDict[student.studentID]['nme'] = student.username
-        print(sDict[student.studentID]['nme'])
         sDict[student.studentID]['img'] = S3_LOCATION + student.image_file
         sDict[student.studentID]['eml'] = student.email
         sDict[student.studentID]['att'] = 'Absent'
         if student.username not in ignore:
             sDict[student.studentID]['count'] = count
             count += 1
+
+    print('sDict', json.dumps(sDict))
 
     #### attend todays attendance
     attendance = getModels()['Attendance_'].query.all()
@@ -435,14 +442,6 @@ def master_controls():
 
     idDict  = idList2
 
-    # idDict = {
-    #     'frd' : loadJson(1)['C'],
-    #     'wpe' : loadJson(2)['C'],
-    #     'icc' : loadJson(3)['C'],
-    #     'lnc' : loadJson(5)['C'],
-    #     'vtm' : loadJson(6)['C']
-    # }
-
     idList = {}
 
     for c in idDict:
@@ -487,7 +486,7 @@ def master_controls():
     idString = json.dumps(idDict)
 
 
-    return render_template('instructor/master_controls.html', setString=setString, idString=idString, title='Controls')
+    return render_template('instructor/master_controls.html', setString=setString, idString=idString, title='Master')
 
 @app.route ("/controls")
 @login_required
@@ -495,9 +494,12 @@ def controls():
     SCHEMA = getSchema()
 
     attend_list = get_attend_list()
+    # print('ATTEND_LIST1', attend_list)
     team_list = get_team_list()
-    print('ATTEND_LIST', attend_list)
     openData = getModels()['Attendance_'].query.filter_by(username='Chris').first()
+
+
+
 
     setDict = {
         'Notice' : openData.attend,
@@ -508,7 +510,6 @@ def controls():
     }
 
     setString = json.dumps(setDict)
-
 
     return render_template('instructor/controls.html', SCHEMA=SCHEMA, setString=setString, attend_list=attend_list, team_list=team_list, title='Controls')
 
