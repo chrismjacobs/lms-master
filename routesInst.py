@@ -81,7 +81,7 @@ def att_log():
     SCHEMA = getSchema()
     courseCode = schemaList[SCHEMA]['courseCode']
 
-    with open("static\\ids.json", "r") as f:
+    with open("static/ids.json", "r") as f:
         idDict = json.load(f)
 
     # idDict  = idList2
@@ -280,7 +280,7 @@ def get_attend_list():
     S3_LOCATION = schemaList[SCHEMA]['S3_LOCATION']
     courseCode = schemaList[SCHEMA]['courseCode']
 
-    with open("static\\ids.json", "r") as f:
+    with open("static/ids.json", "r") as f:
         idDict = json.load(f)
 
 
@@ -446,7 +446,7 @@ def master_controls():
         return abort(403)
 
 
-    with open("static\\ids.json", "r") as f:
+    with open("static/ids.json", "r") as f:
         idDict = json.load(f)
 
     # idDict  = idList2
@@ -774,7 +774,7 @@ def studentAdd():
 
     courseCode = schemaList[SCHEMA]['courseCode']
 
-    with open("static\\ids.json", "r") as f:
+    with open("static/ids.json", "r") as f:
         idDict = json.load(f)
 
     # idDict  = idList2
