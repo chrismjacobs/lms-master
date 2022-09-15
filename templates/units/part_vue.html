@@ -64,7 +64,11 @@
 
 
         <h3 v-if="mode == 'Team' && ansOBJ != null" style="color:mediumpurple;background:lightgrey;border: 1px solid white; border-radius:10px">
-        [[ TEAMNAMES[key - 1] ]]: <span v-if="ansOBJ[key] != null" style="color:dodgerblue"> [[ ansOBJ[key] ]]</span>
+        [[ TEAMNAMES[key - 1] ]]:
+        <span v-if="ansOBJ[key] != null" style="color:dodgerblue">
+            <span v-if="ansOBJ[key].includes('amazonaws.')"> IMAGE READY <br> <img :src="ansOBJ[key]" alt="Team Upload" width="50%" height="50%"></span>
+            <span v-else> [[ ansOBJ[key] </span>
+        </span>
         <span v-else style="color:tomato"> Waiting.... </span> </h3>
 
         <div v-if="btnToggle[key]">
