@@ -2,6 +2,13 @@ var qDict = document.getElementById('qDict').innerHTML
 var qOBJ = JSON.parse(qDict)
 console.log('qOBJ', qOBJ)
 
+var d = document.getElementById('design').innerHTML
+var THEME = JSON.parse(d)
+console.log('THEME', THEME)
+
+var SCHEMA = document.getElementById('schema').innerHTML
+console.log('SCHEMA', SCHEMA)
+
 
 startVue(qOBJ)
 
@@ -662,12 +669,12 @@ function startVue(qOBJ){
             }
             else if (vue.leaderOBJ[rec].length == vue.qs) {
               var width_percent = '100%'
-              var background = 'green'
+              var background = 'yellow'
             }
             else {
               var width = ((vue.leaderOBJ[rec]).length / vue.qs ) * 100
               var width_percent = width + '%'
-              var background = 'purple'
+              var background = THEME['titleColor']
             }
             console.log('width ', width_percent);
 

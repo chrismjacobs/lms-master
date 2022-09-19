@@ -537,6 +537,8 @@ def participation(unit_num,part_num,state):
         'qDict' : json.dumps(qDict),
         'qs': qs,
         'DESIGN' : DESIGN,
+        'THEME' : json.dumps(DESIGN),
+        'SCHEMA' : SCHEMA,
         'state' : state,
         'userID' : current_user.id,
         'teamcount' : teamcount,

@@ -108,7 +108,7 @@ def inject_user():
         DESIGN['bodyColor'] = 'lightpink'
 
     elif SCHEMA == 2 and current_user.wpe != 2:
-        DESIGN['bodyColor'] = 'lightpink'
+        DESIGN['bodyColor'] = 'whitesmoke'
 
 
     MTFN = get_MTFN('layout')
