@@ -669,7 +669,17 @@ function startVue(qOBJ){
             }
             else if (vue.leaderOBJ[rec].length == vue.qs) {
               var width_percent = '100%'
-              var background = 'gold'
+              var bColor = {
+                1 : 'mediumspringgreen',
+                2 : 'gold',
+                3 : 'aqua',
+                4 : 'gold',
+                5 : 'deeppink',
+                6 : 'aqua',
+              }
+              console.log(bColor, parseInt(SCHEMA))
+
+              var background = bColor[parseInt(SCHEMA)]
             }
             else {
               var width = ((vue.leaderOBJ[rec]).length / vue.qs ) * 100
