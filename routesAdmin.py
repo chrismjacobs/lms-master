@@ -104,12 +104,6 @@ def inject_user():
     SCHEMA = getSchema()
     DESIGN = schemaList[SCHEMA]['DESIGN']
 
-    if SCHEMA == 1 and current_user.frd != 2:
-        DESIGN['bodyColor'] = 'lightpink'
-
-    elif SCHEMA == 2 and current_user.wpe != 2:
-        DESIGN['bodyColor'] = 'whitesmoke'
-
 
     MTFN = get_MTFN('layout')
 

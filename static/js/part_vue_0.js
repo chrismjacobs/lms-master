@@ -669,7 +669,7 @@ function startVue(qOBJ){
             }
             else if (vue.leaderOBJ[rec].length == vue.qs) {
               var width_percent = '100%'
-              var background = 'yellow'
+              var background = 'gold'
             }
             else {
               var width = ((vue.leaderOBJ[rec]).length / vue.qs ) * 100
