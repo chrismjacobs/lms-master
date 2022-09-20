@@ -69,7 +69,7 @@
         [[ TEAMNAMES[key - 1] ]]:
         <span v-if="ansOBJ[key] != null" style="color:dodgerblue">
             <span v-if="ansOBJ[key].includes('amazonaws.')"> IMAGE READY <br> <img :src="ansOBJ[key]" alt="Team Upload" width="50%" height="50%"></span>
-            <span v-else> [ ansOBJ[key] ] </span>
+            <span v-else> [[ ansOBJ[key] ]] </span>
         </span>
         <span v-else style="color:tomato"> Waiting.... </span> </h3>
 
