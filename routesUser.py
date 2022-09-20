@@ -593,7 +593,7 @@ def grades_final():
     gradesDict = {}
     completeDict = {}
 
-    users = User.query.all()
+    users = getUsers(SCHEMA)
 
     for user in users:
         gradesDict[user.username] = {
@@ -714,7 +714,7 @@ def grades_midterm ():
     gradesDict = {}
     completeDict = {}
 
-    users = User.query.all()
+    users = getUsers(SCHEMA)
 
     for user in users:
         gradesDict[user.username] = {
