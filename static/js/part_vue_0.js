@@ -672,10 +672,10 @@ function startVue(qOBJ){
               var bColor = {
                 1 : 'mediumspringgreen',
                 2 : 'gold',
-                3 : 'aqua',
+                3 : 'turquoise',
                 4 : 'gold',
                 5 : 'deeppink',
-                6 : 'aqua',
+                6 : 'deeppink',
               }
               console.log(bColor, parseInt(SCHEMA))
 
