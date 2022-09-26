@@ -67,7 +67,9 @@
                                 {% if SCHEMA <= 6 %}
                                   <a class="nav-item nav-link" href="{{ url_for ('unit_list') }}">My Units</a>
 
-
+                                  {% if SCHEMA != 5 %}
+                                  <a class="nav-item nav-link" href="{{ url_for ('assignment_list') }}">My Assignments </a>
+                                  {% endif %}
 
                                   {% if MTFN == 'MT' %}
                                     <a class="nav-item nav-link" style="display:none;color:{{titleColor}};background:white" href="{{ url_for ('exam_list_midterm') }}">My Exams</a>
