@@ -18,6 +18,24 @@
 </div>
 {% endif %}
 
+<div class="content-section">
+{% if SCHEMA == 2 %}
+<a style="color:white;background:steelblue" class="btn" href="{{ url_for ('vocab') }}", target="_blank">PVQC</a>
+{% endif %}
+{% if current_user.frd == 2 and current_user.schema != 1 %}
+<a style="color:white;background:MEDIUMSEAGREEN" class="btn" href="{{ url_for ('change', schema=1) }}">FRD</a>
+{% endif %}
+{% if current_user.wpe == 2 and current_user.schema != 2 %}
+<a style="color:white;background:CORAL" class="btn" href="{{ url_for ('change', schema=2) }}">WPE</a>
+{% endif %}
+{% if current_user.icc == 1 and current_user.schema != 3 %}
+<a style="color:white;background:DODGERBLUE" class="btn" href="{{ url_for ('change', schema=3) }}">ICC</a>
+{% endif %}
+{% if current_user.lnc == 1 and current_user.schema != 5 %}
+<a style="color:white;background:REBECCAPURPLE" class="btn" href="{{ url_for ('change', schema=5) }}", target="_blank">LNC</a>
+{% endif %}
+</div>
+
 
 <div class="content-section">
     <legend class="border-bottom mb-4">Chat Box</legend>

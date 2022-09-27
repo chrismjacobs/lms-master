@@ -156,6 +156,15 @@ def admin():
 
     return render_template('instructor/admin_menu.html', assKeys=assKeys, mainList=mainList, unitsKeys=unitsKeys, title='admin')
 
+
+@app.route("/change/<int:schema>", methods = ['GET', 'POST'])
+def change(schema):
+    current_user.schema = schema
+    db.session.commit()
+
+    return redirect(url_for('home'))
+
+
 @app.route("/website", methods = ['GET', 'POST'])
 def website():
     return render_template('website.html')
