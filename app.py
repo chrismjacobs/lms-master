@@ -46,22 +46,9 @@ from routesAdmin import *
 
 from routesUser import *
 from routesPart import *
-
-
-# if SCHEMA == 3:
-#     from routesABC import *
-# if SCHEMA == 4:
-#     from routesPENG import *
-# if SCHEMA == 5:
-#     from routesFOOD import *
-# if SCHEMA == 7:
-#     from routesNME import *
-# if SCHEMA == 8:
-#     from routesFSE import *
-# if SCHEMA == 9:
-#     from routesUser import *
-#     from routesPart import *
-
+## from routesNME import *
+# from routesFOOD import *
+# from routesPENG import *
 
 
 

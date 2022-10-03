@@ -10,15 +10,11 @@ from pprint import pprint
 from routesUser import get_grades, get_sources
 from random import shuffle
 
-from meta import BaseConfig
+from meta import BaseConfig, schemaList
 s3_resource = BaseConfig.s3_resource
 s3_client = BaseConfig.s3_client
-S3_LOCATION = BaseConfig.S3_LOCATION
-S3_BUCKET_NAME = BaseConfig.S3_BUCKET_NAME
-SCHEMA = BaseConfig.SCHEMA
-DESIGN = BaseConfig.DESIGN
-DEBUG = BaseConfig.DEBUG
-
+S3_LOCATION = schemaList[7].S3_LOCATION
+S3_LOCATION = schemaList[7].S3_BUCKET_NAME
 
 '''
 NOTES for next time - make movie teams at the beginning and keep it the same number and team names
@@ -85,36 +81,6 @@ def nme_dash():
 
 '''### movies '''
 
-movieDict = {
-        1: U013U, # lionking
-        2: U014U, # gifted
-        3: U023U, # jobs
-        4: U024U, # intern
-        5: U033U, # Nemo
-        6: U034U, # Wonder
-        7: U043U, # Thor
-        8: U044U, # Moanna
-        9: U053U, # Devil wears Prada
-        20: U013U, # test use lion king
-        21: U042U,
-        22: U071U,
-        23: U072U,
-        24: U073U,
-        25: U074U,
-        26: U054U,
-        27: U081U,
-        28: U082U,
-        29: U083U,
-        30: U084U,
-        31: U001U,
-        32: U063U,
-        33: U064U
-    }
-
-mDict2 = {
-        1 : 'The Lion King'
-    }
-
 mDict = {
         1 : 'The Lion King',
         2 : 'Gifted',
@@ -139,6 +105,16 @@ mDict = {
         32: 'Friends (2)',
         33: 'Despicable Me (2)'
     }
+
+'''get all dubbing recordings'''
+
+def getDubs():
+    all_objects = s3_client.list_objects(Bucket = 'nme-lms')
+    print(type(all_objects['Contents']))
+
+    for x in all_objects['Contents']:
+        if x['Key'][0] == 'd':  ## in 'dubbing' folder
+            print(x['Key'])
 
 
 @app.route ("/nme_dubdash/<int:project>", methods=['GET','POST'])
