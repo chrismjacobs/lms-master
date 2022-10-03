@@ -124,6 +124,18 @@ schemaList = {
             "headLogo": "https://icc-lms.s3-ap-northeast-1.amazonaws.com/profiles/logo.png"
         }
     },
+    7 : {
+        "Course": "Movie Dubbing",
+        "S3_BUCKET_NAME": "nme-lms",
+        "courseCode" : "nme",
+        "S3_LOCATION" : "https://nme-lms.s3.ap-northeast-1.amazonaws.com/",
+        "DESIGN": {
+            "titleColor": "gold",
+            "bodyColor": "whitesmoke",
+            "headTitle": "NME course",
+            "headLogo": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/profiles/logo.png"
+        }
+    },
 
 }
 
