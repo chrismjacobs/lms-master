@@ -54,7 +54,19 @@ else if (report.includes('iPhone OS 14')){
 }
 else if (report.includes('iPhone OS 15')){
   device = 'I'
-  notice = 'Recording in iOS 13'
+  notice = 'Recording in iOS 15'
+}
+else if (report.includes('iPhone OS 16')){
+  device = 'I'
+  notice = 'Recording in iOS 16'
+}
+else if (report.includes('iPhone OS 17')){
+  device = 'I'
+  notice = 'Recording in iOS 17'
+}
+else if (report.includes('iPhone OS 18')){
+  device = 'I'
+  notice = 'Recording in iOS 18'
 }
 else {
   device = 'U'
