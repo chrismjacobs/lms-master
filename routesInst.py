@@ -331,7 +331,8 @@ def get_attend_list():
     #### attend todays attendance
     attendance = getModels()['Attendance_'].query.all()
     for att in attendance:
-        sDict[att.studentID]['att'] = att.attend
+        if sDict[att.studentID]:
+            sDict[att.studentID]['att'] = att.attend
 
     if request.method == 'POST':
         return jsonify({'attString' : json.dumps(sDict) })
