@@ -70,7 +70,7 @@ else if (report.includes('iPhone OS 18')){
 }
 else {
   device = 'U'
-  notice = 'Your OS may not work; if so try upload a file, share a link, or use a computer'
+  notice = 'Your OS may not work; if so try upload a file, share a link, or use a computer; ' + report
 }
 console.log('DEVICE', device);
 
