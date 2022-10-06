@@ -248,7 +248,7 @@ function startVue(qOBJ){
         }
 
         if (style == 'background:green' && entry.length == ans.length) {
-          return 'background:aqua'
+          return 'background:DarkTurquoise'
         }
 
         return style
