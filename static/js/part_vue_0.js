@@ -246,6 +246,11 @@ function startVue(qOBJ){
             style = 'background:red'
           }
         }
+
+        if (style == 'background:green' && entry.length == ans.length) {
+          return 'background:aqua'
+        }
+
         return style
       },
       getCount: function (a, b) {

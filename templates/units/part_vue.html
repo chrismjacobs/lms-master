@@ -137,6 +137,11 @@
                 </div>
                 <br>
             </div>
+            <div v-else-if="qn.t == 'no'">
+
+                <span style="color:red"> Question not open yet, please wait </span>
+
+            </div>
             <div v-else>
                 <textarea class="input1" :id="key"> </textarea>
                 <br>
