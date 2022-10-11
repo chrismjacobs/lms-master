@@ -33,6 +33,7 @@
 {% endif %}
 {% if current_user.lnc == 1 and current_user.schema != 5 %}
 <a style="color:white;background:REBECCAPURPLE" class="btn" href="{{ url_for ('change', schema=5) }}">LNC</a>
+{% endif %}
 {% if current_user.vtm == 1 and current_user.schema != 6 %}
 <a style="color:white;background:steelblue" class="btn" href="{{ url_for ('change', schema=6) }}">VTM</a>
 {% endif %}
