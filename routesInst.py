@@ -246,7 +246,11 @@ def dashboard():
 
     pprint(totalDict)
 
-    return render_template('instructor/dashboard.html', ansString=json.dumps(totalDict), title='dashboard', SCHEMA=SCHEMA)
+
+    att = getModels()['Attendance_'].query.filter_by(username="Chris").first().teamnumber
+
+
+    return render_template('instructor/dashboard.html', ansString=json.dumps(totalDict), title='dashboard', SCHEMA=SCHEMA, att=att)
 
 @app.route ("/dashboardTest")
 def dashboardTest():

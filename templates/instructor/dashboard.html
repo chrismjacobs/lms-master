@@ -3,6 +3,7 @@
 {% block content %}
 
 <span id="ansString" style="display:none">{{ansString}}</span>
+<span id="att" style="display:none">{{att}}</span>
 
 <div id="vue-app">
 
@@ -102,6 +103,9 @@ console.log('unitOBJ', OBJ);
 var SCHEMA = document.getElementById('schema').innerHTML
 console.log('schema', SCHEMA);
 
+var ATT = document.getElementById('att').innerHTML
+console.log('att', ATT);
+
 startVue()
 
 function startVue(){
@@ -110,9 +114,14 @@ function startVue(){
 
     el: '#vue-app',
     delimiters: ['[[', ']]'],
-
+    mounted: function(){
+      if (this.att == '97') {
+        this.anon = false
+      }
+    },
     data: {
         ansOBJ: OBJ,
+        att: ATT,
         nComment: null,
         anon: true,
         options: {
