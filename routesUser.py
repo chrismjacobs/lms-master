@@ -144,10 +144,9 @@ def exams(test, unit):
         examString = 'json_files/exam2.json'
 
 
-    # if SCHEMA == 10 or SCHEMA == 2:
-    #     S3_BUCKET_NAME = 'workplace-lms'
-    # elif SCHEMA == 1:
-    #     S3_BUCKET_NAME = 'reading-lms'
+    ## redirect VTM to ICC exam
+    if SCHEMA == 6:
+        S3_BUCKET_NAME = 'icc-lms'
 
 
     content_object = s3_resource.Object( S3_BUCKET_NAME, examString )
