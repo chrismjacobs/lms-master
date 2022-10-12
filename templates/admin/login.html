@@ -8,6 +8,7 @@
         <legend class="border-bottom mb-4">Log In</legend>
 
         <h3 style="background:lime" id="lineNote"> </h3>
+        <h3 style="background:aqua" id="fbNote"> </h3>
 
         <div v-if="!line">
 
@@ -99,8 +100,14 @@ var line = false
 
 if (navigator.userAgent.includes('Line')){
     line = true
-    alert('WARNING: It looks like you are using Line App to view this website. Please switch to Chrome or Safari browser to log in')
+    alert('WARNING: It looks like you are using LINE App to view this website. Please switch to Chrome or Safari browser to log in')
     document.getElementById('lineNote').innerHTML = 'Switch browser from LINE to Chrome/Safari/Brave'
+}
+
+if (navigator.userAgent.includes('FB')){
+    line = true
+    alert('WARNING: It looks like you are using FACEBOOK App to view this website. Please switch to Chrome or Safari browser to log in')
+    document.getElementById('fbNote').innerHTML = 'Switch browser from FACEBOOK to Chrome/Safari/Brave'
 }
 
 let labels = document.getElementsByTagName('label')
