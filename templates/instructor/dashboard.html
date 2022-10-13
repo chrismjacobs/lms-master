@@ -170,9 +170,9 @@ function startVue(){
         {value: " keep it up ", text:'test'},
         {value: " remember for the next assignment ", text:'test'},
         {value: ' audio check..', text:'test'},
-        {value: ' Task 1 check..', text:'test'},
-        {value: ' Task 2 check..', text:'test'},
-        {value: ' Writing check..', text:'test'}
+        {value: ' check-Task 1', text:'test'},
+        {value: ' check-Task 2', text:'test'},
+        {value: ' check-writing', text:'test'}
         ]
         },
         showNotes: null,
@@ -228,7 +228,7 @@ function startVue(){
           if(comment.includes("on time")){
             return {width:'100%', 'background-color':'pink', height: '30px !important'}
           }
-          else if(comment.includes("check..")){
+          else if(comment.includes("check..") || comment.includes("check-") || comment.includes("audio") ){
             return {width:'100%', 'background-color':'thistle', height: '30px !important'}
           }
           else if(comment.includes("progress")){
