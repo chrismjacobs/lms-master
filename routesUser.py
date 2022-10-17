@@ -744,8 +744,9 @@ def grades_midterm ():
     ### set max grades
 
     total_units = 0
-    if SCHEMA == 9:
+    if SCHEMA == 6 or SCHEMA == 3:
         midterm_unit_list = ['01', '02', '03', '04', '05']
+
     else:
         midterm_unit_list = ['01', '02', '03', '04']
 
@@ -760,15 +761,19 @@ def grades_midterm ():
             total_units += 1
         else:
             print('Midterm Term Set')## we are now in final mode so ...
-            total_units = 4
-            maxU = 32
-            maxA = 8
-            MT_marker = True
+            if SCHEMA == 6 or SCHEMA == 3:
+                total_units = 5
+                maxU = 40
+                maxA = 10
+                MT_marker = True
+            else:
+                total_units = 4
+                maxU = 32
+                maxA = 8
+                MT_marker = True
 
 
-
-
-    model_check = total_units*4 ## 4 units for each unit
+    model_check = total_units*4 ## 4 parts for each unit
 
     print('modelCheck ', model_check, getInfo()['unit_mods_list'] )
 
