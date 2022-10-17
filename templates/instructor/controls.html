@@ -14,6 +14,7 @@
 
 
 <button class="btn btn-info" @click="setAtt()"> Set Att </button>
+<button class="btn btn-warning" @click="clearAtt()"> Clear </button>
 Notice <input type="text" class="textAss" id="notice" style="margin-left:5px" v-model="setOBJ.Notice"></input>
 &nbsp&nbsp&nbsp
 Unit
@@ -291,11 +292,15 @@ let vue = new Vue({
           }
           this.varString = 'var obj =' + JSON.stringify(vue.recordOBJ)
           this.forString = 'for (var student in obj){ if (document.getElementById(obj[student][0])){ document.getElementById(obj[student][0]).checked=true; document.getElementById(obj[student][1]).checked=true}}'
+          let localString = 'let obj = JSON.parse(localStorage.obj); for (var student in obj){ console.log(obj[student]); if (document.getElementById(obj[student][0])){ document.getElementById(obj[student][0]).checked=true; document.getElementById(obj[student][1]).checked=true}}'
+
+          localStorage.setItem('obj', JSON.stringify(vue.recordOBJ))
+          localStorage.setItem('att', localString)
 
           var copyText = document.getElementById('getFor')
           console.log(copyText)
           navigator.clipboard.writeText(this.varString + this.forString)
-          alert("Copied the text: " + this.varString + this.forString)
+          //alert("Copied the text: " + this.varString + this.forString)
 
           let url = 'https://affairs.just.edu.tw/TeacherStuApp/Default.aspx'
           window.open(url, '_blank')
@@ -303,14 +308,25 @@ let vue = new Vue({
 
 
         },
-        setAtt: function() {
+        clearAtt: function () {
+          this.setAtt('clear')
+        },
+        setAtt: function(mode) {
 
           this.setOBJ['notice'] = document.getElementById('notice').value
+
           // vanila js
           var e = document.getElementById('unit')
-          this.setOBJ['unit'] = e.options[e.selectedIndex].value
 
-          this.setOBJ['set_mode'] = $("#set :selected").val();
+
+          if (mode == 'clear') {
+            this.setOBJ['set_mode'] = '100'
+            this.setOBJ['unit'] = 'RR'
+          } else {
+            this.setOBJ['unit'] = e.options[e.selectedIndex].value
+            this.setOBJ['set_mode'] = $("#set :selected").val();
+          }
+
           this.setOBJ['teamsize'] = $("#teamsize :selected").val();
           this.setOBJ['teamcount'] = $("#teamcount :selected").val();
 
@@ -334,6 +350,7 @@ let vue = new Vue({
                 window.location = url
               } else {
                 alert('Attendance Updated: STATUS ' + data.set_mode)
+                window.location = window.location
               }
             })
             .fail(function(){
