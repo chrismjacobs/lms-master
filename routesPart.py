@@ -52,7 +52,7 @@ def unit_list():
 
     srcDict = get_sources()
     for x in srcDict:
-        print(x)
+        print('source unit', x)
 
     ''' deal with grades '''
     grades = get_grades(False, True)

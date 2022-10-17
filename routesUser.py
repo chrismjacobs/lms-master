@@ -961,10 +961,19 @@ def classwork():
 
     unitList = []
 
+    ICC = [3,6]
+
+
     if get_MTFN('grades') == 'MT':
-        unitList = getInfo()['unit_mods_list'][0:16]
+        if SCHEMA in ICC:
+            unitList = getInfo()['unit_mods_list'][0:20]
+        else:
+            unitList = getInfo()['unit_mods_list'][0:16]
     else:
-        unitList = getInfo()['unit_mods_list'][16:32]
+        if SCHEMA in ICC:
+            unitList = getInfo()['unit_mods_list'][20:40]
+        else:
+            unitList = getInfo()['unit_mods_list'][16:32]
 
 
     for model in unitList:

@@ -69,6 +69,9 @@ def get_sources():
 
 def get_MTFN(t):
 
+    SCHEMA = getSchema()
+    ICC = [3,6]
+
     MTFN = 'MT'
 
     try:
@@ -79,9 +82,14 @@ def get_MTFN(t):
                 MTFN = 'FN'
         elif t == 'grades':
             MTFN = 'MT'
-            if getModels()['Units_'].query.filter_by(unit='05').first():
-                MTFN = 'FN'
+            if SCHEMA in ICC:
+                if getModels()['Units_'].query.filter_by(unit='06').first():
+                    MTFN = 'FN'
+            else:
+                if getModels()['Units_'].query.filter_by(unit='05').first():
+                    MTFN = 'FN'
     except:
+        print('MTFN exception')
         MTFN = 'MT'
 
 

@@ -8,7 +8,7 @@ from forms import *
 from models import *
 from pprint import pprint
 from meta import *
-from routesGet import getUsers
+from routesGet import getUsers, get_MTFN
 s3_resource = BaseConfig.s3_resource
 
 
@@ -184,20 +184,11 @@ def dashboard():
 
     ## intro edit
     if SCHEMA == 6 or SCHEMA == 3:
-        midterm = ['01', '02', '03', '04', '05']
-        final = ['06', '07', '08', '09', '10']
+        period = ['01', '02', '03', '04', '05','06', '07', '08', '09', '10']
     else:
-        midterm = ['01', '02', '03', '04']
-        final = ['05', '06', '07', '08']
-
-    if getModels()['Units_'].query.filter_by(unit='00').first():
-        midterm = ['00', '01', '02', '03', '04']
+        period = ['01', '02', '03', '04', '05','06', '07', '08']
 
 
-    period = midterm
-
-    if getModels()['Units_'].query.filter_by(unit='05').count() > 0:
-        period = final
 
     totalDict = {}
     allStudents = userList
@@ -250,7 +241,7 @@ def dashboard():
     att = getModels()['Attendance_'].query.filter_by(username="Chris").first().teamnumber
 
 
-    return render_template('instructor/dashboard.html', ansString=json.dumps(totalDict), title='dashboard', SCHEMA=SCHEMA, att=att)
+    return render_template('instructor/dashboard.html', ansString=json.dumps(totalDict), title='dashboard', SCHEMA=SCHEMA, att=att, MTFN=get_MTFN('grades'))
 
 @app.route ("/dashboardTest")
 def dashboardTest():
