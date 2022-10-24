@@ -71,7 +71,7 @@
 
                   <td>
                     <span v-if="unit.Access == 2" @click="optionsClick(key)" class="unit-span" :style="btnStyle(unit.Grade)"> &emsp;&emsp;[[  key ]]&emsp;&emsp; </span>
-                    <span v-if="unit.Access == 0" style="background:silver;padding:3px"  class="unit-span"> [[  key  ]] disabled </span>
+                    <span v-if="unit.Access == 0" style="background:silver;padding:3px"  class="unit-span" @click="alert('not open yet, or closed during class time')"> [[  key  ]] disabled </span>
                     <span v-if="unit.Access == 1"  @click="optionsClick(key)"  class="unit-span" style="background:blue"> &emsp;&emsp;[[  key ]]&emsp;&emsp; </span>
                   </td>
 
