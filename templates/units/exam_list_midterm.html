@@ -24,30 +24,28 @@
           </tr>
           <tr>
             <td>
-              <span v-if="setOBJ['ex'] == 3" @click="goTo('-1-2', 'exam')" class="unit-span" style="background:{{theme}}; height:40px"> Exam 1-2 Grade </span>
+              <span v-if="schema == Status" @click="goTo('-1-2', 'exam')" class="unit-span" style="background:{{theme}}; height:40px"> Exam 1-2 Grade </span>
               <span v-else> Exam 1-2 Grade</span>
             </td>
             <td> [[examOBJ.ex12]]/20%</td>
           </tr>
           <tr>
-            <td>  <span v-if="setOBJ['ex'] == 3" @click="goTo('-3-4', 'exam')" class="unit-span" style="background:{{theme}}; height:40px"> Exam 3-4 Grade </span>
+            <td>  <span v-if="schema == Status" @click="goTo('-3-4', 'exam')" class="unit-span" style="background:{{theme}}; height:40px"> Exam 3-4 Grade </span>
               <span v-else> Exam 3-4 Grade</span>
             </td>
             <td> [[examOBJ.ex34]]/20%</td>
           </tr>
           <tr  style="height:30px">
             <td>
-              <span v-if="setOBJ['ex'] == 3"> Exam 1-2 Practice</span>
-              <span v-else-if="setOBJ['12'] == 1" @click="goTo('-1-2', 'review')" class="unit-span" :style="getPractice('height:40px; background:')"> Exam 1-2 Practice </span>
-              <span v-else> Exam 1-2 Practice</span>
+              <span v-if="schema == Status"> Exam 1-2 Practice</span>
+              <span v-else @click="goTo('-1-2', 'review')" class="unit-span" :style="getPractice('height:40px; background:')"> Exam 1-2 Practice </span>
             </td>
             <td :style="getPractice('color:')"> [[examOBJ.tries12]]</td>
           </tr>
           <tr>
             <td>
-              <span v-if="setOBJ['ex'] == 3"> Exam 3-4 Practice</span>
-              <span v-else-if="setOBJ['34'] == 1" @click="goTo('-3-4', 'review')" class="unit-span" :style="getPractice('height:40px; background:')"> Exam 3-4 Practice </span>
-              <span v-else> Exam 3-4 Practice</span>
+              <span v-if="schema == Status"> Exam 3-4 Practice</span>
+              <span v-else @click="goTo('-3-4', 'review')" class="unit-span" :style="getPractice('height:40px; background:')"> Exam 3-4 Practice </span>
             </td>
             <td :style="getPractice('color:')"> [[examOBJ.tries34]]</td>
           </tr>
@@ -78,6 +76,8 @@
 <span id="setString" style="display:none">{{setString}}</span>
 <span id="semester" style="display:none">{{semester}}</span>
 <span id="Practice" style="display:none">{{Practice}}</span>
+<span id="schema" style="display:none">{{schema}}</span>
+<span id="Status" style="display:none">{{current_user.extra}}</span>
 
 {% endblock %}
 
@@ -98,6 +98,12 @@ console.log('semester', semester);
 var Practice = document.getElementById('Practice').innerHTML
 console.log('Practice', Practice);
 
+var Status = document.getElementById('Status').innerHTML
+console.log('Status', Status);
+
+var schema = parseInt(document.getElementById('schema').innerHTML)
+console.log('schema', schema);
+
 var setString = document.getElementById('setString').innerHTML
 var setOBJ = JSON.parse(setString)
 console.log('set', setOBJ);
@@ -115,18 +121,20 @@ function startVue(){
     data: {
         examOBJ: examOBJ,
         setOBJ: setOBJ,
-        Practice: Practice
+        Practice: Practice,
+        Status: Status,
+        schema: schema
     },
     methods: {
         getPractice: function (a) {
           let s = a + "hotpink"
-          if (this.Practice == '3') {
+          if (this.Practice == this.schema) {
             s = a + "lightcoral"
           }
           return s
         },
         goTo: function(unit, test){
-          if (this.Practice == '3' && test == 'reivew') {
+          if (this.Practice == this.schema && test == 'reivew') {
             alert('Practice exams are closed one hour before exams - please refer to your notes')
             return false
           }

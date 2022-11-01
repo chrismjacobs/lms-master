@@ -51,6 +51,7 @@
 
 <span id="ansString" style="display:none">{{ansString}}</span>
 <span id="compString" style="display:none">{{compString}}</span>
+<span id="SCHEMA" style="display:none">{{SCHEMA}}</span>
 
 </div> <!-- end of Vue app -->
 
@@ -65,6 +66,7 @@
 
 var ansString = document.getElementById('ansString').innerHTML
 var compString = document.getElementById('compString').innerHTML
+var schema = parseInt(document.getElementById('SCHEMA').innerHTML)
 var gradesOBJ = JSON.parse(ansString)
 var compOBJ = JSON.parse(compString)
 console.log('OBJ', gradesOBJ);
@@ -85,29 +87,47 @@ let vue = new Vue({
     data: {
         gradesOBJ: gradesOBJ,
         compOBJ: compOBJ,
-        exdata: false
+        exdata: false,
+        schema: schema
     },
     methods: {
         gotoAdmin: function (target) {
+          schemaList = {
+            1 : '_frd',
+            2 : '_wpe',
+            3 : '_icc',
+            4 : '_png',
+            5 : '_lnc',
+            6 : '_vtm'
+          }
+
+          tag = schemaList[this.schema]
+
           let breaker = 'admin/'
           var str = window.location.href
           let url = ''
           console.log((str).split('grades_midterm')[0], str.includes('midterm'))
           if (str.includes('midterm')) {
-            url = (str).split('grades_midterm')[0] + breaker + target
+            url = (str).split('grades_midterm')[0] + breaker + target + tag
           } else {
-            url = (str).split('grades_final')[0] + breaker + target
+            url = (str).split('grades_final')[0] + breaker + target + tag
           }
 
           window.open(url, '_blank')
         },
         gStyle: function(head, g) {
           if (head == 'Status'){
-            if (g == 3) {
+            if (g == 1) {
             return { background:'mediumseagreen'}
             }
-            if (g == 1) {
-            return { background:'lightcoral'}
+            else if (g == 2) {
+            return { background:'orange'}
+            }
+            else if (g == 3) {
+            return { background:'aqua'}
+            }
+            else if (g == 6) {
+            return { background:'purple'}
             }
             else {
             return { background:'gold'}

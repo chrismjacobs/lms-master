@@ -355,6 +355,7 @@ def exam_list_midterm():
     DESIGN = schemaList[SCHEMA]['DESIGN']
 
     context = {
+    'schema' : getSchema(),
     'title' : 'Exams',
     'theme' : DESIGN['titleColor'],
     'examString' : json.dumps(examDict),
@@ -509,6 +510,7 @@ def exam_list_final():
     DESIGN = schemaList[SCHEMA]['DESIGN']
 
     context = {
+    'schema' : getSchema(),
     'title' : 'Exams',
     'theme' : DESIGN['titleColor'],
     'examString' : json.dumps(examDict),
@@ -529,12 +531,20 @@ def setStatus():
     username = request.form ['username']
 
     student = User.query.filter_by(username=username).first()
-    if student.extra != 3:
-        print('set')
-        student.extra = 3
+    if not student.extra:
+        print('set 1')
+        student.extra = 1
+        db.session.commit()
+    elif student.extra < 3:
+        student.extra += 1
+        db.session.commit()
+    elif student.extra == 3:
+        student.extra = 6
+        db.session.commit()
+    elif student.extra == 6:
+        student.extra = 0
         db.session.commit()
     else:
-        print('reset')
         student.extra = 0
         db.session.commit()
 
@@ -550,11 +560,7 @@ def resetAll():
 
     for u in users:
         if u.username != 'Chris':
-            if u.extra == 3:
-                u.extra = 0
-            elif u.extra == 0:
-                u.extra = 3
-
+            u.extra = 0
             db.session.commit()
 
 
@@ -700,7 +706,7 @@ def grades_final():
         gradesDict[mt_student]['MT'] = round(MTgrades[mt_student]['Total'], 1)
 
 
-    return render_template('instructor/grades.html', ansString=json.dumps(gradesDict), compString =json.dumps(completeDict), title="Grades")
+    return render_template('instructor/grades.html', SCHEMA=SCHEMA, ansString=json.dumps(gradesDict), compString =json.dumps(completeDict), title="Grades")
 
 
 @app.route ("/grades_midterm", methods=['GET','POST'])
@@ -843,7 +849,7 @@ def grades_midterm ():
         if current_user.id != 1:
             return redirect(url_for('home'))
         else:
-            return render_template('instructor/grades.html', title='Grades', ansString=json.dumps(gradesDict), compString=json.dumps(completeDict))
+            return render_template('instructor/grades.html', SCHEMA=SCHEMA, title='Grades', ansString=json.dumps(gradesDict), compString=json.dumps(completeDict))
 
 
 @app.route ("/updateClasswork", methods=['POST', 'GET'])

@@ -32,30 +32,28 @@
           </tr>
            <tr>
             <td>
-              <span v-if="setOBJ['ex'] == 3" @click="goTo('-5-6', 'exam')" class="unit-span" style="background:{{theme}}; height:40px"> &nbspExam 5-6 Grade&nbsp </span>
+              <span v-if="schema == Status" @click="goTo('-5-6', 'exam')" class="unit-span" style="background:{{theme}}; height:40px"> &nbspExam 5-6 Grade&nbsp </span>
               <span v-else> Exam 5-6 Grade </span>
             </td>
             <td> [[examOBJ.ex56]]/20%</td>
           </tr>
           <tr>
-            <td>  <span v-if="setOBJ['ex'] == 3" @click="goTo('-7-8', 'exam')" class="unit-span" style="background:{{theme}}; height:40px"> &nbspExam 7-8 Grade&nbsp </span>
+            <td>  <span v-if="schema == Status" @click="goTo('-7-8', 'exam')" class="unit-span" style="background:{{theme}}; height:40px"> &nbspExam 7-8 Grade&nbsp </span>
               <span v-else> Exam 7-8 Grade </span>
             </td>
             <td> [[examOBJ.ex78]]/20%</td>
           </tr>
           <tr  style="height:30px">
             <td>
-              <span v-if="setOBJ['ex'] == 3"> Exam 5-6 Practice</span>
-              <span v-else-if="setOBJ['56'] == 1" @click="goTo('-5-6', 'review')" class="unit-span" style="background:hotpink; height:40px"> &nbspExam 5-6 Practice&nbsp </span>
-              <span v-else> Exam 5-6 Practice </span>
+              <span v-if="schema == Status"> Exam 5-6 Practice</span>
+              <span v-else @click="goTo('-5-6', 'review')" class="unit-span" style="background:hotpink; height:40px"> &nbspExam 5-6 Practice&nbsp </span>
             </td>
             <td style="color:hotpink"> [[examOBJ.tries56]]</td>
           </tr>
           <tr>
             <td>
-              <span v-if="setOBJ['ex'] == 3"> Exam 7-8 Practice</span>
-              <span v-else-if="setOBJ['78'] == 1" @click="goTo('-7-8', 'review')" class="unit-span" style="background:hotpink; height:40px"> &nbspExam 7-8 Practice&nbsp </span>
-              <span v-else> Exam 7-8 Practice </span>
+              <span v-if="schema == Status"> Exam 7-8 Practice</span>
+              <span v-else @click="goTo('-7-8', 'review')" class="unit-span" style="background:hotpink; height:40px"> &nbspExam 7-8 Practice&nbsp </span>
             </td>
             <td style="color:hotpink"> [[examOBJ.tries78]]</td>
           </tr>
@@ -107,7 +105,8 @@
 <span id="semester" style="display:none">{{semester}}</span>
 <span id="aCount" style="display:none">{{aCount}}</span>
 <span id="uCount" style="display:none">{{uCount}}</span>
-
+<span id="schema" style="display:none">{{schema}}</span>
+<span id="Status" style="display:none">{{current_user.extra}}</span>
 
 {% endblock %}
 
@@ -135,6 +134,11 @@ console.log('set', aCount);
 var uCount = document.getElementById('uCount').innerHTML
 console.log('set', uCount);
 
+var Status = document.getElementById('Status').innerHTML
+console.log('Status', Status);
+
+var schema = parseInt(document.getElementById('schema').innerHTML)
+console.log('schema', schema);
 
 startVue()
 
@@ -149,7 +153,9 @@ function startVue(){
         examOBJ: examOBJ,
         setOBJ: setOBJ,
         aCount: aCount,
-        uCount: uCount
+        uCount: uCount,
+        Status: Status,
+        schema: schema
     },
     methods: {
         getRed: function (score) {
