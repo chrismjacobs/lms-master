@@ -11,6 +11,7 @@
      <button class="btn btn-outline-secondary" @click="gotoAdmin('exams')">Exams</button>
      <button class="btn btn-outline-secondary" @click="exdata = !exdata">Data</button>
      <button class="btn btn-outline-secondary" @click="resetAll()">Reset all</button>
+     <button class="btn btn-outline-secondary" @click="goTo('participation_check')">Participation Check</button>
 
 
     <br>
@@ -91,6 +92,15 @@ let vue = new Vue({
         schema: schema
     },
     methods: {
+        goTo: function(destination){
+
+          var str = window.location.href
+
+          let url = (str).split('grades')[0] + destination
+          console.log('goTO', url);
+          window.location = url
+
+        },
         gotoAdmin: function (target) {
           schemaList = {
             1 : '_frd',
@@ -173,7 +183,13 @@ let vue = new Vue({
           else if (g == 0) {
             return { background:'lightcoral'}
           }
-
+          else if (head == 'exam1' || head == 'exam2') {
+            if (g >= 12) {
+              return { color:'lightgreen' , background:'lightgreen'}
+            } else if (g > 0 && g < 12) {
+              return { color:'orange' , background:'orange'}
+            }
+          }
         },
         setStatus: function(head, key) {
           if (head == 'Status') {
@@ -186,6 +202,22 @@ let vue = new Vue({
             })
             .done(function(data) {
               gradesOBJ[key]['Status'] = data.set
+            })
+            .fail(function(){
+                alert('error has occurred');
+            });
+          }
+          if (head == 'exam1' || head == 'exam2') {
+            $.ajax({
+              data : {
+                username : key,
+                head: head
+              },
+              type : 'POST',
+              url : '/resetExam',
+            })
+            .done(function(data) {
+              alert('exam reset')
             })
             .fail(function(){
                 alert('error has occurred');
