@@ -375,11 +375,34 @@ def exam_list_midterm():
 def completeStatus(time, name):
 
     print('COMPLETE STATUS', time, name)
+    SCHEMA = getSchema()
 
-    assignments = {
-        'FN': ['05', '06', '07', '08'],
-        'MT': ['01', '02', '03', '04']
-    }
+    ICC = [3,6]
+
+    partList = []
+
+    if time == 'MT':
+        if SCHEMA in ICC:
+            partList = getInfo()['unit_mods_list'][0:20]
+        else:
+            partList = getInfo()['unit_mods_list'][0:16]
+    else:
+        if SCHEMA in ICC:
+            partList = getInfo()['unit_mods_list'][20:40]
+        else:
+            partList = getInfo()['unit_mods_list'][16:32]
+
+    if SCHEMA not in ICC:
+        assignments = {
+            'FN': ['05', '06', '07', '08'],
+            'MT': ['01', '02', '03', '04']
+        }
+    else:
+        assignments = {
+            'FN': ['06', '07', '08', '09', '10'],
+            'MT': ['01', '02', '03', '04', '05']
+        }
+
 
     aCount = 0
     uCount = 0
@@ -389,14 +412,6 @@ def completeStatus(time, name):
             if getInfo()['aModsDict'][model].query.filter_by(username=name).first() and getInfo()['aModsDict'][model].query.filter_by(username=name).first().Grade > 0:
                 aCount += 1
 
-    ## set up for final only
-
-    partList = []
-
-    if time == 'FN':
-        partList = getInfo()['unit_mods_list'][16:32]
-    elif partList == 'MT':
-        partList = getInfo()['unit_mods_list'][0:15]
 
 
     for model in partList:
@@ -470,7 +485,7 @@ def exam_list_final():
 
 
 
-    midterm = grades_midterm ()[current_user.username]['Total']
+    midterm = grades_midterm()[current_user.username]['Total']
 
     examDict = {
         'total' : 0,
@@ -529,8 +544,8 @@ def exam_list_final():
 def setStatus():
 
     username = request.form ['username']
-
     student = User.query.filter_by(username=username).first()
+
     if not student.extra:
         print('set 1')
         student.extra = 1
@@ -549,6 +564,42 @@ def setStatus():
         db.session.commit()
 
     return jsonify({'student' : username, 'set' : student.extra})
+
+@app.route ("/resetExam", methods=['POST'])
+@login_required
+def resetExam():
+
+    username = request.form ['username']
+    exam = request.form ['head']
+
+    semester = User.query.filter_by(username='Chris').first().semester
+    student = getModels()['Exams_'].query.filter_by(username=username).first()
+
+    exams = {}
+
+    if get_MTFN('grades') == 'MT':
+        exams = {
+            'exam1' : str(semester) + '-1-2',
+            'exam2' : str(semester) + '-3-4'
+        }
+    if get_MTFN('grades') == 'FN':
+        exams = {
+            'exam1' : str(semester) + '-5-6',
+            'exam2' : str(semester) + '-7-8'
+        }
+
+    examData = json.loads(student.j2)
+
+    print('examData', semester, username, exam, examData, exams[exam], examData[exams[exam]] )
+
+
+    examData[exams[exam]] = []
+    newData = json.dumps(examData)
+    print(newData)
+    student.j2 = newData
+    db.session.commit()
+
+    return jsonify({'student' : username})
 
 @app.route ("/resetAll", methods=['POST'])
 @login_required
@@ -570,8 +621,24 @@ def resetAll():
 @login_required
 def participation_check():
 
+    ICC = [3,6]
+
+    SCHEMA = getSchema()
+    time = get_MTFN('grades')
+
+    if time == 'MT':
+        if SCHEMA in ICC:
+            partList = getInfo()['unit_mods_list'][0:20]
+        else:
+            partList = getInfo()['unit_mods_list'][0:16]
+    else:
+        if SCHEMA in ICC:
+            partList = getInfo()['unit_mods_list'][20:40]
+        else:
+            partList = getInfo()['unit_mods_list'][16:32]
+
     checkDict = {}
-    for model in getInfo()['unit_mods_list'][16:32]:
+    for model in partList:
         rows = model.query.all()
         m = str(model).split('U')[1]
         if m not in checkDict:

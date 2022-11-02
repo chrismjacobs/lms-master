@@ -64,6 +64,7 @@ Teamsize
 <br>
 <span id="getFor">[[varString]] ;
 [[forString]]</span>
+<span id="getEmails">[[emailString]]</span>
 
 <div>
 <input type="text" class="textAss" style="margin-left:5px" v-model="addID"></input>
@@ -87,7 +88,6 @@ Teamsize
               <th scope="col" >ID</th>
               <th scope="col" >att</th>
               <th scope="col" >email</th>
-              <th v-if="schemaList.includes(SCHEMA)" scope="col" >remove</th>
             </tr>
         </thead>
 
@@ -99,10 +99,7 @@ Teamsize
               <td> [[ user.nme ]] </td>
               <td :style="idStyle(key)"> [[ key ]] </td>
               <td :style="attStyle(user.att)"> [[ user.att ]] </td>
-              <td> <a :href="user.eml">Email</a> <a @click="gotoIncog(user.nme)">Log</a></td>
-              <td v-if="schemaList.includes(SCHEMA)" > <span :style="getStyle(key)" class="unit-span" @click="studentAdd(key)" > &nbsp [[getMark(key)]] &nbsp </span> </td>
-              <!-- <td>  <span class="unit-span" v-for="i in 4" @click="studentRemove(user.nme, i)" > [[i]] </span> </td> -->
-
+              <td> <span class="unit-span" @click="emailString += (user.eml + ';')">Email</span> <span class="unit-span" @click="gotoIncog(user.nme)">Log</span></td>
             </tr>
         </template>
         </tbody>
@@ -193,6 +190,7 @@ let vue = new Vue({
         recordOBJ : {},
         varString : null,
         forString : null,
+        emailString : '',
         marks : {}
     },
     methods: {
