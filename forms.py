@@ -60,17 +60,6 @@ def getCourseRadios():
 
     return radioList
 
-    # master = User.query.filter_by(id=1).first()
-
-    # print('master', master, master.extra)
-
-    # if master.extra == 0:
-    #     return [('0', 'No Course')]
-    # elif master.extra == 10:
-    #     return radioList
-    # else:
-    #     return [radioList[0], radioList[master.extra]]
-
 
 class RegistrationForm(FlaskForm):
     username = StringField ('Name in English', validators=[DataRequired(), Length(min=2, max=20)])
