@@ -356,14 +356,14 @@ def exam_list_midterm():
 
     context = {
     'schema' : getSchema(),
+    'Practice' : User.query.filter_by(id=1).first().extra,
     'title' : 'Exams',
     'theme' : DESIGN['titleColor'],
     'examString' : json.dumps(examDict),
     'setString' : json.dumps(setDict),
     'semester' : semester,
     'aCount': counts[0],
-    'uCount': counts[1],
-    'Practice' : User.query.filter_by(username='Test').first().extra
+    'uCount': counts[1]
     }
 
 
