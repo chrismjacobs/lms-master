@@ -137,6 +137,16 @@ def exams(test, unit):
     S3_BUCKET_NAME = schemaList[SCHEMA]['S3_BUCKET_NAME']
 
     semester = User.query.filter_by(username='Chris').first().semester
+    reviewClose = User.query.filter_by(username='Chris').first().extra
+    examOpen = User.query.filter_by(username=current_user.username).first().extra
+
+    if test == 'review' and reviewClose == SCHEMA and examOpen != SCHEMA:
+        flash('This exam is not open yet', 'danger')
+        return redirect(url_for('home'))
+
+    if test == 'exam' and examOpen != SCHEMA:
+        flash('This exam is not open yet', 'danger')
+        return redirect(url_for('home'))
 
     if semester == 1:
         examString = 'json_files/exam.json'
@@ -412,8 +422,6 @@ def completeStatus(time, name):
             if getInfo()['aModsDict'][model].query.filter_by(username=name).first() and getInfo()['aModsDict'][model].query.filter_by(username=name).first().Grade > 0:
                 aCount += 1
 
-
-
     for model in partList:
         #print (model)
         rows = model.query.all()
@@ -682,7 +690,9 @@ def grades_final():
             'tries2' : 0,
             'pscore2' : 0,
             'exam1' : 0,
-            'exam2' : 0
+            'exam2' : 0,
+            'rscore1' : '',
+            'rscore2' : ''
         }
         completeDict[user.username] = completeStatus('FN', user.username)
 
@@ -745,8 +755,10 @@ def grades_final():
         examData =  ast.literal_eval(practice.j2)
         if len(examData[str(semester) + '-5-6']) > 0 :
             gradesDict[practice.username]['exam1'] = round( (examData[str(semester) + '-5-6'][0] + examData[str(semester) + '-5-6'][1])/2 )
+            gradesDict[practice.username]['rscore1'] = [examData[str(semester) + '-5-6'][0], examData[str(semester) + '-5-6'][1]]
         if len(examData[str(semester) + '-7-8']) > 0 :
             gradesDict[practice.username]['exam2'] = round( (examData[str(semester) + '-7-8'][0] + examData[str(semester) + '-7-8'][1])/2 )
+            gradesDict[practice.username]['rscore2'] = [examData[str(semester) + '-7-8'][0], examData[str(semester) + '-7-8'][1]]
 
 
         print('exam_list_data_checked')
@@ -803,7 +815,9 @@ def grades_midterm ():
             'tries2' : 0,
             'pscore2' : 0,
             'exam1' : 0,
-            'exam2' : 0
+            'exam2' : 0,
+            'rscore1' : '',
+            'rscore2' : ''
         }
         completeDict[user.username] = completeStatus('MT', user.username)
 
@@ -886,8 +900,10 @@ def grades_midterm ():
         examData =  ast.literal_eval(practice.j2)
         if len(examData[str(semester) + '-1-2']) > 0 :
             gradesDict[practice.username]['exam1'] = round( (examData[str(semester) + '-1-2'][0] + examData[str(semester) + '-1-2'][1])/2 )
+            gradesDict[practice.username]['rscore1'] = [examData[str(semester) + '-1-2'][0], examData[str(semester) + '-1-2'][1]]
         if len(examData[str(semester) + '-3-4']) > 0 :
             gradesDict[practice.username]['exam2'] = round( (examData[str(semester) + '-3-4'][0] + examData[str(semester) + '-3-4'][1])/2 )
+            gradesDict[practice.username]['rscore2'] = [examData[str(semester) + '-3-4'][0], examData[str(semester) + '-3-4'][1]]
 
 
         #print('exam_list_data_checked')

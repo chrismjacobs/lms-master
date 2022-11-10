@@ -9,7 +9,7 @@
 <div class="content-section">
      <legend class="border-bottom mb-4">Grades</legend>
      <button class="btn btn-outline-secondary" @click="gotoAdmin('exams')">Exams</button>
-     <button class="btn btn-outline-secondary" @click="exdata = !exdata">Data</button>
+     <button class="btn btn-outline-secondary" @click="exdata += 1">Data</button>
      <button class="btn btn-outline-secondary" @click="resetAll()">Reset all</button>
      <button class="btn btn-outline-secondary" @click="goTo('participation_check')">Participation Check</button>
 
@@ -38,7 +38,7 @@
         <tbody>
         <template v-for="(user, key) in gradesOBJ">
             <tr>
-              <td v-for="(data, head) in user" :style="gStyle(head, data)" @click="setStatus(head, key)"> [[ data ]] </td>
+              <td v-for="(data, head) in user" :style="gStyle(head, data)" @click="setStatus(head, key, data)"> [[ data ]] </td>
               <td :style="gStyle('p', 1)"> [[ compOBJ[key] ]] </td>
             </tr>
 
@@ -88,7 +88,7 @@ let vue = new Vue({
     data: {
         gradesOBJ: gradesOBJ,
         compOBJ: compOBJ,
-        exdata: false,
+        exdata: 0,
         schema: schema
     },
     methods: {
@@ -175,10 +175,20 @@ let vue = new Vue({
               return { background:'hotpink'}
             }
           }
-          else if (head[0] == 'p') {
-            if (!this.exdata) {
+          else if (head[0] == 'p' || head[0] == 'r') {
+            if (this.exdata == 0) {
               return { display:'none'}
             }
+            else if (this.exdata > 1, head[0] != 'p') {
+              return { display:'none'}
+            }
+            // if (this.schema == 3 || this.schema == 6) {
+              // if (g == [5, 20]) {
+                // return { background:'green'}
+              // }
+            // } else if (g == [4, 16]) {
+                // return { background:'green'}
+            // }
           }
           else if (g == 0) {
             return { background:'lightcoral'}
@@ -191,7 +201,7 @@ let vue = new Vue({
             }
           }
         },
-        setStatus: function(head, key) {
+        setStatus: function(head, key, value) {
           if (head == 'Status') {
             $.ajax({
               data : {
@@ -217,7 +227,7 @@ let vue = new Vue({
               url : '/resetExam',
             })
             .done(function(data) {
-              alert('exam reset')
+              alert('exam reset', key, value)
             })
             .fail(function(){
                 alert('error has occurred');
