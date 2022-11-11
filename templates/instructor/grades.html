@@ -130,12 +130,12 @@ let vue = new Vue({
         },
         gStyle: function(head, g) {
           if (this.gList) {
+            console.log(head[0])
             let remove = ['I', 'T']
             if (!remove.includes(head[0])) {
               return { display:'none'}
             }
-          }
-          if (head == 'Status'){
+          } else if (head == 'Status'){
             if (g == 1) {
             return { background:'mediumseagreen'}
             }
