@@ -14,7 +14,7 @@
      <button class="btn btn-outline-secondary" @click="resetAll()">Reset all</button>
      <button class="btn btn-outline-secondary" @click="goTo('participation_check')">Participation Check</button>
      <template v-for="(x, key) in gList">
-      <span> [x] </span><br>
+      <span> [[x]] </span><br>
      </template>
 
 
@@ -186,7 +186,7 @@ let vue = new Vue({
             if (this.exdata == 0) {
               return { display:'none'}
             }
-            else if (this.exdata > 1 && head[0] != 'p') {
+            else if (this.exdata > 1 && head[0] != 'r') {
               return { display:'none'}
             }
             // if (this.schema == 3 || this.schema == 6) {
@@ -214,6 +214,7 @@ let vue = new Vue({
             let total = this.gradesOBJ[x]['Total']
             this.gList.push(id + ' ' + total)
           }
+          console.log(this.gList)
         },
         setStatus: function(head, key, value) {
           if (head == 'Status') {
