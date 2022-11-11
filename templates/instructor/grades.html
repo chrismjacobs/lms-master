@@ -10,7 +10,7 @@
      <legend class="border-bottom mb-4">Grades</legend>
      <button class="btn btn-outline-secondary" @click="gotoAdmin('exams')">Exams</button>
      <button class="btn btn-outline-secondary" @click="exdata += 1">Data</button>
-     <button class="btn btn-outline-secondary" @click="gList = !gList">List</button>
+     <button class="btn btn-outline-secondary" @click="gList = !gList">List [[gList]]</button>
      <button class="btn btn-outline-secondary" @click="resetAll()">Reset all</button>
      <button class="btn btn-outline-secondary" @click="goTo('participation_check')">Participation Check</button>
 
@@ -37,7 +37,7 @@
             </tr>
         </thead>
 
-        <tbody  v-if="gList">
+        <tbody>
         <template v-for="(user, key) in gradesOBJ">
             <tr>
               <td> [[user['ID']]]</td>
