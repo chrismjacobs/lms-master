@@ -10,8 +10,14 @@
      <legend class="border-bottom mb-4">Grades</legend>
      <button class="btn btn-outline-secondary" @click="gotoAdmin('exams')">Exams</button>
      <button class="btn btn-outline-secondary" @click="exdata += 1">Data</button>
+     <button class="btn btn-outline-secondary" @click="gListCreate()">Copy</button>
      <button class="btn btn-outline-secondary" @click="resetAll()">Reset all</button>
      <button class="btn btn-outline-secondary" @click="goTo('participation_check')">Participation Check</button>
+     <template v-for="(x, key) in gList">
+      <span> [x] </span><br>
+     </template>
+
+
 
 
     <br>
@@ -89,7 +95,8 @@ let vue = new Vue({
         gradesOBJ: gradesOBJ,
         compOBJ: compOBJ,
         exdata: 0,
-        schema: schema
+        schema: schema,
+        gList: []
     },
     methods: {
         goTo: function(destination){
@@ -179,7 +186,7 @@ let vue = new Vue({
             if (this.exdata == 0) {
               return { display:'none'}
             }
-            else if (this.exdata > 1, head[0] != 'p') {
+            else if (this.exdata > 1 && head[0] != 'p') {
               return { display:'none'}
             }
             // if (this.schema == 3 || this.schema == 6) {
@@ -199,6 +206,13 @@ let vue = new Vue({
             } else if (g > 0 && g < 12) {
               return { color:'orange' , background:'orange'}
             }
+          }
+        },
+        gListCreate: function () {
+          for (let x in this.gradesOBJ) {
+            let id = this.gradesOBJ[x]['ID']
+            let total = this.gradesOBJ[x]['Total']
+            this.gList.push(id + ' ' + total)
           }
         },
         setStatus: function(head, key, value) {

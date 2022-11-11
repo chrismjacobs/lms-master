@@ -777,7 +777,7 @@ def grades_final():
 
     for entry in gradesDict:
         sumTotal = gradesDict[entry]['uP'] + gradesDict[entry]['aP'] + gradesDict[entry]['exam1'] + gradesDict[entry]['exam2']
-        gradesDict[entry]['Total'] = round(sumTotal, 1)
+        gradesDict[entry]['Total'] = round(sumTotal)
 
     MTgrades = grades_midterm ()
     # print(MTgrades)
@@ -922,7 +922,7 @@ def grades_midterm ():
 
     for entry in gradesDict:
         sumTotal = gradesDict[entry]['uP'] + gradesDict[entry]['aP'] + gradesDict[entry]['exam1'] + gradesDict[entry]['exam2']
-        gradesDict[entry]['Total'] = round(sumTotal, 1)
+        gradesDict[entry]['Total'] = round(sumTotal)
 
     print(gradesDict)
 
