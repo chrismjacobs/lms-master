@@ -784,7 +784,7 @@ def grades_final():
     for mt_student in MTgrades:
         gradesDict[mt_student]['MT'] = round(MTgrades[mt_student]['Total'], 1)
 
-    bData = User.query.filter(id=1).first().info
+    bData = User.query.filter_by(id=1).first().info
 
     return render_template('instructor/grades.html', SCHEMA=SCHEMA, ansString=json.dumps(gradesDict), compString =json.dumps(completeDict), title="Grades", bonus=bData)
 
