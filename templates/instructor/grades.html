@@ -192,6 +192,9 @@ let vue = new Vue({
             else if (this.exdata > 1 && head[0] != 'r') {
               return { display:'none'}
             }
+            else if (this.exdata > 2 && head[0] != 'p') {
+              return { display:'none'}
+            }
             // if (this.schema == 3 || this.schema == 6) {
               // if (g == [5, 20]) {
                 // return { background:'green'}
