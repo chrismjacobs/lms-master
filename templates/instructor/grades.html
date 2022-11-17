@@ -56,6 +56,7 @@
 <span id="ansString" style="display:none">{{ansString}}</span>
 <span id="compString" style="display:none">{{compString}}</span>
 <span id="SCHEMA" style="display:none">{{SCHEMA}}</span>
+<span id="bonus" style="display:none">{{bonus}}</span>
 
 </div> <!-- end of Vue app -->
 
@@ -71,10 +72,12 @@
 var ansString = document.getElementById('ansString').innerHTML
 var compString = document.getElementById('compString').innerHTML
 var schema = parseInt(document.getElementById('SCHEMA').innerHTML)
+var bonus = parseInt(document.getElementById('bonus').innerHTML)
 var gradesOBJ = JSON.parse(ansString)
 var compOBJ = JSON.parse(compString)
 console.log('OBJ', gradesOBJ);
 console.log('COMP', compOBJ);
+console.log('bonus', bonus);
 
 
 startVue()
