@@ -6,7 +6,7 @@ from flask_login import current_user, login_required
 from forms import *
 from models import *
 import ast
-from routesGet import get_grades, get_sources
+from routesGet import get_grades, get_sources, get_schedule
 from pprint import pprint
 
 from meta import BaseConfig, schemaList
@@ -467,6 +467,15 @@ def shareUpload():
 @app.route ("/participation/<string:unit_num>/<string:part_num>/<string:state>", methods=['GET','POST'])
 @login_required
 def participation(unit_num,part_num,state):
+    schedule = get_schedule()
+    dt = schedule[unit_num]['Date']
+    deadline = datetime.strptime(dt, '%Y-%m-%d')
+    print(deadline)
+    deadBool = True
+    if datetime.now() > deadline:
+        deadBool = False
+
+
     uModsDict = getInfo()['uModsDict']
     print('participation', uModsDict)
     SCHEMA = getSchema()
@@ -542,7 +551,8 @@ def participation(unit_num,part_num,state):
         'state' : state,
         'userID' : current_user.id,
         'teamcount' : teamcount,
-        'teamnames' : teamnames
+        'teamnames' : teamnames,
+        'deadline' : deadBool
     }
 
     return render_template('units/part_vue.html', **context)

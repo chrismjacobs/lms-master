@@ -8,7 +8,7 @@ from forms import *
 from models import *
 from pprint import pprint
 from meta import *
-from routesGet import getUsers, get_MTFN
+from routesGet import getUsers, get_MTFN, get_schedule
 s3_resource = BaseConfig.s3_resource
 
 
@@ -30,18 +30,6 @@ def putData():
 
     with open('student.json', 'w') as json_file:
         json.dump(sDict, json_file)
-
-
-
-def get_schedule():
-    SCHEMA = getSchema()
-    S3_BUCKET_NAME = schemaList[SCHEMA]['S3_BUCKET_NAME']
-    print('S3', S3_BUCKET_NAME)
-    content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/sources.json' )
-    file_content = content_object.get()['Body'].read().decode('utf-8')
-    SOURCES = json.loads(file_content)  # json loads returns a dictionary
-    #print(SOURCES)
-    return (SOURCES)
 
 
 @app.route ("/about")
