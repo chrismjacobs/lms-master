@@ -9,6 +9,9 @@ console.log('THEME', THEME)
 var SCHEMA = document.getElementById('schema').innerHTML
 console.log('SCHEMA', SCHEMA)
 
+var deadline = document.getElementById('deadline').innerHTML
+console.log('DEADLINE', deadline)
+
 
 startVue(qOBJ)
 
@@ -109,6 +112,7 @@ function startVue(qOBJ){
         }
     },
     data: {
+      deadline : deadline,
       qOBJ : qOBJ,
       ansOBJ : null,
       classOBJ : null,
@@ -343,6 +347,10 @@ function startVue(qOBJ){
 
       },
       showAnswers: function (key){
+        if (this.deadline == false || this.deadline == 'False') {
+          alert('Deadline Passed - Answer viewing is closed, ask your teacher for help')
+          return false
+        }
         if (this.show[key] == true){
           for (var s in this.show){
           this.show[s] = false
