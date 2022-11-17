@@ -468,6 +468,7 @@ def shareUpload():
 @login_required
 def participation(unit_num,part_num,state):
     schedule = get_schedule()
+    print('SCHEDULE', schedule)
     dt = schedule[unit_num]['Date']
     deadline = datetime.strptime(dt, '%Y-%m-%d')
     print(deadline)
