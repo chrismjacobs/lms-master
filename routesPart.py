@@ -469,12 +469,16 @@ def shareUpload():
 def participation(unit_num,part_num,state):
     schedule = get_schedule()
     print('SCHEDULE', schedule)
-    dt = schedule[unit_num]['Date']
-    deadline = datetime.strptime(dt, '%Y-%m-%d')
-    print(deadline)
+    dt = None
     deadBool = True
-    if datetime.now() > deadline:
-        deadBool = False
+    for s in schedule:
+        if schedule[s]['Unit'] == unit_num:
+            dt = schedule[s]['Date']
+    if dt:
+        deadline = datetime.strptime(dt, '%Y-%m-%d')
+        print(deadline)
+        if datetime.now() > deadline:
+            deadBool = False
 
 
     uModsDict = getInfo()['uModsDict']
