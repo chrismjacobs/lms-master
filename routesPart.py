@@ -470,7 +470,7 @@ def participation(unit_num,part_num,state):
     schedule = get_schedule()
     print('SCHEDULE', schedule)
     dt = None
-    deadBool = True
+    deadPass = True
     for s in schedule:
         if schedule[s]['Unit'] == unit_num:
             dt = schedule[s]['Date']
