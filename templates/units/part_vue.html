@@ -65,8 +65,8 @@
 
 
         <h4 v-if="qn.q" style="background:{{DESIGN['titleColor']}}; color:{{DESIGN['bodyColor']}}; border: 1px solid white; border-radius:10px">  <span v-for="q in qn.q.split('/')"> [[ q ]] <br></span> </h4>
-        <h4 v-if="qn.x && !qn.x.includes('http')" > <span v-for="x in qn.x.split('/')"> [[ x ]] <br></span> </h4>
-        <h4 v-else-if="qn.x" > [[ qn.x ]]</h4>
+        <h4 v-if="qn.x && qn.x.includes('http')" > [[qn.x]] </h4>
+        <h4 v-else-if="qn.x" > <span v-for="x in qn.x.split('/')"> [[ x ]] <br></span> </h4>
 
         <h3 v-if="mode == 'Team' && ansOBJ != null" style="color:mediumpurple;background:lightgrey;border: 1px solid white; border-radius:10px">
         [[ TEAMNAMES[key - 1] ]]:
@@ -178,8 +178,8 @@
             </div>
             <h4  v-if="qn.q" style="background:{{DESIGN['titleColor']}}; color:{{DESIGN['bodyColor']}}; border: 1px solid white; border-radius:10px">  <span v-for="q in qn.q.split('/')"> [[ q ]] <br></span> </h4>
 
-            <h4 v-if="qn.x && !qn.x.includes('http')" > <span v-for="x in qn.x.split('/')"> [[ x ]] <br></span> </h4>
-            <h4 v-else-if="qn.x" > [[ qn.x ]]</h4>
+            <h4 v-if="qn.x && qn.x.includes('http')" > [[qn.x]] </h4>
+            <h4 v-else-if="qn.x" > <span v-for="x in qn.x.split('/')"> [[ x ]] <br></span> </h4>
 
             <div v-if="qn.t == 'mc' || qn.t == 'in'">
                 <div v-for="choice in qn.c">
