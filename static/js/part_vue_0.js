@@ -347,10 +347,10 @@ function startVue(qOBJ){
 
       },
       showAnswers: function (key){
-        if (this.deadpass == 'True') {
-          alert('Deadline Passed - Answer viewing is closed, ask your teacher for help')
-          return false
-        }
+        // if (this.deadpass == 'True') {
+        //   alert('Deadline Passed - Answer viewing is closed, ask your teacher for help')
+        //   return false
+        // }
         if (this.show[key] == true){
           for (var s in this.show){
           this.show[s] = false
