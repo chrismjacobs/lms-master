@@ -473,10 +473,10 @@ def participation(unit_num,part_num,state):
     deadPass = True
     for s in schedule:
         if schedule[s]['Unit'] == unit_num:
-            dt = schedule[s]['Date']
+            dt = schedule[s]['Deadline']
     if dt:
         deadline = datetime.strptime(dt, '%Y-%m-%d')
-        print(deadline)
+        print('DEADLINE', deadline, datetime.now() )
         if datetime.now() < deadline:
             deadPass = False
 
