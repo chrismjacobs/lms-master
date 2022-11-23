@@ -477,8 +477,8 @@ def participation(unit_num,part_num,state):
     if dt:
         deadline = datetime.strptime(dt, '%Y-%m-%d')
         print(deadline)
-        if datetime.now() > deadline:
-            deadBool = False
+        if datetime.now() < deadline:
+            deadPass = False
 
 
     uModsDict = getInfo()['uModsDict']
@@ -557,7 +557,7 @@ def participation(unit_num,part_num,state):
         'userID' : current_user.id,
         'teamcount' : teamcount,
         'teamnames' : teamnames,
-        'deadline' : deadBool
+        'deadline' : deadPass
     }
 
     return render_template('units/part_vue.html', **context)
