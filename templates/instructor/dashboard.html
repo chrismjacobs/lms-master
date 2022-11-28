@@ -30,6 +30,7 @@
 
     <br>
     <button @click="addComment(studentName, studentUnit)"> Update </button>
+    <button @click="showOld = !showOld"> ShowOLD </button>
     </div>
 
 
@@ -60,7 +61,7 @@
           </tr>
 
             <template v-for="(item, key) in ansOBJ[user]">
-              <tr v-if="item.idNum">
+              <tr v-if="item.idNum && showAll(key)">
                 <td > <button @click="edit(item.idNum, key)"> [[  key ]] </button> <br> [[ item.date.substr(5, 6) ]]</td>
                 <td> <button @click="play(item.A1)"> [[  item.L1  ]] </button> </td>
                 <td> <button @click="play(item.A2)"> [[  item.L2  ]] </button> </td>
@@ -124,6 +125,7 @@ function startVue(){
       }
     },
     data: {
+        showOld: false,
         ansOBJ: OBJ,
         att: ATT,
         nComment: null,
@@ -194,6 +196,21 @@ function startVue(){
 
     },
     methods: {
+        showAll: function (key) {
+
+          allList = ['01', '02', '03', '04']
+          if (this.SCHEMA == 6 || this.SCHEMA == 3 ) {
+            allList.push('05')
+          }
+
+          if (this.showOld == false && allList.includes(key)) {
+            console.log('showAll', key)
+            return false
+          } else {
+            return true
+          }
+
+        },
         setComment: function(key, user){
           this.studentName = user
           this.studentUnit = key
