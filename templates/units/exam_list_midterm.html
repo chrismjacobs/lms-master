@@ -15,12 +15,12 @@
             <td> [[examOBJ.total]]/100%</td>
           </tr>
           <tr>
-            <td> Units</td>
-            <td> [[examOBJ.units]]/30%</td>
+            <td> <span @click="goTo('none', 'unit_list')" class="unit-span" style="background:{{theme}}; height:40px;"> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Units &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp </span></td>
+            <td :style=getRed([[examOBJ.units]])> [[examOBJ.units]]/30%</td>
           </tr>
           <tr>
-            <td> Assignments</td>
-            <td> [[examOBJ.asses]]/30%</td>
+            <td> <span @click="goTo('none', 'unit_list')" class="unit-span" style="background:{{theme}}; height:40px; width:100px"> &nbsp Assignments &nbsp </span></td>
+            <td :style=getRed([[examOBJ.asses]])> [[examOBJ.asses]]/30%</td>
           </tr>
           <tr>
             <td>
@@ -44,7 +44,7 @@
           </tr>
           <tr>
             <td>
-              <span v-if="schema == Status"> Exam 3-4 Practice</span>
+              <span v-if="schema == Status || setOBJ['34'] == 0"> Exam 3-4 Practice</span>
               <span v-else @click="goTo('-3-4', 'review')" class="unit-span" :style="getPractice('height:40px; background:')"> Exam 3-4 Practice </span>
             </td>
             <td :style="getPractice('color:')"> [[examOBJ.tries34]]</td>
@@ -123,9 +123,13 @@ function startVue(){
         setOBJ: setOBJ,
         Practice: Practice,
         Status: Status,
-        schema: schema
+        schema: schema,
+        semester: semester
     },
     methods: {
+        getRed: function (score) {
+          console.log(score)
+        },
         getPractice: function (a) {
           let s = a + "hotpink"
           if (this.Practice == this.schema) {
@@ -140,7 +144,12 @@ function startVue(){
           }
           var str = window.location.href
 
-          let url = (str).split('exam_list')[0] + 'exams/' + test + '/' + semester + unit
+          if (test == 'exam' || test == 'review') {
+            url = (str).split('exam_list')[0] + 'exams/' + test + '/' + semester + unit
+          } else {
+            url = (str).split('exam_list')[0] + test
+          }
+
           console.log('goTO', url);
           window.location = url
 
