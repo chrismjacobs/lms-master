@@ -702,25 +702,28 @@ def grades_final():
         if a.username in gradesDict:
             gradesDict[a.username]['Name'] += ' ='
 
+    if SCHEMA == 6 or SCHEMA == 3:
+        final_unit_list = ['06', '07', '08', '09', '10']
+
+    else:
+        final_unit_list = ['05', '06', '07', '08']
+
     ### set max grades
-    total_units = 0
-    maxU = 0
-    maxA = 0
-    units = getModels()['Units_'].query.all()
-    for unit in units:
-        total = unit.u1 + unit.u2 + unit.u3 + unit.u4
-        maxU += total*2
-        maxA += unit.uA*2
-        total_units += 1
 
-    model_check = total_units*4 ## 4 units for each unit
-
-    if SCHEMA == 9:
+    if SCHEMA == 6 or SCHEMA == 3:
+        total_units = 5
+        maxU = 40
+        maxA = 10
         uStart = 20
         aStart = 5
     else:
+        total_units = 4
+        maxU = 32
+        maxA = 8
         uStart = 16
         aStart = 4
+
+    model_check = total_units*4 ## 4 units for each unit
 
     for model in getInfo()['unit_mods_list'][uStart:(uStart + model_check)]:
         rows = model.query.all()
