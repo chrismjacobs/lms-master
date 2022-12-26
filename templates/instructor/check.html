@@ -17,7 +17,7 @@
 
         <div v-for="(data, s) in m">
         [[ key ]]
-         <a :href="'/admin/u' + key + 'u' + '/edit/?id=' + data[0]"> [[s]] </a>
+         <a :href="getLink(key, data)"> [[s]] </a>
          <br> <span v-for="d in data"> <span v-if="d !== null">[[d]]</span> <br>  </span>
          <br>
          <br>
@@ -31,6 +31,7 @@
 </div>
 
 <span id="checkString" style="display:none">{{checkString}}</span>
+<span id="schema" style="display:none">{{SCHEMA}}</span>
 
 </div> <!-- end of Vue app -->
 
@@ -47,6 +48,8 @@ var checkString = document.getElementById('checkString').innerHTML
 
 var checkOBJ = JSON.parse(checkString)
 
+var SCHEMA = document.getElementById('schema').innerHTML
+console.log('schema', SCHEMA);
 
 startVue()
 
@@ -61,9 +64,23 @@ let vue = new Vue({
     },
     data: {
        checkOBJ: checkOBJ,
+       schema : parseInt(SCHEMA)
 
     },
     methods: {
+        getLink: function (key, data) {
+
+            let schemaList = {
+                1 : '_frd',
+                2 : '_wpe',
+                3 : '_icc',
+                4 : '_png',
+                5 : '_lnc',
+                6 : '_vtm'
+              }
+
+            return '/admin/u' + key + 'u' + schemaList[this.schema] + '/edit/?id=' + data[0]
+        },
 
     }
 

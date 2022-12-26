@@ -119,7 +119,8 @@ function startVue(){
         grade : 0,
         tries : 0,
         exceptions: exceptions,
-        user: user
+        user: user,
+        test: test
     },
     methods: {
        goTo: function() {
@@ -205,6 +206,23 @@ function startVue(){
                 alert('error has occurred');
             });
         },
+        sendMessage: function(percentGrade) {
+
+          $.ajax({
+              data : {
+
+              },
+              type : 'POST',
+              url : '/recordBlur',
+            })
+            .done(function(data) {
+              console.log(data)
+
+            })
+            .fail(function(){
+                console.log('error has occurred')
+            });
+        },
         shuffle: function(arg) {
           //Durstenfeld shuffle:  https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
           arrayString = JSON.stringify(arg)
@@ -222,16 +240,17 @@ function startVue(){
     },
     created () {
     let _this = this
-    console.log('created',_this.user, _this.exceptions)
+    console.log('created', _this.test, _this.user, _this.exceptions)
 
-    if (_this.exceptions.includes(_this.user)) {
+    if (_this.exceptions.includes(_this.user) || _this.test == 'review') {
       console.log('window blur exception')
     } else {
-      console.log('test')
-
+      console.log('window blur set')
+      window.onblur = function () {
+        _this.sendMessage()
+      }
     }
-
-    }
+  }
 })// end NEW VUE
 
 

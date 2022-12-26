@@ -180,6 +180,39 @@ def exams(test, unit):
     Dict=json.dumps(examDict), title=unit, theme=theme, exceptions=json.dumps(exceptionList))
 
 
+@app.route ("/recordBlur", methods=['POST', 'GET'])
+@login_required
+def recordBlur():
+    print('Record Blur Activity')
+    user = getModels()['Exams_'].query.filter_by(username=current_user.username).first()
+
+
+    if user:
+        if get_MTFN('grades') == 'MT':
+            if not user.j3:
+                user.j3 = 1
+            else:
+                user.j3 = int(user.j3) + 1
+            return jsonify({'count' : user.j3})
+        else:
+            if not user.j4:
+                user.j4 = 1
+            else:
+                user.j4 = int(user.j4) + 1
+            return jsonify({'count' : user.j4})
+
+        db.session.commit()
+
+
+
+
+
+
+
+
+
+
+
 @app.route ("/updateExam", methods=['POST', 'GET'])
 @login_required
 def updateExam():
@@ -692,7 +725,8 @@ def grades_final():
             'exam1' : 0,
             'exam2' : 0,
             'rscore1' : '',
-            'rscore2' : ''
+            'rscore2' : '',
+            'blurs' : 0
         }
         completeDict[user.username] = completeStatus('FN', user.username)
 
@@ -754,7 +788,6 @@ def grades_final():
             gradesDict[practice.username]['tries2'] = reviewData[str(semester) + '-7-8'][2]
             gradesDict[practice.username]['pscore2'] = (reviewData[str(semester) + '-7-8'][0] + reviewData[str(semester) + '-7-8'][1])/2
 
-
         examData =  ast.literal_eval(practice.j2)
         if len(examData[str(semester) + '-5-6']) > 0 :
             gradesDict[practice.username]['exam1'] = round( (examData[str(semester) + '-5-6'][0] + examData[str(semester) + '-5-6'][1])/2 )
@@ -762,6 +795,8 @@ def grades_final():
         if len(examData[str(semester) + '-7-8']) > 0 :
             gradesDict[practice.username]['exam2'] = round( (examData[str(semester) + '-7-8'][0] + examData[str(semester) + '-7-8'][1])/2 )
             gradesDict[practice.username]['rscore2'] = [examData[str(semester) + '-7-8'][0], examData[str(semester) + '-7-8'][1]]
+
+        gradesDict[practice.username]['blurs'] = practice.j4
 
 
         print('exam_list_data_checked')
