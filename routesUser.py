@@ -193,15 +193,16 @@ def recordBlur():
                 user.j3 = 1
             else:
                 user.j3 = int(user.j3) + 1
+            db.session.commit()
             return jsonify({'count' : user.j3})
         else:
             if not user.j4:
                 user.j4 = 1
             else:
                 user.j4 = int(user.j4) + 1
+            db.session.commit()
             return jsonify({'count' : user.j4})
 
-        db.session.commit()
 
 
 
