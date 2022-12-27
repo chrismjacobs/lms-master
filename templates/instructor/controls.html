@@ -8,6 +8,7 @@
 <span id="team_string" style="display:none">{{team_list}}</span>
 <span id="set_string" style="display:none">{{setString}}</span>
 <span id="schema" style="display:none">{{SCHEMA}}</span>
+<span id="course" style="display:none"> {{course}} </span>
 
 <div class="content-section" :style="controlStyle()">
      <legend class="border-bottom mb-4">Controls</legend>
@@ -158,9 +159,25 @@ var teamOBJ = JSON.parse(team_list)
 console.log('teamOBJ', teamOBJ);
 var set_list = document.getElementById('set_string').innerHTML
 var setOBJ = JSON.parse(set_list)
-console.log('setOBJ', setOBJ);
+console.log('setOBJ', setOBJ, setOBJ['Set_mode']);
 var SCHEMA = document.getElementById('schema').innerHTML
 console.log('schema', SCHEMA);
+
+let date = new Date().toJSON().slice(0,10)
+console.log(date);
+let courseSTR = document.getElementById('course').innerHTML
+let course =  JSON.parse(courseSTR)
+console.log('course', course)
+let unit = 'RR'
+let notice = 'Notice'
+
+for(let c in course) {
+  if (course[c]['Date'] == date) {
+    unit = course[c]['Unit']
+    notice = course[c]['Title']
+  }
+}
+
 
 
 startVue()
@@ -172,11 +189,15 @@ let vue = new Vue({
     el: '#vue-app',
     delimiters: ['[[', ']]'],
     mounted: function(){
-      if (this.schemaList.includes(this.SCHEMA)) {
-        this.studentAdd('111111111')
+      if (parseInt(setOBJ['Set_mode']) == 100 ){
+        this.setOBJ['Notice'] = notice
+        this.setOBJ['Unit'] = unit
       }
+
     },
     data: {
+        course: course,
+        date: date,
         SCHEMA : parseInt(SCHEMA),
         schemaList : [1,2,10],
         attendOBJ : attendOBJ,
