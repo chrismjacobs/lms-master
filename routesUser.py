@@ -537,7 +537,7 @@ def exam_list_final():
         'tries78' : str(tries78) + '/20% - tries: ' + str(reviewData[str(semester) + '-7-8'][2]),
         'ex56' : ex56,
         'ex78' : ex78,
-        'midterm' : midterm
+        'midterm' : midterm,
     }
 
     grades = get_grades(True, True)
@@ -822,6 +822,7 @@ def grades_final():
     # print(MTgrades)
     for mt_student in MTgrades:
         gradesDict[mt_student]['MT'] = round(MTgrades[mt_student]['Total'], 1)
+        gradesDict[mt_student]['FN'] = round((gradesDict[mt_student]['MT'] + gradesDict[mt_student]['Total'])/2)
 
     bData = User.query.filter_by(id=1).first().info
 

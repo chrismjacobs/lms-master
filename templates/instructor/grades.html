@@ -132,10 +132,18 @@ let vue = new Vue({
 
           window.open(url, '_blank')
         },
+        getType: function () {
+          var str = window.location.href
+          if (str.includes('midterm')) {
+            return 'T'
+          } else {
+            return 'F'
+          }
+        },
         gStyle: function(head, g) {
           if (this.gList) {
             console.log(head[0])
-            let remove = ['I', 'T']
+            let remove = ['I', this.getType()]
             if (!remove.includes(head[0])) {
               return { display:'none'}
             }
