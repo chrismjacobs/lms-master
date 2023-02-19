@@ -55,7 +55,7 @@ def loadAWS(file, unit):
 @login_required
 def tips():
 
-    with open('static/json_files/WRITE/topics.json', 'r') as f:
+    with open('static/topics.json', 'r') as f:
         srcJSON = json.load(f)
 
     tips = json.dumps(srcJSON['tips'])
@@ -225,7 +225,7 @@ def sendImage():
 def topic_list():
     topDict = {}
 
-    with open('static/json_files/WRITE/topics.json', 'r') as f:
+    with open('static/topics.json', 'r') as f:
         srcJSON = json.load(f)
 
     sources = srcJSON['sources']
@@ -296,7 +296,7 @@ def topicCheck(unit):
     random.shuffle(dataList)
 
 
-    with open('static/json_files/WRITE/topics.json', 'r') as f:
+    with open('static/topics.json', 'r') as f:
         srcJSON = json.load(f)
 
 
@@ -374,7 +374,7 @@ def part(part, unit):
 
     #SOURCES = loadAWS('json_files/sources.json', 0)
     #sources = json.dumps(SOURCES['sources'])
-    with open('static/json_files/WRITE/topics.json', 'r') as f:
+    with open('static/topics.json', 'r') as f:
         srcJSON = json.load(f)
 
     sources = json.dumps(srcJSON['sources'])
