@@ -6,20 +6,33 @@ from flask_login import login_user, current_user, logout_user, login_required
 from forms import *
 from models import *
 from pprint import pprint
-from routesUser import get_grades, get_sources
+from routesGet import get_grades, get_sources, get_schedule
 
-from meta import BaseConfig
-s3_client = BaseConfig.s3_client
+from meta import *
 s3_resource = BaseConfig.s3_resource
-S3_LOCATION = BaseConfig.S3_LOCATION
-S3_BUCKET_NAME = BaseConfig.S3_BUCKET_NAME
-SCHEMA = BaseConfig.SCHEMA
-DESIGN = BaseConfig.DESIGN
 
 
-from routesFOOD import get_all_values
+def get_all_values(nested_dictionary):
+    detected = 0
+    for key, value in nested_dictionary.items():
+        if type(value) is dict:
+            print ('DICT FOUND', value)
+            if get_all_values(value) != 0:
+                detected += get_all_values(value)
+        else:
+            if value == None or value == "":
+                print('CHECK', key, value)
+                detected += 1
+
+    return detected
+
 
 def get_peng_projects():
+
+    SCHEMA = getSchema()
+    S3_LOCATION = schemaList[SCHEMA]['S3_LOCATION']
+    S3_BUCKET_NAME = schemaList[SCHEMA]['S3_BUCKET_NAME']
+
     content_object = s3_resource.Object( S3_BUCKET_NAME, 'json_files/sources.json' )
     file_content = content_object.get()['Body'].read().decode('utf-8')
     sDict = json.loads(file_content)  # json loads returns a dictionary
@@ -170,9 +183,9 @@ def peng_list():
     source = get_peng_projects()
 
     projectData = {
-        'MT' : U011U,
-        'FH' : U011U, # Fu Hsin
-        'FN' : U021U
+        'MT' : U011U_PENG,
+        'FH' : U011U_PENG, # Fu Hsin
+        'FN' : U021U_PENG
     }
 
     startDict = {
@@ -245,7 +258,7 @@ def peng_list():
         pass
     elif setup == 'MT':
 
-        start = U011U(username=current_user.username, Ans01=json.dumps(startDict), Grade=0, Comment='0')
+        start = U011U_PENG(username=current_user.username, Ans01=json.dumps(startDict), Grade=0, Comment='0')
         db.session.add(start)
         db.session.commit()
     elif setup == 'FN':
@@ -263,7 +276,7 @@ def peng_list():
             'Comments Key Words' : None
         }
 
-        start = U021U(username=current_user.username, Ans01=json.dumps(startDict), Grade=0, Comment='0')
+        start = U021U_PENG(username=current_user.username, Ans01=json.dumps(startDict), Grade=0, Comment='0')
         db.session.add(start)
         db.session.commit()
 
@@ -289,14 +302,14 @@ def peng_dash():
     projDict = {}
 
     if MTFN == 'FS':
-        midterms = U011U.query.all()
+        midterms = U011U_PENG.query.all()
         html = 'peng/peng_dash_fs.html'
         for user in midterms:
             userDict = json.loads(user.Ans01)
             userDict['stage'] = user.Comment
             projDict[user.username] = userDict
     if MTFN == 'MT':
-        midterms = U011U.query.all()
+        midterms = U011U_PENG.query.all()
         html = 'peng/peng_dash.html'
         for user in midterms:
             userDict = json.loads(user.Ans01)
@@ -304,7 +317,7 @@ def peng_dash():
             projDict[user.username] = userDict
     if MTFN == 'FN':
         html = 'peng/peng_dash_vv.html'
-        midterms = U021U.query.all()
+        midterms = U021U_PENG.query.all()
         for user in midterms:
             userDict = json.loads(user.Ans01)
             userDict['stage'] = user.Comment
@@ -328,13 +341,13 @@ def peng_proj(page_stage):
         MTFN = 'FN'
 
     if MTFN == 'MT':
-        project = U011U.query.filter_by(username=current_user.username).first()
+        project = U011U_PENG.query.filter_by(username=current_user.username).first()
         html = 'peng/peng_demo'
     elif MTFN == 'FN':
-        project = U021U.query.filter_by(username=current_user.username).first()
+        project = U021U_PENG.query.filter_by(username=current_user.username).first()
         html = 'peng/peng_video'
     elif MTFN == 'FH':
-        project = U011U.query.filter_by(username=current_user.username).first()
+        project = U011U_PENG.query.filter_by(username=current_user.username).first()
         html = 'peng/peng_fuhsin'
     ansDict = project.Ans01
     grade = project.Grade
@@ -384,6 +397,10 @@ def updatePENG():
 
     ansDict = json.loads(ansOBJ)
 
+    SCHEMA = getSchema()
+    S3_LOCATION = schemaList[SCHEMA]['S3_LOCATION']
+    S3_BUCKET_NAME = schemaList[SCHEMA]['S3_BUCKET_NAME']
+
     if image_b64:
         print('PROCESSING IMAGE')
         image = base64.b64decode(image_b64)
@@ -400,11 +417,11 @@ def updatePENG():
         ansDict['Audio'+ stage] = audioLink
 
     if MTFN == 'MT' or MTFN == 'FH':
-        project_answers = U011U.query.filter_by(username=user).first()
+        project_answers = U011U_PENG.query.filter_by(username=user).first()
     if MTFN == 'FN':
         print('FN_done')
         print(ansOBJ)
-        project_answers = U021U.query.filter_by(username=user).first()
+        project_answers = U021U_PENG.query.filter_by(username=user).first()
     ansOBJ = json.dumps(ansDict)
     project_answers.Ans01 = str(ansOBJ)
     db.session.commit()
@@ -464,6 +481,11 @@ def updatePENG():
 
 @app.route('/createPPT_VV', methods=['POST'])
 def createPPT_VV():
+    SCHEMA = getSchema()
+    S3_LOCATION = schemaList[SCHEMA]['S3_LOCATION']
+    S3_BUCKET_NAME = schemaList[SCHEMA]['S3_BUCKET_NAME']
+
+
     ansOBJ = request.form ['ansOBJ']
     ansDict = json.loads(ansOBJ)
     print(ansDict)

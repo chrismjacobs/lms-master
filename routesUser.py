@@ -100,7 +100,7 @@ def home():
     'title' : 'Home'
     }
 
-    return render_template('admin/home.html', **context )
+    return render_template('admin/home.html', **context, SCHEMA=SCHEMA)
 
 
 ######## Exams //////////////////////////////////////////////

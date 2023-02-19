@@ -1,0 +1,118 @@
+{% extends "layoutWriting.html" %}
+
+{% block content %}
+
+<div style="color:whitesmoke" class="list-section">
+    <h1> Homepage </h1>
+</div>
+
+{% if current_user.is_authenticated %}
+
+
+<div class="list-section">
+    <legend class="border-bottom mb-4">Attendance History</legend>
+    <table class="table table-sm">
+        <thead>
+            <tr>
+              <th scope="col" style="width: 3px;">Date</th>
+              <th scope="col" style="width: 3px;">Time</th>
+              <th scope="col" style="width: 3px;">Att</th>
+              <th scope="col" style="width: 20px;"></th>
+            </tr>
+        </thead>
+        {% for log in attLog %}
+        <tbody>
+            <tr>
+              <td> {{log.date_posted.strftime('%B %d')}}</td>
+              <td> {{log.date_posted.strftime('%H %M')}}</td>
+              <td> {{log.attend}}</td>
+              <td> {{log.comments}}</td>
+            </tr>
+        </tbody>
+        {% endfor %}
+      </table>
+</div>
+
+<div class="list-section">
+    <legend class="border-bottom mb-4">Web App Introduction</legend>
+
+    <a href="https://www.youtube.com/embed/Kr6tz6Mjuec" target="_blank"><h1 style="color:white"> LINK TO INTRODUCTION VIDEO  </h1></a>
+ <div class="embed-responsive embed-responsive-4by3">
+<iframe width="853" height="480" src="https://www.youtube.com/embed/Kr6tz6Mjuec"
+frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
+</div>
+
+</div>
+
+<div class="list-section">
+    <legend class="border-bottom mb-4">Web App Introduction</legend>
+
+      <img class="rounded img-fluid" src="https://writing-lms.s3-ap-northeast-1.amazonaws.com/schematic.PNG"> </img>
+
+</div>
+
+
+{% else %}
+<div class="list-section">
+<legend class="border-bottom mb-4">Welcome</legend>
+    <h1> Please <a href= "{{ url_for ('login') }}">Login</a> or <a href= "{{ url_for ('register') }}">Join</a> the course </h1>
+</div>
+{% endif %}
+
+
+{% endblock content %}
+
+{% block script %}
+
+<script>
+
+    window.onload = $('#newMessage').hide();
+
+
+    var myVar = setInterval(chatCheck, 60000);
+
+    function chatCheck() {
+		$.ajax({
+			data : {
+                chat : $('#lastChat').val()
+			},
+			type : 'POST',
+            //url : '/chatCheck',
+
+		})
+		.done(function(data) {
+            if (data.new) {
+                $('#newMessage').show();
+                document.getElementById('messText').innerHTML = data.new
+            }
+		});
+    }
+
+
+for (i = 1; i < 4; i++) {
+
+let button = document.getElementById('color'+i)
+let color = document.getElementById('color'+i).value
+
+if (color < .4) {
+  button.style.background='#E74C3C';
+} else if (color < .6 ) {
+  button.style.background='#E59866';
+} else if (color < .8 ) {
+  button.style.background='#BB8FCE';
+} else if (color < 1) {
+  button.style.background='#17A589';
+} else {
+  button.style.background='#229954';
+}
+}
+
+
+
+</script>
+
+{% endblock %}
+
+
+

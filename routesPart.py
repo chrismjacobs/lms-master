@@ -468,13 +468,15 @@ def shareUpload():
 @login_required
 def participation(unit_num,part_num,state):
     schedule = get_schedule()
-    print('SCHEDULE', schedule)
+    print('SCHEDULE', schedule.keys())
     dt = None
     deadPass = True
     for s in schedule:
         if schedule[s]['Unit'] == unit_num:
             dt = schedule[s]['Deadline']
+            print('dt1', dt)
     if dt:
+        print('dt2', dt)
         deadline = datetime.strptime(dt, '%Y-%m-%d')
         print('DEADLINE', deadline, datetime.now() )
         if datetime.now() < deadline:

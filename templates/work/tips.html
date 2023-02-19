@@ -1,0 +1,58 @@
+{% extends "layoutWriting.html" %}
+
+{% block content %}
+
+
+<div id="vue-app">
+
+
+<div class="list-section" v-for="(tip, key) in tips">
+<legend class="border-bottom mb-4">Writing Tips</legend>
+
+
+    <div class="frame-section embed-responsive embed-responsive-4by3">
+            <iframe :src="tip"
+                allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
+            </iframe>
+    </div>
+
+
+    <br>
+
+</div>
+
+
+</div> <!-- end of Vue app -->
+
+<span id="tips" style="display:none"> {{tips}} </span>
+
+
+{% endblock %}
+
+
+
+
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script type="text/javascript">
+
+
+let tipsSTR = document.getElementById('tips').innerHTML
+let tips =  JSON.parse(tipsSTR)
+
+
+let app =  new Vue({
+
+    el: '#vue-app',
+    delimiters: ['[[', ']]'],
+    data: {
+        tips: tips
+    },
+    methods: {
+
+    }
+})
+
+</script>
+
+{% endblock %}

@@ -19,9 +19,7 @@
 {% endif %}
 
 <div class="content-section">
-{% if SCHEMA == 2 %}
-<a style="color:white;background:steelblue" class="btn" href="{{ url_for ('vocab') }}", target="_blank">PVQC</a>
-{% endif %}
+
 {% if current_user.frd == 2 and current_user.schema != 1 %}
 <a style="color:white;background:MEDIUMSEAGREEN" class="btn" href="{{ url_for ('change', schema=1) }}">FRD</a>
 {% endif %}
@@ -34,8 +32,14 @@
 {% if current_user.lnc == 1 and current_user.schema != 5 %}
 <a style="color:white;background:REBECCAPURPLE" class="btn" href="{{ url_for ('change', schema=5) }}">LNC</a>
 {% endif %}
+{% if current_user.png == 1 and current_user.schema != 4 %}
+<a style="color:white;background:REBECCAPURPLE" class="btn" href="{{ url_for ('change', schema=4) }}">PENG</a>
+{% endif %}
 {% if current_user.vtm == 1 and current_user.schema != 6 %}
 <a style="color:white;background:steelblue" class="btn" href="{{ url_for ('change', schema=6) }}">VTM</a>
+{% endif %}
+{% if current_user.app == 1 and current_user.schema < 7  %}
+<a style="color:white;background:steelblue" class="btn" href="{{ url_for ('change', schema=8) }}">APP</a>
 {% endif %}
 </div>
 

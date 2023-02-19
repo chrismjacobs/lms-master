@@ -22,9 +22,9 @@
               <th scope="col" >Name</th>
               <th scope="col" >ID</th>
               <th scope="col" >FRD</th>
-              <th scope="col" >LNC</th>
               <th scope="col" >WPE</th>
-              <th scope="col" >ICC</th>
+              <th scope="col" >WRITE</th>
+              <th scope="col" >PENG</th>
               <th scope="col" >VTM</th>
               <th scope="col" >EX</th>
               <th scope="col" >NEW</th>
@@ -89,8 +89,8 @@ let vue = new Vue({
               studentID : studentID,
               frd : 0,
               wpe : 0,
-              icc : 0,
-              lnc : 0,
+              write : 0,
+              peng : 0,
               vtm : 0,
               extra : 0
             }
@@ -108,9 +108,8 @@ let vue = new Vue({
         schemaList : {
           1 : 'frd',
           2 : 'wpe',
-          3 : 'icc',
-          4 : 'png',
-          5 : 'lnc',
+          7 : 'write',
+          4 : 'peng',
           6 : 'vtm'
         },
         total : {

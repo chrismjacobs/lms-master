@@ -4,6 +4,21 @@ from app import app, db
 from models import *
 from pprint import pprint
 
+def getUsers():
+    users = User.query.all()
+
+    userDict = {}
+
+    for user in users:
+        userDict[user.studentID] =user.username
+
+
+
+    with open('student.json', 'w') as json_file:
+        json.dump(userDict, json_file)
+
+    print(userDict)
+
 def get_participation_jData():
 
     blankDict = {}
@@ -84,5 +99,5 @@ def getj():
     print(t)
 
 
-getj()
+getUsers()
 

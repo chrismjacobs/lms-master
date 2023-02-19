@@ -14,6 +14,9 @@ from modelsICC import *
 from modelsLNC import *
 from modelsWPE import *
 from modelsVTM import *
+from modelsWRITE import *
+from modelsNME import *
+from modelsPENG import *
 
 def getSchema():
     SCHEMA = 0
@@ -29,12 +32,12 @@ def getModels():
     SCHEMA = getSchema()
     # print('getModels', SCHEMA)
 
-    chatbox = [None, ChatBox_FRD, ChatBox_WPE, ChatBox_ICC, 'ChatBox_PENG', ChatBox_LNC, ChatBox_VTM, 'ChatBox_NME']
-    attend = [None, Attendance_FRD, Attendance_WPE, Attendance_ICC, 'Attendance_PENG', Attendance_LNC, Attendance_VTM, 'Attendance_NME']
-    attl = [None, AttendLog_FRD, AttendLog_WPE, AttendLog_ICC, 'AttendLog_PENG', AttendLog_LNC, AttendLog_VTM, 'AttendLog_NME']
-    units = [None, Units_FRD, Units_WPE, Units_ICC, 'Units_PENG', Units_LNC, Units_VTM, 'Units_NME']
-    exams = [None, Exams_FRD, Exams_WPE, Exams_ICC, 'Exams_PENG', Exams_LNC, Exams_VTM, 'Exams_NME']
-    errors = [None, Errors_FRD, Errors_WPE, Errors_ICC, 'Errors_PENG', Errors_LNC, Errors_VTM, 'Errors_NME']
+    chatbox = [None, ChatBox_FRD, ChatBox_WPE, ChatBox_ICC, ChatBox_PENG, ChatBox_LNC, ChatBox_VTM, ChatBox_NME, ChatBox_WRITE]
+    attend = [None, Attendance_FRD, Attendance_WPE, Attendance_ICC, Attendance_PENG, Attendance_LNC, Attendance_VTM, Attendance_NME, Attendance_WRITE]
+    attl = [None, AttendLog_FRD, AttendLog_WPE, AttendLog_ICC, AttendLog_PENG, AttendLog_LNC, AttendLog_VTM, AttendLog_NME, AttendLog_WRITE]
+    units = [None, Units_FRD, Units_WPE, Units_ICC, Units_PENG, Units_LNC, Units_VTM, Units_NME, Units_WRITE]
+    exams = [None, Exams_FRD, Exams_WPE, Exams_ICC, Exams_PENG, Exams_LNC, Exams_VTM, Exams_NME, Exams_WRITE]
+    errors = [None, Errors_FRD, Errors_WPE, Errors_ICC, Errors_PENG, Errors_LNC, Errors_VTM, Errors_NME, Errors_WRITE]
 
     return {
         'ChatBox_' : chatbox[SCHEMA],
@@ -50,8 +53,8 @@ def getInfo():
     SCHEMA = getSchema()
 
     infoDict = {
-        'mda' : [{}, modDictAss_FRD, modDictAss_WPE, modDictAss_ICC, 'modDictAss_PENG', modDictAss_LNC, modDictAss_VTM, 'modDictAss_NME'],
-        'mdu' : [{}, modDictUnits_FRD, modDictUnits_WPE, modDictUnits_ICC, 'modDictUnits_PENG', modDictUnits_LNC, modDictUnits_VTM, 'modDictUnits_NME'],
+        'mda' : [{}, modDictAss_FRD, modDictAss_WPE, modDictAss_ICC, modDictAss_PENG, modDictAss_LNC, modDictAss_VTM, modDictAss_NME, modDictAss_WRITE],
+        'mdu' : [{}, modDictUnits_FRD, modDictUnits_WPE, modDictUnits_ICC, modDictUnits_PENG, modDictUnits_LNC, modDictUnits_VTM, modDictUnits_NME, modDictUnits_WRITE],
     }
 
 
@@ -59,6 +62,7 @@ def getInfo():
     modDictUnits = infoDict['mdu'][SCHEMA]
 
     print('mod dict ass', modDictAss)
+    print('mod dict units', modDictUnits)
 
     if getModels()['Units_'] and not getModels()['Units_'].query.filter_by(unit='00').first():
         try:
@@ -124,8 +128,9 @@ class User(db.Model, UserMixin):
     device = db.Column (db.String(), nullable=False)
     frd = db.Column(db.Integer, default=0)
     wpe = db.Column(db.Integer, default=0)
-    icc = db.Column(db.Integer, default=0)
-    lnc = db.Column(db.Integer, default=0)
+    #icc = db.Column(db.Integer, default=0)
+    #lnc = db.Column(db.Integer, default=0)
+    app = db.Column(db.Integer, default=0)
     vtm = db.Column(db.Integer, default=0)
     png = db.Column(db.Integer, default=0)
     semester = db.Column(db.Integer)
@@ -193,18 +198,18 @@ admin.add_view(MyModelView(User, db.session))
 admin.add_view(MyModelView(Users, db.session))
 
 mList1 = [
-            Attendance_FRD, Attendance_WPE, Attendance_ICC, Attendance_LNC, Attendance_VTM,
-            AttendLog_FRD, AttendLog_WPE, AttendLog_ICC, AttendLog_LNC, AttendLog_VTM,
-            Units_FRD, Units_WPE, Units_ICC, Units_LNC, Units_VTM,
-            Exams_FRD, Exams_WPE, Exams_ICC, Exams_LNC, Exams_VTM
+            Attendance_FRD, Attendance_WPE,  Attendance_VTM, Attendance_PENG, Attendance_WRITE, Attendance_NME, #Attendance_ICC, Attendance_LNC,
+            AttendLog_FRD, AttendLog_WPE,AttendLog_VTM, AttendLog_PENG, AttendLog_WRITE, AttendLog_NME,  #AttendLog_ICC, AttendLog_LNC,
+            Units_FRD, Units_WPE, Units_VTM, Units_PENG, Units_WRITE, Units_NME, #Units_ICC, Units_LNC,
+            Exams_FRD, Exams_WPE, Exams_VTM, Exams_PENG, Exams_WRITE, Exams_NME, #Exams_ICC, Exams_LNC,
          ]
 
 for m in mList1:
     admin.add_view(MyModelView(m, db.session))
 
 
-mList2 = [modDictAss_FRD, modDictAss_WPE, modDictAss_ICC, modDictAss_LNC, modDictAss_VTM]
-mList3 = [modDictUnits_FRD, modDictUnits_WPE, modDictUnits_ICC, modDictUnits_LNC, modDictUnits_VTM]
+mList2 = [modDictAss_FRD, modDictAss_WPE,  modDictAss_VTM, modDictAss_PENG, modDictAss_WRITE, modDictAss_NME,  ] #modDictAss_ICC, modDictAss_LNC,
+mList3 = [modDictUnits_FRD, modDictUnits_WPE, modDictUnits_VTM, modDictUnits_PENG, modDictUnits_WRITE, modDictUnits_NME,  ] #modDictUnits_ICC, modDictUnits_LNC,
 
 for s in mList3:
     for d in s:
@@ -218,8 +223,8 @@ for d in mList2:
 
 
 mList4 = [
-            ChatBox_FRD, ChatBox_WPE, ChatBox_ICC, ChatBox_LNC, ChatBox_VTM,
-            Errors_FRD, Errors_WPE, Errors_ICC, Errors_LNC, Errors_VTM
+            ChatBox_FRD, ChatBox_WPE, ChatBox_VTM, ChatBox_PENG, ChatBox_WRITE, ChatBox_NME,   #ChatBox_ICC, ChatBox_LNC,
+            Errors_FRD, Errors_WPE, Errors_VTM, Errors_PENG, Errors_WRITE, Errors_NME,    #Errors_ICC, Errors_LNC,
          ]
 
 for m in mList4:

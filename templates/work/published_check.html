@@ -1,0 +1,249 @@
+{% extends "layoutWriting.html" %}
+
+{% block content %}
+
+<div class="list-section">
+<h2> Loading Student Work:</h2>
+<h3 id="load">{{recCount}}</h3>
+</div>
+
+
+<div id="vue-app">
+
+<div class="list-section">
+<legend class="border-bottom mb-4">Published Work</legend>
+
+
+
+ <table class="table" style="color:white">
+
+    <div>
+
+        <tbody>
+            <template v-for="(model, unit) in recOBJ">
+               <tr>
+               <td @click="showUnit(unit)"> <span class="unit-span" style="color:{{current_user.theme}}"> &emsp;&emsp;[[ unit ]]&emsp;&emsp; </span> </td>
+
+               </tr>
+
+               <template v-if="show[unit]" v-for="(work, student) in model">
+                    <div v-if="work['info']['stage'] == 5">
+                        <h1>[[ work['publish']['title']  ]]</h1>
+                        <img class="rounded img-fluid" id="final_image" alt="No file yet" style="max-height:200px":src="work['publish']['imageLink']">
+                      <br>
+                      <br>
+                      <img class="rounded-circle chat-img" style="display:inline-block" :src="work['info']['image']">
+                      <span :style="theme(work['info']['theme'])"> Written by [[  work['info']['avatar'] ]] : [[ work['info']['name'] ]]</span>
+                      <br>
+                      <br>
+                      <template  v-for="(plan, head) in work['plan']">
+                            <span class="unit-span" style="color:{{current_user.theme}}">[[ head ]]</span> [[plan]]</span> <br>
+                      </template>
+                      <br>
+                      <br>
+                    <div style="background:darkslategrey; border-radius:5px; width:100%">
+                        <p  align="justify" style="padding-left:8px; padding-right:8px;font-size:16px"> [[ work['publish']['final'] ]] </p>
+                    </div>
+                    <h6 style="color:white">[[ unit ]] </h6>
+                    <div style="background:GAINSBORO; border-radius:5px; width:100%">
+                        <p class="unselectable" v-html="studentHTML[unit][work['info']['name']]" align="justify" style="color:black; padding-left:8px; padding-right:8px;font-size:15px"> </p>
+                    </div>
+
+               </template>
+
+
+            </template>
+        </tbody>
+
+    </div id="end vue for">
+    </table>
+
+
+
+</div> <!-- end of Vue app -->
+
+
+<span id="recs" style="color:white;display:none"> {{recOBJ}} </span>
+<span id="instructor" style="color:white;display:none"> {{instructor}} </span>
+
+{% endblock %}
+
+{% block script %}
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script type="text/javascript">
+
+
+let jString = document.getElementById('recs').innerHTML
+let instructor = document.getElementById('instructor').innerHTML
+const recOBJ = JSON.parse(jString)
+
+console.log('recOBJ', recOBJ)
+
+
+var htmlOBJ = {}
+
+if (instructor.includes('ins')){
+    var topic_start = 1
+    var control = 1
+    console.log('instructor mode', instructor, topic_start)
+}
+else {
+    var topic_start = 1
+    var control = 1
+    console.log('instructor mode', instructor, topic_start)
+}
+
+var count = 1
+for (var rec in recOBJ){
+
+    console.log('recPre', parseInt(rec), topic_start);
+    // controls when to start adding topics in instructor mode
+    if (parseInt(rec) >= topic_start){
+        console.log('recPost', rec, parseInt(rec));
+        htmlOBJ[rec] = {}
+
+        for (var name in recOBJ[rec]){
+            htmlOBJ[rec][count] = name
+            count += 1
+        }
+        count = 1
+    }
+
+}
+console.log('htmlobj', htmlOBJ);
+
+let studentHTML = {
+    '01' : {},
+    '02' : {},
+    '03' : {},
+    '04' : {},
+    '05' : {},
+    '06' : {},
+    '07' : {},
+    '08' : {},
+    '09' : {},
+    '10' : {},
+}
+
+var reviseCount = 1
+
+
+getRevise(control)
+function getRevise(control){
+            controller = {
+                1 : '01',
+                2 : '02',
+                3 : '03',
+                4 : '04',
+                5 : '05',
+                6 : '06',
+                7 : '07',
+                8 : '08',
+                9 : '09',
+                10 : '10',
+            }
+            topic = controller[control]
+
+            var student = htmlOBJ[topic][reviseCount]
+            if (student){
+
+                $.ajax({
+                type : 'POST',
+                url : '/getHTML/' + topic,
+                data : {name : student }
+                })
+                .done(function(data) {
+
+                        let revise_obj = JSON.parse(data.revise)
+                        //console.log('html', revise_obj['html'][0,10]);
+                        let html = revise_obj['html']
+                        studentHTML[topic][student] = html
+                        //console.log(student, studentHTML);
+                        loadCount = parseInt(document.getElementById('load').innerHTML)
+                        document.getElementById('load').innerHTML = loadCount - 1
+                        reviseCount += 1
+                        getRevise(control)
+                });
+            }
+            else {
+                console.log('done');
+                reviseCount = 1
+                // control only 9 essay coming from API
+                if (control < 9) {
+                    control +=1
+                    console.log('control', control);
+                    getRevise(control)
+                }
+                else{
+                    console.log('startvue');
+                    startVue()
+                }
+
+
+            }
+        }
+
+
+
+function startVue()  {
+
+let vue = new Vue({
+
+    el: '#vue-app',
+    delimiters: ['[[', ']]'],
+    data: {
+        recOBJ : recOBJ,
+        instructor : instructor,
+        show : {
+            '01' : false,
+            '02' : false,
+            '03' : false,
+            '04' : false,
+            '05' : false,
+            '06' : false,
+            '07' : false,
+            '08' : false,
+            '09' : false
+        },
+        studentHTML : studentHTML,
+        htmlOBJ : htmlOBJ,
+        html: null,
+        htmlTest: {},
+
+
+    },
+    methods: {
+        goToRevise : function (student, unit){
+            window.location = (window.location.href).split('dashboard')[0] + 'editor/' + student + '/' + unit
+        },
+        showUnit : function (unit){
+            console.log(vue.show[unit]);
+
+            if ( vue.show[unit] == true) {
+                vue.show[unit] = false
+            }
+            else{
+                 vue.show[unit] = true
+            }
+
+        },
+        theme : function (color){
+            return { color : color,  display:'inline-block', 'font-size': '25px'}
+
+        }
+
+
+
+    },
+
+
+
+})// end NEW VUE
+
+}
+
+</script>
+
+
+{% endblock %}

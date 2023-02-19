@@ -28,11 +28,15 @@ def getUsers(schema):
     if schema == 3:
         userList = User.query.filter_by(icc=1).order_by(asc(User.studentID)).all()
     if schema == 4:
-        userList = User.query.filter_by(peng=1).order_by(asc(User.studentID)).all()
+        userList = User.query.filter_by(png=1).order_by(asc(User.studentID)).all()
     if schema == 5:
         userList = User.query.filter_by(lnc=1).order_by(asc(User.studentID)).all()
     if schema == 6 :
         userList = User.query.filter_by(vtm=1).order_by(asc(User.studentID)).all()
+    if schema == 7 :
+        userList = User.query.filter_by(app=1).order_by(asc(User.studentID)).all()
+    if schema == 8 :
+        userList = User.query.filter_by(app=1).order_by(asc(User.studentID)).all()
 
     print('getUsers', userList)
 

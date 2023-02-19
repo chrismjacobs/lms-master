@@ -446,16 +446,14 @@ def master_controls():
     uDict = {
     }
 
-
-
     for u in userData:
         uDict['id'] = u.id
         uDict['username'] = u.username
         uDict['studentID'] = u.studentID
         uDict['frd'] = u.frd
-        uDict['lnc'] = u.lnc
         uDict['wpe'] = u.wpe
-        uDict['icc'] = u.icc
+        uDict['write'] = u.app
+        uDict['peng'] = u.png
         uDict['vtm'] = u.vtm
         uDict['extra'] = u.extra
         uDict['new'] = 0
@@ -464,6 +462,7 @@ def master_controls():
             uDict['new'] = 1
 
         sDict[u.studentID] = uDict.copy()
+
 
 
 

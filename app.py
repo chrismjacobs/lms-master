@@ -46,9 +46,9 @@ from routesAdmin import *
 
 from routesUser import *
 from routesPart import *
-## from routesNME import *
-# from routesFOOD import *
-# from routesPENG import *
+#from routesNME import *
+from routesWRITE import *
+from routesPENG import *
 
 
 

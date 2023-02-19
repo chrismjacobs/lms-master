@@ -101,6 +101,19 @@ schemaList = {
         }
     },
 
+    4 : {
+        "Course": "Presentation English",
+        "courseCode" : "peng",
+        "S3_BUCKET_NAME": "peng-lms",
+        "S3_LOCATION" : "https://peng-lms.s3.ap-northeast-1.amazonaws.com/",
+        "DESIGN": {
+            "titleColor": "MEDIUMPURPLE",
+            "bodyColor": "LAVENDER",
+            "headTitle": "P-ENG",
+            "headLogo": "https://peng-lms.s3-ap-northeast-1.amazonaws.com/profiles/logo.png"
+        }
+    },
+
     5 : {
         "Course": "Language and Culture",
         "S3_BUCKET_NAME": "culture-lms",
@@ -136,6 +149,18 @@ schemaList = {
             "bodyColor": "whitesmoke",
             "headTitle": "NME course",
             "headLogo": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/profiles/logo.png"
+        }
+    },
+    8 : {
+        "Course": "Writing App",
+        "S3_BUCKET_NAME": "writing-lms",
+        "courseCode" : "write",
+        "S3_LOCATION" : "https://writing-lms.s3.ap-northeast-1.amazonaws.com/",
+        "DESIGN": {
+            "titleColor": "rgb(36, 31, 58)",
+            "bodyColor": "rgb(42, 63, 83)",
+            "headTitle": "APP course",
+            "headLogo": "https://writing-lms.s3-ap-northeast-1.amazonaws.com/profiles/logo.png"
         }
     },
 

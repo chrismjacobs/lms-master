@@ -266,8 +266,6 @@ def register():
         print('register course', course)
 
 
-
-
         if course == 1:
             user.frd = 1
             chatModel = ChatBox_FRD
@@ -279,13 +277,19 @@ def register():
             chatModel = ChatBox_ICC
         elif course == 4:
             user.png = 1
-            chatModel = 'ChatBox_PNG'
+            chatModel = ChatBox_PENG
         elif course == 5:
             user.lnc = 1
             chatModel = ChatBox_LNC
         elif course == 6:
             user.vtm = 1
             chatModel = ChatBox_VTM
+        elif course == 7:
+            user.nme = 1
+            chatModel = ChatBox_NME
+        elif course == 8:
+            user.app = 1
+            chatModel = ChatBox_WRITE
 
         db.session.commit()
 
@@ -334,7 +338,6 @@ def loginExtra(student):
         flash (f'Failed Login', 'warning')
         return redirect (url_for('home'))
 
-
 def loginSet(user, data):
 
     schema = int(data)
@@ -351,6 +354,10 @@ def loginSet(user, data):
     if schema == 5 and user.lnc == 1:
         allow = True
     if schema == 6 and user.vtm == 1:
+        allow = True
+    if schema == 7 and user.nme == 1:
+        allow = True
+    if schema == 8 and user.app == 1:
         allow = True
 
     if allow:

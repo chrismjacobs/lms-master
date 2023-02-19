@@ -8,21 +8,21 @@ from flask_admin.contrib.sqla import ModelView
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from meta import BaseConfig
 
-modDictUnits_NME = {}
-modDictAss_NME = {}
+modDictUnits_PENG = {}
+modDictAss_PENG = {}
 
 
 
 ''' top of page
 
-modDictUnits_NME = {}  dictionary of all unit models   01 : [None, Mod1, Mod2, Mod3, Mod4]
-modDictAss_NME = {}  dictionary of all assignment models  01 : Model
+modDictUnits_PENG = {}  dictionary of all unit models   01 : [None, Mod1, Mod2, Mod3, Mod4]
+modDictAss_PENG = {}  dictionary of all assignment models  01 : Model
 
 '''
 
 
 
-class ChatBox_NME(db.Model):
+class ChatBox_PENG(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now)
     username =  db.Column(db.String, nullable=False)
@@ -34,7 +34,7 @@ class ChatBox_NME(db.Model):
         return f"ChatBox('{self.username}','{self.chat}','{self.response}')"
      # the foreignkey shows a db.relationship to User ID ('User' is the class whereas 'user' is the table name which would be lower case)
 
-class Attendance_NME(db.Model):
+class Attendance_PENG(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now)
     username =  db.Column(db.String, unique=True, nullable=False)
@@ -45,7 +45,7 @@ class Attendance_NME(db.Model):
     teamcount = db.Column(db.Integer)
     unit = db.Column(db.String(9))
 
-class AttendLog_NME(db.Model):
+class AttendLog_PENG(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.now)
     username =  db.Column(db.String, nullable=False)
@@ -57,7 +57,7 @@ class AttendLog_NME(db.Model):
     extraInt = db.Column(db.Integer)
 
 
-class Units_NME(db.Model):
+class Units_PENG(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     unit = db.Column(db.String)
     u1 = db.Column(db.Integer)
@@ -66,7 +66,7 @@ class Units_NME(db.Model):
     u4 = db.Column(db.Integer)
     uA = db.Column(db.Integer)
 
-class Exams_NME(db.Model):
+class Exams_PENG(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String)
     j1 = db.Column(db.String)
@@ -78,7 +78,7 @@ class Exams_NME(db.Model):
     j7 = db.Column(db.String)
     j8 = db.Column(db.String)
 
-class Errors_NME(db.Model):
+class Errors_PENG(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     #date_added = db.Column(db.DateTime, default=datetime.now)
     username = db.Column(db.String)
@@ -108,17 +108,17 @@ class BaseUnits(db.Model):
     Grade = db.Column(db.Integer)
     Comment = db.Column(db.String)
 
-class U001U_NME(BaseUnits):
+class U001U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
 
 
-class U002U_NME(BaseUnits):
+class U002U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
 
-class U003U_NME(BaseUnits):
+class U003U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
 
-class U004U_NME(BaseUnits):
+class U004U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
 
 
@@ -128,171 +128,171 @@ class U004U_NME(BaseUnits):
 
 
 
-modDictUnits_NME['00']=[None]
-modDictUnits_NME['00'].append(U001U_NME)
-modDictUnits_NME['00'].append(U002U_NME)
-modDictUnits_NME['00'].append(U003U_NME)
-modDictUnits_NME['00'].append(U004U_NME)
+modDictUnits_PENG['00']=[None]
+modDictUnits_PENG['00'].append(U001U_PENG)
+modDictUnits_PENG['00'].append(U002U_PENG)
+modDictUnits_PENG['00'].append(U003U_PENG)
+modDictUnits_PENG['00'].append(U004U_PENG)
 
 ########################################
 
-class U011U_NME(BaseUnits):
+class U011U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['01']=[None]
-modDictUnits_NME['01'].append(U011U_NME)
+modDictUnits_PENG['01']=[None]
+modDictUnits_PENG['01'].append(U011U_PENG)
 
-class U012U_NME(BaseUnits):
+class U012U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['01'].append(U012U_NME)
+modDictUnits_PENG['01'].append(U012U_PENG)
 
-class U013U_NME(BaseUnits):
+class U013U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['01'].append(U013U_NME)
+modDictUnits_PENG['01'].append(U013U_PENG)
 
-class U014U_NME(BaseUnits):
+class U014U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['01'].append(U014U_NME)
+modDictUnits_PENG['01'].append(U014U_PENG)
 
 
 
 ##########################################
 
-class U021U_NME(BaseUnits):
+class U021U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['02']=[None]
-modDictUnits_NME['02'].append(U021U_NME)
+modDictUnits_PENG['02']=[None]
+modDictUnits_PENG['02'].append(U021U_PENG)
 
-class U022U_NME(BaseUnits):
+class U022U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['02'].append(U022U_NME)
+modDictUnits_PENG['02'].append(U022U_PENG)
 
-class U023U_NME(BaseUnits):
+class U023U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['02'].append(U023U_NME)
+modDictUnits_PENG['02'].append(U023U_PENG)
 
-class U024U_NME(BaseUnits):
+class U024U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['02'].append(U024U_NME)
+modDictUnits_PENG['02'].append(U024U_PENG)
 
 
 ##########################################
 
-class U031U_NME(BaseUnits):
+class U031U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['03']=[None]
-modDictUnits_NME['03'].append(U031U_NME)
+modDictUnits_PENG['03']=[None]
+modDictUnits_PENG['03'].append(U031U_PENG)
 
-class U032U_NME(BaseUnits):
+class U032U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['03'].append(U032U_NME)
+modDictUnits_PENG['03'].append(U032U_PENG)
 
-class U033U_NME(BaseUnits):
+class U033U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['03'].append(U033U_NME)
+modDictUnits_PENG['03'].append(U033U_PENG)
 
-class U034U_NME(BaseUnits):
+class U034U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['03'].append(U034U_NME)
+modDictUnits_PENG['03'].append(U034U_PENG)
 
 ##########################################
 
-class U041U_NME(BaseUnits):
+class U041U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['04']=[None]
-modDictUnits_NME['04'].append(U041U_NME)
+modDictUnits_PENG['04']=[None]
+modDictUnits_PENG['04'].append(U041U_PENG)
 
-class U042U_NME(BaseUnits):
+class U042U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['04'].append(U042U_NME)
+modDictUnits_PENG['04'].append(U042U_PENG)
 
-class U043U_NME(BaseUnits):
+class U043U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['04'].append(U043U_NME)
+modDictUnits_PENG['04'].append(U043U_PENG)
 
-class U044U_NME(BaseUnits):
+class U044U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['04'].append(U044U_NME)
-
-
-##########################################
-
-class U051U_NME(BaseUnits):
-    id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['05']=[None]
-modDictUnits_NME['05'].append(U051U_NME)
-
-class U052U_NME(BaseUnits):
-    id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['05'].append(U052U_NME)
-
-class U053U_NME(BaseUnits):
-    id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['05'].append(U053U_NME)
-
-class U054U_NME(BaseUnits):
-    id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['05'].append(U054U_NME)
-
+modDictUnits_PENG['04'].append(U044U_PENG)
 
 
 ##########################################
 
-class U061U_NME(BaseUnits):
+class U051U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['06']=[None]
-modDictUnits_NME['06'].append(U061U_NME)
+modDictUnits_PENG['05']=[None]
+modDictUnits_PENG['05'].append(U051U_PENG)
 
-class U062U_NME(BaseUnits):
+class U052U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['06'].append(U062U_NME)
+modDictUnits_PENG['05'].append(U052U_PENG)
 
-class U063U_NME(BaseUnits):
+class U053U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['06'].append(U063U_NME)
+modDictUnits_PENG['05'].append(U053U_PENG)
 
-class U064U_NME(BaseUnits):
+class U054U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['06'].append(U064U_NME)
+modDictUnits_PENG['05'].append(U054U_PENG)
+
 
 
 ##########################################
 
-class U071U_NME(BaseUnits):
+class U061U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['07']=[None]
-modDictUnits_NME['07'].append(U071U_NME)
+modDictUnits_PENG['06']=[None]
+modDictUnits_PENG['06'].append(U061U_PENG)
 
-class U072U_NME(BaseUnits):
+class U062U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['07'].append(U072U_NME)
+modDictUnits_PENG['06'].append(U062U_PENG)
 
-class U073U_NME(BaseUnits):
+class U063U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['07'].append(U073U_NME)
+modDictUnits_PENG['06'].append(U063U_PENG)
 
-class U074U_NME(BaseUnits):
+class U064U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['07'].append(U074U_NME)
+modDictUnits_PENG['06'].append(U064U_PENG)
 
 
 ##########################################
 
-class U081U_NME(BaseUnits):
+class U071U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['08']=[None]
-modDictUnits_NME['08'].append(U081U_NME)
+modDictUnits_PENG['07']=[None]
+modDictUnits_PENG['07'].append(U071U_PENG)
 
-class U082U_NME(BaseUnits):
+class U072U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['08'].append(U082U_NME)
+modDictUnits_PENG['07'].append(U072U_PENG)
 
-class U083U_NME(BaseUnits):
+class U073U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['08'].append(U083U_NME)
+modDictUnits_PENG['07'].append(U073U_PENG)
 
-class U084U_NME(BaseUnits):
+class U074U_PENG(BaseUnits):
     id = db.Column(db.Integer, primary_key=True)
-modDictUnits_NME['08'].append(U084U_NME)
+modDictUnits_PENG['07'].append(U074U_PENG)
+
+
+##########################################
+
+class U081U_PENG(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True)
+modDictUnits_PENG['08']=[None]
+modDictUnits_PENG['08'].append(U081U_PENG)
+
+class U082U_PENG(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True)
+modDictUnits_PENG['08'].append(U082U_PENG)
+
+class U083U_PENG(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True)
+modDictUnits_PENG['08'].append(U083U_PENG)
+
+class U084U_PENG(BaseUnits):
+    id = db.Column(db.Integer, primary_key=True)
+modDictUnits_PENG['08'].append(U084U_PENG)
 
 
 ############### ASSIGNMENT MODELS ###################################
@@ -312,7 +312,7 @@ class BaseAss(db.Model):
     Grade = db.Column(db.Integer)
     Comment = db.Column(db.String)
 
-class A00A_NME (BaseAss):
+class A00A_PENG (BaseAss):
     id = db.Column(db.Integer, primary_key=True)
 
 
@@ -320,40 +320,40 @@ class A00A_NME (BaseAss):
 ## intro edit
 
 ### recode UNIT 00
-modDictAss_NME['00'] = A00A_NME
+modDictAss_PENG['00'] = A00A_PENG
 # print('MOD ASS FRD 00')
 
-class A01A_NME (BaseAss):
+class A01A_PENG (BaseAss):
     id = db.Column(db.Integer, primary_key=True)
-modDictAss_NME['01'] = A01A_NME
+modDictAss_PENG['01'] = A01A_PENG
 
-class A02A_NME (BaseAss):
+class A02A_PENG (BaseAss):
     id = db.Column(db.Integer, primary_key=True)
-modDictAss_NME['02'] = A02A_NME
+modDictAss_PENG['02'] = A02A_PENG
 
-class A03A_NME (BaseAss):
+class A03A_PENG (BaseAss):
     id = db.Column(db.Integer, primary_key=True)
-modDictAss_NME['03'] = A03A_NME
+modDictAss_PENG['03'] = A03A_PENG
 
-class A04A_NME (BaseAss):
+class A04A_PENG (BaseAss):
     id = db.Column(db.Integer, primary_key=True)
-modDictAss_NME['04'] = A04A_NME
+modDictAss_PENG['04'] = A04A_PENG
 
-class A05A_NME (BaseAss):
+class A05A_PENG (BaseAss):
     id = db.Column(db.Integer, primary_key=True)
-modDictAss_NME['05'] = A05A_NME
+modDictAss_PENG['05'] = A05A_PENG
 
-class A06A_NME (BaseAss):
+class A06A_PENG (BaseAss):
     id = db.Column(db.Integer, primary_key=True)
-modDictAss_NME['06'] = A06A_NME
+modDictAss_PENG['06'] = A06A_PENG
 
-class A07A_NME (BaseAss):
+class A07A_PENG (BaseAss):
     id = db.Column(db.Integer, primary_key=True)
-modDictAss_NME['07'] = A07A_NME
+modDictAss_PENG['07'] = A07A_PENG
 
-class A08A_NME (BaseAss):
+class A08A_PENG (BaseAss):
     id = db.Column(db.Integer, primary_key=True)
-modDictAss_NME['08'] = A08A_NME
+modDictAss_PENG['08'] = A08A_PENG
 
 
 ##############################################
