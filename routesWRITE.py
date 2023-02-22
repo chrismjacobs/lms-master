@@ -224,6 +224,7 @@ def sendImage():
 @login_required
 def topic_list():
     topDict = {}
+    infoDict = {}
 
     with open('static/topics.json', 'r') as f:
         srcJSON = json.load(f)
