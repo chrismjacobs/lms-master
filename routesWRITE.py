@@ -6,6 +6,7 @@ from app import app, db, bcrypt, mail
 from flask_login import login_user, current_user, logout_user, login_required
 from forms import *
 from models import *
+from routesGet import getUsers
 from pprint import pprint
 from flask_mail import Message
 
@@ -179,6 +180,8 @@ def updateInfo():
     avatar = request.form ['avatar']
     partner = request.form ['partner']
 
+
+
     print('UInfo', unit, theme, partner)
     classModel = getInfo()['aModsDict'][unit]
     entry = classModel.query.filter_by(username=current_user.username).first()
@@ -218,6 +221,29 @@ def sendImage():
     return jsonify({'name' : current_user.username, 'imageLink' : imageLink})
 
 
+def getWriteUsers():
+    ### sperate for vietnam class
+
+    vs = []
+    es = []
+    userList = []
+
+    for u in getUsers(6):
+        vs.append(u.username)
+
+    for u in getUsers(8):
+        if 'Chris' in vs:
+            userList = vs
+            break
+
+        else:
+            es.append(u.username)
+        userList = es
+
+    print(userList)
+
+    return userList
+
 """ ### TOPICS ### """
 
 @app.route("/topic_list", methods = ['GET', 'POST'])
@@ -233,6 +259,11 @@ def topic_list():
 
     pprint(sources)
 
+
+
+    userList = getWriteUsers()
+
+
     for unit in sources:
         src = sources[unit]
         if src['Set'] == 1:
@@ -244,7 +275,7 @@ def topic_list():
             model = getInfo()['aModsDict'][unit]
             user = model.query.filter_by(username=current_user.username).first()
             ## add info details if available
-            if user:
+            if user and user.username in userList:
                 infoDict = json.loads(user.info)
                 topDict[unit]['Theme'] = infoDict['theme']
                 topDict[unit]['Stage'] = int(infoDict['stage'])
@@ -270,16 +301,18 @@ def topicCheck(unit):
     stage = 0
     dataList =  []
 
+    userList = getWriteUsers()
+
     model = getInfo()['aModsDict'][unit]
-    entry = model.query.filter_by(username=current_user.username).first()
+    entryUser = model.query.filter_by(username=current_user.username).first()
     entries = model.query.all()
 
     for entry in entries:
         info = json.loads(entry.info)
-        if info['name'] == current_user.username:
+        if entry.username == current_user.username:
             stage = info['stage']
             print('CURRENT USER FOUND', current_user.username, stage)
-        else:
+        elif entry.username in userList:
             plan = json.loads(entry.plan)
             draft = json.loads(entry.draft)
             publish = json.loads(entry.publish)
@@ -305,7 +338,7 @@ def topicCheck(unit):
     sources = json.dumps(srcJSON['sources'])
 
     #print('DATA', type(dataList), dataList)
-    return jsonify({'dataList' : dataList, 'sources' : sources, 'stage' : stage, 'info' : entry.info, 'partner': entry.partner })
+    return jsonify({'dataList' : dataList, 'sources' : sources, 'stage' : stage, 'info' : entryUser.info, 'partner': entryUser.partner })
 
 ## AJAX
 @app.route('/getHTML/<string:unit>', methods=['POST'])

@@ -26,14 +26,14 @@
             "Title" : "Topic 2",
             "Date": "2023-03-01",
             "Deadline": "2023-03-15",
-            "Set" : 1,
+            "Set" : 0,
             "Materials" : "https://docs.google.com/presentation/d/e/2PACX-1vSirXjqpvDhpijUxsaXBzwR2vIZzgrKKZBKpAe8MdMbZIIbWYyFn1277vHPTYQWqUwDs49wv7d7ehEj/embed"
         },
         "03" : {
             "Title" : "Topic 3",
             "Date": "2023-03-08",
             "Deadline": "2023-03-22",
-            "Set" : 1,
+            "Set" : 0,
             "Materials" : "https://docs.google.com/presentation/d/e/2PACX-1vRj9S5u8VsgMV-0wwUQqbp-vIJXUvxCUPR-gONeGLYG5bjGg6eA_PzSaB3s7y1LQWR0k0Pwli1r7M2U/embed"
         },
         "04" : {
