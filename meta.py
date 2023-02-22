@@ -128,13 +128,13 @@ schemaList = {
     },
 
     6 : {
-        "Course": "Writing App",
+        "Course": "Vietnam Class",
         "S3_BUCKET_NAME": "writing-lms",
         "courseCode" : "write",
         "S3_LOCATION" : "https://writing-lms.s3.ap-northeast-1.amazonaws.com/",
         "DESIGN": {
-            "titleColor": "rgb(36, 31, 58)",
-            "bodyColor": "rgb(42, 63, 83)",
+            "titleColor": "gold",
+            "bodyColor": "whitesmoke",
             "headTitle": "APP course",
             "headLogo": "https://writing-lms.s3-ap-northeast-1.amazonaws.com/profiles/logo.png"
         },
