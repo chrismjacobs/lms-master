@@ -31,11 +31,11 @@ def getUsers(schema):
         userList = User.query.filter_by(png=1).order_by(asc(User.studentID)).all()
     if schema == 5:
         userList = User.query.filter_by(lnc=1).order_by(asc(User.studentID)).all()
-    if schema == 6 :
+    if schema == 6:
         userList = User.query.filter_by(vtm=1).order_by(asc(User.studentID)).all()
-    if schema == 7 :
+    if schema == 7:
         userList = User.query.filter_by(app=1).order_by(asc(User.studentID)).all()
-    if schema == 8 :
+    if schema == 8:
         userList = User.query.filter_by(app=1).order_by(asc(User.studentID)).all()
 
     print('getUsers', userList)

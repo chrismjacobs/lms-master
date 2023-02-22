@@ -229,16 +229,19 @@ def getWriteUsers():
     userList = []
 
     for u in getUsers(6):
+        print(u.username, u.vtm)
         vs.append(u.username)
 
-    for u in getUsers(8):
-        if 'Chris' in vs:
-            userList = vs
-            break
+    if 'Chris' not in vs:
 
-        else:
-            es.append(u.username)
+        for u in getUsers(8):
+            if u.username not in vs:
+                es.append(u.username)
+
+    if 'Chris' not in vs:
         userList = es
+    else:
+        userList = vs
 
     print(userList)
 
