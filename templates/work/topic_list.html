@@ -12,7 +12,8 @@
     <table class="table table-sm" style="color:white">
         <thead>
             <tr>
-              <th scope="col" style="">Topic/ <br> Deadline</th>
+              <th scope="col" style="">Topic</th>
+              <th scope="col" style="">Writers/ <br> Deadline</th>
               <th scope="col" style="">Title/ <br> Progress</th>
             </tr>
         </thead>
@@ -22,10 +23,13 @@
         <tbody>
             <template v-for="(topic, key) in topOBJ"  :key="key" >
             <tr>
-              <td @click="goTo(key)"> <span class="unit-span" style="color:{{current_user.theme}}"> &emsp;&emsp;[[  key  ]]&emsp;&emsp; </span> </td>
+              <td @click="goTo(key)"> <span class="unit-span" :style="getColor(topic['Theme'])"> &emsp;&emsp;[[  key  ]]&emsp;&emsp; </span> </td>
+
+              <td> <span v-if="topic['Theme']"> {{current_user.username}} </span>  <span v-if="topic['Partner']">/  [[  topic['Partner']  ]] </span>  </td>
               <td> [[  topic['Title']  ]] </td>
             </tr>
             <tr>
+              <td>  </td>
               <td> [[  topic['Deadline']  ]] </td>
               <td> <div :style="barStyle(topic['Theme'], topic['Stage'])"></div> [[  topic['Stage']  ]] </td>
               </tr>
@@ -63,6 +67,9 @@ function startVue(topOBJ){ new Vue({
         topOBJ: topOBJ
     },
     methods: {
+        getColor: function(theme){
+            return  { color: theme }
+        },
         barStyle: function(theme, stage){
             if (stage==5){
                 return {background: theme, width : '90%', height : '15px', display : 'inline-block', border : '2px solid white' }

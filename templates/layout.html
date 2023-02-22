@@ -9,7 +9,7 @@
 
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
 
-  {% if SCHEMA == 8 %}
+  {% if SCHEMA == 8 or SCHEMA == 6 %}
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='myStyle.css') }}">
   {% endif %}
 
@@ -79,7 +79,7 @@
                                 <a class="nav-item nav-link" href="{{ url_for ('assignment_list') }}">My Assignments </a>
                                 {% endif %}
 
-                                {% if SCHEMA == 8 %}
+                                {% if SCHEMA == 8 or SCHEMA == 6 %}
                                   <a class="nav-item nav-link" href="{{ url_for ('tips') }}">Writing Tips</a>
                                   <a class="nav-item nav-link" href="{{ url_for ('published') }}">Published Work</a>
                                   <a class="nav-item nav-link" href="{{ url_for ('pCheck', mode='student') }}" style="background:royalblue">My Revisions</a>
@@ -88,7 +88,7 @@
 
                                 <div style="display:none">
 
-                                {% if SCHEMA != 5 or SCHEMA != 4 or SCHEMA != 6 or SCHEMA != 7 %}
+                                {% if SCHEMA < 4 %}
                                     {% if MTFN == 'MT' %}
                                       <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('exam_list_midterm') }}">My Exams</a>
                                     {% elif  MTFN == 'FN' %}

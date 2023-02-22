@@ -128,16 +128,16 @@ schemaList = {
     },
 
     6 : {
-        "Course": "Intercultural Communication",
-        "S3_BUCKET_NAME": "vietnam-lms",
-        "courseCode" : "vtm",
-        "S3_LOCATION" : "https://vietnam-lms.s3.ap-northeast-1.amazonaws.com/",
+        "Course": "Writing App",
+        "S3_BUCKET_NAME": "writing-lms",
+        "courseCode" : "write",
+        "S3_LOCATION" : "https://writing-lms.s3.ap-northeast-1.amazonaws.com/",
         "DESIGN": {
-            "titleColor": "darkslateblue",
-            "bodyColor": "whitesmoke",
-            "headTitle": "VTM course",
-            "headLogo": "https://icc-lms.s3-ap-northeast-1.amazonaws.com/profiles/logo.png"
-        }
+            "titleColor": "rgb(36, 31, 58)",
+            "bodyColor": "rgb(42, 63, 83)",
+            "headTitle": "APP course",
+            "headLogo": "https://writing-lms.s3-ap-northeast-1.amazonaws.com/profiles/logo.png"
+        },
     },
     7 : {
         "Course": "Movie Dubbing",

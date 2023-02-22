@@ -248,6 +248,7 @@ def topic_list():
                 topDict[unit]['Theme'] = infoDict['theme']
                 topDict[unit]['Stage'] = int(infoDict['stage'])
                 topDict[unit]['Avatar'] = infoDict['avatar']
+                topDict[unit]['Partner'] = user.partner
             else:
                 topDict[unit]['Theme'] = 'white'
                 topDict[unit]['Stage'] = 0
