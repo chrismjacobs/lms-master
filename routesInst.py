@@ -394,11 +394,17 @@ def updateCourse():
         else:
             u.vtm  = 0
 
-    if course == 'png' :
+    if course == 'peng':
         if u.png == 0:
             u.png = 1
         else:
             u.png  = 0
+
+    if course == 'write':
+        if u.app == 0:
+            u.app = 1
+        else:
+            u.app= 0
 
     db.session.commit()
 
