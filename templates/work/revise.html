@@ -7,10 +7,12 @@
     <span id="user" style="display:none">{{current_user.username}}</span>
     <span id="partner" style="display:none">{{partner}}</span>
 
-    <div class="list-section">
+    <div class="list-section" :style="getBG()">
         <h1 style="display:inline"> Revise </h1>
         <h1 id="unit" style="display:inline">{{unit}}</h1>
-        <br><br>
+        <br>
+        <span v-if="user == partner" style="color:red; background:white"> You are in partner mode and cannot save changes - refresh page to see editor updates </span>
+        <br>
 
         <div style="background:GAINSBORO; border-radius:5px">
         <p class="unselectable" v-html="exampleHTML" align="justify" style="padding-left:8px; padding-right:8px;font-size:15px"> </p>
