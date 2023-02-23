@@ -92,7 +92,7 @@
                     <!-- <span   V-else @click="goTo(key, 'Writer' )" class="unit-span" style="background:blue; padding:3px; margin-left:10px"> Writer </span>
                     <span   @click="goTo(key, 'Reader' )" class="unit-span" style="background:goldenrod; padding:3px; margin-left:10px"> Reader </span> -->
                     <span   v-else-if="(parseInt(todays_unit) && attend == 1) || (todays_unit == 0  && attend == 1) " @click="goTo(key, 'Team' )" class="unit-span" style="background:green; padding:3px; margin-left:10px"> TeamWork </span>
-                    <span   V-else @click="goTo(key, 'Writer' )" class="unit-span" style="background:Orange; padding:3px; margin-left:10px"> Solo </span>
+                    <span   v-else @click="goTo(key, 'Writer' )" class="unit-span" style="background:Orange; padding:3px; margin-left:10px"> Solo </span>
 
                     </td>
                   <td colspan='2'>
