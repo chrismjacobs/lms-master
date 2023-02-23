@@ -6,7 +6,7 @@ let partner = document.getElementById('partner').innerHTML
 console.log('partner', partner)
 
 let user = document.getElementById('user').innerHTML
-console.log('user', partner)
+console.log('user', user)
 
 let fullString = document.getElementById('fullDict').innerHTML
 let fullOBJ = JSON.parse(fullString)

@@ -2,6 +2,12 @@
 let unit_number = document.getElementById('unit').innerHTML
 console.log(unit_number)
 
+let partner = document.getElementById('partner').innerHTML
+console.log('partner', partner)
+
+let user = document.getElementById('user').innerHTML
+console.log('user', user)
+
 let srcString = document.getElementById('sources').innerHTML
 let sources = JSON.parse(srcString)
 let slides = sources[unit_number]['Materials']
@@ -61,6 +67,8 @@ function startVue(newPlan, info, draft){
         }
     },
     data: {
+        partner : partner,
+        user: user,
         planOBJ : newPlan,
         infoOBJ : info,
         draftOBJ : draft,
@@ -114,6 +122,11 @@ function startVue(newPlan, info, draft){
 
     },
     methods: {
+        getBG: function () {
+            if (this.user == this.partner) {
+                return {background:'#AB47BC'}
+            }
+        },
         selectText: function(id){
             console.log(id)
             document.getElementById(id).setAttribute('class', 'input2')

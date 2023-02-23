@@ -2,6 +2,12 @@
 let unit_number = document.getElementById('unit').innerHTML
 console.log(unit_number)
 
+let partner = document.getElementById('partner').innerHTML
+console.log('partner', partner)
+
+let user = document.getElementById('user').innerHTML
+console.log('user', user)
+
 $.ajax({
     type : 'POST',
     url : '/getHTML/' + unit_number
@@ -42,6 +48,8 @@ function startVue(info, html, text){
         this.deSelect('text', 'start')
     },
     data: {
+        partner : partner,
+        user: user,
         original : text,
         revText : text, // updated by v-model
         revHTML : html,
@@ -52,6 +60,11 @@ function startVue(info, html, text){
         theme : { 'color' : info['theme'] }
     },
     methods: {
+        getBG: function () {
+            if (this.user == this.partner) {
+                return {background:'#AB47BC'}
+            }
+        },
         selectText: function(id){
             console.log(id)
             document.getElementById(id).setAttribute('class', 'input2')

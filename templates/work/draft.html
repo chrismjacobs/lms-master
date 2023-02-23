@@ -11,6 +11,8 @@
 
         <span id="sources" style="display:none">{{sources}}</span>
         <span id="fullDict" style="display:none">{{fullDict}}</span>
+        <span id="user" style="display:none">{{current_user.username}}</span>
+        <span id="partner" style="display:none">{{partner}}</span>
 
         <div v-for="(input, key, index) in draftOBJ">
 
@@ -53,7 +55,11 @@
         </div>
     </div>
 
-    <div class="list-section" v-if="save">
+    <span v-if="user == partner" style="color:red; background:white"> You are in partner mode and cannot save changes - refresh page to see editor updates </span>
+
+    <span v-if="partner != 'None' && user != partner" style="color:red; background:white"> Warning: Make sure your partner is not editing anything before you update </span>
+
+    <div class="list-section" v-if="save && user != partner">
         <button type="button" class="btn btn-outline-info" style="background:dimgray;color:cyan; width:45%" v-on:click="readRefs"> SAVE </button>
         <button type="button" class="btn btn-outline-danger" style="background:dimgray;color:tomato; width:45%"v-on:click="cancel"> CANCEL </button>
     </div>
