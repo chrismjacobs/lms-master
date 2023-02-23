@@ -38,7 +38,7 @@ def getUsers(schema):
     if schema == 8:
         userList = User.query.filter_by(app=1).order_by(asc(User.studentID)).all()
 
-    print('getUsers', userList)
+    #print('getUsers', userList)
 
     return userList
 

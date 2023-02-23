@@ -52,14 +52,14 @@
 
                <template v-if="show[unit]" v-for="(student, ky) in model">
                   <tr>
-                     <td> [[ ky ]] </td>
+                     <td> [[ ky ]] <span v-if="student['partner'] != 'None'"> / [[ student['partner'] ]] </span> </td>
                      <td> <span @click="alertWork(student['plan'])" class="unit-span" :style="stageStyle[student['info']['stage']]">&emsp;[[ student['info']['stage'] ]]&emsp;</span> </td>
-                     <td> [[ student['info']['plan_date_finish'] ]] </td>
-                     <td> [[ student['info']['draft_date_finish'] ]] </td>
-                     <td> <span v-if="student['info']['stage'] > 1" @click="goToRevise(ky, unit)" class="unit-span" style="color:white"> &emsp;REVISE&emsp; </span> </td>
+                     <td> P:[[ student['info']['plan_date_finish'] ]] </td>
+                     <td> D:[[ student['info']['draft_date_finish'] ]] </td>
+                     <td> <span v-if="student['info']['stage'] > 1" @click="goToRevise(ky, unit)" class="unit-span" style="color:white"> REVISE </span> </td>
                   </tr>
 
-                        <tr v-if="student['info']['stage'] == 2">
+                        <tr v-if="student['info']['stage'] > 0">
                                 <td style="width:30%">
 
                                     <template  v-for="(plan, head) in student['plan']">
@@ -110,8 +110,7 @@ for (var topic in recOBJ){
     for (var student in recOBJ[topic]){
         if (effortOBJ[student]) {
             effortOBJ[student][topic] = recOBJ[topic][student]['info']['stage']
-        }
-        else{
+        } else {
            effortOBJ[student] = {
                '01' : 0,
                '02' : 0,
@@ -120,6 +119,19 @@ for (var topic in recOBJ){
                '05' : 0,
            }
            effortOBJ[student][topic] = recOBJ[topic][student]['info']['stage']
+        }
+        if (effortOBJ[recOBJ[topic][student]['partner']]) {
+            effortOBJ[recOBJ[topic][student]['partner']][topic] = recOBJ[topic][student]['info']['stage']
+        } else {
+            effortOBJ[recOBJ[topic][student]['partner']] = {
+                '01' : 0,
+                '02' : 0,
+                '03' : 0,
+                '04' : 0,
+                '05' : 0,
+            }
+            effortOBJ[student][topic] = recOBJ[topic][student]['info']['stage']
+
         }
     }
 }

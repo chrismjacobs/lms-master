@@ -159,7 +159,7 @@ schemaList = {
         "DESIGN": {
             "titleColor": "rgb(36, 31, 58)",
             "bodyColor": "rgb(42, 63, 83)",
-            "headTitle": "APP course",
+            "headTitle": "APP Course",
             "headLogo": "https://writing-lms.s3-ap-northeast-1.amazonaws.com/profiles/logo.png"
         }
     },

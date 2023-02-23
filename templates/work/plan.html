@@ -4,11 +4,13 @@
 
 <div id="vue-app">
 
-    <div class="list-section">
+    <div class="list-section" :style="getBG()">
         <h1 style="display:inline"> Writing Plan </h1>
         <h1 id="unit" style="display:inline">{{unit}}</h1>
         <span id="fullDict" style="display:none">{{fullDict}}</span>
         <span id="sources" style="display:none">{{sources}}</span>
+        <span id="user" style="display:none">{{current_user.username}}</span>
+        <span id="partner" style="display:none">{{partner}}</span>
         <br>
         <br>
         <button type="button" class="btn btn-sm btn-outline-warning" style="background:dimgray; width:100%" v-on:click="backTo()"> BACK TO TOPIC </button>
@@ -20,6 +22,8 @@
             allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
 	        </iframe>
         </div>
+
+        <span v-if="user == partner" style="color:red; background:white"> You are in partner mode and cannot save changes - refresh page to see editor updates </span>
 
         <div v-for="(input, key, index) in planOBJ">
 
@@ -34,12 +38,13 @@
                     <span  v-else style="color:lightcyan"> [[ control[index] ]] Details </span>
                     <br>
                 </div>
-
-
         </div>
         </div>
+        <span v-if="user == partner" style="color:red; background:white"> You are in partner mode and cannot save changes - refresh page to see editor updates </span>
 
-        <div class="list-section" v-if="save">
+        <span v-if="partner != 'None' && user != partner" style="color:red; background:white"> Warning: Make sure your partner is not editing anything before you update </span>
+
+        <div class="list-section" v-if="save && user != partner">
             <button type="button" class="btn btn-outline-info" style="background:dimgray;color:cyan; width:48%" v-on:click="readRefs"> SAVE </button>
             <button type="button" class="btn btn-outline-danger" style="background:dimgray;color:tomato; width:48%"v-on:click="cancel"> CANCEL </button>
         </div>

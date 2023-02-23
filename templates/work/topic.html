@@ -27,23 +27,30 @@
       </div>
     <br>
 
-    <legend class="border-bottom" style="color:white">Writer</legend>
+    <legend class="border-bottom" style="color:white">Team</legend>
 
-    Writer : {{current_user.username}}
-
-    <br>
-
-    Partner :
+    <h4> Writer: [[ writer]] </h4>
+    <h4> Partner: [[ partner]] </h4>
 
     <br>
 
-    Change/Add Partner <input type="text" class="input3" v-model="partner"></input>
+    <button  v-if="partner != 'None'" type="button" class="btn btn-outline-light" @click="switchPartner()"> Switch </button>
+
+    <br>
+    <br>
+
+    <div v-if="!partner">
+        Add Partner <input type="text" class="input3" v-model="partner"></input>
+    </div>
+    <div v-else>
+        Contact teacher to change Partner
+    </div>
 
 
     <legend class="border-bottom" :style="getColor(avatarTheme)">Avatar</legend>
 
 
-    <img class="rounded-circle chat-img" :src="'https://writing-lms.s3.ap-northeast-1.amazonaws.com/profiles/avatar' + avatarImage + '.PNG'">
+    <img class="rounded-circle chat-img" :src="getImage(avatarImage)">
     <span class="avatar" :style="getColor(avatarTheme)"> [[ avatarName ]] </span>
 
     <br>
@@ -84,12 +91,13 @@
 
     <button  type="button" class="btn btn-outline-light" @click="updateInfo()"> Update Project Info </button>
 
+    <br>
 
     <legend class="border-bottom" style="color:white">Plans</legend>
 
     <div v-for="plan in plans">
 
-      <img class="rounded-circle chat-img" style="" :src="plan['info']['image']">
+      <img class="rounded-circle chat-img" style="" :src="getImage(plan['info']['avatar'])">
       <span class="avatar" :style="getColor(plan['info']['theme'])"> [[  plan['info']['name']  ]] </span>
       <br>
           <template v-for="(item, key) in plan['plan']">
@@ -104,7 +112,7 @@
 
     <div v-for="draft in drafts">
 
-      <img class="rounded-circle chat-img" style="" :src="draft['info']['image']">
+      <img class="rounded-circle chat-img" style="" :src="getImage(draft['info']['avatar'])">
       <span class="avatar" :style="getColor(draft['info']['theme'])"> [[  draft['info']['name']  ]] </span>
       <template v-for="(item, key) in draft['draft']">
       <br>
@@ -142,6 +150,7 @@ $.ajax({
         let info = JSON.parse(data.info)
         console.log('Info', info)
         let partner = data.partner
+        let writer = data.writer
         let avatarImage = info.avatar
         let avatarName = info.name
         let avatarTheme = info.theme
@@ -149,7 +158,7 @@ $.ajax({
         console.log(dataList, typeof(dataList))
         console.log(stage, typeof(stage));
 
-        startVue(dataList, sources, stage, partner, avatarImage, avatarTheme, avatarName)
+        startVue(dataList, sources, stage, partner, writer, avatarImage, avatarTheme, avatarName)
     }
     else{
         console.log('ERROR OCCURRED');
@@ -157,7 +166,7 @@ $.ajax({
 });
 
 
-function startVue(dataList, sources, stage, partner, avatarImage, avatarTheme, avatarName){
+function startVue(dataList, sources, stage, partner, writer, avatarImage, avatarTheme, avatarName){
     var app = new Vue({
 
     el: '#vue-app',
@@ -172,6 +181,7 @@ function startVue(dataList, sources, stage, partner, avatarImage, avatarTheme, a
         avatarName : avatarName,
         avatarImage : avatarImage,
         partner: partner,
+        writer: writer,
         dataList : dataList,
         slides : sources[unit_number]['Materials'],
         deadline : sources[unit_number]['Deadline'],
@@ -189,6 +199,9 @@ function startVue(dataList, sources, stage, partner, avatarImage, avatarTheme, a
 
     },
     methods: {
+        getImage: function (avatarImage) {
+            return 'https://writing-lms.s3.ap-northeast-1.amazonaws.com/profiles/avatar' + avatarImage + '.PNG'
+        },
         loadData: function(dataList){
             for (obj in dataList) {
                 var work =  JSON.parse(dataList[obj])
@@ -273,11 +286,34 @@ function startVue(dataList, sources, stage, partner, avatarImage, avatarTheme, a
                 }
             })
             .done(function(data) {
+                if (data.partner) {
+                    alert('Partner Name: ' + data.partner + ' is not found, please try again')
+                }
+                if (data.name) {
+                    alert('Avatar Name: ' + data.partner + ' please use a fake writers name')
+                }
                 alert('INFO UPDATED')
             })
             .fail(function(){
                 alert('INFO UPDATE FAILED')
                 //location.reload()
+            });
+        },
+        switchPartner: function () {
+            $.ajax({
+                type : 'POST',
+                url : '/switchPartner',
+                data: {
+                    unit: unit_number,
+                    partner: this.partner
+                }
+            })
+            .done(function(data) {
+                alert('WRITERS SWITCHED')
+                location.reload()
+            })
+            .fail(function(){
+                alert('SWITCH FAILED')
             });
         },
 

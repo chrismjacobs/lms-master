@@ -52,6 +52,34 @@ def loadAWS(file, unit):
 #     return jload
 
 
+
+def getWriteUsers():
+    ### sperate for vietnam class
+
+    vs = []
+    es = []
+    userList = []
+
+    for u in getUsers(6):
+        # print(u.username, u.vtm)
+        vs.append(u.username)
+
+    if current_user.username not in vs:
+
+        for u in getUsers(8):
+            if u.username not in vs:
+                es.append(u.username)
+
+    if current_user.username not in vs:
+        userList = es
+    else:
+        userList = vs
+
+    # userList = es + vs
+    #print(userList)
+
+    return userList
+
 @app.route("/tips", methods = ['GET', 'POST'])
 @login_required
 def tips():
@@ -180,7 +208,13 @@ def updateInfo():
     avatar = request.form ['avatar']
     partner = request.form ['partner']
 
+    if partner and len(partner) > 0 and partner not in getWriteUsers():
+        return jsonify({'partner' : partner})
+    elif partner and partner == current_user.username:
+        return jsonify({'partner' : partner})
 
+    if len(name) > 0 and name in getWriteUsers():
+        return jsonify({'name' : name})
 
     print('UInfo', unit, theme, partner)
     classModel = getInfo()['aModsDict'][unit]
@@ -198,6 +232,25 @@ def updateInfo():
     db.session.commit()
 
     return jsonify({'name' : name})
+
+@app.route('/switchPartner', methods=['POST'])
+def switchPartner():
+
+    unit = request.form ['unit']
+    partner = request.form ['partner']
+
+
+    classModel = getInfo()['aModsDict'][unit]
+    entry = classModel.query.filter_by(partner=partner).first()
+    writer = entry.username
+
+    print('U switch Info', unit, partner, writer)
+
+    entry.partner = writer
+    entry.username = partner
+    db.session.commit()
+
+    return jsonify({'success' : unit})
 
 
 @app.route('/sendImage', methods=['POST'])
@@ -220,34 +273,11 @@ def sendImage():
 
     return jsonify({'name' : current_user.username, 'imageLink' : imageLink})
 
-
-def getWriteUsers():
-    ### sperate for vietnam class
-
-    vs = []
-    es = []
-    userList = []
-
-    for u in getUsers(6):
-        print(u.username, u.vtm)
-        vs.append(u.username)
-
-    if 'Chris' not in vs:
-
-        for u in getUsers(8):
-            if u.username not in vs:
-                es.append(u.username)
-
-    if 'Chris' not in vs:
-        userList = es
-    else:
-        userList = vs
-
-    print(userList)
-
-    return userList
-
 """ ### TOPICS ### """
+
+## to do list
+## controls image
+## limited access to units
 
 @app.route("/topic_list", methods = ['GET', 'POST'])
 @login_required
@@ -260,34 +290,58 @@ def topic_list():
 
     sources = srcJSON['sources']
 
-    pprint(sources)
-
-
+    # pprint(sources)
 
     userList = getWriteUsers()
 
 
     for unit in sources:
         src = sources[unit]
-        if src['Set'] == 1:
+        if src['Set'] >= 1:
             ## add to topics list
             topDict[unit] = {
                 'Title' : src['Title'],
-                'Deadline' : src['Deadline']
+                'Deadline' : src['Deadline'],
+                'Start' : src['Date'],
+                'Set' : src['Set']
             }
             model = getInfo()['aModsDict'][unit]
-            user = model.query.filter_by(username=current_user.username).first()
+
+            user = None
+
+            userW = model.query.filter_by(username=current_user.username).first()
+            userP = model.query.filter_by(partner=current_user.username).first()
+
+            print('source set', userW, userP)
+
+            if userP and userW:
+                planW = json.loads(userW.plan)
+                planP = json.loads(userP.plan)
+                print('double set', planW, planP)
+                if planW == {}:
+                    db.session.delete(userW)
+                    db.session.commit()
+                    user = userP
+            elif userP:
+                user = userP
+            elif userW:
+                user = userW
+
+
+
             ## add info details if available
-            if user and user.username in userList:
+            if user:
                 infoDict = json.loads(user.info)
                 topDict[unit]['Theme'] = infoDict['theme']
                 topDict[unit]['Stage'] = int(infoDict['stage'])
                 topDict[unit]['Avatar'] = infoDict['avatar']
                 topDict[unit]['Partner'] = user.partner
+                topDict[unit]['Writer'] = user.username
             else:
                 topDict[unit]['Theme'] = 'white'
                 topDict[unit]['Stage'] = 0
                 topDict[unit]['Avatar'] = 'none'
+                topDict[unit]['Writer'] = None
 
     print('DICT', topDict)
     topJS = json.dumps(topDict)
@@ -308,18 +362,20 @@ def topicCheck(unit):
 
     model = getInfo()['aModsDict'][unit]
     entryUser = model.query.filter_by(username=current_user.username).first()
+    if not entryUser:
+        entryUser = model.query.filter_by(partner=current_user.username).first()
+
     entries = model.query.all()
 
     for entry in entries:
         info = json.loads(entry.info)
-        if entry.username == current_user.username:
+        if entry.username == current_user.username or entry.partner == current_user.username:
             stage = info['stage']
             print('CURRENT USER FOUND', current_user.username, stage)
         elif entry.username in userList:
             plan = json.loads(entry.plan)
             draft = json.loads(entry.draft)
             publish = json.loads(entry.publish)
-
 
             entryDict = {
                 'info' : json.loads(entry.info),
@@ -341,7 +397,7 @@ def topicCheck(unit):
     sources = json.dumps(srcJSON['sources'])
 
     #print('DATA', type(dataList), dataList)
-    return jsonify({'dataList' : dataList, 'sources' : sources, 'stage' : stage, 'info' : entryUser.info, 'partner': entryUser.partner })
+    return jsonify({'dataList' : dataList, 'sources' : sources, 'stage' : stage, 'info' : entryUser.info, 'partner': entryUser.partner, 'writer': entryUser.username })
 
 ## AJAX
 @app.route('/getHTML/<string:unit>', methods=['POST'])
@@ -372,18 +428,25 @@ def getHTML(unit):
 @login_required
 def part(part, unit):
 
+    ### start project ###
+
     SCHEMA = getSchema()
-    S3_LOCATION = schemaList[SCHEMA]['S3_LOCATION']
-    S3_BUCKET_NAME = schemaList[SCHEMA]['S3_BUCKET_NAME']
+    # S3_LOCATION = schemaList[SCHEMA]['S3_LOCATION']
+    # S3_BUCKET_NAME = schemaList[SCHEMA]['S3_BUCKET_NAME']
+
+    print('start project')
 
     classModel = getInfo()['aModsDict'][unit]
-    entryCount = classModel.query.filter_by(username=current_user.username).count()
-    if entryCount == 0:
+
+    entry = classModel.query.filter_by(partner=current_user.username).first()
+    if not entry:
+        entry = classModel.query.filter_by(username=current_user.username).first()
+
+    if not entry:
         info = {
             'avatar' : 1,
             'theme' : 'white',
-            'name' : current_user.username,
-            'image' : S3_LOCATION + current_user.image_file,
+            'name' : current_user.username[0],
             'stage' : 0
         }
         # start assignment
@@ -397,8 +460,7 @@ def part(part, unit):
         db.session.add(entry)
         db.session.commit()
 
-
-    entry = classModel.query.filter_by(username=current_user.username).first()
+        entry = classModel.query.filter_by(username=current_user.username).first()
 
     fullDict = {
         'info' : entry.info,
@@ -417,7 +479,7 @@ def part(part, unit):
 
     sources = json.dumps(srcJSON['sources'])
 
-    return render_template('work/' + part + '.html', unit=unit, fullDict=json.dumps(fullDict), sources=sources)
+    return render_template('work/' + part + '.html', unit=unit, fullDict=json.dumps(fullDict), sources=sources, partner=entry.partner)
 
 
 """ ### INSTRUCTOR DASHBOARD ### """
@@ -433,11 +495,17 @@ def write_dash():
     # models_list = ['05', '06', '07', '08', '09']
     recDict = {}
 
+    userList = getWriteUsers()
+
     for model in getInfo()['aModsDict']:
         #print(recDict)
         if str(model) in models_list:
             recDict[model] = {}
             for entry in getInfo()['aModsDict'][model].query.all():
+                # if entry.partner == '':
+                #     entry.partner = 'None'
+                #     db.session.commit()
+
                 recDict[str(model)][entry.username] = {
                     'info' : json.loads(entry.info),
                     'partner' : entry.partner,

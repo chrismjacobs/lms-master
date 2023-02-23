@@ -61,8 +61,8 @@ def getInfo():
     modDictAss  = infoDict['mda'][SCHEMA]
     modDictUnits = infoDict['mdu'][SCHEMA]
 
-    print('mod dict ass', modDictAss)
-    print('mod dict units', modDictUnits)
+    #print('mod dict ass', modDictAss)
+    #print('mod dict units', modDictUnits)
 
     if getModels()['Units_'] and not getModels()['Units_'].query.filter_by(unit='00').first():
         try:
