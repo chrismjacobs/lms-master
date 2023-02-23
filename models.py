@@ -64,15 +64,15 @@ def getInfo():
     #print('mod dict ass', modDictAss)
     #print('mod dict units', modDictUnits)
 
-    if getModels()['Units_'] and not getModels()['Units_'].query.filter_by(unit='00').first():
-        try:
-            print('try delete 00')
-            del modDictUnits['00']
-            del modDictAss['00']
-        except:
-            print('delete 00 fail')
-    else:
-        print('NO UNIT 00')
+    # if getModels()['Units_'] and not getModels()['Units_'].query.filter_by(unit='00').first():
+    #     try:
+    #         print('try delete 00')
+    #         del modDictUnits['00']
+    #         del modDictAss['00']
+    #     except:
+    #         print('delete 00 fail')
+    # else:
+    #     print('NO UNIT 00')
 
 
 
