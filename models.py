@@ -64,6 +64,11 @@ def getInfo():
     #print('mod dict ass', modDictAss)
     #print('mod dict units', modDictUnits)
 
+
+    """the problem with 00 is somewhere in this code"""
+    """just delete the code allows 00 unit to be used"""
+    """need to check if it can be used like this for midterm or not"""
+
     if getModels()['Units_'] and not getModels()['Units_'].query.filter_by(unit='00').first():
         try:
             print('try delete 00')
