@@ -40,7 +40,7 @@
     <br>
 
     <div v-if="!partner">
-        Add Partner <input type="text" class="input3" v-model="partner"></input>
+        Add Partner <input type="text" class="input3" v-model="partnerTemp"></input>
     </div>
     <div v-else>
         Contact teacher to change Partner
@@ -181,6 +181,7 @@ function startVue(dataList, sources, stage, partner, writer, avatarImage, avatar
         avatarName : avatarName,
         avatarImage : avatarImage,
         partner: partner,
+        partnerTemp: '',
         writer: writer,
         dataList : dataList,
         slides : sources[unit_number]['Materials'],
@@ -282,7 +283,7 @@ function startVue(dataList, sources, stage, partner, writer, avatarImage, avatar
                     theme: this.avatarTheme,
                     name: this.avatarName,
                     avatar: this.avatarImage,
-                    partner: this.partner
+                    partner: this.partnerTemp
                 }
             })
             .done(function(data) {
