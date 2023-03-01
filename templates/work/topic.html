@@ -124,6 +124,9 @@
 
     </div>
 
+    <span id="user" style="display:none">{{current_user.username}}</span>
+
+
 
 
 </div> <!-- end of Vue app -->
@@ -136,6 +139,7 @@
 <script type="text/javascript">
 
 let unit_number = document.getElementById('unit').innerHTML
+let user = document.getElementById('user').innerHTML
 console.log(unit_number)
 
 $.ajax({
@@ -177,6 +181,7 @@ function startVue(dataList, sources, stage, partner, writer, avatarImage, avatar
     },
     delimiters: ['[[', ']]'],
     data: {
+        user: user,
         avatarTheme: avatarTheme,
         avatarName : avatarName,
         avatarImage : avatarImage,
@@ -275,6 +280,18 @@ function startVue(dataList, sources, stage, partner, writer, avatarImage, avatar
 
         },
         updateInfo: function () {
+            if (this.avatarName.length <= 1) {
+                alert('Please choose a fake name for your Avatar')
+                return false
+            }
+            if (this.partnerTemp.length <= 1) {
+                alert('If you do not want a partner please write your own name; if there is problem please tell your instructor')
+                return false
+            }
+            if (this.user != this.writer) {
+                alert('Only Editor can update project information')
+                return false
+            }
             $.ajax({
                 type : 'POST',
                 url : '/updateInfo',
@@ -289,11 +306,12 @@ function startVue(dataList, sources, stage, partner, writer, avatarImage, avatar
             .done(function(data) {
                 if (data.partner) {
                     alert('Partner Name: ' + data.partner + ' is not found, please try again')
-                }
-                if (data.name) {
+                } else if (data.name) {
                     alert('Avatar Name: ' + data.name + ' please use a fake writers name')
+                } else{
+                    alert('INFO UPDATED')
+                    location.reload()
                 }
-                alert('INFO UPDATED')
             })
             .fail(function(){
                 alert('INFO UPDATE FAILED')

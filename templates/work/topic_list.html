@@ -52,9 +52,9 @@
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 <script type="text/javascript">
-topJS = document.getElementById('topics').innerHTML
-user = document.getElementById('user').innerHTML
-topOBJ = JSON.parse(topJS)
+let topJS = document.getElementById('topics').innerHTML
+let user = document.getElementById('user').innerHTML
+let topOBJ = JSON.parse(topJS)
 console.log('topOBJ', topOBJ);
 
 startVue(topOBJ)

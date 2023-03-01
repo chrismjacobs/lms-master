@@ -208,10 +208,13 @@ def updateInfo():
     avatar = request.form ['avatar']
     partner = request.form ['partner']
 
-    print(avatar, partner, partner.strip() in getWriteUsers())
-    print(getWriteUsers())
+    partner = partner.strip().title()
 
-    if partner and len(partner) > 0 and partner not in getWriteUsers():
+    print(avatar, partner, getWriteUsers())
+
+    if partner == current_user.username:
+        partner = 'None'
+    elif partner and len(partner) > 0 and partner not in getWriteUsers():
         return jsonify({'partner' : partner})
     elif partner and partner == current_user.username:
         return jsonify({'partner' : partner})
@@ -231,7 +234,7 @@ def updateInfo():
     info['avatar'] = avatar
 
     entry.info = json.dumps(info)
-    entry.partner = partner.strip().title()
+    entry.partner = partner
 
     db.session.commit()
 
