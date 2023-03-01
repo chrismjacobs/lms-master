@@ -208,12 +208,16 @@ def updateInfo():
     avatar = request.form ['avatar']
     partner = request.form ['partner']
 
+    print(avatar, partner, partner.strip() in getWriteUsers())
+    print(getWriteUsers())
+
     if partner and len(partner) > 0 and partner not in getWriteUsers():
         return jsonify({'partner' : partner})
     elif partner and partner == current_user.username:
         return jsonify({'partner' : partner})
 
     if len(name) > 0 and name in getWriteUsers():
+        print('AVATAR NAME', len(name), name in getWriteUsers())
         return jsonify({'name' : name})
 
     print('UInfo', unit, theme, partner)
@@ -231,7 +235,7 @@ def updateInfo():
 
     db.session.commit()
 
-    return jsonify({'name' : name})
+    return jsonify({'success' : True})
 
 @app.route('/switchPartner', methods=['POST'])
 def switchPartner():

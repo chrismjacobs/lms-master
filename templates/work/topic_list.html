@@ -3,6 +3,7 @@
 {% block content %}
 
 <span id="topics" style="display:none">{{topJS}}</span>
+<span id="user" style="display:none">{{current_user.username}}</span>
 
 <div id="vue-app">
 
@@ -52,9 +53,9 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 <script type="text/javascript">
 topJS = document.getElementById('topics').innerHTML
+user = document.getElementById('user').innerHTML
 topOBJ = JSON.parse(topJS)
 console.log('topOBJ', topOBJ);
-user = ''
 
 startVue(topOBJ)
 
@@ -87,7 +88,7 @@ function startVue(topOBJ){ new Vue({
             return {background: theme, width : width, height : '15px', display : 'inline-block' }
         },
         goTo: function(key, stage, set){
-            if (stage == 0 && set > 1) {
+            if (stage == 0 && set > 1 && user != 'Chris') {
                 alert('Students cannot start this project right now, contact your instructor')
                 return false
             }
