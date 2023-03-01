@@ -53,7 +53,7 @@ function startVue(info, html, text){
         original : text,
         revText : text, // updated by v-model
         revHTML : html,
-        exampleHTML : "<span style='background-color: yellow;'>Student can fix</span>&emsp;&emsp;<span style='background-color: orange;'>Verb Mistake (V/Vs/Vpt/Ving)</span>&emsp;&emsp;<span style='background-color: springgreen;'>Instructor fixed</span><br><span style='background-color:cyan;'>Complicated fix</span>&emsp;&emsp;<span style='background-color: pink;'>Delete</span>",
+        exampleHTML : "<span style='background-color: yellow;'>Student can fix</span>&emsp;&emsp;<span style='background-color: orange;'>Form Mistake (V/Vs/Vpt/Ving/N/Ns)</span>&emsp;&emsp;<span style='background-color: springgreen;'>Instructor fixed</span><br><span style='background-color:cyan;'>Complicated fix</span>&emsp;&emsp;<span style='background-color:plum;'>Punctuation ( . / , / no space / new sentence)</span>&emsp;&emsp;<span style='background-color:tomato;'>Delete</span>",
         infoOBJ : info,
         save : false,
         status : info['stage'],

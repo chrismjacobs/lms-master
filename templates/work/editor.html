@@ -14,15 +14,16 @@
     <h1 id="unit">{{unit}}</h1>
 
     <div style="background:GAINSBORO;color:black; border-radius:5px">
-      <p class="unselectable" align="justify" style="padding-left:8px; padding-right:8px;font-size:15px"> <span style='background-color: yellow;'>Student can fix</span>&emsp;&emsp;<span style='background-color: orange;'>Verb Mistake (V/Vs/Vpt/Ving)</span>&emsp;&emsp;<span style='background-color: springgreen;'>Instructor fixed</span><br><span style='background-color:cyan;'>Complicated fix</span>&emsp;&emsp;<span style='background-color: pink;'>Delete</span>
+      <p class="unselectable" align="justify" style="padding-left:8px; padding-right:8px;font-size:15px"> <span style='background-color: yellow;'>Student can fix</span>&emsp;&emsp;<span style='background-color: orange;'>Form Mistake (V/Vs/Vpt/Ving/N/Ns)</span>&emsp;&emsp;<span style='background-color: springgreen;'>Instructor fixed</span><br><span style='background-color:cyan;'>Complicated fix</span>&emsp;&emsp;<span style='background-color:plum;'>Punctuation ( . / , / no space / new sentence)</span>&emsp;&emsp;<span style='background-color:tomato;'>Delete</span>
       </p>
    </div>
 
     <button type="button" class="btn btn-warning" id="yellow" onclick="highlight('hiliteColor', this.id)">Yellow (ctrl)</button>
     <button type="button" class="btn btn-success" id="springgreen" onclick="highlight('hiliteColor', this.id)">Green (prnt)</button>
     <button type="button" class="btn btn-info" id="cyan" onclick="highlight('hiliteColor', this.id)">Blue (alt)</button>
-    <button type="button" class="btn btn-danger" id="pink" onclick="highlight('hiliteColor', this.id)">Red (caps)</button>
-    <button type="button" class="btn btn-secondary" id="orange" onclick="highlight('hiliteColor', this.id)">Orange (fn)</button>
+    <button type="button" class="btn btn-danger" id="tomato" onclick="highlight('hiliteColor', this.id)">Red (caps)</button>
+    <button type="button" class="btn btn-secondary" style="background:orange" id="orange" onclick="highlight('hiliteColor', this.id)">Orange (fn)</button>
+    <button type="button" class="btn btn-secondary" style="background:plum" id="plum" onclick="highlight('hiliteColor', this.id)">Purple (esc)</button>
     <button type="button" class="btn btn-light" id="transparent" onclick="highlight('hiliteColor', this.id)">None</button>
     <button type="button" class="btn btn-secondary" id="toggle" onclick="toggleText()">Text</button>
     <button type="button" class="btn btn-secondary" id="toggle" onclick="sendData()">Send</button>
@@ -102,12 +103,17 @@
       if (event.keyCode === 20) {
          //caps
          event.preventDefault();
-         document.getElementById("pink").click();
+         document.getElementById("tomato").click();
       }
-      if (event.keyCode === 119) {
+      if (event.keyCode === 113) {
          //caps
          event.preventDefault();
          document.getElementById("orange").click();
+      }
+      if (event.keyCode === 27) {
+         //esc
+         event.preventDefault();
+         document.getElementById("plum").click();
       }
    })
 
