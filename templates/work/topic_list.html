@@ -4,6 +4,7 @@
 
 <span id="topics" style="display:none">{{topJS}}</span>
 <span id="user" style="display:none">{{current_user.username}}</span>
+<span id="vtm" style="display:none">{{current_user.vtm}}</span>
 
 <div id="vue-app">
 
@@ -24,7 +25,7 @@
         <tbody>
             <template v-for="(topic, key) in topOBJ"  :key="key" >
             <tr>
-              <td @click="goTo(key, topic['Stage'], topic['Set'])"> <span class="unit-span" :style="getColor(topic['Theme'])"> &emsp;&emsp;[[  key  ]]&emsp;&emsp; </span> </td>
+              <td @click="goTo(key, topic['Plan'], topic['Set'])"> <span class="unit-span" :style="getColor(topic['Theme'])"> &emsp;&emsp;[[  key  ]]&emsp;&emsp; </span> </td>
 
               <td> <span v-if="topic['Theme']"> [[  topic['Writer']  ]] </span>  <span v-if="topic['Partner']">/  [[  topic['Partner']  ]] </span>  </td>
               <td> [[  topic['Title']  ]] </td>
@@ -54,6 +55,7 @@
 <script type="text/javascript">
 let topJS = document.getElementById('topics').innerHTML
 let user = document.getElementById('user').innerHTML
+let vtm = document.getElementById('vtm').innerHTML
 let topOBJ = JSON.parse(topJS)
 console.log('topOBJ', topOBJ);
 
@@ -67,7 +69,8 @@ function startVue(topOBJ){ new Vue({
     delimiters: ['[[', ']]'],
     data: {
         topOBJ: topOBJ,
-        user: user
+        user: user,
+        vtm : vtm,
     },
     methods: {
         getColor: function(theme){
@@ -87,11 +90,17 @@ function startVue(topOBJ){ new Vue({
             var width = stage_bar[stage]
             return {background: theme, width : width, height : '15px', display : 'inline-block' }
         },
-        goTo: function(key, stage, set){
-            if (stage == 0 && set > 1 && user != 'Chris') {
+        goTo: function(key, plan, set){
+            console.log(key, this.vtm)
+            if (plan == {} && set > 1 && user != 'Chris') {
                 alert('Students cannot start this project right now, contact your instructor')
                 return false
             }
+            if (key == 3 && this.vtm == 1 && user != 'Chris') {
+                alert('Students cannot start this project right now, contact your instructor')
+                return false
+            }
+
             window.location = (window.location.href).split('topic_list')[0] + 'work/topic/' + key
         }
 
