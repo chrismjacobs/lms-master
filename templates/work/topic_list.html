@@ -25,7 +25,7 @@
         <tbody>
             <template v-for="(topic, key) in topOBJ"  :key="key" >
             <tr>
-              <td @click="goTo(key, topic['Plan'], topic['Set'])"> <span class="unit-span" :style="getColor(topic['Theme'])"> &emsp;&emsp;[[  key  ]]&emsp;&emsp; </span> </td>
+              <td @click="goTo(key, topic['Stage'], topic['Set'])"> <span class="unit-span" :style="getColor(topic['Theme'])"> &emsp;&emsp;[[  key  ]]&emsp;&emsp; </span> </td>
 
               <td> <span v-if="topic['Theme']"> [[  topic['Writer']  ]] </span>  <span v-if="topic['Partner']">/  [[  topic['Partner']  ]] </span>  </td>
               <td> [[  topic['Title']  ]] </td>
@@ -90,11 +90,13 @@ function startVue(topOBJ){ new Vue({
             var width = stage_bar[stage]
             return {background: theme, width : width, height : '15px', display : 'inline-block' }
         },
-        goTo: function(key, plan, set){
+        goTo: function(key, stage, set){
             console.log(key, this.vtm)
-            if (plan == {} && set > 1 && user != 'Chris') {
+            if (set > 1 && stage < 1 && user != 'Chris') {
+                console.log(stage)
                 alert('Students cannot start this project right now, contact your instructor')
                 return false
+
             }
             if (key == 3 && this.vtm == 1 && user != 'Chris') {
                 alert('Students cannot start this project right now, contact your instructor')
