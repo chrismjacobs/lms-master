@@ -20,25 +20,47 @@
         <br>
         <span style="color:white"> Add your Title --></span>
 
-        <h5 style="color:tomato"> REMEMBER: A title uses capital letter for the main words eg (How to Write a Good Title) </h5>
+        <h5 style="color:tomato"> REMEMBER: A title uses capital letter for the main words eg (
+            <span style="color:yellow"> H</span>ow to
+            <span style="color:yellow"> W</span>rite a
+            <span style="color:yellow"> G</span>ood
+            <span style="color:yellow"> T</span>itle)
+        </h5>
         <textarea class="input3" id="title" @focus="selectText('title')" @blur="deSelect('title', '0')" v-model="title"></textarea>
 
         <h1 v-model="title">[[ title ]]</h1>
 
-        <img class="rounded-circle chat-img" style="display:inline-block" :src="info['image']">
-        <span :style="theme"> Written by [[  info['avatar']  ]]  </span>
-
+        <legend class="border-bottom mb-4">
+        <img class="rounded-circle chat-img" style="display:inline-block" :src="getImage(info['avatar'])">
+        <span :style="theme"> Written by [[  info['name']  ]]  </span>
+        </legend>
 
         <br>
+        <h4> Final Work </h4>
 
         <div style="background:darkslategrey; border-radius:5px">
         <p style="color:white; padding-left:8px; padding: 10px ;font-size:16px" v-model="publish"> [[ publish ]] </p>
         </div>
 
-        <h6> Check your writing and make any last minute changes below </h6>
+        <br>
+        <h4> Final Fix (Check work for last minute changes) </h4>
         <div>
-        <textarea class="input3" id="text" @focus="selectText('text')" @blur="deSelect('text', '0')" v-model="publish"></textarea>
+        <textarea class="input4" id="text" @focus="selectText('text')" @blur="deSelect('text', '0')" v-model="publish"></textarea>
         </div>
+
+        <br>
+        <h4> Original Draft </h4>
+        <div style="background:firebrick; border-radius:5px">
+            <p style="color:white; padding-left:8px; padding: 10px ;font-size:16px" v-model="text"> [[ publish ]] </p>
+        </div>
+
+        <br>
+        <h4> Revision Notes </h4>
+        <div style="background:GAINSBORO; border-radius:5px; width:100%">
+            <p class="unselectable" v-html="html" align="justify" style="color:black; padding-left:8px; padding-right:8px;font-size:15px"> </p>
+        </div>
+
+
 
     </div>
 

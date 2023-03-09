@@ -13,6 +13,10 @@
 <div class="list-section">
 <legend class="border-bottom mb-4">Published Work</legend>
 
+<div style="background:GAINSBORO; color:black; border-radius:5px">
+    <p class="unselectable" v-html="exampleHTML" align="justify" style="padding-left:8px; padding-right:8px;font-size:15px"> </p>
+</div>
+
 
 
  <table class="table" style="color:white">
@@ -29,24 +33,25 @@
                <template v-if="show[unit]" v-for="(work, student) in model">
                     <div v-if="work['info']['stage'] == 5">
                         <h1>[[ work['publish']['title']  ]]</h1>
-                        <img class="rounded img-fluid" id="final_image" alt="No file yet" style="max-height:200px":src="work['publish']['imageLink']">
+                        <img class="rounded img-fluid" id="final_image" alt="No file yet" style="max-height:200px" :src="work['publish']['imageLink']">
                       <br>
                       <br>
-                      <img class="rounded-circle chat-img" style="display:inline-block" :src="work['info']['image']">
-                      <span :style="theme(work['info']['theme'])"> Written by [[  work['info']['avatar'] ]] : [[ work['info']['name'] ]]</span>
+                      <img class="rounded-circle chat-img" style="display:inline-block" :src="getImage(work['info']['avatar'])">
+                      <span :style="theme(work['info']['theme'])"> Written by [[  work['info']['name'] ]] : [[ student ]]</span>
                       <br>
                       <br>
                       <template  v-for="(plan, head) in work['plan']">
                             <span class="unit-span" style="color:{{current_user.theme}}">[[ head ]]</span> [[plan]]</span> <br>
                       </template>
                       <br>
+
                       <br>
                     <div style="background:darkslategrey; border-radius:5px; width:100%">
                         <p  align="justify" style="padding-left:8px; padding-right:8px;font-size:16px"> [[ work['publish']['final'] ]] </p>
                     </div>
                     <h6 style="color:white">[[ unit ]] </h6>
                     <div style="background:GAINSBORO; border-radius:5px; width:100%">
-                        <p class="unselectable" v-html="studentHTML[unit][work['info']['name']]" align="justify" style="color:black; padding-left:8px; padding-right:8px;font-size:15px"> </p>
+                        <p class="unselectable" v-html="studentHTML[unit][student]" align="justify" style="color:black; padding-left:8px; padding-right:8px;font-size:15px"> </p>
                     </div>
 
                </template>
@@ -210,10 +215,13 @@ let vue = new Vue({
         htmlOBJ : htmlOBJ,
         html: null,
         htmlTest: {},
-
+        exampleHTML : "<span style='background-color: yellow;'>Student can fix</span>&emsp;&emsp;<span style='background-color: orange;'>Form Mistake (V/Vs/Vpt/Ving/N/Ns)</span>&emsp;&emsp;<span style='background-color: springgreen;'>Instructor fixed</span><br><span style='background-color:cyan;'>Complicated fix</span>&emsp;&emsp;<span style='background-color:plum;'>Punctuation ( . / , / no space / new sentence)</span>&emsp;&emsp;<span style='background-color:tomato;'>Delete</span>",
 
     },
     methods: {
+        getImage: function (avatarImage) {
+            return 'https://writing-lms.s3.ap-northeast-1.amazonaws.com/profiles/avatar' + avatarImage + '.PNG'
+        },
         goToRevise : function (student, unit){
             window.location = (window.location.href).split('dashboard')[0] + 'editor/' + student + '/' + unit
         },

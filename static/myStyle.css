@@ -63,6 +63,17 @@ ul
     width: 100%
 }
 
+.input4 {
+    background-color : rgb(23, 36, 61);
+    border: 0 none white;
+    color: azure;
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 15px;
+    height: 100%;
+    width: 100%
+}
+
 .unit-span {
     cursor:pointer;
     border-radius:5px;

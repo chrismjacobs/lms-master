@@ -23,8 +23,8 @@
                         <img class="rounded img-fluid" id="final_image" alt="No file yet" style="max-height:200px"  :src="work['publish']['imageLink']">
                       <br>
                       <br>
-                      <img class="rounded-circle chat-img" style="display:inline-block" :src="work['info']['image']">
-                      <span :style="theme(work['info']['theme'])"> Written by [[  work['info']['avatar']  ]]  </span>
+                      <img class="rounded-circle chat-img" style="display:inline-block" :src="getImage(work['info']['avatar'])">
+                      <span :style="theme(work['info']['theme'])"> Written by [[  work['info']['name']  ]]  </span>
                       <br>
                       <br>
                     <div style="background:darkslategrey; border-radius:5px; width:100%">
@@ -81,7 +81,10 @@ let vue = new Vue({
 
     },
     methods: {
-        goToRevise : function (student, unit){
+        getImage: function (avatarImage) {
+            return 'https://writing-lms.s3.ap-northeast-1.amazonaws.com/profiles/avatar' + avatarImage + '.PNG'
+        },
+        goToRevise: function (student, unit){
             window.location = (window.location.href).split('dashboard')[0] + 'editor/' + student + '/' + unit
         },
         showUnit : function (unit){
