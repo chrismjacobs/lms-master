@@ -44,6 +44,11 @@
             <img class="rounded img-fluid" id="final_image" alt="need to update" style="max-width:50%;max-height:200px"  :src="ansOBJ['Image']">
         <br>
     </div>
+    <div v-else>
+        <span :style="style('dt')"> [[ ansOBJ['stage'] ]] </span>
+
+        <span :style="style('Intro')"> [[ student ]] </span>
+    </div>
     <br>
     <br>
 
