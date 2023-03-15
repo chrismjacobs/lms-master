@@ -99,7 +99,12 @@ function startVue(topOBJ){ new Vue({
 
             }
             if (key == 3 && this.vtm == 1 && user != 'Chris') {
-                alert('Students cannot start this project right now, contact your instructor')
+                alert('Vietnam class will skip this project')
+                return false
+            }
+
+            if (key == 4 && this.vtm == 0 && user != 'Chris') {
+                alert('Sophomore students cannot start this project right now')
                 return false
             }
 
