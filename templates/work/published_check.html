@@ -37,7 +37,7 @@
                       <br>
                       <br>
                       <img class="rounded-circle chat-img" style="display:inline-block" :src="getImage(work['info']['avatar'])">
-                      <span :style="theme(work['info']['theme'])"> Written by [[  work['info']['name'] ]] : [[ student ]]</span>
+                      <span :style="theme(work['info']['theme'])"> Written by [[  work['info']['name'] ]] : [[ student ]] / [[ work['partner'] ]]</span>
                       <br>
                       <br>
                       <template  v-for="(plan, head) in work['plan']">

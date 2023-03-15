@@ -520,6 +520,7 @@ def write_dash():
                     'draft' : json.loads(entry.draft),
                     'revise' : json.loads(entry.revise),
                     'publish' : json.loads(entry.publish),
+                    'vtm' : 0
                 }
 
     return  render_template('work/dashboard.html', recOBJ=str(json.dumps(recDict)))
@@ -596,6 +597,7 @@ def pCheck(mode):
                     'revise' : json.loads(entry.revise),
                     'plan' : json.loads(entry.plan),
                     'htmltext' : reviseDict['html'],
+                    'partner' : entry.partner
                 }
                 recCount += 1
 
