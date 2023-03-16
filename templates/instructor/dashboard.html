@@ -56,7 +56,7 @@
         <tbody>
         <template v-for="(userList, user) in ansOBJ" >
           <tr style="background:wheat">
-              <td style="font-weight:14pt" colspan=9> <span v-if="anon"> user </span><span v-else> [[ user ]]  </td>
+              <td style="font-weight:14pt" colspan=9> <span v-if="anon"> user </span><span v-else> [[ user ]] </td>
 
           </tr>
 
@@ -123,9 +123,11 @@ function startVue(){
       if (this.att == '97') {
         this.anon = false
       }
+      console.log('SHOW OLD', this.showOld)
+
     },
     data: {
-        showOld: false,
+        showOld: true,
         ansOBJ: OBJ,
         att: ATT,
         nComment: null,
