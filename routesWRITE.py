@@ -246,6 +246,8 @@ def switchPartner():
     unit = request.form ['unit']
     partner = request.form ['partner']
 
+    partner = partner.strip().title()
+
 
     classModel = getInfo()['aModsDict'][unit]
     entry = classModel.query.filter_by(partner=partner).first()
@@ -500,6 +502,7 @@ def write_dash():
 
     models_list = ['01', '02', '03', '04']
     # models_list = ['05', '06', '07', '08', '09']
+    preRecDict = {}
     recDict = {}
 
     userList = getWriteUsers()
@@ -507,21 +510,49 @@ def write_dash():
     for model in getInfo()['aModsDict']:
         #print(recDict)
         if str(model) in models_list:
-            recDict[model] = {}
+            recDict[model] = []
             for entry in getInfo()['aModsDict'][model].query.all():
                 # if entry.partner == '':
                 #     entry.partner = 'None'
                 #     db.session.commit()
+                info = json.loads(entry.info)
+                user = entry.username
+                vtm = 0
 
-                recDict[str(model)][entry.username] = {
-                    'info' : json.loads(entry.info),
+                try:
+                    vtm = User.query.filter_by(username=user).first().vtm
+                except:
+                    print('VTM EXCEPT', user)
+
+                entry = {
+                    'user' : user,
+                    'stage' : info['stage'],
+                    'info' : info,
                     'partner' : entry.partner,
                     'plan' : json.loads(entry.plan),
                     'draft' : json.loads(entry.draft),
                     'revise' : json.loads(entry.revise),
                     'publish' : json.loads(entry.publish),
-                    'vtm' : 0
+                    'vtm' : vtm
                 }
+
+                if len(recDict[model]) == 0:
+                    recDict[model].append(entry)
+                # else:
+                #     recDict[model].append(entry)
+
+                for e in recDict[model]:
+
+                    print(e)
+                    if int(info['stage']) < int(e['stage']):
+                        recDict[model].insert(recDict[model].index(e), entry)
+                        print(recDict[model].index(e))
+                        break
+                else:
+                    recDict[model].append(entry)
+
+
+
 
     return  render_template('work/dashboard.html', recOBJ=str(json.dumps(recDict)))
 

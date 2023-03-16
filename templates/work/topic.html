@@ -34,15 +34,15 @@
 
     <br>
 
-    <button  v-if="partner != 'None'" type="button" class="btn btn-outline-light" @click="switchPartner()"> Switch </button>
 
-    <br>
-    <br>
 
     <div v-if="!partner">
         Add Partner <input type="text" class="input3" v-model="partnerTemp"></input>
     </div>
     <div v-else>
+        <button  v-if="partner != 'None'" type="button" class="btn btn-outline-light" @click="switchPartner()"> Switch </button>
+        <br>
+        <br>
         Contact teacher to change Partner
     </div>
 
@@ -247,8 +247,19 @@ function startVue(dataList, sources, stage, partner, writer, avatarImage, avatar
             return  { color: theme }
         },
         goTo: function(work){
-            if (!this.avatarName || !this.avatarImage) {
-                alert('please set avatar info')
+            if (this.avatarName.length < 2) {
+                alert('Please set avatar fake name')
+                return false
+            }
+            if (this.avatarTheme == 'white') {
+                alert('Please set avatar image and theme')
+                return false
+            }
+            if (!this.partner && this.partnerTemp) {
+                alert('Please "Update Project Info" first')
+                return false
+            } else if (!this.partner) {
+                alert('Please set partner: Write your name again if writing by yourself')
                 return false
             }
             window.location = (window.location.href).split('work')[0] + 'work/' + work + '/' + unit_number

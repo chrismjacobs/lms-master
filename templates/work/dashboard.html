@@ -52,11 +52,11 @@
 
                <template v-if="show[unit]" v-for="(student, ky) in model">
                   <tr>
-                     <td> [[ ky ]] <span v-if="student['partner'] != 'None'"> / [[ student['partner'] ]] </span> </td>
+                     <td> [[ student['user'] ]] <span v-if="student['partner'] != 'None'"> / [[ student['partner'] ]] </span> </td>
                      <td> <span @click="alertWork(student['plan'])" class="unit-span" :style="stageStyle[student['info']['stage']]">&emsp;[[ student['info']['stage'] ]]&emsp;</span> </td>
                      <td> P:[[ student['info']['plan_date_finish'] ]] </td>
                      <td> D:[[ student['info']['draft_date_finish'] ]] </td>
-                     <td> <span v-if="student['info']['stage'] > 1" @click="goToRevise(ky, unit)" class="unit-span" style="color:white"> REVISE </span> </td>
+                     <td> <span v-if="student['info']['stage'] > 1" @click="goToRevise(student['user'], unit)" class="unit-span" style="color:white"> REVISE </span> </td>
                   </tr>
 
                         <tr v-if="student['info']['stage'] > 0">
