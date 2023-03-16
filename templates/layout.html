@@ -86,8 +86,8 @@
                                   <a class="nav-item nav-link" href="{{ url_for ('topic_list') }}" style="background:purple">My Work</a>
                                 {% endif %}
 
-                                <div style="display:none">
 
+                                <div style="display:visible">
                                 {% if SCHEMA < 4 %}
                                     {% if MTFN == 'MT' %}
                                       <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('exam_list_midterm') }}">My Exams</a>
@@ -95,7 +95,6 @@
                                       <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('exam_list_final') }}">My Exams</a>
                                     {% endif %}
                                 {% endif %}
-
                                 </div>
 
                                {% if SCHEMA == 4 %}
