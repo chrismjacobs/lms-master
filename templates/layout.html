@@ -47,7 +47,7 @@
                             {% elif SCHEMA == 4 %}
                               <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('peng_dash')}}", target="_blank">Dashboard</a>
 
-                            {% elif SCHEMA == 7 %}
+                            {% elif SCHEMA == 7 or SCHEMA == 6 %}
                               <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('nme_dubdash', project=0)}}", target="_blank">Movie Dash</a>
 
                             {% elif SCHEMA == 8 %}
@@ -77,6 +77,10 @@
 
                                 {% if SCHEMA < 4 %}
                                 <a class="nav-item nav-link" href="{{ url_for ('assignment_list') }}">My Assignments </a>
+                                {% endif %}
+
+                                {% if SCHEMA == 7 or SCHEMA == 6 %}
+                                <a class="nav-item nav-link" href="{{ url_for ('nme_dubs_sample') }}">Movies Samples</a>
                                 {% endif %}
 
                                 {% if SCHEMA == 8 %}
