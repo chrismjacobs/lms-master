@@ -59,22 +59,30 @@
                      <td> <span v-if="student['info']['stage'] > 1" @click="goToRevise(student['user'], unit)" class="unit-span" style="color:white"> REVISE </span> </td>
                   </tr>
 
-                        <tr v-if="student['info']['stage'] > 0">
-                                <td style="width:30%">
+                    <tr v-if="student['info']['stage'] > 0">
+                            <td style="width:30%">
 
-                                    <template  v-for="(plan, head) in student['plan']">
-                                    <span class="unit-span" style="color:mediumseagreen">[[ head ]]<span> [[plan]]</span> <br>
-                                    </template>
-
-                                </td>
-                                <td colspan=3 >
+                                <template  v-for="(plan, head) in student['plan']">
+                                    <span class="unit-span">
+                                        <span style="color:springgreen"> [[ head ]] </span>
+                                        <span style="color:mediumseagreen"> [[plan]]</span>
+                                    <span>
                                     <br>
-                                    <template  v-for="(work, part) in student['draft']">
-                                    <span class="unit-span" style="color:orange">[[ part ]]<span> [[ work ]] <br>
-                                    </template>
-                                </td>
+                                </template>
 
-                        </tr>
+                            </td>
+                            <td colspan=3 >
+                                <br>
+                                <template  v-for="(work, part) in student['draft']">
+                                    <span class="unit-span">
+                                        <span style="color:yellow"> [[ part ]] </span>
+                                        <span style="color:orange"> [[work]]</span>
+                                    <span>
+                                    <br>
+                                </template>
+                            </td>
+
+                    </tr>
 
 
                 </template>
@@ -107,9 +115,16 @@ const recOBJ = JSON.parse(jString)
 effortOBJ = {}
 
 for (var topic in recOBJ){
-    for (var student in recOBJ[topic]){
+    for (var i in recOBJ[topic]){
+        let student = recOBJ[topic][i]['user']
+
+        let partner = undefined
+        if (recOBJ[topic][i]['partner'] != 'None') {
+            partner = recOBJ[topic][i]['partner']
+        }
+
         if (effortOBJ[student]) {
-            effortOBJ[student][topic] = recOBJ[topic][student]['info']['stage']
+            effortOBJ[student][topic] = recOBJ[topic][i]['info']['stage']
         } else {
            effortOBJ[student] = {
                '01' : 0,
@@ -118,20 +133,20 @@ for (var topic in recOBJ){
                '04' : 0,
                '05' : 0,
            }
-           effortOBJ[student][topic] = recOBJ[topic][student]['info']['stage']
+           effortOBJ[student][topic] = recOBJ[topic][i]['info']['stage']
         }
-        if (effortOBJ[recOBJ[topic][student]['partner']]) {
-            effortOBJ[recOBJ[topic][student]['partner']][topic] = recOBJ[topic][student]['info']['stage']
-        } else {
-            effortOBJ[recOBJ[topic][student]['partner']] = {
-                '01' : 0,
-                '02' : 0,
-                '03' : 0,
-                '04' : 0,
-                '05' : 0,
-            }
-            effortOBJ[student][topic] = recOBJ[topic][student]['info']['stage']
 
+        if ( partner && effortOBJ[partner]) {
+            effortOBJ[partner][topic] = recOBJ[topic][i]['info']['stage']
+        } else if (partner) {
+           effortOBJ[partner] = {
+               '01' : 0,
+               '02' : 0,
+               '03' : 0,
+               '04' : 0,
+               '05' : 0,
+           }
+           effortOBJ[partner][topic] = recOBJ[topic][i]['info']['stage']
         }
     }
 }

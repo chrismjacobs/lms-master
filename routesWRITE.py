@@ -500,9 +500,8 @@ def write_dash():
         return redirect(url_for('home'))
 
 
-    models_list = ['01', '02', '03', '04']
+    models_list = ['01', '02', '03', '04', '05']
     # models_list = ['05', '06', '07', '08', '09']
-    preRecDict = {}
     recDict = {}
 
     userList = getWriteUsers()
