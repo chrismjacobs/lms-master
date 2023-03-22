@@ -25,7 +25,7 @@
         <tbody>
             <template v-for="(topic, key) in topOBJ"  :key="key" >
             <tr>
-              <td @click="goTo(key, topic['Stage'], topic['Set'])"> <span class="unit-span" :style="getColor(topic['Theme'])"> &emsp;[[  key  ]]&emsp; </span> </td>
+              <td @click="goTo(key, topic['Stage'], topic['Set'])"> <span class="unit-span" :style="getColor(topic['Theme'])"> [[  key  ]] </span> </td>
 
               <td> <span v-if="topic['Theme']"> [[  topic['Writer']  ]] </span>  <span v-if="topic['Partner']">/  [[  topic['Partner']  ]] </span>  </td>
               <td> [[  topic['Title']  ]] </td>
