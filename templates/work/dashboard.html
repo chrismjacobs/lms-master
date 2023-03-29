@@ -5,10 +5,11 @@
 <div id="vue-app">
 
 <div class="list-section">
-    <button class="btn" @click="showEffort=!showEffort"> EFFORT </button>
+    <button class="btn" @click="showEffort=!showEffort"> EFFORT </button> <input type="number" v-model="vtm"> </input>
 
         <legend class="border-bottom mb-4">Performance</legend>
         <div  v-if="showEffort" style="overflow-x:auto;width:80%">
+
             <table class="table table-sm">
                 <thead>
                     <tr>
@@ -59,6 +60,8 @@
                      <td> <span v-if="student['info']['stage'] > 1" @click="goToRevise(student['user'], unit)" class="unit-span" style="color:white"> REVISE </span> </td>
                   </tr>
 
+                 <template v-if="vtm == student['vtm'] || vtm == 2">
+
                     <tr v-if="student['info']['stage'] > 0">
                             <td style="width:30%">
 
@@ -83,7 +86,15 @@
                             </td>
 
                     </tr>
-
+                    <tr>
+                        <td colspan=5>
+                            <h5>[[ student['publish']['title']  ]]</h5>
+                            <div style="background:darkslategrey; border-radius:5px; width:100%">
+                                <p  align="justify" style="padding-left:8px; padding-right:8px;font-size:16px"> [[ student['publish']['final'] ]] </p>
+                            </div>
+                        </td>
+                    </tr>
+                    </template>
 
                 </template>
 
@@ -132,6 +143,7 @@ for (var topic in recOBJ){
                '03' : 0,
                '04' : 0,
                '05' : 0,
+               '06' : recOBJ[topic][i]['vtm']
            }
            effortOBJ[student][topic] = recOBJ[topic][i]['info']['stage']
         }
@@ -145,6 +157,7 @@ for (var topic in recOBJ){
                '03' : 0,
                '04' : 0,
                '05' : 0,
+               '06' : recOBJ[topic][i]['vtm']
            }
            effortOBJ[partner][topic] = recOBJ[topic][i]['info']['stage']
         }
@@ -159,6 +172,7 @@ let vue = new Vue({
     el: '#vue-app',
     delimiters: ['[[', ']]'],
     data: {
+        vtm: 2,
         recOBJ : recOBJ,
         effortOBJ : effortOBJ,
         showEffort : false,
