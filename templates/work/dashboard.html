@@ -8,7 +8,7 @@
     <button class="btn" @click="showEffort=!showEffort"> EFFORT </button> <input type="number" v-model="vtm"> </input>
 
         <legend class="border-bottom mb-4">Performance</legend>
-        <div  v-if="showEffort" style="overflow-x:auto;width:80%">
+        <div  v-if="showEffort" style="overflow-x:auto;width:100%">
 
             <table class="table table-sm">
                 <thead>
@@ -26,8 +26,47 @@
                     <template v-for="(effort, user) in effortOBJ">
                         <tr>
                         <td> [[ user ]] </td>
-                        <td v-for="stage in effort"> <span class="unit-span" :style="stageStyle[stage]"> &emsp;[[ stage ]]&emsp; </span> </td>
+                        <td v-for="(stage, topic) in effort"> <span class="unit-span" :style="stageStyle[stage[0]]" @click="showData = [user, topic, stage[1]]"> &emsp;[[ stage[0] ]]&emsp; </span> </td>
                         </tr>
+                        <tr v-if="showData[0] == user">
+                            <td> [[ getStudentWork['user'] ]] <span v-if="getStudentWork['partner'] != 'None'"> / [[ getStudentWork['partner'] ]] </span> </td>
+                            <td> <span @click="alertWork(getStudentWork['plan'])" class="unit-span" :style="stageStyle[getStudentWork['info']['stage']]">&emsp;[[ getStudentWork['info']['stage'] ]]&emsp;</span> </td>
+                            <td> P:[[ getStudentWork['info']['plan_date_finish'] ]] </td>
+                            <td> D:[[ getStudentWork['info']['draft_date_finish'] ]] </td>
+                            <td> <span v-if="getStudentWork['info']['stage'] >= 1" @click="goToRevise(getStudentWork['user'], unit)" class="unit-span" style="color:white"> REVISE </span> </td>
+                        </tr>
+                        <tr v-if="showData[0] == user">
+                            <td style="width:30%">
+
+                                <template  v-for="(plan, head) in getStudentWork['plan']">
+                                    <span class="unit-span">
+                                        <span style="color:springgreen"> [[ head ]] </span>
+                                        <span style="color:mediumseagreen"> [[plan]]</span>
+                                    <span>
+                                    <br>
+                                </template>
+
+                            </td>
+                            <td colspan=4 >
+                                <br>
+                                <template  v-for="(work, part) in getStudentWork['draft']">
+                                    <span class="unit-span">
+                                        <span style="color:yellow"> [[ part ]] </span>
+                                        <span style="color:orange"> [[work]]</span>
+                                    <span>
+                                    <br>
+                                </template>
+                            </td>
+                    </tr>
+                    <tr>
+                        <td colspan=5>
+                            <h5>[[ getStudentWork['publish']['title']  ]]</h5>
+                            <div style="background:darkslategrey; border-radius:5px; width:100%">
+                                <p  align="justify" style="padding-left:8px; padding-right:8px;font-size:16px"> [[ getStudentWork['publish']['final'] ]] </p>
+                            </div>
+                        </td>
+                    </tr>
+
                     </template>
                 </tbody>
             </table>
@@ -123,7 +162,8 @@
 let jString = document.getElementById('recs').innerHTML
 const recOBJ = JSON.parse(jString)
 
-effortOBJ = {}
+let effortOBJ = {}
+keyOBJ = {}
 
 for (var topic in recOBJ){
     for (var i in recOBJ[topic]){
@@ -135,31 +175,34 @@ for (var topic in recOBJ){
         }
 
         if (effortOBJ[student]) {
-            effortOBJ[student][topic] = recOBJ[topic][i]['info']['stage']
+            effortOBJ[student][topic][0] = parseInt(recOBJ[topic][i]['info']['stage'])
+            effortOBJ[student][topic][1] = i
         } else {
            effortOBJ[student] = {
-               '01' : 0,
-               '02' : 0,
-               '03' : 0,
-               '04' : 0,
-               '05' : 0,
-               '06' : recOBJ[topic][i]['vtm']
+               '01' : [0,0],
+               '02' : [0,0],
+               '03' : [0,0],
+               '04' : [0,0],
+               '05' : [0,0],
+
            }
-           effortOBJ[student][topic] = recOBJ[topic][i]['info']['stage']
+           effortOBJ[student][topic][0] = parseInt(recOBJ[topic][i]['info']['stage'])
+           effortOBJ[student][topic][1] = i
         }
 
         if ( partner && effortOBJ[partner]) {
-            effortOBJ[partner][topic] = recOBJ[topic][i]['info']['stage']
+            effortOBJ[partner][topic][0] = parseInt(recOBJ[topic][i]['info']['stage'])
+            effortOBJ[partner][topic][1] = i
         } else if (partner) {
            effortOBJ[partner] = {
-               '01' : 0,
-               '02' : 0,
-               '03' : 0,
-               '04' : 0,
-               '05' : 0,
-               '06' : recOBJ[topic][i]['vtm']
+               '01' : [0,0],
+               '02' : [0,0],
+               '03' : [0,0],
+               '04' : [0,0],
+               '05' : [0,0]
            }
-           effortOBJ[partner][topic] = recOBJ[topic][i]['info']['stage']
+           effortOBJ[partner][topic][0] = parseInt(recOBJ[topic][i]['info']['stage'])
+           effortOBJ[partner][topic][1] = i
         }
     }
 }
@@ -173,6 +216,7 @@ let vue = new Vue({
     delimiters: ['[[', ']]'],
     data: {
         vtm: 2,
+        showData : [ 0, 0, 0 ],
         recOBJ : recOBJ,
         effortOBJ : effortOBJ,
         showEffort : false,
@@ -250,6 +294,9 @@ let vue = new Vue({
 
     },
     computed : {
+        getStudentWork() {
+            return vue.recOBJ[vue.showData[1]][vue.showData[2]]
+        },
 
     }
 
