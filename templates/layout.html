@@ -81,6 +81,9 @@
 
                                 {% if SCHEMA == 7 or SCHEMA == 6 %}
                                 <a class="nav-item nav-link" href="{{ url_for ('nme_dubs_sample') }}">Movies Samples</a>
+                                <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('nme_dubs') }}">Dubs</a>
+                                <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('nme_movies') }}">Movies</a>
+                                <a class="nav-item nav-link" style="color:{{titleColor}};background:white" href="{{ url_for ('nme_project') }}">Project</a>
                                 {% endif %}
 
                                 {% if SCHEMA == 8 %}

@@ -46,7 +46,7 @@ from routesAdmin import *
 
 from routesUser import *
 from routesPart import *
-#from routesNME import *
+from routesMDE import *
 from routesWRITE import *
 from routesPENG import *
 
