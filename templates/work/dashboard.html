@@ -33,7 +33,7 @@
                             <td> <span @click="alertWork(getStudentWork['plan'])" class="unit-span" :style="stageStyle[getStudentWork['info']['stage']]">&emsp;[[ getStudentWork['info']['stage'] ]]&emsp;</span> </td>
                             <td> P:[[ getStudentWork['info']['plan_date_finish'] ]] </td>
                             <td> D:[[ getStudentWork['info']['draft_date_finish'] ]] </td>
-                            <td> <span v-if="getStudentWork['info']['stage'] >= 1" @click="goToRevise(getStudentWork['user'], unit)" class="unit-span" style="color:white"> REVISE </span> </td>
+                            <td> <span v-if="getStudentWork['info']['stage'] >= 1" @click="goToRevise(getStudentWork['user'], showData[1])" class="unit-span" style="color:white"> REVISE </span> </td>
                         </tr>
                         <tr v-if="showData[0] == user">
                             <td style="width:30%">
@@ -58,7 +58,7 @@
                                 </template>
                             </td>
                     </tr>
-                    <tr>
+                    <tr v-if="showData[0] == user">
                         <td colspan=5>
                             <h5>[[ getStudentWork['publish']['title']  ]]</h5>
                             <div style="background:darkslategrey; border-radius:5px; width:100%">
