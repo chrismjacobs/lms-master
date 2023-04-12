@@ -13,6 +13,20 @@ from flask_mail import Message
 from meta import BaseConfig
 s3_resource = BaseConfig.s3_resource
 
+""" improvements """
+
+# limit word count for plans
+# minimum sentences for writing
+# maximum word count for parts - stop monster eassy
+# record if pasting has occurred https://stackoverflow.com/questions/3211505/detect-pasted-text-with-ctrlv-or-right-click-paste
+# monitor titles (all caps, no caps, periods)
+# figure out why when students fix title it doesn't update
+# why is draft sometimes saving as stage 1?
+# Do not allow writing on pink page
+
+
+
+
 """S3 CONNECTIONS """
 def loadAWS(file, unit):
     SCHEMA = getSchema()

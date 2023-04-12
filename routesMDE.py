@@ -47,9 +47,16 @@ def create_folder(unit, teamnumber, nameRange):
 '''### movies '''
 
 mDict = {
-        1 : 'The Lion King'
+        1 : 'The Lion King',
+        2 : 'Gifted',
+        3 : 'Jobs',
+        4 : 'Intern',
+        5 : 'Finding Nemo',
+        6 : 'undecided',
+        7 : ' new project.....'
     }
 
+## this is the old list numbered as such
 mDict2 = {
         1 : 'The Lion King',
         2 : 'Gifted',
@@ -83,11 +90,34 @@ def getTable(movie):
     if SCHEMA == 6:
          models = modDictUnits_VTM
 
-    tDict = {
-        1 : models['01'][1]
+    ## list of tables for previous movies
+    tableDict = {
+        0 : models['00'][1],
+        1 : models['01'][1],
+        2 : models['01'][2],
+        3 : models['01'][3],
+        4 : models['01'][4],
+        5 : models['02'][1],
+        6 : models['02'][2],
+        ### first 6 movies are pre prepared
+        ## following movies are made by teams
+
+        7 : models['03'][1],
+        8 : models['03'][2],
+        9 : models['03'][3],
+        10 : models['03'][4],
+        11 : models['04'][1],
+        12 : models['04'][2],
+        13 : models['04'][3],
+        14 : models['04'][4],
+        15 : models['05'][1],
+        16 : models['05'][2],
+        17: models['05'][3],
+        18 : models['05'][4]
     }
 
-    return tDict[movie]
+    return tableDict[int(movie)]
+
 
 def getStudentDict():
     studentDict = {}
@@ -118,15 +148,16 @@ def getTeam():
     if SCHEMA == 6 or SCHEMA == 7:
         teamDict = {
             0:["Chris", "Test", None],
-            1:["Wendy", "Sakura ", "Amber"],
-            2:["Kai", "Gillian", "Benson"],
-            3:["Bruce", "Kenny", "Bob"],
-            4:["Alina", "Monica", "Emma"],
-            5:["Una", "Sara", "Michelle"],
-            6:["Carol", "Elsa", "Yui"],
-            7:["Felisia", "Disa", "Devi"],
-            8:["Eric", "Rebecca", "Raymond"],
-            9:["Jerry", "Owen", "Max"]
+
+            7:["Wendy", "Sakura ", "Amber"],
+            8:["Kai", "Gillian", "Benson"],
+            9:["Bruce", "Kenny", "Bob"],
+            10:["Alina", "Monica", "Emma"],
+            11:["Una", "Sara", "Michelle"],
+            12:["Carol", "Elsa", "Yui"],
+            13:["Felisia", "Disa", "Devi"],
+            14:["Eric", "Rebecca", "Raymond"],
+            15:["Jerry", "Owen", "Max"]
         }
 
     names = []
@@ -161,6 +192,8 @@ def getPayloads():
 
     with open(static + 'NME_payload'  + '.json', 'r', encoding='utf8', errors='ignore') as json_file:
         payloadDict = json.load(json_file)
+
+    # print('PAYLOAD DICT', payloadDict)
 
     return payloadDict
 
@@ -220,7 +253,7 @@ def nme_dubs_sample():
     payloadDict = getPayloads()
 
 
-    return render_template('nme/nme_dubs.html', legend='NME Dubs', nmeString = json.dumps(nmeExamples), payString = json.dumps(payloadDict) )
+    return render_template('nme/nme_dubs.html', legend='NME Dubs', nmeString = json.dumps(nmeExamples), payString = json.dumps(payloadDict), schema=getSchema(), mode='examples')
 
 
 @app.route ("/nme_dubs", methods=['GET','POST'])
@@ -231,7 +264,7 @@ def nme_dubs():
 
     payloadDict = {}
 
-    movies = ["1"]
+    movies = []
     movieUnits = getModels()['Units_'].query.all()
     for m in movieUnits:
         movies.append(str(m.unit))
@@ -245,23 +278,25 @@ def nme_dubs():
         movieDict = json.load(json_file)
 
     for mov in movieDict:
+        print('Mov in MovieDict', mov)
         if str(mov) in movies:
-            data = movieDict[mov].query.all()
+            data = getTable(mov).query.all()
             print('DATA', data)
             nmeDict[mov] = {}
+            payloadDict[mov] = movieDict[mov]
             for entry in data:
-                if entry.username == 'payload':
-                    payloadDict[mov] = json.loads(entry.Ans01)
-                else:
-                    movieData = json.loads(entry.Ans01)
-                    nmeDict[mov][movieData['team']] = movieData
+                # if entry.username == 'payload':
+                #     payloadDict[mov] = json.loads(entry.Ans01)
+                # else:
+                movieData = json.loads(entry.Ans01)
+                nmeDict[mov][movieData['team']] = movieData
 
     pprint (nmeDict)
 
     # with open('NME_payload' + '.json', 'w') as json_file:
     #      json.dump(payloadDict, json_file)
 
-    return render_template('nme/nme_dubs.html', legend='NME Dubs', nmeString = json.dumps(nmeDict), payString = json.dumps(payloadDict) )
+    return render_template('nme/nme_dubs.html', legend='NME Dubs', nmeString = json.dumps(nmeDict), payString = json.dumps(payloadDict), schema=getSchema(), mode='dubs')
 
 @app.route ("/nme_movies", methods=['GET','POST'])
 @login_required
@@ -288,6 +323,7 @@ def nme_movies():
 @app.route("/nme_mov/<string:movie>/<string:part>", methods = ['GET', 'POST'])
 @login_required
 def nme_mov(movie, part):
+    ## part 1-4 (not sure what part 5 is necessary for)
     team = getTeam()
 
     check = getModels()['Units_'].query.filter_by(unit=movie).first()
@@ -319,7 +355,7 @@ def nme_mov(movie, part):
         return (redirect (url_for('nme_movies')))
 
 
-    mString = getPayloads()[str(movie)]
+    payloadString = getPayloads()[str(movie)]
 
 
     print(movie)
@@ -352,22 +388,22 @@ def nme_mov(movie, part):
         print(uString)
 
 
-    return render_template('nme/nme_mov' + part + '.html', uString=uString, mString=mString, mData=movieData, team=team[0], members=json.dumps(team[1]))
+    return render_template('nme/nme_mov' + part + '.html', uString=uString, mString=json.dumps(payloadString), mData=movieData, team=team[0], members=json.dumps(team[1]))
 
 
 @app.route("/nme_project/", methods = ['GET', 'POST'])
 @login_required
 def nme_project():
 
-    team = getMovieTeam()[0]
+    team = getTeam()[0]
 
-    project = movieDict[int(team)].query.filter_by(username='payload').first()
+    project = getTable(int(team)).query.filter_by(username='payload').first()
     print(project)
 
     if not project:
         print('not')
         dictionary = getMovieDict(team)
-        newProject = movieDict[int(team)](username='payload', Ans01=dictionary)
+        newProject = getTable(int(team))(username='payload', Ans01=dictionary)
         db.session.add(newProject)
         db.session.commit()
     else:
@@ -463,7 +499,7 @@ def addProject():
 
     movieData = json.loads(data)
 
-    model = movieDict[int(team)]
+    model = getTable(int(team))
     payload = model.query.filter_by(username="payload").first()
     payload.Ans01 = data
     db.session.commit()
@@ -493,7 +529,7 @@ def addMovie():
     names = movieData['names']
     link = 'None'
 
-    model = movieDict[int(movie)]
+    model = getTable(int(movie))
     details = model.query.filter_by(username=json.dumps(names)).first()
 
 

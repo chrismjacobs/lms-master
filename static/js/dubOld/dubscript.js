@@ -56,11 +56,6 @@ else {
 }
 console.log('DEVICE', device);
 
-// if (device == 'I') {
-//   navigator.mediaDevices.getUserMedia({ audio: true, video: false })
-// }
-
-
 //iphone recording
 window.globalFunc = function (action){
   console.log('global started');
@@ -147,12 +142,24 @@ window.globalFunc = function (action){
           encoder = new Mp3LameEncoder(audioContext.sampleRate, 160); //bitRate set to 160
           /** Give the node a function to process audio events **/
 
+
+
+
+
+          let count = 0
+          let countSpan = document.getElementById('count')
           video = document.getElementById('vid')
-          video.play()
+
           // let marker = true
           processor.onaudioprocess = function(event) {
               encoder.encode(getBuffers(event));
               console.log('MP3 encoding');
+              countSpan.innerHTML = count
+
+              if (count == 1) {
+                video.play()
+              }
+              count += 1
           };
 
 
@@ -216,9 +223,7 @@ console.log('mObj', mObj);
 console.log('mData', movieData);
 
 var str = window.location.href
-let movie = str.split('nme_mov/')[1].split('/')[0]
-
-console.log(movie)
+let movie = str.split('nme_mov/')[1][0]
 
 var subtitles = mObj['subtitles']
 console.log('subs', subtitles)
@@ -375,14 +380,12 @@ function startVue(){
         if (this.device == 'I'){
           vue.base64data = b64d
         }
-        this.movieData.status = 4
         $.ajax({
           data : {
               part: 4,
               movie: vue.movie,
               movieData: JSON.stringify(vue.movieData),
               base64 : vue.base64data,
-              device : vue.device
           },
           type : 'POST',
           url : '/addMovie'
@@ -411,7 +414,7 @@ function startVue(){
             }
 
             vue.rec1.count += 1
-            if (vue.rec1.count == 91){
+            if (vue.rec1.count == 160){
                 vue.stop(task)
                 console.log('timer_terminated');
             }
@@ -444,36 +447,40 @@ function startVue(){
         video = document.getElementById('vid')
         audio = document.getElementById('aud')
         video.play()
-        audio.play()
         video.pause()
-        audio.pause()
         video.currentTime = 0
-        audio.currentTime = 0
         vue.rec1.load = false
         if (device == 'I') {
           navigator.mediaDevices.getUserMedia({ audio: true, video: false })
         }
-      },
-      playRec : function (arg) {
-        video = document.getElementById('vid')
-        audio = document.getElementById('aud')
-        video.muted = arg
-        audio.src = vue.blobURL
-        audio.pause()
-        video.pause()
-        video.currentTime = 0
-        audio.currentTime = 0
-        video.play()
-        audio.play()
+        video.onended = function() {
+          // alert('video ended')
+          console.log('stopping video')
+          // console.log(vue.mediaRecorder.state)
+          if (vue.device == 'A' && vue.mediaRecorder.state == 'recording') {
+            vue.stop()
+          } else if (vue.device == 'I') {
+            vue.stop()
+          }
+        }
+
       },
       clip : function (arg){
+
         video = document.getElementById('vid')
         audio = document.getElementById('aud')
+
+        if (arg == 'load') {
+          audio.src = vue.blobURL
+
+        }
+
         audio.pause()
         video.pause()
         video.currentTime = 0
         audio.currentTime = 0
         console.log('blob', vue.blobURL);
+
 
         if (arg == 'sound'){
           video.muted = false
@@ -498,16 +505,6 @@ function startVue(){
         if (arg == 'start') {
           video.muted = true
           vue.start()
-        }
-        video.onended = function() {
-          // alert('video ended')
-          console.log('stopping video')
-          // console.log(vue.mediaRecorder.state)
-          if (vue.device == 'A' && vue.mediaRecorder.state == 'recording') {
-            vue.stop()
-          } else if (vue.device == 'I') {
-            vue.stop()
-          }
         }
       }
     } // end methods

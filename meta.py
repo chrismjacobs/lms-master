@@ -129,14 +129,14 @@ schemaList = {
 
     6 : {
         "Course": "Vietnam Class",
-        "S3_BUCKET_NAME": "writing-lms",
+        "S3_BUCKET_NAME": "vietnam-lms",
         "courseCode" : "write",
-        "S3_LOCATION" : "https://writing-lms.s3.ap-northeast-1.amazonaws.com/",
+        "S3_LOCATION" : "https://vietnam-lms.s3.ap-northeast-1.amazonaws.com/",
         "DESIGN": {
-            "titleColor": "gold",
+            "titleColor": "#F1C40F",
             "bodyColor": "whitesmoke",
             "headTitle": "APP course",
-            "headLogo": "https://writing-lms.s3-ap-northeast-1.amazonaws.com/profiles/logo.png"
+            "headLogo": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/profiles/logo.png"
         },
     },
     7 : {
@@ -145,7 +145,7 @@ schemaList = {
         "courseCode" : "nme",
         "S3_LOCATION" : "https://nme-lms.s3.ap-northeast-1.amazonaws.com/",
         "DESIGN": {
-            "titleColor": "gold",
+            "titleColor": "#F1C40F",
             "bodyColor": "whitesmoke",
             "headTitle": "NME course",
             "headLogo": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/profiles/logo.png"

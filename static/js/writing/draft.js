@@ -214,6 +214,12 @@ function startVue(newPlan, info, draft){
             var commas = commaCheck.length
             var periodCheck = string.split('.')
             var periods = periodCheck.length
+
+            if (periods < 1 && id == 0) {
+                alert('Introduction need 2 sentences: Into + Thesis (see notes)')
+            } else if (periods < 1 && id != 4) {
+                alert('Each part should have 2 or more sentences:  Idea + Detail')
+            }
             if (commas > periods * 1.8 ) {
                 this.control[idx].push('commas')
             }

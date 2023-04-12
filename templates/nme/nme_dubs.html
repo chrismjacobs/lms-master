@@ -21,15 +21,15 @@
   <div style="overflow-x:auto;">
     <table class="table table-sm">
       <tbody>
-      <template v-for="(movie, key) in projectOBJ" :key="key">
+      <template v-for="(movie, key) in payOBJ" :key="key">
 
         <tr>
           <td>
-           [[ payOBJ[key].title ]]
+           [[ movie.title ]]
           </td>
-         <template  v-for="(n, team) in teamDict" :key="team">
-            <td v-if="movie[team] && movie[team]['audio']">
-            <button class="btn btn-info" @click="playAudio(movie[team]['audio'], key)"> [[team]]</button>
+         <template  v-for="(link, team) in examplesOBJ[key]" :key="team">
+            <td v-if="true">
+            <button class="btn btn-info" @click="playAudio(link, key, team, movie.subtitles)"> [[team]]</button>
             </td>
             <td v-else="movie[team]">
             <button class="btn btn-danger"> [[team]] </button>
@@ -43,14 +43,13 @@
     </table>
   </div>
 
-  [[teamDict]]
-
-
 
 </div>
 
-<span id="projectDict" style="display:none">{{nmeString}}</span>
+<span id="examplesDict" style="display:none">{{nmeString}}</span>
 <span id="payloadDict" style="display:none">{{payString}}</span>
+<span id="mode" style="display:none">{{mode}}</span>
+<span id="schema" style="display:none">{{schema}}</span>
 
 
 </div> <!-- end of Vue app -->
@@ -64,12 +63,16 @@
 
 <script type="text/javascript" >
 
-var projectDict = document.getElementById('projectDict').innerHTML
+var examplesDict = document.getElementById('examplesDict').innerHTML
 var payloadDict = document.getElementById('payloadDict').innerHTML
-var OBJ = JSON.parse(projectDict)
+var mode = document.getElementById('mode').innerHTML
+var schema = document.getElementById('schema').innerHTML
+var OBJ = JSON.parse(examplesDict)
 var PAY = JSON.parse(payloadDict)
-console.log('projectDict', OBJ);
+console.log('examplesDict', OBJ);
 console.log('payloadDict', PAY);
+console.log('schema', schema)
+console.log('mode', mode)
 
 
 startVue()
@@ -79,7 +82,9 @@ function startVue(){ new Vue({
     el: '#vue-app',
     delimiters: ['[[', ']]'],
     data: {
-        projectOBJ: OBJ,
+        schema: schema,
+        mode: mode,
+        examplesOBJ: OBJ,
         payOBJ: PAY,
         show: null,
         milli: null,
@@ -111,16 +116,26 @@ function startVue(){ new Vue({
             window.location = url
             console.log('DONE');
         },
-        playAudio: function (arg, mov) {
-          console.log(arg)
+        playAudio: function (arg, mov, team, clip) {
+          console.log(arg, mov)
           let audio = document.getElementById('handler')
-          audio.src = arg
+
+          let bucket = "https://nme-lms.s3.ap-northeast-1.amazonaws.com/dubbing/"
+          let aws =  bucket + mov + "/"  + team + '_' +  arg
+
+          if (this.mode != 'examples') {
+               aws = arg['audio']
+          }
+
+          console.log(aws)
+          // let test = "https://nme-lms.s3.ap-northeast-1.amazonaws.com/dubbing/2/28_Il.mp3"
+          audio.src = aws
           audio.pause()
           audio.currentTime = 0
 
           let video = document.getElementById('vid')
           video.muted = true
-          video.src = this.payOBJ[mov].subtitles
+          video.src = clip
           video.pause()
           video.currentTime = 0
           audio.play()
