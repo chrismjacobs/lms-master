@@ -188,7 +188,10 @@ def getDubs():
 
 def getPayloads():
 
+
+
     static = "static\\example_data\\"
+    static = "static/"
 
     with open(static + 'NME_payload'  + '.json', 'r', encoding='utf8', errors='ignore') as json_file:
         payloadDict = json.load(json_file)
@@ -243,6 +246,7 @@ def nme_dubs_sample():
     # getDubs()
 
     static = "static\\example_data\\"
+    static = "static/"
 
     with open(static + 'NME_dict'  + '.json', 'r', encoding='utf8') as json_file:
         nmeDict = json.load(json_file)
@@ -274,6 +278,7 @@ def nme_dubs():
     movieDict = {}
 
     static = "static\\example_data\\"
+    static = "static/"
     with open(static + 'NME_payload'  + '.json', 'r', encoding='utf8', errors='ignore') as json_file:
         movieDict = json.load(json_file)
 
