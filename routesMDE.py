@@ -92,7 +92,7 @@ def getTable(movie):
 
     ## list of tables for previous movies
     tableDict = {
-        0 : models['00'][1],
+        # 0 : models['00'][1],
         ### 0 is set for instructor
         1 : models['01'][1],
         2 : models['01'][2],
