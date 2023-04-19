@@ -98,15 +98,6 @@ function startVue(topOBJ){ new Vue({
                 return false
 
             }
-            if (key == 3 && this.vtm == 1 && user != 'Chris') {
-                alert('Vietnam class will skip this project')
-                return false
-            }
-
-            if (key == 5 && this.vtm == 0 && user != 'Chris') {
-                alert('Sophomore students cannot start this project right now')
-                return false
-            }
 
             window.location = (window.location.href).split('topic_list')[0] + 'work/topic/' + key
         }
