@@ -166,13 +166,13 @@ def getTeam():
             14:["Wendychen2001", "Frederick", "Holly", "Cris"],
             15:["Laura", "Mac", "Beatrix", "Yuri"],
             16:["Sean Chen", "Vivién"],
-            17:[""],
-            18:[""],
-            19:[""],
-            20:[""],
-            21:[""],
-            22:[""],
-            23:[""],
+            17:["Ray Chen", "Terry", "Lisa"],
+            18:["Tony", "Frank", "Star Yellow"],
+            19:["Johnny", "Steven", "Jarry"],
+            20:["Andyyy", "Chi", "Cindy"],
+            21:["Sharon Xu", "Mandy Yao", "Stephanie"],
+            22:["Veronica", "Coco", "Serena"],
+            23:["Ken", "Jenny", "Yanling"],
 
         }
 
