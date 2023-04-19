@@ -172,8 +172,7 @@ def getTeam():
             20:["Andyyy", "Chi", "Cindy"],
             21:["Sharon Xu", "Mandy Yao", "Stephanie"],
             22:["Veronica", "Coco", "Serena"],
-            23:["Ken", "Jenny", "Yanling"],
-
+            23:["Ken", "Jenny", "Yanling"]
         }
 
     names = []
