@@ -121,7 +121,10 @@ def getTable(movie):
         22 : models['05'][4],
     }
 
-    return tableDict[int(movie)]
+    if not movie:
+        return tableDict
+    else:
+        return tableDict[int(movie)]
 
 
 def getStudentDict():
@@ -233,6 +236,8 @@ def nme_dubdash(project):
     for m in movieUnits:
         movies.append(m.unit)
 
+    movieDict = getTable(None)
+
     for mov in movieDict:
         if mov in movieDict: # str(mov) in movies (see above)
             data = movieDict[mov].query.all()
@@ -271,6 +276,17 @@ def nme_dubs_sample():
     return render_template('nme/nme_dubs.html', legend='NME Dubs', nmeString = json.dumps(nmeExamples), payString = json.dumps(payloadDict), schema=getSchema(), mode='examples')
 
 
+def get_movieDict():
+    movieDict = {}
+
+    static = "static\\example_data\\"
+    static = "static/"
+    with open(static + 'NME_payload'  + '.json', 'r', encoding='utf8', errors='ignore') as json_file:
+        movieDict = json.load(json_file)
+
+    return movieDict
+
+
 @app.route ("/nme_dubs", methods=['GET','POST'])
 @login_required
 def nme_dubs():
@@ -286,12 +302,7 @@ def nme_dubs():
 
     print(movies)
 
-    movieDict = {}
-
-    static = "static\\example_data\\"
-    static = "static/"
-    with open(static + 'NME_payload'  + '.json', 'r', encoding='utf8', errors='ignore') as json_file:
-        movieDict = json.load(json_file)
+    movieDict = get_movieDict()
 
     for mov in movieDict:
         print('Mov in MovieDict', mov)
