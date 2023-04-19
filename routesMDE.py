@@ -93,6 +93,7 @@ def getTable(movie):
     ## list of tables for previous movies
     tableDict = {
         0 : models['00'][1],
+        ### 0 is set for instructor
         1 : models['01'][1],
         2 : models['01'][2],
         3 : models['01'][3],
@@ -112,8 +113,12 @@ def getTable(movie):
         14 : models['04'][4],
         15 : models['05'][1],
         16 : models['05'][2],
-        17: models['05'][3],
-        18 : models['05'][4]
+        17 : models['05'][3],
+        18 : models['05'][4],
+        19 : models['05'][1],
+        20 : models['05'][2],
+        21 : models['05'][3],
+        22 : models['05'][4],
     }
 
     return tableDict[int(movie)]
@@ -148,16 +153,24 @@ def getTeam():
     if SCHEMA == 6 or SCHEMA == 7:
         teamDict = {
             0:["Chris", "Test", None],
+            7:["Cyan Huang", "Iris", "Bris"],
+            8:["Jelf", "Mioly", "Layla", "Helen"],
+            9:["Jasper", "Fay", "Luna"],
+            10:["Kaylin", "Leon", "June"],
+            11:["Jessy", "Sunny", "Gwen", "Xavia"],
+            12:["Anita", "Bly", "T.Y"],
+            13:["Clyde", "James", "Maris"],
+            14:["Wendychen2001", "Frederick", "Holly", "Cris"],
+            15:["Sean Chen", "Vivién", "Evelyn"],
+            16:["Laura", "Mac", "Beatrix", "Yuri"],
+            17:[""],
+            18:[""],
+            19:[""],
+            20:[""],
+            21:[""],
+            22:[""],
+            23:[""],
 
-            7:["Wendy", "Sakura ", "Amber"],
-            8:["Kai", "Gillian", "Benson"],
-            9:["Bruce", "Kenny", "Bob"],
-            10:["Alina", "Monica", "Emma"],
-            11:["Una", "Sara", "Michelle"],
-            12:["Carol", "Elsa", "Yui"],
-            13:["Felisia", "Disa", "Devi"],
-            14:["Eric", "Rebecca", "Raymond"],
-            15:["Jerry", "Owen", "Max"]
         }
 
     names = []
@@ -187,8 +200,6 @@ def getDubs():
 
 
 def getPayloads():
-
-
 
     static = "static\\example_data\\"
     static = "static/"
