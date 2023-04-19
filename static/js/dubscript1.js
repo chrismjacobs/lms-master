@@ -48,7 +48,15 @@ else if (report.includes('iPhone OS 14')){
 }
 else if (report.includes('iPhone OS 15')){
   device = 'I'
-  notice = 'Rec iOS 13'
+  notice = 'Rec iOS 15'
+}
+else if (report.includes('iPhone OS 16')){
+  device = 'I'
+  notice = 'Rec iOS 16'
+}
+else if (report.includes('iPhone OS 17')){
+  device = 'I'
+  notice = 'Rec iOS 17'
 }
 else {
   device = 'U'
