@@ -35,11 +35,11 @@
 {% if current_user.png == 1 and current_user.schema != 4 %}
 <a style="color:white;background:REBECCAPURPLE" class="btn" href="{{ url_for ('change', schema=4) }}">PENG</a>
 {% endif %}
-{% if current_user.vtm == 1 and current_user.schema != 6 %}
-<a style="color:white;background:steelblue" class="btn" href="{{ url_for ('change', schema=6) }}">VTM</a>
-{% endif %}
-{% if current_user.app == 1 and current_user.schema < 7  %}
+{% if current_user.app == 1 and current_user.schema != 8  %}
 <a style="color:white;background:steelblue" class="btn" href="{{ url_for ('change', schema=8) }}">APP</a>
+{% endif %}
+{% if current_user.app == 1 and current_user.schema != 6  %}
+<a style="color:white;background:steelblue" class="btn" href="{{ url_for ('change', schema=6) }}">Movies</a>
 {% endif %}
 </div>
 

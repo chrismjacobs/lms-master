@@ -23,8 +23,11 @@ s3_resource = BaseConfig.s3_resource
 # figure out why when students fix title it doesn't update
 # why is draft sometimes saving as stage 1?
 # Do not allow writing on pink page
+## Do not allow work to be saved if 'i' or no space between . ,
 
-
+## purple revise color should include capital letters too
+# find a way to open units for students more easily
+# figure out why the stage is recorded in the josn and the grade column
 
 
 """S3 CONNECTIONS """
