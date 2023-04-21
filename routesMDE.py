@@ -226,6 +226,8 @@ def nme_dubdash(project):
 
     nmeDict = {}
 
+    payloadjson = get_movieDict() # get payload from json file
+
     payloadDict = {}
 
 
@@ -238,6 +240,10 @@ def nme_dubdash(project):
     movieDict = getTable(None)
 
     for mov in movieDict:
+        if int(mov) <= 6:
+            print(mov, type(mov))
+            ## first 6 movies are from josn file; others are from saved student work
+            payloadDict[mov] = payloadjson[str(mov)]
         if mov in movieDict: # str(mov) in movies (see above)
             data = movieDict[mov].query.all()
             print('DATA', data)
@@ -301,7 +307,7 @@ def nme_dubs():
 
     print(movies)
 
-    movieDict = get_movieDict()
+    movieDict = get_movieDict() # get payload from json file
 
     for mov in movieDict:
         print('Mov in MovieDict', mov)
