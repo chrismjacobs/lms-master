@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div class="content-section">
+<div class="content-section noselect">
     <h1> Homepage </h1>
 </div>
 
@@ -39,7 +39,7 @@
 <a style="color:white;background:steelblue" class="btn" href="{{ url_for ('change', schema=8) }}">APP</a>
 {% endif %}
 {% if current_user.app == 1 and current_user.schema != 6  %}
-<a style="color:white;background:steelblue" class="btn" href="{{ url_for ('change', schema=6) }}">Movies</a>
+<a style="color:white;background:gold" class="btn" href="{{ url_for ('change', schema=6) }}">DUB</a>
 {% endif %}
 </div>
 
