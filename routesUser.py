@@ -860,7 +860,7 @@ def grades_midterm ():
             'exam2' : 0,
             'rscore1' : '',
             'rscore2' : '',
-            'blurs' : ['', '']
+            'blurs' : ''
         }
         completeDict[user.username] = completeStatus('MT', user.username)
 
@@ -948,7 +948,7 @@ def grades_midterm ():
             gradesDict[practice.username]['exam2'] = round( (examData[str(semester) + '-3-4'][0] + examData[str(semester) + '-3-4'][1])/2 )
             gradesDict[practice.username]['rscore2'] = [examData[str(semester) + '-3-4'][0], examData[str(semester) + '-3-4'][1]]
 
-        gradesDict[practice.username]['blurs'][0] = practice.j3
+        gradesDict[practice.username]['blurs'] = practice.j3
 
         #print('exam_list_data_checked')
 
