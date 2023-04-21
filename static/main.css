@@ -1,5 +1,6 @@
 
 
+
 .card {
   background: white;
   border: none;
@@ -31,6 +32,10 @@ audio {
 body {
     color: #333333;
     margin-top: 5rem;
+  }
+
+  .noselect {
+    user-select: none;
   }
 
   h1, h2, h3, h4, h5, h6 {
