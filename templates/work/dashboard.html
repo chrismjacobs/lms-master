@@ -5,10 +5,9 @@
 <div id="vue-app">
 
 <div class="list-section">
-    <button class="btn" @click="showEffort=!showEffort"> EFFORT </button> <input type="number" v-model="vtm"> </input>
 
         <legend class="border-bottom mb-4">Performance</legend>
-        <div  v-if="showEffort" style="overflow-x:auto;width:100%">
+        <div style="overflow-x:auto;width:100%">
 
             <table class="table table-sm">
                 <thead>
@@ -74,75 +73,8 @@
         </div>
 </div>
 
-<div class="list-section">
-<legend class="border-bottom mb-4">Dashboard</legend>
-
- <table class="table" style="color:white">
-
-    <div>
-
-        <tbody>
-            <template v-for="(model, unit) in recOBJ">
-               <tr>
-               <td @click="showUnit(unit)"> <span class="unit-span" style="color:hotpink"> &emsp;&emsp;[[ unit ]]&emsp;&emsp; </span> </td>
-               <td >  </td>
-               <td >  </td>
-               <td>  </td>
-               </tr>
-
-               <template v-if="show[unit]" v-for="(student, ky) in model">
-                  <tr>
-                     <td> [[ student['user'] ]] <span v-if="student['partner'] != 'None'"> / [[ student['partner'] ]] </span> </td>
-                     <td> <span @click="alertWork(student['plan'])" class="unit-span" :style="stageStyle[student['info']['stage']]">&emsp;[[ student['info']['stage'] ]]&emsp;</span> </td>
-                     <td> P:[[ student['info']['plan_date_finish'] ]] </td>
-                     <td> D:[[ student['info']['draft_date_finish'] ]] </td>
-                     <td> <span v-if="student['info']['stage'] > 1" @click="goToRevise(student['user'], unit)" class="unit-span" style="color:white"> REVISE </span> </td>
-                  </tr>
-
-                 <template v-if="vtm == student['vtm'] || vtm == 2">
-
-                    <tr v-if="student['info']['stage'] > 0">
-                            <td style="width:30%">
-
-                                <template  v-for="(plan, head) in student['plan']">
-                                    <span class="unit-span">
-                                        <span style="color:springgreen"> [[ head ]] </span>
-                                        <span style="color:mediumseagreen"> [[plan]]</span>
-                                    <span>
-                                    <br>
-                                </template>
-
-                            </td>
-                            <td colspan=3 >
-                                <br>
-                                <template  v-for="(work, part) in student['draft']">
-                                    <span class="unit-span">
-                                        <span style="color:yellow"> [[ part ]] </span>
-                                        <span style="color:orange"> [[work]]</span>
-                                    <span>
-                                    <br>
-                                </template>
-                            </td>
-
-                    </tr>
-                    <tr>
-                        <td colspan=5>
-                            <h5>[[ student['publish']['title']  ]]</h5>
-                            <div style="background:darkslategrey; border-radius:5px; width:100%">
-                                <p  align="justify" style="padding-left:8px; padding-right:8px;font-size:16px"> [[ student['publish']['final'] ]] </p>
-                            </div>
-                        </td>
-                    </tr>
-                    </template>
-
-                </template>
 
 
-            </template>
-        </tbody>
-
-    </div id="end vue for">
-    </table>
 
 
 
@@ -215,11 +147,10 @@ let vue = new Vue({
     el: '#vue-app',
     delimiters: ['[[', ']]'],
     data: {
-        vtm: 2,
         showData : [ 0, '01', 0 ],
         recOBJ : recOBJ,
         effortOBJ : effortOBJ,
-        showEffort : false,
+        showEffort : true,
         show : {
             '01' : false,
             '02' : false,
