@@ -23,8 +23,8 @@
   {% if current_user.id == 1 %}
   <button class="btn btn-outline-secondary" @click="gotoAdmin('units')">Units</button>
     <span v-for="u in uList" class="unit-span" @click="openUnit('0005', u)" > &nbsp [[u]] &nbsp </span>
-
-    {% endif %}
+    <button class="btn btn-outline-secondary" @click="goTo('participation_check')">Participation Check</button>
+  {% endif %}
 
 </div>
 
@@ -306,7 +306,11 @@ function startVue(unitOBJ, colorFloat, prevs, options, opens){
           }
         },
         goTo: function(key, state){
-          let url = (window.location.href).split('unit_list')[0] + 'participation/' + key[0] + key[1] + '/' + key[3] + '/' + state
+          if (key == 'participation_check') {
+             let url = (window.location.href).split('unit_list')[0] + '/' + key
+          } else {
+            let url = (window.location.href).split('unit_list')[0] + 'participation/' + key[0] + key[1] + '/' + key[3] + '/' + state
+          }
 
           console.log('goTO', url);
           // action
