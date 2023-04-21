@@ -16,14 +16,18 @@ s3_resource = BaseConfig.s3_resource
 """ improvements """
 
 # limit word count for plans
+## seperate plan into idea + 2 details  with word limit 6
 # minimum sentences for writing
 # maximum word count for parts - stop monster eassy
 # record if pasting has occurred https://stackoverflow.com/questions/3211505/detect-pasted-text-with-ctrlv-or-right-click-paste
 # monitor titles (all caps, no caps, periods)
 # figure out why when students fix title it doesn't update
-# why is draft sometimes saving as stage 1?
+# Why is draft sometimes saving as stage 1?
 # Do not allow writing on pink page
 ## Do not allow work to be saved if 'i' or no space between . ,
+### Do not allow work to be save if first letter is not capital
+
+## allow instructor to edit plan from dash
 
 ## purple revise color should include capital letters too
 # find a way to open units for students more easily
