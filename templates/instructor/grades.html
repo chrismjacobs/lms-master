@@ -13,6 +13,7 @@
      <button class="btn btn-outline-secondary" @click="gList = !gList">List [[gList]]</button>
      <button class="btn btn-outline-secondary" @click="resetAll()">Reset all</button>
      <button class="btn btn-outline-secondary" @click="goTo('participation_check')">Participation Check</button>
+     <button class="btn btn-outline-secondary" @click="remove = !remove">Remove Exam: [[remove]]</button>
 
 
 
@@ -92,6 +93,7 @@ let vue = new Vue({
 
     },
     data: {
+        remove: false,
         gradesOBJ: gradesOBJ,
         compOBJ: compOBJ,
         exdata: 0,
@@ -142,7 +144,7 @@ let vue = new Vue({
         },
         gStyle: function(head, g) {
           if (this.gList) {
-            console.log(head[0])
+            // console.log(head[0])
             let remove = ['I', this.getType()]
             if (!remove.includes(head[0])) {
               return { display:'none'}
@@ -255,6 +257,9 @@ let vue = new Vue({
             });
           }
           if (head == 'exam1' || head == 'exam2') {
+            if (!this.remove) {
+              return false
+            }
             $.ajax({
               data : {
                 username : key,

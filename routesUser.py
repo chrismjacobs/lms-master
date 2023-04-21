@@ -727,7 +727,7 @@ def grades_final():
             'exam2' : 0,
             'rscore1' : '',
             'rscore2' : '',
-            'blurs' : 0
+            'blurs' : ['','']
         }
         completeDict[user.username] = completeStatus('FN', user.username)
 
@@ -797,7 +797,8 @@ def grades_final():
             gradesDict[practice.username]['exam2'] = round( (examData[str(semester) + '-7-8'][0] + examData[str(semester) + '-7-8'][1])/2 )
             gradesDict[practice.username]['rscore2'] = [examData[str(semester) + '-7-8'][0], examData[str(semester) + '-7-8'][1]]
 
-        gradesDict[practice.username]['blurs'] = practice.j4
+        gradesDict[practice.username]['blurs'][1] = practice.j4
+        gradesDict[practice.username]['blurs'][0] = practice.j3
 
 
         print('exam_list_data_checked')
@@ -858,7 +859,8 @@ def grades_midterm ():
             'exam1' : 0,
             'exam2' : 0,
             'rscore1' : '',
-            'rscore2' : ''
+            'rscore2' : '',
+            'blurs' : ['', '']
         }
         completeDict[user.username] = completeStatus('MT', user.username)
 
@@ -946,6 +948,7 @@ def grades_midterm ():
             gradesDict[practice.username]['exam2'] = round( (examData[str(semester) + '-3-4'][0] + examData[str(semester) + '-3-4'][1])/2 )
             gradesDict[practice.username]['rscore2'] = [examData[str(semester) + '-3-4'][0], examData[str(semester) + '-3-4'][1]]
 
+        gradesDict[practice.username]['blurs'][0] = practice.j3
 
         #print('exam_list_data_checked')
 
