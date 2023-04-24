@@ -306,10 +306,11 @@ function startVue(unitOBJ, colorFloat, prevs, options, opens){
           }
         },
         goTo: function(key, state){
+          let url = 'test'
           if (key == 'participation_check') {
-             let url = (window.location.href).split('unit_list')[0] + '/' + 'participation/' +  key
+             url = (window.location.href).split('unit_list')[0] + '/' + 'participation/' +  key
           } else {
-            let url = (window.location.href).split('unit_list')[0] + '/' + key[0] + key[1] + '/' + key[3] + '/' + state
+            url = (window.location.href).split('unit_list')[0] + '/participation/' + key[0] + key[1] + '/' + key[3] + '/' + state
           }
 
           console.log('goTO', url);
