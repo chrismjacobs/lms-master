@@ -38,7 +38,7 @@ def get_peng_projects():
     sDict = json.loads(file_content)  # json loads returns a dictionary
 
     source = sDict['1']['M2']
-    if User.query.filter_by(username='Chris').first().extra == 2:
+    if User.query.filter_by(username='Chris').first().condition == 2:
         source = sDict['1']['M3']
 
     return source
@@ -177,7 +177,7 @@ def peng_list():
 
     setup = 'MT'
 
-    if User.query.filter_by(username='Chris').first().extra == 2:
+    if User.query.filter_by(username='Chris').first().condition == 2:
         setup = 'FN'
 
     source = get_peng_projects()
@@ -294,7 +294,7 @@ def peng_list():
 @login_required
 def peng_dash():
     MTFN = 'MT'
-    if User.query.filter_by(username='Chris').first().extra == 2:
+    if User.query.filter_by(username='Chris').first().condition == 2:
         MTFN = 'FN'
 
     source = get_peng_projects()
@@ -337,7 +337,7 @@ def peng_proj(page_stage):
     # midterm or final
 
     MTFN = 'MT'
-    if User.query.filter_by(username='Chris').first().extra == 2:
+    if User.query.filter_by(username='Chris').first().condition == 2:
         MTFN = 'FN'
 
     if MTFN == 'MT':
