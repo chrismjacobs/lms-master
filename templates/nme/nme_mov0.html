@@ -26,27 +26,11 @@
     <br>
 
     <br>
-    Team Member 1:<br>
-    <select  disabled type="text" style="width: 50%; height:40px" name="vocab" v-model="movieData.names[0]">
-          <option v-for="option in uList" :value="option">[[option]]</option>
-    </select>
-    <br>
-    Team Member 2:<br>
-    <select  disabled type="text" style="width: 50%; height:40px" name="vocab" v-model="movieData.names[1]">
-          <option v-for="option in uList" :value="option">[[option]]</option>
-    </select>
-    <br>
-    Team Member 3:<br>
-    <select  disabled type="text" style="width: 50%; height:40px" name="vocab" v-model="movieData.names[2]">
-          <option v-for="option in uList" :value="option">[[option]]</option>
-    </select>
-    <br>
-    <br>
-    Team Member 4:<br>
-    <select  disabled type="text" style="width: 50%; height:40px" name="vocab" v-model="movieData.names[3]">
-          <option v-for="option in uList" :value="option">[[option]]</option>
-    </select>
-    <br>
+    Team Member 1: [[ movieData['names'][0] ]]<br>
+    Team Member 2: [[ movieData['names'][1] ]]<br>
+    Team Member 3: [[ movieData['names'][2] ]]<br>
+    Team Member 4: [[ movieData['names'][3] ]]<br>
+
     <br>
 
 
@@ -80,9 +64,8 @@
 
 <span id="user" style="display:none">{{current_user.username}}</span>
 <span id="mString" style="display:none">{{mString}}</span>
-<span id="uString" style="display:none">{{uString}}</span>
 <span id="mData" style="display:none">{{mData}}</span>
-<span id="team" style="display:none">{{team}}</span>
+<span id="team" style="display:none">{{teamnumber}}</span>
 <span id="members" style="display:none">{{members}}</span>
 
 </div> <!-- end of Vue app -->
@@ -97,7 +80,6 @@
 <script type="text/javascript" >
 
 var mString = document.getElementById('mString').innerHTML
-var uString = document.getElementById('uString').innerHTML
 var mData = document.getElementById('mData').innerHTML
 var team = document.getElementById('team').innerHTML
 var membersString = document.getElementById('members').innerHTML
@@ -107,7 +89,6 @@ console.log('team', team)
 
 
 var mObj = JSON.parse(mString)
-var uList = JSON.parse(uString)
 var members = JSON.parse(membersString)
 var movieData = JSON.parse(mData)
 console.log('mObj', mObj);
@@ -117,7 +98,7 @@ if (!movieData['team']) {
           team: team,
           status: 0,
           names: members,
-          speakers: [],
+          speakers: ["", "", ""],
           q01: null,
           q02: null,
           q11: null,
@@ -152,7 +133,6 @@ function startVue(){ new Vue({
     mounted: function(){
     },
     data: {
-        uList: uList,
         mObj: mObj,
         movieData: movieData,
         movie: movie,

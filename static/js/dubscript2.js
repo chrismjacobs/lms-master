@@ -253,6 +253,10 @@ function startVue(){
         console.log('check audio',  movieData['audio'])
         audio.src = movieData['audio']
       }
+
+      if (!this.movieData['speakers'] || !this.movieData['speakers'][0] ) {
+        this.movieData['speakers'] = ["", "", ""]
+      }
     },
     data: {
         mObj: mObj,
@@ -280,6 +284,17 @@ function startVue(){
         rec_timer: null,
     },
     methods: {
+      checkSpeakers: function () {
+        let tm = document.getElementsByName('teamMembers')
+        for (let t in tm) {
+          console.log(tm[t].value)
+          if (t < 3) {
+            console.log(t, tm[t].value)
+            this.movieData.speakers[t] = tm[t].value
+          }
+        }
+        console.log(this.movieData.speakers)
+      },
       start : function(){
         vue.rec1.start = false
         vue.rec1.cancel = true
@@ -384,7 +399,9 @@ function startVue(){
           vue.base64data = b64d
         }
         this.movieData.status = 4
+        this.checkSpeakers()
         $.ajax({
+
           data : {
               part: 4,
               movie: vue.movie,

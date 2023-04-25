@@ -42,6 +42,25 @@
                 <div  v-if="rec1.save" style="float: left;">
                     <button  class="btn btn-secondary" style="margin-right:5px" @click="playRec(false)">Test Shadow</button>
                 </div>
+                <div v-if="rec1.save" style="background:hotpink">
+
+                    Speaker 1:
+                    <select  type="text" style="width: 30%; height:40px" name="teamMembers">
+                        <option v-for="option in movieData.names" :value="option">[[option]]</option>
+                    </select>
+                    <br>
+                    Speaker 2:
+                    <select  type="text" style="width: 30%; height:40px" name="teamMembers">
+                        <option v-for="option in movieData.names" :value="option">[[option]]</option>
+                    </select>
+                    <br>
+                    (Speaker 3:)
+                    <select  type="text" style="width: 30%; height:40px" name="teamMembers">
+                        <option v-for="option in movieData.names" :value="option">[[option]]</option>
+                    </select>
+                    <br>
+                </div>
+
         </div>
 
         <br>

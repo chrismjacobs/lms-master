@@ -408,19 +408,18 @@ def nme_mov(movie, part):
     else:
         movieData = json.dumps({})
 
-    uString = json.dumps({})
-    if int(part) == 0:
-        users = User.query.all()
-        uList = ['Chris']
-        # uList = []
-        for user in users:
-            if user.username != 'Chris':
-                uList.append(user.username)
-        uString=json.dumps(uList)
-        print(uString)
+    # uString = json.dumps({})
+    # if int(part) == 0:
+    #     users = User.query.all()
+    #     uList = []
+    #     for user in users:
+    #         if user.username != 'Chris':
+    #             uList.append(user.username)
+    #     uString=json.dumps(uList)
+    #     print(uString)
 
 
-    return render_template('nme/nme_mov' + part + '.html', uString=uString, mString=json.dumps(payloadString), mData=movieData, team=team[0], members=json.dumps(team[1]))
+    return render_template('nme/nme_mov' + part + '.html', mString=json.dumps(payloadString), mData=movieData, teamnumber=team[0], members=json.dumps(team[1]))
 
 
 @app.route("/nme_project/", methods = ['GET', 'POST'])
