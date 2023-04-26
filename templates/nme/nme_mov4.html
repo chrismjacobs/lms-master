@@ -43,21 +43,24 @@
                     <button  class="btn btn-secondary" style="margin-right:5px" @click="playRec(false)">Test Shadow</button>
                 </div>
                 <br>
+                <br>
+                <br>
+
                 <div v-if="rec1.save" style="background:hotpink">
 
                     Speaker 1:
                     <select  type="text" style="width: 30%; height:40px" name="teamMembers">
-                        <option v-for="option in movieData.names" :value="option">[[option]]</option>
+                        <option v-for="option in members" >[[option]]</option>
                     </select>
                     <br>
                     Speaker 2:
                     <select  type="text" style="width: 30%; height:40px" name="teamMembers">
-                        <option v-for="option in movieData.names" :value="option">[[option]]</option>
+                        <option v-for="option in members" >[[option]]</option>
                     </select>
                     <br>
                     (Speaker 3:)
                     <select  type="text" style="width: 30%; height:40px" name="teamMembers">
-                        <option v-for="option in movieData.names" :value="option">[[option]]</option>
+                        <option v-for="option in members" >[[option]]</option>
                     </select>
                     <br>
                 </div>
@@ -96,6 +99,7 @@ Script:
 <span id="user" style="display:none">{{current_user.username}}</span>
 <span id="mString" style="display:none">{{mString}}</span>
 <span id="mData" style="display:none">{{mData}}</span>
+<span id="members" style="display:none">{{members}}</span>
 
 </div> <!-- end of Vue app -->
 

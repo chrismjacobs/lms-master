@@ -417,9 +417,11 @@ def nme_mov(movie, part):
     #             uList.append(user.username)
     #     uString=json.dumps(uList)
     #     print(uString)
+    newMem = [''] + team[1]
+    membersString = json.dumps(newMem)
+    print(membersString)
 
-
-    return render_template('nme/nme_mov' + part + '.html', mString=json.dumps(payloadString), mData=movieData, teamnumber=team[0], members=json.dumps(team[1]))
+    return render_template('nme/nme_mov' + part + '.html', mString=json.dumps(payloadString), mData=movieData, teamnumber=team[0], members=membersString)
 
 
 @app.route("/nme_project/", methods = ['GET', 'POST'])

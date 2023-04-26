@@ -216,7 +216,12 @@ window.globalFunc = function (action){
 
 var mString = document.getElementById('mString').innerHTML
 var mData = document.getElementById('mData').innerHTML
+var membersString = document.getElementById('members').innerHTML
 console.log(mData)
+
+var members = JSON.parse(membersString)
+console.log(mData)
+console.log(members)
 
 var movieData = JSON.parse(mData)
 var mObj = JSON.parse(mString)
@@ -257,9 +262,10 @@ function startVue(){
       if (!this.movieData['speakers'] || !this.movieData['speakers'][0] ) {
         this.movieData['speakers'] = ["", "", ""]
       }
-      this.movieData.names.push('')
+
     },
     data: {
+        members: members,
         mObj: mObj,
         movieData: movieData,
         movie: movie,

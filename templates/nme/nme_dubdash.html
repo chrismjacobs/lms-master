@@ -16,9 +16,10 @@
   </div>
 
   <div style="overflow-x:auto;">
-  [[teamDict]]
-  test [[team]] <br>
+  [[team]] <br>
+  [[teamMembers]] <br>
   [[speakers]]
+
     <table class="table table-sm">
       <thead>
           <tr>
@@ -223,6 +224,7 @@ function startVue(){ new Vue({
         md: project,
         teamDict:  {},
         speakers: '',
+        teamMembers: '',
         team: ''
     },
     methods: {
@@ -239,6 +241,7 @@ function startVue(){ new Vue({
         playAudio: function (proj, mov) {
           this.team = proj.team
           this.speakers = proj.speakers
+          this.teamMembers = proj.names
           let audioLink = proj.audio
           console.log(proj)
           let audio = document.getElementById('handler')
