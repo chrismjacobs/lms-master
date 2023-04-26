@@ -17,6 +17,8 @@
 
   <div style="overflow-x:auto;">
   [[teamDict]]
+  test [[team]] <br>
+  [[speakers]]
     <table class="table table-sm">
       <thead>
           <tr>
@@ -61,7 +63,7 @@
             [[proj.q33]]
             </td>
             <td>
-            <button v-if="proj.audio" class="btn btn-info" @click="playAudio(proj.audio, key)"> Play </button>
+            <button v-if="proj.audio" class="btn btn-info" @click="playAudio(proj, key)"> Play </button>
             </td>
 
         </tr>
@@ -219,7 +221,9 @@ function startVue(){ new Vue({
         payOBJ: PAY,
         show: null,
         md: project,
-        teamDict:  {}
+        teamDict:  {},
+        speakers: '',
+        team: ''
     },
     methods: {
         goTo: function(key) {
@@ -232,10 +236,13 @@ function startVue(){ new Vue({
             window.location = url
             console.log('DONE');
         },
-        playAudio: function (arg, mov) {
-          console.log(arg)
+        playAudio: function (proj, mov) {
+          this.team = proj.team
+          this.speakers = proj.speakers
+          let audioLink = proj.audio
+          console.log(proj)
           let audio = document.getElementById('handler')
-          audio.src = arg
+          audio.src = audioLink
           audio.pause()
           audio.currentTime = 0
 

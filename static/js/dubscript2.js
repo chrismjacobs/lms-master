@@ -257,6 +257,7 @@ function startVue(){
       if (!this.movieData['speakers'] || !this.movieData['speakers'][0] ) {
         this.movieData['speakers'] = ["", "", ""]
       }
+      this.movieData.names.push('')
     },
     data: {
         mObj: mObj,
