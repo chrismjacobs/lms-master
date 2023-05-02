@@ -377,7 +377,7 @@ def get_all_values(nested_dictionary):
 @app.route('/updatePENG', methods=['POST'])
 def updatePENG():
     MTFN = 'MT'
-    if User.query.filter_by(username='Chris').first().extra == 2:
+    if User.query.filter_by(username='Chris').first().condition == 2:
         MTFN = 'FN'
     ansOBJ = request.form ['ansOBJ']
     stage = request.form ['stage']
