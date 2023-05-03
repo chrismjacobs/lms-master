@@ -22,6 +22,7 @@
         <h1> Participation <span id="un">{{unit_num}}</span>-<span id="pn">{{part_num}}</span> </h1>
         <h3> <span id="qs">{{qs}}</span> Questions </h3>
         <h3> <span id="mode">{{state}}</span> Mode </h3>
+        <h3> Team <span>{{teamnumber}}</span> </h3>
         <div v-if="mode == 'Instructor'">
             <button class="btn btn-outline-secondary btn-sm" style="border: 1px solid {{DESIGN['titleColor']}}" type="button" @click="openPart()"> Open/Close </button>
         </div>
@@ -39,6 +40,7 @@
     <span id="userID" style="display:none">{{userID}}</span>
     <span id="teamcount" style="display:none">{{teamcount}}</span>
     <span id="teamnames" style="display:none">{{teamnames}}</span>
+    <span id="teamnumber" style="display:none">{{teamnumber}}</span>
     <span id="user" style="display:none">{{current_user.username}}</span>
     <span id="schema" style="display:none">{{SCHEMA}}</span>
     <span id="design" style="display:none">{{THEME}}</span>

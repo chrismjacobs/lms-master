@@ -322,7 +322,7 @@ def shareUpload():
     SCHEMA = getSchema()
     uModsDict = getInfo()['uModsDict']
 
-    nnDict = team_details ()
+    nnDict = team_details()
     teamnumber = nnDict['teamnumber']
     nameRange = nnDict['nameRange']
 
@@ -352,6 +352,7 @@ def shareUpload():
     models = uModsDict[unit] # '01' : [None, mod, mod, mod, mod]
     model = models[int(part)]
     print(model)
+
 
     find = model.query.filter_by(teamnumber=teamnumber).count()
     if find == 0:
@@ -416,7 +417,7 @@ def shareUpload():
 
             contribution = None
 
-            if int(teamnumber) < 30:
+            if int(teamnumber) < 100:
                 contribution = json.loads(entry.Comment)
 
                 if current_user.username in contribution:
@@ -558,6 +559,7 @@ def participation(unit_num,part_num,state):
         'state' : state,
         'userID' : current_user.id,
         'teamcount' : teamcount,
+        'teamnumber' : teamnumber,
         'teamnames' : teamnames,
         'deadline' : deadPass
     }
