@@ -253,9 +253,22 @@ def nme_dubdash(project):
                     payloadDict[mov] = json.loads(entry.Ans01)
                 else:
                     movieData = json.loads(entry.Ans01)
-                    nmeDict[mov][movieData['team']] = movieData
+                    teamnumber = int(movieData['team'])
+                    vietnam = current_user.app == 0
+                    vietnamproj = teamnumber <= 16
+                    print(project, type(project), vietnamproj)
+                    if project == 100 and vietnamproj:
+                        print('test 1')
+                        nmeDict[mov][teamnumber] = movieData
+                    elif project == 200 and not vietnamproj:
+                        nmeDict[mov][teamnumber] = movieData
+                        print('test 2')
+                    elif project < 100:
+                        nmeDict[mov][teamnumber] = movieData
+                        print('test 3')
 
-    pprint (nmeDict)
+
+    # pprint (nmeDict)
 
     return render_template('nme/nme_dubdash.html', legend='NME Dash', project = project, nmeString = json.dumps(nmeDict), payString = json.dumps(payloadDict), movies=json.dumps(movies) )
 
@@ -317,11 +330,18 @@ def nme_dubs():
             nmeDict[mov] = {}
             payloadDict[mov] = movieDict[mov]
             for entry in data:
-                # if entry.username == 'payload':
-                #     payloadDict[mov] = json.loads(entry.Ans01)
-                # else:
                 movieData = json.loads(entry.Ans01)
-                nmeDict[mov][movieData['team']] = movieData
+                teamnumber = int(movieData['team'])
+                vietnamstudent = current_user.app == 0
+                appstudent = current_user.app == 1
+                vietnamproj = teamnumber <= 16 and vietnamstudent
+                appproj = teamnumber > 16 and appstudent
+                if current_user.id == 1:
+                    nmeDict[mov][teamnumber] = movieData
+                if vietnamproj:
+                    nmeDict[mov][teamnumber] = movieData
+                elif appproj:
+                    nmeDict[mov][teamnumber] = movieData
 
     pprint (nmeDict)
 
