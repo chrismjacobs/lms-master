@@ -35,11 +35,15 @@ function startVue(qOBJ){
         }
         if (this.mode == 'Team'){
           let name_count = (this.teamnames).length
-          console.log('name_count', name_count);
-          if (name_count == 1 ){
+
+          console.log('name_count', name_count, this.teamnumber);
+          if (name_count == 1 && this.teamnumber > 100){
             this.mode = 'Writer'
-          }
-          else{
+          } else if (name_count == 1) {
+
+            this.mode = 'Writer'
+            this.shareAnswer(0)
+          } else{
             this.teamSetUp(name_count)
             this.shareAnswer(0)
           }
@@ -126,6 +130,7 @@ function startVue(qOBJ){
       user : document.getElementById('user').innerHTML,
       teamcount : document.getElementById('teamcount').innerHTML,
       teamnames : JSON.parse(document.getElementById('teamnames').innerHTML),
+      teamnumber : parseInt(document.getElementById('teamnumber').innerHTML),
       TEAMNAMES : [],
       teamShow : true,
       stage : 1,
@@ -440,7 +445,9 @@ function startVue(qOBJ){
             if (data.action == '2'){
               vue.teamShow = false
             }
-            vue.stage += 1
+            if (question > 0 ) {
+              vue.stage += 1
+            }
           })
           .fail(function(){
             alert('Failed, please reload page and try again')
