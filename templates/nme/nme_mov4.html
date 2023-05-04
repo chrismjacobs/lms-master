@@ -47,6 +47,10 @@
                 <br>
 
                 <div v-if="rec1.save" style="background:hotpink">
+                    <div >
+                        <span style="color:white"> If your audio has a delay use this to adjust audio before saving <br>
+                        Delay (for 1 sec delay enter 1000) </span> <input style='integer' v-model="milli"> </input>
+                    </div>
 
                     Speaker 1:
                     <select  type="text" style="width: 30%; height:40px" name="teamMembers">

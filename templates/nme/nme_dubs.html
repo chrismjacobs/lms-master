@@ -14,7 +14,7 @@
   <div >
    <audio controls id="handler" style="display:inline"> </audio>  <button class="btn btn-danger" @click="stopAudio()"> Stop </button>
   </div>
-  <div >
+  <div>
     Delay (1000 = 1 sec) <input style='integer' v-model="milli"> </input>
   </div>
 
@@ -139,6 +139,10 @@ function startVue(){ new Vue({
           video.pause()
           video.currentTime = 0
           audio.play()
+
+          if (arg.milli) {
+            this.milli = arg.milli
+          }
 
           setTimeout(func, this.milli)
                 function func(){video.play()}

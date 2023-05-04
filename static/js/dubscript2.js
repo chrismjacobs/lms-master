@@ -265,6 +265,7 @@ function startVue(){
 
     },
     data: {
+        milli : null,
         members: members,
         mObj: mObj,
         movieData: movieData,
@@ -407,6 +408,7 @@ function startVue(){
         }
         this.movieData.status = 4
         this.checkSpeakers()
+        this.movieData['milli'] = this.milli
         $.ajax({
 
           data : {
@@ -495,8 +497,9 @@ function startVue(){
         video.pause()
         video.currentTime = 0
         audio.currentTime = 0
-        video.play()
         audio.play()
+        setTimeout(func, this.milli)
+                function func(){video.play()}
       },
       clip : function (arg){
         video = document.getElementById('vid')

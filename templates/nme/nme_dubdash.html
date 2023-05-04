@@ -19,6 +19,9 @@
   [[team]] <br>
   [[teamMembers]] <br>
   [[speakers]]
+  <div>
+    Delay (1000 = 1 sec) <input style='integer' v-model="milli"> </input>
+  </div>
 
     <table class="table table-sm">
       <thead>
@@ -225,7 +228,8 @@ function startVue(){ new Vue({
         teamDict:  {},
         speakers: '',
         teamMembers: '',
-        team: ''
+        team: '',
+        milli: null
     },
     methods: {
         goTo: function(key) {
@@ -256,7 +260,13 @@ function startVue(){ new Vue({
           video.currentTime = 0
 
           audio.play()
-          video.play()
+          if (proj.milli) {
+            this.milli = proj.milli
+          }
+
+          setTimeout(func, this.milli)
+                function func(){video.play()}
+
         },
         submitAnswers: function (team) {
           console.log('update via AJAX');
