@@ -165,7 +165,17 @@ function startVue(qOBJ){
         2 : '',
         3 : ''
       },
-      image_b64 : null
+      image_b64 : null,
+      options : [
+        'T T T',
+        'T F F',
+        'T T F',
+        'T F T',
+        'F F F',
+        'F T T',
+        'F F T',
+        'F T F'
+      ]
     },
     methods: {
       imageValidation : function(key) {
@@ -274,16 +284,7 @@ function startVue(qOBJ){
       },
       setTF: function (q, ans) {
         let TFset = [ans]
-        let options = [
-          'T T T',
-          'T F F',
-          'T T F',
-          'T F T',
-          'F F F',
-          'F T T',
-          'F F T',
-          'F T F'
-        ]
+        let options = this.options
         this.shuffle(options)
         for (let a in options) {
           if (TFset.length < 4 && options[a] != ans) {
@@ -391,6 +392,12 @@ function startVue(qOBJ){
         else {
           alert('No Mode Found')
           return false
+        }
+      },
+      getAnswerStyle: function (answer) {
+        console.log(answer)
+        if (answer == "First try") {
+          return {background : 'green' , color : 'white'}
         }
       },
       shareAnswer: function (question, answer){
