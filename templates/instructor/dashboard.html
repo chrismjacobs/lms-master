@@ -72,10 +72,23 @@
                 <td> <textarea type="text" :style="commentStyle(item.C)" :id="user+key" v-model="item.C" required> </textarea></td>
                 <td> <button @click="commentSet(user,key)"> Up </button>
                   <button style="background:coral" @click="setComment(key, user), item.C = ''"> Cl </button>
-                  <button style="background:coral" @click="setComment(key, user)"> Set </button>                  </td>
+                  <button style="background:coral" @click="setComment(key, user)"> Set </button> <br>
+                  <button style="background:aqua" @click="showAss(key, user)"> ppt </button>
+                </td>
 
               </tr>
+              <tr v-if="showAll(key) && showPPT[0] == key && showPPT[1] == user ">
+                <td colspan="9">
+
+                  <div  class="embed-responsive embed-responsive-4by3">
+                      <iframe  :src="item.F"
+                          allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
+                      </iframe>
+                  </div>
+                </td>
+              </tr>
             </template>
+
 
 
          </template>
@@ -124,9 +137,14 @@ function startVue(){
         this.anon = false
       }
       console.log('SHOW OLD', this.showOld)
+      if (MTFN == 'FN') {
+        this.showOld = false
+      }
 
     },
     data: {
+        showPPT: ['',''],
+        MTFN: MTFN,
         showOld: true,
         ansOBJ: OBJ,
         att: ATT,
@@ -198,6 +216,15 @@ function startVue(){
 
     },
     methods: {
+        showAss: function (key, user) {
+          console.log(key, user, this.showPPT == ['',''])
+          if (this.showPPT[1] == user) {
+            this.showPPT = ['','']
+          } else {
+            this.showPPT = [key, user]
+          }
+
+        },
         showAll: function (key) {
 
           allList = ['01', '02', '03', '04']
@@ -206,7 +233,7 @@ function startVue(){
           }
 
           if (this.showOld == false && allList.includes(key)) {
-            console.log('showAll', key)
+            //console.log('showAll', key)
             return false
           } else {
             return true

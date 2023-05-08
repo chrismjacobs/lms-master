@@ -8,7 +8,7 @@ from forms import *
 from models import *
 from pprint import pprint
 from meta import *
-from routesGet import getUsers, get_MTFN, get_schedule
+from routesGet import getUsers, get_MTFN, get_schedule, get_sources
 s3_resource = BaseConfig.s3_resource
 
 
@@ -158,6 +158,10 @@ def dashboard():
 
     userList = getUsers(SCHEMA)
 
+    srcDict = get_sources()
+    for x in srcDict:
+        print('source unit', x)
+
 
 
     if current_user.id != 1:
@@ -214,9 +218,10 @@ def dashboard():
                 'T2' : item.TextTwo,
                 'G' : item.Grade,
                 'C' : item.Comment,
+                'F' : srcDict[unit]['Materials']['A']
                 }
 
-    pprint(totalDict)
+    # pprint(totalDict)
 
 
     att = getModels()['Attendance_'].query.filter_by(username="Chris").first().teamnumber
