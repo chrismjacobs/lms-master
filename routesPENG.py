@@ -558,7 +558,7 @@ def createPPT_VV():
     tf.text = 'Key Words:'
     for word in ansDict['Description Key Words'].split('/'):
         p = tf.add_paragraph()
-        p.text = word
+        p.text = word.strip().capitalize()
         p.level = 1
 
     pf = shapes.add_picture('static/images/add_image.png', Inches(6), Inches(2) )
@@ -588,7 +588,7 @@ def createPPT_VV():
     tf.text = 'Key Words:'
     for word in ansDict['Comments Key Words'].split('/'):
         p = tf.add_paragraph()
-        p.text = word
+        p.text = word.strip().capitalize()
         p.level = 1
 
     pf = shapes.add_picture('static/images/add_image.png', Inches(6), Inches(2) )

@@ -4,15 +4,15 @@
 
 <span id="ansString" style="display:none">{{ansString}}</span>
 
-<div class="content-section">    
+<div class="content-section">
 <h1> Final Presentation: <br> Viral Video </h1>
-  
+
     <div class="embed-responsive embed-responsive-4by3">
         <iframe id="questions_embed" src="{{source}}"
             allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
 	</iframe>
-    </div> 
-      
+    </div>
+
 </div>
 
 <div id="vue-app">
@@ -22,32 +22,37 @@
 
 
     <legend class="border-bottom mb-4"> Dashboard </legend>
+    <br>
+    <span style="background:aqua"  @click="all = !all"> Show All </span>
+    <br>
+    <br>
+
 
     <template v-for="(ansOBJ, student) in fullOBJ">
-        <span :style="style('0' + ansOBJ.stage)"  @click="view = student"> [[student]] : [[ansOBJ.stage]] </span> 
-    <br>    
-    <div v-if="view == student">
+        <span :style="style('0' + ansOBJ.stage)"  @click="view = student"> [[student]] : [[ansOBJ.stage]] </span>
+    <br>
+    <div v-if="view == student || all == true">
 
-        <template v-for="(item, key) in ansOBJ">    
+        <template v-for="(item, key) in ansOBJ">
             <div v-if="ansOBJ['stage'] > 1">
-            <span v-if="item" :style="style(key)"> [[key]] </span>  
+            <span v-if="item" :style="style(key)"> [[key]] </span>
             <br v-if="item" >
-                <textarea v-if="item" type="text" class="textAss" :id="key" style="margin-left:5px" v-model="fullOBJ[student][key]" @blur="wordCount(key)"></textarea> 
+                <textarea v-if="item" type="text" class="textAss" :id="key" style="margin-left:5px" v-model="fullOBJ[student][key]" @blur="wordCount(key)"></textarea>
             <br v-if="item" >
             </div>
-        </template> 
+        </template>
 
-        <div>				
+        <div>
             <button  class="btn btn-dark" style="margin-right:5px" @click="updatePlan(student, 3)">Update Plan</button>
             <button  class="btn btn-success" style="margin-right:5px" @click="updatePlan(student, 4)">Update Plan</button>
-        </div> 
+        </div>
 
-    </div>        
-        
+    </div>
+
         <br>
-        
-    </template>  
-   
+
+    </template>
+
 </div>
 
 
@@ -56,7 +61,7 @@
 
 {% endblock %}
 
-{% block script %}   
+{% block script %}
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
 <script type="text/javascript">
@@ -68,22 +73,23 @@ console.log('ansOBJ', fullOBJ);
 
 startVue()
 
-function startVue(){ 
-  
-  let vue = new Vue({   
+function startVue(){
+
+  let vue = new Vue({
 
     el: '#vue-app',
-    delimiters: ['[[', ']]'],   
-    mounted: function () {        
-    },    
-    data: {                        
+    delimiters: ['[[', ']]'],
+    mounted: function () {
+    },
+    data: {
+        all: false,
         fullOBJ: fullOBJ,
-        view: null,  
-        blurblocker: null,   
-    }, 
-    methods: {  
-        wordCount : function(mark) { 
-            console.log(mark); 
+        view: null,
+        blurblocker: null,
+    },
+    methods: {
+        wordCount : function(mark) {
+            console.log(mark);
             var wc = (document.getElementById(mark).value).split(' ')
             console.log(wc.length);
             if (wc.length < 60 && ( mark == 'Description' || mark == 'Comments')) {
@@ -94,51 +100,51 @@ function startVue(){
                     alert('This seems too short: ' + toString(wc.length))
                     vue.blurblocker = mark
                 }
-                
-            }           
+
+            }
 
             return true
-        },        
-        style : function(mark) { 
+        },
+        style : function(mark) {
             console.log(mark.substring(0,2));
 
             colorOBJ = {
-                ke : 'silver', 
-                Li : 'TOMATO', 
-                Vi : 'darkorange', 
-                De : 'PALEVIOLETRED', 
-                Co : 'DARKCYAN', 
-                Wa : 'YellowGreen', 
-                Yo : 'YellowGreen', 
-                st : 'Grey', 
-                '00' : 'Red', 
-                '01' : 'Purple', 
+                ke : 'silver',
+                Li : 'TOMATO',
+                Vi : 'darkorange',
+                De : 'PALEVIOLETRED',
+                Co : 'DARKCYAN',
+                Wa : 'YellowGreen',
+                Yo : 'YellowGreen',
+                st : 'Grey',
+                '00' : 'Red',
+                '01' : 'Purple',
                 '02' : 'Pink',
                 '03' : 'hotpink',
                 '04' : 'Green'
             }
 
-            var bg = colorOBJ[mark.substring(0,2)]         
-                     
+            var bg = colorOBJ[mark.substring(0,2)]
+
 
             return {padding:'4px', 'font-size':'25px', background:bg, color:'white', border:'1px sold white', 'border-radius':'5px', width:'20%', height:'30px'}
 
         },
-        updatePlan : function(student, key) {  
-            alert('Please wait, your plan is being updated')           
+        updatePlan : function(student, key) {
+            alert('Please wait, your plan is being updated')
             console.log(this.fullOBJ[student]);
             $.ajax({
-              data : {                               
-                ansOBJ : JSON.stringify(this.fullOBJ[student]), 
+              data : {
+                ansOBJ : JSON.stringify(this.fullOBJ[student]),
                 image_b64 : null,
                 audio_b64 : null,
-                proj : 'FN', 
-                stage : key, 
-                user : student               
-                  
+                proj : 'FN',
+                stage : key,
+                user : student
+
               },
               type : 'POST',
-              url : '/updatePENG',               
+              url : '/updatePENG',
             })
             .done(function(data) {
                 if (data.fail){
@@ -146,21 +152,21 @@ function startVue(){
                 }
                 else{
                     alert('Your FORM has been updated: stage', data.stage)
-                }                  
-                               
+                }
+
             })
             .fail(function(){
                 alert('error has occurred');
             });
-        }, 
-            
+        },
+
     },
-        
+
 })// end NEW VUE
 
-}// endFunction 
+}// endFunction
 
 </script>
 
-{% endblock %} 
+{% endblock %}
 
