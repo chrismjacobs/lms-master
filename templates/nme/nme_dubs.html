@@ -11,11 +11,13 @@
 <div class="content-section">
   <video style="width:100%" id="vid" src="" controls playsinline  ></video>
 
-  <div >
+  <div>
    <audio controls id="handler" style="display:inline"> </audio>  <button class="btn btn-danger" @click="stopAudio()"> Stop </button>
   </div>
   <div>
     Delay (1000 = 1 sec) <input style='integer' v-model="milli"> </input>
+    <br>
+    [[names]]
   </div>
 
   <div style="overflow-x:auto;">
@@ -32,7 +34,7 @@
             <button class="btn btn-info" @click="playAudio(link, key, team, movie.subtitles)"> [[team]]</button>
             </td>
             <td v-else="movie[team]">
-            <button class="btn btn-danger"> [[team]] </button>
+            <button class="btn btn-danger" @click="names = link.names"> [[team]] </button>
             </td>
       </template>
       </tr>
@@ -84,6 +86,7 @@ function startVue(){ new Vue({
     data: {
         schema: schema,
         mode: mode,
+        names: [],
         examplesOBJ: OBJ,
         payOBJ: PAY,
         show: null,
@@ -118,6 +121,7 @@ function startVue(){ new Vue({
         },
         playAudio: function (arg, mov, team, clip) {
           console.log(arg, arg['audio'], mov)
+          console.log(arg.names)
           let audio = document.getElementById('handler')
 
           let bucket = "https://nme-lms.s3.ap-northeast-1.amazonaws.com/dubbing/"
