@@ -131,7 +131,7 @@ function startVue(){ new Vue({
                aws = arg['audio']
           }
 
-          console.log(aws)
+          //console.log(aws)
           // let test = "https://nme-lms.s3.ap-northeast-1.amazonaws.com/dubbing/2/28_Il.mp3"
           audio.src = aws
           audio.pause()
@@ -146,6 +146,8 @@ function startVue(){ new Vue({
 
           if (arg.milli) {
             this.milli = arg.milli
+          } else {
+            this.milli = 0
           }
 
           setTimeout(func, this.milli)
