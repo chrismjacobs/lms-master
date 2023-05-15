@@ -203,7 +203,8 @@ let vue = new Vue({
               return { background:'hotpink'}
             }
           }
-          else if (head[0] == 'p' || head[0] == 'r') {
+          else if (head[0] == 'p' || head[0] == 'r' || head[0] == 'M' || head[0] == 'b') {
+            // M == midterm  p = pscore  r = rscore
             if (this.exdata == 0) {
               return { display:'none'}
             }
