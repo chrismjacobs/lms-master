@@ -167,10 +167,16 @@ let vue = new Vue({
             }
             }
           else if (head == 'MT'){
-            return { background:'lightskyblue'}
+            if (this.exdata == 0) {
+              return { display:'none'}
+            } else {
+              return { background:'lightskyblue'}
+            }
           }
           else if (head == 'blurs'){
-            if (g  && g > 0 ) {
+            if (this.exdata == 0) {
+              return { display:'none'}
+            } else if (g  && g > 0 ) {
               return { background:'lightpink'}
             }
           }
@@ -203,8 +209,8 @@ let vue = new Vue({
               return { background:'hotpink'}
             }
           }
-          else if (head[0] == 'p' || head[0] == 'r' || head[0] == 'M' || head[0] == 'b') {
-            // M == midterm  p = pscore  r = rscore
+          else if (head[0] == 'p' || head[0] == 'r' || head[0] == 'F') {
+            // M == midterm  p = pscore  r = rscore b = blurs F = final
             if (this.exdata == 0) {
               return { display:'none'}
             }
