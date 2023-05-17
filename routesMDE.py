@@ -395,16 +395,18 @@ def nme_mov(movie, part):
     # team = int(current_user.extra)
     # movieList = [1,2,3,4,5,6,7,8,9,12,11,25,21,22,25,26,27,29,31]
 
+    print(int(movie), int(part))
+
 
     if current_user.username == 'Chris':
         pass
     elif check and int(check.u1) == 0:
         flash('Not open yet', 'danger')
         return (redirect (url_for('nme_movies')))
-    # elif int(movie) not in getPayloads():
-    #     flash('Not in movie list yet', 'danger')
-    #     return (redirect (url_for('nme_movies')))
-    elif int(part) > sDict[int(movie)] + 1:
+    elif str(movie) not in getPayloads():
+        flash('Not in movie list yet', 'danger')
+        return (redirect (url_for('nme_movies')))
+    elif int(part) > sDict[str(movie)] + 1:
         flash('First finish earlier parts', 'danger')
         return (redirect (url_for('nme_movies')))
 
