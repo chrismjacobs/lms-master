@@ -49,7 +49,7 @@
         <tbody>
             <template v-for="(movie, number) in mObj">
                 <tr v-if="checkMovie(number)">
-                  <td> [[movie]] </td>
+                  <td> [[movie.title]] </td>
                   <td> <button :class="getClass(number, 0)" @click="goTo('nme_mov', number, 0)"> 0 </button></td>
                   <td> <button :class="getClass(number, 1)" @click="goTo('nme_mov', number, 1)"> 1 </button></td>
                   <td> <button :class="getClass(number, 2)" @click="goTo('nme_mov', number, 2)"> 2 </button></td>

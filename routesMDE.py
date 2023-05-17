@@ -130,7 +130,7 @@ def getTable(movie):
 def getStudentDict():
     studentDict = {}
 
-    for movie in mDict:
+    for movie in getPayloads():
         studentDict[movie] = -1
         entries = getTable(movie).query.all()
         for a in entries:
@@ -356,7 +356,9 @@ def nme_movies():
 
     users = getUsers(getSchema())
 
-    mString = json.dumps(mDict)
+    ## dump mdict
+
+    mString = json.dumps(getPayloads())
     sString = json.dumps(getStudentDict())
 
     check = getModels()['Units_'].query.all()
@@ -386,7 +388,7 @@ def nme_mov(movie, part):
 
     sDict = getStudentDict()
     print('sDict', sDict)
-    print('sDict',  sDict[int(movie)])
+    # print('sDict',  sDict[int(movie)])
 
     print('CHECK', check.u1)
 
