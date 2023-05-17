@@ -131,7 +131,7 @@ def getStudentDict():
     studentDict = {}
 
     for movie in getPayloads():
-        studentDict[movie] = -1
+        studentDict[int(movie)] = -1
         entries = getTable(movie).query.all()
         for a in entries:
             if a.username == 'payload':
