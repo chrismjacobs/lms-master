@@ -401,7 +401,7 @@ def nme_mov(movie, part):
     elif check and int(check.u1) == 0:
         flash('Not open yet', 'danger')
         return (redirect (url_for('nme_movies')))
-    elif int(movie) not in mDict:
+    elif int(movie) not in getPayloads():
         flash('Not in movie list yet', 'danger')
         return (redirect (url_for('nme_movies')))
     elif int(part) > sDict[int(movie)] + 1:
