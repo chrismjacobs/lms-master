@@ -75,6 +75,7 @@
 <span id="mString" style="display:none">{{mString}}</span>
 <span id="sString" style="display:none">{{sString}}</span>
 <span id="movies" style="display:none">{{movies}}</span>
+<span id="class" style="display:none">{{current_user.app}}</span>
 
 </div> <!-- end of Vue app -->
 
@@ -90,6 +91,7 @@
 var mString = document.getElementById('mString').innerHTML
 var sString = document.getElementById('sString').innerHTML
 var movies = document.getElementById('movies').innerHTML
+var classID = document.getElementById('class').innerHTML
 
 var mObj = JSON.parse(mString)
 var sObj = JSON.parse(sString)
@@ -110,7 +112,8 @@ function startVue(){ new Vue({
     data: {
         mObj: mObj,
         sObj: sObj,
-        movies: movies
+        movies: movies,
+        classID: classID
     },
     methods: {
         goTo: function(task, part, movie ) {
@@ -140,6 +143,10 @@ function startVue(){ new Vue({
 
         },
         checkMovie: function (number) {
+          if (this.classID == 1 && number > 4 ) {
+            // app class true
+            return false
+          }
           console.log(number)
           if (number in this.movies) {
             return true
