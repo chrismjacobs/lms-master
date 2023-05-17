@@ -474,18 +474,18 @@ def nme_project():
 def getMovieDict(team):
     selection = {
           'title': '',
-          'trailer': 'https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/' + str(team) + '-0.mp4',
+          'trailer': '', #'https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/' + str(team) + '-0.mp4',
           'intro': '',
           'q01': '',
           'q02': '',
-          'clip': 'https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/' + str(team) + '-1.mp4',
+          'clip': '', #'https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/' + str(team) + '-1.mp4',
           'description': '',
           'q11':'',
           'q12':'',
           'q21':'',
           'q22':'',
           'q23':'',
-          'subtitles': 'https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/' + str(team) + '-2.mp4',
+          'subtitles': '', #'https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/' + str(team) + '-2.mp4',
           'script': {
                 1: '',
                 2: '',
