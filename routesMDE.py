@@ -119,6 +119,7 @@ def getTable(movie):
         20 : models['05'][2],
         21 : models['05'][3],
         22 : models['05'][4],
+        23 : models['07'][1],
     }
 
     if not movie:
