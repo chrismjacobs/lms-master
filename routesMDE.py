@@ -131,7 +131,7 @@ def getStudentDict():
     studentDict = {}
 
     for movie in getPayloads():
-        studentDict[int(movie)] = -1
+        studentDict[str(movie)] = -1
         entries = getTable(movie).query.all()
         for a in entries:
             if a.username == 'payload':
@@ -475,6 +475,7 @@ def getMovieDict(team):
     selection = {
           'title': '',
           'trailer': '', #'https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/' + str(team) + '-0.mp4',
+          'keyword': '',
           'intro': '',
           'q01': '',
           'q02': '',
