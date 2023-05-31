@@ -1,6 +1,7 @@
 {
     "1": {
         "title": "Lion King",
+        "keyword": "lionking",
         "trailer": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/1-0.mp4",
         "intro": "This movie is about a young lion who has to learn how to be king of the animals",
         "q01": "What do you know about lions? (3 things)",
@@ -43,6 +44,7 @@
     },
     "2": {
         "title": "Gifted",
+        "keyword": "gifted",
         "trailer": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/2-0.mp4",
         "intro": "This movie is about a gifted young girl who is raised by her uncle. Her grandmother wants to take her away, but Frank wants her to have a normal life.",
         "q01": "What are some reasons for children hating school ?",
@@ -96,6 +98,7 @@
     },
     "3": {
         "title": "Jobs",
+        "keyword": "jobs",
         "trailer": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/3-0.mp4",
         "intro": "This movie shows the early life of Apple CEO, Steve Jobs. How he started the company and developed the Apple vision.",
         "q01": "What do you know about Steve Jobs?",
@@ -149,6 +152,7 @@
     },
     "4": {
         "title": "The Intern",
+        "keyword": "intern",
         "trailer": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/4-0.mp4",
         "intro": "Ben is retiree who wants to keep working so he becomes a senior intern at a fashion agency and he gets on pretty well with his younger coworkers.",
         "q01": "Why do some people want to work after they retire?",
@@ -201,295 +205,31 @@
         }
     },
     "5": {
-        "title": "Finding Dory",
-        "trailer": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/5-0.mp4",
-        "intro": "This movie is about a fish called Dory, Dory remember her parents and starts finding them, she remember her childhood memories during the journey.",
-        "q01": "Do you like visiting aquariums? why or why not?",
-        "q02": "What is something you often forget?",
-        "clip": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/5-1.mp4",
-        "description": "Marlin and Nemo are stuck in an aquarium, they try to escape and find Dory.",
-        "q11": "What is Marlin trying to do when he said \u201dOoo-too\u201d?",
-        "q12": "Why is Nemo feeling sad?",
-        "q21": "Why does Nemo think the bird (Becky) won't come back?",
-        "q22": "What does Marlin think Dory would assess/analyze?",
-        "q23": "What would Dory look at?",
-        "subtitles": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/5-2.mp4",
+        "title": "Harry Potter Howler",
+        "keyword": "howler",
+        "trailer": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/howler-0.mp4",
+        "intro": "Harry Potter and his friends are facing difficulties while learning magic in the wizard school, Hogwarts.",
+        "q01": "How does your mom shows her anger?",
+        "q02": "How often you receive a letter?",
+        "clip": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/howler-1.mp4",
+        "description": "Ron receives a howler from his mom.",
+        "q11": "Do you think Ron did something wrong? Why or why not?",
+        "q12": "Do you think his classmates are worried about him? Why or why not?",
+        "q21": "What does Neville think about the howler that he ignored from his gran?",
+        "q22": "What did Ron steal to get his father in trouble?",
+        "q23": "If Ron put another toe out of line, what will his parents do?",
+        "subtitles": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/howler-2.mp4",
         "script": {
-            "1": "Marlin: Ooo-roo. Ooo-roo, ooo-roo. Ooo-roo. Ooo-roo. Ooo-roo. Ooo-roo. Ooo-roo, ooo-roo!",
-            "2": "Nemo: Dad, stop. She's not coming back.",
-            "3": "Marlin: She might. Ooo-roo, ooo-roo!\n",
-            "4": "Nemo: Dad! You made her feel like she couldn't do it.",
-            "5": "Marlin: You're not talking about Becky, are you?",
-            "6": "Nemo: I miss Dory.",
-            "7": "Marlin: Me too. The truth is, I'm just so worried about her.",
-            "8": "Nemo: She's the one who should be worried about us.",
-            "9": "Marlin: Well, she would definitely have an idea of what to do if she were here. I don't know how she does that.",
-            "10": "Nemo: I don't think she knows, Dad. She just does.",
-            "11": "Marlin: Well, then we'll just have to think.",
-            "12": "Nemo: What would Dory do?",
-            "13": "Marlin: What would Dory do?",
-            "14": "Nemo: Yeah! What would Dory do?",
-            "15": "Marlin: She would assess her situation, and then she'd evaluate...Then she would analyze her options...",
-            "16": "Nemo: Dad, that's \"What would Marlin do.\"",
-            "17": "Marlin: Right, that's what I would do. She wouldn't even think twice. She would just look at the first thing she sees and...",
-            "18": "Nemo: Dory would do it.",
-            "19": "",
-            "20": "",
-            "21": "",
-            "22": ""
-        },
-        "vocab": {
-            "1": {
-                "v": "assess",
-                "q": "When will you assess your situation?"
-            },
-            "2": {
-                "v": "analyze",
-                "q": "What kind of Job requires a lot of analyzing?"
-            },
-            "3": {
-                "v": "think twice",
-                "q": "When is it a good time to think twice before you do something?"
-            }
-        }
-    },
-    "6": {
-        "title": "Wonder ",
-        "trailer": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/6-0.mp4",
-        "intro": "Auggie is a 10-year-old boy he has a ugly face ,\nhis parents decide to enroll him in a private school.  During the semester Auggie  sufferd \nfrom bullied  by his classmates. The movie talk about his life.",
-        "q01": "Why do some children get bullied at the school?",
-        "q02": "How can family help when the children are having trouble at school?",
-        "clip": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/6-1.mp4",
-        "description": "Auggie's sister invited him to Halloween party,  but he seems doesn't want to go .",
-        "q11": "Why is Auggie upset?",
-        "q12": "Do you think he go to the Halloween party? Why or why not?",
-        "q21": "Who said something behind Auggie's back?",
-        "q22": "When a person accidentally touches him at school, what did they call it?",
-        "q23": "Why doesn't Isabel's friend like her anymore?",
-        "subtitles": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/6-2.mp4",
-        "script": {
-            "1": "Come on, get ready. It's almost time for the Halloween parade.",
-            "2": "You're supposed to knock!.....Go away!",
-            "3": "Mom says you won't say what happened.",
-            "4": "Did someone say something?",
-            "5": "Someone always says something!",
-            "6": "Well, tell me what happened.",
-            "7": "It's none of your business!",
-            "8": "You took my day with Mom, so it is my business.",
-            "9": "I heard Jack Will talking about me behind my back. He said he'd kill himself if he looked like me.",
-            "10": "Jack Will? Isn't he the nice one?",
-            "11": "There are no nice ones! I wish I'd never gone to school in the first place!",
-            "12": "But you were liking school. I know you were.",
-            "13": "I hate it, okay? I hate it.\n",
-            "14": "Auggie, I'm sorry, but you're not the only one who has bad days.",
-            "15": "Bad days? Do people avoid touching you? When a person accidentally touches you, do they call it \"the plague\"? - No. - Jack Will was all I had.",
-            "16": "So just don't compare your bad days at school to mine, okay?",
-            "17": "Okay",
-            "18": "Hey. Did you notice that Miranda doesn't come around anymore?...What?",
-            "19": "You didn't. Shocker. Yeah. She went away to camp this summer and now she doesn't like me anymore\u2026.Why?",
-            "20": "Because...school sucks. And people change. So if you wanna be a normal kid, Auggie, then those are the rules. So let's go trick-or-treating. Okay? Because right now\u2026 we're each other's best friends.",
-            "21": "Really?",
-            "22": "Yes. So... come on. I'll let you have all my Halloween candy."
-        },
-        "vocab": {
-            "1": {
-                "v": "parade ",
-                "q": "What kind of the parade do we see in Taiwan?"
-            },
-            "2": {
-                "v": " none of your business!",
-                "q": "When is a good time to use this phrase?"
-            },
-            "3": {
-                "v": "\"the plague\"",
-                "q": "What kind \"plague\" happened in 2020?"
-            }
-        }
-    },
-    "7": {
-        "title": "Thor: Ragnorok",
-        "trailer": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/7-0.mp4",
-        "intro": "Thor is trying to convince Valkyrie to protect the people.",
-        "q01": "What do you know about Thor?",
-        "q02": "Have you ever trying to convince anyone? Who?",
-        "clip": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/7-1.mp4",
-        "description": "Thor needs Valkyrie to protect the people together.",
-        "q11": "Does Valkyrie want to follow Thor?",
-        "q12": "Why do you think he jumps the window?",
-        "q21": "What is \"wrong with Asgard\"?",
-        "q22": " What happened to her people? ",
-        "q23": "What does Thor want to run toward?",
-        "subtitles": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/7-2.mp4",
-        "script": {
-            "1": "Look, I already faced her once back when I believed in the throne, and it cost me everything.",
-            "2": "THAT\u2019S what\u2019s wrong with Asgard.",
-            "3": "The throne, the secret, the whole golden sham.",
-            "4": "I agree.",
-            "5": "don't get familiar.",
-            "6": "I agree.",
-            "7": "That's why I turned down the throne, but this isn't about the crown.",
-            "8": "This is about the people and they're dying and they're you\u2019re  people, too.",
-            "9": "Forget it, I have",
-            "10": "Okay",
-            "11": "Okay",
-            "12": "Good, great",
-            "13": "Great",
-            "14": "Thank you",
-            "15": "For what?",
-            "16": "For this. Didn't see that did ya?",
-            "17": "There... that's better. You know, go ahead. Stay here and get drunk and enslave people for that lunatic. Keep drinking. Keep hiding.",
-            "18": "but me... I choose to run toward my problems and not away from them. ",
-            "19": "Because that\u2019s what...",
-            "20": "Because that's what heroes do",
-            "21": "",
-            "22": ""
-        },
-        "vocab": {
-            "1": {
-                "v": "lunatic",
-                "q": "What's the most lunatic thing people do?"
-            },
-            "2": {
-                "v": "crown",
-                "q": "Who will wear a crown?"
-            },
-            "3": {
-                "v": "enslave ",
-                "q": "Why is it bad to enslave people?"
-            }
-        }
-    },
-    "8": {
-        "title": "Moana",
-        "trailer": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/8-0.mp4",
-        "intro": "It's about a girl who likes the ocean and want to save it.",
-        "q01": "In what ways should we save the ocean?",
-        "q02": "What do we know about the ocean?",
-        "clip": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/8-1.mp4",
-        "description": "Moana went to an island to find Maui, and wants him to go with her to give the heart back to Tefiti.",
-        "q11": "Maui thought the Gods gave him a what?",
-        "q12": "Why did Moana go to meet Maui?",
-        "q21": "What is Maui the demigod of? ",
-        "q22": "What is it called when you sign with a bird?",
-        "q23": "What did Maui steal?",
-        "subtitles": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/8-2.mp4",
-        "script": {
-            "1": "Moana: Maui, demigod of the wind and sea, I am Moana of Motunui. You will board my boat. No. You will board my boat. Yeah. I am Moana of Motunui. You will board my...",
-            "2": "Maui: Boat! A boat! The Gods have given me a (screams)",
-            "3": "Moana: Maui shapeshifter demigod of the wind and sea I am Moana...",
-            "4": "Maui: Hero of Man ",
-            "5": "Moana: Wh..What?\n \n",
-            "6": "Maui: It's actually Maui, shapeshifter, demigod of the wind and sea, hero of man. I interrupted, from the top, hero of man. Go.",
-            "7": "Moana: I am Mo...",
-            "8": "Maui: Sorry, Sorry, sorry, sorry. And women. Men and women. Both. All. Not a guy-girl thing. Ah, you know, Maui is a hero to all. You're doing great.",
-            "9": "Moana: What? No, I came here to...",
-            "10": "Maui: Oh, of course, of course. Yes, yes, yes, yes. Maui always has time for his fans. When you use a bird to write with, it's called tweeting. (laughs) I know, not every day you get a chance to meet your hero.\n",
-            "11": "Moana: You are not my hero. And I'm not here so you can sign my oar. I'm here because you stole the heart of Te Fiti",
-            "12": "Moana: And you will board my boat, sail across the sea and put it back",
-            "13": "",
-            "14": "",
-            "15": "",
-            "16": "",
-            "17": "",
-            "18": "",
-            "19": "",
-            "20": "",
-            "21": "",
-            "22": ""
-        },
-        "vocab": {
-            "1": {
-                "v": "interrupt",
-                "q": "Why is it a bad habit to always interrupt someone?"
-            },
-            "2": {
-                "v": "board ",
-                "q": "Besides a boat, what can you 'board'?"
-            },
-            "3": {
-                "v": "demigod",
-                "q": "What is different between a god and demigod?"
-            }
-        }
-    },
-    "9": {
-        "title": "Paw patrol",
-        "trailer": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/22-0.mp4",
-        "intro": "Ryder and the pups are called to Adventure City to stop Mayor Humdinger from turning the bustling metropolis into a state of chaos.",
-        "q01": "Do you vote in elections? Why or why not?",
-        "q02": "What is a good quality for a security guard?",
-        "clip": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/22-1.mp4",
-        "description": "Mayor Humdinger, had recently been elected mayor. Knowing of Humdinger's infamous wrongdoings in Foggy Bottom, a dachshund named Liberty calls the team.",
-        "q11": "Do you think Liberty (the white dog) likes the Mayor?  Why or why not?",
-        "q12": "Why can't Liberty get in that place?",
-        "q21": "What makes the dog's \"skin crawl\"?",
-        "q22": "Who decided \"No Dogs Allowed\"?",
-        "q23": "What are Butch and Ruben arguing about?",
-        "subtitles": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/22-2.mp4",
-        "script": {
-            "1": "Marty Muckraker Reporter :\nIt's election day in Adventure city.\nI'm Marty Muckraker, reporting live from City Square.\nIn a surprising twist, the leading candidate has dropped out of the race,\nleaving only one name on the ticket.\nMayor Humdinger, who has just won by default.",
-            "2": "Liberty: Mayor Humdinger.  Ugh! Just saying it makes my skin crawl.",
-            "3": "Ruben: No dogs. By order of the new mayor.\n",
-            "4": "Liberty: Excuse me?",
-            "5": "Butch: Yeah, you heard him. No dogs.",
-            "6": "Ruben:  He's more of a cat person. Now beat it!",
-            "7": "Liberty:  If those are the rules, those are the rules. You gentlemen have a wonderful day.",
-            "8": "Ruben:  Ha-ha! Did you see that? You gotta show these dogs you're the alpha.",
-            "9": "Butch:  You're not the alpha. I'm the alpha!\n",
-            "10": "Ruben: No, I'm the alpha!",
-            "11": "Butch: No, I'm the alpha!\n",
-            "12": "Ruben: I'm the alpha!\n",
-            "13": "",
-            "14": "",
-            "15": "",
-            "16": "",
-            "17": "",
-            "18": "",
-            "19": "",
-            "20": "",
-            "21": "",
-            "22": "\n\n\n"
-        },
-        "vocab": {
-            "1": {
-                "v": "drop out",
-                "q": "What is a reason do candidates sometimes drop out of elections?"
-            },
-            "2": {
-                "v": "mayor",
-                "q": "Who is the mayor of New Taipei City?"
-            },
-            "3": {
-                "v": "skin crawl",
-                "q": "Why things make your skin crawl?"
-            }
-        }
-    },
-    "10": {
-        "title": "Zootopia",
-        "trailer": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/25-0.mp4",
-        "intro": "Zootopia is about animal city. The disappearance of animals in this city, officer Judy and her partner are looking for clues.",
-        "q01": "What is difficult about being a police detective?",
-        "q02": "What things make you nervous?",
-        "clip": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/25-1.mp4",
-        "description": "This movie shows Nick Wiled was so nervous about the crime boss coming, and why he was scared of him. In the clip, than Nick and Judy caught by polar bear",
-        "q11": "What things did Nick sees and makes him feel afraid?",
-        "q12": "Why is Judy not leaving?",
-        "q21": "What kind of things does Nick notice in the very beginning?",
-        "q22": "Who is Mr. Big?",
-        "q23": "Why doesn't Mr. Big like Nick?",
-        "subtitles": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/25-2.mp4",
-        "script": {
-            "1": "Nick Wilde: Well, now, wait a minute. Polar bear fur, rat-pack music, fancy cup? I know whose car this is, we gotta go!",
-            "2": "Judy Hopps: Why? Whose car is it?",
-            "3": "Nick Wilde: The most feared crime boss in Tundratown. They call him Mr. Big, and he does not like me, so we gotta go!",
-            "4": "Judy Hopps: I'm not leaving. This is a crime scene.",
-            "5": "Nick Wilde: Well, it's gonna be an even bigger crime scene if Mr. Big finds me here, so we're leaving, right now! Oh, gah! Raymond! And is that Kevin? Long time no see! And speaking of \"no see\", how about you forget you saw me. Huh? For old time's sake? That's a no.",
-            "6": "Judy Hopps: What did you do that made Mr. Big so mad at you?",
-            "7": "Nick Wilde:  I, um... I may have sold him a very expensive wool rug that was made from the fur of a skunk'ssss... butt.",
-            "8": "Judy Hopps: Oh, sweet cheese and crackers.",
-            "9": "",
-            "10": "",
+            "1": "RON: Oh, no!",
+            "2": "SEAMUS: Look, everyone! Weasley's got himself a Howler!\n",
+            "3": "NEVILLE: Go on, Ron. I ignored one from my gran once. It was horrible.\n",
+            "4": "MRS. WEASLEY'S HOWLER: RONALD WEASLEY! ",
+            "5": "HOW DARE YOU STEAL THAT CAR! ",
+            "6": "I AM ABSOLUTLEY DISGUSTED! ",
+            "7": "YOUR FATHER'S NOW FACING AN INQUIRY AT WORK, AND IT'S ENTIRELY YOUR FAULT!",
+            "8": " IF YOU PUT ANOTHER TOE OUT OF LINE, WE'LL BRING YOU STRAIGHT HOME! ",
+            "9": "Oh, and Ginny, dear, congratulations on making Gryffindor.\n",
+            "10": "Your father and I are so proud! ",
             "11": "",
             "12": "",
             "13": "",
@@ -505,21 +245,22 @@
         },
         "vocab": {
             "1": {
-                "v": "crime",
-                "q": "Why do some people like watching crime movies?"
+                "v": "Disgusted",
+                "q": "What things make you feel disgusted?"
             },
             "2": {
-                "v": "rug",
-                "q": "Why do people put rugs in their home?"
+                "v": "OUT OF LINE",
+                "q": "If your friend is out of line, what will you do?"
             },
             "3": {
-                "v": "for old time's sake",
-                "q": "When do people use this phrase?"
+                "v": "Entirely",
+                "q": "What are the synonyms of entirely?"
             }
         }
     },
     "11": {
         "title": "Aladdin",
+        "keyword": "aladdinraja",
         "trailer": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/26-0.mp4",
         "intro": "This movie follows the titular Aladdin, an Arabian street urchin, who finds a magic lamp containing a genie. He disguises himself as a wealthy prince and tries to impress the Sultan and his daughter, Princess Jasmine.",
         "q01": "Do you often argue with your parents? What about?",
@@ -572,7 +313,8 @@
         }
     },
     "12": {
-        "title": "Frozen ",
+        "title": "Frozen",
+        "keyword": "frozenolaf",
         "trailer": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/28-0.mp4",
         "intro": "The film tells about a brave princess, accompanied by an iceman, loyal reindeer, and a living snowman. A journey to find her sister who has the power to convert any object or person into ice.",
         "q01": "Do you like snow, why or why not?",
@@ -626,6 +368,7 @@
     },
     "13": {
         "title": "Wreck it Ralph",
+        "keyword": "wreckitbugs",
         "trailer": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/29-0.mp4",
         "intro": "The movie is talking about the world of video games, the main character is destroying a building and there's a lot of other video games in the world.",
         "q01": "When will you want to win a medal?",
@@ -679,6 +422,7 @@
     },
     "14": {
         "title": "The Irresponsible Patrick",
+        "keyword": "patrick",
         "trailer": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/30-0.mp4",
         "intro": "Patrick is irresponsible, so SpongeBob was mad at him, but Patrick didn't care what SpongeBob was angry about....",
         "q01": "If you get home late, what would your parents say?",
@@ -732,6 +476,7 @@
     },
     "15": {
         "title": "Brave",
+        "keyword": "bravefight",
         "trailer": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/31-0.mp4",
         "intro": "The movie is about a princess who wants to be free in her life. But her parents want her to listen to the destiny.",
         "q01": "What do you think perfect parents should to do for their children?",
@@ -785,6 +530,7 @@
     },
     "16": {
         "title": "Despicable me2",
+        "keyword": "despicablespeech",
         "trailer": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/33-0.mp4",
         "intro": "The movie is about..... A very powerful thief father raises 3 lovely daughters and a group of evil and interesting creatures as assistants, but because he does not live with his mother, he often lacks some care. But this father always has a good idea to solve anything.",
         "q01": "How much help did you get from parents with school work?",
@@ -833,6 +579,329 @@
             "3": {
                 "v": "Pajamas",
                 "q": "What style was your first pajamas? At what age did you get it?"
+            }
+        }
+    },
+    "17": {
+        "title": "Finding Dory",
+        "keyword": "doryescape",
+        "trailer": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/5-0.mp4",
+        "intro": "This movie is about a fish called Dory, Dory remember her parents and starts finding them, she remember her childhood memories during the journey.",
+        "q01": "Do you like visiting aquariums? why or why not?",
+        "q02": "What is something you often forget?",
+        "clip": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/5-1.mp4",
+        "description": "Marlin and Nemo are stuck in an aquarium, they try to escape and find Dory.",
+        "q11": "What is Marlin trying to do when he said \u201dOoo-too\u201d?",
+        "q12": "Why is Nemo feeling sad?",
+        "q21": "Why does Nemo think the bird (Becky) won't come back?",
+        "q22": "What does Marlin think Dory would assess/analyze?",
+        "q23": "What would Dory look at?",
+        "subtitles": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/5-2.mp4",
+        "script": {
+            "1": "Marlin: Ooo-roo. Ooo-roo, ooo-roo. Ooo-roo. Ooo-roo. Ooo-roo. Ooo-roo. Ooo-roo, ooo-roo!",
+            "2": "Nemo: Dad, stop. She's not coming back.",
+            "3": "Marlin: She might. Ooo-roo, ooo-roo!\n",
+            "4": "Nemo: Dad! You made her feel like she couldn't do it.",
+            "5": "Marlin: You're not talking about Becky, are you?",
+            "6": "Nemo: I miss Dory.",
+            "7": "Marlin: Me too. The truth is, I'm just so worried about her.",
+            "8": "Nemo: She's the one who should be worried about us.",
+            "9": "Marlin: Well, she would definitely have an idea of what to do if she were here. I don't know how she does that.",
+            "10": "Nemo: I don't think she knows, Dad. She just does.",
+            "11": "Marlin: Well, then we'll just have to think.",
+            "12": "Nemo: What would Dory do?",
+            "13": "Marlin: What would Dory do?",
+            "14": "Nemo: Yeah! What would Dory do?",
+            "15": "Marlin: She would assess her situation, and then she'd evaluate...Then she would analyze her options...",
+            "16": "Nemo: Dad, that's \"What would Marlin do.\"",
+            "17": "Marlin: Right, that's what I would do. She wouldn't even think twice. She would just look at the first thing she sees and...",
+            "18": "Nemo: Dory would do it.",
+            "19": "",
+            "20": "",
+            "21": "",
+            "22": ""
+        },
+        "vocab": {
+            "1": {
+                "v": "assess",
+                "q": "When will you assess your situation?"
+            },
+            "2": {
+                "v": "analyze",
+                "q": "What kind of Job requires a lot of analyzing?"
+            },
+            "3": {
+                "v": "think twice",
+                "q": "When is it a good time to think twice before you do something?"
+            }
+        }
+    },
+    "18": {
+        "title": "Wonder",
+        "keyword": "wonder",
+        "trailer": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/6-0.mp4",
+        "intro": "Auggie is a 10-year-old boy he has a ugly face ,\nhis parents decide to enroll him in a private school.  During the semester Auggie  sufferd \nfrom bullied  by his classmates. The movie talk about his life.",
+        "q01": "Why do some children get bullied at the school?",
+        "q02": "How can family help when the children are having trouble at school?",
+        "clip": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/6-1.mp4",
+        "description": "Auggie's sister invited him to Halloween party,  but he seems doesn't want to go .",
+        "q11": "Why is Auggie upset?",
+        "q12": "Do you think he go to the Halloween party? Why or why not?",
+        "q21": "Who said something behind Auggie's back?",
+        "q22": "When a person accidentally touches him at school, what did they call it?",
+        "q23": "Why doesn't Isabel's friend like her anymore?",
+        "subtitles": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/6-2.mp4",
+        "script": {
+            "1": "Come on, get ready. It's almost time for the Halloween parade.",
+            "2": "You're supposed to knock!.....Go away!",
+            "3": "Mom says you won't say what happened.",
+            "4": "Did someone say something?",
+            "5": "Someone always says something!",
+            "6": "Well, tell me what happened.",
+            "7": "It's none of your business!",
+            "8": "You took my day with Mom, so it is my business.",
+            "9": "I heard Jack Will talking about me behind my back. He said he'd kill himself if he looked like me.",
+            "10": "Jack Will? Isn't he the nice one?",
+            "11": "There are no nice ones! I wish I'd never gone to school in the first place!",
+            "12": "But you were liking school. I know you were.",
+            "13": "I hate it, okay? I hate it.\n",
+            "14": "Auggie, I'm sorry, but you're not the only one who has bad days.",
+            "15": "Bad days? Do people avoid touching you? When a person accidentally touches you, do they call it \"the plague\"? - No. - Jack Will was all I had.",
+            "16": "So just don't compare your bad days at school to mine, okay?",
+            "17": "Okay",
+            "18": "Hey. Did you notice that Miranda doesn't come around anymore?...What?",
+            "19": "You didn't. Shocker. Yeah. She went away to camp this summer and now she doesn't like me anymore\u2026.Why?",
+            "20": "Because...school sucks. And people change. So if you wanna be a normal kid, Auggie, then those are the rules. So let's go trick-or-treating. Okay? Because right now\u2026 we're each other's best friends.",
+            "21": "Really?",
+            "22": "Yes. So... come on. I'll let you have all my Halloween candy."
+        },
+        "vocab": {
+            "1": {
+                "v": "parade ",
+                "q": "What kind of the parade do we see in Taiwan?"
+            },
+            "2": {
+                "v": " none of your business!",
+                "q": "When is a good time to use this phrase?"
+            },
+            "3": {
+                "v": "\"the plague\"",
+                "q": "What kind \"plague\" happened in 2020?"
+            }
+        }
+    },
+    "19": {
+        "title": "Thor: Ragnorok",
+        "keyword": "ragnorok",
+        "trailer": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/7-0.mp4",
+        "intro": "Thor is trying to convince Valkyrie to protect the people.",
+        "q01": "What do you know about Thor?",
+        "q02": "Have you ever trying to convince anyone? Who?",
+        "clip": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/7-1.mp4",
+        "description": "Thor needs Valkyrie to protect the people together.",
+        "q11": "Does Valkyrie want to follow Thor?",
+        "q12": "Why do you think he jumps the window?",
+        "q21": "What is \"wrong with Asgard\"?",
+        "q22": " What happened to her people? ",
+        "q23": "What does Thor want to run toward?",
+        "subtitles": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/7-2.mp4",
+        "script": {
+            "1": "Look, I already faced her once back when I believed in the throne, and it cost me everything.",
+            "2": "THAT\u2019S what\u2019s wrong with Asgard.",
+            "3": "The throne, the secret, the whole golden sham.",
+            "4": "I agree.",
+            "5": "don't get familiar.",
+            "6": "I agree.",
+            "7": "That's why I turned down the throne, but this isn't about the crown.",
+            "8": "This is about the people and they're dying and they're you\u2019re  people, too.",
+            "9": "Forget it, I have",
+            "10": "Okay",
+            "11": "Okay",
+            "12": "Good, great",
+            "13": "Great",
+            "14": "Thank you",
+            "15": "For what?",
+            "16": "For this. Didn't see that did ya?",
+            "17": "There... that's better. You know, go ahead. Stay here and get drunk and enslave people for that lunatic. Keep drinking. Keep hiding.",
+            "18": "but me... I choose to run toward my problems and not away from them. ",
+            "19": "Because that\u2019s what...",
+            "20": "Because that's what heroes do",
+            "21": "",
+            "22": ""
+        },
+        "vocab": {
+            "1": {
+                "v": "lunatic",
+                "q": "What's the most lunatic thing people do?"
+            },
+            "2": {
+                "v": "crown",
+                "q": "Who will wear a crown?"
+            },
+            "3": {
+                "v": "enslave ",
+                "q": "Why is it bad to enslave people?"
+            }
+        }
+    },
+    "20": {
+        "title": "Moana",
+        "keyword": "moana",
+        "trailer": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/8-0.mp4",
+        "intro": "It's about a girl who likes the ocean and want to save it.",
+        "q01": "In what ways should we save the ocean?",
+        "q02": "What do we know about the ocean?",
+        "clip": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/8-1.mp4",
+        "description": "Moana went to an island to find Maui, and wants him to go with her to give the heart back to Tefiti.",
+        "q11": "Maui thought the Gods gave him a what?",
+        "q12": "Why did Moana go to meet Maui?",
+        "q21": "What is Maui the demigod of? ",
+        "q22": "What is it called when you sign with a bird?",
+        "q23": "What did Maui steal?",
+        "subtitles": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/8-2.mp4",
+        "script": {
+            "1": "Moana: Maui, demigod of the wind and sea, I am Moana of Motunui. You will board my boat. No. You will board my boat. Yeah. I am Moana of Motunui. You will board my...",
+            "2": "Maui: Boat! A boat! The Gods have given me a (screams)",
+            "3": "Moana: Maui shapeshifter demigod of the wind and sea I am Moana...",
+            "4": "Maui: Hero of Man ",
+            "5": "Moana: Wh..What?\n \n",
+            "6": "Maui: It's actually Maui, shapeshifter, demigod of the wind and sea, hero of man. I interrupted, from the top, hero of man. Go.",
+            "7": "Moana: I am Mo...",
+            "8": "Maui: Sorry, Sorry, sorry, sorry. And women. Men and women. Both. All. Not a guy-girl thing. Ah, you know, Maui is a hero to all. You're doing great.",
+            "9": "Moana: What? No, I came here to...",
+            "10": "Maui: Oh, of course, of course. Yes, yes, yes, yes. Maui always has time for his fans. When you use a bird to write with, it's called tweeting. (laughs) I know, not every day you get a chance to meet your hero.\n",
+            "11": "Moana: You are not my hero. And I'm not here so you can sign my oar. I'm here because you stole the heart of Te Fiti",
+            "12": "Moana: And you will board my boat, sail across the sea and put it back",
+            "13": "",
+            "14": "",
+            "15": "",
+            "16": "",
+            "17": "",
+            "18": "",
+            "19": "",
+            "20": "",
+            "21": "",
+            "22": ""
+        },
+        "vocab": {
+            "1": {
+                "v": "interrupt",
+                "q": "Why is it a bad habit to always interrupt someone?"
+            },
+            "2": {
+                "v": "board ",
+                "q": "Besides a boat, what can you 'board'?"
+            },
+            "3": {
+                "v": "demigod",
+                "q": "What is different between a god and demigod?"
+            }
+        }
+    },
+    "21": {
+        "title": "Paw patrol",
+        "trailer": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/22-0.mp4",
+        "intro": "Ryder and the pups are called to Adventure City to stop Mayor Humdinger from turning the bustling metropolis into a state of chaos.",
+        "q01": "Do you vote in elections? Why or why not?",
+        "q02": "What is a good quality for a security guard?",
+        "clip": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/22-1.mp4",
+        "description": "Mayor Humdinger, had recently been elected mayor. Knowing of Humdinger's infamous wrongdoings in Foggy Bottom, a dachshund named Liberty calls the team.",
+        "q11": "Do you think Liberty (the white dog) likes the Mayor?  Why or why not?",
+        "q12": "Why can't Liberty get in that place?",
+        "q21": "What makes the dog's \"skin crawl\"?",
+        "q22": "Who decided \"No Dogs Allowed\"?",
+        "q23": "What are Butch and Ruben arguing about?",
+        "subtitles": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/22-2.mp4",
+        "script": {
+            "1": "Marty Muckraker Reporter :\nIt's election day in Adventure city.\nI'm Marty Muckraker, reporting live from City Square.\nIn a surprising twist, the leading candidate has dropped out of the race,\nleaving only one name on the ticket.\nMayor Humdinger, who has just won by default.",
+            "2": "Liberty: Mayor Humdinger.  Ugh! Just saying it makes my skin crawl.",
+            "3": "Ruben: No dogs. By order of the new mayor.\n",
+            "4": "Liberty: Excuse me?",
+            "5": "Butch: Yeah, you heard him. No dogs.",
+            "6": "Ruben:  He's more of a cat person. Now beat it!",
+            "7": "Liberty:  If those are the rules, those are the rules. You gentlemen have a wonderful day.",
+            "8": "Ruben:  Ha-ha! Did you see that? You gotta show these dogs you're the alpha.",
+            "9": "Butch:  You're not the alpha. I'm the alpha!\n",
+            "10": "Ruben: No, I'm the alpha!",
+            "11": "Butch: No, I'm the alpha!\n",
+            "12": "Ruben: I'm the alpha!\n",
+            "13": "",
+            "14": "",
+            "15": "",
+            "16": "",
+            "17": "",
+            "18": "",
+            "19": "",
+            "20": "",
+            "21": "",
+            "22": "\n\n\n"
+        },
+        "vocab": {
+            "1": {
+                "v": "drop out",
+                "q": "What is a reason do candidates sometimes drop out of elections?"
+            },
+            "2": {
+                "v": "mayor",
+                "q": "Who is the mayor of New Taipei City?"
+            },
+            "3": {
+                "v": "skin crawl",
+                "q": "Why things make your skin crawl?"
+            }
+        }
+    },
+    "22": {
+        "title": "Zootopia",
+        "keyword": "zootopiaboss",
+        "trailer": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/25-0.mp4",
+        "intro": "Zootopia is about animal city. The disappearance of animals in this city, officer Judy and her partner are looking for clues.",
+        "q01": "What is difficult about being a police detective?",
+        "q02": "What things make you nervous?",
+        "clip": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/25-1.mp4",
+        "description": "This movie shows Nick Wiled was so nervous about the crime boss coming, and why he was scared of him. In the clip, than Nick and Judy caught by polar bear",
+        "q11": "What things did Nick sees and makes him feel afraid?",
+        "q12": "Why is Judy not leaving?",
+        "q21": "What kind of things does Nick notice in the very beginning?",
+        "q22": "Who is Mr. Big?",
+        "q23": "Why doesn't Mr. Big like Nick?",
+        "subtitles": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/25-2.mp4",
+        "script": {
+            "1": "Nick Wilde: Well, now, wait a minute. Polar bear fur, rat-pack music, fancy cup? I know whose car this is, we gotta go!",
+            "2": "Judy Hopps: Why? Whose car is it?",
+            "3": "Nick Wilde: The most feared crime boss in Tundratown. They call him Mr. Big, and he does not like me, so we gotta go!",
+            "4": "Judy Hopps: I'm not leaving. This is a crime scene.",
+            "5": "Nick Wilde: Well, it's gonna be an even bigger crime scene if Mr. Big finds me here, so we're leaving, right now! Oh, gah! Raymond! And is that Kevin? Long time no see! And speaking of \"no see\", how about you forget you saw me. Huh? For old time's sake? That's a no.",
+            "6": "Judy Hopps: What did you do that made Mr. Big so mad at you?",
+            "7": "Nick Wilde:  I, um... I may have sold him a very expensive wool rug that was made from the fur of a skunk'ssss... butt.",
+            "8": "Judy Hopps: Oh, sweet cheese and crackers.",
+            "9": "",
+            "10": "",
+            "11": "",
+            "12": "",
+            "13": "",
+            "14": "",
+            "15": "",
+            "16": "",
+            "17": "",
+            "18": "",
+            "19": "",
+            "20": "",
+            "21": "",
+            "22": ""
+        },
+        "vocab": {
+            "1": {
+                "v": "crime",
+                "q": "Why do some people like watching crime movies?"
+            },
+            "2": {
+                "v": "rug",
+                "q": "Why do people put rugs in their home?"
+            },
+            "3": {
+                "v": "for old time's sake",
+                "q": "When do people use this phrase?"
             }
         }
     }
