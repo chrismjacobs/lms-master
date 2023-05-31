@@ -258,7 +258,60 @@
             }
         }
     },
-    "6": {},
+    "6": {
+        "title": "Toy Story The Claw",
+        "trailer": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/claw-0.mp4",
+        "intro": "A group of living toys, who assume lifelessness around humans, are going to move into a new house with their owner Andy Davis and his family.",
+        "q01": "How often do you use claw machines to win toys?",
+        "q02": "What qualities are good for a spaceman (astronaut)?",
+        "clip": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/claw-1.mp4",
+        "description": "Buzz mistakenly believes a claw machine full of aliens to be a true rocket, and Woody climbs in after him.",
+        "q11": "Why is Buzz talking to the Aliens?",
+        "q12": "How does Woody (the cowboy) feel about the situation?",
+        "q21": "Which Sector does Buzz want to go?",
+        "q22": "According to the Aliens, what does the claw choose?",
+        "q23": "Where does the alien think he is going?",
+        "subtitles": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/claw-2.mp4",
+        "script": {
+            "1": "Aliens: A stranger! From the outside! Oo-o-o-o-o-o...",
+            "2": "Buzz Lightyear: Greetings. I am Buzz Lightyear. I come in peace.",
+            "3": "Aliens: Tell us! What is it like outside?",
+            "4": "Buzz Lightyear: This is an intergalactic emergency! I need to commandeer your vessel to Sector 12! Who's in charge here?",
+            "5": "Aliens: The cla-a-a-a-a-a-a-a-w!!",
+            "6": "Aliens: The claw is our master. The claw chooses who will go and who will stay.",
+            "7": "Woody: This is ludicrous.",
+            "8": "Sid: Hey, bozo, you got a brain in there? Ha-ha, take that!",
+            "9": "Woody: Oh, no! Sid!",
+            "10": "Woody: Get down!",
+            "11": "Buzz Lightyear: What's gotten into you, Sheriff? I was --",
+            "12": "Woody: YOU are the one that decided to climb into this --",
+            "13": "Aliens: Sh-h-h-h-h-h. The claw. It moves.",
+            "14": "Aliens: I have been chosen!! Farewell, my friends! I go on to a better place.",
+            "15": "",
+            "16": "",
+            "17": "",
+            "18": "",
+            "19": "",
+            "20": "",
+            "21": "",
+            "22": ""
+        },
+        "vocab": {
+            "1": {
+                "v": " commandeer",
+                "q": "When will men get commandeered into the military in Taiwan?"
+            },
+            "2": {
+                "v": "sheriff",
+                "q": "What's the difference between a Sheriff and Police Officer?"
+            },
+            "3": {
+                "v": "ludicrous",
+                "q": "What is a ludicrous Movie or TV show that you have seen?"
+            }
+        },
+        "keyword": "claw"
+    },
     "7": {},
     "8": {},
     "9": {},
