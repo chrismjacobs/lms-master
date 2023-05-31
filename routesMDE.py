@@ -92,7 +92,7 @@ def getTable(movie):
 
     ## list of tables for previous movies
     tableDict = {
-        0 : models['07'][2],
+        # 0 : models['07'][2],
         ### 0 is set for instructor
         1 : models['01'][1],
         2 : models['01'][2],
@@ -103,17 +103,17 @@ def getTable(movie):
         ### first 6 movies are pre prepared
         ## following movies are made by teams
 
-        # 7 : models['03'][1],
-        # 8 : models['03'][2],
-        # 9 : models['03'][3],
-        # 10 : models['03'][4],
-        # 11 : models['04'][1],
-        # 12 : models['04'][2],
-        # 13 : models['04'][3],
-        # 14 : models['04'][4],
-        # 15 : models['06'][1],
-        # 16 : models['06'][2],
-        # 17 : models['06'][3],
+        7 : models['03'][1],
+        8 : models['03'][2],
+        9 : models['03'][3],
+        10 : models['03'][4],
+        11 : models['04'][1],
+        12 : models['04'][2],
+        13 : models['04'][3],
+        14 : models['04'][4],
+        15 : models['06'][1],
+        16 : models['06'][2],
+        17 : models['06'][3],
         18 : models['06'][4],
         19 : models['05'][1],
         20 : models['05'][2],
@@ -339,8 +339,8 @@ def nme_dubs():
                 appproj = teamnumber > 16 and appstudent
                 if current_user.id == 1:
                     nmeDict[mov][teamnumber] = movieData
-                # if vietnamproj:
-                #     nmeDict[mov][teamnumber] = movieData
+                # 0
+
                 elif appproj:
                     nmeDict[mov][teamnumber] = movieData
 
