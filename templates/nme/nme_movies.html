@@ -143,10 +143,10 @@ function startVue(){ new Vue({
 
         },
         checkMovie: function (number) {
-          if (this.classID == 1 && number > 4 ) {
+          //if (this.classID == 1 && number > 4 ) {
             // app class true
-            return false
-          }
+            //return false
+          //}
           console.log(number)
           if (number in this.movies) {
             return true

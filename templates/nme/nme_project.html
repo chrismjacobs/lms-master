@@ -27,19 +27,6 @@
   <legend class="border-bottom mb-4"> Movie Details: </legend>
 
 
-    {% if current_user.id == 1 %}
-
-    Trailer: <input style="text"  v-model="movieData.trailer"></input>
-    <br>
-    <br>
-    Clip: <input style="text"  v-model="movieData.clip"></input>
-    <br>
-    <br>
-    Subtitle: <input style="text"  v-model="movieData.subtitles"></input>
-    <br>
-    <br>
-    {% endif  %}
-
 
     Title: <input style="text" v-model="movieData.title"></input>
     <br>

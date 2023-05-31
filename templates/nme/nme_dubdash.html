@@ -98,6 +98,9 @@
       Subtitle: <input style="text"  v-model="movieData.subtitles"></input>
       <br>
       <br>
+      Keyword: <input style="text"  v-model="keyword"></input> [[movieData.keyword]]
+      <br>
+      <br>
       {% endif  %}
 
 
@@ -229,7 +232,8 @@ function startVue(){ new Vue({
         speakers: '',
         teamMembers: '',
         team: '',
-        milli: null
+        milli: null,
+        keyword: ''
     },
     methods: {
         goTo: function(key) {
@@ -269,6 +273,15 @@ function startVue(){ new Vue({
 
         },
         submitAnswers: function (team) {
+          if (!this.payOBJ[team]['keyword']) {
+            this.payOBJ[team]['keyword'] = this.keyword
+          }
+
+          let link = 'https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/' + this.payOBJ[team]['keyword']
+          this.payOBJ[team]['trailer'] = link + '-0.mp4'
+          this.payOBJ[team]['clip'] = link + '-1.mp4'
+          this.payOBJ[team]['subtitles'] = link + '-2.mp4'
+
           console.log('update via AJAX');
           let _this = this
             $.ajax({
