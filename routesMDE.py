@@ -92,7 +92,7 @@ def getTable(movie):
 
     ## list of tables for previous movies
     tableDict = {
-        # 0 : models['00'][1],
+        0 : models['07'][2],
         ### 0 is set for instructor
         1 : models['01'][1],
         2 : models['01'][2],
@@ -103,17 +103,17 @@ def getTable(movie):
         ### first 6 movies are pre prepared
         ## following movies are made by teams
 
-        7 : models['03'][1],
-        8 : models['03'][2],
-        9 : models['03'][3],
-        10 : models['03'][4],
-        11 : models['04'][1],
-        12 : models['04'][2],
-        13 : models['04'][3],
-        14 : models['04'][4],
-        15 : models['06'][1],
-        16 : models['06'][2],
-        17 : models['06'][3],
+        # 7 : models['03'][1],
+        # 8 : models['03'][2],
+        # 9 : models['03'][3],
+        # 10 : models['03'][4],
+        # 11 : models['04'][1],
+        # 12 : models['04'][2],
+        # 13 : models['04'][3],
+        # 14 : models['04'][4],
+        # 15 : models['06'][1],
+        # 16 : models['06'][2],
+        # 17 : models['06'][3],
         18 : models['06'][4],
         19 : models['05'][1],
         20 : models['05'][2],
@@ -157,16 +157,16 @@ def getTeam():
     if SCHEMA == 6 or SCHEMA == 7:
         teamDict = {
             0:["Chris", "Test", None],
-            7:["Cyan Huang", "Iris", "Bris"],
-            8:["Jelf", "Mioly", "Layla", "Helen"],
-            9:["Jasper", "Fay", "Luna"],
-            10:["Kaylin", "Leon", "June", "Evelyn"],
-            11:["Jessy", "Sunny", "Gwen", "Xavia"],
-            12:["Anita", "Bly", "T.Y"],
-            13:["Clyde", "James", "Maris"],
-            14:["Wendychen2001", "Frederick", "Holly", "Cris"],
-            15:["Laura", "Mac", "Beatrix", "Yuri"],
-            16:["Sean Chen", "Vivién"],
+            # 7:["Cyan Huang", "Iris", "Bris"],
+            # 8:["Jelf", "Mioly", "Layla", "Helen"],
+            # 9:["Jasper", "Fay", "Luna"],
+            # 10:["Kaylin", "Leon", "June", "Evelyn"],
+            # 11:["Jessy", "Sunny", "Gwen", "Xavia"],
+            # 12:["Anita", "Bly", "T.Y"],
+            # 13:["Clyde", "James", "Maris"],
+            # 14:["Wendychen2001", "Frederick", "Holly", "Cris"],
+            # 15:["Laura", "Mac", "Beatrix", "Yuri"],
+            # 16:["Sean Chen", "Vivién"],
             17:["Ray Chen", "Terry", "Lisa"],
             18:["Tony", "Frank", "Star Yellow"],
             19:["Johnny", "Steven", "Jarry"],
@@ -333,14 +333,14 @@ def nme_dubs():
             for entry in data:
                 movieData = json.loads(entry.Ans01)
                 teamnumber = int(movieData['team'])
-                vietnamstudent = current_user.app == 0
+                #otherstudent = current_user.app == 0
                 appstudent = current_user.app == 1
-                vietnamproj = teamnumber <= 16 and vietnamstudent
+                #otherproj = teamnumber <= 16 and otherstudent
                 appproj = teamnumber > 16 and appstudent
                 if current_user.id == 1:
                     nmeDict[mov][teamnumber] = movieData
-                if vietnamproj:
-                    nmeDict[mov][teamnumber] = movieData
+                # if vietnamproj:
+                #     nmeDict[mov][teamnumber] = movieData
                 elif appproj:
                     nmeDict[mov][teamnumber] = movieData
 
@@ -530,7 +530,7 @@ def getMovieDict(team):
 
 
 @app.route('/dubUpload', methods=['POST', 'GET'])
-def dubUpload(audio_string, team, movie, device):
+def dubUpload(audio_string, team, movie, device, keyword):
 
     SCHEMA = getSchema()
     S3_LOCATION = schemaList[SCHEMA]['S3_LOCATION']
@@ -542,7 +542,7 @@ def dubUpload(audio_string, team, movie, device):
     print(audio_string[0:10])
     seq = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm']
     audio = base64.b64decode(audio_string)
-    filename = 'dubbing/' + movie + '/' + team + '_' + device + random.choice(seq) +  '.mp3'
+    filename = 'dubbing/' + keyword + '/' + team + '_' + device + random.choice(seq) +  '.mp3'
     link = S3_LOCATION + filename
     s3_resource.Bucket(S3_BUCKET_NAME).put_object(Key=filename, Body=audio)
 
@@ -574,16 +574,21 @@ def addMovie():
     audio_string = request.form ['base64']
     device = request.form ['device']
     part = request.form ['part']
-    data = request.form ['movieData']
+    mData = request.form ['movieData']
     movie = request.form ['movie']
-    print(data)
+    keyword = 'test'
+    try:
+        keyword = request.form['keyword']
+    except:
+        keyword = 'nokeyword'
+    print(keyword, mData)
 
     try:
         device = str(device)
     except:
         device = 'N'
 
-    movieData = json.loads(data)
+    movieData = json.loads(mData)
     team = movieData['team']
     names = movieData['names']
     link = 'None'
@@ -593,14 +598,14 @@ def addMovie():
 
 
     if details == None:
-            addTeam = model(teamnumber=team, username=json.dumps(names), Ans01=data)
+            addTeam = model(teamnumber=team, username=json.dumps(names), Ans01=mData)
             db.session.add(addTeam)
             db.session.commit()
             details = model.query.filter_by(username=team).first()
             return jsonify({'result' : True})
 
     if part == '4':
-        link = dubUpload(audio_string, team, movie, device)
+        link = dubUpload(audio_string, team, movie, device, keyword)
         movieData['audio'] = link
 
     details.Ans01 = json.dumps(movieData)
