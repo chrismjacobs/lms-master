@@ -263,6 +263,10 @@ function startVue(){
         this.movieData['speakers'] = ["", "", ""]
       }
 
+      if (this.movieData['milli']){
+        this.milli = this.movieData['milli']
+      }
+
     },
     data: {
         milli : null,
@@ -523,13 +527,15 @@ function startVue(){
         }
         if (arg == 'shadow') {
           video.muted = false
-          video.play()
           audio.play()
+          setTimeout(func, this.milli)
+                function func(){video.play()}
         }
         if (arg == 'dub') {
           video.muted = true
-          video.play()
           audio.play()
+          setTimeout(func, this.milli)
+                function func(){video.play()}
         }
         if (arg == 'start') {
           video.muted = true
