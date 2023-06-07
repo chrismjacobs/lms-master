@@ -298,7 +298,7 @@
         },
         "vocab": {
             "1": {
-                "v": " commandeer",
+                "v": "commandeer",
                 "q": "When will men get commandeered into the military in Taiwan?"
             },
             "2": {
@@ -312,10 +312,222 @@
         },
         "keyword": "claw"
     },
-    "7": {},
-    "8": {},
-    "9": {},
-    "10": {},
+    "7": {
+        "title": " Forrest Gump",
+        "trailer": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/gump-0.mp4",
+        "keyword": "gump",
+        "intro": "This movie is taking about a man named Forrest Gump who is not smart. His life is full of interesting experiences.",
+        "q01": "What do you know about low intelligent person?",
+        "q02": "In general, how could we help low intelligent person?",
+        "clip": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/gump-1.mp4",
+        "description": "Jenny is walking away and Forrest tries to grab her because he wants to help her, but Jenny doesn't want to listen to him.",
+        "q11": "Does Jenny want to stay with Forrest? How do you know?",
+        "q12": "What did Jenny do to let Forrest think she wants to hurt herself?\n",
+        "q21": "According to Jenny, what is something Forrest doesn't know? ",
+        "q22": "What does Jenny wish she could do?\n\n",
+        "q23": "Which country does Forrest say he will go to when he is talking with Jenny?\n",
+        "subtitles": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/gump-2.mp4",
+        "script": {
+            "1": "J: You can't keep doing this, Forrest. You can't keep trying to rescue me all the time.",
+            "2": "F: They was trying to grab you.",
+            "3": "J: A lot of people try to grab me. You can't keep doing this all the time.",
+            "4": "F: I can't help it. I love you.\n",
+            "5": "J: Forrest! You don't know what love is. You remember that time we prayed, Forrest? We prayed for God to turn me into a bird so I could fly far away.",
+            "6": "F: Yes, I do.",
+            "7": "J: You think I could fly off this bridge?",
+            "8": "F: What do you mean, Jenny?",
+            "9": "J: Nothing. I gotta get out of here.",
+            "10": "F: Wait, Jenny.",
+            "11": "J: Forrest, you stay away for me, OK? Just stay away for me, please. Can I have a ride?\n\n",
+            "12": "D: Where are you going?\n",
+            "13": "J: I don't care. ",
+            "14": "D: Get in the truck.",
+            "15": "F: So bye-bye, Jenny. They sending me to Vietnam. It's this whole other country.",
+            "16": "J: Just hang on a minute. Listen, you promise me something, OK? Just if you're ever in trouble, don't be brave. You just run, OK? Just run away.\n\n",
+            "17": "F: OK.Jenny,I'll write you all the time\n",
+            "18": "",
+            "19": "",
+            "20": "",
+            "21": "",
+            "22": ""
+        },
+        "vocab": {
+            "1": {
+                "v": "rescue",
+                "q": "Who will rescue people from the ocean?"
+            },
+            "2": {
+                "v": "hang on",
+                "q": "When do you ask your friend to hang on?\n"
+            },
+            "3": {
+                "v": "turn (something) into ",
+                "q": "What will time turn people into?\n"
+            }
+        }
+    },
+    "8": {
+        "title": "Jobs Firing",
+        "trailer": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/jobsfired-0.mp4",
+        "intro": "The movie is about the life of Steve Jobs and his strong and impactful character. ",
+        "q01": "What should you do when your boss is angry?",
+        "q02": "How can Apple make their products better?",
+        "clip": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/jobsfired-1.mp4",
+        "description": "Jobs is leading the software team he gets very angry with one of the employees",
+        "q11": "Why do you think Jobs is angry?",
+        "q12": "Why do you think the employee feels bad?",
+        "q21": "How long has Jobs been asking ask for the fonts?",
+        "q22": "According to Jobs, what is a \"pressing issue\"? ",
+        "q23": "According to Jobs, what is something Francis does \"share\"?",
+        "subtitles": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/jobsfired-2.mp4",
+        "script": {
+            "1": "Jobs: Okay exactly  Now, which tab do I click on to get different font styles? How many custom typefaces are there on LisaWrite?",
+            "2": "Bill: That's actually something that I wanted to talk to you about, Steve, is...",
+            "3": "Jobs: I've been asking for the fonts for months.",
+            "4": "Francis: But everything we're talking about is conceptual. And I'm sorry, but typeface, it isn't exactly a pressing issue right now.",
+            "5": "Jobs: Everything is a pressing issue.",
+            "6": "Jobs: If we want to make the vision for Lisa a reality, we gotta put in the hours and make something crazy.",
+            "7": "Francis: Yeah, but we have a hard date on this software, and I'm sorry, but adding pretty fonts is not gonna change that.",
+            "8": "Francis: Well, Bill'?",
+            "9": "Jobs: If you don't share our enthusiasm, and care for the vision of this company...",
+            "10": "Francis: No, no, no, no. I just, I'm not understanding...",
+            "11": "Jobs: Get out. ",
+            "12": "Francis: What?",
+            "13": "\nJobs: Get your shit and get out. What, wait...",
+            "14": "Jobs: You're done. What, you...",
+            "15": "Francis: What, are you gonna, you're gonna fire me?",
+            "16": "Jobs: No! I already fired you! Why are you still here?",
+            "17": "",
+            "18": "",
+            "19": "",
+            "20": "",
+            "21": "",
+            "22": ""
+        },
+        "vocab": {
+            "1": {
+                "v": "enthusiasm",
+                "q": "How can a student show their enthusiasm in class?"
+            },
+            "2": {
+                "v": "put in the hours",
+                "q": "What skill do you have to put in the hours for?\n"
+            },
+            "3": {
+                "v": "software",
+                "q": "What is some software you use often?"
+            }
+        },
+        "keyword": "jobsfired"
+    },
+    "9": {
+        "title": "Toy Story 3 ",
+        "trailer": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/toystory3-0.mp4",
+        "intro": "The movie is about a lot of toys that can talk and play.",
+        "q01": "What is your favorite childhood toy?",
+        "q02": "What do say to a friend that you won't see for a long time?",
+        "clip": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/toystory3-1.mp4",
+        "description": "Andy gives his old toys to his sister.",
+        "q11": "Why is Woody in the box?",
+        "q12": "How does Andy feel about giving Woody to his sister?",
+        "q21": "What phrase does Woody say? ",
+        "q22": "How long have Woody and Andy been pals?",
+        "q23": "What does Dr. Pork Chop's attack?",
+        "subtitles": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/toystory3-2.mp4",
+        "script": {
+            "1": "Andy Davis: Now, you gotta promise to take good care of these guys. They mean a lot to me.",
+            "2": "Bonnie Anderson: My cowboy!",
+            "3": "Andy Davis: Woody? What's he doing in there?",
+            "4": "Bonnie Anderson: \"There's a snake in my boot!\"",
+            "5": "Andy Davis: Wha...?",
+            "6": "Woody's voice box: There's a snake in my boot!",
+            "7": "Andy Davis: Now, Woody, he's been my pal for as long as I can remember. He's brave, like a cowboy should be. And kind. And smart. ",
+            "8": "But the thing that makes Woody special is he'll never give up on you. Ever. He'll be there for you, no matter what. You think you can take care of him for me?",
+            "9": "Andy Davis: Okay then.",
+            "10": "Andy Davis: Oh, no! Dr. Pork Chop's attacking the haunted bakery!",
+            "11": "Bonnie Anderson: The ghosts are getting away!",
+            "12": "Bonnie Anderson: Woody'll stop em!",
+            "13": "Andy Davis: Buzz Lightyear to the rescue!",
+            "14": "",
+            "15": "",
+            "16": "",
+            "17": "",
+            "18": "",
+            "19": "",
+            "20": "",
+            "21": "",
+            "22": ""
+        },
+        "vocab": {
+            "1": {
+                "v": "never give up on",
+                "q": " Who is someone you will never give up on?"
+            },
+            "2": {
+                "v": " haunted",
+                "q": "What can you see in a haunted house?"
+            },
+            "3": {
+                "v": "mean a lot",
+                "q": "What is something you own that means a lot to you?"
+            }
+        },
+        "keyword": "toystory3"
+    },
+    "10": {
+        "title": "Green Book",
+        "trailer": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/-0.mp4",
+        "keyword": "",
+        "intro": "The film is inspired by the true story of a 1962 tour of the Deep South by pianist Don Shirley and Frank \"Tony Lip\" Vallelonga, who served as Shirley's driver and bodyguard.",
+        "q01": "What food is really salty?",
+        "q02": "Have you ever taken a \"road trip\"? Where to?",
+        "clip": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/-1.mp4",
+        "description": "Lip and Shirley sit in a booth eating lunch. They discuss the food and the journey will take.",
+        "q11": "Why does Shirley asked if he wanted to be a food critic?",
+        "q12": "How does Lip feel about going to Pittsburgh?",
+        "q21": "Why does Lip think salt is cheating?",
+        "q22": "When do they have to get to Pittsburgh?",
+        "q23": "When did Lip know a guy from Pittsburgh?",
+        "subtitles": "https://nme-lms.s3-ap-northeast-1.amazonaws.com/dubbing/-2.mp4",
+        "script": {
+            "1": "DR. SHIRLEY: How was that?",
+            "2": "LIP: Salty.",
+            "3": "DR. SHIRLEY: Have you ever considered becoming a food critic?",
+            "4": "LIP: No, Not really, why? Is there money in it?",
+            "5": "DR. SHIRLEY: I'm just saying, you have a marvelous way with words when describing food. Salty! So vivid. One can almost taste it. ",
+            "6": "LIP: I'm just saying it's salty, and salt's cheating. Any cook can make things salty. But to make it taste good without the salt, with just the other flavors, that's the trick.",
+            "7": "DR. SHIRLEY: We should really get going soon if we expect to get to Pittsburgh by dinner.",
+            "8": "LIP: When I was in the army I know a guy from Pittsburgh, except he called it Tits-burgh, cuz he said all the women there have huge tits.",
+            "9": "DR. SHIRLEY: That's absurd. Why would women in Pittsburgh have larger breasts than, say, women in New York? ",
+            "10": "LIP: Guess we'll find out, huh? ",
+            "11": "",
+            "12": "",
+            "13": "",
+            "14": "",
+            "15": "",
+            "16": "",
+            "17": "",
+            "18": "",
+            "19": "",
+            "20": "",
+            "21": "",
+            "22": ""
+        },
+        "vocab": {
+            "1": {
+                "v": "money in something",
+                "q": "What job is there a lot of money in?"
+            },
+            "2": {
+                "v": "vivid",
+                "q": "Which color is very vivid?"
+            },
+            "3": {
+                "v": "absurd",
+                "q": "Which clothes or fashion choices do you think are absurd?"
+            }
+        }
+    },
     "11": {
         "title": "Aladdin",
         "keyword": "aladdinraja",
