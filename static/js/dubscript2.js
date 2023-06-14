@@ -450,7 +450,7 @@ function startVue(){
             }
 
             vue.rec1.count += 1
-            if (vue.rec1.count == 91){
+            if (vue.rec1.count == 180){
                 vue.stop(task)
                 console.log('timer_terminated');
             }
