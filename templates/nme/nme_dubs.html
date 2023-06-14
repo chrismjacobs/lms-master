@@ -131,7 +131,7 @@ function startVue(){ new Vue({
 
 
           if (arg.milli) {
-            this.milli = arg.milli
+            this.milli = parseInt(arg.milli)
           } else {
             this.milli = 0
           }

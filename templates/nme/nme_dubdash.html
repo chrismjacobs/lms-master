@@ -265,7 +265,7 @@ function startVue(){ new Vue({
 
           audio.play()
           if (proj.milli) {
-            this.milli = proj.milli
+            this.milli = parseInt(proj.milli)
           }
 
           setTimeout(func, this.milli)

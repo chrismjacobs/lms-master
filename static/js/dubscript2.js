@@ -264,7 +264,7 @@ function startVue(){
       }
 
       if (this.movieData['milli']){
-        this.milli = this.movieData['milli']
+        this.milli = parseInt(this.movieData['milli'])
       }
 
     },
@@ -503,7 +503,7 @@ function startVue(){
         video.currentTime = 0
         audio.currentTime = 0
         audio.play()
-        setTimeout(func, this.milli)
+        setTimeout(func, parseInt(this.milli))
                 function func(){video.play()}
       },
       clip : function (arg){
