@@ -35,6 +35,7 @@ body {
   }
 
   .noselect {
+    -webkit-user-select: none; /* Safari */
     user-select: none;
   }
 
