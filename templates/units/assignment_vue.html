@@ -16,6 +16,7 @@
 
     <span id="ansString" style="display:none" v-model="ansOBJ">{{ansDict}}</span>
     <span id="name" style="display:none">{{current_user.username}}</span>
+    <span id="SCHEMA" style="display:none">{{SCHEMA}}</span>
 
 
 </div>
@@ -133,25 +134,70 @@
 </div>
 
 
+<div v-if="SCHEMA == altLayout"class="content-section">
 
+    <h5 style=> Speaking Prep Notes </h5>
+    Question <br> <input class="textAss m-2" v-model="sp1" style="width:80%"></input><br>
+    Key words 1 <br><input class="textAss m-2" v-model="sp2" style="width:80%"></input><br>
+    Key words 2 <br><input class="textAss m-2" v-model="sp3" style="width:80%"></input> <br>
+    Script (only if you want to write it) <textarea class="textAss" v-model="n1"></textarea>
+    <br>
 
+    <button  class="btn btn-info btn-sm" @click="save('3')">Upload Speaking Notes</button>
+    <br>
+    <br>
+    <button class="btn btn-secondary btn-sm" @click="showSpeakingNotes = !showSpeakingNotes" >Show Notes</button>
 
-
-<div class="content-section">
-
-
-        <h5 style=> Notes </h5>
-        <p>(if you would like to make notes to help your speaking or review)</p>
-        <textarea class="textAss" v-model="n1"></textarea>
+    <div v-if="showSpeakingNotes" class="embed-responsive embed-responsive-4by3">
+        <iframe id="questions_embed" src="https://docs.google.com/presentation/d/e/2PACX-1vRqhFRKXKehdBBpXk3N2AkCSRrmGo1IvZR_5F-gjBpUAoqmgKPavlMlqIICQrC7shZQscInWeNKMD0f/embed"
+        allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
+        </iframe>
+    </div>
 
 </div>
 
-<div class="content-section">
+<div v-else  class="content-section">
+        <h5 style=> Notes </h5>
+        <p>(if you would like to make notes to help your speaking or review)</p>
+        <textarea class="textAss" v-model="n1"></textarea>
+</div>
+
+
+<div v-if="SCHEMA == altLayout"class="content-section">
+
+    <h5 style=> Task 3 Summary Writing </h5>
+
+      Video Link or Title
+      <br>
+        <input class="textAss m-2" v-model="t1" style="width:80%"></input>
+        <br>
+      Summary 1
+        <br>
+        <input class="textAss m-2" v-model="ws1" style="width:80%"></input>
+        <br>
+      Summary 2
+        <br>
+        <input class="textAss m-2" v-model="ws2" style="width:80%"></input>
+        <br>
+      Summary 3
+        <br>
+        <input class="textAss m-2" v-model="ws3" style="width:80%"></input>
+
+    <br>
+    <br>
+    <button class="btn btn-secondary btn-sm" @click="showWritingNotes = !showWritingNotes" >Show Notes</button>
+
+    <div v-if="showWritingNotes" class="embed-responsive embed-responsive-4by3">
+        <iframe id="questions_embed" src="https://docs.google.com/presentation/d/e/2PACX-1vSoq_S7NH5dj7wRPcSyIVmMKd8F5Ztrti-XO9urrlKmx_4oU-mJEXYPENf2IkXwP7BWkUcFifVeohRG/embed"
+        allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true">
+        </iframe>
+    </div>
+
+</div>
+
+<div v-else class="content-section">
 
         <h5>  Task 3 Writing Practice </h5>
-        <div>
-            <button  class="btn btn-info" @click="save('3')">Upload</button>
-        </div>
 
         Part 1
         <br>
@@ -161,6 +207,13 @@
         <br>
        <textarea class="textAss" v-model="t2"></textarea>
 
+</div>
+
+<div class="content-section">
+
+        <div>
+            <button  class="btn btn-info" @click="save('3')">Upload Writing</button>
+        </div>
 
 </div>
 

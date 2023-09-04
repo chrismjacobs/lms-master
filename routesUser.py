@@ -1234,9 +1234,11 @@ def audioUpload():
         user.AudioDataTwo = newTitle
         user.LengthTwo = answers['2']['Length']
     if task == '3':
-        user.Notes = Notes
         user.TextOne = TextOne
         user.TextTwo = TextTwo
+
+    user.Notes = Notes
+
     db.session.commit()
 
     ## check grade
@@ -1348,6 +1350,7 @@ def ass(unit):
         ansDict[2]['model']  = None
 
     context = {
+        'SCHEMA' : SCHEMA,
         'count' : count,
         'fields' : fields,
         'unit' : unit,

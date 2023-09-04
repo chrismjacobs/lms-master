@@ -65,9 +65,9 @@
                 <td > <button @click="edit(item.idNum, key)"> [[  key ]] </button> <br> [[ item.date.substr(5, 6) ]]</td>
                 <td> <button @click="play(item.A1)"> [[  item.L1  ]] </button> </td>
                 <td> <button @click="play(item.A2)"> [[  item.L2  ]] </button> </td>
-                <td style="width: 45px; word-wrap: break-word"> <div v-if="item.Notes" class="noScrollBar" style="overflow:scroll;width:210px;height:110px">[[  item.Notes ]] </div></td>
+                <td style="width: 45px; word-wrap: break-word"> <div v-if="item.Notes" class="noScrollBar" style="overflow:scroll;width:210px;height:110px"><span v-for="(t,i) in getList(item.Notes)"> [[t]] <br> </span> </div></td>
                 <td style="width: 45px; word-wrap: break-word"><div class="noScrollBar" style="overflow:scroll;width:210px;height:110px">[[  item.T1  ]] </div></td>
-                <td style="width: 45px; word-wrap: break-word"><div  class="noScrollBar" style="overflow:scroll;width:210px;height:110px">[[  item.T2  ]] </div></td>
+                <td style="width: 45px; word-wrap: break-word"><div  class="noScrollBar" style="overflow:scroll;width:210px;height:110px"><span v-for="(t,i) in getList(item.T2)"> [[i+1]]: [[t]] <br> </span> </div></td>
                 <td> [[  item.G  ]] </td>
                 <td> <textarea type="text" :style="commentStyle(item.C)" :id="user+key" v-model="item.C" required> </textarea></td>
                 <td> <button @click="commentSet(user,key)"> Up </button>
@@ -216,6 +216,14 @@ function startVue(){
 
     },
     methods: {
+        getList: function (arg) {
+          textJSON = [arg]
+          if (arg && arg.includes('["')) {
+            textJSON = JSON.parse(arg)
+          }
+          return textJSON
+
+        },
         showAss: function (key, user) {
           console.log(key, user, this.showPPT == ['',''])
           if (this.showPPT[1] == user) {

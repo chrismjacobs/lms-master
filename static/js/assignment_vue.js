@@ -1,4 +1,6 @@
 var name = document.getElementById('name').innerHTML
+var SCHEMA = parseInt(document.getElementById('SCHEMA').innerHTML)
+console.log(name, SCHEMA)
 
 var ansString = document.getElementById('ansString').innerHTML
 console.log(ansString);
@@ -251,6 +253,22 @@ function startVue(ansOBJ, device){
       if (device == 'U'){
         this.showUpload('up')
       }
+
+      if (this.n1.includes('["')) {
+        notes = JSON.parse(this.n1)
+        this.sp1 = notes[0]
+        this.sp2 = notes[1]
+        this.sp3 = notes[2]
+        this.n1 = notes[3]
+      }
+
+      if (this.t2.includes('["')) {
+        summary = JSON.parse(this.t2)
+        this.ws1 = summary[0]
+        this.ws2 = summary[1]
+        this.ws3 = summary[2]
+      }
+
     },
     data: {
         title: {
@@ -284,15 +302,45 @@ function startVue(ansOBJ, device){
         n1 : this.ansOBJ['3']['Notes'],
         t1 : this.ansOBJ['3']['TextOne'],
         t2 : this.ansOBJ['3']['TextTwo'],
+        sp1 : '',
+        sp2 : '',
+        sp3 : '',
+        ws1 : '',
+        ws2 : '',
+        ws3 : '',
         rec_timer : null,
         mediaRecorder : null,
         audio_source : null,
         base64data : null,
         blobURL : null,
-        upload : false
+        upload : false,
+        SCHEMA : SCHEMA,
+        altLayout : 1,
+        showSpeakingNotes : false,
+        showWritingNotes : false,
     },
     methods: {
+      checkLayout: function () {
+        if (this.SCHEMA == this.altLayout) {
+          return true
+        } else {
+          return false
+        }
+      },
+      checkSpeakingPrep: function () {
+        if (this.sp1.length < 4 || this.sp2.length < 4, this.sp3.length < 4) {
+          alert('Speaking prep not complete, please write a few words')
+          return false
+        } else {
+          return true
+        }
+      },
       start : function(arg){
+
+        /// check speaking prep is completed
+        if (this.checkLayout() && this.checkSpeakingPrep() == false) {
+          return false
+        }
 
         for (var key in vue.show){
           console.log(key, arg, vue.show);
@@ -421,6 +469,14 @@ function startVue(ansOBJ, device){
           task_title = 'link'
         }
 
+        let notes = this.n1
+        let textTwo = this.t2
+
+        if (this.checkLayout) {
+          notes = JSON.stringify([this.sp1, this.sp2, this.sp3, this.n1])
+          textTwo = JSON.stringify([this.ws1, this.ws2, this.ws3])
+        }
+
         $.ajax({
           data : {
               task : task,
@@ -428,9 +484,9 @@ function startVue(ansOBJ, device){
               title : task_title,
               base64 : vue.base64data,
               ansDict : JSON.stringify(vue.ansOBJ),
-              Notes : this.n1,
+              Notes : notes,
               TextOne : this.t1,
-              TextTwo : this.t2,
+              TextTwo : textTwo,
           },
           type : 'POST',
           url : '/audioUpload'

@@ -50,11 +50,12 @@ def getCourseRadios():
 
     radioList = [
         ('1', 'Freshman Reading'),
-        ('2', 'Workplace English'),
-        ('4', 'Presentation English'),
-        ('8', 'App English'),
-        ('6', 'Movies Class'),
-        ('0', 'My Course is not on the list'),
+        ('2', 'GE Freshman'),
+        ('3', 'Workplace English'),
+        #('4', 'Workplace English 2'),
+        ('5', 'GE Sophomore'),
+        ('6', 'Intercultural Communication'),
+        ('7', 'Advanced Conversation')
         ]
 
     overFlow = [
@@ -107,7 +108,7 @@ class RegistrationForm(FlaskForm):
 
 class LoginForm(FlaskForm):
     studentID = StringField (' Student ID', validators=[DataRequired(), Length(min=2, max=9)])
-    course = RadioField ('Course', validators=[DataRequired()], choices = [('1', 'Freshman Reading'), ('2', 'Workplace English'), ('4', 'Presentation English'), ('8', 'App English'), ('6', 'Movies Class')])
+    course = RadioField ('Course', validators=[DataRequired()], choices = getCourseRadios())
     password = PasswordField(' Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
